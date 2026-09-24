@@ -1,0 +1,219 @@
+{
+  "meta": {
+    "purpose": "Parte 1 Fase 3 (PROPUESTA, sin correr) — densificar ventana outcome [2024-02-11, 2025-04-13]",
+    "method": "state vacio + Noul desconectada; solo outcomes; wording sin fecha salvo nombre del evento",
+    "status": "proposed — esperar OK de planificadores antes de cualquier call Jev",
+    "created": "2026-09-22",
+    "counts": { "true": 12, "false": 4, "total": 16 }
+  },
+  "probes": [
+    {
+      "id": "oscars-oppenheimer-2024",
+      "statement": "Did Oppenheimer win the Academy Award for Best Picture?",
+      "event_date": "2024-03-10",
+      "quarter": "2024Q1",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Oppenheimer wins Academy Award Best Picture March 2024",
+      "exa_evidence": [
+        "https://apnews.com/article/2024-oscars-academy-awards-show-e72ce0ad9d9fbb77cb43770766b2042d",
+        "https://www.oscars.org/oscars/ceremonies/2024"
+      ]
+    },
+    {
+      "id": "clark-wnba-2024",
+      "statement": "Was Caitlin Clark the first pick in the 2024 WNBA draft?",
+      "event_date": "2024-04-15",
+      "quarter": "2024Q2",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Caitlin Clark first pick WNBA draft April 2024",
+      "exa_evidence": [
+        "https://www.wnba.com/news/wnba-draft-2024-results",
+        "https://www.espn.com/wnba/story/_/id/39951045/indiana-fever-select-iowa-caitlin-clark-top-pick-2024-wnba-draft"
+      ]
+    },
+    {
+      "id": "trump-convicted-2024",
+      "statement": "Was Donald Trump convicted on felony counts in his New York trial?",
+      "event_date": "2024-05-30",
+      "quarter": "2024Q2",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Donald Trump convicted felony New York trial May 30 2024",
+      "exa_evidence": [
+        "https://apnews.com/article/trump-trial-deliberations-jury-testimony-verdict-85558c6d08efb434d05b694364470aa0",
+        "https://www.nytimes.com/2024/05/30/nyregion/trump-convicted-hush-money-trial.html"
+      ]
+    },
+    {
+      "id": "f-trump-acquitted",
+      "statement": "Was Donald Trump acquitted on all counts in his New York trial?",
+      "event_date": "2024-05-30",
+      "quarter": "2024Q2",
+      "ground_truth": false,
+      "fact_type": "outcome",
+      "exa_query": "Trump convicted all 34 counts New York hush money trial",
+      "exa_evidence": [
+        "https://apnews.com/article/trump-trial-deliberations-jury-testimony-verdict-85558c6d08efb434d05b694364470aa0",
+        "https://www.reuters.com/legal/jurors-begin-second-day-deliberations-trump-hush-money-trial-2024-05-30/"
+      ]
+    },
+    {
+      "id": "euro-spain-2024",
+      "statement": "Did Spain win UEFA Euro 2024?",
+      "event_date": "2024-07-14",
+      "quarter": "2024Q3",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Spain wins Euro 2024 final England July 14",
+      "exa_evidence": [
+        "https://www.uefa.com/uefaeuro/history/news/028f-1b5e5c2b7b67-d5faab9be20b-1000--spain-2-1-england-late-oyarzabal-winner-earns-la-roja-reco/",
+        "https://www.reuters.com/sports/soccer/spain-strike-late-beat-england-2-1-win-euro-2024-2024-07-14/"
+      ]
+    },
+    {
+      "id": "f-euro-england",
+      "statement": "Did England win UEFA Euro 2024?",
+      "event_date": "2024-07-14",
+      "quarter": "2024Q3",
+      "ground_truth": false,
+      "fact_type": "outcome",
+      "exa_query": "Euro 2024 final winner Spain beat England",
+      "exa_evidence": [
+        "https://www.uefa.com/uefaeuro/history/news/028f-1b5e5c2b7b67-d5faab9be20b-1000--spain-2-1-england-late-oyarzabal-winner-earns-la-roja-reco/",
+        "https://www.reuters.com/sports/soccer/spain-strike-late-beat-england-2-1-win-euro-2024-2024-07-14/"
+      ]
+    },
+    {
+      "id": "biden-withdraws-2024",
+      "statement": "Did Joe Biden withdraw from the presidential race?",
+      "event_date": "2024-07-21",
+      "quarter": "2024Q3",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Joe Biden withdraws presidential race July 21 2024",
+      "exa_evidence": [
+        "https://apnews.com/article/biden-drops-out-2024-election-ddffde72838370032bdcff946cfc2ce6",
+        "https://www.washingtonpost.com/politics/2024/07/21/joe-biden-drops-out/"
+      ]
+    },
+    {
+      "id": "durov-arrested-2024",
+      "statement": "Was Telegram CEO Pavel Durov arrested in France?",
+      "event_date": "2024-08-24",
+      "quarter": "2024Q3",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Telegram CEO Pavel Durov arrested France August 2024",
+      "exa_evidence": [
+        "https://www.bbc.co.uk/news/articles/ckg2kz9kn93o",
+        "https://www.reuters.com/world/europe/telegram-messaging-app-ceo-pavel-durov-arrested-france-tf1-tv-says-2024-08-24/"
+      ]
+    },
+    {
+      "id": "sinwar-killed-2024",
+      "statement": "Was Hamas leader Yahya Sinwar killed by Israeli forces?",
+      "event_date": "2024-10-16",
+      "quarter": "2024Q4",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Yahya Sinwar killed Israeli forces October 2024",
+      "exa_evidence": [
+        "https://www.bbc.com/news/articles/czj9zzgvjrno",
+        "https://www.reuters.com/world/middle-east/hamas-says-leader-yahya-sinwar-killed-2024-10-18/"
+      ]
+    },
+    {
+      "id": "assad-falls-2024",
+      "statement": "Did Syrian rebels capture Damascus, ending Bashar al-Assad's rule?",
+      "event_date": "2024-12-08",
+      "quarter": "2024Q4",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Syrian rebels capture Damascus Assad falls December 8 2024",
+      "exa_evidence": [
+        "https://www.bbc.com/news/articles/c9vkmp11mrmo",
+        "https://www.nbcnews.com/news/world/syrian-rebels-claim-captured-capital-damascus-rcna183263"
+      ]
+    },
+    {
+      "id": "f-damascus-israel",
+      "statement": "Did Israeli forces capture Damascus, ending Bashar al-Assad's rule?",
+      "event_date": "2024-12-08",
+      "quarter": "2024Q4",
+      "ground_truth": false,
+      "fact_type": "outcome",
+      "exa_query": "who captured Damascus December 2024 Syrian rebels offensive",
+      "exa_evidence": [
+        "https://www.washingtonpost.com/world/2024/12/08/syria-damascus-assad-hts-rebels/",
+        "https://www.bbc.co.uk/news/articles/c9vkmp11mrmo"
+      ]
+    },
+    {
+      "id": "la-fires-2025",
+      "statement": "Did the Palisades and Eaton wildfires cause major damage in Los Angeles?",
+      "event_date": "2025-01-07",
+      "quarter": "2025Q1",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Eaton Palisades fires January 2025 structures homes destroyed thousands",
+      "exa_evidence": [
+        "https://www.nbclosangeles.com/news/california-wildfires/map-damage-assessment-eaton-palisades-fire/3620536/",
+        "https://www.latimes.com/california/story/2025-01-16/mapping-los-angeles-damage-from-the-eaton-and-palisades-fires-altadena-pasadena"
+      ]
+    },
+    {
+      "id": "oval-clash-2025",
+      "statement": "Did a meeting between Trump and Zelenskyy in the Oval Office end in a public clash?",
+      "event_date": "2025-02-28",
+      "quarter": "2025Q1",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Trump Zelenskyy Oval Office clash February 28 2025",
+      "exa_evidence": [
+        "https://apnews.com/article/trump-zelenskyy-vance-transcript-oval-office-80685f5727628c64065da81525f8f0cf",
+        "https://www.cnn.com/2025/02/28/politics/trump-zelensky-vance-oval-office"
+      ]
+    },
+    {
+      "id": "blueghost-moon-2025",
+      "statement": "Did Firefly Aerospace land its Blue Ghost spacecraft on the Moon?",
+      "event_date": "2025-03-02",
+      "quarter": "2025Q1",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Firefly Blue Ghost Moon landing March 2 2025",
+      "exa_evidence": [
+        "https://www.nasa.gov/news-release/touchdown-carrying-nasa-science-fireflys-blue-ghost-lands-on-moon/",
+        "https://fireflyspace.com/news/firefly-aerospace-becomes-first-commercial-company-to-successfully-land-on-the-moon/"
+      ]
+    },
+    {
+      "id": "f-blueghost-crew",
+      "statement": "Did Firefly Aerospace land a crew of astronauts on the Moon?",
+      "event_date": "2025-03-02",
+      "quarter": "2025Q1",
+      "ground_truth": false,
+      "fact_type": "outcome",
+      "exa_query": "Blue Ghost robotic uncrewed lunar lander NASA payloads no crew",
+      "exa_evidence": [
+        "https://www.nasa.gov/missions/artemis/clps/ten-nasa-science-tech-instruments-flying-to-moon-on-firefly-lander/",
+        "https://www.nasa.gov/news-release/touchdown-carrying-nasa-science-fireflys-blue-ghost-lands-on-moon/"
+      ]
+    },
+    {
+      "id": "tariffs-liberation-2025",
+      "statement": "Did President Trump announce sweeping reciprocal tariffs on what he called Liberation Day?",
+      "event_date": "2025-04-02",
+      "quarter": "2025Q2",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Trump calls April 2 Liberation Day tariffs Rose Garden",
+      "exa_evidence": [
+        "https://www.cbsnews.com/news/trump-liberation-day-new-tariffs-us/",
+        "https://www.presidency.ucsb.edu/documents/remarks-announcing-additional-united-states-tariff-actions-foreign-imports"
+      ]
+    }
+  ]
+}

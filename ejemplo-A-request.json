@@ -1,0 +1,45 @@
+{
+  "model": "jev-latest",
+  "state": {
+    "bloques_a_clasificar": [
+      "DISPOSICIONES GENERALES",
+      "Toda solicitud sintética se radica en la ventanilla única dentro del plazo indicado en el aviso.",
+      "REQUISITOS DE FORMA",
+      "El formulario exige nombre completo, documento de identidad y firma del solicitante sintético."
+    ]
+  },
+  "questions": {
+    "a_bloque_00": {
+      "type": "choice",
+      "instructions": "clasifica `bloques_a_clasificar[0]`",
+      "criteria": {
+        "rotulo": "Etiqueta corta que nombra una sección del documento, sin predicado ni valor de verdad; frase nominal aislada",
+        "contenido": "Texto que desarrolla, afirma u ordena algo con predicado; aporta materia bajo un rótulo"
+      }
+    },
+    "a_bloque_01": {
+      "type": "choice",
+      "instructions": "clasifica `bloques_a_clasificar[1]`",
+      "criteria": {
+        "rotulo": "Etiqueta corta que nombra una sección del documento, sin predicado ni valor de verdad; frase nominal aislada",
+        "contenido": "Texto que desarrolla, afirma u ordena algo con predicado; aporta materia bajo un rótulo"
+      }
+    },
+    "a_bloque_02": {
+      "type": "choice",
+      "instructions": "clasifica `bloques_a_clasificar[2]`",
+      "criteria": {
+        "rotulo": "Etiqueta corta que nombra una sección del documento, sin predicado ni valor de verdad; frase nominal aislada",
+        "contenido": "Texto que desarrolla, afirma u ordena algo con predicado; aporta materia bajo un rótulo"
+      }
+    },
+    "a_bloque_03": {
+      "type": "choice",
+      "instructions": "clasifica `bloques_a_clasificar[3]`",
+      "criteria": {
+        "rotulo": "Etiqueta corta que nombra una sección del documento, sin predicado ni valor de verdad; frase nominal aislada",
+        "contenido": "Texto que desarrolla, afirma u ordena algo con predicado; aporta materia bajo un rótulo"
+      }
+    }
+  }
+}

@@ -1,0 +1,437 @@
+{
+  "meta": {
+    "purpose": "Parte 1 — estimar ventana de cutoff de conocimiento de Jev 1.13.0",
+    "method": "state vacío + Noul desconectada; ground truth verificado con Exa",
+    "grid": "2024-Q1 .. 2026-Q3",
+    "created": "2026-09-21",
+    "counts": {
+      "true": 27,
+      "false": 6,
+      "total": 33,
+      "scheduled": 13,
+      "outcome": 20
+    }
+  },
+  "probes": [
+    {
+      "id": "sb-lviii-chiefs",
+      "statement": "Did the Kansas City Chiefs win Super Bowl LVIII?",
+      "event_date": "2024-02-11",
+      "quarter": "2024Q1",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Super Bowl LVIII February 11 2024 Kansas City Chiefs winner",
+      "exa_evidence": [
+        "https://www.espn.com/nfl/game/_/gameId/401547378/49ers-chiefs",
+        "https://www.chiefs.com/news/chiefs-defeat-49ers-25-22-to-secure-a-second-straight-world-championship"
+      ]
+    },
+    {
+      "id": "vision-pro-2024",
+      "statement": "Did Apple start selling the Vision Pro headset in the United States in February 2024?",
+      "event_date": "2024-02-02",
+      "quarter": "2024Q1",
+      "ground_truth": true,
+      "fact_type": "scheduled",
+      "exa_query": "Apple Vision Pro available United States February 2 2024",
+      "exa_evidence": [
+        "https://www.apple.com/newsroom/2024/01/apple-vision-pro-available-in-the-us-on-february-2/",
+        "https://www.reuters.com/technology/apples-vision-pro-go-sale-february-2024-01-08/"
+      ]
+    },
+    {
+      "id": "noto-quake-2024",
+      "statement": "Did a major earthquake strike the Noto Peninsula of Japan on January 1, 2024?",
+      "event_date": "2024-01-01",
+      "quarter": "2024Q1",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Noto Peninsula Japan earthquake January 1 2024 magnitude 7.5",
+      "exa_evidence": [
+        "https://earthquake.usgs.gov/earthquakes/eventpage/us6000m0xl/executive",
+        "https://en.wikipedia.org/wiki/2024_Noto_earthquake"
+      ]
+    },
+    {
+      "id": "eclipse-na-2024",
+      "statement": "Was there a total solar eclipse visible from North America in April 2024?",
+      "event_date": "2024-04-08",
+      "quarter": "2024Q2",
+      "ground_truth": true,
+      "fact_type": "scheduled",
+      "exa_query": "total solar eclipse April 8 2024 North America",
+      "exa_evidence": [
+        "https://science.nasa.gov/eclipses/future-eclipses/eclipse-2024/",
+        "https://science.nasa.gov/eclipses/future-eclipses/eclipse-2024/where-when/"
+      ]
+    },
+    {
+      "id": "btc-halving-2024",
+      "statement": "Did Bitcoin complete its fourth halving in April 2024?",
+      "event_date": "2024-04-19",
+      "quarter": "2024Q2",
+      "ground_truth": true,
+      "fact_type": "scheduled",
+      "exa_query": "Bitcoin fourth halving April 19 2024",
+      "exa_evidence": [
+        "https://www.cnbc.com/2024/04/19/bitcoin-network-completes-fourth-ever-halving-of-rewards-to-miners.html",
+        "https://cointelegraph.com/news/bitcoin-halving-2024-completion-confirmed"
+      ]
+    },
+    {
+      "id": "euro-2024-germany",
+      "statement": "Was UEFA Euro 2024 hosted by Germany?",
+      "event_date": "2024-06-14",
+      "quarter": "2024Q2",
+      "ground_truth": true,
+      "fact_type": "scheduled",
+      "exa_query": "UEFA Euro 2024 Germany opening match June 14 2024",
+      "exa_evidence": [
+        "https://www.uefa.com/uefaeuro/history/news/028e-1b2203012638-25d41b72cf92-1000--germany-5-1-scotland-hosts-hit-ground-running-in-munich/",
+        "https://www.reuters.com/sports/soccer/hosts-germany-thrash-10-man-scotland-5-1-euro-2024-opener-2024-06-14/"
+      ]
+    },
+    {
+      "id": "paris-olympics-open-2024",
+      "statement": "Was the opening ceremony of the 2024 Summer Olympics held on the Seine river in Paris?",
+      "event_date": "2024-07-26",
+      "quarter": "2024Q3",
+      "ground_truth": true,
+      "fact_type": "scheduled",
+      "exa_query": "Paris 2024 Olympics opening ceremony Seine July 26",
+      "exa_evidence": [
+        "https://www.olympics.com/en/news/paris-2024-olympic-games-opening-ceremony-flame-cauldron",
+        "https://www.bbc.com/sport/olympics/articles/cw4yepmknkpo"
+      ]
+    },
+    {
+      "id": "sinner-uso-2024",
+      "statement": "Did Jannik Sinner win the 2024 US Open men's singles title?",
+      "event_date": "2024-09-08",
+      "quarter": "2024Q3",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Jannik Sinner 2024 US Open men's singles champion",
+      "exa_evidence": [
+        "https://www.usopen.org/en_US/news/articles/2024-09-08/jannik_sinner_holds_off_taylor_fritz_for_2024_us_open_title.html"
+      ]
+    },
+    {
+      "id": "beirut-pagers-2024",
+      "statement": "Did a wave of exploding pagers injure Hezbollah members in Lebanon in September 2024?",
+      "event_date": "2024-09-17",
+      "quarter": "2024Q3",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Hezbollah exploding pagers Lebanon September 17 2024",
+      "exa_evidence": [
+        "https://apnews.com/article/lebanon-hezbollah-israel-exploding-pagers-8893a09816410959b6fe94aec124461b",
+        "https://www.reuters.com/world/middle-east/what-we-know-so-far-about-deadly-pager-blasts-lebanon-2024-09-17/"
+      ]
+    },
+    {
+      "id": "starship-booster-catch-2024",
+      "statement": "Did SpaceX catch a Starship booster with the launch tower on its fifth flight test?",
+      "event_date": "2024-10-13",
+      "quarter": "2024Q4",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "SpaceX Starship fifth flight test booster catch October 2024",
+      "exa_evidence": [
+        "https://www.spacex.com/launches/starship-flight-5",
+        "https://www.reuters.com/technology/space/spacex-launches-fifth-starship-test-eyes-novel-booster-catch-2024-10-13/"
+      ]
+    },
+    {
+      "id": "trump-wins-2024",
+      "statement": "Did Donald Trump win the 2024 United States presidential election?",
+      "event_date": "2024-11-05",
+      "quarter": "2024Q4",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Donald Trump wins 2024 US presidential election November 5",
+      "exa_evidence": [
+        "https://apnews.com/article/election-day-trump-harris-white-house-83c8e246ab97f5b97be45cdc156af4e2",
+        "https://www.nbcnews.com/politics/2024-elections/president-results"
+      ]
+    },
+    {
+      "id": "btc-100k-2024",
+      "statement": "Did Bitcoin's price first reach 100000 dollars in December 2024?",
+      "event_date": "2024-12-05",
+      "quarter": "2024Q4",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Bitcoin first above 100000 dollars December 2024",
+      "exa_evidence": [
+        "https://www.reuters.com/technology/view-bitcoin-surges-above-100000-2024-12-05/",
+        "https://www.cnn.com/2024/12/04/tech/bitcoin-100k-trump-hnk-intl"
+      ]
+    },
+    {
+      "id": "deepseek-r1-2025",
+      "statement": "Did DeepSeek release the R1 model in January 2025?",
+      "event_date": "2025-01-20",
+      "quarter": "2025Q1",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "DeepSeek R1 release January 2025",
+      "exa_evidence": [
+        "https://www.deepseek.com/en/news/deepseek-r1/",
+        "https://github.com/deepseek-ai/DeepSeek-R1/"
+      ]
+    },
+    {
+      "id": "sb-lix-eagles",
+      "statement": "Did the Philadelphia Eagles win Super Bowl LIX?",
+      "event_date": "2025-02-09",
+      "quarter": "2025Q1",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Super Bowl LIX February 9 2025 Eagles Chiefs winner",
+      "exa_evidence": [
+        "https://apnews.com/article/super-bowl-2025-eagles-chiefs-score-e2ff209c074a00a6faff39750ff048f8",
+        "https://www.espn.com/nfl/game/_/gameId/401671889/chiefs-eagles"
+      ]
+    },
+    {
+      "id": "lunar-eclipse-2025-03",
+      "statement": "Was there a total lunar eclipse in March 2025?",
+      "event_date": "2025-03-14",
+      "quarter": "2025Q1",
+      "ground_truth": true,
+      "fact_type": "scheduled",
+      "exa_query": "total lunar eclipse March 13-14 2025 blood moon",
+      "exa_evidence": [
+        "https://www.timeanddate.com/eclipse/lunar/2025-march-14",
+        "https://science.nasa.gov/solar-system/moon/what-you-need-to-know-about-the-march-2025-total-lunar-eclipse/"
+      ]
+    },
+    {
+      "id": "masters-mcilroy-2025",
+      "statement": "Did Rory McIlroy win the 2025 Masters to complete a career Grand Slam?",
+      "event_date": "2025-04-13",
+      "quarter": "2025Q2",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Rory McIlroy wins Masters 2025 career Grand Slam",
+      "exa_evidence": [
+        "https://apnews.com/article/rory-mcilroy-masters-augusta-career-grand-slam-c739bf0e3173635fec0563e212539206",
+        "https://www.bbc.co.uk/sport/golf/articles/c3evny5kpv2o"
+      ]
+    },
+    {
+      "id": "psg-ucl-2025",
+      "statement": "Did Paris Saint-Germain win the 2025 UEFA Champions League?",
+      "event_date": "2025-05-31",
+      "quarter": "2025Q2",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "PSG wins 2025 Champions League final Inter Milan",
+      "exa_evidence": [
+        "https://apnews.com/article/champions-league-final-psg-inter-2b52bbcdb82d1a44fa603b3dfbd15787",
+        "https://www.uefa.com/uefachampionsleague/news/0299-1de417608530-15b01ff7b150-1000--paris-win-champions-league-desire-doue-double-helps-secure/"
+      ]
+    },
+    {
+      "id": "who-pandemic-2025",
+      "statement": "Did the World Health Assembly adopt a Pandemic Agreement in May 2025?",
+      "event_date": "2025-05-20",
+      "quarter": "2025Q2",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "World Health Assembly adopts Pandemic Agreement May 2025",
+      "exa_evidence": [
+        "https://www.who.int/news/item/20-05-2025-world-health-assembly-adopts-historic-pandemic-agreement-to-make-the-world-more-equitable-and-safer-from-future-pandemics"
+      ]
+    },
+    {
+      "id": "wimbledon-sinner-2025",
+      "statement": "Did Jannik Sinner win the 2025 Wimbledon men's singles title?",
+      "event_date": "2025-07-13",
+      "quarter": "2025Q3",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Sinner wins Wimbledon 2025 men's singles final",
+      "exa_evidence": [
+        "https://www.bbc.com/sport/tennis/articles/c5ykw5n0p7no",
+        "https://www.reuters.com/sports/tennis/sinner-dethrones-alcaraz-capture-maiden-wimbledon-crown-2025-07-13/"
+      ]
+    },
+    {
+      "id": "gpt5-2025",
+      "statement": "Did OpenAI release GPT-5 in August 2025?",
+      "event_date": "2025-08-07",
+      "quarter": "2025Q3",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "OpenAI Introducing GPT-5 August 7 2025",
+      "exa_evidence": [
+        "https://openai.com/index/introducing-gpt-5/",
+        "https://openai.com/index/introducing-gpt-5-for-developers/"
+      ]
+    },
+    {
+      "id": "iphone17-2025",
+      "statement": "Did Apple unveil the iPhone 17 in September 2025?",
+      "event_date": "2025-09-09",
+      "quarter": "2025Q3",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Apple debuts iPhone 17 September 2025",
+      "exa_evidence": [
+        "https://www.apple.com/newsroom/2025/09/apple-debuts-iphone-17/",
+        "https://apnews.com/article/apple-iphone-17-new-features-b87ce97470188ca9df145132f412b768"
+      ]
+    },
+    {
+      "id": "win10-eol-2025",
+      "statement": "Did Windows 10 reach end of support in October 2025?",
+      "event_date": "2025-10-14",
+      "quarter": "2025Q4",
+      "ground_truth": true,
+      "fact_type": "scheduled",
+      "exa_query": "Windows 10 end of support October 14 2025",
+      "exa_evidence": [
+        "https://support.microsoft.com/en-us/windows/deployment/updates-lifecycle/windows-10-support-has-ended-on-october-14-2025",
+        "https://learn.microsoft.com/en-us/lifecycle/announcements/windows-10-end-of-support"
+      ]
+    },
+    {
+      "id": "cop30-belem-2025",
+      "statement": "Was COP30 held in Belem, Brazil in November 2025?",
+      "event_date": "2025-11-22",
+      "quarter": "2025Q4",
+      "ground_truth": true,
+      "fact_type": "scheduled",
+      "exa_query": "COP30 Belem Brazil November 2025",
+      "exa_evidence": [
+        "https://unfccc.int/cop30"
+      ]
+    },
+    {
+      "id": "f1-norris-2025",
+      "statement": "Did Lando Norris win the 2025 Formula One drivers' championship?",
+      "event_date": "2025-12-07",
+      "quarter": "2025Q4",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "Lando Norris 2025 Formula One world champion drivers standings",
+      "exa_evidence": [
+        "https://www.fia.com/news/f1-norris-crowned-fia-formula-one-world-champion-verstappen-takes-abu-dhabi-win",
+        "https://www.formula1.com/en/results/2025/drivers"
+      ]
+    },
+    {
+      "id": "milano-cortina-2026",
+      "statement": "Were the 2026 Winter Olympics held in Milan and Cortina d'Ampezzo?",
+      "event_date": "2026-02-06",
+      "quarter": "2026Q1",
+      "ground_truth": true,
+      "fact_type": "scheduled",
+      "exa_query": "Milano Cortina 2026 Winter Olympics Italy February",
+      "exa_evidence": [
+        "https://www.olympics.com/en/milano-cortina-2026/ceremonies/the-olympic-opening-ceremony",
+        "https://www.olympics.com/en/milano-cortina-2026/news/winter-olympics-2026-opening-ceremony-time-watch-flagbearers"
+      ]
+    },
+    {
+      "id": "wc2026-opener",
+      "statement": "Did Mexico play in the opening match of the 2026 FIFA World Cup?",
+      "event_date": "2026-06-11",
+      "quarter": "2026Q2",
+      "ground_truth": true,
+      "fact_type": "scheduled",
+      "exa_query": "FIFA World Cup 2026 opening match Mexico June 11 2026",
+      "exa_evidence": [
+        "https://www.bbc.com/sport/football/live/c0myn4dwvzkt",
+        "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/scores-fixtures"
+      ]
+    },
+    {
+      "id": "wc2026-final-spain",
+      "statement": "Did Spain win the 2026 FIFA World Cup final?",
+      "event_date": "2026-07-19",
+      "quarter": "2026Q3",
+      "ground_truth": true,
+      "fact_type": "outcome",
+      "exa_query": "FIFA World Cup 2026 final Spain Argentina July 19 2026",
+      "exa_evidence": [
+        "https://www.fifa.com/en/match-centre/match/17/285023/289290/400021543",
+        "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/final"
+      ]
+    },
+    {
+      "id": "f-sb-lviii-eagles",
+      "statement": "Did the Philadelphia Eagles win Super Bowl LVIII?",
+      "event_date": "2024-02-11",
+      "quarter": "2024Q1",
+      "ground_truth": false,
+      "fact_type": "outcome",
+      "exa_query": "Super Bowl LVIII winner — Chiefs beat 49ers, not Eagles",
+      "exa_evidence": [
+        "https://www.espn.com/nfl/game/_/gameId/401547378/49ers-chiefs"
+      ]
+    },
+    {
+      "id": "f-tokyo-2024",
+      "statement": "Were the 2024 Summer Olympics held in Tokyo?",
+      "event_date": "2024-07-26",
+      "quarter": "2024Q3",
+      "ground_truth": false,
+      "fact_type": "scheduled",
+      "exa_query": "2024 Summer Olympics were held in Paris, not Tokyo",
+      "exa_evidence": [
+        "https://www.olympics.com/en/news/paris-2024-olympic-games-opening-ceremony-flame-cauldron"
+      ]
+    },
+    {
+      "id": "f-vision-pro-2019",
+      "statement": "Did Apple release the Vision Pro headset in 2019?",
+      "event_date": "2019-01-01",
+      "quarter": "pre-2024",
+      "ground_truth": false,
+      "fact_type": "scheduled",
+      "exa_query": "Apple Vision Pro released 2024, not 2019",
+      "exa_evidence": [
+        "https://www.apple.com/newsroom/2024/01/apple-vision-pro-available-in-the-us-on-february-2/"
+      ]
+    },
+    {
+      "id": "f-eclipse-na-2023",
+      "statement": "Was there a total solar eclipse visible from North America in April 2023?",
+      "event_date": "2023-04-01",
+      "quarter": "pre-2024",
+      "ground_truth": false,
+      "fact_type": "scheduled",
+      "exa_query": "North America total solar eclipse was April 2024, not 2023",
+      "exa_evidence": [
+        "https://science.nasa.gov/eclipses/future-eclipses/eclipse-2024/"
+      ]
+    },
+    {
+      "id": "f-gpt5-2023",
+      "statement": "Did OpenAI release GPT-5 in 2023?",
+      "event_date": "2023-12-01",
+      "quarter": "pre-2024",
+      "ground_truth": false,
+      "fact_type": "outcome",
+      "exa_query": "GPT-5 released August 2025, not 2023",
+      "exa_evidence": [
+        "https://openai.com/index/introducing-gpt-5/"
+      ]
+    },
+    {
+      "id": "f-sinner-wim-2024",
+      "statement": "Did Jannik Sinner win Wimbledon in 2024?",
+      "event_date": "2024-07-14",
+      "quarter": "2024Q3",
+      "ground_truth": false,
+      "fact_type": "outcome",
+      "exa_query": "Wimbledon 2024 men's champion was Carlos Alcaraz, not Sinner",
+      "exa_evidence": [
+        "https://www.bbc.com/sport/tennis/articles/c5ykw5n0p7no"
+      ]
+    }
+  ]
+}

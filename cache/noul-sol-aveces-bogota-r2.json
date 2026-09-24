@@ -1,0 +1,1 @@
+{"request": {"model": "jev-1.13.0", "state": "cuando en Bogotá es de día en los países del hemisferio oriental es de noche", "questions": {"q1": {"type": "noul", "instructions": "a veces el sol no ilumina la tierra"}}}, "response": {"model": "jev-1.13.0", "answers": {"q1": {"type": "noul", "noul": 0.38}}, "usage": {"input_tokens": 295, "output_tokens": 21}}}

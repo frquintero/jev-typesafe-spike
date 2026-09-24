@@ -1,0 +1,1 @@
+{"request": {"model": "jev-1.13.0", "state": "en este mundo 2+2=5", "questions": {"q1": {"type": "noul", "instructions": "2+2=5"}}}, "response": {"model": "jev-1.13.0", "answers": {"q1": {"type": "noul", "noul": 0.14}}, "usage": {"input_tokens": 280, "output_tokens": 21}}}

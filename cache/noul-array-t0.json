@@ -1,0 +1,1 @@
+{"request": {"model": "jev-latest", "state": {"t": ["2+2=5"]}, "questions": {"q1": {"type": "noul", "instructions": "Is 2+2=5?"}, "q2": {"type": "noul", "instructions": "Does `t0` say that 2+2=5?"}}}, "response": {"model": "jev-1.13.0", "answers": {"q1": {"type": "noul", "noul": 0.01}, "q2": {"type": "noul", "noul": 0.94}}, "usage": {"input_tokens": 308, "output_tokens": 38}}}
