@@ -19,7 +19,7 @@ se opinan, se verifican contra `docs.typesafe.ai/api.md`.
 
 ## Rol y reglas de ejecución
 
-**Frat y Opus 5.5 (Cowork) planean; Claude Code ejecuta.** Claude Code no
+**Frat y Cowork planean; Claude Code ejecuta.** Claude Code no
 decide diseño de juicios, umbrales, ni si el spike adopta o descarta Jev —
 corre lo que el plan indica, informa con números y deja la decisión a Frat.
 Reglas del spike que aplican directamente a cómo correr y reportar:

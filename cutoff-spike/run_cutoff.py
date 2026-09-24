@@ -62,7 +62,6 @@ def jev_call(state, questions):
         data=json.dumps(body).encode(),
         headers={
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + os.environ["TYPESAFE_API_KEY"],
         },
         method="POST",
     )
