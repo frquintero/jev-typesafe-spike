@@ -1,0 +1,42 @@
+{
+  "request": {
+    "model": "jev-1.13.0",
+    "state": "es un día caluroso; Juan llega a su casa y todas las ventanas están cerradas; su esposa está en la sala; Juan dice: hace frío, no?",
+    "questions": {
+      "q1": {
+        "type": "choice",
+        "instructions": "",
+        "criteria": {
+          "a": "La frase de Juan es un pedido",
+          "b": "La frase de Juan es una pregunta",
+          "c": "La frase de Juan es una afirmación",
+          "d": "La frase de Juan es una queja",
+          "e": "La frase de Juan es una ironía",
+          "f": "La frase de Juan es otra cosa"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "q1": {
+        "type": "choice",
+        "choice": "e",
+        "confidence": 0.55,
+        "probabilities": {
+          "e": 0.63,
+          "a": 0.06,
+          "c": 0.01,
+          "b": 0.29,
+          "d": 0.0,
+          "f": 0.01
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 425,
+      "output_tokens": 60
+    }
+  }
+}
