@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Qué es este repo
 
-Spike de investigación (rama `spike-jev`, no se toca el piloto EEL) que evalúa
+Spike de investigación (separado del piloto EEL, que no se toca) que evalúa
 si el modelo de decisiones **Jev** de TypeSafe (`api.typesafe.ai`) puede
 reemplazar al pipeline GLM actual para tareas de detección de estructura.
 Jev nunca genera texto: sopesa juicios angostos (`Noul`/`Choice`/`Score`) y
@@ -16,6 +16,39 @@ de un solo archivo, ejecutados a mano contra la API real.
 1–26, "Principios y reglas acordadas") y `diccionario.md`. Ahí está el
 vocabulario correcto y los límites de lo que se le puede pedir a Jev — no
 se opinan, se verifican contra `docs.typesafe.ai/api.md`.
+
+## Rol y reglas de ejecución
+
+**Frat y Opus 5.5 (Cowork) planean; Claude Code ejecuta.** Claude Code no
+decide diseño de juicios, umbrales, ni si el spike adopta o descarta Jev —
+corre lo que el plan indica, informa con números y deja la decisión a Frat.
+Reglas del spike que aplican directamente a cómo correr y reportar:
+
+- **Regla 15 — el spike no concluye.** No cerrar con un veredicto
+  ("Jev sirve/no sirve"); juntar evidencia, informar con números, y que
+  decida la auditoría con Frat.
+- **Regla 22 — reportar antes de inventar.** Prompts y campos enviados se
+  citan tal cual (verbatim), nunca resumidos ni parafraseados.
+- **Regla 20 — solo documentos sintéticos.** Nunca meter texto real/privado
+  en `state`, aunque TypeSafe no lo almacene.
+- **Regla 16 — réplicas.** Las baterías corren 2–3 réplicas (`r1`/`r2`/`r3`)
+  para medir estabilidad; los números "respiran" entre corridas (±0.01–0.02
+  típico con juicios fijados) y eso no es un bug.
+- **Regla 26 — caja negra.** No inventar mecanismos para explicar un grado
+  concreto ("dio 0.56 porque..."); se documentan patrones y márgenes
+  heurísticos, no causas internas del modelo.
+- **Mostrar siempre el crudo junto al resultado**: cada afirmación sobre un
+  grado va acompañada del JSON `{"request": ..., "response": ...}` que la
+  respalda, no solo el número.
+- **No cambiar juicios ni agregar campos/claves que no estén en el plan**
+  sin decirlo explícitamente — si hace falta un ajuste de wording, se
+  reporta como cambio, no se desliza en silencio.
+- **Nombrado de crudos**: `cache/<probe>-r<N>.json` para réplicas
+  (`cache/<probe>-r1.json`, `-r2.json`, `-r3.json`); un solo archivo
+  `cache/<probe>.json` cuando no hay réplicas.
+- **Al terminar una corrida**, hacer commit y push de los archivos nuevos/
+  modificados en `cache/` (y del script si cambió) a la rama de trabajo,
+  para que Frat los baje con `git pull` y se analicen juntos.
 
 ## Comandos
 
@@ -62,7 +95,7 @@ fija (campos del protocolo, no renombrables — regla 3 del README):
 
 ```python
 body = {
-    "model": "jev-latest",   # o versión fija p.ej. "jev-1.13.0" para reproducibilidad
+    "model": "jev-1.13.0",   # fijo en corridas nuevas (ver nota de versión abajo)
     "state": ...,            # el "expediente": lo que se somete a juicio (string, dict o array)
     "questions": {
         "id_neutro": {
@@ -92,6 +125,15 @@ body = {
 - Sin `temperature`: la estabilidad se mide re-corriendo, no fijando un
   parámetro.
 
+**Versión del modelo — decisión vigente:** las corridas nuevas fijan
+`"model": "jev-1.13.0"` (no `jev-latest`), para que los crudos queden
+ligados a una versión conocida y no se mezclen sin aviso con los de una
+versión futura. Algunos probes existentes todavía usan `jev-latest` (son
+anteriores a esta decisión); no hace falta re-correrlos solo por eso. En
+todo caso, comparar `usage.model` (el modelo efectivo que devuelve la
+respuesta) contra lo esperado y **avisar explícitamente** si no coincide
+— por ejemplo si TypeSafe retira `jev-1.13.0` y el pin ya no resuelve.
+
 ## Convención de cada script en `probes/`
 
 Casi todos siguen el mismo esqueleto: build del `body`, `urllib.request.Request`
@@ -119,14 +161,22 @@ editar `probes_coarse*.json`/`probes_fine.json` sin releer el método del
 
 ## Documentación viva — cuál manda
 
+`cutoff-spike/PLAN.md` deja explícita esta convención para sus propios
+documentos ("No editar `README.md` raíz, `diccionario.md` ni la guía sin
+aprobación"); se extiende aquí a los cuatro documentos vivos del spike,
+todos "nuestros" (de Frat):
+
 - `README.md` (raíz): contexto, reglas acordadas, evidencia histórica.
-  **No editar sin aprobación** (regla del propio spike).
+  **No editar sin aprobación.**
 - `diccionario.md`: vocabulario y ejemplos canónicos de Jev. **No editar
   sin aprobación.**
 - `jev_typesafe_guia_pedagogica_v2.md`: guía pedagógica de referencia
-  (bandas, límites de lectura literal, Anexos A–C) — es la versión vigente;
-  los archivos `*.antes-v*.md` junto a cada uno de estos tres documentos
-  son snapshots históricos de antes de cada revisión, no se editan ni se
+  (bandas, límites de lectura literal, Anexos A–C) — es la versión
+  vigente. **No editar sin aprobación.**
+- `jev_resumen_pedagogico.md`: resumen derivado de la guía. **No editar
+  sin aprobación.**
+- Los archivos `*.antes-v*.md` junto a README, diccionario y guía son
+  snapshots históricos de antes de cada revisión — no se editan ni se
   usan como fuente.
 - Las secciones fechadas del README ("Evidencia reunida", "Plan de
   pruebas") son registro histórico: conservan el vocabulario de su
