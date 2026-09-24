@@ -70,7 +70,6 @@ def jev_call(body):
         "https://api.typesafe.ai/v1/systemone",
         data=json.dumps(body).encode(),
         headers={"Content-Type": "application/json",
-                 "Authorization": "Bearer " + os.environ["TYPESAFE_API_KEY"],
                  # UA explicito: Cloudflare banea el default Python-urllib (1010)
                  "User-Agent": "spike-jev/1.0"},
         method="POST")

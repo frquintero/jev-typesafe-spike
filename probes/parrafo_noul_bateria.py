@@ -35,7 +35,6 @@ for i, t in enumerate(umbrales, 1):
         data=json.dumps(body).encode(),
         headers={
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + os.environ["TYPESAFE_API_KEY"],
         },
         method="POST",
     )

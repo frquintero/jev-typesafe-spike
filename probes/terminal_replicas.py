@@ -32,7 +32,6 @@ def call(b):
         data=json.dumps(b).encode(),
         headers={
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + os.environ["TYPESAFE_API_KEY"],
         },
         method="POST",
     )

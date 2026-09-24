@@ -43,7 +43,6 @@ def jev_call(body):
         "https://api.typesafe.ai/v1/systemone",
         data=json.dumps(body).encode(),
         headers={"Content-Type": "application/json",
-                 "Authorization": "Bearer " + os.environ["TYPESAFE_API_KEY"],
                  "User-Agent": UA},
         method="POST")
     t0 = time.perf_counter()
