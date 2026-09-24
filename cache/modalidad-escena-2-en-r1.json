@@ -1,0 +1,40 @@
+{
+  "request": {
+    "model": "jev-1.13.0",
+    "state": "it is a hot day; Juan arrives home and all the windows are closed; his wife is in the living room; Juan says: it's cold, isn't it?",
+    "questions": {
+      "q1": {
+        "type": "choice",
+        "instructions": "",
+        "criteria": {
+          "a": "Juan asks his wife to open the windows",
+          "b": "Juan asks his wife whether it is cold",
+          "c": "Juan states that it is cold",
+          "d": "Juan complains about the heat",
+          "e": "Juan does something else"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "q1": {
+        "type": "choice",
+        "choice": "b",
+        "confidence": 0.71,
+        "probabilities": {
+          "a": 0.1,
+          "c": 0.05,
+          "d": 0.04,
+          "e": 0.03,
+          "b": 0.78
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 397,
+      "output_tokens": 53
+    }
+  }
+}
