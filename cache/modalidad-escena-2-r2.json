@@ -1,0 +1,40 @@
+{
+  "request": {
+    "model": "jev-1.13.0",
+    "state": "es un día caluroso; Juan llega a su casa y todas las ventanas están cerradas; su esposa está en la sala; Juan dice: hace frío, no?",
+    "questions": {
+      "q1": {
+        "type": "choice",
+        "instructions": "",
+        "criteria": {
+          "a": "Juan le pide a su esposa que abra las ventanas",
+          "b": "Juan le pregunta a su esposa si hace frío",
+          "c": "Juan afirma que hace frío",
+          "d": "Juan se queja del calor",
+          "e": "Juan hace otra cosa"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "q1": {
+        "type": "choice",
+        "choice": "b",
+        "confidence": 0.71,
+        "probabilities": {
+          "e": 0.02,
+          "b": 0.76,
+          "a": 0.14,
+          "d": 0.03,
+          "c": 0.05
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 400,
+      "output_tokens": 53
+    }
+  }
+}
