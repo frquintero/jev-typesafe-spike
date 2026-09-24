@@ -1,6 +1,6 @@
 # Jev de TypeSafe: guía pedagógica y crítica
 
-> Versión 8.2 — 23 de septiembre de 2026 (§1: quién consume a Jev; en 8.1, §6 actualizado a los once límites oficiales)
+> Versión 8.3 — 24 de septiembre de 2026 (§4.7: la pregunta plantea el caso; en 8.2, §1: quién consume a Jev; en 8.1, §6 actualizado a los once límites oficiales)
 
 ## Cómo leer esta guía
 
@@ -61,7 +61,7 @@ Jev **no responde preguntas, no extrae datos y no dice si algo es verdadero o fa
 | Choice | en `criteria`: **varios juicios, como alternativas sin orden** | «`ticket` pide cambiar o devolver un artículo» · «`ticket` reclama por un envío» · «`ticket` reclama por un cobro» · «otra cosa» | cómo reparte su soporte entre esos juicios |
 | Score | en `criteria`: **varios juicios, como niveles ordenados** | «`mensaje` no expresa plazo» · «`mensaje` espera respuesta esta semana» · «`mensaje` lo necesita hoy» | el reparto entre niveles y su posición media |
 
-En Choice y Score, **cada opción o nivel es un juicio que Jev sopesa por separado** —la documentación de Score lo dice: cada nivel se evalúa de forma independiente, sin ver los números ni los niveles vecinos—, y después el soporte se reparte para que sume 1, como 100 monedas entre los juicios. La pregunta que suele ir en `instructions` («¿Qué equipo debe atender esto?») **agrupa esos juicios como alternativas**, igual que en la semántica de las preguntas de Hamblin, donde el significado de una pregunta es el conjunto de sus respuestas posibles. Pero la pregunta no es lo que Jev juzga: con `instructions` vacío, el reparto de un caso claro no cambió en nada (Anexo B, prueba 6). Y el `choice` que devuelve no es una decisión de Jev: es la opción que recibió más soporte.
+En Choice y Score, **cada opción o nivel es un juicio que Jev sopesa por separado** —la documentación de Score lo dice: cada nivel se evalúa de forma independiente, sin ver los números ni los niveles vecinos—, y después el soporte se reparte para que sume 1, como 100 monedas entre los juicios. La pregunta que suele ir en `instructions` («¿Qué equipo debe atender esto?») **agrupa esos juicios como alternativas**, igual que en la semántica de las preguntas de Hamblin, donde el significado de una pregunta es el conjunto de sus respuestas posibles. La pregunta no tiene que ir escrita en `instructions`: puede quedar dentro de los juicios, como lo que todos tienen en común (con `instructions` vacío, el reparto de un caso claro no cambió en nada; Anexo B, prueba 6). Pero siempre está, y decide qué del expediente puede pesar (§4.7). Y el `choice` que devuelve no es una decisión de Jev: es la opción que recibió más soporte.
 
 En esta guía, a veces se abrevia una Choice o un Score con un hueco («la urgencia de `mensaje` es ___»); los juicios completos son los que van en `criteria`.
 
@@ -196,9 +196,15 @@ En una **Choice**, los juicios van en `criteria`: cada opción es un juicio cand
 - `choice`: el juicio que concentra más soporte. No es una decisión de Jev, sino un cálculo sobre el reparto.
 - `confidence`: qué tan concentrado está el reparto (§5).
 
-**Jev no responde: sopesa juicios.** Si le das «¿Qué hora es?» con las opciones 10:00, 11:00 y 1:00, sin expediente, devuelve igual un reparto entre las tres. No sabe la hora: sopesa tres juicios posibles («son las 10:00», «son las 11:00», «es la 1:00»). La pregunta de `instructions` agrupa esos juicios como alternativas, pero puede ir vacía: en la prueba 6 (Anexo B), con `instructions: ""` y los juicios completos en `criteria`, el reparto fue el mismo que con la pregunta. Por eso el esfuerzo de redacción va a los `criteria`: **cada opción se redacta como un juicio**, con las mismas precauciones que el juicio de una Noul (§4.3).
+**Jev no responde: sopesa juicios.** Si le das «¿Qué hora es?» con las opciones 10:00, 11:00 y 1:00, sin expediente, devuelve igual un reparto entre las tres. No sabe la hora: sopesa tres juicios posibles («son las 10:00», «son las 11:00», «es la 1:00»). La pregunta de `instructions` agrupa esos juicios como alternativas, pero puede ir vacía: en la prueba 6 (Anexo B), con `instructions: ""` y los juicios completos en `criteria`, el reparto fue el mismo que con la pregunta. Por eso el esfuerzo de redacción va a los `criteria`: **cada opción se redacta como un juicio**, con las mismas precauciones que el juicio de una Noul (§4.3). Si las opciones son palabras sueltas («pregunta», «ironía»), la pregunta tiene que ir en `instructions`: sin ella, las palabras no son juicios (§4.7).
 
 La lista de juicios debe ser explícita y puede tener como máximo 255 opciones. **Incluye una opción de salida** —`otra`, `ninguna`, `no se indica`—, porque puede que ningún juicio se sostenga con el expediente; sin ella, el soporte se reparte a la fuerza entre los que hay. Si los juicios se solapan, están incompletas o cambian con frecuencia, el resultado exige evaluación adicional.
+
+Tres cuidados más:
+
+- **La salida no avisa si falta la mejor lectura.** Absorbe el soporte cuando ningún juicio se sostiene, pero si en la lista hay uno plausible y falta el mejor, gana el plausible sin ninguna alarma (§4.7). Lo que no está entre las respuestas no puede ganar.
+- **Si las opciones pueden darse juntas**, la Choice dice cuál describe mejor el caso, no cuáles son ciertas. Para saber cuáles son ciertas, usa una Noul por lectura (§4.5).
+- **No leas las probabilidades de una Choice con las bandas de la Noul** (§3.1). Son partes de un reparto que suma 1, no grados de juicios sopesados aislados.
 
 ### 3.3 Score
 
@@ -353,7 +359,7 @@ La estructura hace los juicios más inspeccionables, pero no garantiza que sean 
 El campo se llama `instructions` en el API, y ese nombre no se puede cambiar en el request. Su papel depende de la primitiva:
 
 - **En la Noul contiene el juicio** que Jev sopesa. No son instrucciones ni una pregunta: es el juicio mismo.
-- **En Choice y Score**, los juicios están en `criteria` (§4.2). `instructions` suele llevar una pregunta que los agrupa como alternativas, y puede incluso ir vacío (Anexo B, prueba 6). Que esa pregunta tenga algún peso en casos menos claros es una **cuestión abierta**.
+- **En Choice y Score**, los juicios están en `criteria` (§4.2). `instructions` suele llevar una pregunta que los agrupa como alternativas, y puede incluso ir vacío (Anexo B, prueba 6): entonces la pregunta queda dentro de los juicios, como lo que tienen en común. Nunca falta, y decide qué del expediente puede pesar (§4.7). Si las opciones son palabras sueltas, la pregunta tiene que ir aquí. Cuánto pesa escribirla aquí cuando los juicios ya están completos y el caso es ambiguo sigue siendo una **cuestión abierta**.
 
 Las reglas de redacción que siguen valen para el juicio de la Noul y para **cada juicio de `criteria`**.
 
@@ -542,6 +548,46 @@ Que el contenido sea falso, verdadero o inventado mueve el grado apenas unas cen
 
 Crudos: `falso-c{1..6}-*`, `diag-scott-*`, `diag-2mas2-*`, `decimos-gagarin-*`, `libro-*`, `claves-jesus-*`, `choice-jesus-b-*`, `choice-gagarin-*`.
 
+### 4.7 La pregunta plantea el caso
+
+Una Choice tiene dos partes, aunque `instructions` vaya vacío:
+
+- **la pregunta**: lo que todos los juicios tienen en común;
+- **las respuestas posibles**: lo que cambia de un juicio a otro.
+
+En «La frase de Juan es una pregunta» · «… es una ironía» · «… es una queja», la pregunta es «¿qué es la frase de Juan?», aunque no esté escrita en ninguna parte. Si no va en `instructions`, va dentro de los `criteria`. Nunca falta.
+
+Las dos partes condicionan el veredicto (nivel 3, medido con una escena y una frase, tres réplicas):
+
+- **La pregunta decide qué del expediente puede pesar.**
+- **Las respuestas deciden entre qué se reparte el soporte.**
+
+Con el expediente fijo —«es un día caluroso; Juan llega a su casa y todas las ventanas están cerradas; su esposa está en la sala; Juan dice: hace frío, no?»—, esto es lo que concentra el soporte según sobre qué trate la pregunta:
+
+| La pregunta trata sobre | Qué del expediente pesa | Lo que concentra el soporte |
+|---|---|---|
+| la forma de la frase («… es interrogativa») | nada: la forma no depende de la escena | interrogativa, 0,96 |
+| lo que hace Juan («Juan le pregunta…», «Juan le pide…») | la escena, pero solo hasta el acto literal | «le pregunta si hace frío», 0,76 |
+| qué es la frase frente a la situación, con la ironía entre las respuestas | el choque entre lo dicho y la escena | ironía, 0,80 |
+
+La tercera fila usa la pregunta escrita en `instructions`, con la frase citada —«la frase de Juan: "hace frío, no?" es:»— y respuestas de una palabra: pregunta, afirmación, queja, ironía, ninguna de las anteriores.
+
+**Jev es un juez congruente (nivel 4).** Falla sobre lo que se le pide (las respuestas) y dentro de cómo se plantea el caso (la pregunta). No concede lo que nadie le pidió. Por eso el sesgo del marco no es un error de Jev: es responsabilidad de quien plantea el caso. Y como Jev es transparente para el usuario (§1), el usuario tampoco ve ese planteamiento.
+
+**La falla que hay que prevenir.** Cuando la ironía no estaba entre las respuestas, ganó «le pregunta si hace frío» (0,76) y la salida recibió 0,02. La salida no avisa si falta la mejor lectura: una respuesta plausible gana sin ninguna alarma.
+
+**Qué hacer en la práctica:**
+
+- **Decide primero sobre qué trata la pregunta**: la forma, lo que hace el hablante o lo dicho frente a la situación. Si quieres que el contexto pese, la pregunta no puede tratar sobre la forma.
+- **Para juzgar la forma, basta el juicio mínimo.** Con el expediente vacío y opciones como «“¿Vienes mañana?” es interrogativa», ocho oraciones con marcas claras (¿?, ¡!, «ojalá», el imperativo) dieron 1,00 en las tres réplicas.
+- **Pon entre las respuestas todas las lecturas plausibles.** Lo que no está en la lista no puede ganar.
+- **Cita en la pregunta el material que se juzga.** Con la frase citada, la ironía llegó a 0,80 y la confianza a 0,76.
+- **Formula el juicio cerca del expediente.** La ironía está a un paso: lo dicho («hace frío») choca con lo que el expediente dice («día caluroso»). Se sostuvo. La queja y el pedido exigen además inferir para qué habla Juan, y casi no se sostuvieron (queja 0,00–0,03; pedido 0,03–0,16).
+- **Si las respuestas pueden darse juntas**, la Choice dice cuál describe mejor. La frase de Juan es a la vez pregunta e ironía. Si necesitas saber cuáles son ciertas, usa una Noul por lectura (§4.5). En ese caso, una confianza baja señala el solapamiento, no una duda de Jev (§5).
+- **Audita el planteamiento, no solo el grado.** Quien revisa debe ver `instructions` y `criteria`.
+
+Crudos: `modalidad-choice-8-*`, `modalidad-escena-*`.
+
 ---
 
 ## 5. Confidence: qué es y qué no es
@@ -598,6 +644,8 @@ Como la franja central de la Noul, una confianza baja en Choice o Score no descr
 
 En el Anexo A, la confianza baja señaló los tres casos problemáticos (0,37; 0,25; alrededor de 0,70). Cuando aparece, mira `probabilities` para ver entre qué juicios se reparte el soporte, y actúa sobre esos juicios, sobre `instructions` o sobre el flujo.
 
+**El planteamiento también mueve la confianza, y con ella el camino del caso.** Con la misma escena y la misma frase (§4.7), la confianza fue 0,56 con respuestas que se pisaban y 0,76 con la pregunta citada en `instructions`. Un umbral de 0,70 manda el mismo caso a revisión en un diseño y lo deja pasar en el otro. Calibra los umbrales con el diseño definitivo, no con un borrador.
+
 ### Cuidado con los umbrales que caen sobre casos reales
 
 Los números varían un poco entre corridas. Si el umbral queda justo donde caen casos reales, **el mismo caso cambia de camino de una corrida a otra**.
@@ -627,7 +675,7 @@ La página de jaggedness de Jev 1.13 describe límites que deben formar parte de
 3. **Representaciones numéricas**: rinde peor con valores como hexadecimal o RGB que con descripciones semánticas, y no juzga bien la cercanía entre números. No es una calculadora fiable.
 4. **Interpolación del Score**: los niveles de Score tienen una calibración numérica débil; el score no sirve para calcular magnitudes exactas (§3.3).
 5. **Fechas y horas**: las trata como texto, no como cantidades ordenadas; con formatos mezclados o fechas relativas, necesitan tratamiento explícito.
-6. **Indirección**: los juicios con dobles negaciones o razonamiento de varios pasos se sopesan con menos fiabilidad.
+6. **Indirección**: los juicios con dobles negaciones o razonamiento de varios pasos se sopesan con menos fiabilidad. En la práctica, formula el juicio a un paso del expediente (§4.7).
 7. **Expediente grande e irrelevante** (*context rot*): el detalle ajeno distrae y perjudica.
 8. **Contenido adversarial**: Jev trata el `state` como no hostil; instrucciones inyectadas en él pueden influir en el resultado.
 9. **Instrucciones y criterios contradictorios**: si `instructions` y `criteria` chocan, o los juicios de `criteria` son ambiguos o incompatibles, Jev puede confundirse.
@@ -911,6 +959,8 @@ Su promesa no es que un juicio convierta cualquier decisión compleja en segura.
 Diseñar con Jev es, sobre todo, **redactar bien dos cosas**: el juicio exacto que se quiere sopesar y el expediente frente al que se sopesa. Cuando el grado no es el esperado, lo primero es preguntarse si el juicio es el que se quería y cómo está escrito el expediente.
 
 Jev es consistente —un juicio fijado da casi el mismo grado cada vez— pero sensible: una palabra del juicio o del marco del expediente puede mover el grado, y el modelo es una caja negra. Por eso las bandas y los umbrales son heurísticos, y el diseño sigue líneas generales que **se afinan en cada caso de uso**, con casos de referencia y réplicas.
+
+Jev falla como un **juez congruente**: sobre lo que se le pide y dentro de cómo se plantea el caso. La pregunta decide qué del expediente cuenta, y las respuestas, entre qué se reparte el soporte. Lo que no se plantea no puede ganar. Por eso diseñar es también plantear bien el caso, y auditar es revisar ese planteamiento, que el usuario no ve (§4.7).
 
 La frontera sana es:
 
@@ -1213,6 +1263,7 @@ Recuerda: son heurísticas. Una regla «sostenida» es una buena apuesta de part
 | Un expediente irrelevante no mueve el juicio. | Pr | modelo | conjetura | §4.4 |
 | Un expediente pertinente resuelve la ambigüedad de un juicio. | Pr | modelo | conjetura | §4.4 |
 | El expediente pesa más cuando, sin él, el juicio cae en la franja central (medido en log-odds). | Pr | modelo | conjetura | §4.4 |
+| Un juicio a un paso del expediente se sostiene; uno que exige inferir para qué habla alguien, casi no. | Pr | modelo | conjetura | §4.7, §6 |
 
 ### Noul
 
@@ -1235,12 +1286,18 @@ Recuerda: son heurísticas. Una regla «sostenida» es una buena apuesta de part
 | Regla | Clase | Ámbito | Estado | Dónde |
 |---|---|---|---|---|
 | En Choice y Score, **los juicios viven en `criteria`**; Jev reparte su soporte entre ellos. No responde, y `choice` no es una decisión suya: es el juicio con más soporte. | Pr | modelo | medida | §1, §3.2, Anexo B, P6 |
-| `instructions` agrupa los juicios de `criteria` como alternativas y puede ir vacío (en un caso claro, el reparto no cambió). Su peso en casos menos claros es una cuestión abierta. | Pr | modelo | medida (un caso) | §4.3, Anexo B, P6 |
+| `instructions` agrupa los juicios de `criteria` como alternativas y puede ir vacío cuando los juicios están completos (en un caso claro, el reparto no cambió): la pregunta queda dentro de ellos. Si las opciones son palabras sueltas, la pregunta tiene que ir en `instructions`. | Pr | modelo | medida | §3.2, §4.3, §4.7, Anexo B, P6 |
 | Redacta cada opción de `criteria` como un juicio, con las mismas reglas que el juicio de una Noul. | P | diseño | aceptada | §3.2, §4.2 |
 | Juicios de `criteria` explícitos, cada uno con su descripción. | P | diseño | oficial | §3.2, §4.2 |
 | Incluye una opción de salida: puede que ningún juicio se sostenga. Sin ella, lo que no encaja cae igual en el mejor juicio y la confianza no lo detecta (medido con classifier.dev, mismo modelo). Cuando alguna encaja, la salida no roba soporte (≤ 0,01 en la prueba 2). | P | diseño | oficial + medida | §3.2, Anexo B, P2 |
 | Para juicios cercanos, usa `what` / `not_for` / `examples`. | P | diseño | oficial | §4.2 |
-| El menú es parte del juicio: cambiar los juicios de `criteria` puede cambiar el reparto. | Pr | modelo | medida (un caso) | §4.5 |
+| **La pregunta plantea el caso.** La pregunta (en `instructions` o como lo común de los `criteria`) decide qué del expediente puede pesar; las respuestas deciden entre qué se reparte el soporte. Cambiar cualquiera de las dos puede cambiar el veredicto. | Pr | modelo | medida | §4.5, §4.7 |
+| La salida no avisa si falta la mejor lectura: pon entre las respuestas todas las lecturas plausibles. | P | diseño | medida | §3.2, §4.7 |
+| Si quieres que el contexto pese, la pregunta no puede tratar sobre la forma: debe tratar sobre lo que hace el hablante o sobre lo dicho frente a la situación. | P | diseño | medida | §4.7 |
+| Para juzgar la forma de una oración con marcas claras, basta el juicio mínimo con el expediente vacío. | Pr | modelo | medida | §4.7 |
+| Cita en la pregunta el material que se juzga. | P | diseño | medida (un caso) | §4.7 |
+| Si las respuestas pueden darse juntas, la Choice dice cuál describe mejor; para saber cuáles son ciertas, usa una Noul por lectura. | P | diseño | aceptada | §3.2, §4.5, §4.7 |
+| No leas las probabilidades de una Choice con las bandas de la Noul. | P | diseño | aceptada | §3.2 |
 | Lo notorio y el marco del expediente se asoman en el reparto: pueden quitar soporte al juicio que el expediente sostiene sin cambiar `choice`. Lee `probabilities`, no solo `choice`. | P | modelo + diseño | medida | §4.6, Anexo B, P7 |
 
 ### Score
@@ -1277,6 +1334,8 @@ Recuerda: son heurísticas. Una regla «sostenida» es una buena apuesta de part
 | La confianza baja (y la franja central de la Noul) es una señal de diseño: juicio mal redactado, juicios de `criteria` que se pisan o un caso que el expediente no decide. | P | diseño | medida | §3.1, §5 |
 | Los umbrales se fijan por acción y dominio, con datos propios. | P | diseño | oficial | §5 |
 | No pongas un umbral sobre un grupo de casos reales. | P | diseño | medida | §5 |
+| Calibra los umbrales con el diseño definitivo: el planteamiento mueve la confianza. | P | diseño | medida | §5, §4.7 |
+| Audita el planteamiento (`instructions` y `criteria`), no solo el grado: el usuario no lo ve. | P | diseño | aceptada | §1, §4.7 |
 | Los umbrales van por primitiva y se calibran en el idioma del corpus. | P | diseño | medida | §5, Anexo B, P1 |
 | Si el material puede contener errores, calibra los umbrales con ese material: el juicio sobre lo que dice baja. | P | diseño | medida | §4.6, Anexo B, P3 |
 | Compara efectos en log-odds, con líneas base medidas. | P | diseño | aceptada | §4.4 |
@@ -1288,7 +1347,7 @@ Recuerda: son heurísticas. Una regla «sostenida» es una buena apuesta de part
 
 **Por probar:** nada pendiente por ahora.
 
-**Cuestión abierta (no se determina por ahora):** el peso de la pregunta de `instructions` en Choice y Score cuando el caso no es claro.
+**Cuestión abierta (no se determina por ahora):** el peso de escribir la pregunta en `instructions` en Choice y Score cuando los juicios de `criteria` ya están completos y el caso no es claro. (Con opciones de una palabra, la pregunta tiene que ir en `instructions`, §4.7.)
 
 **Resueltas:** «¿dónde viven los juicios en una Choice?» (en `criteria`; `instructions` puede ir vacío, Anexo B, P6; con ello se descartó la prueba sobre escribir el campo como juicio abierto o como pregunta); «¿qué pasa en una Choice sin opción de salida?» (cubierta por la documentación y por lo medido con classifier.dev; no requiere prueba propia); «¿aseveración o presuposición?» (el 0,82 del folleto de Sídney): no era la presuposición, sino el choque con lo notorio (Anexo B, P3a).
 
