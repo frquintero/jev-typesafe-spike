@@ -1,0 +1,40 @@
+{
+  "request": {
+    "model": "jev-1.13.0",
+    "state": "es un día caluroso; Juan llega a su casa y todas las ventanas están cerradas; su esposa está en la sala; Juan dice: hace frío, no?",
+    "questions": {
+      "q1": {
+        "type": "choice",
+        "instructions": "",
+        "criteria": {
+          "a": "«Juan dice, hace frío, no?» es enunciativa",
+          "b": "«Juan dice, hace frío, no?» es interrogativa",
+          "c": "«Juan dice, hace frío, no?» es imperativa",
+          "d": "«Juan dice, hace frío, no?» es exclamativa, desiderativa o dubitativa",
+          "e": "«Juan dice, hace frío, no?» es otra cosa"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "q1": {
+        "type": "choice",
+        "choice": "b",
+        "confidence": 0.94,
+        "probabilities": {
+          "c": 0.0,
+          "d": 0.01,
+          "e": 0.0,
+          "b": 0.96,
+          "a": 0.03
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 443,
+      "output_tokens": 53
+    }
+  }
+}
