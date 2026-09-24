@@ -1,0 +1,201 @@
+{
+  "request": {
+    "model": "jev-1.13.0",
+    "state": "",
+    "questions": {
+      "q1": {
+        "type": "choice",
+        "instructions": "",
+        "criteria": {
+          "a": "«La puerta está abierta.» es enunciativa",
+          "b": "«La puerta está abierta.» es interrogativa",
+          "c": "«La puerta está abierta.» es imperativa",
+          "d": "«La puerta está abierta.» es exclamativa, desiderativa o dubitativa",
+          "e": "«La puerta está abierta.» es otra cosa"
+        }
+      },
+      "q2": {
+        "type": "choice",
+        "instructions": "",
+        "criteria": {
+          "a": "«Juan llegó ayer.» es enunciativa",
+          "b": "«Juan llegó ayer.» es interrogativa",
+          "c": "«Juan llegó ayer.» es imperativa",
+          "d": "«Juan llegó ayer.» es exclamativa, desiderativa o dubitativa",
+          "e": "«Juan llegó ayer.» es otra cosa"
+        }
+      },
+      "q3": {
+        "type": "choice",
+        "instructions": "",
+        "criteria": {
+          "a": "«¿Vienes mañana?» es enunciativa",
+          "b": "«¿Vienes mañana?» es interrogativa",
+          "c": "«¿Vienes mañana?» es imperativa",
+          "d": "«¿Vienes mañana?» es exclamativa, desiderativa o dubitativa",
+          "e": "«¿Vienes mañana?» es otra cosa"
+        }
+      },
+      "q4": {
+        "type": "choice",
+        "instructions": "",
+        "criteria": {
+          "a": "«¿Dónde está la llave?» es enunciativa",
+          "b": "«¿Dónde está la llave?» es interrogativa",
+          "c": "«¿Dónde está la llave?» es imperativa",
+          "d": "«¿Dónde está la llave?» es exclamativa, desiderativa o dubitativa",
+          "e": "«¿Dónde está la llave?» es otra cosa"
+        }
+      },
+      "q5": {
+        "type": "choice",
+        "instructions": "",
+        "criteria": {
+          "a": "«Cierra la ventana.» es enunciativa",
+          "b": "«Cierra la ventana.» es interrogativa",
+          "c": "«Cierra la ventana.» es imperativa",
+          "d": "«Cierra la ventana.» es exclamativa, desiderativa o dubitativa",
+          "e": "«Cierra la ventana.» es otra cosa"
+        }
+      },
+      "q6": {
+        "type": "choice",
+        "instructions": "",
+        "criteria": {
+          "a": "«Siéntate aquí.» es enunciativa",
+          "b": "«Siéntate aquí.» es interrogativa",
+          "c": "«Siéntate aquí.» es imperativa",
+          "d": "«Siéntate aquí.» es exclamativa, desiderativa o dubitativa",
+          "e": "«Siéntate aquí.» es otra cosa"
+        }
+      },
+      "q7": {
+        "type": "choice",
+        "instructions": "",
+        "criteria": {
+          "a": "«¡Qué frío hace!» es enunciativa",
+          "b": "«¡Qué frío hace!» es interrogativa",
+          "c": "«¡Qué frío hace!» es imperativa",
+          "d": "«¡Qué frío hace!» es exclamativa, desiderativa o dubitativa",
+          "e": "«¡Qué frío hace!» es otra cosa"
+        }
+      },
+      "q8": {
+        "type": "choice",
+        "instructions": "",
+        "criteria": {
+          "a": "«Ojalá llueva mañana.» es enunciativa",
+          "b": "«Ojalá llueva mañana.» es interrogativa",
+          "c": "«Ojalá llueva mañana.» es imperativa",
+          "d": "«Ojalá llueva mañana.» es exclamativa, desiderativa o dubitativa",
+          "e": "«Ojalá llueva mañana.» es otra cosa"
+        }
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "q1": {
+        "type": "choice",
+        "choice": "a",
+        "confidence": 1.0,
+        "probabilities": {
+          "c": 0.0,
+          "d": 0.0,
+          "e": 0.0,
+          "b": 0.0,
+          "a": 1.0
+        }
+      },
+      "q2": {
+        "type": "choice",
+        "choice": "a",
+        "confidence": 1.0,
+        "probabilities": {
+          "c": 0.0,
+          "e": 0.0,
+          "d": 0.0,
+          "b": 0.0,
+          "a": 1.0
+        }
+      },
+      "q3": {
+        "type": "choice",
+        "choice": "b",
+        "confidence": 1.0,
+        "probabilities": {
+          "c": 0.0,
+          "d": 0.0,
+          "e": 0.0,
+          "b": 1.0,
+          "a": 0.0
+        }
+      },
+      "q4": {
+        "type": "choice",
+        "choice": "b",
+        "confidence": 1.0,
+        "probabilities": {
+          "c": 0.0,
+          "d": 0.0,
+          "e": 0.0,
+          "b": 1.0,
+          "a": 0.0
+        }
+      },
+      "q5": {
+        "type": "choice",
+        "choice": "c",
+        "confidence": 1.0,
+        "probabilities": {
+          "c": 1.0,
+          "d": 0.0,
+          "e": 0.0,
+          "b": 0.0,
+          "a": 0.0
+        }
+      },
+      "q6": {
+        "type": "choice",
+        "choice": "c",
+        "confidence": 1.0,
+        "probabilities": {
+          "c": 1.0,
+          "d": 0.0,
+          "e": 0.0,
+          "b": 0.0,
+          "a": 0.0
+        }
+      },
+      "q7": {
+        "type": "choice",
+        "choice": "d",
+        "confidence": 0.99,
+        "probabilities": {
+          "c": 0.0,
+          "d": 1.0,
+          "e": 0.0,
+          "b": 0.0,
+          "a": 0.0
+        }
+      },
+      "q8": {
+        "type": "choice",
+        "choice": "d",
+        "confidence": 1.0,
+        "probabilities": {
+          "c": 0.0,
+          "e": 0.0,
+          "d": 1.0,
+          "b": 0.0,
+          "a": 0.0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 1336,
+      "output_tokens": 403
+    }
+  }
+}
