@@ -3,8 +3,8 @@
 Mismo request exacto que material_falso.py; crudos nuevos en
 cache/falso-c4-{V|F}-r{4..6}.json (no toca r1..r3).
 
-Uso: source ~/.bashrc  (o export TYPESAFE_API_KEY=...)
-     python3 probes/repite_c4.py
+Uso: python3 probes/repite_c4.py
+     (requiere credencial API "Typesafe" del entorno cloud hacia api.typesafe.ai)
 """
 import datetime, json, os, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
