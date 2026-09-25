@@ -463,3 +463,26 @@ python3 niveles/jev_sopesa.py niveles/cache/niveles-doc3-deepseek-toulmin_v5-r1.
 
 **Reporte:** tabla fragmento, etiqueta del LLM, noul build v5, noul build v5b,
 lectura con v5b. Debajo, el juicio que cambió, verbatim. Sin veredicto.
+
+---
+
+## Ronda 9: `toulmin_v6` + build v6 de Jev, sobre doc3
+
+Único cambio respecto de `toulmin_v5` / build v5: la garantía se define por su
+papel, con la pregunta de Toulmin: `una regla general que autoriza pasar de un
+dato a una conclusión`. Prompt y build usan la misma definición.
+
+**Código (ya hecho y revisado):** `run_niveles.py` trata `toulmin_v6` como
+v3–v5; `jev_sopesa.py` pasa a build v6.
+
+```
+python3 niveles/run_niveles.py doc3 deepseek toulmin_v6 - r1
+python3 niveles/jev_sopesa.py niveles/cache/niveles-doc3-deepseek-toulmin_v6-r1.json
+```
+
+**Reporte:**
+1. Paso 1: tabla fragmento, tipo v5 → v6; debajo, la tesis; verificaciones
+   1–7 y tokens.
+2. Paso 2: tabla fragmento, etiqueta del LLM, noul build v5 (ronda 8), noul
+   build v5b (ronda 8b), noul build v6, lectura con v6.
+Sin veredicto.
