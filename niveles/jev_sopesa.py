@@ -5,12 +5,17 @@ Uso: python3 niveles/jev_sopesa.py <crudo_llm.json>
 
 Arma el build de Jev en tiempo de ejecucion a partir de la salida ya
 clasificada por el LLM (una llamada unica de run_niveles.py, formato
-toulmin_v3): un Noul por elemento (se omiten los tipo 'titulo') mas un Noul
-de control, todo en una sola llamada (fan-out). No corrige nada de lo que
-clasifico el LLM; solo reporta el grado de soporte que Jev le da a cada
-etiqueta. Credencial via proxy del entorno cloud (mismo patron que
-probes/): nunca se arma Authorization ni se lee ninguna clave. Sin SDK:
-urllib + dicts planos.
+toulmin_v3): un Noul por elemento (se omiten los tipo 'titulo'), todo en una
+sola llamada (fan-out). No corrige nada de lo que clasifico el LLM; solo
+reporta el grado de soporte que Jev le da a cada etiqueta. Credencial via
+proxy del entorno cloud (mismo patron que probes/): nunca se arma
+Authorization ni se lee ninguna clave. Sin SDK: urllib + dicts planos.
+
+Build v2 (PLAN.md, Ronda 6b): corrige la definicion de 'dato' (ya no la
+define por su papel -"el hecho del que se parte"- sino por lo que es, para
+no penalizar un dato que rebate en vez de sostener) y elimina el juicio de
+control de la ronda 6 (build v1, que queda en su propio crudo). La
+construccion sigue usando solo 'cita' y 'tipo'; no usa 'sirve_a'.
 """
 import json
 import os
@@ -27,11 +32,13 @@ CACHE_DIR = os.path.join(BASE_DIR, "cache")
 API_URL = "https://api.typesafe.ai/v1/systemone"
 MODEL = "jev-1.13.0"
 UA = "spike-jev/1.0"
+BUILD = "v2"
 
-# Etiqueta y definicion por tipo, verbatim del prompt toulmin_v3 (PLAN.md,
-# Ronda 6). Si el prompt cambia, esta tabla cambia con el.
+# Etiqueta y definicion por tipo (PLAN.md, Ronda 6b: definicion de 'dato'
+# corregida respecto del prompt toulmin_v3 original). Si el prompt cambia
+# para usar la misma norma, esta tabla se revisa junto con el.
 ETIQUETAS = {
-    "dato": ("un dato", "el hecho del que se parte; la evidencia"),
+    "dato": ("un dato", "un hecho que el texto presenta como evidencia"),
     "conclusion": ("una conclusión", "lo que el texto quiere establecer"),
     "garantia": ("una garantía", "la regla que autoriza a pasar del dato a la conclusión"),
     "respaldo": ("un respaldo", "lo que sostiene a la garantía: una norma, un estudio, la experiencia"),
@@ -40,7 +47,6 @@ ETIQUETAS = {
     "concesion": ("una concesión", "algo en contra de la propia conclusión que el texto admite como cierto, sin abandonar la conclusión"),
     "otro": ("otra cosa", "no cumple ninguna de las funciones de un argumento"),
 }
-CONTROL_ETIQUETA, CONTROL_DEFINICION = ETIQUETAS["conclusion"]
 
 
 def cargar_elementos(crudo_llm_path):
@@ -51,17 +57,6 @@ def cargar_elementos(crudo_llm_path):
     if error:
         raise SystemExit(f"el crudo LLM no parsea como JSON: {error}")
     return crudo["doc"], parsed.get("elementos", [])
-
-
-def elegir_control(elementos):
-    """El primer contraargumento; si no hay, el primer dato (PLAN.md, Ronda 6)."""
-    for el in elementos:
-        if el.get("tipo") == "contraargumento":
-            return el
-    for el in elementos:
-        if el.get("tipo") == "dato":
-            return el
-    raise SystemExit("no hay elemento tipo 'contraargumento' ni 'dato' para el control")
 
 
 def construir_body(doc, elementos):
@@ -80,22 +75,6 @@ def construir_body(doc, elementos):
             "instructions": f"En este texto, «{el['cita']}» es {etiqueta}: {definicion}.",
         }
         mapa[clave] = el["id"]
-
-    control_el = elegir_control(utiles)
-    clave_control = f"n{len(utiles) + 1:02d}"
-    questions[clave_control] = {
-        "type": "noul",
-        "instructions": (
-            f"En este texto, «{control_el['cita']}» es {CONTROL_ETIQUETA}: "
-            f"{CONTROL_DEFINICION}."
-        ),
-    }
-    # El control reutiliza un elemento ya preguntado con su etiqueta correcta;
-    # aqui se le pregunta ademas con la etiqueta falsa "conclusion". La clave
-    # es neutra igual que las demas; "control" solo existe en el mapa, nunca
-    # en el body que ve Jev.
-    mapa[clave_control] = control_el["id"]
-    mapa["control"] = clave_control
 
     body = {"model": MODEL, "state": state, "questions": questions}
     return body, mapa
@@ -122,7 +101,7 @@ def llamar_jev(body):
 def run(crudo_llm_path):
     os.makedirs(CACHE_DIR, exist_ok=True)
     nombre = os.path.splitext(os.path.basename(crudo_llm_path))[0]
-    cache_path = os.path.join(CACHE_DIR, f"jev-{nombre}.json")
+    cache_path = os.path.join(CACHE_DIR, f"jev-{BUILD}-{nombre}.json")
     if os.path.exists(cache_path):
         print(f"crudo ya existe, salto ({cache_path})")
         return
