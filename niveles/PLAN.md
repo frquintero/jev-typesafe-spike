@@ -131,6 +131,11 @@ Guardar la correspondencia `E<n> → C/G/D<n>` en el crudo.
 | `flash` | `glm-5.3-flash` | `stream: true`, `reasoning_effort: "low"` |
 | `deepseek` | `deepseek-flash` (DeepSeek-V4.1-Flash) | `stream: true`, `thinking: {"type":"enabled"}`, `reasoning_effort: "low"` |
 
+Nota (docs.api-docs.deepseek.com): el id a enviar sigue siendo `deepseek-flash`;
+los nombres viejos `deepseek-v4-flash`/`deepseek-v4-flash-vision-exp` quedaron
+retirados y hoy los sirve el mismo modelo, DeepSeek-V4.1-Flash, al precio Flash.
+No hay que cambiar el id en el código por esto.
+
 Excepción autorizada a "no enviar parámetros extra": solo los de esta tabla.
 Nada de `temperature`. Si un proveedor rechaza un parámetro, detenerse y reportar.
 
