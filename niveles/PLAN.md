@@ -490,3 +490,21 @@ python3 niveles/jev_sopesa.py niveles/cache/niveles-doc3-deepseek-toulmin_v6-r1.
 2. Paso 2: tabla fragmento, etiqueta del LLM, noul build v5 (ronda 8), noul
    build v5b (ronda 8b), noul build v6, lectura con v6.
 Sin veredicto.
+
+---
+
+## Ronda D1: smoke test del objeto «dato» (solo LLM)
+
+Comprueba si DeepSeek entiende el objeto dato con definición y plantilla, sin
+ejemplos. Sin Jev. El código solo orquesta (no verifica nada).
+
+- Prompt: `niveles/prompts/datos_v1.md`.
+- Script: `niveles/extraer_datos.py` (ya hecho y revisado; no modificarlo).
+
+```
+python3 niveles/extraer_datos.py doc2 deepseek datos_v1 r1
+```
+
+**Reporte:** los objetos `datos` tal como llegaron (JSON verbatim), si venía
+con cerca o hubo error de parseo, y tokens (incluidos los de razonamiento).
+Sin veredicto.
