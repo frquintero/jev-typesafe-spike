@@ -12,6 +12,7 @@ Authorization ni se lee ninguna clave. Sin SDK: urllib + dicts planos.
 """
 import json
 import os
+import re
 import string
 import sys
 import urllib.error
@@ -266,11 +267,52 @@ def verificar_a_v2(parsed, doc_text):
     return {"literalidad": literalidad, "cobertura": cobertura, "ids": ids}
 
 
+def contar_oraciones_doc(doc_text):
+    """Titulo (primera linea no vacia) cuenta como una oracion; el resto se
+    parte por terminador de oracion (. ? !) seguido de espacio o fin."""
+    lineas = [l for l in doc_text.strip("\n").split("\n") if l.strip()]
+    if not lineas:
+        return 0
+    titulo, resto = lineas[0], "\n".join(lineas[1:])
+    partes = re.split(r"(?<=[.?!])\s+", resto)
+    n_resto = sum(1 for p in partes if p.strip())
+    return 1 + n_resto
+
+
+def verificar_oracion_completa(parsed, doc_text):
+    """Verificacion 7 (solo toulmin_v3): cada cita (salvo titulo) termina en
+    '.', '?' o '!'; el numero de elementos coincide con el de oraciones del
+    documento."""
+    problemas = []
+    elementos = parsed.get("elementos", []) if parsed else []
+    for el in elementos:
+        if el.get("tipo") == "titulo":
+            continue
+        cita = el.get("cita", "")
+        if not cita or cita[-1] not in ".?!":
+            problemas.append(f"{el.get('id')}: la cita no termina en '.', '?' ni '!'")
+    n_esperado = contar_oraciones_doc(doc_text)
+    n_real = len(elementos)
+    if n_real != n_esperado:
+        problemas.append(
+            f"numero de elementos ({n_real}) != numero de oraciones del documento ({n_esperado})"
+        )
+    return {
+        "ok": not problemas,
+        "problemas": problemas,
+        "num_elementos": n_real,
+        "num_oraciones_doc": n_esperado,
+    }
+
+
 def verificar_toulmin(parsed, doc_text, prompt_name):
-    """Verificaciones 1-6 de la ronda 3 (Toulmin, llamada unica). Solo
-    reporta, nunca corrige. La verificacion 4 (sirve_a) difiere para
-    toulmin_v2 (contraargumento y concesion) segun la ronda 5 del PLAN."""
-    es_v2 = prompt_name.endswith("_v2")
+    """Verificaciones de la ronda 3 en adelante (Toulmin, llamada unica). Solo
+    reporta, nunca corrige. La verificacion 4 (sirve_a) usa las reglas de
+    toulmin_v2 (contraargumento, concesion, titulo) para _v2 y _v3 (rondas 5
+    y 6 del PLAN); toulmin_v3 agrega el campo 'reserva' (igual que
+    'cualificador') y la verificacion 7 (oracion completa)."""
+    es_v3 = prompt_name.endswith("_v3")
+    usa_relaciones_v2 = prompt_name.endswith("_v2") or es_v3
     literalidad, cobertura, elementos_by_id = _verificar_literalidad_cobertura(parsed, doc_text)
 
     cualificador = {"ok": True, "problemas": []}
@@ -281,12 +323,13 @@ def verificar_toulmin(parsed, doc_text, prompt_name):
         "excede_25": None,
         "frases_razon_encontradas": [],
     }
+    oracion_completa = verificar_oracion_completa(parsed, doc_text) if es_v3 else None
 
     if not parsed:
         cualificador["ok"] = False
         sirve_a["ok"] = False
         tesis_ids["ok"] = False
-        return {
+        resultado = {
             "literalidad": literalidad,
             "cobertura": cobertura,
             "cualificador": cualificador,
@@ -294,30 +337,34 @@ def verificar_toulmin(parsed, doc_text, prompt_name):
             "tesis_ids": tesis_ids,
             "tesis_forma": tesis_forma,
         }
+        if es_v3:
+            resultado["oracion_completa"] = oracion_completa
+        return resultado
 
     elementos = parsed.get("elementos", [])
 
-    # 3. Cualificador: no vacio -> substring exacto de su cita, y el
-    # elemento debe ser tipo conclusion.
+    # 3. Cualificador y (toulmin_v3) reserva: no vacios -> substring exacto de
+    # su cita, y el elemento debe ser tipo conclusion.
     for el in elementos:
         eid = el.get("id")
-        cual = el.get("cualificador") or ""
-        if not cual:
-            continue
-        if el.get("tipo") != "conclusion":
-            cualificador["problemas"].append(
-                f"{eid}: tiene cualificador pero su tipo es {el.get('tipo')}, no conclusion"
-            )
         cita = el.get("cita", "")
-        if cual not in cita:
-            cualificador["problemas"].append(
-                f"{eid}: cualificador '{cual}' no es substring exacto de su cita"
-            )
+        for campo in ("cualificador", "reserva"):
+            valor = el.get(campo) or ""
+            if not valor:
+                continue
+            if el.get("tipo") != "conclusion":
+                cualificador["problemas"].append(
+                    f"{eid}: tiene {campo} pero su tipo es {el.get('tipo')}, no conclusion"
+                )
+            if valor not in cita:
+                cualificador["problemas"].append(
+                    f"{eid}: {campo} '{valor}' no es substring exacto de su cita"
+                )
     if cualificador["problemas"]:
         cualificador["ok"] = False
 
     # 4. sirve_a segun tipo del elemento que sirve.
-    if es_v2:
+    if usa_relaciones_v2:
         tipo_objetivo = {
             "dato": ("conclusion", "contraargumento"),
             "garantia": ("conclusion", "contraargumento"),
@@ -339,10 +386,10 @@ def verificar_toulmin(parsed, doc_text, prompt_name):
         eid = el.get("id")
         tipo = el.get("tipo")
         destinos = el.get("sirve_a") or []
-        if tipo == "otro":
+        if tipo in ("otro", "titulo"):
             if destinos:
                 sirve_a["problemas"].append(
-                    f"{eid} (otro): sirve_a deberia estar vacio, trae {destinos}"
+                    f"{eid} ({tipo}): sirve_a deberia estar vacio, trae {destinos}"
                 )
             continue
         tipo_esperado = tipo_objetivo.get(tipo)
@@ -399,7 +446,7 @@ def verificar_toulmin(parsed, doc_text, prompt_name):
         f for f in frases_razon if f in texto_tesis_lower
     ]
 
-    return {
+    resultado = {
         "literalidad": literalidad,
         "cobertura": cobertura,
         "cualificador": cualificador,
@@ -407,6 +454,9 @@ def verificar_toulmin(parsed, doc_text, prompt_name):
         "tesis_ids": tesis_ids,
         "tesis_forma": tesis_forma,
     }
+    if es_v3:
+        resultado["oracion_completa"] = oracion_completa
+    return resultado
 
 
 def construir_entrada_b_v1(parsed):
