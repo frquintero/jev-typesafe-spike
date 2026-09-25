@@ -54,15 +54,20 @@ MODEL_PARAMS = {
         },
     },
 }
+# Ronda 3 (Toulmin, llamada unica): mismos parametros de modelo que la ronda 2.
+MODEL_PARAMS["toulmin"] = MODEL_PARAMS["v2"]
 
 
 def prompt_version(prompt_name):
+    if prompt_name.startswith("toulmin"):
+        return "toulmin"
     if prompt_name.endswith("_v2"):
         return "v2"
     if prompt_name.endswith("_v1"):
         return "v1"
     raise SystemExit(
-        f"no puedo determinar el esquema de '{prompt_name}': debe terminar en _v1 o _v2"
+        f"no puedo determinar el esquema de '{prompt_name}': "
+        f"debe empezar por 'toulmin' o terminar en _v1 o _v2"
     )
 
 
@@ -261,6 +266,136 @@ def verificar_a_v2(parsed, doc_text):
     return {"literalidad": literalidad, "cobertura": cobertura, "ids": ids}
 
 
+def verificar_toulmin(parsed, doc_text):
+    """Verificaciones 1-6 de la ronda 3 (Toulmin, llamada unica). Solo
+    reporta, nunca corrige."""
+    literalidad, cobertura, elementos_by_id = _verificar_literalidad_cobertura(parsed, doc_text)
+
+    cualificador = {"ok": True, "problemas": []}
+    sirve_a = {"ok": True, "problemas": []}
+    tesis_ids = {"ok": True, "problemas": []}
+    tesis_forma = {
+        "num_palabras": None,
+        "excede_25": None,
+        "frases_razon_encontradas": [],
+    }
+
+    if not parsed:
+        cualificador["ok"] = False
+        sirve_a["ok"] = False
+        tesis_ids["ok"] = False
+        return {
+            "literalidad": literalidad,
+            "cobertura": cobertura,
+            "cualificador": cualificador,
+            "sirve_a": sirve_a,
+            "tesis_ids": tesis_ids,
+            "tesis_forma": tesis_forma,
+        }
+
+    elementos = parsed.get("elementos", [])
+
+    # 3. Cualificador: no vacio -> substring exacto de su cita, y el
+    # elemento debe ser tipo conclusion.
+    for el in elementos:
+        eid = el.get("id")
+        cual = el.get("cualificador") or ""
+        if not cual:
+            continue
+        if el.get("tipo") != "conclusion":
+            cualificador["problemas"].append(
+                f"{eid}: tiene cualificador pero su tipo es {el.get('tipo')}, no conclusion"
+            )
+        cita = el.get("cita", "")
+        if cual not in cita:
+            cualificador["problemas"].append(
+                f"{eid}: cualificador '{cual}' no es substring exacto de su cita"
+            )
+    if cualificador["problemas"]:
+        cualificador["ok"] = False
+
+    # 4. sirve_a segun tipo del elemento que sirve.
+    tipo_objetivo = {
+        "dato": "conclusion",
+        "garantia": "conclusion",
+        "conclusion": "conclusion",
+        "respaldo": "garantia",
+        "reserva": "conclusion",
+    }
+    for el in elementos:
+        eid = el.get("id")
+        tipo = el.get("tipo")
+        destinos = el.get("sirve_a") or []
+        if tipo == "otro":
+            if destinos:
+                sirve_a["problemas"].append(
+                    f"{eid} (otro): sirve_a deberia estar vacio, trae {destinos}"
+                )
+            continue
+        tipo_esperado = tipo_objetivo.get(tipo)
+        if tipo_esperado is None:
+            sirve_a["problemas"].append(f"{eid}: tipo desconocido '{tipo}'")
+            continue
+        for did in destinos:
+            if tipo == "conclusion" and did == eid:
+                sirve_a["problemas"].append(
+                    f"{eid}: una conclusion no puede servirse a si misma"
+                )
+                continue
+            destino_el = elementos_by_id.get(did)
+            if destino_el is None:
+                sirve_a["problemas"].append(f"{eid}: sirve_a {did} no existe")
+            elif destino_el.get("tipo") != tipo_esperado:
+                sirve_a["problemas"].append(
+                    f"{eid} ({tipo}) -> {did} deberia ser tipo {tipo_esperado}, "
+                    f"es {destino_el.get('tipo')}"
+                )
+    if sirve_a["problemas"]:
+        sirve_a["ok"] = False
+
+    # 5. Ids de la tesis (cercana_a, sostenida_por, fuera) -> tipo conclusion.
+    tesis = parsed.get("tesis") or {}
+
+    def check_tesis_id(eid, etiqueta):
+        el = elementos_by_id.get(eid)
+        if el is None:
+            tesis_ids["problemas"].append(f"{etiqueta} {eid} no existe")
+        elif el.get("tipo") != "conclusion":
+            tesis_ids["problemas"].append(
+                f"{etiqueta} {eid} no es tipo conclusion (es {el.get('tipo')})"
+            )
+
+    cercana = tesis.get("cercana_a")
+    if cercana is not None:
+        check_tesis_id(cercana, "cercana_a")
+    for eid in tesis.get("sostenida_por") or []:
+        check_tesis_id(eid, "sostenida_por")
+    for eid in tesis.get("fuera") or []:
+        check_tesis_id(eid, "fuera")
+    if tesis_ids["problemas"]:
+        tesis_ids["ok"] = False
+
+    # 6. Forma de la tesis: solo se reporta, nunca se corrige.
+    texto_tesis = tesis.get("texto") or ""
+    palabras = texto_tesis.split()
+    tesis_forma["num_palabras"] = len(palabras)
+    tesis_forma["excede_25"] = len(palabras) > 25
+    frases_razon = ["porque", "ya que", "debido a"]
+    texto_tesis_lower = texto_tesis.lower()
+    tesis_forma["frases_razon_encontradas"] = [
+        f for f in frases_razon if f in texto_tesis_lower
+    ]
+
+    return {
+        "literalidad": literalidad,
+        "cobertura": cobertura,
+        "cualificador": cualificador,
+        "sirve_a": sirve_a,
+        "tesis_ids": tesis_ids,
+        "tesis_forma": tesis_forma,
+    }
+
+
 def construir_entrada_b_v1(parsed):
     """Renumera argumentos/datos (excluye 'otro'). Devuelve (secciones, correspondencia)."""
     if not parsed or "elementos" not in parsed:
@@ -371,9 +506,15 @@ def construir_entrada_b_v2(parsed):
 
 def run(doc, modelo, prompt_a_name, prompt_b_name, rep):
     os.makedirs(CACHE_DIR, exist_ok=True)
-    cache_path = os.path.join(
-        CACHE_DIR, f"niveles-{doc}-{modelo}-{prompt_a_name}-{prompt_b_name}-{rep}.json"
-    )
+    llamada_unica = prompt_b_name == "-"
+    if llamada_unica:
+        cache_path = os.path.join(
+            CACHE_DIR, f"niveles-{doc}-{modelo}-{prompt_a_name}-{rep}.json"
+        )
+    else:
+        cache_path = os.path.join(
+            CACHE_DIR, f"niveles-{doc}-{modelo}-{prompt_a_name}-{prompt_b_name}-{rep}.json"
+        )
     if os.path.exists(cache_path):
         print(f"crudo ya existe, salto ({cache_path})")
         return
@@ -397,6 +538,30 @@ def run(doc, modelo, prompt_a_name, prompt_b_name, rep):
     body_a, resp_a = call_model(version, modelo, contenido_a)
     content_a = resp_a["choices"][0]["message"]["content"]
     parsed_a, wrapped_a, error_a = extract_json(content_a)
+
+    if llamada_unica:
+        verificacion = verificar_toulmin(parsed_a, doc_text)
+        crudo = {
+            "doc": doc,
+            "modelo": modelo,
+            "esquema": version,
+            "modelo_id": MODEL_PARAMS[version][modelo]["id"],
+            "parametros_extra": MODEL_PARAMS[version][modelo]["extra"],
+            "llamada_unica": {
+                "request": body_a,
+                "response": resp_a,
+                "parseo": {
+                    "ok": error_a is None,
+                    "venia_con_cerca": wrapped_a,
+                    "error": error_a,
+                },
+                "verificacion": verificacion,
+            },
+        }
+        with open(cache_path, "w", encoding="utf-8") as f:
+            json.dump(crudo, f, ensure_ascii=False, indent=2)
+        print(f"hecho -> {cache_path}")
+        return
 
     if version == "v1":
         verificacion_a = verificar_a_v1(parsed_a, doc_text)
