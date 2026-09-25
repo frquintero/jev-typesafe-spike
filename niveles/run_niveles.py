@@ -266,9 +266,11 @@ def verificar_a_v2(parsed, doc_text):
     return {"literalidad": literalidad, "cobertura": cobertura, "ids": ids}
 
 
-def verificar_toulmin(parsed, doc_text):
+def verificar_toulmin(parsed, doc_text, prompt_name):
     """Verificaciones 1-6 de la ronda 3 (Toulmin, llamada unica). Solo
-    reporta, nunca corrige."""
+    reporta, nunca corrige. La verificacion 4 (sirve_a) difiere para
+    toulmin_v2 (contraargumento y concesion) segun la ronda 5 del PLAN."""
+    es_v2 = prompt_name.endswith("_v2")
     literalidad, cobertura, elementos_by_id = _verificar_literalidad_cobertura(parsed, doc_text)
 
     cualificador = {"ok": True, "problemas": []}
@@ -315,13 +317,24 @@ def verificar_toulmin(parsed, doc_text):
         cualificador["ok"] = False
 
     # 4. sirve_a segun tipo del elemento que sirve.
-    tipo_objetivo = {
-        "dato": "conclusion",
-        "garantia": "conclusion",
-        "conclusion": "conclusion",
-        "respaldo": "garantia",
-        "reserva": "conclusion",
-    }
+    if es_v2:
+        tipo_objetivo = {
+            "dato": ("conclusion", "contraargumento"),
+            "garantia": ("conclusion", "contraargumento"),
+            "conclusion": ("conclusion", "contraargumento"),
+            "respaldo": ("garantia",),
+            "reserva": ("conclusion",),
+            "contraargumento": ("conclusion",),
+            "concesion": ("conclusion",),
+        }
+    else:
+        tipo_objetivo = {
+            "dato": ("conclusion",),
+            "garantia": ("conclusion",),
+            "conclusion": ("conclusion",),
+            "respaldo": ("garantia",),
+            "reserva": ("conclusion",),
+        }
     for el in elementos:
         eid = el.get("id")
         tipo = el.get("tipo")
@@ -345,10 +358,10 @@ def verificar_toulmin(parsed, doc_text):
             destino_el = elementos_by_id.get(did)
             if destino_el is None:
                 sirve_a["problemas"].append(f"{eid}: sirve_a {did} no existe")
-            elif destino_el.get("tipo") != tipo_esperado:
+            elif destino_el.get("tipo") not in tipo_esperado:
                 sirve_a["problemas"].append(
-                    f"{eid} ({tipo}) -> {did} deberia ser tipo {tipo_esperado}, "
-                    f"es {destino_el.get('tipo')}"
+                    f"{eid} ({tipo}) -> {did} deberia ser tipo "
+                    f"{'/'.join(tipo_esperado)}, es {destino_el.get('tipo')}"
                 )
     if sirve_a["problemas"]:
         sirve_a["ok"] = False
@@ -540,7 +553,7 @@ def run(doc, modelo, prompt_a_name, prompt_b_name, rep):
     parsed_a, wrapped_a, error_a = extract_json(content_a)
 
     if llamada_unica:
-        verificacion = verificar_toulmin(parsed_a, doc_text)
+        verificacion = verificar_toulmin(parsed_a, doc_text, prompt_a_name)
         crudo = {
             "doc": doc,
             "modelo": modelo,
