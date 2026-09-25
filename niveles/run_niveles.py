@@ -1,10 +1,13 @@
-"""niveles/: separar datos y argumentos (llamada A), construir tesis (llamada B).
+"""niveles/: separar estructura argumentativa (llamada A), construir tesis (llamada B).
 
 Uso: python3 niveles/run_niveles.py <doc> <modelo> <prompt_A> <prompt_B> <rN>
   p. ej. python3 niveles/run_niveles.py doc1 flash A_v1 B_v1 r1
+         python3 niveles/run_niveles.py doc1 flash A_v2 B_v2 r1
 
-No usa Jev. Modelos vía credencial de API inyectada por proxy (mismo patrón
-que TypeSafe/z.ai/DeepSeek en este entorno cloud): nunca se arma
+El esquema (v1: datos/argumentos; v2: datos/garantias/conclusiones) se elige
+por el sufijo de <prompt_A> (_v1 o _v2). v1 sigue funcionando igual que en la
+ronda 1. No usa Jev. Modelos vía credencial de API inyectada por proxy (mismo
+patron que TypeSafe/z.ai/DeepSeek en este entorno cloud): nunca se arma
 Authorization ni se lee ninguna clave. Sin SDK: urllib + dicts planos.
 """
 import json
@@ -22,34 +25,65 @@ CACHE_DIR = os.path.join(BASE_DIR, "cache")
 UA = "spike-jev/1.0"
 PUNCT = set(string.punctuation)
 
-# Confirmado contra la doc de cada proveedor (ver reporte de la sesión):
-# - flash: GLM 5.3 Flash vía z.ai, API compatible OpenAI.
-# - deepseek: DeepSeek, variante de chat estándar (no razonamiento).
-MODELS = {
-    "flash": {
-        "id": "glm-5.3-flash",
-        "url": "https://api.z.ai/api/paas/v4/chat/completions",
+# Confirmado contra la doc de cada proveedor (ver reportes de la sesión).
+# Ronda 1 (v1): sin parametros extra. Ronda 2 (v2): parametros de la tabla
+# del PLAN.md, excepcion autorizada a "sin parametros extra".
+MODEL_PARAMS = {
+    "v1": {
+        "flash": {
+            "id": "glm-5.3-flash",
+            "url": "https://api.z.ai/api/paas/v4/chat/completions",
+            "extra": {},
+        },
+        "deepseek": {
+            "id": "deepseek-chat",
+            "url": "https://api.deepseek.com/chat/completions",
+            "extra": {},
+        },
     },
-    "deepseek": {
-        "id": "deepseek-chat",
-        "url": "https://api.deepseek.com/chat/completions",
+    "v2": {
+        "flash": {
+            "id": "glm-5.3-flash",
+            "url": "https://api.z.ai/api/paas/v4/chat/completions",
+            "extra": {"reasoning_effort": "low"},
+        },
+        "deepseek": {
+            "id": "deepseek-flash",
+            "url": "https://api.deepseek.com/chat/completions",
+            "extra": {"thinking": {"type": "enabled"}, "reasoning_effort": "low"},
+        },
     },
 }
 
 
-def call_model(alias, content):
-    """Llama con stream=true (excepción autorizada: stream es transporte, no
-    cambia la salida) y ensambla los deltas SSE. No toca reasoning_effort,
-    temperature ni thinking. Devuelve (body_enviado, response_ensamblada)
-    donde response_ensamblada imita la forma no-streaming
-    (choices[0].message.content / .reasoning_content, model, usage) y ademas
-    guarda los chunks crudos verbatim en "_stream_chunks_crudos"."""
-    cfg = MODELS[alias]
+def prompt_version(prompt_name):
+    if prompt_name.endswith("_v2"):
+        return "v2"
+    if prompt_name.endswith("_v1"):
+        return "v1"
+    raise SystemExit(
+        f"no puedo determinar el esquema de '{prompt_name}': debe terminar en _v1 o _v2"
+    )
+
+
+def call_model(version, alias, content):
+    """Llama con stream=true (excepcion autorizada: stream es transporte, no
+    cambia la salida) mas los parametros extra de MODEL_PARAMS[version][alias]
+    (solo los de la tabla del PLAN, nunca temperature). Ensambla los deltas
+    SSE. Devuelve (body_enviado, response_ensamblada) donde
+    response_ensamblada imita la forma no-streaming (choices[0].message.
+    content / .reasoning_content, model, usage) y ademas guarda los chunks
+    crudos verbatim en "_stream_chunks_crudos". Cualquier rechazo del
+    proveedor (parametro no soportado, autenticacion, lo que sea) detiene la
+    ejecucion y reporta; no se reintenta ni se busca la clave por otros medios.
+    """
+    cfg = MODEL_PARAMS[version][alias]
     body = {
         "model": cfg["id"],
         "messages": [{"role": "user", "content": content}],
         "stream": True,
     }
+    body.update(cfg["extra"])
     data = json.dumps(body).encode("utf-8")
     req = urllib.request.Request(
         cfg["url"],
@@ -88,12 +122,11 @@ def call_model(alias, content):
                     if delta.get("reasoning_content"):
                         reasoning_parts.append(delta["reasoning_content"])
     except urllib.error.HTTPError as e:
-        if e.code in (401, 403):
-            raise SystemExit(
-                f"error de autenticación ({e.code}) llamando a '{alias}': "
-                f"detenido, no se busca la clave por otros medios"
-            )
-        raise
+        error_body = e.read().decode(errors="replace")[:500]
+        raise SystemExit(
+            f"error {e.code} llamando a '{alias}' ({version}): detenido, "
+            f"no se reintenta ni se busca la clave por otros medios.\n{error_body}"
+        )
 
     resp = {
         "model": model_efectivo,
@@ -129,18 +162,15 @@ def extract_json(content):
         return None, wrapped, str(e)
 
 
-def verificar_a(parsed, doc_text):
-    """Literalidad, cobertura, ids de soporte. Devuelve dict de resultados."""
-    resultado = {
-        "literalidad": {"ok": [], "fallidas": []},
-        "cobertura": {"ok": True, "sobrante": ""},
-        "ids": {"ok": True, "problemas": []},
-    }
+def _verificar_literalidad_cobertura(parsed, doc_text):
+    """Comun a v1/v2: cada cita debe aparecer literal; cobertura del texto."""
+    literalidad = {"ok": [], "fallidas": []}
+    cobertura = {"ok": True, "sobrante": ""}
+
     if not parsed or "elementos" not in parsed:
-        resultado["literalidad"]["fallidas"].append("(sin elementos: A no parseo o vino vacio)")
-        resultado["cobertura"]["ok"] = False
-        resultado["ids"]["ok"] = False
-        return resultado
+        literalidad["fallidas"].append("(sin elementos: A no parseo o vino vacio)")
+        cobertura["ok"] = False
+        return literalidad, cobertura, {}
 
     elementos = parsed.get("elementos", [])
     elementos_by_id = {}
@@ -149,56 +179,96 @@ def verificar_a(parsed, doc_text):
         cita = el.get("cita", "")
         elementos_by_id[eid] = el
         if cita and cita in doc_text:
-            resultado["literalidad"]["ok"].append(eid)
+            literalidad["ok"].append(eid)
         else:
-            resultado["literalidad"]["fallidas"].append(eid)
+            literalidad["fallidas"].append(eid)
 
-    # Cobertura: quitar en orden las citas que si aparecieron literal.
     restante = doc_text
     for el in elementos:
         eid = el.get("id")
         cita = el.get("cita", "")
-        if eid in resultado["literalidad"]["ok"] and cita:
+        if eid in literalidad["ok"] and cita:
             restante = restante.replace(cita, "", 1)
     sobrante_significativo = "".join(
         ch for ch in restante if not ch.isspace() and ch not in PUNCT
     )
     if sobrante_significativo:
-        resultado["cobertura"]["ok"] = False
-        resultado["cobertura"]["sobrante"] = restante
+        cobertura["ok"] = False
+        cobertura["sobrante"] = restante
 
-    # Ids de soporte.
+    return literalidad, cobertura, elementos_by_id
+
+
+def verificar_a_v1(parsed, doc_text):
+    literalidad, cobertura, elementos_by_id = _verificar_literalidad_cobertura(parsed, doc_text)
+    ids = {"ok": True, "problemas": []}
+    if not parsed:
+        ids["ok"] = False
+        return {"literalidad": literalidad, "cobertura": cobertura, "ids": ids}
+
     for sop in parsed.get("soporte", []):
         arg_id = sop.get("argumento")
         arg_el = elementos_by_id.get(arg_id)
         if arg_el is None:
-            resultado["ids"]["problemas"].append(f"argumento {arg_id} no existe")
+            ids["problemas"].append(f"argumento {arg_id} no existe")
         elif arg_el.get("tipo") != "argumento":
-            resultado["ids"]["problemas"].append(
+            ids["problemas"].append(
                 f"argumento {arg_id} no es tipo argumento (es {arg_el.get('tipo')})"
             )
         for did in sop.get("datos", []):
             dato_el = elementos_by_id.get(did)
             if dato_el is None:
-                resultado["ids"]["problemas"].append(f"dato {did} no existe")
+                ids["problemas"].append(f"dato {did} no existe")
             elif dato_el.get("tipo") != "dato":
-                resultado["ids"]["problemas"].append(
+                ids["problemas"].append(
                     f"dato {did} no es tipo dato (es {dato_el.get('tipo')})"
                 )
-    if resultado["ids"]["problemas"]:
-        resultado["ids"]["ok"] = False
+    if ids["problemas"]:
+        ids["ok"] = False
 
-    return resultado
+    return {"literalidad": literalidad, "cobertura": cobertura, "ids": ids}
 
 
-def construir_entrada_b(parsed):
-    """Renumera argumentos/datos (excluye 'otro'), arma texto B y la correspondencia."""
+def verificar_a_v2(parsed, doc_text):
+    literalidad, cobertura, elementos_by_id = _verificar_literalidad_cobertura(parsed, doc_text)
+    ids = {"ok": True, "problemas": []}
+    if not parsed:
+        ids["ok"] = False
+        return {"literalidad": literalidad, "cobertura": cobertura, "ids": ids}
+
+    def check(eid, tipo_esperado, etiqueta):
+        el = elementos_by_id.get(eid)
+        if el is None:
+            ids["problemas"].append(f"{etiqueta} {eid} no existe")
+        elif el.get("tipo") != tipo_esperado:
+            ids["problemas"].append(
+                f"{etiqueta} {eid} no es tipo {tipo_esperado} (es {el.get('tipo')})"
+            )
+
+    for ap in parsed.get("apoyos", []):
+        concl_id = ap.get("conclusion")
+        check(concl_id, "conclusion", "conclusion")
+        for did in ap.get("datos", []):
+            check(did, "dato", "dato")
+        for gid in ap.get("garantias", []):
+            check(gid, "garantia", "garantia")
+        for cid in ap.get("conclusiones", []):
+            check(cid, "conclusion", "conclusion (apoyo)")
+
+    if ids["problemas"]:
+        ids["ok"] = False
+
+    return {"literalidad": literalidad, "cobertura": cobertura, "ids": ids}
+
+
+def construir_entrada_b_v1(parsed):
+    """Renumera argumentos/datos (excluye 'otro'). Devuelve (secciones, correspondencia)."""
     if not parsed or "elementos" not in parsed:
-        return "", "", {}
+        return {"ARGUMENTOS": "", "DATOS": ""}, {}
 
     elementos = parsed.get("elementos", [])
     correspondencia = {}
-    args_orden = []  # (nuevo_id, cita, old_id)
+    args_orden = []
     datos_orden = []
 
     for el in elementos:
@@ -213,9 +283,8 @@ def construir_entrada_b(parsed):
             datos_orden.append((nuevo, el.get("cita", ""), eid))
             correspondencia[eid] = nuevo
         else:
-            correspondencia[eid] = None  # "otro": excluido
+            correspondencia[eid] = None
 
-    # old_id -> lista de datos que lo sostienen (old ids), desde soporte.
     soporte_por_arg_old = {}
     for sop in parsed.get("soporte", []):
         soporte_por_arg_old[sop.get("argumento")] = sop.get("datos", [])
@@ -231,7 +300,73 @@ def construir_entrada_b(parsed):
 
     lineas_datos = [f'{nuevo}: "{cita}"' for nuevo, cita, _old_id in datos_orden]
 
-    return "\n".join(lineas_args), "\n".join(lineas_datos), correspondencia
+    secciones = {
+        "ARGUMENTOS": "\n".join(lineas_args),
+        "DATOS": "\n".join(lineas_datos),
+    }
+    return secciones, correspondencia
+
+
+def construir_entrada_b_v2(parsed):
+    """Renumera conclusiones/garantias/datos (excluye 'otro'). Devuelve (secciones, correspondencia)."""
+    if not parsed or "elementos" not in parsed:
+        return {"CONCLUSIONES": "(ninguna)", "GARANTIAS": "(ninguna)", "DATOS": "(ninguna)"}, {}
+
+    elementos = parsed.get("elementos", [])
+    correspondencia = {}
+    concl_orden = []
+    garant_orden = []
+    datos_orden = []
+
+    for el in elementos:
+        eid = el.get("id")
+        tipo = el.get("tipo")
+        if tipo == "conclusion":
+            nuevo = f"C{len(concl_orden) + 1}"
+            concl_orden.append((nuevo, el.get("cita", ""), eid))
+            correspondencia[eid] = nuevo
+        elif tipo == "garantia":
+            nuevo = f"G{len(garant_orden) + 1}"
+            garant_orden.append((nuevo, el.get("cita", ""), eid))
+            correspondencia[eid] = nuevo
+        elif tipo == "dato":
+            nuevo = f"D{len(datos_orden) + 1}"
+            datos_orden.append((nuevo, el.get("cita", ""), eid))
+            correspondencia[eid] = nuevo
+        else:
+            correspondencia[eid] = None
+
+    apoyos_por_concl_old = {}
+    for ap in parsed.get("apoyos", []):
+        apoyos_por_concl_old[ap.get("conclusion")] = ap
+
+    lineas_concl = []
+    for nuevo, cita, old_id in concl_orden:
+        ap = apoyos_por_concl_old.get(old_id, {})
+        datos_new = [correspondencia.get(d) for d in ap.get("datos", []) if correspondencia.get(d)]
+        garant_new = [correspondencia.get(g) for g in ap.get("garantias", []) if correspondencia.get(g)]
+        concl_new = [correspondencia.get(c) for c in ap.get("conclusiones", []) if correspondencia.get(c)]
+        partes = []
+        if datos_new:
+            partes.append(f"datos {', '.join(datos_new)}")
+        if garant_new:
+            partes.append(f"garantías {', '.join(garant_new)}")
+        if concl_new:
+            partes.append(f"conclusiones {', '.join(concl_new)}")
+        if partes:
+            lineas_concl.append(f'{nuevo}: "{cita}" (apoyos: {"; ".join(partes)})')
+        else:
+            lineas_concl.append(f'{nuevo}: "{cita}" (sin apoyos)')
+
+    lineas_garant = [f'{nuevo}: "{cita}"' for nuevo, cita, _old_id in garant_orden]
+    lineas_datos = [f'{nuevo}: "{cita}"' for nuevo, cita, _old_id in datos_orden]
+
+    secciones = {
+        "CONCLUSIONES": "\n".join(lineas_concl) if lineas_concl else "(ninguna)",
+        "GARANTIAS": "\n".join(lineas_garant) if lineas_garant else "(ninguna)",
+        "DATOS": "\n".join(lineas_datos) if lineas_datos else "(ninguna)",
+    }
+    return secciones, correspondencia
 
 
 def run(doc, modelo, prompt_a_name, prompt_b_name, rep):
@@ -243,8 +378,12 @@ def run(doc, modelo, prompt_a_name, prompt_b_name, rep):
         print(f"crudo ya existe, salto ({cache_path})")
         return
 
-    if modelo not in MODELS:
-        raise SystemExit(f"modelo desconocido: {modelo} (conocidos: {list(MODELS)})")
+    version = prompt_version(prompt_a_name)
+    if modelo not in MODEL_PARAMS[version]:
+        raise SystemExit(
+            f"modelo desconocido para {version}: {modelo} "
+            f"(conocidos: {list(MODEL_PARAMS[version])})"
+        )
 
     doc_path = os.path.join(DOCS_DIR, f"{doc}.md")
     with open(doc_path, encoding="utf-8") as f:
@@ -255,27 +394,34 @@ def run(doc, modelo, prompt_a_name, prompt_b_name, rep):
         prompt_a_tpl = f.read()
     contenido_a = prompt_a_tpl.replace("{{TEXTO}}", doc_text)
 
-    body_a, resp_a = call_model(modelo, contenido_a)
+    body_a, resp_a = call_model(version, modelo, contenido_a)
     content_a = resp_a["choices"][0]["message"]["content"]
     parsed_a, wrapped_a, error_a = extract_json(content_a)
 
-    verificacion_a = verificar_a(parsed_a, doc_text)
-
-    args_txt, datos_txt, correspondencia = construir_entrada_b(parsed_a)
+    if version == "v1":
+        verificacion_a = verificar_a_v1(parsed_a, doc_text)
+        secciones_b, correspondencia = construir_entrada_b_v1(parsed_a)
+    else:
+        verificacion_a = verificar_a_v2(parsed_a, doc_text)
+        secciones_b, correspondencia = construir_entrada_b_v2(parsed_a)
 
     prompt_b_path = os.path.join(PROMPTS_DIR, f"{prompt_b_name}.md")
     with open(prompt_b_path, encoding="utf-8") as f:
         prompt_b_tpl = f.read()
-    contenido_b = prompt_b_tpl.replace("{{ARGUMENTOS}}", args_txt).replace("{{DATOS}}", datos_txt)
+    contenido_b = prompt_b_tpl
+    for clave, valor in secciones_b.items():
+        contenido_b = contenido_b.replace("{{" + clave + "}}", valor)
 
-    body_b, resp_b = call_model(modelo, contenido_b)
+    body_b, resp_b = call_model(version, modelo, contenido_b)
     content_b = resp_b["choices"][0]["message"]["content"]
     parsed_b, wrapped_b, error_b = extract_json(content_b)
 
     crudo = {
         "doc": doc,
         "modelo": modelo,
-        "modelo_id": MODELS[modelo]["id"],
+        "esquema": version,
+        "modelo_id": MODEL_PARAMS[version][modelo]["id"],
+        "parametros_extra": MODEL_PARAMS[version][modelo]["extra"],
         "llamada_a": {
             "request": body_a,
             "response": resp_a,
@@ -283,10 +429,13 @@ def run(doc, modelo, prompt_a_name, prompt_b_name, rep):
             "verificacion": verificacion_a,
         },
         "correspondencia_ids": correspondencia,
-        "entrada_b": {"argumentos": args_txt, "datos": datos_txt},
-        "a_marcada_por_fallo": error_a is not None or not verificacion_a["cobertura"]["ok"]
-        or not verificacion_a["ids"]["ok"]
-        or bool(verificacion_a["literalidad"]["fallidas"]),
+        "entrada_b": secciones_b,
+        "a_marcada_por_fallo": (
+            error_a is not None
+            or not verificacion_a["cobertura"]["ok"]
+            or not verificacion_a["ids"]["ok"]
+            or bool(verificacion_a["literalidad"]["fallidas"])
+        ),
         "llamada_b": {
             "request": body_b,
             "response": resp_b,
