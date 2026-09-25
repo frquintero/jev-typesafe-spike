@@ -348,3 +348,26 @@ python3 niveles/jev_sopesa.py niveles/cache/niveles-doc2-deepseek-toulmin_v3-r1.
 **Reporte:** tabla fragmento, etiqueta del LLM, noul build v1 (ronda 6), noul
 build v2, lectura con v2. Debajo, los juicios que cambiaron entre v1 y v2,
 verbatim. Sin veredicto.
+
+---
+
+## Ronda 6c: build v3 de Jev (definición de conclusión corregida)
+
+Hallazgo de la ronda 6b: la conclusión intermedia («Por eso, retrasar la
+entrada… probablemente mejoraría…») sacó 0.67, mientras la final sacó 0.95. La
+definición «lo que el texto quiere establecer» describe el punto de llegada
+del texto (un papel), no lo que una conclusión es.
+
+**Cambio (ya hecho en `jev_sopesa.py`, build v3):** la definición de
+`conclusion` pasa a ser `una afirmación que el texto defiende apoyándose en
+otras`. Todo lo demás igual que el build v2. Crudo nuevo:
+`niveles/cache/jev-v3-<nombre_del_crudo_llm>.json`.
+
+No se llama al LLM: se usa el crudo existente.
+
+```
+python3 niveles/jev_sopesa.py niveles/cache/niveles-doc2-deepseek-toulmin_v3-r1.json
+```
+
+**Reporte:** tabla fragmento, etiqueta del LLM, noul build v2, noul build v3,
+lectura con v3. Debajo, los juicios que cambiaron, verbatim. Sin veredicto.
