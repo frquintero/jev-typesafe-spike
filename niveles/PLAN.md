@@ -141,3 +141,51 @@ python3 niveles/run_niveles.py doc1 flash A_v2 B_v2 r1
 python3 niveles/run_niveles.py doc1 deepseek A_v2 B_v2 r1
 ```
 Reporte igual que la ronda 1, más: tokens de razonamiento de cada llamada.
+
+---
+
+## Ronda 3: una sola llamada, modelo de Toulmin (`prompts/toulmin_v1.md`)
+
+Cambio de diseño: **una sola llamada por modelo**, que clasifica y al final
+formula la tesis. Ya no hay llamada B. Las rondas 1 y 2 (A/B) quedan como
+están y deben seguir funcionando.
+
+**Uso:** `python3 niveles/run_niveles.py <doc> <modelo> toulmin_v1 - <rN>`
+(el `-` en lugar del prompt B indica llamada única).
+**Crudo:** `niveles/cache/niveles-<doc>-<modelo>-toulmin_v1-<rN>.json`.
+
+**Salida esperada:**
+```
+{"elementos":[{"id","cita","tipo":"dato|conclusion|garantia|respaldo|reserva|otro",
+               "cualificador","sirve_a":[ids],"duda","nota"}],
+ "tesis":{"texto","cercana_a","proposito","sostenida_por":[ids],"fuera":[ids],"sin_tesis","nota"}}
+```
+
+**Verificación en código (reportar, nunca corregir):**
+1. Literalidad: cada `cita` es substring exacto del documento.
+2. Cobertura: igual que en v1/v2.
+3. Cualificador: si no está vacío, debe ser substring exacto de la `cita` de su
+   elemento, y ese elemento debe ser tipo `conclusion`.
+4. `sirve_a` según tipo:
+   - `dato`, `garantia`, `conclusion` → ids de elementos tipo `conclusion`;
+   - `respaldo` → ids tipo `garantia`;
+   - `reserva` → ids tipo `conclusion`;
+   - `otro` → vacía.
+   Una conclusión no puede servirse a sí misma.
+5. Tesis: `cercana_a` (si no es null), `sostenida_por` y `fuera` apuntan a
+   elementos tipo `conclusion`.
+6. Tesis: número de palabras de `tesis.texto` (el límite es 25) y si contiene
+   "porque", "ya que" o "debido a". Solo se reporta; no se corrige.
+
+**Modelos:** los mismos parámetros de la ronda 2 (`flash` con
+`reasoning_effort: "low"`; `deepseek` = `deepseek-flash` con thinking enabled y
+`reasoning_effort: "low"`; ambos con `stream: true`).
+
+**Corrida:**
+```
+python3 niveles/run_niveles.py doc1 flash toulmin_v1 - r1
+python3 niveles/run_niveles.py doc1 deepseek toulmin_v1 - r1
+```
+
+**Reporte:** por modelo, la salida verbatim, el parseo, las verificaciones 1 a 6,
+los tokens (incluidos los de razonamiento) y el modelo efectivo. Sin veredicto.
