@@ -318,30 +318,33 @@ Sin veredicto.
 
 ---
 
-## Ronda 6b: el build de Jev lee también `sirve_a`
+## Ronda 6b: build v2 de Jev (definición de dato corregida, sin control)
 
-Hallazgo de la ronda 6: el dato «Pero la planta docente…» sacó 0.66 porque el
-build solo usaba `cita` y `tipo`; el LLM había dicho además que ese dato
-**rebate** al contraargumento, y el build lo dejó fuera. El LLM y su prompt
-estaban bien; la regla del código estaba incompleta.
+Hallazgo de la ronda 6: el dato «Pero la planta docente…» sacó 0.66. El LLM lo
+clasificó bien; el problema es la definición de dato («el hecho **del que se
+parte**; la evidencia»), que define al dato por su papel y no por lo que es. Un
+dato es un dato tanto si sostiene como si rebate.
 
-**Cambio en `jev_sopesa.py` (regla de construcción, v2 del build):**
-- Si un elemento tiene en `sirve_a` algún id cuyo tipo es `contraargumento`,
-  su juicio agrega, antes del punto final:
-  `; aquí, para rebatir «{cita del contraargumento}»`
-  (si son varios, unidos con « y »).
-- Todo lo demás igual: molde, tabla de definiciones, control y `state`.
-- Constante `BUILD = "v2"` en el script. El crudo nuevo se llama
-  `niveles/cache/jev-v2-<nombre_del_crudo_llm>.json`; el de la ronda 6 queda
-  como está (build v1).
+**Cambios en `jev_sopesa.py` (build v2):**
+1. En la tabla `ETIQUETAS`, la definición de `dato` pasa a ser:
+   `un hecho que el texto presenta como evidencia`
+2. **Se elimina el juicio de control** (nada de etiquetas falsas). Se quitan
+   `elegir_control` y la clave `control` del mapa.
+3. La regla de construcción sigue usando solo `cita` y `tipo`; **no se usa
+   `sirve_a`**.
+4. Constante `BUILD = "v2"`; crudo nuevo:
+   `niveles/cache/jev-v2-<nombre_del_crudo_llm>.json`. El crudo de la ronda 6
+   (build v1) queda como está.
 
-**No se vuelve a llamar al LLM**: se usa el crudo existente
+Nota: la misma definición de dato entra al prompt del LLM en su próxima
+versión, para que LLM y Jev juzguen con la misma norma. Esta ronda no vuelve a
+llamar al LLM: usa el crudo existente
 `niveles/cache/niveles-doc2-deepseek-toulmin_v3-r1.json`.
 
 ```
 python3 niveles/jev_sopesa.py niveles/cache/niveles-doc2-deepseek-toulmin_v3-r1.json
 ```
 
-**Reporte:** tabla fragmento, etiqueta del LLM, noul con build v1 (ronda 6),
-noul con build v2, lectura con v2; el control en la última fila. Debajo, los
-juicios que cambiaron entre v1 y v2, verbatim. Sin veredicto.
+**Reporte:** tabla fragmento, etiqueta del LLM, noul build v1 (ronda 6), noul
+build v2, lectura con v2. Debajo, los juicios que cambiaron entre v1 y v2,
+verbatim. Sin veredicto.
