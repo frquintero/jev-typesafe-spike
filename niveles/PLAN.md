@@ -404,3 +404,41 @@ python3 niveles/jev_sopesa.py niveles/cache/niveles-doc3-deepseek-toulmin_v4-r1.
 2. Paso 2: tabla fragmento, etiqueta del LLM, noul de Jev, lectura
    (> 0.75 sostiene; 0.30–0.75 revisar; < 0.30 no sostiene).
 Sin veredicto.
+
+---
+
+## Ronda 8: `toulmin_v5` + build v5 de Jev, sobre doc3 (el mismo de la ronda 7)
+
+Cambios (prompt y build usan la misma norma):
+- **Definiciones generales**, sin «caso» y sin «el texto»:
+  dato (un hecho que se presenta como evidencia), conclusión (una afirmación
+  que se defiende apoyándose en otras), garantía (una regla general que no se
+  prueba con datos), respaldo (evidencia general: un estudio, una norma, la
+  experiencia acumulada), reserva (una condición bajo la cual una conclusión no
+  vale), contraargumento (una posición contraria que se presenta para
+  rebatirla), concesión (algo en contra de la propia conclusión que se admite
+  como cierto, sin abandonarla).
+- Se quitan las secciones de criterios (caso/clase, tipo de apoyo): su
+  contenido quedó dentro de las definiciones, que es lo único que ve Jev.
+- **Sin tipo «otro»**: el universo de funciones queda cerrado. Si aparece una
+  oración que no encaja, lo debe marcar Jev con nota baja.
+- **`texto`**: el prompt nombra el material como `texto`; en Jev, `state` es
+  `{"texto": ...}` y el juicio es `En `texto`, «{cita}» es {etiqueta}: {definición}.`
+  (guía §4.1 y §4.3).
+
+**Código (ya hecho y revisado):** `run_niveles.py` trata `toulmin_v5` como
+v3/v4; `jev_sopesa.py` pasa a build v5. Si el LLM devolviera un tipo fuera de
+la lista (por ejemplo «otro»), `jev_sopesa.py` se detiene con error: reportarlo
+tal cual.
+
+```
+python3 niveles/run_niveles.py doc3 deepseek toulmin_v5 - r1
+python3 niveles/jev_sopesa.py niveles/cache/niveles-doc3-deepseek-toulmin_v5-r1.json
+```
+
+**Reporte:**
+1. Paso 1: tabla fragmento, tipo (v4 → v5), cualificador, reserva; debajo,
+   la tesis; luego verificaciones 1–7 y tokens.
+2. Paso 2: tabla fragmento, etiqueta del LLM, noul build v4 (ronda 7), noul
+   build v5, lectura con v5.
+Sin veredicto.
