@@ -508,3 +508,29 @@ python3 niveles/extraer_datos.py doc2 deepseek datos_v1 r1
 **Reporte:** los objetos `datos` tal como llegaron (JSON verbatim), si venía
 con cerca o hubo error de parseo, y tokens (incluidos los de razonamiento).
 Sin veredicto.
+
+---
+
+## Ronda D2: datos y afirmaciones (solo LLM), doc4 (nuevo)
+
+Dos objetos en una sola llamada:
+- **dato** (con los ajustes de D1: caso concreto, no una clase; registra lo que
+  es o lo que será, no lo que debería ser);
+- **afirmación**: un enunciado mediante el cual se asegura o sostiene algo
+  (campos `oracion`, `afirmacion`).
+El título es etiqueta: no da datos ni afirmaciones. Sin ejemplos. Sin Jev.
+
+doc4 (árboles de una avenida; 10 oraciones contando el título) trae: datos con
+y sin escala, un dato comparativo, una predicción, un dato con fuente, una
+oración con varios datos, una concesión, una regla general, una posición de
+otros («los comerciantes dicen…»), una valoración y una recomendación.
+
+Se reutiliza `niveles/extraer_datos.py` sin cambios (solo orquesta):
+
+```
+python3 niveles/extraer_datos.py doc4 deepseek clasif_v1 r1
+```
+
+**Reporte:** los objetos `datos` y `afirmaciones` tal como llegaron (JSON
+verbatim), si venía con cerca o hubo error de parseo, y tokens (incluidos los
+de razonamiento). Sin veredicto.
