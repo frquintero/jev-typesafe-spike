@@ -213,3 +213,28 @@ clasificación (flash, deepseek); si los cortes difieren entre modelos, alinear
 por texto y marcar la diferencia. Debajo de la tabla, las dos tesis. Después,
 las verificaciones 1–6 y los tokens. Salidas verbatim en los crudos; en el
 chat, solo tabla y tesis. Sin veredicto.
+
+---
+
+## Ronda 5: `toulmin_v2` (contraargumento y concesión) sobre doc2
+
+Único cambio respecto de `toulmin_v1`: dos funciones nuevas.
+- `contraargumento`: posición contraria que el texto presenta para rebatirla.
+- `concesion`: algo en contra de la conclusión que el texto admite sin abandonarla.
+
+**Cambios en la verificación 4 (`sirve_a`) solo para `toulmin_v2`:**
+- `dato`, `garantia`, `conclusion` → ids tipo `conclusion` o `contraargumento`;
+- `respaldo` → ids tipo `garantia`;
+- `reserva`, `contraargumento`, `concesion` → ids tipo `conclusion`;
+- `otro` → vacía.
+Todo lo demás, igual que en `toulmin_v1`. Las rondas anteriores deben seguir
+funcionando igual.
+
+```
+python3 niveles/run_niveles.py doc2 flash toulmin_v2 - r1
+python3 niveles/run_niveles.py doc2 deepseek toulmin_v2 - r1
+```
+
+**Reporte:** el mismo formato de la ronda 4 (tabla fragmento × modelo, las dos
+tesis debajo, verificaciones 1–6 y tokens), más una columna `sirve_a` por
+modelo en la tabla. Sin veredicto.
