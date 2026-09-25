@@ -1,0 +1,128 @@
+{
+  "request": {
+    "model": "jev-1.13.0",
+    "state": "# Que los colegios de San Aurelio abran a las ocho y media\n\nDesde 2019, los colegios públicos de San Aurelio empiezan clases a las 6:30 de la mañana. En las pruebas departamentales de 2025, los estudiantes de décimo grado obtuvieron en promedio 41 puntos sobre 100 en matemáticas, nueve puntos menos que el promedio del departamento.\n\nAlgunos concejales atribuyen ese resultado a la falta de docentes. Pero la planta docente de San Aurelio está completa desde 2022, y los puntajes no han mejorado desde entonces.\n\nUn adolescente que duerme menos de ocho horas rinde peor en clase. Así lo muestran los estudios sobre el sueño en la adolescencia, que coinciden en que durante la pubertad el reloj biológico se desplaza hacia la noche. Con la entrada a las 6:30, la mayoría de los estudiantes de San Aurelio sale de su casa antes de las 5:45, y la encuesta escolar de 2025 indica que el 68 % duerme menos de siete horas.\n\nPor eso, retrasar la entrada a las 8:30 probablemente mejoraría el rendimiento académico, a menos que los estudiantes compensen el cambio acostándose más tarde. El colegio Santa Inés, que ensayó ese horario durante un semestre, subió siete puntos en matemáticas.\n\nEl cambio tiene costos: las rutas escolares deberán reorganizarse y algunas familias tendrán que ajustar sus horarios de trabajo. Aun así, el concejo debería aprobar la entrada a las 8:30 para todos los colegios públicos a partir de 2027.\n",
+    "questions": {
+      "n01": {
+        "type": "noul",
+        "instructions": "En este texto, «Desde 2019, los colegios públicos de San Aurelio empiezan clases a las 6:30 de la mañana.» es un dato: el hecho del que se parte; la evidencia."
+      },
+      "n02": {
+        "type": "noul",
+        "instructions": "En este texto, «En las pruebas departamentales de 2025, los estudiantes de décimo grado obtuvieron en promedio 41 puntos sobre 100 en matemáticas, nueve puntos menos que el promedio del departamento.» es un dato: el hecho del que se parte; la evidencia."
+      },
+      "n03": {
+        "type": "noul",
+        "instructions": "En este texto, «Algunos concejales atribuyen ese resultado a la falta de docentes.» es un contraargumento: una posición o explicación contraria que el texto presenta para rebatirla."
+      },
+      "n04": {
+        "type": "noul",
+        "instructions": "En este texto, «Pero la planta docente de San Aurelio está completa desde 2022, y los puntajes no han mejorado desde entonces.» es un dato: el hecho del que se parte; la evidencia."
+      },
+      "n05": {
+        "type": "noul",
+        "instructions": "En este texto, «Un adolescente que duerme menos de ocho horas rinde peor en clase.» es una garantía: la regla que autoriza a pasar del dato a la conclusión."
+      },
+      "n06": {
+        "type": "noul",
+        "instructions": "En este texto, «Así lo muestran los estudios sobre el sueño en la adolescencia, que coinciden en que durante la pubertad el reloj biológico se desplaza hacia la noche.» es un respaldo: lo que sostiene a la garantía: una norma, un estudio, la experiencia."
+      },
+      "n07": {
+        "type": "noul",
+        "instructions": "En este texto, «Con la entrada a las 6:30, la mayoría de los estudiantes de San Aurelio sale de su casa antes de las 5:45, y la encuesta escolar de 2025 indica que el 68 % duerme menos de siete horas.» es un dato: el hecho del que se parte; la evidencia."
+      },
+      "n08": {
+        "type": "noul",
+        "instructions": "En este texto, «Por eso, retrasar la entrada a las 8:30 probablemente mejoraría el rendimiento académico, a menos que los estudiantes compensen el cambio acostándose más tarde.» es una conclusión: lo que el texto quiere establecer."
+      },
+      "n09": {
+        "type": "noul",
+        "instructions": "En este texto, «El colegio Santa Inés, que ensayó ese horario durante un semestre, subió siete puntos en matemáticas.» es un dato: el hecho del que se parte; la evidencia."
+      },
+      "n10": {
+        "type": "noul",
+        "instructions": "En este texto, «El cambio tiene costos: las rutas escolares deberán reorganizarse y algunas familias tendrán que ajustar sus horarios de trabajo.» es una concesión: algo en contra de la propia conclusión que el texto admite como cierto, sin abandonar la conclusión."
+      },
+      "n11": {
+        "type": "noul",
+        "instructions": "En este texto, «Aun así, el concejo debería aprobar la entrada a las 8:30 para todos los colegios públicos a partir de 2027.» es una conclusión: lo que el texto quiere establecer."
+      },
+      "n12": {
+        "type": "noul",
+        "instructions": "En este texto, «Algunos concejales atribuyen ese resultado a la falta de docentes.» es una conclusión: lo que el texto quiere establecer."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "n01": {
+        "type": "noul",
+        "noul": 0.85
+      },
+      "n02": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "n03": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "n04": {
+        "type": "noul",
+        "noul": 0.66
+      },
+      "n05": {
+        "type": "noul",
+        "noul": 0.42
+      },
+      "n06": {
+        "type": "noul",
+        "noul": 0.87
+      },
+      "n07": {
+        "type": "noul",
+        "noul": 0.79
+      },
+      "n08": {
+        "type": "noul",
+        "noul": 0.66
+      },
+      "n09": {
+        "type": "noul",
+        "noul": 0.78
+      },
+      "n10": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "n11": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "n12": {
+        "type": "noul",
+        "noul": 0.05
+      }
+    },
+    "usage": {
+      "input_tokens": 1365,
+      "output_tokens": 220
+    }
+  },
+  "mapa": {
+    "n01": "E2",
+    "n02": "E3",
+    "n03": "E4",
+    "n04": "E5",
+    "n05": "E6",
+    "n06": "E7",
+    "n07": "E8",
+    "n08": "E9",
+    "n09": "E10",
+    "n10": "E11",
+    "n11": "E12",
+    "n12": "E4",
+    "control": "n12"
+  }
+}
