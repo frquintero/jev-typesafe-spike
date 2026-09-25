@@ -315,3 +315,33 @@ python3 niveles/jev_sopesa.py niveles/cache/niveles-doc2-deepseek-toulmin_v3-r1.
    (sostiene / revisar / no sostiene), con el control en la última fila.
 3. El request de Jev verbatim, completo.
 Sin veredicto.
+
+---
+
+## Ronda 6b: el build de Jev lee también `sirve_a`
+
+Hallazgo de la ronda 6: el dato «Pero la planta docente…» sacó 0.66 porque el
+build solo usaba `cita` y `tipo`; el LLM había dicho además que ese dato
+**rebate** al contraargumento, y el build lo dejó fuera. El LLM y su prompt
+estaban bien; la regla del código estaba incompleta.
+
+**Cambio en `jev_sopesa.py` (regla de construcción, v2 del build):**
+- Si un elemento tiene en `sirve_a` algún id cuyo tipo es `contraargumento`,
+  su juicio agrega, antes del punto final:
+  `; aquí, para rebatir «{cita del contraargumento}»`
+  (si son varios, unidos con « y »).
+- Todo lo demás igual: molde, tabla de definiciones, control y `state`.
+- Constante `BUILD = "v2"` en el script. El crudo nuevo se llama
+  `niveles/cache/jev-v2-<nombre_del_crudo_llm>.json`; el de la ronda 6 queda
+  como está (build v1).
+
+**No se vuelve a llamar al LLM**: se usa el crudo existente
+`niveles/cache/niveles-doc2-deepseek-toulmin_v3-r1.json`.
+
+```
+python3 niveles/jev_sopesa.py niveles/cache/niveles-doc2-deepseek-toulmin_v3-r1.json
+```
+
+**Reporte:** tabla fragmento, etiqueta del LLM, noul con build v1 (ronda 6),
+noul con build v2, lectura con v2; el control en la última fila. Debajo, los
+juicios que cambiaron entre v1 y v2, verbatim. Sin veredicto.
