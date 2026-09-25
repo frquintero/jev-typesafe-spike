@@ -20,6 +20,10 @@ construccion sigue usando solo 'cita' y 'tipo'; no usa 'sirve_a'.
 Build v3 (PLAN.md, Ronda 6c): corrige la definicion de 'conclusion' (ya no
 "lo que el texto quiere establecer", que describe el punto de llegada, sino
 lo que una conclusion es), para no penalizar una conclusion intermedia.
+
+Build v4 (PLAN.md, Ronda 7): las definiciones son las del prompt toulmin_v4
+(dato del caso, conclusion, garantia como regla general, respaldo como
+evidencia sobre una clase de casos). Tabla y prompt usan la misma norma.
 """
 import json
 import os
@@ -36,16 +40,16 @@ CACHE_DIR = os.path.join(BASE_DIR, "cache")
 API_URL = "https://api.typesafe.ai/v1/systemone"
 MODEL = "jev-1.13.0"
 UA = "spike-jev/1.0"
-BUILD = "v3"
+BUILD = "v4"
 
 # Etiqueta y definicion por tipo (PLAN.md, Ronda 6b: definicion de 'dato'
 # corregida respecto del prompt toulmin_v3 original). Si el prompt cambia
 # para usar la misma norma, esta tabla se revisa junto con el.
 ETIQUETAS = {
-    "dato": ("un dato", "un hecho que el texto presenta como evidencia"),
+    "dato": ("un dato", "un hecho del caso que el texto presenta como evidencia"),
     "conclusion": ("una conclusión", "una afirmación que el texto defiende apoyándose en otras"),
-    "garantia": ("una garantía", "la regla que autoriza a pasar del dato a la conclusión"),
-    "respaldo": ("un respaldo", "lo que sostiene a la garantía: una norma, un estudio, la experiencia"),
+    "garantia": ("una garantía", "una regla general que el texto aplica al caso"),
+    "respaldo": ("un respaldo", "evidencia general sobre una clase de casos: un estudio, una norma, la experiencia acumulada"),
     "reserva": ("una reserva", "una oración que establece las condiciones bajo las cuales una conclusión no vale"),
     "contraargumento": ("un contraargumento", "una posición o explicación contraria que el texto presenta para rebatirla"),
     "concesion": ("una concesión", "algo en contra de la propia conclusión que el texto admite como cierto, sin abandonar la conclusión"),

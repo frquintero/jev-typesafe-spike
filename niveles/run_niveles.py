@@ -311,7 +311,8 @@ def verificar_toulmin(parsed, doc_text, prompt_name):
     toulmin_v2 (contraargumento, concesion, titulo) para _v2 y _v3 (rondas 5
     y 6 del PLAN); toulmin_v3 agrega el campo 'reserva' (igual que
     'cualificador') y la verificacion 7 (oracion completa)."""
-    es_v3 = prompt_name.endswith("_v3")
+    # toulmin_v4 usa el mismo esquema y las mismas verificaciones que v3.
+    es_v3 = prompt_name.endswith("_v3") or prompt_name.endswith("_v4")
     usa_relaciones_v2 = prompt_name.endswith("_v2") or es_v3
     literalidad, cobertura, elementos_by_id = _verificar_literalidad_cobertura(parsed, doc_text)
 

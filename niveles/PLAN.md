@@ -371,3 +371,36 @@ python3 niveles/jev_sopesa.py niveles/cache/niveles-doc2-deepseek-toulmin_v3-r1.
 
 **Reporte:** tabla fragmento, etiqueta del LLM, noul build v2, noul build v3,
 lectura con v3. Debajo, los juicios que cambiaron, verbatim. Sin veredicto.
+
+---
+
+## Ronda 7: `toulmin_v4` + build v4 de Jev, sobre doc3 (nuevo)
+
+Lo que Jev enseñó en las rondas 6b y 6c pasa al prompt del LLM, y prompt y
+build usan la misma norma:
+- definiciones por lo que la cosa es: dato (un hecho **del caso**),
+  conclusión (una afirmación que el texto defiende apoyándose en otras),
+  garantía (una regla general que el texto aplica al caso), respaldo
+  (evidencia general sobre una **clase de casos**);
+- criterio **caso / clase de casos** para separar dato de respaldo;
+- criterio **tipo de apoyo** para separar conclusión de garantía.
+
+doc3 es nuevo (peatonalización de una calle; 12 oraciones). Incluye a propósito
+una conclusión dicha en términos generales pero apoyada en datos del caso, una
+garantía con respaldo, y un dato que viene de una fuente pero habla del caso.
+
+**Cambios de código (ya hechos y revisados):** `run_niveles.py` trata
+`toulmin_v4` igual que `toulmin_v3` (mismo esquema, verificaciones 1–7);
+`jev_sopesa.py` pasa a build v4 con las definiciones de `toulmin_v4`.
+
+```
+python3 niveles/run_niveles.py doc3 deepseek toulmin_v4 - r1
+python3 niveles/jev_sopesa.py niveles/cache/niveles-doc3-deepseek-toulmin_v4-r1.json
+```
+
+**Reporte:**
+1. Paso 1: tabla fragmento, tipo, cualificador, reserva, sirve_a; debajo, la
+   tesis; luego verificaciones 1–7 y tokens.
+2. Paso 2: tabla fragmento, etiqueta del LLM, noul de Jev, lectura
+   (> 0.75 sostiene; 0.30–0.75 revisar; < 0.30 no sostiene).
+Sin veredicto.
