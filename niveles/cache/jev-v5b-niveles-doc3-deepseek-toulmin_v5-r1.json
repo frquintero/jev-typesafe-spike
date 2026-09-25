@@ -1,0 +1,120 @@
+{
+  "request": {
+    "model": "jev-1.13.0",
+    "state": {
+      "texto": "# Peatonalizar la calle Mayor de Puerto Almendro\n\nEn 2024, la alcaldía de Puerto Almendro cerró la calle Mayor al tráfico durante los fines de semana, como prueba. Según la cámara de comercio local, las ventas de los 42 negocios de la calle crecieron un 18 % esos fines de semana frente a los mismos meses de 2023. En las calles vecinas, que siguieron abiertas a los carros, las ventas subieron apenas un 3 %.\n\nCerrar una calle al tráfico no ahuyenta a los clientes.\n\nDonde la gente camina sin carros alrededor, se detiene más frente a las vitrinas. Lo confirman los estudios de movilidad urbana, que en distintas ciudades han encontrado que el peatón compra con más frecuencia que el conductor.\n\nLos comerciantes que se oponen dicen que, sin parqueadero en la puerta, los clientes se irán a los centros comerciales. Pero el parqueadero municipal está a dos cuadras y durante la prueba nunca llegó a llenarse.\n\nPeatonalizar la calle Mayor todos los días probablemente aumentaría las ventas del centro, siempre que se mantenga el acceso de los camiones de carga en las mañanas.\n\nLa medida tiene un costo: los residentes de la calle perderán el estacionamiento frente a sus casas. Aun así, el concejo debería aprobar la peatonalización permanente de la calle Mayor a partir de 2027.\n"
+    },
+    "questions": {
+      "n01": {
+        "type": "noul",
+        "instructions": "En `texto`, «En 2024, la alcaldía de Puerto Almendro cerró la calle Mayor al tráfico durante los fines de semana, como prueba.» es un dato: un hecho que se presenta como evidencia."
+      },
+      "n02": {
+        "type": "noul",
+        "instructions": "En `texto`, «Según la cámara de comercio local, las ventas de los 42 negocios de la calle crecieron un 18 % esos fines de semana frente a los mismos meses de 2023.» es un dato: un hecho que se presenta como evidencia."
+      },
+      "n03": {
+        "type": "noul",
+        "instructions": "En `texto`, «En las calles vecinas, que siguieron abiertas a los carros, las ventas subieron apenas un 3 %.» es un dato: un hecho que se presenta como evidencia."
+      },
+      "n04": {
+        "type": "noul",
+        "instructions": "En `texto`, «Cerrar una calle al tráfico no ahuyenta a los clientes.» es una conclusión: una afirmación que se defiende apoyándose en otras."
+      },
+      "n05": {
+        "type": "noul",
+        "instructions": "En `texto`, «Donde la gente camina sin carros alrededor, se detiene más frente a las vitrinas.» es una garantía: una regla general que no se prueba con hechos particulares."
+      },
+      "n06": {
+        "type": "noul",
+        "instructions": "En `texto`, «Lo confirman los estudios de movilidad urbana, que en distintas ciudades han encontrado que el peatón compra con más frecuencia que el conductor.» es un respaldo: evidencia general: un estudio, una norma, la experiencia acumulada."
+      },
+      "n07": {
+        "type": "noul",
+        "instructions": "En `texto`, «Los comerciantes que se oponen dicen que, sin parqueadero en la puerta, los clientes se irán a los centros comerciales.» es un contraargumento: una posición contraria que se presenta para rebatirla."
+      },
+      "n08": {
+        "type": "noul",
+        "instructions": "En `texto`, «Pero el parqueadero municipal está a dos cuadras y durante la prueba nunca llegó a llenarse.» es un dato: un hecho que se presenta como evidencia."
+      },
+      "n09": {
+        "type": "noul",
+        "instructions": "En `texto`, «Peatonalizar la calle Mayor todos los días probablemente aumentaría las ventas del centro, siempre que se mantenga el acceso de los camiones de carga en las mañanas.» es una conclusión: una afirmación que se defiende apoyándose en otras."
+      },
+      "n10": {
+        "type": "noul",
+        "instructions": "En `texto`, «La medida tiene un costo: los residentes de la calle perderán el estacionamiento frente a sus casas.» es una concesión: algo en contra de la propia conclusión que se admite como cierto, sin abandonarla."
+      },
+      "n11": {
+        "type": "noul",
+        "instructions": "En `texto`, «Aun así, el concejo debería aprobar la peatonalización permanente de la calle Mayor a partir de 2027.» es una conclusión: una afirmación que se defiende apoyándose en otras."
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "n01": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "n02": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "n03": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "n04": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "n05": {
+        "type": "noul",
+        "noul": 0.49
+      },
+      "n06": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "n07": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "n08": {
+        "type": "noul",
+        "noul": 0.91
+      },
+      "n09": {
+        "type": "noul",
+        "noul": 0.85
+      },
+      "n10": {
+        "type": "noul",
+        "noul": 0.96
+      },
+      "n11": {
+        "type": "noul",
+        "noul": 0.93
+      }
+    },
+    "usage": {
+      "input_tokens": 1215,
+      "output_tokens": 202
+    }
+  },
+  "mapa": {
+    "n01": "E2",
+    "n02": "E3",
+    "n03": "E4",
+    "n04": "E5",
+    "n05": "E6",
+    "n06": "E7",
+    "n07": "E8",
+    "n08": "E9",
+    "n09": "E10",
+    "n10": "E11",
+    "n11": "E12"
+  }
+}
