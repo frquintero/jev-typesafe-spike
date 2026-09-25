@@ -28,6 +28,9 @@ evidencia sobre una clase de casos). Tabla y prompt usan la misma norma.
 Build v5 (PLAN.md, Ronda 8): definiciones generales del prompt toulmin_v5
 (sin 'caso'), sin tipo 'otro' (universo cerrado), state como {"texto": ...}
 y juicio «En `texto`, «cita» es etiqueta: definicion.».
+
+Build v5b (PLAN.md, Ronda 8b): unico cambio respecto de v5, la definicion de
+garantia dice «hechos particulares» en lugar de «datos».
 """
 import json
 import os
@@ -44,7 +47,7 @@ CACHE_DIR = os.path.join(BASE_DIR, "cache")
 API_URL = "https://api.typesafe.ai/v1/systemone"
 MODEL = "jev-1.13.0"
 UA = "spike-jev/1.0"
-BUILD = "v5"
+BUILD = "v5b"
 
 # Etiqueta y definicion por tipo (PLAN.md, Ronda 6b: definicion de 'dato'
 # corregida respecto del prompt toulmin_v3 original). Si el prompt cambia
@@ -52,7 +55,7 @@ BUILD = "v5"
 ETIQUETAS = {
     "dato": ("un dato", "un hecho que se presenta como evidencia"),
     "conclusion": ("una conclusión", "una afirmación que se defiende apoyándose en otras"),
-    "garantia": ("una garantía", "una regla general que no se prueba con datos"),
+    "garantia": ("una garantía", "una regla general que no se prueba con hechos particulares"),
     "respaldo": ("un respaldo", "evidencia general: un estudio, una norma, la experiencia acumulada"),
     "reserva": ("una reserva", "una condición bajo la cual una conclusión no vale"),
     "contraargumento": ("un contraargumento", "una posición contraria que se presenta para rebatirla"),

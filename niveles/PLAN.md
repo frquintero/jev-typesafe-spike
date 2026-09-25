@@ -442,3 +442,24 @@ python3 niveles/jev_sopesa.py niveles/cache/niveles-doc3-deepseek-toulmin_v5-r1.
 2. Paso 2: tabla fragmento, etiqueta del LLM, noul build v4 (ronda 7), noul
    build v5, lectura con v5.
 Sin veredicto.
+
+---
+
+## Ronda 8b: build v5b de Jev (garantía con «hechos particulares»)
+
+Hallazgo de la ronda 8: la garantía de doc3 bajó de 0.69 a 0.59 con la
+definición «una regla general que no se prueba con datos». El texto la
+confirma con estudios, que también son datos en sentido amplio; al quitar
+«caso» se perdió la separación entre los hechos particulares y la evidencia
+general (respaldo).
+
+**Único cambio (ya hecho en `jev_sopesa.py`, build v5b):** garantía = `una
+regla general que no se prueba con hechos particulares`. Todo lo demás igual
+que v5. No se llama al LLM: se usa el crudo existente.
+
+```
+python3 niveles/jev_sopesa.py niveles/cache/niveles-doc3-deepseek-toulmin_v5-r1.json
+```
+
+**Reporte:** tabla fragmento, etiqueta del LLM, noul build v5, noul build v5b,
+lectura con v5b. Debajo, el juicio que cambió, verbatim. Sin veredicto.
