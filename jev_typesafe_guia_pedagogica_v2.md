@@ -1,6 +1,6 @@
 # Jev de TypeSafe: guía pedagógica y crítica
 
-> Versión 8.3 — 24 de septiembre de 2026 (§4.7: la pregunta plantea el caso; en 8.2, §1: quién consume a Jev; en 8.1, §6 actualizado a los once límites oficiales)
+> Versión 8.4 — 25 de septiembre de 2026 (lo que esta guía quiere que te lleves; §4.7: una norma no es un hecho, y quien selecciona los casos también los plantea; en 8.3, §4.7: la pregunta plantea el caso; en 8.2, §1: quién consume a Jev; en 8.1, §6 actualizado a los once límites oficiales)
 
 ## Cómo leer esta guía
 
@@ -16,6 +16,15 @@ La tesis central es sencilla:
 > **Jev sopesa juicios estrechos frente a un expediente y devuelve un grado de soporte tipado; el código compone esos grados, aplica las reglas y decide qué acción tomar.**
 
 Es importante conservar el verbo *sopesar*. Que el resultado sea tipado y probabilístico no demuestra que el juicio sea el que queríamos someter, ni que el expediente sea coherente.
+
+**Lo que esta guía quiere que te lleves.** De Jev y de los modelos parecidos se discute sobre todo precisión, latencia y costo. Esta guía pone el acento en otra parte, de la que casi nadie habla: **quién plantea el caso, y cómo**. Es la parte epistemológica y ética del asunto, y ningún benchmark la mide.
+
+1. **La pregunta decide qué del expediente cuenta.** La misma escena pesa o no pesa según sobre qué trate la pregunta.
+2. **Las respuestas acotan el veredicto.** Jev es un juez congruente: falla sobre lo que se le plantea. Lo que no está entre las respuestas no puede ganar, y ninguna opción de salida avisa que faltó.
+3. **Una norma no es un hecho.** Jev juzga hechos. La política —qué es «urgente», «inmediato», «grave»— la escribe el diseñador: en la rúbrica, en el expediente o en el código.
+4. **Quien selecciona los casos también los plantea.** Jev solo juzga lo que le llega. La etapa que decide qué le llega —un buscador por embeddings, un filtro— no se puede auditar si no deja escrito su criterio.
+
+Nada de esto depende de Jev: vale para cualquier modelo que juzgue con respuestas tipadas. Y como Jev es transparente para el usuario (§1), el usuario nunca ve ese planteamiento. Verlo, escribirlo y auditarlo es responsabilidad de quien diseña y de quien audita. El desarrollo está en §4.7.
 
 **Sobre el vocabulario.** Esta guía se ha construido a lo largo de varios spikes, y su vocabulario ha cambiado con lo aprendido. Desde la versión 6 usa el **marco del juez** (§1): el `state` es el **expediente**, lo que Jev juzga va en `instructions` (Noul) o en `criteria` (Choice, Score), y el resultado es un **grado de soporte** o su reparto. Donde el API dice *question* o *answer*, la guía dice juicio y resultado.
 
@@ -303,7 +312,7 @@ Una pauta final: **cubre el caso intermedio frecuente.** En el Anexo A, el mensa
 - la escala de urgencia, traducida al español, dio el mismo nivel que en inglés en 8 de 8 mensajes;
 - dos escalas nuevas, escritas en español y en otro dominio (la fuerza con que un texto afirma algo), coincidieron con el nivel predicho en 25 de 25 casos claros **al primer intento**, sin retoques. La confianza bajó solo en los casos que se habían marcado de antemano como dudosos.
 
-Una lección de esa prueba: si la escala tiene una frontera discutible, **escríbela en la rúbrica**. Allí se decidió que la certeza se mide «venga de quien venga la afirmación», y el caso «Los expertos coinciden en que…» quedó sin dudas en «firme».
+Una lección de esa prueba: si la escala tiene una frontera discutible, **escríbela en la rúbrica**. Allí se decidió que la certeza se mide «venga de quien venga la afirmación», y el caso «Los expertos coinciden en que…» quedó sin dudas en «firme». Es el mismo principio del §4.7: una norma no es un hecho, y la frontera la escribe el diseñador.
 
 ---
 
@@ -548,9 +557,11 @@ Que el contenido sea falso, verdadero o inventado mueve el grado apenas unas cen
 
 Crudos: `falso-c{1..6}-*`, `diag-scott-*`, `diag-2mas2-*`, `decimos-gagarin-*`, `libro-*`, `claves-jesus-*`, `choice-jesus-b-*`, `choice-gagarin-*`.
 
-### 4.7 La pregunta plantea el caso
+### 4.7 Quién plantea el caso
 
-Una Choice tiene dos partes, aunque `instructions` vaya vacío:
+Jev falla sobre un caso que otro planteó. Plantearlo tiene cuatro partes: la pregunta, las respuestas posibles, la norma con que se juzga y la selección de lo que llega a juicio. Esta sección las recorre en ese orden.
+
+**La pregunta y las respuestas.** Una Choice tiene dos partes, aunque `instructions` vaya vacío:
 
 - **la pregunta**: lo que todos los juicios tienen en común;
 - **las respuestas posibles**: lo que cambia de un juicio a otro.
@@ -587,6 +598,37 @@ La tercera fila usa la pregunta escrita en `instructions`, con la frase citada �
 - **Audita el planteamiento, no solo el grado.** Quien revisa debe ver `instructions` y `criteria`.
 
 Crudos: `modalidad-choice-8-*`, `modalidad-escena-*`.
+
+**Una norma no es un hecho.** «¿Requiere este incidente atención inmediata?» parece un juicio, pero esconde una política: qué cuenta como «inmediato» en esta organización, a quién se despierta de madrugada, qué se considera incidente. Esa política no está en el expediente ni es un hecho notorio. Si nadie la escribe, Jev la completa con lo notorio: juzga según una política genérica, la de una organización cualquiera, no la tuya. El grado sale con apariencia de autoridad, pero el criterio quedó escondido. Lo mismo vale para «urgente», «grave», «importante» o «aceptable».
+
+Jev juzga hechos. **La política la escribe el diseñador**, en uno de tres lugares:
+
+| Dónde | Cómo | Conviene cuando |
+|---|---|---|
+| **En la rúbrica** | cada juicio de `criteria` describe una situación reconocible: «el reporte describe clientes que no pueden completar una tarea esencial en este momento» | la política es estable y los casos no se separan bien en hechos sueltos |
+| **En el expediente** | la norma va escrita junto al caso, como la ley aplicable en un expediente judicial: `{"politica": "…", "mensaje": "…"}`, y el juicio pregunta si el caso cae bajo ella | la norma cambia según el cliente, el producto o el contexto |
+| **En el código** | Jev juzga hechos por separado (¿hay clientes bloqueados?, ¿hay solución temporal?, ¿sigue ocurriendo?) y el código aplica la regla | la política cambia seguido, o cada decisión debe poder explicarse hecho por hecho |
+
+En los tres casos la política queda escrita, a la vista y se puede auditar. Lo que no funciona es dejarla dentro del juicio sin escribirla.
+
+**Qué hacer en la práctica:**
+
+- **La etiqueta va en la clave; la definición, en el juicio.** Las claves no llegan al modelo: `"urgente_importante"` puede nombrar la opción sin influir. Lo que Jev sopesa es la descripción.
+- **«El material describe una situación en la que…», no «el material dice que es urgente».** Lo segundo juzga cómo calificó el caso quien lo escribió: un reporte que grita «¡URGENTE!» sobre una molestia menor lo cumpliría.
+- **Dos ejes no son alternativas.** «Urgente» e «importante» pueden darse juntos: usa una escala por eje, o una Choice sobre combinaciones que se excluyan (urgente e importante · urgente, no importante · importante, no urgente · ninguno).
+- **Incluye una salida para cuando el material no alcanza**: «el reporte no da información suficiente sobre el efecto en los clientes».
+
+**Quien selecciona los casos también los plantea.** En un sistema grande, Jev no ve todo: juzga lo que otra etapa le trae. El caso típico es la búsqueda (RAG): un buscador por embeddings trae los candidatos y Jev los ordena. Ahí la etapa de selección es la que plantea el caso, y lo que no trae no puede ganar. Esto no es inocuo:
+
+- **Jev corrige lo que llegó de más, no lo que quedó afuera.** Un documento que no sirve y llegó, Jev lo baja, y el error queda a la vista en el crudo. Un documento que servía y no llegó no deja rastro.
+- **Los puntos ciegos del selector coinciden con los fuertes de Jev.** Un embedding mide parecido, no soporte. Es conocido (nivel 2) que los antónimos quedan cerca («hace frío» y «hace calor»), la negación casi no mueve el vector, y la relación entre dos partes de un texto se pierde al comprimirlo en un punto. Es justo donde Jev aporta más, y es donde el buscador pudo haber dejado afuera el documento correcto.
+- **Un selector sin criterio escrito no se puede auditar.** El planteamiento de Jev es texto que se lee y se corrige; el de un embedding es una distancia en un espacio que nadie lee.
+
+Lo que funciona, en orden de cuánto resuelve:
+
+1. **Si el corpus lo permite, que Jev juzgue todo**, o en cascada: primero juicios sobre unidades grandes (documentos, secciones), después sobre las pequeñas. Así todos los recortes quedan escritos.
+2. **Amplía la selección más de lo que parece necesario**, y combina selectores distintos (palabras clave, embeddings, reformulaciones de la consulta): para que haya omisión, todos tienen que fallar juntos.
+3. **Usa una salida a nivel del sistema**: si todos los candidatos reciben un grado bajo, la selección falló. Como la salida de una Choice, solo detecta el fracaso total, no que faltó el mejor.
 
 ---
 
@@ -960,7 +1002,14 @@ Diseñar con Jev es, sobre todo, **redactar bien dos cosas**: el juicio exacto q
 
 Jev es consistente —un juicio fijado da casi el mismo grado cada vez— pero sensible: una palabra del juicio o del marco del expediente puede mover el grado, y el modelo es una caja negra. Por eso las bandas y los umbrales son heurísticos, y el diseño sigue líneas generales que **se afinan en cada caso de uso**, con casos de referencia y réplicas.
 
-Jev falla como un **juez congruente**: sobre lo que se le pide y dentro de cómo se plantea el caso. La pregunta decide qué del expediente cuenta, y las respuestas, entre qué se reparte el soporte. Lo que no se plantea no puede ganar. Por eso diseñar es también plantear bien el caso, y auditar es revisar ese planteamiento, que el usuario no ve (§4.7).
+Jev falla como un **juez congruente**: sobre lo que se le pide y dentro de cómo se plantea el caso. Por eso lo decisivo no está solo en el modelo, sino en quien plantea el caso:
+
+- la pregunta decide qué del expediente cuenta;
+- las respuestas acotan el veredicto, y lo que no se plantea no puede ganar;
+- una norma no es un hecho: la política la escribe el diseñador, no el modelo;
+- quien selecciona los casos también los plantea, y si no deja escrito su criterio, no se puede auditar.
+
+Es la parte epistemológica y ética de diseñar con Jev, y la que menos se discute. Diseñar es plantear bien el caso; auditar es revisar ese planteamiento, que el usuario no ve (§4.7).
 
 La frontera sana es:
 
@@ -1264,6 +1313,10 @@ Recuerda: son heurísticas. Una regla «sostenida» es una buena apuesta de part
 | Un expediente pertinente resuelve la ambigüedad de un juicio. | Pr | modelo | conjetura | §4.4 |
 | El expediente pesa más cuando, sin él, el juicio cae en la franja central (medido en log-odds). | Pr | modelo | conjetura | §4.4 |
 | Un juicio a un paso del expediente se sostiene; uno que exige inferir para qué habla alguien, casi no. | Pr | modelo | conjetura | §4.7, §6 |
+| **Una norma no es un hecho**: Jev juzga hechos; la política («urgente», «inmediato», «grave») la escribe el diseñador, en la rúbrica, en el expediente o en el código. | P | diseño | aceptada | §3.4, §4.7 |
+| Un predicado normativo sin política escrita se juzga con una política genérica, sacada de lo notorio. | Pr | modelo | conjetura | §4.7 |
+| La etiqueta va en la clave y la definición en el juicio; escribe «describe una situación en la que…», no «dice que es X». | P | diseño | aceptada | §4.7 |
+| **Quien selecciona los casos también los plantea**: Jev corrige lo que llegó de más, no lo que quedó afuera. Escribe el criterio de selección, amplíala o combina selectores. | P | diseño | aceptada | §4.7 |
 
 ### Noul
 
@@ -1345,7 +1398,7 @@ Recuerda: son heurísticas. Una regla «sostenida» es una buena apuesta de part
 
 ### Pendientes, resueltas y retiradas
 
-**Por probar:** nada pendiente por ahora.
+**Por probar:** «un predicado normativo sin política escrita se juzga con una política genérica» (§4.7). Se valida con el mismo reporte bajo dos políticas escritas distintas.
 
 **Cuestión abierta (no se determina por ahora):** el peso de escribir la pregunta en `instructions` en Choice y Score cuando los juicios de `criteria` ya están completos y el caso no es claro. (Con opciones de una palabra, la pregunta tiene que ir en `instructions`, §4.7.)
 
