@@ -34,7 +34,8 @@ garantia dice «hechos particulares» en lugar de «datos».
 
 Build v6 (PLAN.md, Ronda 9): definiciones del prompt toulmin_v6; garantia se
 define por su papel: «una regla general que autoriza pasar de un dato a una
-conclusion».
+conclusion». Sin ejemplos en ninguna definicion: respaldo = «evidencia de alcance
+general que sostiene una regla general».
 """
 import json
 import os
@@ -60,7 +61,7 @@ ETIQUETAS = {
     "dato": ("un dato", "un hecho que se presenta como evidencia"),
     "conclusion": ("una conclusión", "una afirmación que se defiende apoyándose en otras"),
     "garantia": ("una garantía", "una regla general que autoriza pasar de un dato a una conclusión"),
-    "respaldo": ("un respaldo", "evidencia general: un estudio, una norma, la experiencia acumulada"),
+    "respaldo": ("un respaldo", "evidencia de alcance general que sostiene una regla general"),
     "reserva": ("una reserva", "una condición bajo la cual una conclusión no vale"),
     "contraargumento": ("un contraargumento", "una posición contraria que se presenta para rebatirla"),
     "concesion": ("una concesión", "algo en contra de la propia conclusión que se admite como cierto, sin abandonarla"),

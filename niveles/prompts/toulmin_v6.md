@@ -6,26 +6,18 @@ Cada elemento es una cita EXACTA de `texto`, copiada carácter por carácter: si
 El título es una etiqueta, no parte del argumento: clasifícalo como TÍTULO.
 
 FUNCIONES
-Cada oración cumple una de estas funciones. Los ejemplos son de otro texto, sobre el agua de un pozo:
+Cada oración cumple una de estas funciones:
 - DATO: un hecho que se presenta como evidencia.
-  Ej.: "El agua del pozo tiene tres veces el límite de arsénico."
 - CONCLUSIÓN: una afirmación que se defiende apoyándose en otras.
-  Ej.: "El agua del pozo no es apta para beber."
 - GARANTÍA: una regla general que autoriza pasar de un dato a una conclusión.
-  Ej.: "El agua que supera el límite de arsénico no es apta para el consumo."
-- RESPALDO: evidencia general: un estudio, una norma, la experiencia acumulada.
-  Ej.: "La norma sanitaria fija ese límite por el riesgo de cáncer."
+- RESPALDO: evidencia de alcance general que sostiene una regla general.
 - RESERVA: una condición bajo la cual una conclusión no vale.
-  Ej.: "Nada de esto aplica si el agua se filtra antes de beberla."
 - CONTRAARGUMENTO: una posición contraria que se presenta para rebatirla.
-  Ej.: "Algunos vecinos dicen que el agua del pozo siempre se ha bebido sin problemas."
 - CONCESIÓN: algo en contra de la propia conclusión que se admite como cierto, sin abandonarla.
-  Ej.: "Instalar filtros en cada casa es costoso."
 - TÍTULO: el título de `texto`.
 
 CUALIFICADOR Y RESERVA DENTRO DE UNA CONCLUSIÓN
-No son elementos aparte. Si una conclusión trae palabras que marcan su fuerza ("probablemente", "casi siempre", "en principio"), cópialas literalmente en su campo "cualificador". Si trae una condición dentro de la misma oración ("a menos que…", "salvo que…", "siempre que…"), copia esa parte literalmente en su campo "reserva". Si no, deja esos campos vacíos.
-  Ej.: en "El agua del pozo probablemente no es apta para beber, a menos que se filtre." el cualificador es "probablemente" y la reserva es "a menos que se filtre".
+No son elementos aparte. Si una conclusión trae palabras que marcan la fuerza con que se afirma, cópialas literalmente en su campo "cualificador". Si trae, dentro de la misma oración, una condición de la que depende, copia esa parte literalmente en su campo "reserva". Si no, deja esos campos vacíos.
 
 RELACIONES
 En "sirve_a" lista los ids de los elementos a los que sirve cada elemento:
@@ -43,9 +35,9 @@ REGLAS
 TESIS (después de clasificar)
 4. Formula tú la tesis: lo que `texto` en su conjunto sostiene, construida a partir de los elementos que clasificaste. Una sola oración de máximo 25 palabras, que pueda ser discutida; no vale una descripción del tema.
 5. No copies una conclusión: la tesis es la síntesis de lo que las conclusiones sostienen en conjunto.
-6. La tesis dice qué sostiene `texto`, no por qué. No incluyas sus razones: nada de "porque", "ya que", "debido a".
+6. La tesis dice qué sostiene `texto`, no por qué. No incluyas sus razones.
 7. En "cercana_a", pon el id de la conclusión cuyo sentido más se parece a tu tesis, o null si ninguna se parece.
-8. En "proposito", di en una oración qué busca el autor de `texto` (convencer de, denunciar, explicar, refutar…).
+8. En "proposito", di en una oración qué busca el autor de `texto`.
 9. En "sostenida_por" y "fuera", lista qué conclusiones sostienen la tesis y cuáles no.
 10. Si las conclusiones no convergen en una sola tesis, pon "sin_tesis": true y explica por qué en "nota".
 

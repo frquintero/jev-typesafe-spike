@@ -468,9 +468,13 @@ lectura con v5b. Debajo, el juicio que cambió, verbatim. Sin veredicto.
 
 ## Ronda 9: `toulmin_v6` + build v6 de Jev, sobre doc3
 
-Único cambio respecto de `toulmin_v5` / build v5: la garantía se define por su
-papel, con la pregunta de Toulmin: `una regla general que autoriza pasar de un
-dato a una conclusión`. Prompt y build usan la misma definición.
+Cambios respecto de `toulmin_v5` / build v5 (prompt y build usan la misma norma):
+- la garantía se define por su papel, con la pregunta de Toulmin: `una regla
+  general que autoriza pasar de un dato a una conclusión`;
+- **sin ejemplos en ninguna parte** (decisión de Frat): se quitan del prompt
+  las frases de ejemplo de cada función y las listas ilustrativas (palabras de
+  cualificador y reserva, propósitos, palabras prohibidas en la tesis); el
+  respaldo pasa a `evidencia de alcance general que sostiene una regla general`.
 
 **Código (ya hecho y revisado):** `run_niveles.py` trata `toulmin_v6` como
 v3–v5; `jev_sopesa.py` pasa a build v6.
