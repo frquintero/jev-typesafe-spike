@@ -88,3 +88,56 @@ Por modelo:
 
 Sin interpretación de calidad ni veredicto: eso lo hacen Frat y Cowork.
 Al terminar, commit y push de `niveles/` (script y cache).
+
+---
+
+## Ronda 2: prompts v2 (`A_v2`, `B_v2`)
+
+Lecciones del smoke test que entran en los prompts:
+- El título se clasifica por función (en v1 la definición de OTRO lo impedía).
+- El nivel 2 se divide en **conclusión** y **garantía** (principio general que
+  conecta datos con conclusión). Una conclusión puede apoyarse en otras.
+- Los conectores van pegados al fragmento que introducen.
+- La tesis no incluye sus razones y tiene un máximo de 25 palabras.
+- Los ejemplos de los prompts son de otro tema: nunca de un documento de prueba.
+
+### Cambios en el script (v1 debe seguir funcionando igual)
+
+El esquema depende del prompt A: `A_v1` usa el de la ronda 1; `A_v2` usa este.
+
+**Salida de A_v2:**
+```
+{"elementos":[{"id","cita","tipo":"dato|conclusion|garantia|otro","duda","nota"}],
+ "apoyos":[{"conclusion":"E3","datos":[...],"garantias":[...],"conclusiones":[...]}]}
+```
+Verificación: literalidad y cobertura igual que en v1. Ids de `apoyos`: que
+`conclusion` y cada id de `conclusiones` apunten a elementos tipo conclusion,
+`datos` a tipo dato y `garantias` a tipo garantia. Reportar cualquier
+desajuste.
+
+**Entrada de B_v2** (se excluye `otro`; renumerar en orden de aparición):
+- `{{CONCLUSIONES}}`: una línea por conclusión:
+  `C1: "<cita>" (apoyos: datos D1, D2; garantías G1; conclusiones C2)`.
+  Omitir las partes vacías; `(sin apoyos)` si no tiene ninguno.
+- `{{GARANTIAS}}`: `G1: "<cita>"`
+- `{{DATOS}}`: `D1: "<cita>"`
+- Si una sección queda vacía, poner `(ninguna)`.
+Guardar la correspondencia `E<n> → C/G/D<n>` en el crudo.
+
+### Modelos (ronda 2)
+
+| alias | id | parámetros |
+|---|---|---|
+| `flash` | `glm-5.3-flash` | `stream: true`, `reasoning_effort: "low"` |
+| `deepseek` | `deepseek-flash` (DeepSeek-V4.1-Flash) | `stream: true`, `thinking: {"type":"enabled"}`, `reasoning_effort: "low"` |
+
+Excepción autorizada a "no enviar parámetros extra": solo los de esta tabla.
+Nada de `temperature`. Si un proveedor rechaza un parámetro, detenerse y reportar.
+
+### Corrida
+
+```
+python3 niveles/run_niveles.py doc1 flash A_v2 B_v2 r1
+python3 niveles/run_niveles.py doc1 deepseek A_v2 B_v2 r1
+```
+Reporte igual que la ronda 1, más: tokens de razonamiento de cada llamada.
