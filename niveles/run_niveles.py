@@ -38,17 +38,55 @@ MODELS = {
 
 
 def call_model(alias, content):
+    """Llama con stream=true (excepción autorizada: stream es transporte, no
+    cambia la salida) y ensambla los deltas SSE. No toca reasoning_effort,
+    temperature ni thinking. Devuelve (body_enviado, response_ensamblada)
+    donde response_ensamblada imita la forma no-streaming
+    (choices[0].message.content / .reasoning_content, model, usage) y ademas
+    guarda los chunks crudos verbatim en "_stream_chunks_crudos"."""
     cfg = MODELS[alias]
-    body = {"model": cfg["id"], "messages": [{"role": "user", "content": content}]}
+    body = {
+        "model": cfg["id"],
+        "messages": [{"role": "user", "content": content}],
+        "stream": True,
+    }
+    data = json.dumps(body).encode("utf-8")
     req = urllib.request.Request(
         cfg["url"],
-        data=json.dumps(body).encode(),
-        headers={"Content-Type": "application/json", "User-Agent": UA},
+        data=data,
+        headers={
+            "Content-Type": "application/json; charset=utf-8",
+            "User-Agent": UA,
+        },
         method="POST",
     )
+    chunks_crudos = []
+    content_parts = []
+    reasoning_parts = []
+    model_efectivo = None
+    usage = None
     try:
-        with urllib.request.urlopen(req, timeout=120) as r:
-            resp = json.loads(r.read().decode())
+        with urllib.request.urlopen(req, timeout=180) as r:
+            for raw_line in r:
+                line = raw_line.decode("utf-8").strip()
+                if not line or not line.startswith("data:"):
+                    continue
+                payload = line[len("data:"):].strip()
+                chunks_crudos.append(payload)
+                if payload == "[DONE]":
+                    break
+                chunk = json.loads(payload)
+                if chunk.get("model"):
+                    model_efectivo = chunk["model"]
+                if chunk.get("usage"):
+                    usage = chunk["usage"]
+                choices = chunk.get("choices") or []
+                if choices:
+                    delta = choices[0].get("delta", {})
+                    if delta.get("content"):
+                        content_parts.append(delta["content"])
+                    if delta.get("reasoning_content"):
+                        reasoning_parts.append(delta["reasoning_content"])
     except urllib.error.HTTPError as e:
         if e.code in (401, 403):
             raise SystemExit(
@@ -56,6 +94,21 @@ def call_model(alias, content):
                 f"detenido, no se busca la clave por otros medios"
             )
         raise
+
+    resp = {
+        "model": model_efectivo,
+        "choices": [
+            {
+                "message": {
+                    "role": "assistant",
+                    "content": "".join(content_parts),
+                    "reasoning_content": "".join(reasoning_parts),
+                }
+            }
+        ],
+        "usage": usage,
+        "_stream_chunks_crudos": chunks_crudos,
+    }
     return body, resp
 
 
