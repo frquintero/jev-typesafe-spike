@@ -534,3 +534,21 @@ python3 niveles/extraer_datos.py doc4 deepseek clasif_v1 r1
 **Reporte:** los objetos `datos` y `afirmaciones` tal como llegaron (JSON
 verbatim), si venía con cerca o hubo error de parseo, y tokens (incluidos los
 de razonamiento). Sin veredicto.
+
+---
+
+## Ronda D3: smoke test de datos con jerarquía oración → casos → datos (doc4)
+
+Solo datos, sin afirmaciones ni Jev. Estructura: cada oración con datos es un
+objeto; de una oración salen uno o varios casos, y de cada caso uno o varios
+datos (`dato`, `variable`, `valor`, `escala`). Definición de dato con los
+ajustes de D1 (caso concreto; lo que es o será, no lo que debería ser).
+
+Se reutiliza `niveles/extraer_datos.py` sin cambios (solo orquesta):
+
+```
+python3 niveles/extraer_datos.py doc4 deepseek datos_v2 r1
+```
+
+**Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
+error de parseo, y tokens (incluidos los de razonamiento). Sin veredicto.
