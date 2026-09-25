@@ -192,7 +192,7 @@ los tokens (incluidos los de razonamiento) y el modelo efectivo. Sin veredicto.
 
 ---
 
-## Ronda 4: doc2, mismo prompt (`toulmin_v1`), tres réplicas
+## Ronda 4: doc2, mismo prompt (`toulmin_v1`), una corrida por modelo
 
 Objetivo: ver hasta dónde el LLM separa de forma confiable cuando el documento
 es más complejo. El prompt queda fijo; lo que cambia es el documento. No hay
@@ -200,16 +200,11 @@ cambios de código: el script ya soporta `toulmin_v1`.
 
 ```
 python3 niveles/run_niveles.py doc2 flash toulmin_v1 - r1
-python3 niveles/run_niveles.py doc2 flash toulmin_v1 - r2
-python3 niveles/run_niveles.py doc2 flash toulmin_v1 - r3
 python3 niveles/run_niveles.py doc2 deepseek toulmin_v1 - r1
-python3 niveles/run_niveles.py doc2 deepseek toulmin_v1 - r2
-python3 niveles/run_niveles.py doc2 deepseek toulmin_v1 - r3
 ```
 
-**Reporte:** para cada modelo, una tabla con una fila por fragmento y una
-columna por réplica (r1, r2, r3) que muestre la clasificación. Si los cortes
-difieren entre réplicas, alinear por texto y marcar la diferencia. Debajo de la
-tabla, las tres tesis. Después, las verificaciones 1–6 y los tokens de cada
-réplica. Salidas verbatim en los crudos; en el chat, solo tablas y tesis. Sin
-veredicto.
+**Reporte:** una tabla con una fila por fragmento y dos columnas de
+clasificación (flash, deepseek); si los cortes difieren entre modelos, alinear
+por texto y marcar la diferencia. Debajo de la tabla, las dos tesis. Después,
+las verificaciones 1–6 y los tokens. Salidas verbatim en los crudos; en el
+chat, solo tabla y tesis. Sin veredicto.
