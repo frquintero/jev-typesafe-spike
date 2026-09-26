@@ -552,3 +552,25 @@ python3 niveles/extraer_datos.py doc4 deepseek datos_v2 r1
 
 **Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
 error de parseo, y tokens (incluidos los de razonamiento). Sin veredicto.
+
+---
+
+## Ronda D4: casos primero, unificados; luego datos (doc4)
+
+Solo datos, sin afirmaciones ni Jev. Cambios respecto de `datos_v2`:
+- definiciones propias de **caso** (lo que queda fijado; una misma unidad en
+  todo `texto`, aunque se nombre de varias maneras o con pronombres) y de
+  **variable** (el aspecto bajo el cual se determina el caso);
+- el LLM **identifica y unifica primero los casos** de todo el texto, con sus
+  menciones literales (incluidos pronombres), y después registra los datos por
+  oración, colgados de un caso ya unificado;
+- el **valor va sin la escala**.
+
+Se reutiliza `niveles/extraer_datos.py` sin cambios (solo orquesta):
+
+```
+python3 niveles/extraer_datos.py doc4 deepseek datos_v3 r1
+```
+
+**Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
+error de parseo, y tokens (incluidos los de razonamiento). Sin veredicto.
