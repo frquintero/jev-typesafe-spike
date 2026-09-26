@@ -4,7 +4,7 @@ Estado al 25-09-2026.
 
 ## 0. Dónde y cómo (para retomar)
 
-- **Carpeta de trabajo (Mac de Frat):** `/home/fratquintero/Documentos/Claude/jev-typesafe-spike/`, subcarpeta `niveles/`.
+- **Carpeta de trabajo (máquina local de Frat, Linux):** `/home/fratquintero/Documentos/Claude/jev-typesafe-spike/`, subcarpeta `niveles/`.
 - **Repositorio en GitHub:** `https://github.com/frquintero/jev-typesafe-spike`, rama `main`.
 - **Último commit:** `c840b5c`, «niveles/: ronda D10, procedencia excluida y valores cerrados sobre doc5/deepseek».
 - **Esta memoria** vive en la raíz del repositorio, junto a `jev_typesafe_guia_pedagogica_v2.md`.
@@ -13,13 +13,15 @@ Estado al 25-09-2026.
 
 1. **Planificar (Frat + Cowork).** Discutimos, conjeturamos y acordamos un cambio.
 2. **Mostrar.** Cowork muestra el prompt y Frat da el «adelante».
-3. **Preparar (Cowork, en el Mac con Desktop Commander).** Cowork escribe el prompt en `niveles/prompts/` y la sección de la ronda en `niveles/PLAN.md`, con el cambio, la conjetura, el comando y el formato del reporte. Hace commit y push a `main`.
+3. **Preparar (Cowork, en la máquina local con Desktop Commander).** Cowork escribe el prompt en `niveles/prompts/` y la sección de la ronda en `niveles/PLAN.md`, con el cambio, la conjetura, el comando y el formato del reporte. Hace commit y push a `main`.
 4. **Pasar el mensaje.** Cowork entrega a Frat el mensaje para Claude Code, con el número de commit.
 5. **Correr (Claude Code, en una VM de la nube).** Claude Code hace `git pull`, lee la sección de la ronda, corre el comando sin modificar nada y guarda el crudo en `niveles/cache/`. Luego hace commit y push del cache.
 6. **Reportar.** Claude Code entrega el JSON verbatim, los tokens y los fragmentos del razonamiento que se le pidan, sin veredicto. Frat pega ese reporte en Cowork.
-7. **Evaluar (Cowork + Frat).** Cowork hace `git pull` en el Mac, lee el crudo, incluido el `reasoning_content`, y lo evalúa contra la conjetura. Frat decide el paso siguiente.
+7. **Evaluar (Cowork + Frat).** Cowork hace `git pull` en la máquina local, lee el crudo, incluido el `reasoning_content`, y lo evalúa contra la conjetura. Frat decide el paso siguiente.
 
 Las claves de API nunca pasan por el repositorio: el proxy de la nube las inyecta a Claude Code.
+
+**Pruebas en local.** También se puede correr en la máquina de Frat, con el mismo código, a través de `proxy_local.py` (instrucciones dentro del archivo). Frat arranca el proxy con sus claves en una terminal. Cowork corre los scripts con Desktop Commander, exportando solo `HTTPS_PROXY` y `SSL_CERT_FILE`, y nunca ve las claves. Los crudos quedan en `niveles/cache/` y se suben con commit y push, igual que en la nube.
 
 ## 1. Qué hacemos
 
@@ -33,7 +35,7 @@ División del trabajo (decidida):
 
 ## 2. Cómo trabajamos
 
-- **Roles.** Frat y Cowork piensan y planifican. Cowork escribe prompts y PLAN.md en el Mac (Desktop Commander), hace commit y push, y entrega a Frat el mensaje para Claude Code. Claude Code, en la VM de la nube, hace `git pull`, corre, reporta el JSON verbatim sin veredicto, y hace commit y push del cache.
+- **Roles.** Frat y Cowork piensan y planifican. Cowork escribe prompts y PLAN.md en la máquina local (Desktop Commander), hace commit y push, y entrega a Frat el mensaje para Claude Code. Claude Code, en la VM de la nube, hace `git pull`, corre, reporta el JSON verbatim sin veredicto, y hace commit y push del cache.
 - **Planificar** es pensar, discutir y conjeturar. Solo se corre cuando hay una conjetura nueva, y cada corrida debe decidir algo. No se ofrecen corridas por reflejo.
 - **Una cosa por ronda.** Varios cambios solo si aplican un mismo principio.
 - **Mostrar el prompt antes de correr**, y esperar el «adelante».
