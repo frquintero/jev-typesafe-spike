@@ -3,12 +3,14 @@
 Hace lo mismo que el proxy de la nube: agrega la clave de API a cada petición.
 Los scripts no se tocan y nunca ven las claves.
 
-Instalar (una vez):
-    pip install --user mitmproxy
+Instalar (una vez; Ubuntu no deja pip --user, por eso un venv aparte):
+    python3 -m venv ~/.venvs/mitmproxy && ~/.venvs/mitmproxy/bin/pip install mitmproxy
 
-Terminal 1, arrancar el proxy (las claves solo viven en esta terminal):
-    export TYPESAFE_API_KEY=...  ZAI_API_KEY=...  DEEPSEEK_API_KEY=...
-    mitmdump -q --listen-host 127.0.0.1 -p 8080 -s proxy_local.py
+Terminal 1, arrancar el proxy. Las claves se toman de las variables globales
+del shell (~/.bashrc): TYPESAFE_API_KEY, ZAI_API_KEY, DEEPSEEK_API_KEY.
+    ~/.venvs/mitmproxy/bin/mitmdump -q --listen-host 127.0.0.1 -p 8080 -s proxy_local.py
+Desde un shell no interactivo (Desktop Commander), arrancarlo con bash -ic '...'
+para que cargue ~/.bashrc.
 
 Terminal 2, correr cualquier script:
     export HTTPS_PROXY=http://127.0.0.1:8080 SSL_CERT_FILE=$HOME/.mitmproxy/mitmproxy-ca-cert.pem
