@@ -638,3 +638,23 @@ python3 niveles/extraer_datos.py doc4 deepseek datos_v6 r1
 
 **Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
 error de parseo, y tokens (incluidos los de razonamiento). Sin veredicto.
+
+## Ronda D8: `datos_v6` sobre un documento nuevo (doc5)
+
+Mismo prompt que D7 (`datos_v6`), sin cambios. Documento nuevo:
+`niveles/docs/doc5.md` (sintético, pozo de Los Robles, ~190 palabras).
+
+Qué pone a prueba respecto de doc4: una misma variable con valores distintos
+bajo condiciones constitutivas distintas; valores no numéricos (escala nominal
+y ordinal); procedencia en dos formas; un caso nombrado de varias maneras y la
+frontera entre dos casos cercanos; oraciones que no deberían dar datos (clase,
+normativa, título); material abierto para la decisión sobre planes y dichos
+(atribución de causa, dicho con dato adentro, cifra fijada por una norma,
+hecho futuro).
+
+```
+python3 niveles/extraer_datos.py doc5 deepseek datos_v6 r1
+```
+
+**Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
+error de parseo, y tokens (incluidos los de razonamiento). Sin veredicto.
