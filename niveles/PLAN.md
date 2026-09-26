@@ -671,3 +671,27 @@ python3 niveles/extraer_datos.py doc5 deepseek datos_v7 r1
 
 **Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
 error de parseo, y tokens (incluidos los de razonamiento). Sin veredicto.
+
+## Ronda D10: quien dice es procedencia; universo de valores cerrado (doc5)
+
+Un principio, aplicado en cuatro lugares de `datos_v7` (→ `datos_v8`): quien
+dice, sostiene, atribuye, planea o mide algo es procedencia, no parte del dato;
+lo dicho se examina como cualquier otra parte de `texto`.
+- Valor: se quita «o cualquier otra expresión permitida…»; se agrega «Si no es
+  ninguna de estas, no es un valor».
+- Condiciones constitutivas: «ni quién lo dice».
+- Regla 3: «Dejar fuera lo que no es dato es parte de la tarea».
+- Regla 5: reemplazada por el principio de procedencia.
+
+Origen: el reasoning_content de D9 muestra que el modelo duda si actos y dichos
+son datos, por la contradicción entre las definiciones y la regla 5 anterior.
+
+Conjetura: desaparecen la atribución de la junta, el encargo y «según los
+vecinos»; lo que dice Marta Gil queda como dato de la finca, sin condición.
+
+```
+python3 niveles/extraer_datos.py doc5 deepseek datos_v8 r1
+```
+
+**Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
+error de parseo, y tokens (incluidos los de razonamiento). Sin veredicto.
