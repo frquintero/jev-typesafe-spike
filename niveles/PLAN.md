@@ -1,10 +1,13 @@
 # niveles/ — smoke test: separar datos y argumentos, construir la tesis
 
-Sub-spike aparte (no usa Jev). Prueba si un LLM, con un prompt que viaja en
+Sub-spike aparte. Prueba si un LLM, con un prompt que viaja en
 archivo, separa en un texto corto los **datos** (nivel 3) y los **argumentos**
 (nivel 2), ambos literales, y luego construye la **tesis y el propósito**
 (nivel 1) solo a partir de ellos. Esta primera ronda es un smoke test:
 comprobar que la cadena funciona y ver qué sale. No se evalúa calidad.
+
+*Nota (2026-09): desde la ronda 6, Jev entra como juez de la clasificación
+del LLM (`jev_sopesa.py`); las rondas D1–D10 son solo LLM.*
 
 Aplican las reglas de ejecución del `CLAUDE.md` raíz (el spike no concluye,
 crudo siempre visible, solo documentos sintéticos, commit y push al final).
@@ -58,6 +61,7 @@ Uso: `python3 niveles/run_niveles.py <doc> <modelo> <prompt_A> <prompt_B> <rN>`
   Confirmar endpoint e id exacto de cada modelo en la documentación del
   proveedor; dejarlos en un dict al inicio del script con alias cortos
   (`flash`, y el alias del segundo).
+  *Nota: se corrió con `flash` (GLM) y `deepseek`.*
 - Frat configuró las credenciales en el entorno cloud. Si están como
   credencial de API inyectada por proxy, seguir el mismo patrón que Jev:
   nunca construir `Authorization` ni leer la clave. Si la llamada falla por
@@ -303,6 +307,11 @@ sola llamada con un juicio Noul por elemento.
 - 0.30–0.75 → revisar;
 - < 0.30 → Jev no la sostiene.
 El control debería quedar < 0.30.
+
+*Nota (2026-09): estas tres franjas fueron un umbral inicial, usado en las
+rondas 6–9. En adelante, la lectura de Jev usa las bandas de la regla 12
+del README (> 0,85 · 0,75–0,85 · 0,65–0,75 · 0,30–0,65 franja central ·
+0,20–0,30 · < 0,20).*
 
 ```
 python3 niveles/jev_sopesa.py niveles/cache/niveles-doc2-deepseek-toulmin_v3-r1.json

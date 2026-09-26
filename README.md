@@ -1,5 +1,17 @@
 # Spike Jev — detección con modelo de decisiones
 
+## Estado actual (2026-09)
+
+El trabajo activo está en `niveles/`: extracción de **datos** de un `texto`
+con un LLM (DeepSeek), según el ensayo de Frat «¿Qué es un dato?», con Jev
+como auditor posterior. Rondas: `niveles/PLAN.md`. Estado, lecciones y
+pendientes: `memoria de trabajo y pendientes.md`.
+
+El objetivo original (Jev en lugar de GLM para la detección de estructura
+del piloto EEL; secciones Contexto, Arquitectura y Plan de pruebas) está
+**suspendido**, no abandonado. Las reglas 1–26 y el marco conceptual siguen
+vigentes.
+
 ## Correr las pruebas en local (proxy de claves)
 
 **Por qué hay un proxy.** Los scripts nunca leen claves ni arman la cabecera `Authorization`. En la nube, un proxy agrega la clave a cada llamada. En local hacemos lo mismo con `proxy_local.py`. Así el código es idéntico en los dos entornos, hay un solo repositorio y las claves nunca quedan en archivos del repositorio.
@@ -38,6 +50,8 @@ python3 niveles/extraer_datos.py doc5 deepseek datos_v8 r1
 El certificado del proxy solo lo usan los procesos que exportan `SSL_CERT_FILE`; no se instala en el sistema. El proxy agrega la clave solo a los tres hosts de la tabla y deja pasar el streaming. Al reiniciar la máquina, el proxy se apaga y hay que arrancarlo de nuevo.
 
 ## Contexto
+
+*Objetivo suspendido (ver Estado actual).*
 
 El piloto EEL detecta estructura con GLM vía prompts JSON (tareas A/B/C)
 más post-proceso determinista. Funciona (golds 05/06 exactos), pero cada
@@ -231,6 +245,8 @@ Método del spike:
 
 ## Arquitectura que veo (propuesta, a acordar)
 
+*Suspendida junto con el objetivo EEL.*
+
 Principio: Jev sopesa, el código decide. Nada de lo determinista cambia
 (bloques, offsets, pila, vistas, contrato EEL).
 
@@ -254,6 +270,8 @@ A decidir con DeepSeek:
 5. Qué pasa con títulos C si A/B migran.
 
 ## Plan de pruebas
+
+*Fase 0 hecha; fases 1–3 pendientes, suspendidas junto con el objetivo EEL.*
 
 - Fase 0 — probe gratis: 1 bloque de `txt-02` (`rotulo` vs
   `contenido`) + 1 párrafo de `txt-01`.
@@ -320,8 +338,8 @@ actualizadas en la guía (§3.1 bandas, §4.6, Anexos A–C).*
 - Criterio conceptual de modalidad: ¿tiene valor de verdad? Fórmulas
   (igualdades) = enunciativas; números, medidas (`5 minutos`) y
   etiquetas = nominales.
-- Crudos: `spike-jev/cache/modalidad-50.json`, `spike-jev/cache/tabla-30.json`;
-  scripts: `spike-jev/probes/modalidad_50.py`, `spike-jev/probes/tabla_30.py`.
+- Crudos: `cache/modalidad-50.json`, `cache/tabla-30.json`;
+  scripts: `probes/modalidad_50.py`, `probes/tabla_30.py`.
 
 ## Noul, Choice y Score, en palabras (actualizado con la guía v6)
 
@@ -361,8 +379,8 @@ predican algo verificable.
 **Prueba hecha**: 50 sentencias sintéticas balanceadas (8
 enunciativas + 7 por cada una de las otras seis), etiquetas conocidas
 de antemano, un solo request con 50 Choice de 7 clases
-(`spike-jev/probes/modalidad_50.py`, crudo en
-`spike-jev/cache/modalidad-50.json`).
+(`probes/modalidad_50.py`, crudo en
+`cache/modalidad-50.json`).
 
 **Resultados**: **50/50 en ~2 s** (10.5 k in / 4.1 k out). 43
 unánimes (1.00); la única fuga relevante fue q31 (`Que el jurado
@@ -376,7 +394,7 @@ separan casi perfecto, en español.
 - Resultados cacheados en disco (estilo `json_cache` del cookbook): un
   re-run no re-paga ni re-llama.
 - Ninguna clave en archivos (`TYPESAFE_API_KEY` solo por entorno).
-- Rama `spike-jev`; el piloto no se toca. Si resulta, se integra por
+- Rama `main`; el piloto no se toca. Si resulta, se integra por
   decisión de Frat.
 - Header `User-Agent: spike-jev/1.0` en cada llamada (Cloudflare bloquea
   el de urllib).

@@ -12,6 +12,10 @@ devuelve un grado de soporte 0–1; el código decide y renderiza. No hay
 build system, package manager ni tests automatizados — son scripts Python
 de un solo archivo, ejecutados a mano contra la API real.
 
+**Estado actual:** el objetivo EEL está suspendido. El trabajo activo es
+`niveles/` (extracción de datos con un LLM; Jev como auditor). Ver
+«Estado actual» en el README y `memoria de trabajo y pendientes.md`.
+
 **Antes de escribir o interpretar cualquier probe, lee `README.md`** (reglas
 1–26, "Principios y reglas acordadas") y `diccionario.md`. Ahí está el
 vocabulario correcto y los límites de lo que se le puede pedir a Jev — no
@@ -19,8 +23,11 @@ se opinan, se verifican contra `docs.typesafe.ai/api.md`.
 
 ## Rol y reglas de ejecución
 
-**Frat y Cowork planean; Claude Code ejecuta.** Claude Code no
-decide diseño de juicios, umbrales, ni si el spike adopta o descarta Jev —
+**Frat y Cowork planean; el ejecutor corre** (Claude Code en la nube, o
+Cowork en la máquina local con `proxy_local.py`). El rol va con la tarea,
+no con el modelo: un mismo modelo puede planear, implementar, probar o ser
+el LLM dentro del arnés (hoy DeepSeek, en `niveles/`). Quien ejecuta no
+decide diseño de juicios, prompts, umbrales, ni si el spike adopta o descarta Jev —
 corre lo que el plan indica, informa con números y deja la decisión a Frat.
 Reglas del spike que aplican directamente a cómo correr y reportar:
 
@@ -46,6 +53,7 @@ Reglas del spike que aplican directamente a cómo correr y reportar:
 - **Nombrado de crudos**: `cache/<probe>-r<N>.json` para réplicas
   (`cache/<probe>-r1.json`, `-r2.json`, `-r3.json`); un solo archivo
   `cache/<probe>.json` cuando no hay réplicas.
+  En `niveles/`, el nombre lo fija cada script en `niveles/cache/`.
 - **Al terminar una corrida**, hacer commit y push de los archivos nuevos/
   modificados en `cache/` (y del script si cambió) a la rama de trabajo,
   para que Frat los baje con `git pull` y se analicen juntos.
@@ -71,12 +79,17 @@ python3 cutoff-spike/analyze.py v1|v2|delta|all
 
 # Verificar sintaxis tras editar varios probes a la vez
 python3 -m py_compile probes/*.py
+
+# niveles/: cada ronda se corre según su sección en niveles/PLAN.md
+python3 niveles/extraer_datos.py <doc> <modelo> <prompt> <rN>
+python3 niveles/run_niveles.py <doc> <modelo> <prompt_A|toulmin_vN> <prompt_B|-> <rN>
+python3 niveles/jev_sopesa.py <crudo_llm.json>
 ```
 
 No existe un runner único ni una suite de tests: cada archivo en `probes/`
 es autocontenido y se corre solo.
 
-## Credenciales y red (entorno cloud)
+## Credenciales y red
 
 `TYPESAFE_API_KEY` **nunca** vive en el repo ni como variable de entorno
 plana. En los entornos cloud de Claude Code se configura como **credencial
@@ -87,6 +100,10 @@ dominio; el código no debe construir ese header ni leer
 mismo — ver commit `6b1562f`). Si un script nuevo necesita llamar a la API,
 sigue el mismo patrón: solo `Content-Type` y `User-Agent` en los headers,
 nunca `Authorization`.
+
+Lo mismo vale para Z.ai (`api.z.ai`) y DeepSeek (`api.deepseek.com`),
+usados en `niveles/`. En local, `proxy_local.py` hace el papel del proxy de
+la nube (instrucciones en el README).
 
 ## Arquitectura del protocolo Jev
 
@@ -163,7 +180,7 @@ editar `probes_coarse*.json`/`probes_fine.json` sin releer el método del
 
 `cutoff-spike/PLAN.md` deja explícita esta convención para sus propios
 documentos ("No editar `README.md` raíz, `diccionario.md` ni la guía sin
-aprobación"); se extiende aquí a los cuatro documentos vivos del spike,
+aprobación"); se extiende aquí a los documentos vivos del spike,
 todos "nuestros" (de Frat):
 
 - `README.md` (raíz): contexto, reglas acordadas, evidencia histórica.
@@ -173,11 +190,10 @@ todos "nuestros" (de Frat):
 - `jev_typesafe_guia_pedagogica_v2.md`: guía pedagógica de referencia
   (bandas, límites de lectura literal, Anexos A–C) — es la versión
   vigente. **No editar sin aprobación.**
-- `jev_resumen_pedagogico.md`: resumen derivado de la guía. **No editar
-  sin aprobación.**
-- Los archivos `*.antes-v*.md` junto a README, diccionario y guía son
-  snapshots históricos de antes de cada revisión — no se editan ni se
-  usan como fuente.
+- `memoria de trabajo y pendientes.md`: fuente única del estado del
+  trabajo (forma de trabajo, lecciones, pendientes).
+- En `deleted/`: los snapshots `*.antes-v*.md` y el resumen retirado
+  `jev_resumen_pedagogico.md` — no se editan ni se usan como fuente.
 - Las secciones fechadas del README ("Evidencia reunida", "Plan de
   pruebas") son registro histórico: conservan el vocabulario de su
   momento («pregunta», «respuesta») aunque el marco vigente use otro
