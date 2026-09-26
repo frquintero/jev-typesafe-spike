@@ -14,13 +14,15 @@ Estado al 26-09-2026.
 2. **Mostrar.** Cowork muestra el prompt y Frat da el «adelante».
 3. **Preparar (Cowork, en la máquina local).** Cowork escribe el prompt en `niveles/prompts/` y la sección de la ronda en `niveles/PLAN.md`, con el cambio, la conjetura, el comando y el formato del reporte. Hace commit y push a `main`.
 4. **Pasar el mensaje.** Cowork entrega a Frat el mensaje para Claude Code, con el número de commit.
-5. **Correr (Claude Code, en una VM de la nube).** Claude Code hace `git pull`, lee la sección de la ronda, corre el comando sin modificar nada y guarda el crudo en `niveles/cache/`. Luego hace commit y push del cache.
-6. **Reportar.** Claude Code entrega el JSON verbatim, los tokens y los fragmentos del razonamiento que se le pidan, sin veredicto. Frat pega ese reporte en Cowork.
+5. **Correr (el ejecutor: Claude Code en una VM de la nube, o Muse Code en la máquina local).** Claude Code hace primero `git pull`; Muse trabaja sobre la misma carpeta del repo. El ejecutor lee la sección de la ronda, corre el comando sin modificar nada y guarda el crudo en `niveles/cache/`. Luego hace commit y push del cache.
+6. **Reportar.** El ejecutor entrega el JSON verbatim, los tokens y los fragmentos del razonamiento que se le pidan, sin veredicto. Frat pega ese reporte en Cowork.
 7. **Evaluar (Cowork + Frat).** Cowork hace `git pull` en la máquina local, lee el crudo, incluido el `reasoning_content`, y lo evalúa contra la conjetura. Frat decide el paso siguiente.
 
 Las claves de API nunca pasan por el repositorio: el proxy de la nube las inyecta a Claude Code.
 
-**Pruebas en local.** También se puede correr en la máquina de Frat, con el mismo código, a través de `proxy_local.py` (instrucciones en el README raíz). Frat arranca el proxy con sus claves en una terminal. Cowork corre los scripts en la máquina local, exportando solo `HTTPS_PROXY` y `SSL_CERT_FILE`, y nunca ve las claves. Los crudos quedan en `niveles/cache/` y se suben con commit y push, igual que en la nube.
+**Pruebas en local.** También se puede correr en la máquina de Frat, con el mismo código, a través de `proxy_local.py` (instrucciones en el README raíz). Frat arranca el proxy con sus claves en una terminal. Muse Code corre los scripts en la máquina local, exportando solo `HTTPS_PROXY` y `SSL_CERT_FILE`, y nunca ve las claves. Los crudos quedan en `niveles/cache/` y se suben con commit y push, igual que en la nube.
+
+Muse Code (Meta Muse Spark) es el ejecutor alternativo a Claude Code, con las mismas reglas; sus notas operativas están en `MUSE.md`.
 
 ## 1. Qué hacemos
 

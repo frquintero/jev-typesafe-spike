@@ -24,7 +24,7 @@ se opinan, se verifican contra `docs.typesafe.ai/api.md`.
 ## Rol y reglas de ejecución
 
 **Frat y Cowork planean; el ejecutor corre** (Claude Code en la nube, o
-Cowork en la máquina local con `proxy_local.py`). El rol va con la tarea,
+Muse Code en la máquina local con `proxy_local.py`; ver `MUSE.md`). El rol va con la tarea,
 no con el modelo: un mismo modelo puede planear, implementar, probar o ser
 el LLM dentro del arnés (hoy DeepSeek, en `niveles/`). Quien ejecuta no
 decide diseño de juicios, prompts, umbrales, ni si el spike adopta o descarta Jev —
