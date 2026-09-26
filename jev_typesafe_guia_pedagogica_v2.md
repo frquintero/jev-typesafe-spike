@@ -44,7 +44,7 @@ TypeSafe presenta Jev como un **System One Model**: un modelo orientado a decisi
 
 La mejor manera de entenderlo es como un **juez**:
 
-- recibe un **expediente** (`state`): el material que la aplicación somete a juicio —un mensaje, un documento, un folleto—;
+- recibe un **expediente** (`state`): el contexto compartido del caso —un mensaje, un documento, un folleto—;
 - recibe un **juicio propuesto** (el campo `instructions`, junto con `criteria` cuando corresponde);
 - devuelve **cuánto sostendría ese juicio** si él mismo lo emitiera, con el expediente a la vista.
 
@@ -322,9 +322,13 @@ En el API, un request tiene tres piezas: `state`, `instructions` y, en Choice y 
 
 ### 4.1 El expediente (`state`)
 
-El `state` es el expediente: el **material que la aplicación somete a juicio**, con un papel reconocible —un mensaje, un documento, un folleto— y nombrado por ese papel (`mensaje`, `folleto`; no `bloque` ni `t0`). Puede ser texto, campos o una estructura. No es una memoria fiable ni un contenedor seguro.
+El `state` es el expediente: el **contexto compartido del caso**, el material que Jev tiene a la vista al sopesar los juicios de un request (lo que el API llama *questions*; §4.3). Puede enviarse como texto simple o como JSON estructurado —un objeto o un array—. Cuando el caso reúne varias piezas —un mensaje, una política, un registro, una evidencia— conviene organizarlas en campos nombrados por su papel (`mensaje`, `folleto`; no `bloque` ni `t0`), para que su papel y sus relaciones queden explícitos.
 
-La documentación advierte sobre **context rot**: demasiado contexto, contexto irrelevante o una organización poco clara degradan el juicio. También advierte que el contenido puede ser adversarial. Lo que va en el expediente es dato, no instrucciones con autoridad sobre el programa.
+El expediente no contiene necesariamente todo lo que Jev sopesa. El juicio también se construye en el planteamiento: en una Noul, el juicio está en `instructions`; en Choice y Score, los juicios alternativos están en `criteria`. `instructions` y `criteria` también pueden ser estructurados e incorporar información necesaria para formular el juicio (§4.2, §4.3). Por eso conviene entender el `state` como el contexto compartido del caso, y no como el único lugar donde vive el material relevante para el juicio.
+
+El `state` no es una memoria fiable ni un contenedor seguro. Lo que va allí debe tratarse como dato y contexto, no como instrucciones con autoridad sobre el programa.
+
+La documentación advierte sobre **context rot**: demasiado contexto, contexto irrelevante o una organización poco clara degradan el juicio. También advierte que el contenido puede ser adversarial.
 
 Buenas prácticas:
 
@@ -954,7 +958,7 @@ El límite es decisivo: la ontología, la estructura persistida y las relaciones
 | Término | Definición pedagógica |
 |---|---|
 | System One Model | Modelo que emite decisiones rápidas, locales y estructuradas, sin generar texto. |
-| Expediente (`state`) | El material que la aplicación somete a juicio, con un papel reconocible. |
+| Expediente (`state`) | El contexto compartido del caso: el material que Jev tiene a la vista al sopesar los juicios de un request. |
 | Juicio | Lo que Jev sopesa frente al expediente. En la Noul va en `instructions`; en Choice y Score, en `criteria`. |
 | Juicios alternativos | Los juicios de `criteria` en Choice y Score, entre los que Jev reparte su soporte (100 monedas). |
 | Grado de soporte | Cuánto sostendría Jev un juicio con el expediente a la vista. |
