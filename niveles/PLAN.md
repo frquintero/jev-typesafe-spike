@@ -596,3 +596,29 @@ python3 niveles/extraer_datos.py doc4 deepseek datos_v4 r1
 
 **Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
 error de parseo, y tokens (incluidos los de razonamiento). Sin veredicto.
+
+## Ronda D6: dato según el ensayo; escala obligatoria (doc4)
+
+Solo datos, sin afirmaciones ni Jev. Cambios respecto de `datos_v4`:
+- TAREA: identificar los **datos** registrados en `texto` (no los casos);
+- definiciones alineadas con el ensayo «¿Qué es un dato?»: valor = posición o
+  elemento de una escala; escala = sistema al que pertenece todo valor;
+  vuelven las condiciones constitutivas;
+- sección REGLAS: método casos → variables → datos; prueba de la pregunta
+  `<variable>(<caso>, <condiciones constitutivas>) = ?`; sin caso, variable,
+  valor o escala no hay dato; cada determinación una sola vez; un caso sin
+  datos no va en el JSON; plan o intención es determinación de quien lo tiene;
+- JSON: valor tal como lo expresa `texto`; escala obligatoria; nuevo campo
+  `condiciones_constitutivas`.
+
+Conjetura: exigir la escala elimina los valores que son enunciados
+(«registro», «declaración», «plan» de D5).
+
+Se reutiliza `niveles/extraer_datos.py` sin cambios (solo orquesta):
+
+```
+python3 niveles/extraer_datos.py doc4 deepseek datos_v5 r1
+```
+
+**Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
+error de parseo, y tokens (incluidos los de razonamiento). Sin veredicto.
