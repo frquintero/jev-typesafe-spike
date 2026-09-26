@@ -1,0 +1,32 @@
+{
+  "unidades": [
+    {"nucleo": "bomba principal B-1",
+     "satelites": ["motor", "sello mecánico", "manómetro de descarga"],
+     "oraciones": [1, 2, 3, 4]},
+    {"nucleo": "tanque T-4",
+     "satelites": ["válvula de alivio", "sensor de nivel"],
+     "oraciones": [5, 6, 7]},
+    {"nucleo": "banda transportadora",
+     "satelites": ["rodillos", "variador de velocidad"],
+     "oraciones": [8, 9, 10]},
+    {"nucleo": "compresor de aire",
+     "satelites": ["filtro de entrada", "secador"],
+     "oraciones": [11, 12, 13]}
+  ],
+  "anaforas": [
+    {"mencion": "Su", "oracion": 2, "caso": "bomba principal B-1"},
+    {"mencion": "la bomba", "oracion": 3, "caso": "bomba principal B-1"},
+    {"mencion": "Su", "oracion": 6, "caso": "tanque T-4"},
+    {"mencion": "del tanque", "oracion": 7, "caso": "tanque T-4"},
+    {"mencion": "Sus", "oracion": 9, "caso": "banda transportadora"},
+    {"mencion": "la banda", "oracion": 10, "caso": "banda transportadora"},
+    {"mencion": "la mantiene", "oracion": 10, "caso": "banda transportadora"},
+    {"mencion": "su", "oracion": 12, "caso": "compresor de aire"},
+    {"mencion": "reportó", "oracion": 13, "caso": "técnico de turno"},
+    {"mencion": "del compresor", "oracion": 13, "caso": "compresor de aire"}
+  ],
+  "procedencias": [
+    {"fuente": "el técnico de turno", "oraciones": [12, 13]}
+  ],
+  "nota": "Oraciones numeradas en orden de aparición, sin el título (1-13). Escrito antes de correr."
+}

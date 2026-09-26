@@ -58,7 +58,9 @@ MODEL_PARAMS = {
         "grok": {
             "id": "grok-4.7",
             "url": "https://api.x.ai/v1/chat/completions",
-            "extra": {"reasoning_effort": "low"},
+            # stream_options: sin esto xAI no manda usage en streaming (D10g)
+            "extra": {"reasoning_effort": "low",
+                      "stream_options": {"include_usage": True}},
         },
     },
 }
