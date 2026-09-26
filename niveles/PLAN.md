@@ -622,3 +622,19 @@ python3 niveles/extraer_datos.py doc4 deepseek datos_v5 r1
 
 **Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
 error de parseo, y tokens (incluidos los de razonamiento). Sin veredicto.
+
+## Ronda D7: condiciones constitutivas con el criterio del ensayo (doc4)
+
+Un solo cambio respecto de `datos_v5`: la definición de condiciones
+constitutivas usa el criterio del ensayo (si cambiara, la pregunta sería otra)
+y excluye la procedencia («No es de dónde proviene el valor»).
+
+Conjetura: «según la oficina de tránsito» y «medición municipal» salen de las
+condiciones; «verano pasado» se queda.
+
+```
+python3 niveles/extraer_datos.py doc4 deepseek datos_v6 r1
+```
+
+**Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
+error de parseo, y tokens (incluidos los de razonamiento). Sin veredicto.
