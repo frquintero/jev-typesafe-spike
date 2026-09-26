@@ -7,7 +7,7 @@ Instalar (una vez; Ubuntu no deja pip --user, por eso un venv aparte):
     python3 -m venv ~/.venvs/mitmproxy && ~/.venvs/mitmproxy/bin/pip install mitmproxy
 
 Terminal 1, arrancar el proxy. Las claves se toman de las variables globales
-del shell (~/.bashrc): TYPESAFE_API_KEY, ZAI_API_KEY, DEEPSEEK_API_KEY.
+del shell (~/.bashrc): TYPESAFE_API_KEY, ZAI_API_KEY, DEEPSEEK_API_KEY, XAI_API_KEY.
     ~/.venvs/mitmproxy/bin/mitmdump -q --listen-host 127.0.0.1 -p 8080 -s proxy_local.py
 Desde un shell no interactivo (Desktop Commander), arrancarlo con bash -ic '...'
 para que cargue ~/.bashrc.
@@ -25,6 +25,7 @@ CLAVES = {
     "api.typesafe.ai": "TYPESAFE_API_KEY",
     "api.z.ai": "ZAI_API_KEY",
     "api.deepseek.com": "DEEPSEEK_API_KEY",
+    "api.x.ai": "XAI_API_KEY",
 }
 
 

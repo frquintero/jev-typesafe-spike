@@ -704,3 +704,34 @@ python3 niveles/extraer_datos.py doc5 deepseek datos_v8 r1
 
 **Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
 error de parseo, y tokens (incluidos los de razonamiento). Sin veredicto.
+
+## Ronda D10g: `datos_v8` sobre doc5 con Grok 4.7
+
+Mismo prompt y documento que D10; solo cambia el LLM, para medir al modelo.
+`grok` = `grok-4.7` (`api.x.ai/v1/chat/completions`), `stream: true`,
+`reasoning_effort: "low"` (paridad con `deepseek`; en Grok el razonamiento no
+se puede desactivar). Clave: `XAI_API_KEY` en `~/.bashrc`
+(`bash configurar_clave_xai.sh`); el proxy local la inyecta en `api.x.ai`.
+
+Tokens (docs.x.ai): Grok 4.7 no tiene límite de salida y, sin `max_tokens`,
+genera lo que necesite; `max_tokens` solo acota la respuesta visible, no el
+razonamiento. Por eso **no se envía `max_tokens`** (igual que con deepseek).
+El timeout de lectura de `run_niveles.py` sube de 180 a 600 s para todos los
+modelos (solo cuenta si hay un silencio de más de 600 s en el stream).
+
+Contabilidad distinta a DeepSeek: en xAI, `completion_tokens` **no incluye**
+`reasoning_tokens`; el total es prompt + completion + reasoning. En DeepSeek
+el razonamiento va dentro de `completion_tokens`. Reportar los tres números.
+
+Nota: Grok 4.7 entrega un **resumen** del razonamiento, no el razonamiento
+completo; el `reasoning_content` no es comparable línea a línea con el de
+DeepSeek.
+
+```
+python3 niveles/extraer_datos.py doc5 grok datos_v8 r1
+```
+
+**Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
+error de parseo, modelo efectivo y tokens (incluidos los de razonamiento).
+Sin veredicto.
+

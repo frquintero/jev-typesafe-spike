@@ -43,23 +43,29 @@ asigna ese rol: «los planificadores definen; Muse implementa».)
 - El código del repo **nunca** arma `Authorization` ni lee `*_API_KEY`.
   Solo `Content-Type` + `User-Agent: spike-jev/1.0`.
 - Claves: `TYPESAFE_API_KEY` (api.typesafe.ai), `ZAI_API_KEY` (api.z.ai),
-  `DEEPSEEK_API_KEY` (api.deepseek.com). Viven en `~/.bashrc` (local) o las
-  inyecta el proxy (nube).
+  `DEEPSEEK_API_KEY` (api.deepseek.com), `XAI_API_KEY` (api.x.ai). Viven en
+  `~/.bashrc` (ZAI en `~/.config/zai/api_key.env`) y solo las lee el proxy.
 - Verificar presencia sin imprimir valores:
-  `bash -ic 'for v in TYPESAFE_API_KEY ZAI_API_KEY DEEPSEEK_API_KEY; do
+  `bash -ic 'for v in TYPESAFE_API_KEY ZAI_API_KEY DEEPSEEK_API_KEY XAI_API_KEY; do
   [ -n "${!v}" ] && echo "$v: SET" || echo "$v: MISSING"; done'`
-- Local (máquina de Frat), dos terminales:
-  `~/.venvs/mitmproxy/bin/mitmdump -q --listen-host 127.0.0.1 -p 8080
-  -s proxy_local.py` (con `bash -ic` si el shell no carga `~/.bashrc`);
+- Local: Frat arranca Muse con `muse` (alias de `muse.sh`). `muse.sh` levanta
+  el proxy en 127.0.0.1:8080 si no está corriendo, lanza Muse con
+  `--disable-sandbox` (red completa y `.git` escribible; las aprobaciones
+  siguen) y apaga el proxy al salir. **No arrancar otro proxy** ni
+  inspeccionar el entorno de su proceso.
+- En cada comando que llame a una API, exportar antes:
   `export HTTPS_PROXY=http://127.0.0.1:8080
   SSL_CERT_FILE=$HOME/.mitmproxy/mitmproxy-ca-cert.pem`.
-- **Medido 2026-09-26**: el proxy del sandbox NO inyecta (sin Auth: 403
-  TypeSafe, 401 Z.ai/DeepSeek). Si una llamada falla por autenticación,
-  **detenerse y reportar** (`niveles/PLAN.md`); no buscar la clave por otros
-  medios.
+  No exportarlas de forma global: el tráfico propio de Muse no pasa por el
+  proxy.
+- Con el sandbox activo (Muse arrancado sin `muse.sh`), el shell no alcanza
+  el proxy (medido 2026-09-26: 401/403). Si una llamada falla por
+  autenticación, **detenerse y reportar** (`niveles/PLAN.md`); no buscar la
+  clave por otros medios.
 - Modelos: Jev pin `jev-1.13.0` y avisar si `usage.model` difiere;
   `deepseek` = `deepseek-flash` (+thinking, reasoning_effort low);
-  `flash` = `glm-5.3-flash`. Medido: DeepSeek sirvió `deepseek-flash`
+  `flash` = `glm-5.3-flash`; `grok` = `grok-4.7` (reasoning_effort low; en
+  xAI `completion_tokens` no incluye `reasoning_tokens`). Medido: DeepSeek sirvió `deepseek-flash`
   cuando se pidió `deepseek-chat`; Z.ai tarda ~50 s aun en llamadas mínimas.
 
 ## Comandos

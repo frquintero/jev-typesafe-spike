@@ -53,6 +53,13 @@ MODEL_PARAMS = {
             "url": "https://api.deepseek.com/chat/completions",
             "extra": {"thinking": {"type": "enabled"}, "reasoning_effort": "low"},
         },
+        # Ronda D10g: Grok 4.7 (docs.x.ai), razonamiento no desactivable;
+        # "low" por paridad con deepseek.
+        "grok": {
+            "id": "grok-4.7",
+            "url": "https://api.x.ai/v1/chat/completions",
+            "extra": {"reasoning_effort": "low"},
+        },
     },
 }
 # Ronda 3 (Toulmin, llamada unica): mismos parametros de modelo que la ronda 2.
@@ -106,7 +113,9 @@ def call_model(version, alias, content):
     model_efectivo = None
     usage = None
     try:
-        with urllib.request.urlopen(req, timeout=180) as r:
+        # 600 s entre bytes: los modelos de razonamiento pueden pensar largo
+        # antes de emitir (xAI recomienda timeouts largos). Solo actua si falla.
+        with urllib.request.urlopen(req, timeout=600) as r:
             for raw_line in r:
                 line = raw_line.decode("utf-8").strip()
                 if not line or not line.startswith("data:"):
