@@ -31,3 +31,16 @@ parseo; la verificación (literalidad y cobertura) tal como la imprime el
 script; modelo efectivo; tokens por separado (`prompt_tokens`,
 `completion_tokens`, `reasoning_tokens`) y los segundos. Sin veredicto y sin
 comparar contra el gold: eso lo hacen Frat y Cowork.
+
+## Ronda U1d: `unidades_v1` sobre tec1 con DeepSeek
+
+Igual que U1; solo cambia el LLM. `deepseek` = `deepseek-flash`
+(DeepSeek-V4.1-Flash), `stream: true`, `thinking: {"type": "enabled"}`,
+`reasoning_effort: "low"`. En DeepSeek los tokens de razonamiento van dentro de
+`completion_tokens`.
+
+```
+python3 unidades/extraer_unidades.py tec1 deepseek unidades_v1 r1
+```
+
+**Reporte:** el mismo de U1. Sin veredicto.
