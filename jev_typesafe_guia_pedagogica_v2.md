@@ -676,15 +676,13 @@ else:
 
 Ese umbral es una decisión del sistema. No viene validado por el hecho de que la salida sea tipada.
 
-### La confianza baja es una señal de diseño
+### La confianza baja es una señal de alerta para revisar el diseño
 
-Como la franja central de la Noul, una confianza baja en Choice o Score no describe una duda de Jev: señala algo del diseño. Suele ser una de tres cosas:
-
-- **el juicio está mal redactado** o desconectado del expediente;
-- **los juicios de `criteria` se pisan**: el caso cabe en dos opciones o niveles;
-- **el expediente no decide ese caso**: el propio texto admite dos lecturas.
+Una confianza baja en Choice o Score es una señal de alerta fuerte. Antes de utilizar ese resultado para tomar una decisión, conviene revisar el diseño del juicio y del flujo: puede haber un juicio mal redactado o desconectado del expediente, juicios de `criteria` que se pisan o un expediente que no permite decidir bien el caso.
 
 En el Anexo A, la confianza baja señaló los tres casos problemáticos (0,37; 0,25; alrededor de 0,70). Cuando aparece, mira `probabilities` para ver entre qué juicios se reparte el soporte, y actúa sobre esos juicios, sobre `instructions` o sobre el flujo.
+
+Si el diseño está validado y la confianza sigue siendo baja, esa señal puede indicar un caso difícil o incierto y utilizarse para activar revisión, otro juicio o escalamiento. La relación entre confianza y error debe medirse con datos propios.
 
 **El planteamiento también mueve la confianza, y con ella el camino del caso.** Con la misma escena y la misma frase (§4.7), la confianza fue 0,56 con respuestas que se pisaban y 0,76 con la pregunta citada en `instructions`. Un umbral de 0,70 manda el mismo caso a revisión en un diseño y lo deja pasar en el otro. Calibra los umbrales con el diseño definitivo, no con un borrador.
 
@@ -1125,7 +1123,7 @@ De 18 predicciones escritas en el paso 2, cinco fallaron. La más reveladora: se
 | El score es un punto medio; con confianza baja, lee `probabilities`. | 3.3 |
 | Una dimensión por escala; niveles sobre el texto, sin solaparse, sin dobles negaciones ni indirección; ejemplos sin parecido con el material. | 3.4 |
 | Juicios separados pueden heredar la misma ambigüedad del mensaje (hipótesis). | 4.4 |
-| La confianza baja es una señal de diseño; un umbral sobre casos reales enruta de forma inestable. | 5 |
+| La confianza baja es una señal de alerta para revisar el diseño; un umbral sobre casos reales enruta de forma inestable. | 5 |
 | Predicción puntual y escrita, pares mínimos, réplicas, validación con casos nuevos. | 12 |
 
 ### Límites de este caso
@@ -1384,7 +1382,7 @@ Recuerda: son heurísticas. Una regla «sostenida» es una buena apuesta de part
 | Regla | Clase | Ámbito | Estado | Dónde |
 |---|---|---|---|---|
 | Confianza alta no garantiza acierto; la calibración vale para grupos de casos. | P | modelo | oficial | §5 |
-| La confianza baja (y la franja central de la Noul) es una señal de diseño: juicio mal redactado, juicios de `criteria` que se pisan o un caso que el expediente no decide. | P | diseño | medida | §3.1, §5 |
+| La confianza baja (y la franja central de la Noul) es una señal de alerta para revisar el diseño: juicio mal redactado, juicios de `criteria` que se pisan o un caso que el expediente no decide. | P | diseño | medida | §3.1, §5 |
 | Los umbrales se fijan por acción y dominio, con datos propios. | P | diseño | oficial | §5 |
 | No pongas un umbral sobre un grupo de casos reales. | P | diseño | medida | §5 |
 | Calibra los umbrales con el diseño definitivo: el planteamiento mueve la confianza. | P | diseño | medida | §5, §4.7 |

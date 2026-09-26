@@ -1,5 +1,42 @@
 # Spike Jev — detección con modelo de decisiones
 
+## Correr las pruebas en local (proxy de claves)
+
+**Por qué hay un proxy.** Los scripts nunca leen claves ni arman la cabecera `Authorization`. En la nube, un proxy agrega la clave a cada llamada. En local hacemos lo mismo con `proxy_local.py`. Así el código es idéntico en los dos entornos, hay un solo repositorio y las claves nunca quedan en archivos del repositorio.
+
+**Claves de los proveedores.** Son variables globales del shell, definidas en `~/.bashrc`:
+
+| Proveedor | Host | Variable |
+|---|---|---|
+| TypeSafe (Jev) | `api.typesafe.ai` | `TYPESAFE_API_KEY` |
+| Z.ai (GLM) | `api.z.ai` | `ZAI_API_KEY` |
+| DeepSeek | `api.deepseek.com` | `DEEPSEEK_API_KEY` |
+
+Para agregar o cambiar una clave, pon una línea `export NOMBRE=clave` en `~/.bashrc` y corre `source ~/.bashrc`. El proxy lee las claves solo al arrancar, así que después de cambiar una hay que reiniciarlo.
+
+**Instalar mitmproxy (una vez).** Ubuntu no deja instalar con `pip --user`, así que va en un entorno aparte:
+
+```bash
+python3 -m venv ~/.venvs/mitmproxy && ~/.venvs/mitmproxy/bin/pip install mitmproxy
+```
+
+**Arrancar el proxy** (terminal 1, desde la raíz del repositorio; escucha solo en localhost):
+
+```bash
+~/.venvs/mitmproxy/bin/mitmdump -q --listen-host 127.0.0.1 -p 8080 -s proxy_local.py
+```
+
+La primera vez, mitmdump crea su certificado en `~/.mitmproxy/`. Desde un shell no interactivo, como el de Desktop Commander, hay que arrancarlo con `bash -ic '…'` para que cargue `~/.bashrc`.
+
+**Correr un script** (terminal 2):
+
+```bash
+export HTTPS_PROXY=http://127.0.0.1:8080 SSL_CERT_FILE=$HOME/.mitmproxy/mitmproxy-ca-cert.pem
+python3 niveles/extraer_datos.py doc5 deepseek datos_v8 r1
+```
+
+El certificado del proxy solo lo usan los procesos que exportan `SSL_CERT_FILE`; no se instala en el sistema. El proxy agrega la clave solo a los tres hosts de la tabla y deja pasar el streaming. Al reiniciar la máquina, el proxy se apaga y hay que arrancarlo de nuevo.
+
 ## Contexto
 
 El piloto EEL detecta estructura con GLM vía prompts JSON (tareas A/B/C)
