@@ -30,11 +30,15 @@ def oraciones(texto):
 
 
 def literales(parsed):
+    # v1: nucleo/satelites son objetos con menciones; v2: son nombres (no literales)
     for u in parsed.get("unidades", []):
         yield from u.get("oraciones", [])
-        yield from u.get("nucleo", {}).get("menciones", [])
+        nucleo = u.get("nucleo")
+        if isinstance(nucleo, dict):
+            yield from nucleo.get("menciones", [])
         for s in u.get("satelites", []):
-            yield from s.get("menciones", [])
+            if isinstance(s, dict):
+                yield from s.get("menciones", [])
     for a in parsed.get("anaforas", []):
         yield a.get("mencion", "")
         yield a.get("oracion", "")

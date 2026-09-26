@@ -44,3 +44,24 @@ python3 unidades/extraer_unidades.py tec1 deepseek unidades_v1 r1
 ```
 
 **Reporte:** el mismo de U1. Sin veredicto.
+
+## Ronda U2: `unidades_v2` sobre tec1, Grok y DeepSeek
+
+Lecciones de U1/U1d que entran en el prompt: se quitan `relacion`, la lista de
+anáforas, las menciones, las procedencias y `oraciones_sin_unidad` (no sirven
+al paso 2 ni a la medición: el paso 2 es un LLM que lee la unidad entera, y la
+cobertura la verifica el código); el prompt pasa a ser el procedimiento en tres
+pasos (casos, núcleos y satélites, unidades temáticas); un caso puede ser
+satélite de más de un núcleo (en U1 los dos modelos omitieron en silencio el
+jarabe y las llenadoras, compartidos entre núcleos); nombre del caso sin
+artículos ni posesivos.
+
+Conjetura: mismas unidades que U1, ahora con los casos compartidos (jarabe,
+llenadoras) como satélites en vez de omitidos, con menos tokens de salida.
+
+```
+python3 unidades/extraer_unidades.py tec1 grok unidades_v2 r1
+python3 unidades/extraer_unidades.py tec1 deepseek unidades_v2 r1
+```
+
+**Reporte:** por modelo, el mismo de U1. Sin veredicto.
