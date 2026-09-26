@@ -658,3 +658,16 @@ python3 niveles/extraer_datos.py doc5 deepseek datos_v6 r1
 
 **Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
 error de parseo, y tokens (incluidos los de razonamiento). Sin veredicto.
+
+## Ronda D9: escala y valor redefinidos (doc5)
+
+Un solo cambio respecto de `datos_v6`: las definiciones de Escala y Valor se
+reemplazan por las de Frat (`datos_v7`), que describen los componentes de la
+escala y las clases de valor. Mismo documento que D8 (doc5), para comparar.
+
+```
+python3 niveles/extraer_datos.py doc5 deepseek datos_v7 r1
+```
+
+**Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
+error de parseo, y tokens (incluidos los de razonamiento). Sin veredicto.
