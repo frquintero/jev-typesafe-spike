@@ -62,4 +62,11 @@ fi
 # Sin META_API_KEY: Muse usa la suscripción, no factura por API.
 # --disable-sandbox: red completa (alcanza el proxy) y .git escribible;
 # las aprobaciones siguen activas.
-env -u META_API_KEY "$HOME/.local/bin/muse" --disable-sandbox "$@"
+# En modo headless (muse.sh exec ...) el flag va después del subcomando.
+if [ "${1:-}" = "exec" ]; then
+  shift
+  set -- exec --disable-sandbox "$@"
+else
+  set -- --disable-sandbox "$@"
+fi
+env -u META_API_KEY "$HOME/.local/bin/muse" "$@"

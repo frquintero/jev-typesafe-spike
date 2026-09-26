@@ -22,7 +22,7 @@ Las claves de API nunca pasan por el repositorio: el proxy de la nube las inyect
 
 **Pruebas en local.** También se puede correr en la máquina de Frat, con el mismo código, a través de `proxy_local.py` (instrucciones en el README raíz). Frat arranca el proxy con sus claves en una terminal. Muse Code corre los scripts en la máquina local, exportando solo `HTTPS_PROXY` y `SSL_CERT_FILE`, y nunca ve las claves. Los crudos quedan en `niveles/cache/` y se suben con commit y push, igual que en la nube.
 
-Muse Code (Meta Muse Spark) es el ejecutor alternativo a Claude Code, con las mismas reglas; sus notas operativas están en `MUSE.md`.
+Muse Code (Meta Muse Spark) es el ejecutor alternativo a Claude Code, con las mismas reglas; sus notas operativas están en `AGENTS.md`, que Muse carga solo en cada sesión.
 
 ## 1. Qué hacemos
 
