@@ -574,3 +574,25 @@ python3 niveles/extraer_datos.py doc4 deepseek datos_v3 r1
 
 **Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
 error de parseo, y tokens (incluidos los de razonamiento). Sin veredicto.
+
+---
+
+## Ronda D5: JSON organizado por caso (doc4)
+
+Solo datos, sin afirmaciones ni Jev. Cambios respecto de `datos_v3`:
+- el prompt se ordena en TAREA, DEFINICIONES PARA CUMPLIR LA TAREA y
+  ESTRUCTURA DEL JSON DE RESPUESTA;
+- el JSON se organiza por **caso**: caso → oraciones donde aparece → datos de
+  cada oración; sale `menciones`;
+- la variable dice: si algo es un aspecto de un caso, es variable de ese caso,
+  no un caso propio;
+- la escala dice «no el valor mismo».
+
+Se reutiliza `niveles/extraer_datos.py` sin cambios (solo orquesta):
+
+```
+python3 niveles/extraer_datos.py doc4 deepseek datos_v4 r1
+```
+
+**Reporte:** el JSON tal como llegó (verbatim), si venía con cerca o hubo
+error de parseo, y tokens (incluidos los de razonamiento). Sin veredicto.
