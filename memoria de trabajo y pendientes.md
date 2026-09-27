@@ -68,6 +68,7 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `dat
 - **Binarios** (con fiebre, sin fallas, trabado): hechos, no datos. Hay valor cuando la palabra elige entre más alternativas que el sí y el no.
 - **Modificadores cualitativos del nombre** (antiguo, municipal): parte del caso. Una **cantidad con unidad** es dato aunque vaya en el nombre («caja de 12 kg» → peso de la caja = 12, kg). Números y códigos sin unidad que identifican (camión 7, cama 12, C-2) son del caso.
 - **Circunstancias** («a las 8», «en la noche»): dentro de la variable («temperatura del paciente a las 8»). Una hora es valor cuando responde a «¿cuándo?».
+- **Completitud de la variable** (decisión de Frat tras U4/bio1): una variable está bien hecha cuando al leerla queda claro qué varía, con el contexto necesario. El método que define qué se midió («registrados por los censos visuales», «en marea baja») va en la variable; en metrología, reduce la incertidumbre definicional (VIM 2.27). La **procedencia** queda solo para la fuente del dicho («según el informe de…», «el técnico dijo…»): no cambia qué varía, y es lo que Jev podría pesar al graduar la confianza. En bio1 no hubo error de procedencia: «marcadas por los buzos» es el agente de lo contado, y «por los censos visuales», el método.
 
 ## 5. Marco: qué es un dato (ensayo)
 
@@ -78,7 +79,7 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `dat
 - **Determinación:** resultado de la atribución de un valor a un caso bajo una variable; **cierra una pregunta** `variable(caso, condiciones) = ?`.
 - **Hecho y determinación:** una frase que solo distingue (algo es, una relación existe) registra un hecho, no un dato. Un hecho puede abrir preguntas cuya respuesta sí sería un dato («colinda con el pozo» abre `distancia(pozo, finca) = ?`).
 - **Condiciones:** constitutivas (si cambian, cambia la pregunta), de representación, de procedencia.
-- **Procedencia:** quien dice o cómo se obtuvo no forma parte del dato; es un dato de otro orden, sobre la ruta (l. 161-163, 293), y pesa en la robustez del sostén.
+- **Procedencia:** quien dice o cómo se obtuvo no forma parte del dato; es un dato de otro orden, sobre la ruta (l. 161-163, 293), y pesa en la robustez del sostén. En el extractor, precisado por la decisión de completitud (§4): el método que define qué se midió va en la variable; la procedencia es la fuente del dicho.
 - **Dato:** determinación registrada de modo recuperable. **Información:** el cambio en las respuestas admisibles a una pregunta al considerar un dato.
 - **Vocabulario del prompt y del ensayo:** el prompt usa «variable» (magnitud individual) y «unidad de medida»; en el ensayo, la variable es el aspecto y la escala es más amplia (unidades, categorías, orden, precisión). El nombre del campo es interfaz con el modelo, no la teoría; el código o `esquema.json` puede ubicar la unidad dentro de la escala. Las condiciones constitutivas viven hoy dentro de la variable.
 
