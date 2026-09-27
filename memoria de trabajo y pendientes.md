@@ -57,6 +57,7 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `dat
 - **Unidades de prueba:** `unidades/docs/ut1.md`–`ut5.md` (ut4 no tiene datos: solo hechos). Gold en la sección DU5 de `unidades/PLAN.md`. Ya son **conjunto de desarrollo**: vimos sus fallas y las discutimos, así que no miden generalización.
 - **Historia corta:** `datos_u3` (definiciones) dejó seudodatos en ut4; `datos_u4` (valor con tipología cuantitativo/cualitativo, sin condiciones constitutivas) empeoró: «escala» se leyó como nivel de medición y ut4 dio «municipal» y «antiguo». `datos_u5` (ejemplos) dio ut4 vacío, los 13 valores del gold y un dato de más, con ~350–450 tokens de razonamiento (DU4: 900–3250) y ~6 s por unidad.
 - **Diferencias de DU5 con el gold**, cada una atribuible a lo que los ejemplos no muestran: «6» sin «de la mañana»; variables sin identificador («camión de reparto» sin el 7, «caldera» sin C-2); «tres cuartos» con `null` (el gold dice «fracción»); «a las 8» como dato aparte («hora de la temperatura») en vez de dentro de la variable.
+- **Vigente desde DU7: `datos_u7`** = definiciones de una línea + cinco ejemplos nodo (mediciones, cualidades con aspecto dicho y callado, nombres y relaciones, conteos y proporciones, sin datos). DU6 (sin el aspecto implícito) dio 13/13 valores pero «dolor abdominal»/«tos» sin aspecto; DU7, tres réplicas: **39/39 datos completos**, ut4 vacío en las tres; la única variación entre réplicas es de redacción («temperatura del termostato» / «temperatura marcada por el termostato»), no de contenido. Razonamiento 175–1277 tokens, 3–18 s por unidad. ut1–ut5 quedan saturados como conjunto de desarrollo.
 - **Siguiente (en discusión):** los ejemplos deben ser **generales**, no ajustados a las fallas de ut1–ut5. Propuesta: listar desde el marco, sin mirar las unidades de prueba, las formas que puede tomar un dato (cantidad con unidad, conteo, proporción o porcentaje, hora o fecha, ordinal, nominal, caso con identificador, variable con circunstancia) y cubrir cada una en los ejemplos. Para medir generalización hacen falta unidades nuevas con gold escrito antes de correr.
 
 ### Decisiones de Frat sobre qué es dato (DU5)
@@ -100,10 +101,9 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `dat
 
 ## 7. Pendientes
 
-1. DU7 en curso: aspecto implícito en el nodo de cualidades (`datos_u7`), Grok r1–r3, ejecutor Luna. DU6 dio 13/13 valores; faltaba el aspecto en ut5.
-2. Unidades nuevas de prueba con gold escrito antes de correr (ut1–ut5 quedan como desarrollo).
-3. Encadenar los pasos: correr el paso 2 sobre las unidades que produce el paso 1 (hoy ut1-ut5 se armaron a mano).
-4. Casos compartidos entre núcleos en el paso 1.
-5. La procedencia como capa propia, incluido su alcance entre unidades.
-6. Objetos información y afirmación.
-7. Auditoría de Jev sobre los datos; reidentificación de casos entre textos (sin campo `caso`, se recupera en un paso aparte); catálogo único de definiciones (`esquema.json`) y §20.1 del borrador principal.
+1. Unidades nuevas de prueba (conjunto reservado) con gold escrito antes de correr, para medir el ~90 % con `datos_u7`.
+2. Encadenar los pasos: correr el paso 2 sobre las unidades que produce el paso 1 (hoy ut1-ut5 se armaron a mano).
+3. Casos compartidos entre núcleos en el paso 1.
+4. La procedencia como capa propia, incluido su alcance entre unidades.
+5. Objetos información y afirmación.
+6. Auditoría de Jev sobre los datos; reidentificación de casos entre textos (sin campo `caso`, se recupera en un paso aparte); catálogo único de definiciones (`esquema.json`) y §20.1 del borrador principal.
