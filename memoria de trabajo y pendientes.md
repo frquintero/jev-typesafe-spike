@@ -17,7 +17,7 @@ Estado al 27-09-2026. No es bitácora: solo lo vigente. La historia está en `gi
 
 **Configuración** (detalle en el README, «Correr las pruebas con Muse Code»):
 - `muse.sh` (alias `muse` en `~/.bashrc`) levanta el proxy de claves si no corre, arranca Muse sin sandbox en la carpeta actual y apaga el proxy al salir si lo arrancó él.
-- Muse carga solo `AGENTS.md` (sus reglas) e ignora `CLAUDE.md` (para Claude Code).
+- Las reglas del ejecutor viven solo en `AGENTS.md`, que Muse carga solo; `CLAUDE.md` es una línea que apunta ahí (`@AGENTS.md`).
 - Claves: `proxy_local.py` las inyecta por host (TypeSafe, Z.ai, DeepSeek, xAI); nunca van en archivos del repo.
 - Cowork hace git con Desktop Commander, no con el shell aislado (no ve credenciales y deja bloqueos en `.git/`). Para detener procesos, la herramienta `kill_process` de Desktop Commander (`kill` desde la terminal está bloqueado).
 

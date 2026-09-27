@@ -1,42 +1,51 @@
-# AGENTS.md — anotaciones operativas para Muse Code (Muse lo carga solo; Claude Code usa CLAUDE.md)
+# AGENTS.md — reglas operativas del ejecutor (Muse Code lo carga solo; CLAUDE.md apunta aquí)
 
-Soy Muse Code (powered by Meta Muse Spark). Frat y Cowork planean; yo ejecuto:
-corro lo que el plan indica, informo con números y crudos, no decido diseño,
-umbrales ni veredictos. El spike no concluye. (`cutoff-spike/PLAN.md` ya me
-asigna ese rol: «los planificadores definen; Muse implementa».)
+Frat y Cowork planean; el ejecutor corre lo que el plan indica, informa con
+números y crudos, y no decide diseño, prompts, umbrales ni veredictos. El
+spike no concluye.
 
-## Arranque de cada sesión (en este orden)
+## Arranque de cada sesión
 
-1. `git status --short` + `git log --oneline -5` + `git branch --show-current`
-   (rama de trabajo: `main`; el piloto EEL no se toca).
-2. Leer `README.md` → sección «Estado actual» (puede cambiar: el objetivo EEL
-   está **suspendido**, lo activo es `niveles/`).
-3. Leer `memoria de trabajo y pendientes.md` → §8 pendientes y estado D1–D10.
-   Es la fuente única del estado: no duplicarlo en ningún otro archivo.
-4. Leer la sección de la ronda indicada en `niveles/PLAN.md` (o
-   `cutoff-spike/PLAN.md` si toca ese sub-spike).
-5. `diccionario.md` + `jev_typesafe_guia_pedagogica_v2.md` son el vocabulario
-   vigente (juicio/expediente/grado, bandas, fan-out). Ya leídos una vez; solo
-   releer si la ronda cita una sección concreta.
+1. `git status --short` + `git log --oneline -5` (rama de trabajo: `main`).
+2. Leer `memoria de trabajo y pendientes.md`: fuente única del estado. No
+   duplicarlo en ningún otro archivo.
+3. Leer la sección de la ronda indicada en `unidades/PLAN.md` (o en el
+   `PLAN.md` que indique el mensaje).
+4. `diccionario.md` y `jev_typesafe_guia_pedagogica_v2.md` son el vocabulario
+   de Jev; releer solo si la ronda cita una sección.
 
 ## Mapa del repo
 
-- `probes/` + `cache/`: spike Jev original (scripts autocontenidos, casi todos
-  con `run` idempotente / `analyze` sin API). `cache/` está commiteado.
-- `niveles/`: hilo activo. `run_niveles.py` (`call_model`, streaming),
-  `extraer_datos.py` (solo orquesta, sin verificaciones),
-  `jev_sopesa.py` (builds Jev v1–v6 más v5b, etapa Toulmin, sin uso actual),
-  `docs/doc1–5.md` (sintéticos), `prompts/` (se leen de archivo, `str.replace`
-  para `{{TEXTO}}`, nunca `str.format`), `cache/` (crudos
-  `datos-<doc>-<modelo>-<prompt>-<rN>.json` y `niveles-...`).
+- `unidades/`: **hilo activo**. Extracción de datos en dos pasos.
+  - Paso 1, unidades temáticas: `extraer_unidades.py` (guarda el crudo y
+    verifica literalidad y cobertura; solo reporta).
+  - Paso 2, datos por unidad: `extraer_datos_u.py` (solo orquesta).
+  - `docs/` (sintéticos), `prompts/` (se leen de archivo; `{{TEXTO}}` con
+    `str.replace`, nunca `str.format`), `gold/` (esperado, escrito antes de
+    correr), `cache/` (crudos), `PLAN.md` (una sección por ronda).
+- `niveles/`: antecedente sin trabajo activo. Su `run_niveles.py` tiene
+  `call_model` (streaming) y los alias de modelos que usan los scripts de
+  `unidades/`.
+- `probes/` + `cache/`: spike Jev original. Casi todos los scripts son
+  autocontenidos; las baterías exponen `run` (idempotente) y `analyze` (sin
+  API).
 - `cutoff-spike/`: `run_cutoff.py smoke|coarse|coarse2|all`,
   `analyze.py v1|v2|delta|all`. No editar sus JSON de sondas sin releer su PLAN.
-- `proxy_local.py`: inyecta `Authorization` según host (solo local).
-- `deleted/`: snapshots históricos `*.antes-v*` del README, el diccionario y
-  la guía, más el resumen retirado (`jev_resumen_pedagogico.md`). No es
-  material de trabajo ni fuente vigente.
+- `proxy_local.py`: inyecta `Authorization` según host. `muse.sh`: arranque
+  de Muse con el proxy.
+- `deleted/`: snapshots históricos; no es fuente.
 - Documentos vivos (no editar sin aprobación): `README.md`, `diccionario.md`,
   `jev_typesafe_guia_pedagogica_v2.md`.
+
+## Comandos
+
+- `python3 unidades/extraer_unidades.py <doc> <modelo> <prompt> <rN>`
+- `python3 unidades/extraer_datos_u.py <doc> <modelo> <prompt> <rN>`
+- `python3 probes/<x>.py` · `python3 probes/<bateria>.py run|analyze`
+- `python3 -m py_compile <archivo>` tras tocar código (no hay tests ni lint).
+- Todos los scripts son idempotentes: si el crudo existe, no vuelven a llamar.
+- Al terminar una corrida: commit y push de los crudos (y del script si
+  cambió) a `main`.
 
 ## Red y claves (regla dura)
 
@@ -48,58 +57,66 @@ asigna ese rol: «los planificadores definen; Muse implementa».)
 - Verificar presencia sin imprimir valores:
   `bash -ic 'for v in TYPESAFE_API_KEY ZAI_API_KEY DEEPSEEK_API_KEY XAI_API_KEY; do
   [ -n "${!v}" ] && echo "$v: SET" || echo "$v: MISSING"; done'`
-- Local: Frat arranca Muse con `muse` (alias de `muse.sh`). `muse.sh` levanta
-  el proxy en 127.0.0.1:8080 si no está corriendo, lanza Muse con
-  `--disable-sandbox` (red completa y `.git` escribible; las aprobaciones
-  siguen) y apaga el proxy al salir. **No arrancar otro proxy** ni
-  inspeccionar el entorno de su proceso.
+- Frat arranca Muse con `muse` (alias de `muse.sh`); Cowork puede lanzarlo sin
+  terminal con `./muse.sh exec --prompt-file <archivo>`. `muse.sh` levanta el
+  proxy en 127.0.0.1:8080 si no corre, lanza Muse con `--disable-sandbox`
+  (red completa y `.git` escribible; las aprobaciones siguen) y apaga el proxy
+  al salir. **No arrancar otro proxy** ni inspeccionar el entorno de su proceso.
 - En cada comando que llame a una API, exportar antes:
   `export HTTPS_PROXY=http://127.0.0.1:8080
   SSL_CERT_FILE=$HOME/.mitmproxy/mitmproxy-ca-cert.pem`.
-  No exportarlas de forma global: el tráfico propio de Muse no pasa por el
-  proxy.
-- Con el sandbox activo (Muse arrancado sin `muse.sh`), el shell no alcanza
-  el proxy (medido 2026-09-26: 401/403). Si una llamada falla por
-  autenticación, **detenerse y reportar** (`niveles/PLAN.md`); no buscar la
-  clave por otros medios.
-- Modelos: Jev pin `jev-1.13.0` y avisar si `usage.model` difiere;
-  `deepseek` = `deepseek-flash` (+thinking, reasoning_effort low);
-  `flash` = `glm-5.3-flash`; `grok` = `grok-4.7` (reasoning_effort low; en
-  xAI `completion_tokens` no incluye `reasoning_tokens`). Medido: DeepSeek sirvió `deepseek-flash`
-  cuando se pidió `deepseek-chat`; Z.ai tarda ~50 s aun en llamadas mínimas.
+  No exportarlas de forma global: el tráfico propio de Muse no pasa por el proxy.
+- Si una llamada falla por autenticación, **detenerse y reportar**; no buscar
+  la clave por otros medios.
 
-## Comandos
+## Modelos
 
-- `python3 probes/<x>.py` · `python3 probes/<bateria>.py run|analyze`
-- `python3 niveles/extraer_datos.py <doc> <modelo> <prompt> <rN>`
-- `python3 niveles/run_niveles.py <doc> <modelo> <prompt_A> <prompt_B> <rN>`
-  (`-` en prompt_B = llamada única Toulmin)
-- `python3 -m py_compile` tras tocar código (no hay tests/lint).
-- Nombrado crudos réplica: `cache/<probe>-r<N>.json`.
-- Al terminar una corrida, commit y push de `cache/` (y del script si cambió)
-  a la rama de trabajo: lo pide el mensaje de cada ronda y coincide con
-  `CLAUDE.md` (que no se tocó).
+- `grok` = `grok-4.7` (`reasoning_effort: "low"`, `stream_options` con
+  `include_usage`). En xAI `completion_tokens` no incluye `reasoning_tokens`.
+- `deepseek` = `deepseek-flash` (thinking, `reasoning_effort: "low"`). Su
+  razonamiento va dentro de `completion_tokens`. Puede dejar el stream
+  colgado: si pasa un minuto sin datos, reportarlo.
+- `flash` = `glm-5.3-flash`; Z.ai tarda ~50 s aun en llamadas mínimas.
+- Jev: `jev-1.13.0` fijo (ver abajo).
+- Comparar siempre el modelo efectivo de la respuesta con el esperado y avisar
+  si difiere.
+
+## Protocolo Jev (para cuando se use)
+
+`POST https://api.typesafe.ai/v1/systemone`, sin SDK (`urllib` + dicts):
+
+```python
+body = {
+    "model": "jev-1.13.0",   # fijo; avisar si usage.model no coincide
+    "state": ...,            # el expediente: string, dict o array
+    "questions": {
+        "q1": {              # claves neutras; el modelo no las usa
+            "type": "noul" | "choice" | "score",
+            "instructions": "...",       # el juicio (Noul) o el marco (Choice/Score)
+            "criteria": {...} | [...],   # solo Choice/Score
+        },
+    },
+}
+```
+
+- **Noul:** un juicio → grado 0–1, leído por bandas; la franja 0,30–0,65 es
+  señal de diseño.
+- **Choice:** juicios alternativos sin orden; siempre con opción de salida.
+- **Score:** juicios como niveles ordenados; `score` = posición media.
+- Varias preguntas en una llamada se resuelven en paralelo (fan-out): no cambia
+  el resultado, solo la latencia. Sin `temperature`: la estabilidad se mide con
+  réplicas (`r1`/`r2`/`r3`; respiran ±0,01–0,02).
 
 ## Reportes
 
-- Prompts y campos enviados, verbatim (regla 22). Cada grado con su JSON
-  `{request, response}` al lado. Réplicas r1/r2/r3 respiran ±0.01–0.02: normal.
-- Sin mecanismos inventados para grados concretos (regla 26); sin veredicto
-  (regla 15); solo documentos sintéticos en `state` (regla 20).
+- Prompts y campos enviados, verbatim (regla 22). El JSON `parsed` tal como
+  llegó, el crudo detrás de cada afirmación.
+- Sin veredicto (regla 15); sin mecanismos inventados para un grado concreto
+  (regla 26); solo documentos sintéticos (regla 20).
 
-## Lecciones de latencia (sesión 2026-09-26, 5:28 medidos)
+## Lecciones operativas
 
-- El costo dominante soy yo (pasos secuenciales con deliberación larga),
-  no la API — salvo GLM/DeepSeek con razonamiento (minutos por llamada).
-- Pasos grandes y en paralelo; no re-verificar lo que la salida ya mostró;
-  no probar Z.ai salvo que la ronda lo pida.
-- `pgrep -af` vuelca el entorno del sandbox (KB de basura): usar `pgrep -x`
-  o sondas de puerto. Cada `bash` con red puede pagar ~5–9 s de revisión
-  automática; `read_file`/`write_file` no.
-- Desde el sandbox no se ven procesos ni puertos del host (namespaces
-  propios); el puerto del broker cambia por comando.
-
-## Estado
-
-Ver `memoria de trabajo y pendientes.md` (§6–§8) y `git log`. A propósito no
-hay foto fija aquí: duplicarla es como desactualizarse.
+- El costo dominante es la deliberación del ejecutor, no la API (salvo modelos
+  con razonamiento largo): pasos grandes y en paralelo; no re-verificar lo que
+  la salida ya mostró.
+- `pgrep -af` vuelca entornos completos: usar `pgrep -x` o sondas de puerto.

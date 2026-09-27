@@ -64,7 +64,7 @@ A Muse no se le exportan `HTTPS_PROXY` ni `SSL_CERT_FILE`: su propio tráfico no
 
 **Modo sin terminal.** `./muse.sh exec --prompt-file <archivo>` corre un mensaje completo y termina. Así Cowork lanza las rondas desde Desktop Commander sin que haya que copiar mensajes: Muse corre, reporta, hace commit y push.
 
-**Qué lee Muse.** Muse carga solo `AGENTS.md` en cada sesión, interactiva o no. Ahí están sus reglas de red, claves, comandos y reportes. Como `AGENTS.md` tiene prioridad sobre `CLAUDE.md` en el mismo directorio, Muse ignora `CLAUDE.md`, que queda para Claude Code. Cada ejecutor lee su archivo.
+**Qué lee Muse.** Muse carga solo `AGENTS.md` en cada sesión, interactiva o no. Ahí están sus reglas de red, claves, comandos y reportes. `CLAUDE.md` es una sola línea (`@AGENTS.md`): si se usa Claude Code, lee las mismas reglas. Hay una sola fuente.
 
 ## Contexto
 

@@ -5,7 +5,7 @@ un hecho nuclear, sus satélites y las oraciones que se refieren a ellos, con
 anáforas y alcances de procedencia resueltos. Es el primer paso del
 procedimiento de extracción; el paso 2 (datos por unidad) viene después.
 
-Aplican las reglas de ejecución del `CLAUDE.md` raíz y de `AGENTS.md`.
+Aplican las reglas de ejecución de `AGENTS.md`.
 
 ## Archivos (no editar sin aprobación de Frat)
 
