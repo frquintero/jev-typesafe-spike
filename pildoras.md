@@ -22,6 +22,8 @@ el contexto en que surgió. Se agregan a medida que aparecen.
 13. [Enunciados genéricos](#13-enunciados-genéricos)
 14. [Operacionalismo](#14-operacionalismo)
 15. [Incertidumbre definicional](#15-incertidumbre-definicional)
+16. [Tipo y ejemplar](#16-tipo-y-ejemplar)
+17. [La moda como estadístico: dato de segundo orden](#17-la-moda-como-estadístico-dato-de-segundo-orden)
 
 ---
 
@@ -184,4 +186,28 @@ valor corrige.
 (decisión tras U4): la variable debe dejar claro qué varía, con su contexto,
 incluido el método cuando define qué se midió; la procedencia queda para la
 fuente del dicho.
+
+## 16. Tipo y ejemplar
+
+**Qué es.** Distinción de Charles S. Peirce (*type / token*): el tipo es la
+clase o forma general (la especie «pez loro», la palabra «casa»); el ejemplar
+es cada instancia concreta (este pez que nada en T-1, esta aparición de la
+palabra).
+
+**Contexto.** Revisión de «especie más abundante = pez loro» en bio1. La
+regla vieja («un valor no es otro caso») confundía los dos: un tipo sí puede
+ser valor (categoría del soporte de una variable nominal); lo que no puede
+serlo es un ejemplar, que sería otro caso y daría una relación entre casos.
+
+## 17. La moda como estadístico: dato de segundo orden
+
+**Qué es.** La moda es el valor más frecuente de una variable en una muestra;
+es el único resumen de tendencia central que tiene una variable nominal (no
+tiene media ni varianza). Un dato que reporta un estadístico calculado sobre
+una muestra es un dato de segundo orden.
+
+**Contexto.** Marco de Frat: la variable tiene la estructura del fenómeno
+(distribución, escala, momentos) y los valores son la muestra. «Especie más
+abundante = pez loro» es la moda de «especie de cada pez» sobre los 215 y 98
+peces del censo: el texto no reporta una observación, sino un estadístico.
 

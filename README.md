@@ -2,20 +2,23 @@
 
 ## Estado actual (2026-09-27)
 
-**Qué hacemos.** Extraer los **datos** de un `texto` con un LLM, en el
-sentido del ensayo de Frat «¿Qué es un dato?», en dos pasos (carpeta
-`unidades/`, hilo activo):
+**Qué hacemos.** Extraer los **datos** de un `texto` con un LLM (Grok 4.7),
+en el sentido del ensayo de Frat «¿Qué es un dato?», en dos pasos encadenados
+(carpeta `unidades/`, hilo activo):
 
-1. **Unidades temáticas** (`extraer_unidades.py`, prompt `unidades_v2`): el
-   LLM agrupa las oraciones del texto en unidades con un núcleo y sus
-   satélites.
-2. **Datos por unidad** (`extraer_datos_u.py`, prompt vigente `datos_u5`):
-   una llamada por unidad; el LLM devuelve `{"datos": [{"variable", "valor",
-   "unidad_de_medida"}]}`. El prompt ya no define conceptos: muestra tres
-   ejemplos (con datos de varios tipos, con trampas, sin datos).
+1. **Unidades temáticas** (`extraer_unidades.py`, prompt vigente
+   `unidades_v3`): el código numera las oraciones y el LLM segmenta el texto
+   por subtema en tramos contiguos (`{"unidades": [{"tema", "desde",
+   "hasta"}]}`).
+2. **Datos por unidad** (prompt vigente `datos_u7`): una llamada por unidad;
+   el LLM devuelve `{"datos": [{"variable", "valor", "unidad_de_medida"}]}`.
+   Los dos prompts siguen el mismo esquema: tarea de una línea, definiciones
+   cortas y ejemplos nodo (prototípicos y contrastivos).
 
-Después, **Jev** (`jev-1.13.0`) auditará lo extraído; no empezado. Modelo de
-trabajo del paso 2: Grok 4.7 (`grok`).
+La cadena completa la corre `extraer_datos_doc.py` (entra un documento, sale
+un consolidado con sus datos). Es la capa de datos del grafo datos →
+argumentos → tesis de **Zettel**. Después, **Jev** (`jev-1.13.0`) auditará lo
+extraído; no empezado.
 
 **Dónde está cada cosa.**
 
@@ -26,6 +29,8 @@ trabajo del paso 2: Grok 4.7 (`grok`).
   crudos en `unidades/cache/`; mensaje para el ejecutor de cada ronda en
   `unidades/mensaje_<RONDA>.txt`.
 - Reglas del ejecutor (red, claves, comandos, reportes): `AGENTS.md`.
+- Píldoras (precisiones de vocabulario y conceptos que surgen en la
+  planeación, con su contexto): `pildoras.md`.
 - Vocabulario de Jev: `jev_typesafe_guia_pedagogica_v2.md` y
   `diccionario.md` (no se editan sin aprobación; la guía no cambia mientras
   estemos en pruebas de extracción).
@@ -75,7 +80,7 @@ La primera vez, mitmdump crea su certificado en `~/.mitmproxy/`. Desde un shell 
 
 ```bash
 export HTTPS_PROXY=http://127.0.0.1:8080 SSL_CERT_FILE=$HOME/.mitmproxy/mitmproxy-ca-cert.pem
-python3 unidades/extraer_datos_u.py ut1 grok datos_u5 r1
+python3 unidades/extraer_datos_doc.py bio1 grok unidades_v3 datos_u7 r1
 ```
 
 El certificado del proxy solo lo usan los procesos que exportan `SSL_CERT_FILE`; no se instala en el sistema. El proxy agrega la clave solo a los cuatro hosts de la tabla y deja pasar el streaming. Al reiniciar la máquina, el proxy se apaga y hay que arrancarlo de nuevo.

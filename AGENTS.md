@@ -21,10 +21,15 @@ spike no concluye.
 
 - `unidades/`: **hilo activo**. Extracción de datos en dos pasos.
   - Paso 1, unidades temáticas: `extraer_unidades.py` (guarda el crudo y
-    verifica literalidad y cobertura; solo reporta).
-  - Paso 2, datos por unidad: `extraer_datos_u.py` (solo orquesta).
-  - `docs/` (sintéticos), `prompts/` (se leen de archivo; `{{TEXTO}}` con
-    `str.replace`, nunca `str.format`), `gold/` (esperado, escrito antes de
+    verifica; solo reporta). Con `{{TEXTO_NUMERADO}}` en el prompt (v3) numera
+    las oraciones, reconstruye las unidades y verifica huecos, solapes y orden.
+  - Paso 2, datos por unidad: `extraer_datos_u.py` (una unidad suelta; solo
+    orquesta).
+  - Cadena completa: `extraer_datos_doc.py` (paso 1, pegamento en código,
+    paso 2 una llamada por unidad, crudos por unidad y consolidado
+    `cache/doc-…json`).
+  - `docs/` (sintéticos), `prompts/` (se leen de archivo; `{{TEXTO}}` o
+    `{{TEXTO_NUMERADO}}` con `str.replace`, nunca `str.format`), `gold/` (esperado, escrito antes de
     correr; el de ut1-ut5 está en la sección DU5 de `PLAN.md`), `cache/`
     (crudos), `PLAN.md` (una sección por ronda), `mensaje_<RONDA>.txt` (mensaje
     de cada ronda para el ejecutor).
@@ -46,6 +51,7 @@ spike no concluye.
 
 - `python3 unidades/extraer_unidades.py <doc> <modelo> <prompt> <rN>`
 - `python3 unidades/extraer_datos_u.py <doc> <modelo> <prompt> <rN>`
+- `python3 unidades/extraer_datos_doc.py <doc> <modelo> <prompt_unidades> <prompt_datos> <rN>`
 - `python3 probes/<x>.py` · `python3 probes/<bateria>.py run|analyze`
 - `python3 -m py_compile <archivo>` tras tocar código (no hay tests ni lint).
 - Todos los scripts son idempotentes: si el crudo existe, no vuelven a llamar.
