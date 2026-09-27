@@ -24,7 +24,7 @@ trabajo del paso 2: Grok 4.7 (`grok`).
 - Rondas (cambio, conjetura, gold, comandos, reporte): `unidades/PLAN.md`.
   Prompts en `unidades/prompts/`; unidades de prueba en `unidades/docs/`;
   crudos en `unidades/cache/`; mensaje para el ejecutor de cada ronda en
-  `unidades/muse_<RONDA>.txt`.
+  `unidades/mensaje_<RONDA>.txt`.
 - Reglas del ejecutor (red, claves, comandos, reportes): `AGENTS.md`.
 - Vocabulario de Jev: `jev_typesafe_guia_pedagogica_v2.md` y
   `diccionario.md` (no se editan sin aprobación; la guía no cambia mientras

@@ -11,7 +11,7 @@ Estado al 27-09-2026 (tras DU5). No es bitácora: solo lo vigente. La historia e
 **Flujo de una ronda.**
 1. Frat y Cowork discuten y conjeturan. Se corre solo si hay una conjetura nueva.
 2. Cowork escribe el prompt en `unidades/prompts/` y la sección de la ronda en `unidades/PLAN.md` (cambio, conjetura, comandos, reporte), y hace commit y push.
-3. Cowork deja el mensaje para el ejecutor en `unidades/muse_<RONDA>.txt` (commit incluido): Frat lo pega en su sesión, o Cowork lo lanza sin terminal con `./muse.sh exec --prompt-file <archivo>`.
+3. Cowork deja el mensaje para el ejecutor en `unidades/mensaje_<RONDA>.txt` (commit incluido): Frat lo pega en su sesión, o Cowork lo lanza sin terminal con `./muse.sh exec --prompt-file <archivo>`.
 4. El ejecutor (Muse, Luna o Claude Code) corre sin modificar nada, reporta sin veredicto y hace commit y push de los crudos.
 5. Cowork lee los crudos (`unidades/cache/`) y los evalúa contra la conjetura. Frat decide.
 
@@ -100,7 +100,7 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `dat
 
 ## 7. Pendientes
 
-1. Lista de formas de dato desde el marco y ejemplos generales que las cubran (siguiente paso).
+1. DU6 en curso: definiciones cortas + cinco ejemplos nodo (`datos_u6`), Grok r1 y r2, ejecutor Luna.
 2. Unidades nuevas de prueba con gold escrito antes de correr (ut1–ut5 quedan como desarrollo).
 3. Encadenar los pasos: correr el paso 2 sobre las unidades que produce el paso 1 (hoy ut1-ut5 se armaron a mano).
 4. Casos compartidos entre núcleos en el paso 1.

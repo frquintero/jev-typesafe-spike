@@ -232,3 +232,52 @@ python3 unidades/extraer_datos_u.py ut5 grok datos_u5 r1
 **Réplicas:** r1 la corrió Muse (commit fc2feef). r2 es una réplica con el mismo
 request, corrida por Luna (ChatGPT), que la guardó por error como r1 (commit
 59f6469); se restauró r1 y la de Luna quedó como r2.
+
+## Ronda DU6: `datos_u6` (definiciones cortas + cinco ejemplos nodo) sobre ut1-ut5 con Grok
+
+Hallazgo de DU5 (r1 y r2): los ejemplos rinden (ut4 vacío, los 13 valores),
+pero cada falla corresponde a una forma de dato que los ejemplos no mostraban
+(identificador en la variable, hora con «de la mañana», fracción, hora como
+circunstancia) y lo inestable entre réplicas es donde la señal era débil
+(identificador, conteo, binario).
+
+Un cambio de principio, apoyado en la literatura (guías de anotación concisas
++ ejemplos representativos y contrastivos: GoLLIE, GuideNER, muestreo por
+diversidad, *near miss*): definiciones de una línea, con las mismas palabras
+de los ejemplos, y cinco ejemplos nodo (prototípicos) elegidos desde el marco,
+no desde las fallas; cada uno agrupa formas que ningún otro cubre:
+
+1. Mediciones (viñedo): unidades, decimales, %, horas con mañana/tarde,
+   identificador, hora como circunstancia.
+2. Cualidades (café): ordinales, nominal, puntaje; casi-dato binario
+   («certificado»).
+3. Nombres y relaciones (muelle): cantidad dentro del nombre; casi-datos:
+   adjetivo del nombre, relación entre casos, binario.
+4. Conteos y proporciones (aves): conteo con «unidad», fracción, fecha como
+   circunstancia; casi-dato: relación.
+5. Sin datos (sendero): hechos, relación, binario, recomendación.
+
+Fuera por ahora (Ockham, smoke test): rangos, aproximaciones, valores negados.
+
+Gold: el de DU5. Aviso: ut1-ut5 son conjunto de desarrollo; su acierto aquí
+sale inflado. El 90 % se medirá después en unidades nuevas.
+
+Conjetura: sobre ut1-ut5, Grok acierta en ambas réplicas ≥ 12 de los 13 datos
+completos (variable con su identificador y circunstancia, valor literal,
+unidad), ut4 vacío, sin «sin fallas», «6 de la mañana» completo, «tres cuartos»
+con «fracción» y «a las 8» dentro de la variable.
+
+```
+python3 unidades/extraer_datos_u.py ut1 grok datos_u6 r1
+python3 unidades/extraer_datos_u.py ut2 grok datos_u6 r1
+python3 unidades/extraer_datos_u.py ut3 grok datos_u6 r1
+python3 unidades/extraer_datos_u.py ut4 grok datos_u6 r1
+python3 unidades/extraer_datos_u.py ut5 grok datos_u6 r1
+python3 unidades/extraer_datos_u.py ut1 grok datos_u6 r2
+python3 unidades/extraer_datos_u.py ut2 grok datos_u6 r2
+python3 unidades/extraer_datos_u.py ut3 grok datos_u6 r2
+python3 unidades/extraer_datos_u.py ut4 grok datos_u6 r2
+python3 unidades/extraer_datos_u.py ut5 grok datos_u6 r2
+```
+
+**Reporte:** el mismo de DU1, por unidad y réplica. Sin veredicto.

@@ -26,7 +26,7 @@ spike no concluye.
   - `docs/` (sintéticos), `prompts/` (se leen de archivo; `{{TEXTO}}` con
     `str.replace`, nunca `str.format`), `gold/` (esperado, escrito antes de
     correr; el de ut1-ut5 está en la sección DU5 de `PLAN.md`), `cache/`
-    (crudos), `PLAN.md` (una sección por ronda), `muse_<RONDA>.txt` (mensaje
+    (crudos), `PLAN.md` (una sección por ronda), `mensaje_<RONDA>.txt` (mensaje
     de cada ronda para el ejecutor).
 - `niveles/`: antecedente sin trabajo activo. Su `run_niveles.py` tiene
   `call_model` (streaming) y los alias de modelos que usan los scripts de
