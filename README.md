@@ -23,8 +23,9 @@ vigentes.
 | TypeSafe (Jev) | `api.typesafe.ai` | `TYPESAFE_API_KEY` |
 | Z.ai (GLM) | `api.z.ai` | `ZAI_API_KEY` |
 | DeepSeek | `api.deepseek.com` | `DEEPSEEK_API_KEY` |
+| xAI (Grok) | `api.x.ai` | `XAI_API_KEY` |
 
-Para agregar o cambiar una clave, pon una línea `export NOMBRE=clave` en `~/.bashrc` y corre `source ~/.bashrc`. El proxy lee las claves solo al arrancar, así que después de cambiar una hay que reiniciarlo.
+`ZAI_API_KEY` no está escrita en `~/.bashrc`: la carga desde `~/.config/zai/api_key.env`. Para agregar o cambiar una clave, pon una línea `export NOMBRE=clave` en `~/.bashrc` y corre `source ~/.bashrc` (para xAI hay un asistente: `bash configurar_clave_xai.sh`, que la pide sin mostrarla). El proxy lee las claves solo al arrancar, así que después de cambiar una hay que reiniciarlo.
 
 **Instalar mitmproxy (una vez).** Ubuntu no deja instalar con `pip --user`, así que va en un entorno aparte:
 
@@ -47,7 +48,23 @@ export HTTPS_PROXY=http://127.0.0.1:8080 SSL_CERT_FILE=$HOME/.mitmproxy/mitmprox
 python3 niveles/extraer_datos.py doc5 deepseek datos_v8 r1
 ```
 
-El certificado del proxy solo lo usan los procesos que exportan `SSL_CERT_FILE`; no se instala en el sistema. El proxy agrega la clave solo a los tres hosts de la tabla y deja pasar el streaming. Al reiniciar la máquina, el proxy se apaga y hay que arrancarlo de nuevo.
+El certificado del proxy solo lo usan los procesos que exportan `SSL_CERT_FILE`; no se instala en el sistema. El proxy agrega la clave solo a los cuatro hosts de la tabla y deja pasar el streaming. Al reiniciar la máquina, el proxy se apaga y hay que arrancarlo de nuevo.
+
+## Correr las pruebas con Muse Code (configuración vigente)
+
+Las pruebas en local las corre **Muse Code** (Meta Muse Spark). Frat y Cowork planean; Muse ejecuta.
+
+**`muse.sh`** (raíz del repo; en `~/.bashrc` hay un alias: escribir `muse` lo arranca):
+
+1. Si nada escucha en `127.0.0.1:8080`, levanta el proxy en segundo plano con las claves de la tabla (log en `~/.cache/proxy_local.log`).
+2. Arranca Muse en el directorio desde donde se llama, sin `META_API_KEY` (usa la suscripción) y con `--disable-sandbox`: con el sandbox activo, el shell de Muse no alcanza el proxy y `.git` es de solo lectura. Las aprobaciones siguen activas.
+3. Al salir de Muse, o al cerrar la terminal, apaga el proxy si lo arrancó él. Si ya había uno corriendo, lo usa y no lo toca.
+
+A Muse no se le exportan `HTTPS_PROXY` ni `SSL_CERT_FILE`: su propio tráfico no pasa por el proxy. Esas dos variables se exportan en cada comando que llama a una API. Para el binario sin proxy: `command muse`.
+
+**Modo sin terminal.** `./muse.sh exec --prompt-file <archivo>` corre un mensaje completo y termina. Así Cowork lanza las rondas desde Desktop Commander sin que haya que copiar mensajes: Muse corre, reporta, hace commit y push.
+
+**Qué lee Muse.** Muse carga solo `AGENTS.md` en cada sesión, interactiva o no. Ahí están sus reglas de red, claves, comandos y reportes. Como `AGENTS.md` tiene prioridad sobre `CLAUDE.md` en el mismo directorio, Muse ignora `CLAUDE.md`, que queda para Claude Code. Cada ejecutor lee su archivo.
 
 ## Contexto
 
