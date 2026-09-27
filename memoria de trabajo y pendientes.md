@@ -102,7 +102,7 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `dat
 ## 7. Pendientes
 
 1. Unidades nuevas de prueba (conjunto reservado) con gold escrito antes de correr, para medir el ~90 % con `datos_u7`.
-2. ENC1 en curso: cadena completa (`extraer_datos_doc.py`, lo implementa Luna) sobre `docs/bio1.md`, documento nuevo sin gold (análisis de Frat y Cowork al volver los crudos).
+2. Ronda U4 en curso: `unidades_v3` (paso 1 por tema, segmentación lineal con oraciones numeradas, mismo esquema que el paso 2) sobre tec2 y bio1, y cadena ENC2; implementa Luna. ENC1 (v2) mostró que el paso 1 oscilaba entre tema y entidad (11 065 tokens de razonamiento, 158 s).
 3. Casos compartidos entre núcleos en el paso 1.
 4. La procedencia como capa propia, incluido su alcance entre unidades.
 5. Objetos información y afirmación.

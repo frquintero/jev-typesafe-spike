@@ -374,3 +374,76 @@ python3 unidades/extraer_datos_doc.py bio1 grok unidades_v2 datos_u7 r1
 **Reporte:** la verificación del paso 1 (la que imprime `extraer_unidades`),
 las unidades (núcleo y oraciones) y, por unidad, el JSON `parsed` del paso 2
 verbatim, con modelo efectivo, tokens y segundos. Sin veredicto ni cálculos.
+
+## Ronda U4: `unidades_v3` (segmentación lineal por tema, con oraciones numeradas) sobre bio1 y tec2, y cadena ENC2
+
+Hallazgo de ENC1: el paso 1 (`unidades_v2`) gastó 11 065 tokens de
+razonamiento y 158 s en bio1 (tec1/tec2: 1800–2500, ~33 s) a velocidad normal
+(74 tok/s): no es falla técnica. El razonamiento visible muestra un primer
+borrador por tema y una respuesta final por entidad: el prompt llama
+«temática» a la unidad pero la define por un caso (núcleo y satélites); en
+bio1 los casos cruzan los temas (E-2 en párrafos 1 y 4; T-1 en 2 y 3) y el
+modelo oscila (lección 4). Además, la unidad por entidad separó «Durante la
+campaña de agosto» de la temperatura de E-5.
+
+Cambio de principio (decisión de Frat): el paso 1 solo segmenta por tema; el
+seguimiento de entidades pasa a después (la variable ya lleva su caso).
+Mismo esquema que el paso 2: tarea de una línea, definiciones cortas, tres
+ejemplos nodo (párrafo con dos subtemas → se parte; subtema que cruza el
+párrafo → se une; mismas cosas en temas distintos → van en unidades
+distintas). Literatura: segmentación lineal (tramos contiguos) y enumeración
+de oraciones (el modelo devuelve índices, no texto; *Topic Segmentation Using
+Generative Language Models*, arXiv 2026). Salida: `{"unidades": [{"tema",
+"desde", "hasta"}]}`.
+
+Conjetura: en bio1, razonamiento del paso 1 ≤ ~3000 tokens y salida < 150
+tokens; unidades que siguen los subtemas de los párrafos (E-2 y E-5 juntas,
+con «campaña de agosto»); tec2 sin regresión grave.
+
+### Implementación (la hace el ejecutor)
+
+**`unidades/extraer_unidades.py`** (el camino de v1/v2 no cambia):
+
+1. Si el prompt contiene `{{TEXTO_NUMERADO}}`, construir el texto numerado:
+   quitar las líneas de título (`#`), partir en párrafos por líneas en
+   blanco, partir cada párrafo con la función `oraciones` existente, numerar
+   las oraciones de 1 a N en orden global, unir las de un párrafo con un
+   espacio (`[k] oración`) y los párrafos con una línea en blanco. Sustituir
+   con `str.replace`. Guardar en el crudo `texto_numerado` y
+   `oraciones_numeradas` (lista `{"n", "oracion"}`).
+2. Tras parsear, si las unidades traen `desde`/`hasta`, agregar al crudo
+   `unidades_reconstruidas`: por unidad `{"tema", "desde", "hasta",
+   "oraciones"}` con las oraciones originales `desde..hasta`.
+3. En ese caso, `verificacion` es: `oraciones_del_texto` (N), `huecos`
+   (números sin unidad), `solapes` (números en más de una unidad),
+   `fuera_de_rango`, `desordenadas` (unidades no crecientes o `desde > hasta`).
+   Solo reporta, nunca corrige.
+
+**`unidades/extraer_datos_doc.py`**: si el crudo del paso 1 trae
+`unidades_reconstruidas`, usarlas (sus `oraciones` ya están en orden); en los
+crudos por unidad y en el consolidado, guardar `tema`, `desde` y `hasta` en
+lugar de `nucleo` y `satelites`. Con v2 sigue igual.
+
+**Nombre de los crudos por unidad (evita choque con ENC1).** Hoy se llaman
+`datos-<doc>-u<k>-<modelo>-<prompt_datos>-<rN>.json`, sin el prompt del paso 1,
+así que las unidades de v3 chocarían con las de v2 y la idempotencia
+reutilizaría datos equivocados. Para todo `prompt_unidades` distinto de
+`unidades_v2`, el nombre pasa a
+`datos-<doc>-<prompt_unidades>-u<k>-<modelo>-<prompt_datos>-<rN>.json`; con
+`unidades_v2` se conserva el nombre actual (los crudos de ENC1 no se tocan).
+
+Reglas: no tocar prompts ni documentos; `python3 -m py_compile` de ambos;
+correr antes, como regresión sin API, que `extraer_datos_doc.py` siga leyendo
+el crudo de ENC1 (v2) sin llamar (los crudos existen).
+
+### Corrida
+
+```
+python3 unidades/extraer_unidades.py tec2 grok unidades_v3 r1
+python3 unidades/extraer_datos_doc.py bio1 grok unidades_v3 datos_u7 r1
+```
+
+**Reporte:** por documento, el `texto_numerado` enviado, el `parsed` del paso 1
+verbatim y la verificación; en bio1, por unidad, el `parsed` del paso 2
+verbatim. Modelo efectivo, tokens (prompt, completion, reasoning) y segundos
+de cada llamada. Sin veredicto ni cálculos.

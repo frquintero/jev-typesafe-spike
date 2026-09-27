@@ -1,0 +1,16 @@
+Ronda U4. Lee AGENTS.md y la sección «Ronda U4» de unidades/PLAN.md.
+
+Tarea en dos partes:
+
+1. Implementa los cambios de la sección «Implementación» de esa ronda en unidades/extraer_unidades.py y unidades/extraer_datos_doc.py, exactamente como se describen. El camino de unidades_v1/v2 no debe cambiar. No modifiques prompts ni documentos. Verifica con python3 -m py_compile y con la regresión sin API que indica la sección. Si algo de la especificación no es implementable tal cual, detente y pregunta; no decidas diseño.
+
+2. Corre, exportando HTTPS_PROXY y SSL_CERT_FILE como indica AGENTS.md:
+
+python3 unidades/extraer_unidades.py tec2 grok unidades_v3 r1
+python3 unidades/extraer_datos_doc.py bio1 grok unidades_v3 datos_u7 r1
+
+El LLM que se prueba es Grok 4.7; tú solo implementas y ejecutas. Nunca borres, muevas ni sobrescribas un crudo existente.
+
+Reporte: lo que pide la sección (texto numerado, parsed del paso 1 y verificación por documento; parsed del paso 2 por unidad en bio1; modelo efectivo, tokens y segundos de cada llamada; cerca o error de parseo solo si ocurren). Sin veredicto ni cálculos. Si una llamada falla por autenticación, detente y reporta.
+
+Al terminar: commit y push a main de los dos scripts y de los crudos nuevos (cache/unidades-tec2-grok-unidades_v3-r1.json, cache/unidades-bio1-grok-unidades_v3-r1.json, cache/datos-bio1-unidades_v3-u*-grok-datos_u7-r1.json, cache/doc-bio1-grok-unidades_v3-datos_u7-r1.json) con el mensaje «Ronda U4: unidades_v3 (segmentación numerada) sobre tec2 y bio1, y cadena ENC2 con grok (r1)».

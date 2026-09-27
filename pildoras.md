@@ -18,6 +18,7 @@ el contexto en que surgió. Se agregan a medida que aparecen.
 9. [Entidad medida y propiedad medida](#9-entidad-medida-y-propiedad-medida)
 10. [Atributo implícito](#10-atributo-implícito)
 11. [Paráfrasis y canonicalización](#11-paráfrasis-y-canonicalización)
+12. [Segmentación lineal y enumeración de oraciones](#12-segmentación-lineal-y-enumeración-de-oraciones)
 
 ---
 
@@ -129,3 +130,19 @@ reducir las paráfrasis a una forma única.
 termostato» / «temperatura marcada por el termostato». Para comparar variables
 entre textos hará falta canonicalizar; es un juicio que Jev puede sopesar
 («estas dos variables nombran la misma magnitud»).
+
+## 12. Segmentación lineal y enumeración de oraciones
+
+**Qué es.** La segmentación lineal de texto divide un texto en tramos
+contiguos, sin reordenar nada (lo estándar en segmentación temática desde
+TextTiling, de Hearst, 1997). Se distingue del agrupamiento, que puede juntar
+oraciones separadas. La enumeración de oraciones numera la entrada para que el
+modelo conteste con índices (dónde empieza y termina cada tramo) en vez de
+copiar texto (*Topic Segmentation Using Generative Language Models*, 2026).
+
+**Contexto.** Rediseño del paso 1 tras ENC1: `unidades_v2` agrupaba por
+entidad (coherencia por entidades, teoría del centrado) aunque se llamaba
+«temática», y en bio1 oscilaba entre tema y entidad. `unidades_v3` segmenta
+linealmente por tema, con oraciones numeradas; el código arma cada unidad
+con el texto original, así que la literalidad queda garantizada.
+
