@@ -1,0 +1,147 @@
+{
+  "doc": "bio1",
+  "modelo": "grok",
+  "prompt_unidades": "unidades_v2",
+  "prompt_datos": "datos_u7",
+  "rep": "r1",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "nucleo": "arrecife de bahía Coral",
+      "satelites": [
+        "playa",
+        "transecto T-1"
+      ],
+      "texto_unidad": "El arrecife de bahía Coral se extiende a lo largo de la costa norte de la isla y protege la playa del oleaje. Su cresta queda a 3 metros de profundidad en marea baja. El blanqueamiento afectó sobre todo a las colonias de coral cerebro. En el transecto T-1, el 40 % de esas colonias estaba pálido y el resto conservaba su color. Las colonias de coral cuerno de alce resistieron mejor: su tejido se veía sano y su crecimiento era rápido. Los buzos marcaron 12 colonias para seguirlas durante el año.",
+      "datos": [
+        {
+          "variable": "profundidad de la cresta del arrecife de bahía Coral en marea baja",
+          "valor": "3",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "fracción de colonias de coral cerebro pálidas en el transecto T-1",
+          "valor": "40",
+          "unidad_de_medida": "%"
+        },
+        {
+          "variable": "estado del tejido de las colonias de coral cuerno de alce",
+          "valor": "sano",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "crecimiento de las colonias de coral cuerno de alce",
+          "valor": "rápido",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "número de colonias marcadas por los buzos",
+          "valor": "12",
+          "unidad_de_medida": "unidad"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "nucleo": "estación E-2",
+      "satelites": [
+        "río Manso",
+        "desembocadura",
+        "bahía"
+      ],
+      "texto_unidad": "Durante la campaña de agosto, la temperatura del agua en la estación E-2 alcanzó 30,5 °C al mediodía. La visibilidad en la estación E-2 fue de 8 metros, menor que la del año anterior. El agua traía sedimentos finos del río Manso, que desemboca al oeste de la bahía. Las muestras de la desembocadura mostraron una concentración de nitratos de 0,6 miligramos por litro.",
+      "datos": [
+        {
+          "variable": "temperatura del agua en la estación E-2 al mediodía durante la campaña de agosto",
+          "valor": "30,5",
+          "unidad_de_medida": "°C"
+        },
+        {
+          "variable": "visibilidad en la estación E-2 durante la campaña de agosto",
+          "valor": "8",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "tamaño de los sedimentos que traía el agua del río Manso",
+          "valor": "finos",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "concentración de nitratos en las muestras de la desembocadura",
+          "valor": "0,6",
+          "unidad_de_medida": "miligramos por litro"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "nucleo": "estación E-5",
+      "satelites": [
+        "estación E-2"
+      ],
+      "texto_unidad": "En la estación E-5, más profunda, el agua se mantuvo en 28 °C.",
+      "datos": [
+        {
+          "variable": "temperatura del agua en la estación E-5, más profunda",
+          "valor": "28",
+          "unidad_de_medida": "°C"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 4,
+      "nucleo": "transecto T-1",
+      "satelites": [
+        "transecto T-3"
+      ],
+      "texto_unidad": "Los censos visuales registraron 215 peces en el transecto T-1 y 98 en el T-3. El pez loro fue la especie más abundante en ambos. Los herbívoros controlan las algas que compiten con los corales por la luz. Donde escasean, las algas cubren el sustrato en pocas semanas.",
+      "datos": [
+        {
+          "variable": "número de peces registrados por los censos visuales en el transecto T-1",
+          "valor": "215",
+          "unidad_de_medida": "unidad"
+        },
+        {
+          "variable": "número de peces registrados por los censos visuales en el transecto T-3",
+          "valor": "98",
+          "unidad_de_medida": "unidad"
+        },
+        {
+          "variable": "especie más abundante en los transectos T-1 y T-3",
+          "valor": "pez loro",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 5,
+      "nucleo": "vivero",
+      "satelites": [
+        "aldea"
+      ],
+      "texto_unidad": "El vivero del proyecto cultiva fragmentos de coral sobre estructuras de acero. Cada fragmento mide unos 5 centímetros al trasplantarlo. Los pescadores de la aldea ayudan a vigilar el vivero.",
+      "datos": [
+        {
+          "variable": "tamaño de cada fragmento de coral al trasplantarlo",
+          "valor": "unos 5",
+          "unidad_de_medida": "centímetros"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 6,
+      "nucleo": "comunidad",
+      "satelites": [
+        "arrecife de bahía Coral"
+      ],
+      "texto_unidad": "La comunidad considera el arrecife parte de su identidad.",
+      "datos": [],
+      "error_parseo": null
+    }
+  ]
+}
