@@ -181,3 +181,50 @@ python3 unidades/extraer_datos_u.py ut5 grok datos_u4 r1
 ```
 
 **Reporte:** el mismo de DU1. Sin veredicto.
+
+## Ronda DU5: `datos_u5` (ejemplos en lugar de definiciones) sobre ut1-ut5 con Grok
+
+Hallazgo de DU4: «escala» se leía como nivel de medición (nominal, ordinal) y
+todo adjetivo cabía en una; ut4 dio dos seudodatos («municipal», «antiguo»).
+
+Un cambio de principio: mostrar en lugar de definir. Se quitan definiciones,
+procedimiento y reglas; quedan una tarea de una línea y tres ejemplos de
+dominios ajenos a ut1-ut5 (uno con datos de varios tipos, uno con trampas,
+uno sin datos). Formato nuevo: `{"datos": [{"variable", "valor",
+"unidad_de_medida"}]}`, sin `caso` ni nivel `unidades`.
+
+Decisiones de Frat que los ejemplos enseñan:
+- La variable es la magnitud individual (VIM): «peso de la caja», con su caso
+  y sus circunstancias («temperatura del paciente de la cama 12 a las 8»).
+- Valor literal, tal como aparece en `texto`, sin la unidad.
+- `unidad_de_medida` en lugar de `escala`; los valores cualitativos llevan
+  `null`; los conteos, «unidad»; las horas, «hora».
+- Binarios (con fiebre, sin fallas, trabado): hechos, no datos.
+- Modificadores cualitativos del nombre (antiguo, municipal): parte del caso.
+  Una cantidad con unidad es dato aunque vaya en el nombre («caja de 12 kg»).
+
+Gold (esperado):
+- ut1: hora de encendido del quemador de la caldera C-2 = 6 de la mañana
+  (hora); temperatura del circuito de retorno de la caldera C-2 = 55 (°C).
+- ut2: capacidad del tanque de agua potable = 30000 (litros); número de
+  arranques de la bomba de llenado del tanque en la noche = dos (unidad);
+  posición del flotador del tanque = alta (null).
+- ut3: hora de salida del camión de reparto 7 del depósito = 5:40 (hora);
+  nivel del tanque de combustible del camión 7 = tres cuartos (fracción);
+  presión de las llantas delanteras = 32 (psi); de las traseras = 35 (psi).
+- ut4: ninguno.
+- ut5: temperatura del paciente de la cama 12 a las 8 = 38,7 (°C);
+  intensidad del dolor abdominal = moderado (null); tipo de tos = seca (null).
+
+Conjetura: con los ejemplos, Grok se acerca al gold; en particular, ut4 sin
+datos y sin «escalas» nominal/ordinal.
+
+```
+python3 unidades/extraer_datos_u.py ut1 grok datos_u5 r1
+python3 unidades/extraer_datos_u.py ut2 grok datos_u5 r1
+python3 unidades/extraer_datos_u.py ut3 grok datos_u5 r1
+python3 unidades/extraer_datos_u.py ut4 grok datos_u5 r1
+python3 unidades/extraer_datos_u.py ut5 grok datos_u5 r1
+```
+
+**Reporte:** el mismo de DU1. Sin veredicto.

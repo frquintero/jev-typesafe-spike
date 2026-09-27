@@ -1,0 +1,13 @@
+Ronda DU5. Lee AGENTS.md y la sección «Ronda DU5» de unidades/PLAN.md.
+
+Corre, sin modificar ningún archivo, los cinco comandos de esa sección (prompt unidades/prompts/datos_u5.md, modelo grok = grok-4.7, réplica r1), exportando en cada comando HTTPS_PROXY y SSL_CERT_FILE como indica AGENTS.md:
+
+python3 unidades/extraer_datos_u.py ut1 grok datos_u5 r1
+python3 unidades/extraer_datos_u.py ut2 grok datos_u5 r1
+python3 unidades/extraer_datos_u.py ut3 grok datos_u5 r1
+python3 unidades/extraer_datos_u.py ut4 grok datos_u5 r1
+python3 unidades/extraer_datos_u.py ut5 grok datos_u5 r1
+
+Reporte, por unidad: el JSON `parsed` verbatim; si venía con cerca o hubo error de parseo; modelo efectivo (avisa si no es grok-4.7); tokens (prompt_tokens, completion_tokens, reasoning_tokens) y segundos. Sin veredicto ni interpretación. Si una llamada falla por autenticación, detente y reporta.
+
+Al terminar: commit y push a main de los cinco crudos (unidades/cache/datos-ut*-grok-datos_u5-r1.json) con el mensaje «Ronda DU5: datos_u5 sobre ut1-ut5 con grok (crudos r1)».
