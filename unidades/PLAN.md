@@ -103,3 +103,27 @@ python3 unidades/extraer_datos_u.py ut5 grok datos_u1 r1
 **Reporte:** por unidad, el JSON `parsed` verbatim; si venía con cerca o hubo
 error de parseo; modelo efectivo; tokens (`prompt_tokens`,
 `completion_tokens`, `reasoning_tokens`) y segundos. Sin veredicto.
+
+## Ronda DU2: `datos_u2` sobre ut1-ut5 con Grok
+
+Cambios respecto de `datos_u1`, a partir de DU1: vuelve el caso (con los
+identificadores dentro del caso: «camión = 7», «cama = 12» en DU1); entran las
+condiciones constitutivas (en DU1 «a las 8» quedó como variable suelta);
+prueba del dominio en la definición de variable y en el procedimiento (en DU1,
+ut4, sin datos, dio tres); la escala ya no puede ser null: todo valor
+pertenece a una escala aunque `texto` no la nombre, y si no pertenece a
+ninguna no hay dato (en DU1 null mezclaba «no nombrada» con «no existe»). Sin
+ejemplos tomados de las unidades de prueba.
+
+Conjetura: ut4 sin datos; «7» y «12» dentro del caso; «a las 8», «a las 6 de
+la mañana» y «en la noche» como condiciones; ninguna escala null.
+
+```
+python3 unidades/extraer_datos_u.py ut1 grok datos_u2 r1
+python3 unidades/extraer_datos_u.py ut2 grok datos_u2 r1
+python3 unidades/extraer_datos_u.py ut3 grok datos_u2 r1
+python3 unidades/extraer_datos_u.py ut4 grok datos_u2 r1
+python3 unidades/extraer_datos_u.py ut5 grok datos_u2 r1
+```
+
+**Reporte:** el mismo de DU1. Sin veredicto.
