@@ -46,6 +46,9 @@ spike no concluye.
 - `python3 probes/<x>.py` · `python3 probes/<bateria>.py run|analyze`
 - `python3 -m py_compile <archivo>` tras tocar código (no hay tests ni lint).
 - Todos los scripts son idempotentes: si el crudo existe, no vuelven a llamar.
+  **Nunca borrar, mover ni sobrescribir un crudo** para forzar una corrida:
+  una réplica nueva lleva un `rN` nuevo (`r2`, `r3`…). Si el mensaje pide un
+  `rN` que ya existe, detenerse y reportar.
 - Al terminar una corrida: commit y push de los crudos (y del script si
   cambió) a `main`.
 

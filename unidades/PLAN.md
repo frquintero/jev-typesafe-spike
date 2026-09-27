@@ -228,3 +228,7 @@ python3 unidades/extraer_datos_u.py ut5 grok datos_u5 r1
 ```
 
 **Reporte:** el mismo de DU1. Sin veredicto.
+
+**Réplicas:** r1 la corrió Muse (commit fc2feef). r2 es una réplica con el mismo
+request, corrida por Luna (ChatGPT), que la guardó por error como r1 (commit
+59f6469); se restauró r1 y la de Luna quedó como r2.
