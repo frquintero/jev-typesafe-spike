@@ -102,7 +102,7 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `dat
 ## 7. Pendientes
 
 1. Unidades nuevas de prueba (conjunto reservado) con gold escrito antes de correr, para medir el ~90 % con `datos_u7`.
-2. Encadenar los pasos: correr el paso 2 sobre las unidades que produce el paso 1 (hoy ut1-ut5 se armaron a mano).
+2. ENC1 en curso: cadena completa (`extraer_datos_doc.py`, lo implementa Luna) sobre `docs/bio1.md`, documento nuevo sin gold (análisis de Frat y Cowork al volver los crudos).
 3. Casos compartidos entre núcleos en el paso 1.
 4. La procedencia como capa propia, incluido su alcance entre unidades.
 5. Objetos información y afirmación.

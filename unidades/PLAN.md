@@ -322,3 +322,55 @@ python3 unidades/extraer_datos_u.py ut5 grok datos_u7 r3
 ```
 
 **Reporte:** el mismo de DU1, por unidad y réplica. Sin veredicto ni cálculos.
+
+## Ronda ENC1: cadena completa (paso 1 + paso 2) sobre un documento nuevo, con Grok
+
+Primera prueba de punta a punta: entra un documento, salen sus datos.
+Documento sintético nuevo, `docs/bio1.md` (biología marina: monitoreo de un
+arrecife; cinco párrafos, 19 oraciones, uno o dos subtemas por párrafo).
+Prompts vigentes: `unidades_v2` (paso 1) y `datos_u7` (paso 2). Sin gold, a
+propósito: lo analizamos Frat y Cowork cuando vuelvan los crudos, para no
+sesgarnos. Ronda exploratoria, sin conjetura formal.
+
+### Implementación (la hace el ejecutor): `unidades/extraer_datos_doc.py`
+
+Uso: `python3 unidades/extraer_datos_doc.py <doc> <modelo> <prompt_unidades> <prompt_datos> <rN>`
+
+1. **Paso 1.** Llamar a `extraer_unidades.run(doc, modelo, prompt_unidades, rN)`
+   (importándolo; es idempotente y guarda
+   `cache/unidades-<doc>-<modelo>-<prompt_unidades>-<rN>.json`). Leer ese
+   crudo. Si `parsed` es null, detenerse y reportar.
+2. **Pegamento (código, sin LLM).** Para cada unidad del paso 1, en el orden en
+   que vienen (k = 1, 2, …): `texto_unidad` = sus `oraciones` unidas con un
+   espacio, ordenadas por su posición en el documento (`texto.find`); las que
+   no se encuentren literales van al final, en el orden dado.
+3. **Paso 2, una llamada por unidad** (nunca en bloque): `prompt_datos` leído de
+   archivo, `{{TEXTO}}` sustituido con `str.replace` por `texto_unidad`;
+   `call_model("toulmin", modelo, ...)` y `extract_json` de
+   `niveles/run_niveles.py`, como en `extraer_datos_u.py`. Crudo por unidad en
+   `cache/datos-<doc>-u<k>-<modelo>-<prompt_datos>-<rN>.json`, con los mismos
+   campos que `extraer_datos_u.py` (`doc`, `modelo`, `prompt`, `segundos`,
+   `request`, `response`, `parsed`, `venia_con_cerca`, `error_parseo`) más
+   `unidad_n`, `nucleo`, `satelites` y `texto_unidad`. Idempotente: si el crudo
+   existe, no llama.
+4. **Consolidado** (solo se arma con los crudos, sin llamadas):
+   `cache/doc-<doc>-<modelo>-<prompt_unidades>-<prompt_datos>-<rN>.json` con
+   `{"doc", "modelo", "prompt_unidades", "prompt_datos", "rep",
+   "unidades": [{"unidad_n", "nucleo", "satelites", "texto_unidad",
+   "datos", "error_parseo"}]}`, donde `datos` es `parsed["datos"]` (o null si
+   no parseó). Se regenera en cada ejecución.
+5. Imprimir por unidad: número de datos y segundos.
+
+Reglas: no tocar `extraer_unidades.py`, `extraer_datos_u.py` ni los prompts;
+nada de `Authorization` ni lectura de claves (el proxy las pone);
+`python3 -m py_compile` al terminar.
+
+### Corrida
+
+```
+python3 unidades/extraer_datos_doc.py bio1 grok unidades_v2 datos_u7 r1
+```
+
+**Reporte:** la verificación del paso 1 (la que imprime `extraer_unidades`),
+las unidades (núcleo y oraciones) y, por unidad, el JSON `parsed` del paso 2
+verbatim, con modelo efectivo, tokens y segundos. Sin veredicto ni cálculos.

@@ -1,0 +1,15 @@
+Ronda ENC1. Lee AGENTS.md y la sección «Ronda ENC1» de unidades/PLAN.md.
+
+Tarea en dos partes:
+
+1. Implementa unidades/extraer_datos_doc.py exactamente como lo describe la sección «Implementación» de esa ronda (paso 1 con extraer_unidades.run, pegamento en código, paso 2 una llamada por unidad, crudos por unidad y consolidado). No modifiques extraer_unidades.py, extraer_datos_u.py, los prompts ni los documentos. Verifica con python3 -m py_compile. Si algo de la especificación no es implementable tal cual, detente y pregunta; no decidas diseño.
+
+2. Corre, exportando HTTPS_PROXY y SSL_CERT_FILE como indica AGENTS.md:
+
+python3 unidades/extraer_datos_doc.py bio1 grok unidades_v2 datos_u7 r1
+
+El LLM que se prueba es Grok 4.7; tú solo implementas y ejecutas. Nunca borres, muevas ni sobrescribas un crudo existente.
+
+Reporte: la verificación del paso 1; las unidades (núcleo y oraciones); por unidad, el JSON parsed del paso 2 verbatim, con modelo efectivo, tokens (prompt_tokens, completion_tokens, reasoning_tokens) y segundos; y solo si ocurren, cerca o error de parseo. Sin veredicto ni cálculos. Si una llamada falla por autenticación, detente y reporta.
+
+Al terminar: commit y push a main del script y de los crudos (cache/unidades-bio1-*, cache/datos-bio1-u*-*, cache/doc-bio1-*) con el mensaje «Ronda ENC1: extraer_datos_doc.py y cadena completa sobre bio1 con grok (r1)».
