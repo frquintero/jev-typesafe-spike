@@ -1,0 +1,25 @@
+Ronda DU7. Lee AGENTS.md y la sección «Ronda DU7» de unidades/PLAN.md.
+
+Corre, sin modificar ningún archivo, los quince comandos de esa sección (prompt unidades/prompts/datos_u7.md, modelo grok = grok-4.7, réplicas r1, r2 y r3), exportando en cada comando HTTPS_PROXY y SSL_CERT_FILE como indica AGENTS.md. El LLM que se prueba es Grok 4.7; tú solo ejecutas.
+
+python3 unidades/extraer_datos_u.py ut1 grok datos_u7 r1
+python3 unidades/extraer_datos_u.py ut2 grok datos_u7 r1
+python3 unidades/extraer_datos_u.py ut3 grok datos_u7 r1
+python3 unidades/extraer_datos_u.py ut4 grok datos_u7 r1
+python3 unidades/extraer_datos_u.py ut5 grok datos_u7 r1
+python3 unidades/extraer_datos_u.py ut1 grok datos_u7 r2
+python3 unidades/extraer_datos_u.py ut2 grok datos_u7 r2
+python3 unidades/extraer_datos_u.py ut3 grok datos_u7 r2
+python3 unidades/extraer_datos_u.py ut4 grok datos_u7 r2
+python3 unidades/extraer_datos_u.py ut5 grok datos_u7 r2
+python3 unidades/extraer_datos_u.py ut1 grok datos_u7 r3
+python3 unidades/extraer_datos_u.py ut2 grok datos_u7 r3
+python3 unidades/extraer_datos_u.py ut3 grok datos_u7 r3
+python3 unidades/extraer_datos_u.py ut4 grok datos_u7 r3
+python3 unidades/extraer_datos_u.py ut5 grok datos_u7 r3
+
+Nunca borres, muevas ni sobrescribas un crudo existente; si alguno de estos quince ya existe, detente y reporta.
+
+Reporte, por unidad y réplica: el JSON `parsed` verbatim; modelo efectivo (avisa si no es grok-4.7); tokens (prompt_tokens, completion_tokens, reasoning_tokens) y segundos; y solo si ocurren, cerca o error de parseo. No compares réplicas ni calcules nada: el análisis lo hacemos nosotros. Si una llamada falla por autenticación, detente y reporta.
+
+Al terminar: commit y push a main de los quince crudos (unidades/cache/datos-ut*-grok-datos_u7-r1.json, -r2.json y -r3.json) con el mensaje «Ronda DU7: datos_u7 sobre ut1-ut5 con grok (crudos r1, r2 y r3)».

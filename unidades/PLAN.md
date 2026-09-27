@@ -281,3 +281,44 @@ python3 unidades/extraer_datos_u.py ut5 grok datos_u6 r2
 ```
 
 **Reporte:** el mismo de DU1, por unidad y réplica. Sin veredicto.
+
+## Ronda DU7: `datos_u7` (aspecto implícito en el nodo de cualidades) sobre ut1-ut5 con Grok, tres réplicas
+
+Hallazgo de DU6: 13/13 valores con su unidad, ut4 vacío, réplicas casi
+idénticas; pero en ut5 las variables cualitativas nombran la entidad y no el
+aspecto («dolor abdominal» = moderado, «tos» = seca; gold: «intensidad del
+dolor abdominal», «tipo de tos»). En la literatura: atributo implícito.
+
+Un ajuste dentro del nodo 2 (cualidades), no un nodo nuevo:
+- Ejemplo 2: «acidez alta y aroma floral» (aspecto dicho) junto a «grano
+  grande» y «tueste oscuro» (aspecto callado: «tamaño del grano», «grado de
+  tueste»); sale «cuerpo medio».
+- Definición de variable: + «Si `texto` no nombra el aspecto, la variable lo
+  nombra (tamaño, tipo, grado).»
+
+Gold: el de DU5. Conjetura: en las tres réplicas, 13/13 completos (con el
+aspecto en ut5) y ut4 vacío, sin romper lo que DU6 acertó.
+
+Tres réplicas (r1, r2, r3) para medir después la variación entre corridas; el
+request no fija `temperature` (usa la del proveedor). El análisis lo hace
+Cowork; el ejecutor solo corre y reporta.
+
+```
+python3 unidades/extraer_datos_u.py ut1 grok datos_u7 r1
+python3 unidades/extraer_datos_u.py ut2 grok datos_u7 r1
+python3 unidades/extraer_datos_u.py ut3 grok datos_u7 r1
+python3 unidades/extraer_datos_u.py ut4 grok datos_u7 r1
+python3 unidades/extraer_datos_u.py ut5 grok datos_u7 r1
+python3 unidades/extraer_datos_u.py ut1 grok datos_u7 r2
+python3 unidades/extraer_datos_u.py ut2 grok datos_u7 r2
+python3 unidades/extraer_datos_u.py ut3 grok datos_u7 r2
+python3 unidades/extraer_datos_u.py ut4 grok datos_u7 r2
+python3 unidades/extraer_datos_u.py ut5 grok datos_u7 r2
+python3 unidades/extraer_datos_u.py ut1 grok datos_u7 r3
+python3 unidades/extraer_datos_u.py ut2 grok datos_u7 r3
+python3 unidades/extraer_datos_u.py ut3 grok datos_u7 r3
+python3 unidades/extraer_datos_u.py ut4 grok datos_u7 r3
+python3 unidades/extraer_datos_u.py ut5 grok datos_u7 r3
+```
+
+**Reporte:** el mismo de DU1, por unidad y réplica. Sin veredicto ni cálculos.

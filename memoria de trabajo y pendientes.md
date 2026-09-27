@@ -100,7 +100,7 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `dat
 
 ## 7. Pendientes
 
-1. DU6 en curso: definiciones cortas + cinco ejemplos nodo (`datos_u6`), Grok r1 y r2, ejecutor Luna.
+1. DU7 en curso: aspecto implícito en el nodo de cualidades (`datos_u7`), Grok r1–r3, ejecutor Luna. DU6 dio 13/13 valores; faltaba el aspecto en ut5.
 2. Unidades nuevas de prueba con gold escrito antes de correr (ut1–ut5 quedan como desarrollo).
 3. Encadenar los pasos: correr el paso 2 sobre las unidades que produce el paso 1 (hoy ut1-ut5 se armaron a mano).
 4. Casos compartidos entre núcleos en el paso 1.
