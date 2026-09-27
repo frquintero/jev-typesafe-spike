@@ -83,3 +83,23 @@ python3 unidades/extraer_unidades.py tec2 deepseek unidades_v2 r1
 ```
 
 **Reporte:** por modelo, el mismo de U1. Sin veredicto.
+
+## Ronda DU1: paso 2 (datos por unidad), smoke test con Grok
+
+Prompt `prompts/datos_u1.md` (definiciones de unidad, dato, variable, valor y
+escala; procedimiento: separar en unidades, variables, valores, escalas).
+Cinco unidades temáticas sintéticas, una por llamada (`docs/ut1.md` a `ut5.md`):
+ut1 y ut2 salen de tec2 (U3); ut3 trae un valor sin unidad y una fracción;
+ut4 no tiene datos (solo hechos); ut5 trae escalas ordinal y nominal.
+
+```
+python3 unidades/extraer_datos_u.py ut1 grok datos_u1 r1
+python3 unidades/extraer_datos_u.py ut2 grok datos_u1 r1
+python3 unidades/extraer_datos_u.py ut3 grok datos_u1 r1
+python3 unidades/extraer_datos_u.py ut4 grok datos_u1 r1
+python3 unidades/extraer_datos_u.py ut5 grok datos_u1 r1
+```
+
+**Reporte:** por unidad, el JSON `parsed` verbatim; si venía con cerca o hubo
+error de parseo; modelo efectivo; tokens (`prompt_tokens`,
+`completion_tokens`, `reasoning_tokens`) y segundos. Sin veredicto.
