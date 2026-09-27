@@ -19,6 +19,7 @@ el contexto en que surgió. Se agregan a medida que aparecen.
 10. [Atributo implícito](#10-atributo-implícito)
 11. [Paráfrasis y canonicalización](#11-paráfrasis-y-canonicalización)
 12. [Segmentación lineal y enumeración de oraciones](#12-segmentación-lineal-y-enumeración-de-oraciones)
+13. [Enunciados genéricos](#13-enunciados-genéricos)
 
 ---
 
@@ -145,4 +146,17 @@ entidad (coherencia por entidades, teoría del centrado) aunque se llamaba
 «temática», y en bio1 oscilaba entre tema y entidad. `unidades_v3` segmenta
 linealmente por tema, con oraciones numeradas; el código arma cada unidad
 con el texto original, así que la literalidad queda garantizada.
+
+## 13. Enunciados genéricos
+
+**Qué es.** En lingüística y filosofía del lenguaje, un enunciado genérico
+habla de una clase o de una regularidad, no de un individuo: «Los herbívoros
+controlan las algas», «Donde escasean, las algas cubren el sustrato en pocas
+semanas». Se opone al enunciado particular («El pez loro fue la especie más
+abundante en T-1 y T-3»). El estudio de estos enunciados se llama genericidad.
+
+**Contexto.** Revisión crítica de la cadena sobre bio1 (U4): el modelo no
+extrajo «pocas semanas». Es correcto según el ensayo «¿Qué es un dato?»: un
+dato determina un caso individuado, y un enunciado genérico no tiene caso.
+Sirve como criterio explícito para distinguir datos de regularidades.
 
