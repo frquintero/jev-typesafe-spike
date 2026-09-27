@@ -157,3 +157,27 @@ python3 unidades/extraer_datos_u.py ut5 grok datos_u3 r1
 ```
 
 **Reporte:** el mismo de DU1. Sin veredicto.
+
+## Ronda DU4: `datos_u4` sobre ut1-ut5 con Grok
+
+Dos cambios respecto de `datos_u3` (decisión de Frat):
+1. Valor: «elemento cuantitativo (discreto o continuo) o cualitativo (nominal
+   u ordinal) que adopta una variable», en lugar de «una posición o elemento de
+   una escala que expresa una determinación bajo una variable».
+2. Sin condiciones constitutivas: fuera su definición, el paso 5 del
+   procedimiento, las condiciones en la definición de dato y en la pregunta
+   `<variable>(<caso>) = ?`, y el campo `condiciones_constitutivas` del reporte.
+
+Conjetura: sin formular (ronda exploratoria). A observar: qué hace el modelo
+con los valores binarios («sin fallas», «trabado», «con fiebre») y dónde quedan
+«a las 8» (ut5) y «en la noche» (ut2) sin el campo de condiciones.
+
+```
+python3 unidades/extraer_datos_u.py ut1 grok datos_u4 r1
+python3 unidades/extraer_datos_u.py ut2 grok datos_u4 r1
+python3 unidades/extraer_datos_u.py ut3 grok datos_u4 r1
+python3 unidades/extraer_datos_u.py ut4 grok datos_u4 r1
+python3 unidades/extraer_datos_u.py ut5 grok datos_u4 r1
+```
+
+**Reporte:** el mismo de DU1. Sin veredicto.
