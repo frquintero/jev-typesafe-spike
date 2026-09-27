@@ -1,0 +1,87 @@
+{
+  "doc": "ut4",
+  "modelo": "grok",
+  "prompt": "datos_u5",
+  "segundos": 55.7,
+  "request": {
+    "model": "grok-4.7",
+    "messages": [
+      {
+        "role": "user",
+        "content": "TAREA\nEncuentra los datos de `texto`, como en los ejemplos. Responde solo con el JSON.\n\nEJEMPLO 1\n`texto`\n<<<\nLa parcela norte del viñedo rindió 4,2 toneladas de uva. La vendimia empezó a las 7 y terminó a las 15. La lluvia de la tarde fue ligera y el mosto salió de color rosado.\n>>>\n{\"datos\": [\n  {\"variable\": \"rendimiento de uva de la parcela norte del viñedo\", \"valor\": \"4,2\", \"unidad_de_medida\": \"toneladas\"},\n  {\"variable\": \"hora de inicio de la vendimia\", \"valor\": \"7\", \"unidad_de_medida\": \"hora\"},\n  {\"variable\": \"hora de fin de la vendimia\", \"valor\": \"15\", \"unidad_de_medida\": \"hora\"},\n  {\"variable\": \"intensidad de la lluvia de la tarde\", \"valor\": \"ligera\", \"unidad_de_medida\": null},\n  {\"variable\": \"color del mosto\", \"valor\": \"rosado\", \"unidad_de_medida\": null}]}\n\nEJEMPLO 2\n`texto`\n<<<\nEl antiguo muelle pesquero recibe los barcos de la cooperativa. Anoche descargaron allí un contenedor de 800 kg. La grúa del muelle funcionó sin interrupciones. Su operador trabajó tres turnos esta semana.\n>>>\n{\"datos\": [\n  {\"variable\": \"peso del contenedor descargado anoche en el antiguo muelle pesquero\", \"valor\": \"800\", \"unidad_de_medida\": \"kg\"},\n  {\"variable\": \"número de turnos trabajados esta semana por el operador de la grúa del muelle\", \"valor\": \"tres\", \"unidad_de_medida\": \"unidad\"}]}\n\nEJEMPLO 3\n`texto`\n<<<\nEl sendero del cerro atraviesa un bosque de robles. Los guardabosques recomiendan llevar agua. Desde la cima se ve el lago.\n>>>\n{\"datos\": []}\n\n`texto`\n<<<\nLa biblioteca municipal ocupa el antiguo edificio de la estación. Su sala de lectura da al parque. Los lectores prefieren las mesas junto a las ventanas.\n\n>>>\n"
+      }
+    ],
+    "stream": true,
+    "reasoning_effort": "low",
+    "stream_options": {
+      "include_usage": true
+    }
+  },
+  "response": {
+    "model": "grok-4.7",
+    "choices": [
+      {
+        "message": {
+          "role": "assistant",
+          "content": "{\"datos\": []}",
+          "reasoning_content": "The user wants me to extract data from the text following the examples. I need to respond only with JSON.\n"
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 1731,
+      "completion_tokens": 4,
+      "total_tokens": 1841,
+      "prompt_tokens_details": {
+        "text_tokens": 1731,
+        "audio_tokens": 0,
+        "image_tokens": 0,
+        "cached_tokens": 1152
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 106,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "num_sources_used": 0,
+      "cost_in_usd_ticks": 23940000
+    },
+    "_stream_chunks_crudos": [
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\"The\",\"role\":\"assistant\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" user\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" wants\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" me\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" to\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" extract\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" data\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" from\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" the\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" text\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" following\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" the\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" examples\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\".\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" I\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" need\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" to\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" respond\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" only\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" with\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" JSON\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\".\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"{\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"datos\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" []}\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{},\"finish_reason\":\"stop\"}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"408aa119-d451-91cf-8042-29e691f6a83c\",\"object\":\"chat.completion.chunk\",\"created\":1790521197,\"model\":\"grok-4.7\",\"choices\":[],\"usage\":{\"prompt_tokens\":1731,\"completion_tokens\":4,\"total_tokens\":1841,\"prompt_tokens_details\":{\"text_tokens\":1731,\"audio_tokens\":0,\"image_tokens\":0,\"cached_tokens\":1152},\"completion_tokens_details\":{\"reasoning_tokens\":106,\"audio_tokens\":0,\"accepted_prediction_tokens\":0,\"rejected_prediction_tokens\":0},\"num_sources_used\":0,\"cost_in_usd_ticks\":23940000},\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "[DONE]"
+    ]
+  },
+  "parsed": {
+    "datos": []
+  },
+  "venia_con_cerca": false,
+  "error_parseo": null
+}
