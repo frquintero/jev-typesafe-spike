@@ -127,3 +127,33 @@ python3 unidades/extraer_datos_u.py ut5 grok datos_u2 r1
 ```
 
 **Reporte:** el mismo de DU1. Sin veredicto.
+
+## Ronda DU3: `datos_u3` sobre ut1-ut5 con Grok
+
+Hallazgo de DU2: al afirmar que «todo valor pertenece a una escala», Grok
+inventó escalas para llenar el campo («edificios», «espacios colindantes»,
+«ubicaciones de mesas», «categorías de agua»): ut4 dio cuatro datos y en ut1
+volvió «calienta el agua». Todos esos falsos datos tienen como valor otro caso
+(un edificio, un parque, unas mesas, el agua): registran una relación entre
+casos, no una determinación (ensayo l. 87, 135).
+
+Dos cambios respecto de `datos_u2`:
+1. Escala: «Todo valor pertenece a una escala, aunque `texto` no la nombre»
+   pasa a «Puede recuperarse de la variable y de la forma del valor aunque
+   `texto` no la nombre».
+2. Regla nueva: «Un valor no es otro caso. Si la respuesta es algo concreto
+   (un lugar, un objeto, una persona), `texto` registra una relación entre
+   casos, no un dato».
+
+Conjetura: ut4 sin datos; «calienta el agua» fuera; los datos verdaderos de
+DU2 se mantienen.
+
+```
+python3 unidades/extraer_datos_u.py ut1 grok datos_u3 r1
+python3 unidades/extraer_datos_u.py ut2 grok datos_u3 r1
+python3 unidades/extraer_datos_u.py ut3 grok datos_u3 r1
+python3 unidades/extraer_datos_u.py ut4 grok datos_u3 r1
+python3 unidades/extraer_datos_u.py ut5 grok datos_u3 r1
+```
+
+**Reporte:** el mismo de DU1. Sin veredicto.
