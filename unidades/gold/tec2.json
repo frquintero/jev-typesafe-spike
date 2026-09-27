@@ -1,0 +1,9 @@
+{
+  "unidades": [
+    {"nucleo": "caldera C-2", "satelites": ["quemador", "termostato del circuito de retorno"], "oraciones": [1, 2, 9]},
+    {"nucleo": "enfriador E-1", "satelites": ["compresor", "filtro de aire"], "oraciones": [3, 4, 10]},
+    {"nucleo": "planta eléctrica G-3", "satelites": ["tablero de transferencia", "batería de arranque"], "oraciones": [5, 6, 11]},
+    {"nucleo": "tanque de agua potable", "satelites": ["bomba de llenado", "flotador"], "oraciones": [7, 8, 12]}
+  ],
+  "nota": "Oraciones numeradas en orden de aparición, sin el título (1-12). Párrafos no alineados con unidades: dos núcleos por párrafo (p1, p2), unidades no continuas, párrafo mezclado (p3). Escrito antes de correr."
+}

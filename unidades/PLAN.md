@@ -65,3 +65,21 @@ python3 unidades/extraer_unidades.py tec1 deepseek unidades_v2 r1
 ```
 
 **Reporte:** por modelo, el mismo de U1. Sin veredicto.
+
+## Ronda U3: `unidades_v2` sobre tec2, Grok y DeepSeek
+
+Mismo prompt que U2 (base: funciona sobre tec1). Documento nuevo `docs/tec2.md`
+(sala de máquinas; 4 núcleos, 2 satélites cada uno) donde el párrafo no
+coincide con la unidad: dos núcleos por párrafo, cada núcleo reaparece más
+adelante (unidades no continuas) y un párrafo mezcla tres núcleos. Gold en
+`gold/tec2.json`.
+
+Conjetura: v2 agrupa por núcleo y no por párrafo; las cuatro unidades reúnen
+oraciones no seguidas (1,2,9 / 3,4,10 / 5,6,11 / 7,8,12).
+
+```
+python3 unidades/extraer_unidades.py tec2 grok unidades_v2 r1
+python3 unidades/extraer_unidades.py tec2 deepseek unidades_v2 r1
+```
+
+**Reporte:** por modelo, el mismo de U1. Sin veredicto.
