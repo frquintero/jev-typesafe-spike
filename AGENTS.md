@@ -22,7 +22,9 @@ spike no concluye.
   - Paso 2, datos por unidad: `extraer_datos_u.py` (solo orquesta).
   - `docs/` (sintéticos), `prompts/` (se leen de archivo; `{{TEXTO}}` con
     `str.replace`, nunca `str.format`), `gold/` (esperado, escrito antes de
-    correr), `cache/` (crudos), `PLAN.md` (una sección por ronda).
+    correr; el de ut1-ut5 está en la sección DU5 de `PLAN.md`), `cache/`
+    (crudos), `PLAN.md` (una sección por ronda), `muse_<RONDA>.txt` (mensaje
+    de cada ronda para el ejecutor).
 - `niveles/`: antecedente sin trabajo activo. Su `run_niveles.py` tiene
   `call_model` (streaming) y los alias de modelos que usan los scripts de
   `unidades/`.

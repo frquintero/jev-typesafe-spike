@@ -1,6 +1,6 @@
 # Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 27-09-2026. No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md`.
+Estado al 27-09-2026 (tras DU5). No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md`.
 
 ## 0. Dónde y cómo
 
@@ -11,7 +11,7 @@ Estado al 27-09-2026. No es bitácora: solo lo vigente. La historia está en `gi
 **Flujo de una ronda.**
 1. Frat y Cowork discuten y conjeturan. Se corre solo si hay una conjetura nueva.
 2. Cowork escribe el prompt en `unidades/prompts/` y la sección de la ronda en `unidades/PLAN.md` (cambio, conjetura, comandos, reporte), y hace commit y push.
-3. Cowork entrega el mensaje para Muse: Frat lo pega en su sesión, o Cowork lo lanza sin terminal con `./muse.sh exec --prompt-file <archivo>`.
+3. Cowork deja el mensaje para Muse en `unidades/muse_<RONDA>.txt` (commit incluido): Frat lo pega en su sesión, o Cowork lo lanza sin terminal con `./muse.sh exec --prompt-file <archivo>`.
 4. Muse corre sin modificar nada, reporta sin veredicto y hace commit y push de los crudos.
 5. Cowork lee los crudos (`unidades/cache/`) y los evalúa contra la conjetura. Frat decide.
 
@@ -26,7 +26,7 @@ Estado al 27-09-2026. No es bitácora: solo lo vigente. La historia está en `gi
 Extraer los **datos** de un texto, en el sentido del ensayo de Frat «¿Qué es un dato?», con un LLM, en dos pasos (`unidades/`):
 
 1. **Unidades temáticas:** el LLM agrupa las oraciones del texto alrededor de un núcleo con sus satélites.
-2. **Datos por unidad:** una llamada por unidad; el LLM encuentra los datos de esa unidad.
+2. **Datos por unidad:** una llamada por unidad; el LLM encuentra los datos de esa unidad y los devuelve como `{"datos": [{"variable", "valor", "unidad_de_medida"}]}`.
 
 Después, Jev (`jev-1.13.0`) auditará lo extraído; no empezado.
 
@@ -52,12 +52,21 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `dat
 
 ## 4. Paso 2: datos por unidad
 
-- **Prompt vigente:** `datos_u3`. Estructura DEFINICIONES / TAREA / PROCEDIMIENTO / REGLAS / REPORTE. Definiciones: unidad textual, caso (nombres, números y códigos que lo distinguen van dentro del caso), variable (prueba del dominio), condiciones constitutivas, escala (recuperable aunque `texto` no la nombre), valor, dato. Reglas clave: un valor no es otro caso; sin escala no hay dato. Reporta solo unidades con datos.
-- **Unidades de prueba:** `unidades/docs/ut1.md`–`ut5.md` (ut4 no tiene datos: solo hechos).
-- **Estado (DU3, Grok):** identificadores y condiciones bien; escalas reales; ut4 casi sin datos (queda «antiguo» del «antiguo edificio de la estación»); se perdió «ingresó con fiebre».
-- **Siguiente (DU4, propuesto, no decidido):**
-  1. variable binaria: «la variable no puede construirse convirtiendo en pregunta de sí o no la afirmación de `texto`», en lugar de «no se reducen a afirmar o negar»;
-  2. los modificadores que forman parte del nombre del caso pertenecen al caso.
+- **Prompt vigente:** `datos_u5`. Sin definiciones, procedimiento ni reglas: una tarea de una línea («Encuentra los datos de `texto`, como en los ejemplos») y tres ejemplos de dominios ajenos a las unidades de prueba: uno con datos de varios tipos, uno con trampas (modificadores del nombre, relación entre casos, binario, cantidad dentro del nombre, conteo) y uno sin datos (`{"datos": []}`).
+- **Formato:** `variable` (la magnitud individual, con su caso y sus circunstancias), `valor` (literal, sin la unidad), `unidad_de_medida` (`null` en los valores cualitativos). Sin campo `caso` ni nivel `unidades`.
+- **Unidades de prueba:** `unidades/docs/ut1.md`–`ut5.md` (ut4 no tiene datos: solo hechos). Gold en la sección DU5 de `unidades/PLAN.md`. Ya son **conjunto de desarrollo**: vimos sus fallas y las discutimos, así que no miden generalización.
+- **Historia corta:** `datos_u3` (definiciones) dejó seudodatos en ut4; `datos_u4` (valor con tipología cuantitativo/cualitativo, sin condiciones constitutivas) empeoró: «escala» se leyó como nivel de medición y ut4 dio «municipal» y «antiguo». `datos_u5` (ejemplos) dio ut4 vacío, los 13 valores del gold y un dato de más, con ~350–450 tokens de razonamiento (DU4: 900–3250) y ~6 s por unidad.
+- **Diferencias de DU5 con el gold**, cada una atribuible a lo que los ejemplos no muestran: «6» sin «de la mañana»; variables sin identificador («camión de reparto» sin el 7, «caldera» sin C-2); «tres cuartos» con `null` (el gold dice «fracción»); «a las 8» como dato aparte («hora de la temperatura») en vez de dentro de la variable.
+- **Siguiente (en discusión):** los ejemplos deben ser **generales**, no ajustados a las fallas de ut1–ut5. Propuesta: listar desde el marco, sin mirar las unidades de prueba, las formas que puede tomar un dato (cantidad con unidad, conteo, proporción o porcentaje, hora o fecha, ordinal, nominal, caso con identificador, variable con circunstancia) y cubrir cada una en los ejemplos. Para medir generalización hacen falta unidades nuevas con gold escrito antes de correr.
+
+### Decisiones de Frat sobre qué es dato (DU5)
+
+- **Variable = magnitud individual** (VIM4, nota 2: «the radius of circle a is an instance of length»): «peso de la caja», no «peso» con un caso aparte.
+- **Valor literal**, tal como aparece en `texto`, sin la unidad: «30000», unidad «litros»; «6 de la mañana», unidad «hora».
+- **`unidad_de_medida` en lugar de `escala`:** «escala» es polisémica (el modelo la leía como nominal/ordinal). Los valores cualitativos no tienen unidad de medida: `null`. Los conteos llevan «unidad» (magnitud de dimensión uno).
+- **Binarios** (con fiebre, sin fallas, trabado): hechos, no datos. Hay valor cuando la palabra elige entre más alternativas que el sí y el no.
+- **Modificadores cualitativos del nombre** (antiguo, municipal): parte del caso. Una **cantidad con unidad** es dato aunque vaya en el nombre («caja de 12 kg» → peso de la caja = 12, kg). Números y códigos sin unidad que identifican (camión 7, cama 12, C-2) son del caso.
+- **Circunstancias** («a las 8», «en la noche»): dentro de la variable («temperatura del paciente a las 8»). Una hora es valor cuando responde a «¿cuándo?».
 
 ## 5. Marco: qué es un dato (ensayo)
 
@@ -70,6 +79,7 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `dat
 - **Condiciones:** constitutivas (si cambian, cambia la pregunta), de representación, de procedencia.
 - **Procedencia:** quien dice o cómo se obtuvo no forma parte del dato; es un dato de otro orden, sobre la ruta (l. 161-163, 293), y pesa en la robustez del sostén.
 - **Dato:** determinación registrada de modo recuperable. **Información:** el cambio en las respuestas admisibles a una pregunta al considerar un dato.
+- **Vocabulario del prompt y del ensayo:** el prompt usa «variable» (magnitud individual) y «unidad de medida»; en el ensayo, la variable es el aspecto y la escala es más amplia (unidades, categorías, orden, precisión). El nombre del campo es interfaz con el modelo, no la teoría; el código o `esquema.json` puede ubicar la unidad dentro de la escala. Las condiciones constitutivas viven hoy dentro de la variable.
 
 ## 6. Lecciones
 
@@ -83,12 +93,17 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `dat
 - El `reasoning_content` es el mejor instrumento de diagnóstico.
 - Jev corrige lo que el modelo afirma de más, no lo que omite.
 - Operativo: DeepSeek puede dejar el stream colgado; si pasa un minuto sin bytes, matar la llamada y relanzar solo ese modelo.
+- Una palabra polisémica en el prompt («escala») arrastra al modelo a su sentido más frecuente; mejor el término que el modelo tiene fijado («unidad de medida»).
+- «Encuentra los datos» presupone que hay: sin un ejemplo sin datos, el modelo busca reemplazos (ut4 en DU4, visible en `reasoning_content`).
+- Mostrar rinde más que definir (DU5), y la ostensión enseña exactamente lo que muestra: cada falla señala un rasgo que los ejemplos no traen. Por eso los ejemplos se eligen desde el marco, no desde las fallas de la prueba.
+- `reasoning_content` de xAI llega recortado: es menos que los `reasoning_tokens` facturados.
 
 ## 7. Pendientes
 
-1. DU4 (los dos ajustes de §4).
-2. Encadenar los pasos: correr el paso 2 sobre las unidades que produce el paso 1 (hoy ut1-ut5 se armaron a mano).
-3. Casos compartidos entre núcleos en el paso 1.
-4. La procedencia como capa propia, incluido su alcance entre unidades.
-5. Objetos información y afirmación.
-6. Auditoría de Jev sobre los datos; reidentificación de casos entre textos; catálogo único de definiciones (`esquema.json`) y §20.1 del borrador principal.
+1. Lista de formas de dato desde el marco y ejemplos generales que las cubran (siguiente paso).
+2. Unidades nuevas de prueba con gold escrito antes de correr (ut1–ut5 quedan como desarrollo).
+3. Encadenar los pasos: correr el paso 2 sobre las unidades que produce el paso 1 (hoy ut1-ut5 se armaron a mano).
+4. Casos compartidos entre núcleos en el paso 1.
+5. La procedencia como capa propia, incluido su alcance entre unidades.
+6. Objetos información y afirmación.
+7. Auditoría de Jev sobre los datos; reidentificación de casos entre textos (sin campo `caso`, se recupera en un paso aparte); catálogo único de definiciones (`esquema.json`) y §20.1 del borrador principal.

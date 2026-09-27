@@ -1,16 +1,46 @@
 # Spike Jev — detección con modelo de decisiones
 
-## Estado actual (2026-09)
+## Estado actual (2026-09-27)
 
-El trabajo activo está en `niveles/`: extracción de **datos** de un `texto`
-con un LLM (DeepSeek), según el ensayo de Frat «¿Qué es un dato?», con Jev
-como auditor posterior. Rondas: `niveles/PLAN.md`. Estado, lecciones y
-pendientes: `memoria de trabajo y pendientes.md`.
+**Qué hacemos.** Extraer los **datos** de un `texto` con un LLM, en el
+sentido del ensayo de Frat «¿Qué es un dato?», en dos pasos (carpeta
+`unidades/`, hilo activo):
 
-El objetivo original (Jev en lugar de GLM para la detección de estructura
-del piloto EEL; secciones Contexto, Arquitectura y Plan de pruebas) está
-**suspendido**, no abandonado. Las reglas 1–26 y el marco conceptual siguen
-vigentes.
+1. **Unidades temáticas** (`extraer_unidades.py`, prompt `unidades_v2`): el
+   LLM agrupa las oraciones del texto en unidades con un núcleo y sus
+   satélites.
+2. **Datos por unidad** (`extraer_datos_u.py`, prompt vigente `datos_u5`):
+   una llamada por unidad; el LLM devuelve `{"datos": [{"variable", "valor",
+   "unidad_de_medida"}]}`. El prompt ya no define conceptos: muestra tres
+   ejemplos (con datos de varios tipos, con trampas, sin datos).
+
+Después, **Jev** (`jev-1.13.0`) auditará lo extraído; no empezado. Modelo de
+trabajo del paso 2: Grok 4.7 (`grok`).
+
+**Dónde está cada cosa.**
+
+- Estado vigente, decisiones, lecciones y pendientes:
+  `memoria de trabajo y pendientes.md` (fuente única del estado).
+- Rondas (cambio, conjetura, gold, comandos, reporte): `unidades/PLAN.md`.
+  Prompts en `unidades/prompts/`; unidades de prueba en `unidades/docs/`;
+  crudos en `unidades/cache/`; mensaje para el ejecutor de cada ronda en
+  `unidades/muse_<RONDA>.txt`.
+- Reglas del ejecutor (red, claves, comandos, reportes): `AGENTS.md`.
+- Vocabulario de Jev: `jev_typesafe_guia_pedagogica_v2.md` y
+  `diccionario.md` (no se editan sin aprobación; la guía no cambia mientras
+  estemos en pruebas de extracción).
+
+**Cómo se trabaja.** Frat y Cowork planean (piensan, discuten, conjeturan);
+solo hay corrida cuando hay una conjetura nueva. Cowork escribe prompt y
+ronda, hace commit y push; Muse Code (o Claude Code) corre sin modificar
+nada, reporta sin veredicto y sube los crudos; Cowork evalúa contra la
+conjetura y Frat decide.
+
+**Antecedentes.** `niveles/` (extracción sobre el texto entero, `datos_v1`–
+`v8`) queda sin trabajo activo. El objetivo original del spike (Jev en lugar
+de GLM para la detección de estructura del piloto EEL; secciones Contexto,
+Arquitectura y Plan de pruebas, más abajo) está **suspendido**, no
+abandonado. Las reglas 1–26 y el marco conceptual de Jev siguen vigentes.
 
 ## Correr las pruebas en local (proxy de claves)
 
@@ -45,7 +75,7 @@ La primera vez, mitmdump crea su certificado en `~/.mitmproxy/`. Desde un shell 
 
 ```bash
 export HTTPS_PROXY=http://127.0.0.1:8080 SSL_CERT_FILE=$HOME/.mitmproxy/mitmproxy-ca-cert.pem
-python3 niveles/extraer_datos.py doc5 deepseek datos_v8 r1
+python3 unidades/extraer_datos_u.py ut1 grok datos_u5 r1
 ```
 
 El certificado del proxy solo lo usan los procesos que exportan `SSL_CERT_FILE`; no se instala en el sistema. El proxy agrega la clave solo a los cuatro hosts de la tabla y deja pasar el streaming. Al reiniciar la máquina, el proxy se apaga y hay que arrancarlo de nuevo.
