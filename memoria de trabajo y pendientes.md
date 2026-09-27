@@ -1,132 +1,94 @@
-# Memoria: extracción de datos con LLM (spike-jev / Zettel)
+# Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 26-09-2026.
+Estado al 27-09-2026. No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md`.
 
-## 0. Dónde y cómo (para retomar)
+## 0. Dónde y cómo
 
-- **Carpeta de trabajo (máquina local de Frat, Linux):** `/home/fratquintero/Documentos/Claude/jev-typesafe-spike/`, subcarpeta `niveles/`.
-- **Repositorio en GitHub:** `https://github.com/frquintero/jev-typesafe-spike`, rama `main`.
-- **Esta memoria** vive en la raíz del repositorio, junto a `jev_typesafe_guia_pedagogica_v2.md`.
+- **Carpeta:** `/home/fratquintero/Documentos/Claude/jev-typesafe-spike/` (máquina local de Frat, Linux). Trabajo activo en `unidades/`.
+- **Repositorio:** `https://github.com/frquintero/jev-typesafe-spike`, rama `main`.
+- **Roles:** Frat y Cowork planean. Muse Code (Meta Muse Spark) ejecuta en local; Claude Code en la nube es la alternativa. El rol va con la tarea, no con el modelo.
 
-**Forma de trabajo.** La planificación la hacemos Frat y Cowork; las pruebas las corre Claude Code en la nube. Nos coordinamos a través del repositorio de GitHub.
+**Flujo de una ronda.**
+1. Frat y Cowork discuten y conjeturan. Se corre solo si hay una conjetura nueva.
+2. Cowork escribe el prompt en `unidades/prompts/` y la sección de la ronda en `unidades/PLAN.md` (cambio, conjetura, comandos, reporte), y hace commit y push.
+3. Cowork entrega el mensaje para Muse: Frat lo pega en su sesión, o Cowork lo lanza sin terminal con `./muse.sh exec --prompt-file <archivo>`.
+4. Muse corre sin modificar nada, reporta sin veredicto y hace commit y push de los crudos.
+5. Cowork lee los crudos (`unidades/cache/`) y los evalúa contra la conjetura. Frat decide.
 
-1. **Planificar (Frat + Cowork).** Discutimos, conjeturamos y acordamos un cambio.
-2. **Mostrar.** Cowork muestra el prompt y Frat da el «adelante».
-3. **Preparar (Cowork, en la máquina local).** Cowork escribe el prompt en `niveles/prompts/` y la sección de la ronda en `niveles/PLAN.md`, con el cambio, la conjetura, el comando y el formato del reporte. Hace commit y push a `main`.
-4. **Pasar el mensaje.** Cowork entrega a Frat el mensaje para Claude Code, con el número de commit.
-5. **Correr (el ejecutor: Claude Code en una VM de la nube, o Muse Code en la máquina local).** Claude Code hace primero `git pull`; Muse trabaja sobre la misma carpeta del repo. El ejecutor lee la sección de la ronda, corre el comando sin modificar nada y guarda el crudo en `niveles/cache/`. Luego hace commit y push del cache.
-6. **Reportar.** El ejecutor entrega el JSON verbatim, los tokens y los fragmentos del razonamiento que se le pidan, sin veredicto. Frat pega ese reporte en Cowork.
-7. **Evaluar (Cowork + Frat).** Cowork hace `git pull` en la máquina local, lee el crudo, incluido el `reasoning_content`, y lo evalúa contra la conjetura. Frat decide el paso siguiente.
-
-Las claves de API nunca pasan por el repositorio: el proxy de la nube las inyecta a Claude Code.
-
-**Pruebas en local.** También se puede correr en la máquina de Frat, con el mismo código, a través de `proxy_local.py` (instrucciones en el README raíz). Frat arranca el proxy con sus claves en una terminal. Muse Code corre los scripts en la máquina local, exportando solo `HTTPS_PROXY` y `SSL_CERT_FILE`, y nunca ve las claves. Los crudos quedan en `niveles/cache/` y se suben con commit y push, igual que en la nube.
-
-Muse Code (Meta Muse Spark) es el ejecutor alternativo a Claude Code, con las mismas reglas; sus notas operativas están en `AGENTS.md`, que Muse carga solo en cada sesión.
+**Configuración** (detalle en el README, «Correr las pruebas con Muse Code»):
+- `muse.sh` (alias `muse` en `~/.bashrc`) levanta el proxy de claves si no corre, arranca Muse sin sandbox en la carpeta actual y apaga el proxy al salir si lo arrancó él.
+- Muse carga solo `AGENTS.md` (sus reglas) e ignora `CLAUDE.md` (para Claude Code).
+- Claves: `proxy_local.py` las inyecta por host (TypeSafe, Z.ai, DeepSeek, xAI); nunca van en archivos del repo.
+- Cowork hace git con Desktop Commander, no con el shell aislado (no ve credenciales y deja bloqueos en `.git/`). Para detener procesos, la herramienta `kill_process` de Desktop Commander (`kill` desde la terminal está bloqueado).
 
 ## 1. Qué hacemos
 
-Extraer de un `texto` sus **datos**, en el sentido del ensayo de Frat «¿Qué es un dato?», con un LLM guiado por un prompt afinado. Después, Jev (jev-1.13.0) auditará lo extraído. El objeto dato está cerrado sobre doc5 (prompt `datos_v8`); falta probarlo en doc4. Siguen otros objetos: afirmación, información y relaciones.
+Extraer los **datos** de un texto, en el sentido del ensayo de Frat «¿Qué es un dato?», con un LLM, en dos pasos (`unidades/`):
 
-El objetivo original del spike (Jev en lugar de GLM para la detección de estructura del piloto EEL, fases 1–3 del README) está **suspendido**, no abandonado.
+1. **Unidades temáticas:** el LLM agrupa las oraciones del texto alrededor de un núcleo con sus satélites.
+2. **Datos por unidad:** una llamada por unidad; el LLM encuentra los datos de esa unidad.
 
-División del trabajo (decidida):
-- el prompt dirige;
-- el LLM extrae;
-- el código solo orquesta: arma, llama y guarda crudos, sin verificar nada;
-- Jev juzga el contenido interpretado.
+Después, Jev (`jev-1.13.0`) auditará lo extraído; no empezado.
 
-## 2. Cómo trabajamos
+El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `datos_v1`–`v8` sobre el texto entero) queda como antecedente, sin trabajo activo.
 
-- **Roles y flujo:** ver §0.
-- **Planificar** es pensar, discutir y conjeturar. Solo se corre cuando hay una conjetura nueva, y cada corrida debe decidir algo. No se ofrecen corridas por reflejo.
+## 2. Reglas de trabajo
+
+- **Ockham:** empezar con lo que funciona. Cada elemento del prompt tiene que servir a la tarea; quitar lo que no se use.
 - **Una cosa por ronda.** Varios cambios solo si aplican un mismo principio.
-- **Mostrar el prompt antes de correr**, y esperar el «adelante».
-- **Prompts sin ejemplos ni listas ilustrativas.** Excepción aceptada por Frat: los ejemplos dentro de sus definiciones de Escala y Valor.
-- El material se nombra `texto`, entre backticks.
-- **Simplicidad:** poca prosa, sin extras que no se hayan pedido.
-- **Crítica constructiva:** valorar la idea de Frat y mejorarla con razones, sin aceptar todo.
-- **Pruebas:** sin tests de regresión; `py_compile` solo si hay código nuevo.
-- **Seguridad:** las claves (TYPESAFE, GLM, DeepSeek) nunca van en archivos. Las inyecta el proxy o las configura Frat. Solo documentos sintéticos. Commit o push solo cuando se pide. No se editan README, diccionario ni guía sin aprobación.
+- **Planificar** es pensar y conjeturar; no se ofrecen corridas por reflejo.
+- **No reinventar la rueda:** revisar la literatura antes de diseñar.
+- **Mostrar el prompt antes de correr** y esperar el «adelante».
+- **Sin ejemplos tomados de los documentos de prueba** (invalidan la prueba).
+- Solo documentos sintéticos. No se editan README, diccionario ni guía sin aprobación.
+- **Crítica constructiva:** valorar la propuesta de Frat y mejorarla con razones, sin aceptar todo.
 
-## 3. Repositorio y pruebas
+## 3. Paso 1: unidades temáticas
 
-- **Repositorio:** `/home/fratquintero/Documentos/Claude/jev-typesafe-spike/`, rama `main`, remoto github `frquintero/jev-typesafe-spike`.
-- **Carpeta `niveles/`:**
-  - `PLAN.md`: una sección por ronda (1–9, 6b, 6c, 8b, D1–D10). Cada sección dice qué cambia, cuál es la conjetura, el comando y el formato del reporte.
-  - `extraer_datos.py`: el orquestador. Uso: `python3 niveles/extraer_datos.py <doc> <modelo> <prompt> <rN>`. Reemplaza `{{TEXTO}}`, llama a `call_model` y guarda `cache/datos-<doc>-<modelo>-<prompt>-<rN>.json` con request, response (incluido el `reasoning_content`), parsed, venia_con_cerca y error_parseo. Es idempotente.
-  - `run_niveles.py`: `call_model` por streaming. `deepseek` corresponde a deepseek-flash, con thinking y reasoning_effort bajo; `flash` corresponde a glm-5.3-flash.
-  - `jev_sopesa.py`: builds de Jev de la etapa Toulmin (v6), sin uso por ahora.
-  - `prompts/`: `datos_v1` a `datos_v8`, más prompts históricos (toulmin, A, B, clasif).
-  - `docs/`: documentos sintéticos:
-    - doc1: ciclorrutas;
-    - doc2: horario escolar;
-    - doc3: peatonalización;
-    - doc4: árboles de la avenida Central;
-    - doc5: pozo de Los Robles, con variables repetidas bajo distintas condiciones, escalas nominal y ordinal, dichos, un plan y una norma.
-- **Mensaje tipo para Claude Code:** `git pull (main, <commit>). Lee la sección "Ronda Dn" de niveles/PLAN.md. No hay código nuevo; no modifiques nada. Corre: <comando>. Repórtame el JSON verbatim, si venía con cerca o hubo error de parseo, y los tokens (incluidos los de razonamiento). Sin veredicto. Haz commit y push del cache.`
-- **Diagnóstico:** pedir fragmentos del `reasoning_content` donde el modelo duda. Buscar «omit», «maybe», «awkward», «not a dat». Así se vio en D9 la contradicción del prompt, y en D10 por qué la corrección funcionó.
-- **Costo:** unos 14–16 mil tokens de razonamiento por corrida con deepseek-flash.
+- **Prompt vigente:** `unidades_v2`. Tres pasos (casos; núcleos y satélites; unidades temáticas). Salida por unidad: `nucleo`, `satelites`, `oraciones` literales. Un caso puede ser satélite de más de un núcleo; una unidad puede reunir oraciones no seguidas.
+- **Probado** con Grok 4.7 y DeepSeek sobre `tec1` (párrafo = unidad) y `tec2` (párrafos no alineados, unidades no continuas): exacto en los dos, unos 20-35 s. `v2` dio el mismo resultado que `v1` con la mitad de tokens.
+- **Abierto:** los casos compartidos entre núcleos (el jarabe en tec1) salen omitidos; los modelos leen «satélite» como componente. No urgente.
+- **Límite conocido:** una procedencia cuyo alcance cruza dos unidades se pierde en el paso 2.
 
-## 4. Marco: qué es un dato (ensayo de Frat)
+## 4. Paso 2: datos por unidad
 
-- **Caso:** lo distinguido al observar. Es una unidad que reúne determinaciones, y puede no tener ninguna.
-- **Variable:** el aspecto bajo el cual se considera el caso; fija qué diferencias cuentan.
-- **Pregunta:** una estructura con posiciones fijadas y abiertas, como `T(agua del vaso A, 8:15) = ?`.
-- **Escala:** el sistema de unidades, categorías, precisión y reglas de conversión. **Valor:** una posición o elemento admitido en una escala. Si cambia la escala, cambia el valor y la determinación permanece (21,4 °C y 70,52 °F).
-- **Atribución:** la operación que vincula el valor con el caso bajo la variable. Produce una **determinación**, que cierra la pregunta.
-- **Condiciones**, clasificadas por el efecto de modificarlas:
-  - constitutivas: cambia la pregunta;
-  - de representación: cambia la forma y se conserva la determinación;
-  - de procedencia: cambia la ruta y la pregunta sigue igual.
-- **Dato:** la determinación de un caso bajo una variable y ciertas condiciones constitutivas, registrada de modo que puede recuperarse.
-- **Verdad:** recae en la determinación, que puede ser verdadera, falsa o indeterminada. El valor tiene predicados propios: admisible, preciso, impreciso, mal codificado.
-- **Información:** no forma parte del dato. Es el cambio en las respuestas admisibles a una pregunta cuando se considera un dato según unas reglas.
+- **Prompt vigente:** `datos_u3`. Estructura DEFINICIONES / TAREA / PROCEDIMIENTO / REGLAS / REPORTE. Definiciones: unidad textual, caso (nombres, números y códigos que lo distinguen van dentro del caso), variable (prueba del dominio), condiciones constitutivas, escala (recuperable aunque `texto` no la nombre), valor, dato. Reglas clave: un valor no es otro caso; sin escala no hay dato. Reporta solo unidades con datos.
+- **Unidades de prueba:** `unidades/docs/ut1.md`–`ut5.md` (ut4 no tiene datos: solo hechos).
+- **Estado (DU3, Grok):** identificadores y condiciones bien; escalas reales; ut4 casi sin datos (queda «antiguo» del «antiguo edificio de la estación»); se perdió «ingresó con fiebre».
+- **Siguiente (DU4, propuesto, no decidido):**
+  1. variable binaria: «la variable no puede construirse convirtiendo en pregunta de sí o no la afirmación de `texto`», en lugar de «no se reducen a afirmar o negar»;
+  2. los modificadores que forman parte del nombre del caso pertenecen al caso.
 
-## 5. Objeto dato: estado actual (`datos_v8`, cerrado sobre doc5)
+## 5. Marco: qué es un dato (ensayo)
 
-Estructura del prompt: TAREA, DEFINICIONES PARA CUMPLIR LA TAREA, REGLAS y ESTRUCTURA DEL JSON DE RESPUESTA.
+- **Caso:** lo distinguido al observar; unidad individuada y reidentificable que reúne determinaciones. Nombres e identificadores sirven para reidentificarlo (l. 91): forman parte del caso, no son valores.
+- **Variable:** aspecto del caso que admite diferencias; tiene un dominio de determinaciones admisibles. Un aspecto sin diferencias es una constante.
+- **Escala:** sistema de unidades, categorías, orden, precisión y conversión. El dominio dice qué es admisible; la escala, cómo se expresa (l. 127-133).
+- **Valor:** posición o elemento de una escala. No es otro caso: si la respuesta es algo concreto, lo registrado es una relación entre casos.
+- **Determinación:** resultado de la atribución de un valor a un caso bajo una variable; **cierra una pregunta** `variable(caso, condiciones) = ?`.
+- **Hecho y determinación:** una frase que solo distingue (algo es, una relación existe) registra un hecho, no un dato. Un hecho puede abrir preguntas cuya respuesta sí sería un dato («colinda con el pozo» abre `distancia(pozo, finca) = ?`).
+- **Condiciones:** constitutivas (si cambian, cambia la pregunta), de representación, de procedencia.
+- **Procedencia:** quien dice o cómo se obtuvo no forma parte del dato; es un dato de otro orden, sobre la ruta (l. 161-163, 293), y pesa en la robustez del sostén.
+- **Dato:** determinación registrada de modo recuperable. **Información:** el cambio en las respuestas admisibles a una pregunta al considerar un dato.
 
-Principios operativos:
-- Método: identificar primero los casos y unificarlos; luego las variables de cada caso; luego los datos de cada variable.
-- Prueba de la pregunta: `<variable>(<caso>, <condiciones constitutivas>) = ?`. Si falta el caso, la variable, el valor o la escala, no hay dato. Dejar fuera lo que no es dato es parte de la tarea.
-- Universo de valores cerrado: cantidad, categoría, nivel ordenado o fecha. Si no es ninguna de estas, no es un valor.
-- Quien dice, sostiene, atribuye, planea o mide algo es procedencia; lo dicho se examina como cualquier otra parte de `texto`.
-- Condiciones constitutivas: si cambiaran, la pregunta sería otra. No incluyen de dónde proviene el valor ni quién lo dice.
-- Se registra lo que es, fue o será, no lo que debería ser. Cada determinación va una sola vez, bajo su caso. Un caso sin datos no va en el JSON.
+## 6. Lecciones
 
-JSON: `{"casos":[{"caso", "oraciones":[{"oracion", "datos":[{"dato", "variable", "valor", "escala", "condiciones_constitutivas":[]}]}]}]}`
-
-## 6. Rondas D1–D10 (deepseek-flash)
-
-| Ronda | Prompt | Doc | Qué se probó | Resultado |
-|---|---|---|---|---|
-| D1 | datos_v1 | doc2 | Primer smoke test del dato | Buena extracción, pero demasiado amplia |
-| D2 | clasif_v1 | doc4 | Datos (caso concreto; «no lo que debería ser») y afirmaciones, en una llamada | Funcionó |
-| D3 | datos_v2 | doc4 | Jerarquía oración → casos → datos | Funcionó; un mismo caso salió con dos nombres |
-| D4 | datos_v3 | doc4 | Primero los casos, unificados | Unificó; «el tráfico» salió como caso |
-| D5 | datos_v4 | doc4 | JSON organizado por caso | Duplicados entre casos y valores que eran enunciados |
-| D6 | datos_v5 | doc4 | Dato según el ensayo; escala obligatoria | Sin duplicados; la escala no filtró (seudoescalas); procedencia puesta como condición |
-| D7 | datos_v6 | doc4 | Condiciones con el criterio del ensayo | La procedencia salió; hubo variación entre corridas |
-| D8 | datos_v6 | doc5 | Documento nuevo | Condiciones y escalas nominal y ordinal bien; siguieron las seudoescalas en actos y dichos |
-| D9 | datos_v7 | doc5 | Definiciones de escala y valor de Frat | Sin cambio; el razonamiento mostró la contradicción entre las definiciones y la regla 5 |
-| D10 | datos_v8 | doc5 | Quien dice es procedencia; universo de valores cerrado | Conjetura confirmada: salen los actos y dichos, cobertura completa |
-
-## 7. Lecciones
-
-- Un campo obligatorio no filtra: el modelo inventa algo para llenarlo (seudoescalas). Lo que filtra es un universo cerrado.
-- Una cláusula del tipo «o cualquier otra…» reabre el universo.
-- Si dos señales del prompt se contradicen, el modelo oscila. El remedio es un solo principio, no más definiciones.
-- Para que el modelo omita con confianza hay que decirle que omitir es parte de la tarea.
-- Parafrasear el ensayo introduce errores («otra cosa» en vez de «otra pregunta»). Conviene citar su criterio casi literal.
-- Una sola corrida no separa el efecto del prompt del ruido entre corridas (D7). Frat prefiere probar con otro documento antes que con réplicas.
+- Un campo obligatorio no filtra: el modelo inventa algo para llenarlo (seudoescalas en D6; escalas inventadas en DU2).
+- «Puede formularse una pregunta» es una fuga: a cualquier hecho se le fabrica una.
+- Menos prompt rinde más: `unidades_v2` dio lo mismo que `v1` con la mitad de tokens.
+- Si dos señales del prompt se contradicen, el modelo oscila; el remedio es un solo principio.
+- Para que el modelo omita con confianza, omitir tiene que ser parte de la tarea.
+- Citar el criterio del ensayo casi literal; parafrasear introduce errores.
+- Una sola corrida no separa el efecto del prompt del ruido.
 - El `reasoning_content` es el mejor instrumento de diagnóstico.
-- Jev corrige lo que el modelo afirma de más, no lo que omite. Empujar al modelo a omitir tiene ese costo.
+- Jev corrige lo que el modelo afirma de más, no lo que omite.
+- Operativo: DeepSeek puede dejar el stream colgado; si pasa un minuto sin bytes, matar la llamada y relanzar solo ese modelo.
 
-## 8. Pendientes
+## 7. Pendientes
 
-1. Probar si v8 se sostiene en doc4: el plan, lo que dicen los comerciantes, la oficina de tránsito y el caso del tráfico.
-2. **Objeto información**, el siguiente. Según el ensayo, es relativo a una pregunta: un dato considerado según reglas cambia las respuestas admisibles. Hay que definir qué se extrae de `texto`: ¿las preguntas que plantea, o las inferencias que hace a partir de datos?
-3. **Objeto afirmación.** Qué es y cómo se separa de los datos. Lo que se dice y queda fuera de los datos (causas atribuidas, planes, juicios, normas) es su material.
-4. Relaciones entre objetos, auditoría de Jev sobre los datos y reidentificación de casos entre textos.
-5. Llevar las definiciones a un catálogo único (`esquema.json`) y actualizar §20.1 del borrador principal.
+1. DU4 (los dos ajustes de §4).
+2. Encadenar los pasos: correr el paso 2 sobre las unidades que produce el paso 1 (hoy ut1-ut5 se armaron a mano).
+3. Casos compartidos entre núcleos en el paso 1.
+4. La procedencia como capa propia, incluido su alcance entre unidades.
+5. Objetos información y afirmación.
+6. Auditoría de Jev sobre los datos; reidentificación de casos entre textos; catálogo único de definiciones (`esquema.json`) y §20.1 del borrador principal.
