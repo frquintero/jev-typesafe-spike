@@ -32,7 +32,7 @@ trabajo del paso 2: Grok 4.7 (`grok`).
 
 **Cómo se trabaja.** Frat y Cowork planean (piensan, discuten, conjeturan);
 solo hay corrida cuando hay una conjetura nueva. Cowork escribe prompt y
-ronda, hace commit y push; Muse Code (o Claude Code) corre sin modificar
+ronda, hace commit y push; el ejecutor (Muse Code, GPT-6 Luna o Claude Code) corre sin modificar
 nada, reporta sin veredicto y sube los crudos; Cowork evalúa contra la
 conjetura y Frat decide.
 

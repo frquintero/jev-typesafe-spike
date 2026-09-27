@@ -1,4 +1,7 @@
-# AGENTS.md — reglas operativas del ejecutor (Muse Code lo carga solo; CLAUDE.md apunta aquí)
+# AGENTS.md — reglas operativas del ejecutor
+
+Ejecutores: Muse Code (lo carga solo), GPT-6 Luna (Codex lo carga solo; en el
+chat de ChatGPT, leerlo al empezar) y Claude Code (`CLAUDE.md` apunta aquí).
 
 Frat y Cowork planean; el ejecutor corre lo que el plan indica, informa con
 números y crudos, y no decide diseño, prompts, umbrales ni veredictos. El

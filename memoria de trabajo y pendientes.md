@@ -6,18 +6,18 @@ Estado al 27-09-2026 (tras DU5). No es bitácora: solo lo vigente. La historia e
 
 - **Carpeta:** `/home/fratquintero/Documentos/Claude/jev-typesafe-spike/` (máquina local de Frat, Linux). Trabajo activo en `unidades/`.
 - **Repositorio:** `https://github.com/frquintero/jev-typesafe-spike`, rama `main`.
-- **Roles:** Frat y Cowork planean. Muse Code (Meta Muse Spark) ejecuta en local; Claude Code en la nube es la alternativa. El rol va con la tarea, no con el modelo.
+- **Roles:** Frat y Cowork (Claude) planean. La implementación y las corridas las hacen los ejecutores: Muse Code (Meta Muse Spark) en local, GPT-6 Luna (OpenAI, vía Codex o ChatGPT) y Claude Code en la nube como alternativa. El rol va con la tarea, no con el modelo.
 
 **Flujo de una ronda.**
 1. Frat y Cowork discuten y conjeturan. Se corre solo si hay una conjetura nueva.
 2. Cowork escribe el prompt en `unidades/prompts/` y la sección de la ronda en `unidades/PLAN.md` (cambio, conjetura, comandos, reporte), y hace commit y push.
-3. Cowork deja el mensaje para Muse en `unidades/muse_<RONDA>.txt` (commit incluido): Frat lo pega en su sesión, o Cowork lo lanza sin terminal con `./muse.sh exec --prompt-file <archivo>`.
-4. Muse corre sin modificar nada, reporta sin veredicto y hace commit y push de los crudos.
+3. Cowork deja el mensaje para el ejecutor en `unidades/muse_<RONDA>.txt` (commit incluido): Frat lo pega en su sesión, o Cowork lo lanza sin terminal con `./muse.sh exec --prompt-file <archivo>`.
+4. El ejecutor (Muse, Luna o Claude Code) corre sin modificar nada, reporta sin veredicto y hace commit y push de los crudos.
 5. Cowork lee los crudos (`unidades/cache/`) y los evalúa contra la conjetura. Frat decide.
 
 **Configuración** (detalle en el README, «Correr las pruebas con Muse Code»):
 - `muse.sh` (alias `muse` en `~/.bashrc`) levanta el proxy de claves si no corre, arranca Muse sin sandbox en la carpeta actual y apaga el proxy al salir si lo arrancó él.
-- Las reglas del ejecutor viven solo en `AGENTS.md`, que Muse carga solo; `CLAUDE.md` es una línea que apunta ahí (`@AGENTS.md`).
+- Las reglas del ejecutor viven solo en `AGENTS.md`. Muse y Codex (donde corre Luna) lo cargan solos; en el chat de ChatGPT, Luna lo lee porque cada mensaje empieza con «Lee AGENTS.md». `CLAUDE.md` es una línea que apunta ahí (`@AGENTS.md`).
 - Claves: `proxy_local.py` las inyecta por host (TypeSafe, Z.ai, DeepSeek, xAI); nunca van en archivos del repo.
 - Cowork hace git con Desktop Commander, no con el shell aislado (no ve credenciales y deja bloqueos en `.git/`). Para detener procesos, la herramienta `kill_process` de Desktop Commander (`kill` desde la terminal está bloqueado).
 
