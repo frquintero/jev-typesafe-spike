@@ -59,6 +59,11 @@ def run(doc, modelo, prompt_unidades, prompt_datos, rep):
     parsed_unidades = unidades_crudo.get("parsed")
     if parsed_unidades is None:
         raise SystemExit(f"paso 1 sin parsed; detenido ({unidades_path})")
+    usa_unidades_reconstruidas = "unidades_reconstruidas" in unidades_crudo
+    if usa_unidades_reconstruidas:
+        unidades = unidades_crudo["unidades_reconstruidas"]
+    else:
+        unidades = parsed_unidades.get("unidades", [])
 
     with open(os.path.join(BASE_DIR, "docs", f"{doc}.md"), encoding="utf-8") as f:
         texto = f.read()
@@ -68,11 +73,32 @@ def run(doc, modelo, prompt_unidades, prompt_datos, rep):
         plantilla_datos = f.read()
 
     unidades_con_datos = []
-    for unidad_n, unidad in enumerate(parsed_unidades.get("unidades", []), start=1):
-        texto_unidad = " ".join(ordenar_oraciones(unidad.get("oraciones", []), texto))
+    for unidad_n, unidad in enumerate(unidades, start=1):
+        if usa_unidades_reconstruidas:
+            texto_unidad = " ".join(unidad.get("oraciones", []))
+            campos_unidad = {
+                "tema": unidad.get("tema"),
+                "desde": unidad.get("desde"),
+                "hasta": unidad.get("hasta"),
+            }
+        else:
+            texto_unidad = " ".join(ordenar_oraciones(unidad.get("oraciones", []), texto))
+            campos_unidad = {
+                "nucleo": unidad.get("nucleo"),
+                "satelites": unidad.get("satelites"),
+            }
+
+        if prompt_unidades == "unidades_v2":
+            nombre_crudo = (
+                f"datos-{doc}-u{unidad_n}-{modelo}-{prompt_datos}-{rep}.json"
+            )
+        else:
+            nombre_crudo = (
+                f"datos-{doc}-{prompt_unidades}-u{unidad_n}-"
+                f"{modelo}-{prompt_datos}-{rep}.json"
+            )
         datos_path = os.path.join(
-            CACHE_DIR,
-            f"datos-{doc}-u{unidad_n}-{modelo}-{prompt_datos}-{rep}.json",
+            CACHE_DIR, nombre_crudo
         )
 
         if os.path.exists(datos_path):
@@ -96,8 +122,7 @@ def run(doc, modelo, prompt_unidades, prompt_datos, rep):
                 "venia_con_cerca": venia_con_cerca,
                 "error_parseo": error_parseo,
                 "unidad_n": unidad_n,
-                "nucleo": unidad.get("nucleo"),
-                "satelites": unidad.get("satelites"),
+                **campos_unidad,
                 "texto_unidad": texto_unidad,
             }
             escribir_json(datos_path, crudo_datos)
@@ -110,16 +135,16 @@ def run(doc, modelo, prompt_unidades, prompt_datos, rep):
             if isinstance(parsed_datos, dict)
             else None
         )
-        unidades_con_datos.append(
+        consolidado_unidad = {"unidad_n": unidad_n}
+        consolidado_unidad.update(campos_unidad)
+        consolidado_unidad.update(
             {
-                "unidad_n": unidad_n,
-                "nucleo": unidad.get("nucleo"),
-                "satelites": unidad.get("satelites"),
                 "texto_unidad": texto_unidad,
                 "datos": datos,
                 "error_parseo": crudo_datos.get("error_parseo"),
             }
         )
+        unidades_con_datos.append(consolidado_unidad)
         cantidad_datos = len(datos) if isinstance(datos, list) else "null"
         print(f"unidad {unidad_n}: {cantidad_datos} datos, {crudo_datos.get('segundos')} s")
 

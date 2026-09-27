@@ -1,0 +1,138 @@
+{
+  "doc": "bio1",
+  "modelo": "grok",
+  "prompt": "datos_u7",
+  "segundos": 3.2,
+  "request": {
+    "model": "grok-4.7",
+    "messages": [
+      {
+        "role": "user",
+        "content": "TAREA\nEncuentra los datos de `texto`, según las definiciones y como en los ejemplos. Responde solo con el JSON.\n\nDEFINICIONES\n- Dato: un valor que `texto` le atribuye a una variable.\n- Variable: la magnitud o cualidad considerada, nombrada con su caso y sus circunstancias («peso del contenedor descargado anoche», no «peso»). Los nombres, números y códigos que identifican el caso van en la variable. Si `texto` no nombra el aspecto, la variable lo nombra (tamaño, tipo, grado).\n- Valor: lo que toma la variable, copiado tal como aparece en `texto`, sin la unidad. Elige entre más alternativas que el sí y el no.\n- Unidad de medida: la unidad del valor («kg», «hora», «%», «fracción»; «unidad» en los conteos). Es null si el valor es una cualidad.\n- No son datos: lo que solo afirma o niega algo (abierto, certificado, sin interrupciones), las relaciones entre casos (recibe, atraviesa, anida en) y los adjetivos que forman parte del nombre de algo («antiguo muelle»).\n\nEJEMPLO 1\n`texto`\n<<<\nLa parcela 3B del viñedo rindió 4,2 toneladas de uva. La vendimia empezó a las 7 de la mañana y terminó a las 3 de la tarde. A las 10, la humedad del suelo era de 18 %. La lluvia de la tarde fue ligera y el mosto salió de color rosado.\n>>>\n{\"datos\": [\n  {\"variable\": \"rendimiento de uva de la parcela 3B del viñedo\", \"valor\": \"4,2\", \"unidad_de_medida\": \"toneladas\"},\n  {\"variable\": \"hora de inicio de la vendimia en la parcela 3B\", \"valor\": \"7 de la mañana\", \"unidad_de_medida\": \"hora\"},\n  {\"variable\": \"hora de fin de la vendimia en la parcela 3B\", \"valor\": \"3 de la tarde\", \"unidad_de_medida\": \"hora\"},\n  {\"variable\": \"humedad del suelo de la parcela 3B a las 10\", \"valor\": \"18\", \"unidad_de_medida\": \"%\"},\n  {\"variable\": \"intensidad de la lluvia de la tarde\", \"valor\": \"ligera\", \"unidad_de_medida\": null},\n  {\"variable\": \"color del mosto\", \"valor\": \"rosado\", \"unidad_de_medida\": null}]}\n\nEJEMPLO 2\n`texto`\n<<<\nEl café del lote 14 tiene acidez alta y aroma floral. Su grano es grande y el tueste es oscuro. El lote está certificado como orgánico. La catadora le dio 86 puntos.\n>>>\n{\"datos\": [\n  {\"variable\": \"acidez del café del lote 14\", \"valor\": \"alta\", \"unidad_de_medida\": null},\n  {\"variable\": \"aroma del café del lote 14\", \"valor\": \"floral\", \"unidad_de_medida\": null},\n  {\"variable\": \"tamaño del grano del café del lote 14\", \"valor\": \"grande\", \"unidad_de_medida\": null},\n  {\"variable\": \"grado de tueste del café del lote 14\", \"valor\": \"oscuro\", \"unidad_de_medida\": null},\n  {\"variable\": \"puntaje de catación del café del lote 14\", \"valor\": \"86\", \"unidad_de_medida\": \"puntos\"}]}\n\nEJEMPLO 3\n`texto`\n<<<\nEl antiguo muelle pesquero recibe los barcos de la cooperativa. Anoche descargaron allí un contenedor de 800 kg con la grúa G-4. La grúa funcionó sin interrupciones.\n>>>\n{\"datos\": [\n  {\"variable\": \"peso del contenedor descargado anoche en el antiguo muelle pesquero\", \"valor\": \"800\", \"unidad_de_medida\": \"kg\"}]}\n\nEJEMPLO 4\n`texto`\n<<<\nEl censo de aves del 12 de marzo contó 43 garzas en la laguna Negra; dos tercios eran juveniles. Las garzas anidan en los juncos de la orilla.\n>>>\n{\"datos\": [\n  {\"variable\": \"número de garzas contadas en la laguna Negra el 12 de marzo\", \"valor\": \"43\", \"unidad_de_medida\": \"unidad\"},\n  {\"variable\": \"fracción de juveniles entre las garzas de la laguna Negra el 12 de marzo\", \"valor\": \"dos tercios\", \"unidad_de_medida\": \"fracción\"}]}\n\nEJEMPLO 5\n`texto`\n<<<\nEl sendero del cerro atraviesa un bosque de robles. El refugio de la cima estaba abierto. Los guardabosques recomiendan llevar agua.\n>>>\n{\"datos\": []}\n\n`texto`\n<<<\nEl arrecife de bahía Coral se extiende a lo largo de la costa norte de la isla y protege la playa del oleaje. Su cresta queda a 3 metros de profundidad en marea baja.\n>>>\n"
+      }
+    ],
+    "stream": true,
+    "reasoning_effort": "low",
+    "stream_options": {
+      "include_usage": true
+    }
+  },
+  "response": {
+    "model": "grok-4.7",
+    "choices": [
+      {
+        "message": {
+          "role": "assistant",
+          "content": "{\"datos\": [\n  {\"variable\": \"profundidad de la cresta del arrecife de bahía Coral en marea baja\", \"valor\": \"3\", \"unidad_de_medida\": \"metros\"}]}",
+          "reasoning_content": "The user wants me to extract data from the text according to the definitions and examples, and respond only with JSON.\n"
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 2365,
+      "completion_tokens": 43,
+      "total_tokens": 2659,
+      "prompt_tokens_details": {
+        "text_tokens": 2365,
+        "audio_tokens": 0,
+        "image_tokens": 0,
+        "cached_tokens": 1152
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 251,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "num_sources_used": 0,
+      "cost_in_usd_ticks": 47660000
+    },
+    "_stream_chunks_crudos": [
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\"The\",\"role\":\"assistant\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" user\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" wants\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" me\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" to\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" extract\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" data\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" from\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" the\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" text\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" according\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" to\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" the\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" definitions\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" and\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" examples\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" and\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" respond\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" only\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" with\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" JSON\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547820,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\".\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547822,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"{\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547822,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"datos\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547822,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547822,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" [\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547822,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547822,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" {\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547822,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"variable\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547822,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"profund\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"idad\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" de\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" la\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" cre\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"sta\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" del\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" arrec\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"ife\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" de\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" bah\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"ía\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" Coral\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" en\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" m\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"area\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" baja\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"valor\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"3\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"unidad\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"_\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"de\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"_\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"medida\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"metros\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\"}]}\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{},\"finish_reason\":\"stop\"}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"8d6ebe8b-bf04-9d27-a842-446c675ab4bd\",\"object\":\"chat.completion.chunk\",\"created\":1790547823,\"model\":\"grok-4.7\",\"choices\":[],\"usage\":{\"prompt_tokens\":2365,\"completion_tokens\":43,\"total_tokens\":2659,\"prompt_tokens_details\":{\"text_tokens\":2365,\"audio_tokens\":0,\"image_tokens\":0,\"cached_tokens\":1152},\"completion_tokens_details\":{\"reasoning_tokens\":251,\"audio_tokens\":0,\"accepted_prediction_tokens\":0,\"rejected_prediction_tokens\":0},\"num_sources_used\":0,\"cost_in_usd_ticks\":47660000},\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "[DONE]"
+    ]
+  },
+  "parsed": {
+    "datos": [
+      {
+        "variable": "profundidad de la cresta del arrecife de bahía Coral en marea baja",
+        "valor": "3",
+        "unidad_de_medida": "metros"
+      }
+    ]
+  },
+  "venia_con_cerca": false,
+  "error_parseo": null,
+  "unidad_n": 1,
+  "tema": "extensión y profundidad del arrecife",
+  "desde": 1,
+  "hasta": 2,
+  "texto_unidad": "El arrecife de bahía Coral se extiende a lo largo de la costa norte de la isla y protege la playa del oleaje. Su cresta queda a 3 metros de profundidad en marea baja."
+}
