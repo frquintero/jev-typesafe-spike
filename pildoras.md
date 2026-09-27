@@ -20,6 +20,8 @@ el contexto en que surgió. Se agregan a medida que aparecen.
 11. [Paráfrasis y canonicalización](#11-paráfrasis-y-canonicalización)
 12. [Segmentación lineal y enumeración de oraciones](#12-segmentación-lineal-y-enumeración-de-oraciones)
 13. [Enunciados genéricos](#13-enunciados-genéricos)
+14. [Operacionalismo](#14-operacionalismo)
+15. [Incertidumbre definicional](#15-incertidumbre-definicional)
 
 ---
 
@@ -159,4 +161,27 @@ abundante en T-1 y T-3»). El estudio de estos enunciados se llama genericidad.
 extrajo «pocas semanas». Es correcto según el ensayo «¿Qué es un dato?»: un
 dato determina un caso individuado, y un enunciado genérico no tiene caso.
 Sirve como criterio explícito para distinguir datos de regularidades.
+
+## 14. Operacionalismo
+
+**Qué es.** Posición de Percy Bridgman (*The Logic of Modern Physics*, 1927):
+un concepto se define por la operación con que se mide. «Abundancia según
+censo visual» y «abundancia según captura» serían variables distintas. Es la
+tensión clásica entre definir lo medido por la cosa o por el procedimiento.
+
+**Contexto.** Análisis de «número de peces registrados por los censos
+visuales» en bio1: ¿el censo es procedencia (fuera de la variable) o parte de
+lo que se pregunta (dentro)?
+
+## 15. Incertidumbre definicional
+
+**Qué es.** En el VIM (2.27), la incertidumbre que resulta de una definición del
+mensurando sin todo el detalle necesario: si la variable no dice lo
+suficiente, hay una ambigüedad sobre qué se mide que ninguna precisión del
+valor corrige.
+
+**Contexto.** Respalda el criterio de Frat de completitud de la variable
+(decisión tras U4): la variable debe dejar claro qué varía, con su contexto,
+incluido el método cuando define qué se midió; la procedencia queda para la
+fuente del dicho.
 
