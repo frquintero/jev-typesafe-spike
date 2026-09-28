@@ -72,3 +72,16 @@ creía, lo que podría pasar, una comparación) junto a un dato real.
 ```
 python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABF r1
 ```
+
+## Ronda P5: cadena completa con `datos_pABF` sobre oxi1 (GLM y DeepSeek)
+
+Pedido de Frat: sacar a Grok mientras se recargan créditos y probar GLM 5.3
+Flash (alias `flash`, `reasoning_effort: low`) con el mismo texto (oxi1, que es
+el fragmento que pegó Frat). Cadena completa (paso 1 `unidades_v5` + paso 2
+`datos_pABF`), una corrida. DeepSeek en r2 para que el paso 1 también sea
+nuevo y los dos modelos se comparen en igualdad.
+
+```
+python3 unidades/extraer_datos_doc.py oxi1 flash unidades_v5 datos_pABF r1
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABF r2
+```
