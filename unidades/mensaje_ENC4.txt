@@ -1,0 +1,14 @@
+Ronda ENC4. Lee AGENTS.md y la sección «Ronda ENC4» de unidades/PLAN.md.
+
+1. Implementa en unidades/extraer_datos_doc.py el cambio de la sección «Implementación» de esa ronda, exactamente como se describe. Los caminos actuales (v2 y v3) no deben cambiar. No modifiques prompts ni documentos. Verifica con python3 -m py_compile y con la regresión sin API que indica la sección. Si algo no es implementable tal cual, detente y pregunta; no decidas diseño.
+
+2. Corre, exportando HTTPS_PROXY y SSL_CERT_FILE como indica AGENTS.md:
+
+python3 unidades/extraer_datos_doc.py oxi1 grok unidades_v5 datos_u8 r1
+python3 unidades/extraer_datos_doc.py bio1 grok unidades_v5 datos_u8 r1
+
+El LLM que se prueba es Grok 4.7; tú solo implementas y ejecutas. Nunca borres, muevas ni sobrescribas un crudo existente.
+
+Reporte: lo que pide la sección. Sin veredicto ni cálculos. Si una llamada falla por autenticación, detente y reporta.
+
+Al terminar: commit y push a main del script y de los crudos nuevos (cache/unidades-{oxi1,bio1}-grok-unidades_v5-r1.json, cache/datos-{oxi1,bio1}-unidades_v5-u*-grok-datos_u8-r1.json, cache/doc-{oxi1,bio1}-grok-unidades_v5-datos_u8-r1.json) con el mensaje «Ronda ENC4: unidades_v5 + datos_u8 sobre oxi1 y bio1 con grok (r1)».

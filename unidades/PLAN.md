@@ -537,3 +537,55 @@ python3 unidades/extraer_unidades.py tec2 grok unidades_v5 r1
 ```
 
 **Reporte:** el mismo de U5. Sin veredicto ni cálculos.
+
+## Ronda ENC4: cadena completa con `unidades_v5` + `datos_u8` (documento + foco), smoke test sobre oxi1 y bio1
+
+Hallazgos que la motivan: ENC3 (oxi1) perdió el antecedente de «este gas»
+porque la unidad no lo contenía (correferencia entre unidades); U6 dio
+`unidades_v5` (subtemas, oraciones seguidas o separadas, nombres de asunto).
+
+`datos_u8` (decisión de Frat, opción A): cada llamada lleva el **documento
+completo numerado** (el `texto_numerado` del paso 1) y el **foco** (las
+oraciones del subtema, p. ej. «oraciones 1, 2 y 9»); el documento sirve para
+completar las variables y los datos se toman solo del foco. Lo fijo primero,
+el foco al final (caché de prefijo). Descripción de una línea en cada ejemplo;
+ejemplo 6 con foco de oraciones separadas (la del medio queda fuera).
+
+Una corrida (r1) por documento: oxi1 (¿se completa «este gas»?) y bio1 (¿v5
+separa asunto de entidad: E-2 en temperatura y en visibilidad; T-1 en
+blanqueamiento y en peces?). Sin conjetura formal; se mira la salida.
+
+### Implementación (la hace el ejecutor): `unidades/extraer_datos_doc.py`
+
+Los caminos actuales (v2 y v3) no cambian. Si el crudo del paso 1 trae
+`unidades_reconstruidas` con `subtema` y `oraciones_n` (v4/v5):
+
+1. Una llamada al paso 2 por subtema, en el orden en que vienen.
+2. Si el prompt de datos contiene `{{DOCUMENTO_NUMERADO}}`, sustituirlo (con
+   `str.replace`) por el `texto_numerado` del crudo del paso 1, y `{{FOCO}}`
+   por el foco: «oración 7» si hay un solo número; si hay varios, «oraciones »
+   + los números separados por coma y el último con « y » («oraciones 1, 2 y
+   9»), en el orden de `oraciones_n`.
+3. Crudo por subtema: `cache/datos-<doc>-<prompt_unidades>-u<k>-<modelo>-<prompt_datos>-<rN>.json`
+   con los campos de siempre más `unidad_n`, `subtema`, `oraciones_n`, `foco`
+   y `texto_unidad` (las oraciones del subtema unidas con un espacio, solo
+   para leer).
+4. Consolidado `cache/doc-<doc>-<modelo>-<prompt_unidades>-<prompt_datos>-<rN>.json`
+   con, por subtema, `unidad_n`, `subtema`, `oraciones_n`, `datos` y
+   `error_parseo`.
+
+`python3 -m py_compile`; regresión sin API: correr la cadena de ENC3
+(`oxi1 grok unidades_v3 datos_u7 r1`) y verificar que no llama (los crudos
+existen).
+
+### Corrida
+
+```
+python3 unidades/extraer_datos_doc.py oxi1 grok unidades_v5 datos_u8 r1
+python3 unidades/extraer_datos_doc.py bio1 grok unidades_v5 datos_u8 r1
+```
+
+**Reporte:** por documento, el `parsed` del paso 1 y su verificación; por
+subtema, el foco enviado y el `parsed` del paso 2 verbatim. Modelo efectivo,
+tokens (prompt, completion con cached, reasoning) y segundos de cada llamada.
+Sin veredicto ni cálculos.
