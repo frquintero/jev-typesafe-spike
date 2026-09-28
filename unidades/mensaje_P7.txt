@@ -1,0 +1,12 @@
+Ronda P7. Lee AGENTS.md y la sección «Ronda P7» de prototipos/PLAN.md.
+
+Corre, sin modificar ningún archivo, exportando HTTPS_PROXY y SSL_CERT_FILE como indica AGENTS.md:
+
+python3 unidades/extraer_datos_doc.py oxi1 flash_high unidades_v5 datos_pABCF r1
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABCF r1
+
+El paso 1 no se repite (es lo esperado). Los LLM que se prueban son GLM 5.3 Flash (alias flash_high) y DeepSeek (deepseek-flash); tú solo ejecutas. Nunca borres, muevas ni sobrescribas un crudo existente. Si una llamada deja el stream sin datos durante un minuto, reporta. Si una llamada falla por autenticación o por créditos, detente y reporta.
+
+Reporte: la salida de cada comando. Sin veredicto ni cálculos.
+
+Al terminar: commit y push a main de los crudos nuevos (unidades/cache/datos-oxi1-unidades_v5-u*-{flash_high,deepseek}-datos_pABCF-r1.json y los dos consolidados doc-oxi1-…-datos_pABCF-r1.json) con el mensaje «Ronda P7: datos_pABCF sobre oxi1 con GLM flash_high y DeepSeek (r1)».

@@ -97,3 +97,15 @@ high`). Cadena completa, una corrida.
 ```
 python3 unidades/extraer_datos_doc.py oxi1 flash_high unidades_v5 datos_pABF r1
 ```
+
+## Ronda P7: `datos_pABCF` (prompt robusto) con GLM `high` y DeepSeek sobre oxi1
+
+Conjetura: un solo prompt con los dos contrapesos sirve a los dos temperamentos
+(C, cualidades, para el GLM que se abstiene; F, negativo de ensayo, para el
+DeepSeek que afirma de más). El paso 1 se reutiliza (GLM: P6; DeepSeek: ENC5),
+así que se compara directo contra `datos_pABF` (P6 y P4). Una corrida.
+
+```
+python3 unidades/extraer_datos_doc.py oxi1 flash_high unidades_v5 datos_pABCF r1
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABCF r1
+```
