@@ -447,3 +447,23 @@ python3 unidades/extraer_datos_doc.py bio1 grok unidades_v3 datos_u7 r1
 verbatim y la verificación; en bio1, por unidad, el `parsed` del paso 2
 verbatim. Modelo efectivo, tokens (prompt, completion, reasoning) y segundos
 de cada llamada. Sin veredicto ni cálculos.
+
+## Ronda ENC3: cadena completa sobre un documento ajeno (oxi1), con Grok
+
+Primer documento que no escribió Cowork: `docs/oxi1.md` («El enigma del
+oxígeno oscuro en las fosas oceánicas»), aportado por Frat. Tres párrafos,
+7 oraciones; texto divulgativo y explicativo, con pocos datos métricos y
+muchas afirmaciones, mecanismos e hipótesis (otro género que bio1). Sin gold,
+por decisión de Frat: el análisis se hace después de la corrida.
+
+Prompts vigentes: `unidades_v3` (paso 1) y `datos_u7` (paso 2). Sin cambios
+de código. Ronda exploratoria, sin conjetura formal.
+
+```
+python3 unidades/extraer_datos_doc.py oxi1 grok unidades_v3 datos_u7 r1
+```
+
+**Reporte:** el `texto_numerado` enviado, el `parsed` del paso 1 y su
+verificación; por unidad, el `parsed` del paso 2 verbatim. Modelo efectivo,
+tokens (prompt, completion, reasoning) y segundos de cada llamada. Sin
+veredicto ni cálculos.

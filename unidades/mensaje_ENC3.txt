@@ -1,0 +1,11 @@
+Ronda ENC3. Lee AGENTS.md y la sección «Ronda ENC3» de unidades/PLAN.md.
+
+Corre, sin modificar ningún archivo, exportando HTTPS_PROXY y SSL_CERT_FILE como indica AGENTS.md:
+
+python3 unidades/extraer_datos_doc.py oxi1 grok unidades_v3 datos_u7 r1
+
+El LLM que se prueba es Grok 4.7; tú solo ejecutas. Nunca borres, muevas ni sobrescribas un crudo existente.
+
+Reporte: lo que pide la sección (texto numerado, parsed del paso 1 y verificación; parsed del paso 2 por unidad; modelo efectivo, tokens y segundos de cada llamada; cerca o error de parseo solo si ocurren). Sin veredicto ni cálculos. Si una llamada falla por autenticación, detente y reporta.
+
+Al terminar: commit y push a main de los crudos nuevos (cache/unidades-oxi1-grok-unidades_v3-r1.json, cache/datos-oxi1-unidades_v3-u*-grok-datos_u7-r1.json, cache/doc-oxi1-grok-unidades_v3-datos_u7-r1.json) con el mensaje «Ronda ENC3: cadena completa sobre oxi1 con grok (r1)».
