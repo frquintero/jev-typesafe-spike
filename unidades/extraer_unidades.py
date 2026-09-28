@@ -93,6 +93,61 @@ def es_entero(valor):
     return isinstance(valor, int) and not isinstance(valor, bool)
 
 
+def es_caso_subtemas(parsed):
+    subtemas = parsed.get("subtemas") if isinstance(parsed, dict) else None
+    return (
+        isinstance(subtemas, list)
+        and len(subtemas) > 0
+        and all(
+            isinstance(s, dict) and isinstance(s.get("oraciones"), list)
+            for s in subtemas
+        )
+    )
+
+
+def reconstruir_subtemas(parsed, oraciones_numeradas):
+    por_numero = {item["n"]: item["oracion"] for item in oraciones_numeradas}
+    reconstruidas = []
+    for subtema in parsed.get("subtemas", []):
+        numeros = list(subtema.get("oraciones", []))
+        reconstruidas.append(
+            {
+                "subtema": subtema.get("subtema"),
+                "oraciones_n": numeros,
+                "oraciones": [
+                    por_numero[n]
+                    for n in numeros
+                    if es_entero(n) and n in por_numero
+                ],
+            }
+        )
+    return reconstruidas
+
+
+def verificar_subtemas(parsed, oraciones_numeradas):
+    total = len(oraciones_numeradas)
+    asignaciones = [0] * (total + 1)
+    fuera_de_rango = []
+    no_enteros = []
+    for subtema in parsed.get("subtemas", []):
+        for numero in subtema.get("oraciones", []):
+            if not es_entero(numero):
+                if not any(numero == visto for visto in no_enteros):
+                    no_enteros.append(numero)
+            elif numero < 1 or numero > total:
+                if numero not in fuera_de_rango:
+                    fuera_de_rango.append(numero)
+            else:
+                asignaciones[numero] += 1
+    return {
+        "oraciones_del_texto": total,
+        "huecos": [n for n in range(1, total + 1) if asignaciones[n] == 0],
+        "solapes": [n for n in range(1, total + 1) if asignaciones[n] > 1],
+        "fuera_de_rango": sorted(fuera_de_rango),
+        "no_enteros": no_enteros,
+    }
+
+
 def reconstruir_unidades(parsed, oraciones_numeradas):
     por_numero = {item["n"]: item["oracion"] for item in oraciones_numeradas}
     reconstruidas = []
@@ -179,11 +234,12 @@ def run(doc, modelo, prompt_name, rep):
     parsed, venia_con_cerca, error = extract_json(resp["choices"][0]["message"]["content"])
 
     if numerado:
-        verificacion = (
-            verificar_rangos(parsed, oraciones_numeradas)
-            if parsed is not None
-            else None
-        )
+        if parsed is None:
+            verificacion = None
+        elif es_caso_subtemas(parsed):
+            verificacion = verificar_subtemas(parsed, oraciones_numeradas)
+        else:
+            verificacion = verificar_rangos(parsed, oraciones_numeradas)
     else:
         verificacion = verificar(parsed, texto) if parsed else None
 
@@ -197,16 +253,21 @@ def run(doc, modelo, prompt_name, rep):
     if numerado:
         crudo["texto_numerado"] = texto_enviado
         crudo["oraciones_numeradas"] = oraciones_numeradas
-        unidades = parsed.get("unidades", []) if isinstance(parsed, dict) else []
-        if unidades and all(
-            isinstance(unidad, dict)
-            and "desde" in unidad
-            and "hasta" in unidad
-            for unidad in unidades
-        ):
-            crudo["unidades_reconstruidas"] = reconstruir_unidades(
+        if es_caso_subtemas(parsed):
+            crudo["unidades_reconstruidas"] = reconstruir_subtemas(
                 parsed, oraciones_numeradas
             )
+        else:
+            unidades = parsed.get("unidades", []) if isinstance(parsed, dict) else []
+            if unidades and all(
+                isinstance(unidad, dict)
+                and "desde" in unidad
+                and "hasta" in unidad
+                for unidad in unidades
+            ):
+                crudo["unidades_reconstruidas"] = reconstruir_unidades(
+                    parsed, oraciones_numeradas
+                )
     with open(cache_path, "w", encoding="utf-8") as f:
         json.dump(crudo, f, ensure_ascii=False, indent=2)
     print(f"hecho -> {cache_path} ({segundos} s)")
