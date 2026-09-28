@@ -512,3 +512,28 @@ python3 unidades/extraer_unidades.py tec2 grok unidades_v4 r1
 **Reporte:** el `texto_numerado` enviado, el `parsed` verbatim, las
 `unidades_reconstruidas` y la verificación; modelo efectivo, tokens (prompt,
 completion, reasoning) y segundos. Sin veredicto ni cálculos.
+
+## Ronda U6: `unidades_v5` (nombres de subtema como asuntos; prompt afinado) sobre tec2, smoke test
+
+Hallazgo de U5 (tec2, `unidades_v4`): agrupación correcta (coincide con el
+gold, junta las oraciones separadas; 666 tokens de razonamiento, 9,7 s), pero
+los nombres son entidades («la caldera C-2») y no asuntos. Dos ejemplos del
+prompt tenían nombres de entidad («el horno de la panadería», «la
+tripulación»): el modelo imitó el estilo mezclado.
+
+Cambios (un principio: que el nombre diga el asunto, y quitar lo que no
+aporta):
+- «Nombre del subtema: una frase breve que dice qué se dice de las cosas, no
+  solo cuáles son («el tamaño de la tripulación», no «la tripulación»).»
+- Todos los nombres de los ejemplos pasan a asuntos.
+- Fuera el ejemplo de la panadería (lo que mostraba, partir un párrafo en dos
+  subtemas, ya lo muestra el de la escuela) y la regla de ordenar los
+  subtemas (el código no la necesita). Quedan cinco ejemplos.
+
+Sin cambios de código (la salida es la misma de v4).
+
+```
+python3 unidades/extraer_unidades.py tec2 grok unidades_v5 r1
+```
+
+**Reporte:** el mismo de U5. Sin veredicto ni cálculos.

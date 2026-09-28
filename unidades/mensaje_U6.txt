@@ -1,0 +1,11 @@
+Ronda U6. Lee AGENTS.md y la sección «Ronda U6» de unidades/PLAN.md.
+
+Corre, sin modificar ningún archivo, exportando HTTPS_PROXY y SSL_CERT_FILE como indica AGENTS.md:
+
+python3 unidades/extraer_unidades.py tec2 grok unidades_v5 r1
+
+El LLM que se prueba es Grok 4.7; tú solo ejecutas. Nunca borres, muevas ni sobrescribas un crudo existente.
+
+Reporte: el texto numerado enviado, el parsed verbatim, las unidades_reconstruidas y la verificación; modelo efectivo, tokens (prompt, completion, reasoning) y segundos; cerca o error de parseo solo si ocurren. Sin veredicto ni cálculos. Si la llamada falla por autenticación, detente y reporta.
+
+Al terminar: commit y push a main del crudo nuevo (unidades/cache/unidades-tec2-grok-unidades_v5-r1.json) con el mensaje «Ronda U6: unidades_v5 sobre tec2 con grok (r1)».
