@@ -604,3 +604,22 @@ python3 unidades/extraer_datos_doc.py bio1 deepseek unidades_v5 datos_u8 r1
 
 **Reporte:** el mismo de ENC4. Sin veredicto ni cálculos. DeepSeek puede dejar
 el stream colgado: si pasa un minuto sin datos, reportarlo.
+
+## Ronda ENC6: `datos_u9` con Grok y DeepSeek (oxi1 y bio1)
+
+Pedido de Frat: smoke test de `datos_u9` (definiciones reestructuradas; «No son
+datos» con binarios, relaciones, adjetivos del nombre y enunciados genéricos;
+cantidades vagas con su cuantificador; unidad solo si el valor lleva número).
+Una corrida (r1) por modelo. El paso 1 no se repite: el script reutiliza los
+crudos `unidades-{oxi1,bio1}-{grok,deepseek}-unidades_v5-r1.json` de ENC4 y
+ENC5, así que solo cambia el prompt 2 y la comparación es directa.
+
+```
+python3 unidades/extraer_datos_doc.py oxi1 grok unidades_v5 datos_u9 r1
+python3 unidades/extraer_datos_doc.py bio1 grok unidades_v5 datos_u9 r1
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_u9 r1
+python3 unidades/extraer_datos_doc.py bio1 deepseek unidades_v5 datos_u9 r1
+```
+
+**Reporte:** por subtema, el foco y el parsed del paso 2; modelo efectivo,
+tokens y segundos de cada llamada. Sin veredicto ni cálculos.

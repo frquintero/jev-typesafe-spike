@@ -30,6 +30,8 @@ el contexto en que surgió. Se agregan a medida que aparecen.
 21. [Caché de prefijo (prompt caching)](#21-caché-de-prefijo-prompt-caching)
 22. [Chunking semántico](#22-chunking-semántico)
 23. [Prefill y decodificación](#23-prefill-y-decodificación)
+24. [Variable lingüística (Zadeh)](#24-variable-lingüística-zadeh)
+25. [Clase de comparación](#25-clase-de-comparación)
 
 ---
 
@@ -288,3 +290,29 @@ llamadas casi nunca reutilizaron el documento; pero el tiempo de ENC4 (hasta
 49 s por foco) venía de 2000–3350 tokens de razonamiento, es decir, de la
 decodificación. Arreglar la caché baja el costo de entrada, no ese tiempo.
 
+## 24. Variable lingüística (Zadeh)
+
+**Qué es.** Una variable cuyos valores son palabras y no números: «pocas»,
+«muchas», «unos 5». Lotfi Zadeh (1975) la formalizó: cada palabra es un
+conjunto difuso sobre una escala base (días, grados, unidades), con un grado
+de pertenencia entre 0 y 1 para cada número. «Pocas semanas» no es un número
+mal dicho, sino un valor legítimo con otra forma.
+
+**Contexto.** DeepSeek (ENC5) convirtió «unos 5» en «5» y extrajo «pocas»
+como valor. Decisión: las cantidades vagas o aproximadas se copian con su
+cuantificador («pocas», «unos 5», «cerca de 300»); traducirlas a un rango es
+trabajo posterior (Zettel, con Jev), no del extractor.
+
+## 25. Clase de comparación
+
+**Qué es.** El estándar implícito contra el que se juzga un término vago.
+«Alto» para un jockey no es «alto» para un basquetbolista; «pocas semanas»
+para un vivero no es lo mismo que para una obra pública. La semántica (Klein,
+Kennedy) lo llama *comparison class*; Moxey y Sanford mostraron que los
+cuantificadores como «pocos» o «muchos» se interpretan según lo esperado en el
+contexto. TimeML anota las duraciones vagas sin número: «unas semanas» es
+`PXW` (X = cantidad no especificada).
+
+**Contexto.** Frat propuso que «pocas semanas» se resuelva cuando se sume el
+contexto en Zettel. La clase de comparación es justamente ese contexto: por eso
+el extractor no debe fijar el número; lo fija quien conoce la clase.
