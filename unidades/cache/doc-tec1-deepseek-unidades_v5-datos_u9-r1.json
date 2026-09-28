@@ -1,0 +1,97 @@
+{
+  "doc": "tec1",
+  "modelo": "deepseek",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_u9",
+  "rep": "r1",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "las características y el estado de la bomba B-1",
+      "oraciones_n": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "datos": [
+        {
+          "variable": "velocidad del motor de la bomba principal B-1",
+          "valor": "1750",
+          "unidad_de_medida": "rpm"
+        },
+        {
+          "variable": "consumo del motor de la bomba principal B-1",
+          "valor": "15",
+          "unidad_de_medida": "kW"
+        },
+        {
+          "variable": "intensidad del goteo del sello mecánico de la bomba principal B-1 durante la inspección",
+          "valor": "leve",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "presión de descarga de la bomba principal B-1",
+          "valor": "4,5",
+          "unidad_de_medida": "bar"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "la capacidad y los parámetros del tanque T-4",
+      "oraciones_n": [
+        5,
+        6,
+        7
+      ],
+      "datos": [
+        {
+          "variable": "capacidad del tanque T-4",
+          "valor": "8000",
+          "unidad_de_medida": "litros"
+        },
+        {
+          "variable": "presión de calibración de la válvula de alivio del tanque T-4",
+          "valor": "3",
+          "unidad_de_medida": "bar"
+        },
+        {
+          "variable": "nivel del tanque T-4 al inicio del turno",
+          "valor": "62",
+          "unidad_de_medida": "%"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "la operación y el mantenimiento de la banda transportadora",
+      "oraciones_n": [
+        8,
+        9,
+        10
+      ],
+      "datos": [
+        {
+          "variable": "velocidad de la banda transportadora",
+          "valor": "1,2",
+          "unidad_de_medida": "metros por segundo"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 4,
+      "subtema": "el funcionamiento y el estado del compresor de aire",
+      "oraciones_n": [
+        11,
+        12,
+        13
+      ],
+      "datos": [],
+      "error_parseo": null
+    }
+  ]
+}

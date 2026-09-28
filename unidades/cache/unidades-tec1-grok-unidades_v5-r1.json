@@ -1,0 +1,659 @@
+{
+  "doc": "tec1",
+  "modelo": "grok",
+  "prompt": "unidades_v5",
+  "segundos": 56.9,
+  "request": {
+    "model": "grok-4.7",
+    "messages": [
+      {
+        "role": "user",
+        "content": "TAREA\nAgrupa las oraciones de `texto` en subtemas, según las definiciones y como en los ejemplos. Responde solo con el JSON.\n\nDEFINICIONES\n- Oración: el texto que va de un punto, signo de interrogación o signo de exclamación al siguiente. En `texto` va numerada ([1], [2], …).\n- Subtema: un asunto nuclear y su desarrollo, en una o varias oraciones, seguidas o separadas.\n- Desarrollo: una oración desarrolla un subtema si lo detalla, lo explica, lo continúa, lo contradice o saca su consecuencia. Si abre un asunto que no depende de ninguno anterior, empieza un subtema nuevo.\n- Nombrar el mismo lugar, objeto o persona no basta para unir oraciones: lo que las une es el asunto. Un cambio de párrafo no separa por sí solo un subtema.\n- Nombre del subtema: una frase breve que dice qué se dice de las cosas, no solo cuáles son («el tamaño de la tripulación», no «la tripulación»).\n- Cada oración va en un solo subtema.\n\nEJEMPLO 1\nMuestra un subtema que sigue después del cambio de párrafo: sus oraciones van juntas.\n`texto`\n<<<\n[1] El ferri sale del puerto a las 7. [2] El cruce dura cuarenta minutos.\n\n[3] Con mal tiempo, el cruce puede tardar el doble. [4] La tripulación tiene seis personas.\n>>>\n{\"subtemas\": [\n  {\"subtema\": \"el horario y la duración del cruce\", \"oraciones\": [1, 2, 3]},\n  {\"subtema\": \"el tamaño de la tripulación\", \"oraciones\": [4]}]}\n\nEJEMPLO 2\nMuestra las mismas cosas (la escuela, los alumnos) en asuntos distintos: van en subtemas distintos; la falla de la estufa desarrolla la calefacción.\n`texto`\n<<<\n[1] La escuela rural tiene 60 alumnos. [2] Sus aulas se calientan con estufas de leña. [3] En invierno, la estufa del aula 2 falló dos veces. [4] Los alumnos de la escuela ganaron el concurso regional de lectura. [5] Su maestra preparó al equipo durante tres meses.\n>>>\n{\"subtemas\": [\n  {\"subtema\": \"el número de alumnos de la escuela\", \"oraciones\": [1]},\n  {\"subtema\": \"la calefacción de las aulas y sus fallas\", \"oraciones\": [2, 3]},\n  {\"subtema\": \"el triunfo en el concurso de lectura\", \"oraciones\": [4, 5]}]}\n\nEJEMPLO 3\nMuestra una afirmación y la que la contradice: forman un solo subtema.\n`texto`\n<<<\n[1] El manual de 1990 fijaba en 20 toneladas la carga máxima del puente del río Seco. [2] La inspección de este año la redujo a 12 toneladas por unas grietas en las vigas. [3] El puente fue construido en 1962 con vigas de concreto.\n>>>\n{\"subtemas\": [\n  {\"subtema\": \"la capacidad de carga del puente\", \"oraciones\": [1, 2]},\n  {\"subtema\": \"la construcción del puente\", \"oraciones\": [3]}]}\n\nEJEMPLO 4\nMuestra un hecho y su consecuencia: forman un solo subtema.\n`texto`\n<<<\n[1] Las lluvias de mayo fueron escasas en la cuenca alta. [2] Por eso el embalse bajó al 40 % de su capacidad. [3] La represa abastece de agua a dos municipios.\n>>>\n{\"subtemas\": [\n  {\"subtema\": \"el descenso del embalse por la sequía\", \"oraciones\": [1, 2]},\n  {\"subtema\": \"los municipios que abastece la represa\", \"oraciones\": [3]}]}\n\nEJEMPLO 5\nMuestra un subtema que vuelve después de otro: sus oraciones separadas van juntas, aunque todo el texto hable del mismo mercado.\n`texto`\n<<<\n[1] El mercado municipal abre a las 6. [2] Los puestos de frutas ocupan la nave central. [3] Los de pescado están en el ala norte. [4] Los sábados abre a las 5.\n>>>\n{\"subtemas\": [\n  {\"subtema\": \"el horario del mercado\", \"oraciones\": [1, 4]},\n  {\"subtema\": \"la ubicación de los puestos\", \"oraciones\": [2, 3]}]}\n\n`texto`\n<<<\n[1] La bomba principal B-1 impulsa el jarabe desde la cocina hasta las llenadoras. [2] Su motor trabaja a 1750 rpm y consume 15 kW. [3] El sello mecánico de la bomba presentó un goteo leve durante la inspección. [4] El manómetro de descarga marcó 4,5 bar.\n\n[5] El tanque T-4 almacena el jarabe antes del llenado y tiene una capacidad de 8000 litros. [6] Su válvula de alivio está calibrada a 3 bar. [7] El sensor de nivel del tanque marcó 62 % al inicio del turno.\n\n[8] La banda transportadora lleva las botellas llenas hasta la etiquetadora. [9] Sus rodillos se lubricaron el lunes. [10] El variador de velocidad de la banda la mantiene a 1,2 metros por segundo.\n\n[11] El compresor de aire alimenta las válvulas neumáticas de las llenadoras. [12] Según el técnico de turno, su filtro de entrada está saturado. [13] También reportó que el secador del compresor funciona sin alarmas.\n>>>\n"
+      }
+    ],
+    "stream": true,
+    "reasoning_effort": "low",
+    "stream_options": {
+      "include_usage": true
+    }
+  },
+  "response": {
+    "model": "grok-4.7",
+    "choices": [
+      {
+        "message": {
+          "role": "assistant",
+          "content": "{\"subtemas\": [\n  {\"subtema\": \"el impulso del jarabe por la bomba B-1\", \"oraciones\": [1]},\n  {\"subtema\": \"el régimen y el consumo del motor de la bomba\", \"oraciones\": [2]},\n  {\"subtema\": \"el goteo del sello mecánico\", \"oraciones\": [3]},\n  {\"subtema\": \"la presión de descarga de la bomba\", \"oraciones\": [4]},\n  {\"subtema\": \"la función y la capacidad del tanque T-4\", \"oraciones\": [5]},\n  {\"subtema\": \"la calibración de la válvula de alivio\", \"oraciones\": [6]},\n  {\"subtema\": \"la lectura del nivel del tanque\", \"oraciones\": [7]},\n  {\"subtema\": \"el traslado de las botellas hasta la etiquetadora\", \"oraciones\": [8]},\n  {\"subtema\": \"la lubricación de los rodillos\", \"oraciones\": [9]},\n  {\"subtema\": \"la velocidad de la banda\", \"oraciones\": [10]},\n  {\"subtema\": \"la alimentación de aire a las válvulas neumáticas\", \"oraciones\": [11]},\n  {\"subtema\": \"la saturación del filtro del compresor\", \"oraciones\": [12]},\n  {\"subtema\": \"el funcionamiento del secador sin alarmas\", \"oraciones\": [13]}]}",
+          "reasoning_content": "The user wants me to group sentences into subtopics according to the definitions and examples, and respond only with JSON.\n"
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 2513,
+      "completion_tokens": 315,
+      "total_tokens": 5126,
+      "prompt_tokens_details": {
+        "text_tokens": 2513,
+        "audio_tokens": 0,
+        "image_tokens": 0,
+        "cached_tokens": 1152
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 2298,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "num_sources_used": 0,
+      "cost_in_usd_ticks": 189760000
+    },
+    "_stream_chunks_crudos": [
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\"The\",\"role\":\"assistant\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" user\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" wants\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" me\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" to\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" group\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" sentences\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" into\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" sub\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\"topics\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" according\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" to\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" the\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" definitions\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" and\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" examples\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" and\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" respond\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" only\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" with\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" JSON\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\".\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"{\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"sub\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"tem\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"as\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" [\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" {\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"sub\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"tema\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"el\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" impulso\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" del\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" jar\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"abe\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" por\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" la\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" bomba\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" B\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"-\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"1\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"or\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"aciones\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" [\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"1\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"]},\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" {\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"sub\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"tema\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"el\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" régimen\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" y\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" el\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" consumo\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" del\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" motor\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" de\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" la\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" bomba\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"or\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"aciones\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" [\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"2\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"]},\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" {\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"sub\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"tema\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"el\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" g\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"ote\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"o\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" del\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" s\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"ello\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" mec\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"ánico\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"or\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"aciones\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" [\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"3\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"]},\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" {\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"sub\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"tema\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"la\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" presión\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" de\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" descarga\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" de\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" la\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" bomba\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"or\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"aciones\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" [\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"4\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"]},\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" {\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"sub\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"tema\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"la\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" función\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" y\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" la\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" capacidad\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" del\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" tan\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"que\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" T\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"-\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"4\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"or\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"aciones\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" [\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"5\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"]},\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" {\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"sub\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"tema\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"la\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" calibr\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"ación\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" de\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" la\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" válvula\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" de\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" al\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"ivio\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"or\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"aciones\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" [\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"6\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"]},\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" {\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"sub\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"tema\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"la\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" lectura\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" del\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" nivel\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" del\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" tan\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"que\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"or\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"aciones\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" [\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"7\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"]},\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" {\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"sub\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"tema\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"el\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" traslado\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" de\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" las\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" bot\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"ellas\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" hasta\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" la\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" etiqu\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"et\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"adora\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"or\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"aciones\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" [\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"8\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"]},\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" {\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"sub\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"tema\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"la\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" lubric\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"ación\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" de\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" los\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" rod\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"illos\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"or\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"aciones\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" [\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"9\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"]},\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" {\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"sub\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"tema\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"la\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" velocidad\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" de\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" la\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" banda\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"or\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"aciones\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" [\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"10\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"]},\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" {\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"sub\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"tema\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"la\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" alimentación\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" de\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" aire\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" a\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" las\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" vál\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"v\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"ulas\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" neum\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"áticas\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"or\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"aciones\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" [\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"11\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"]},\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" {\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"sub\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"tema\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"la\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" satur\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"ación\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" del\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" filtro\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" del\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" comp\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"resor\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"or\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"aciones\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" [\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"12\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"]},\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" {\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"sub\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"tema\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"el\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" funcionamiento\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" del\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" sec\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"ador\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" sin\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" alarm\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"as\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"or\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"aciones\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" [\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"13\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"]}\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"]}\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{},\"finish_reason\":\"stop\"}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"4b46a517-cb52-953d-9eb9-91e41dcfb252\",\"object\":\"chat.completion.chunk\",\"created\":1790611468,\"model\":\"grok-4.7\",\"choices\":[],\"usage\":{\"prompt_tokens\":2513,\"completion_tokens\":315,\"total_tokens\":5126,\"prompt_tokens_details\":{\"text_tokens\":2513,\"audio_tokens\":0,\"image_tokens\":0,\"cached_tokens\":1152},\"completion_tokens_details\":{\"reasoning_tokens\":2298,\"audio_tokens\":0,\"accepted_prediction_tokens\":0,\"rejected_prediction_tokens\":0},\"num_sources_used\":0,\"cost_in_usd_ticks\":189760000},\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "[DONE]"
+    ]
+  },
+  "parsed": {
+    "subtemas": [
+      {
+        "subtema": "el impulso del jarabe por la bomba B-1",
+        "oraciones": [
+          1
+        ]
+      },
+      {
+        "subtema": "el régimen y el consumo del motor de la bomba",
+        "oraciones": [
+          2
+        ]
+      },
+      {
+        "subtema": "el goteo del sello mecánico",
+        "oraciones": [
+          3
+        ]
+      },
+      {
+        "subtema": "la presión de descarga de la bomba",
+        "oraciones": [
+          4
+        ]
+      },
+      {
+        "subtema": "la función y la capacidad del tanque T-4",
+        "oraciones": [
+          5
+        ]
+      },
+      {
+        "subtema": "la calibración de la válvula de alivio",
+        "oraciones": [
+          6
+        ]
+      },
+      {
+        "subtema": "la lectura del nivel del tanque",
+        "oraciones": [
+          7
+        ]
+      },
+      {
+        "subtema": "el traslado de las botellas hasta la etiquetadora",
+        "oraciones": [
+          8
+        ]
+      },
+      {
+        "subtema": "la lubricación de los rodillos",
+        "oraciones": [
+          9
+        ]
+      },
+      {
+        "subtema": "la velocidad de la banda",
+        "oraciones": [
+          10
+        ]
+      },
+      {
+        "subtema": "la alimentación de aire a las válvulas neumáticas",
+        "oraciones": [
+          11
+        ]
+      },
+      {
+        "subtema": "la saturación del filtro del compresor",
+        "oraciones": [
+          12
+        ]
+      },
+      {
+        "subtema": "el funcionamiento del secador sin alarmas",
+        "oraciones": [
+          13
+        ]
+      }
+    ]
+  },
+  "venia_con_cerca": false,
+  "error_parseo": null,
+  "verificacion": {
+    "oraciones_del_texto": 13,
+    "huecos": [],
+    "solapes": [],
+    "fuera_de_rango": [],
+    "no_enteros": []
+  },
+  "texto_numerado": "[1] La bomba principal B-1 impulsa el jarabe desde la cocina hasta las llenadoras. [2] Su motor trabaja a 1750 rpm y consume 15 kW. [3] El sello mecánico de la bomba presentó un goteo leve durante la inspección. [4] El manómetro de descarga marcó 4,5 bar.\n\n[5] El tanque T-4 almacena el jarabe antes del llenado y tiene una capacidad de 8000 litros. [6] Su válvula de alivio está calibrada a 3 bar. [7] El sensor de nivel del tanque marcó 62 % al inicio del turno.\n\n[8] La banda transportadora lleva las botellas llenas hasta la etiquetadora. [9] Sus rodillos se lubricaron el lunes. [10] El variador de velocidad de la banda la mantiene a 1,2 metros por segundo.\n\n[11] El compresor de aire alimenta las válvulas neumáticas de las llenadoras. [12] Según el técnico de turno, su filtro de entrada está saturado. [13] También reportó que el secador del compresor funciona sin alarmas.",
+  "oraciones_numeradas": [
+    {
+      "n": 1,
+      "oracion": "La bomba principal B-1 impulsa el jarabe desde la cocina hasta las llenadoras."
+    },
+    {
+      "n": 2,
+      "oracion": "Su motor trabaja a 1750 rpm y consume 15 kW."
+    },
+    {
+      "n": 3,
+      "oracion": "El sello mecánico de la bomba presentó un goteo leve durante la inspección."
+    },
+    {
+      "n": 4,
+      "oracion": "El manómetro de descarga marcó 4,5 bar."
+    },
+    {
+      "n": 5,
+      "oracion": "El tanque T-4 almacena el jarabe antes del llenado y tiene una capacidad de 8000 litros."
+    },
+    {
+      "n": 6,
+      "oracion": "Su válvula de alivio está calibrada a 3 bar."
+    },
+    {
+      "n": 7,
+      "oracion": "El sensor de nivel del tanque marcó 62 % al inicio del turno."
+    },
+    {
+      "n": 8,
+      "oracion": "La banda transportadora lleva las botellas llenas hasta la etiquetadora."
+    },
+    {
+      "n": 9,
+      "oracion": "Sus rodillos se lubricaron el lunes."
+    },
+    {
+      "n": 10,
+      "oracion": "El variador de velocidad de la banda la mantiene a 1,2 metros por segundo."
+    },
+    {
+      "n": 11,
+      "oracion": "El compresor de aire alimenta las válvulas neumáticas de las llenadoras."
+    },
+    {
+      "n": 12,
+      "oracion": "Según el técnico de turno, su filtro de entrada está saturado."
+    },
+    {
+      "n": 13,
+      "oracion": "También reportó que el secador del compresor funciona sin alarmas."
+    }
+  ],
+  "unidades_reconstruidas": [
+    {
+      "subtema": "el impulso del jarabe por la bomba B-1",
+      "oraciones_n": [
+        1
+      ],
+      "oraciones": [
+        "La bomba principal B-1 impulsa el jarabe desde la cocina hasta las llenadoras."
+      ]
+    },
+    {
+      "subtema": "el régimen y el consumo del motor de la bomba",
+      "oraciones_n": [
+        2
+      ],
+      "oraciones": [
+        "Su motor trabaja a 1750 rpm y consume 15 kW."
+      ]
+    },
+    {
+      "subtema": "el goteo del sello mecánico",
+      "oraciones_n": [
+        3
+      ],
+      "oraciones": [
+        "El sello mecánico de la bomba presentó un goteo leve durante la inspección."
+      ]
+    },
+    {
+      "subtema": "la presión de descarga de la bomba",
+      "oraciones_n": [
+        4
+      ],
+      "oraciones": [
+        "El manómetro de descarga marcó 4,5 bar."
+      ]
+    },
+    {
+      "subtema": "la función y la capacidad del tanque T-4",
+      "oraciones_n": [
+        5
+      ],
+      "oraciones": [
+        "El tanque T-4 almacena el jarabe antes del llenado y tiene una capacidad de 8000 litros."
+      ]
+    },
+    {
+      "subtema": "la calibración de la válvula de alivio",
+      "oraciones_n": [
+        6
+      ],
+      "oraciones": [
+        "Su válvula de alivio está calibrada a 3 bar."
+      ]
+    },
+    {
+      "subtema": "la lectura del nivel del tanque",
+      "oraciones_n": [
+        7
+      ],
+      "oraciones": [
+        "El sensor de nivel del tanque marcó 62 % al inicio del turno."
+      ]
+    },
+    {
+      "subtema": "el traslado de las botellas hasta la etiquetadora",
+      "oraciones_n": [
+        8
+      ],
+      "oraciones": [
+        "La banda transportadora lleva las botellas llenas hasta la etiquetadora."
+      ]
+    },
+    {
+      "subtema": "la lubricación de los rodillos",
+      "oraciones_n": [
+        9
+      ],
+      "oraciones": [
+        "Sus rodillos se lubricaron el lunes."
+      ]
+    },
+    {
+      "subtema": "la velocidad de la banda",
+      "oraciones_n": [
+        10
+      ],
+      "oraciones": [
+        "El variador de velocidad de la banda la mantiene a 1,2 metros por segundo."
+      ]
+    },
+    {
+      "subtema": "la alimentación de aire a las válvulas neumáticas",
+      "oraciones_n": [
+        11
+      ],
+      "oraciones": [
+        "El compresor de aire alimenta las válvulas neumáticas de las llenadoras."
+      ]
+    },
+    {
+      "subtema": "la saturación del filtro del compresor",
+      "oraciones_n": [
+        12
+      ],
+      "oraciones": [
+        "Según el técnico de turno, su filtro de entrada está saturado."
+      ]
+    },
+    {
+      "subtema": "el funcionamiento del secador sin alarmas",
+      "oraciones_n": [
+        13
+      ],
+      "oraciones": [
+        "También reportó que el secador del compresor funciona sin alarmas."
+      ]
+    }
+  ]
+}
