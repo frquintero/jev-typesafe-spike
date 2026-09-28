@@ -1,0 +1,11 @@
+Ronda P1. Lee AGENTS.md y prototipos/PLAN.md.
+
+Corre, sin modificar ningún archivo, exportando HTTPS_PROXY y SSL_CERT_FILE como indica AGENTS.md:
+
+python3 prototipos/correr.py grok r1
+
+El LLM que se prueba es Grok 4.7; tú solo ejecutas. Son 90 llamadas cortas (6 configuraciones × 15 textos, 5 en paralelo). Nunca borres, muevas ni sobrescribas un crudo existente. Si una llamada deja el stream sin datos durante un minuto, reporta. Si una llamada falla por autenticación, detente y reporta.
+
+Reporte: la salida del script tal cual (una línea por llamada). Sin veredicto ni cálculos.
+
+Al terminar: commit y push a main de prototipos/cache/*-grok-r1.json con el mensaje «Ronda P1: curva de prototipos con grok (r1)».
