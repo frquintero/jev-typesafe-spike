@@ -53,6 +53,13 @@ MODEL_PARAMS = {
             "url": "https://api.deepseek.com/chat/completions",
             "extra": {"thinking": {"type": "enabled"}, "reasoning_effort": "low"},
         },
+        # Ronda P6: GLM 5.3 Flash con razonamiento reforzado (docs.z.ai:
+        # low | high | max, por defecto max; el razonamiento no se apaga).
+        "flash_high": {
+            "id": "glm-5.3-flash",
+            "url": "https://api.z.ai/api/paas/v4/chat/completions",
+            "extra": {"reasoning_effort": "high"},
+        },
         # Ronda D10g: Grok 4.7 (docs.x.ai), razonamiento no desactivable;
         # "low" por paridad con deepseek.
         "grok": {

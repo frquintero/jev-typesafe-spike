@@ -85,3 +85,15 @@ nuevo y los dos modelos se comparen en igualdad.
 python3 unidades/extraer_datos_doc.py oxi1 flash unidades_v5 datos_pABF r1
 python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABF r2
 ```
+
+## Ronda P6: GLM 5.3 Flash con `reasoning_effort: high` sobre oxi1
+
+En P5, GLM corrió en `low` (el mínimo; la doc de Z.ai recomienda `max`, que es
+el valor por defecto) y razonó 0–87 tokens por foco: perdió las cualidades
+(«no numeric values») y trajo un dato de fuera del foco. Alias nuevo
+`flash_high` en `niveles/run_niveles.py` (mismo modelo, `reasoning_effort:
+high`). Cadena completa, una corrida.
+
+```
+python3 unidades/extraer_datos_doc.py oxi1 flash_high unidades_v5 datos_pABF r1
+```

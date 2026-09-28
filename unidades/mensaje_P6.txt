@@ -1,0 +1,11 @@
+Ronda P6. Lee AGENTS.md y la sección «Ronda P6» de prototipos/PLAN.md.
+
+Corre, sin modificar ningún archivo, exportando HTTPS_PROXY y SSL_CERT_FILE como indica AGENTS.md:
+
+python3 unidades/extraer_datos_doc.py oxi1 flash_high unidades_v5 datos_pABF r1
+
+El LLM que se prueba es GLM 5.3 Flash con reasoning_effort high (alias flash_high); tú solo ejecutas. Cadena completa (paso 1 y paso 2). Nunca borres, muevas ni sobrescribas un crudo existente. Si una llamada deja el stream sin datos durante un minuto, reporta. Si una llamada falla por autenticación, por créditos o por un parámetro rechazado, detente y reporta.
+
+Reporte: la salida del comando. Sin veredicto ni cálculos.
+
+Al terminar: commit y push a main de los crudos nuevos (unidades/cache/unidades-oxi1-flash_high-unidades_v5-r1.json, unidades/cache/datos-oxi1-unidades_v5-u*-flash_high-datos_pABF-r1.json, unidades/cache/doc-oxi1-flash_high-unidades_v5-datos_pABF-r1.json) con el mensaje «Ronda P6: oxi1 con GLM flash reasoning_effort high (r1)».
