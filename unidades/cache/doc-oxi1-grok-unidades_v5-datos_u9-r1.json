@@ -1,0 +1,69 @@
+{
+  "doc": "oxi1",
+  "modelo": "grok",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_u9",
+  "rep": "r1",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "el desafío a la premisa del oxígeno fotosintético",
+      "oraciones_n": [
+        1,
+        2
+      ],
+      "datos": [
+        {
+          "variable": "profundidad del hallazgo reciente en la llanura abisal del océano Pacífico",
+          "valor": "cuatro mil",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "grado de oscuridad del entorno del hallazgo en la llanura abisal del océano Pacífico",
+          "valor": "total",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "intensidad de las presiones del entorno del hallazgo en la llanura abisal del océano Pacífico",
+          "valor": "extremas",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "continuidad de la producción de oxígeno detectada en la llanura abisal del océano Pacífico",
+          "valor": "constante",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "la producción electroquímica de oxígeno en los nódulos",
+      "oraciones_n": [
+        3,
+        4,
+        5
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "el replanteo del origen de la vida celular",
+      "oraciones_n": [
+        6
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 4,
+      "subtema": "los riesgos ambientales de la minería marina",
+      "oraciones_n": [
+        7
+      ],
+      "datos": [],
+      "error_parseo": null
+    }
+  ]
+}
