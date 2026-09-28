@@ -119,6 +119,8 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 - **El género del texto pesa más que el modelo** (P3): en informes, Grok y DeepSeek andan bien con AB; en el ensayo, DeepSeek extrae creencias, hipótesis, comparaciones y tono. Los textos de Zettel serán ensayos.
 - Una regla que deja un borde sin cerrar le cuesta al modelo miles de tokens aunque no cambie el resultado (ENC8: la regla de fechas llevó un foco de 492 a 3156 tokens).
 - El razonamiento completo de Grok no se puede leer (solo un resumen corto o el cifrado); para diagnosticar dudas sirve DeepSeek, que lo entrega entero.
+- **Nivel de razonamiento efectivo** (docs oficiales, 28-09): DeepSeek solo tiene `high` y `max`; nuestro `low` se convierte en `high`. GLM 5.3 Flash tiene `low`, `high` y `max` (por defecto `max`, siempre razona); con `low` razonó 0–87 tokens por foco. Grok corre en `low`. Los puntajes de Artificial Analysis se miden en `max`: no se trasladan a nuestras corridas.
+- **Cada modelo tiene su temperamento ante el mismo prompt:** GLM se abstiene cuando duda («Conservative: depth»; AA-Omniscience +7) y necesita un ejemplo positivo de cualidades; DeepSeek afirma de más (AA-Omniscience −5) y necesita el negativo de ensayo (F).
 
 ## 7. Pendientes
 

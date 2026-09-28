@@ -51,6 +51,10 @@ MODEL_PARAMS = {
         "deepseek": {
             "id": "deepseek-flash",
             "url": "https://api.deepseek.com/chat/completions",
+            # Nota (28-09-2026, api-docs.deepseek.com, Thinking Mode): la API
+            # solo tiene high y max (por defecto high); "low" y "medium" se
+            # convierten en "high". Aunque aquí diga "low", DeepSeek corre en high.
+            # No se cambia el valor para no alterar los requests ya guardados.
             "extra": {"thinking": {"type": "enabled"}, "reasoning_effort": "low"},
         },
         # Ronda P6: GLM 5.3 Flash con razonamiento reforzado (docs.z.ai:
