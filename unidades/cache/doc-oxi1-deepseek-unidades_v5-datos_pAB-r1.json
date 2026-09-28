@@ -1,0 +1,128 @@
+{
+  "doc": "oxi1",
+  "modelo": "deepseek",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_pAB",
+  "rep": "r1",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "el hallazgo de producción de oxígeno en el fondo abisal frente a la dependencia de la fotosíntesis",
+      "oraciones_n": [
+        1,
+        2
+      ],
+      "datos": [
+        {
+          "variable": "duración durante la que se sostuvo la premisa de que prácticamente todo el oxígeno de la Tierra dependía de la fotosíntesis impulsada por la luz solar",
+          "valor": "décadas",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "proporción del oxígeno de la Tierra que se sostenía dependía de la fotosíntesis impulsada por la luz solar",
+          "valor": "prácticamente todo",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "antigüedad del hallazgo en la llanura abisal del océano Pacífico",
+          "valor": "reciente",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "ubicación del hallazgo reciente",
+          "valor": "llanura abisal del océano Pacífico",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "profundidad a la que la ciencia detectó la producción de oxígeno en la llanura abisal del océano Pacífico",
+          "valor": "cuatro mil",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "grado de oscuridad del entorno a cuatro mil metros de profundidad en la llanura abisal del océano Pacífico",
+          "valor": "total",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "presiones del entorno a cuatro mil metros de profundidad en la llanura abisal del océano Pacífico",
+          "valor": "extremas",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "carácter de la producción de oxígeno detectada por la ciencia a cuatro mil metros de profundidad en la llanura abisal del océano Pacífico",
+          "valor": "constante",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "el origen electroquímico geológico del oxígeno oscuro",
+      "oraciones_n": [
+        3,
+        4,
+        5
+      ],
+      "datos": [
+        {
+          "variable": "fuente del oxígeno",
+          "valor": "proceso electroquímico geológico",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "número de nódulos polimetálicos en el lecho oceánico",
+          "valor": "millones",
+          "unidad_de_medida": "unidad"
+        },
+        {
+          "variable": "metales contenidos en los nódulos polimetálicos",
+          "valor": "níquel, cobalto y manganeso",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "distribución de cargas eléctricas entre los nódulos polimetálicos",
+          "valor": "irregular",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "diferencias de potencial entre los nódulos polimetálicos",
+          "valor": "comparables a baterías químicas ordinarias",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "forma del oxígeno liberado",
+          "valor": "libre",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "las implicaciones del oxígeno oscuro para el origen de la vida y la minería marina",
+      "oraciones_n": [
+        6,
+        7
+      ],
+      "datos": [
+        {
+          "variable": "carácter del debate sobre los riesgos ambientales de la minería marina a gran escala",
+          "valor": "crítico",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "escala de la minería marina",
+          "valor": "gran escala",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "magnitud de la extracción de los nódulos polimetálicos",
+          "valor": "masiva",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    }
+  ]
+}

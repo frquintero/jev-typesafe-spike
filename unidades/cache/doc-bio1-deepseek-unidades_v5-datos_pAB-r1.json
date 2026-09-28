@@ -1,0 +1,165 @@
+{
+  "doc": "bio1",
+  "modelo": "deepseek",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_pAB",
+  "rep": "r1",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "la ubicación, extensión y profundidad del arrecife",
+      "oraciones_n": [
+        1,
+        2
+      ],
+      "datos": [
+        {
+          "variable": "profundidad de la cresta del arrecife de bahía Coral en marea baja",
+          "valor": "3",
+          "unidad_de_medida": "metros"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "la temperatura del agua en las estaciones E-2 y E-5",
+      "oraciones_n": [
+        3,
+        4
+      ],
+      "datos": [
+        {
+          "variable": "temperatura del agua en la estación E-2 durante la campaña de agosto",
+          "valor": "30,5",
+          "unidad_de_medida": "°C"
+        },
+        {
+          "variable": "hora en que la temperatura del agua en la estación E-2 alcanzó 30,5 °C durante la campaña de agosto",
+          "valor": "mediodía",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "temperatura del agua en la estación E-5",
+          "valor": "28",
+          "unidad_de_medida": "°C"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "el blanqueamiento de las colonias de coral y su seguimiento",
+      "oraciones_n": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "datos": [
+        {
+          "variable": "porcentaje de colonias de coral cerebro pálidas en el transecto T-1",
+          "valor": "40",
+          "unidad_de_medida": "%"
+        },
+        {
+          "variable": "estado del tejido de las colonias de coral cuerno de alce",
+          "valor": "sano",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "crecimiento de las colonias de coral cuerno de alce",
+          "valor": "rápido",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "número de colonias marcadas por los buzos para seguirlas durante el año",
+          "valor": "12",
+          "unidad_de_medida": "unidad"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 4,
+      "subtema": "los censos de peces y el control de algas por los herbívoros",
+      "oraciones_n": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "datos": [
+        {
+          "variable": "número de peces registrados por los censos visuales en el transecto T-1",
+          "valor": "215",
+          "unidad_de_medida": "unidad"
+        },
+        {
+          "variable": "número de peces registrados por los censos visuales en el transecto T-3",
+          "valor": "98",
+          "unidad_de_medida": "unidad"
+        },
+        {
+          "variable": "especie más abundante en los transectos T-1 y T-3",
+          "valor": "pez loro",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 5,
+      "subtema": "la visibilidad del agua y los aportes de sedimentos y nitratos del río",
+      "oraciones_n": [
+        13,
+        14,
+        15
+      ],
+      "datos": [
+        {
+          "variable": "visibilidad en la estación E-2",
+          "valor": "8",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "tipo de sedimentos que traía el agua del río Manso",
+          "valor": "finos",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "concentración de nitratos en las muestras de la desembocadura del río Manso",
+          "valor": "0,6",
+          "unidad_de_medida": "miligramos por litro"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 6,
+      "subtema": "el cultivo de fragmentos de coral en el vivero",
+      "oraciones_n": [
+        16,
+        17
+      ],
+      "datos": [
+        {
+          "variable": "longitud de cada fragmento de coral del vivero del proyecto al trasplantarlo",
+          "valor": "unos 5",
+          "unidad_de_medida": "centímetros"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 7,
+      "subtema": "la participación y valoración comunitaria del arrecife",
+      "oraciones_n": [
+        18,
+        19
+      ],
+      "datos": [],
+      "error_parseo": null
+    }
+  ]
+}

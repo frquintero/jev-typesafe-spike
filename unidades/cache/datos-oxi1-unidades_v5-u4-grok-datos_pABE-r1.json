@@ -1,0 +1,93 @@
+{
+  "doc": "oxi1",
+  "modelo": "grok",
+  "prompt": "datos_pABE",
+  "segundos": 9.3,
+  "request": {
+    "model": "grok-4.7",
+    "messages": [
+      {
+        "role": "user",
+        "content": "TAREA\nExtrae los datos del `foco` según las definiciones, como en los ejemplos. Responde solo con el JSON.\n\nDEFINICIONES\n- Documento: el texto completo, con sus oraciones numeradas.\n- Foco: conjunto de oraciones del documento de las que se extraen los datos. El resto del documento solo sirve para saber a qué se refiere cada expresión del foco.\n- Variable: aspecto de una cosa, lugar, persona o hecho individual en el que caben diferencias de valor. Se nombra junto con aquello a lo que pertenece y sus circunstancias.\n- Valor: lo que la variable toma en el foco: una cantidad (medida, conteo, fracción, fecha, hora) o una cualidad (alta, floral, rosado). Una cantidad vaga o aproximada conserva su cuantificador (unos 60, pocas).\n- Unidad de medida: la unidad en que se expresa un número; null si el valor no lleva número (alta, rosado, pocas).\n- Dato: una variable con su valor y su unidad de medida.\n- Formato: {\"datos\": [{\"variable\": \"...\", \"valor\": \"...\", \"unidad_de_medida\": \"...\" o null}]}\n\nNO SON DATOS\n- Lo que solo afirma o niega algo: su valor sería sí o no (abierto, vendido, sin interrupciones).\n- Las relaciones entre cosas (recibe, atraviesa, anida en).\n- Los adjetivos que forman parte del nombre de algo (antiguo muelle).\n- Los enunciados genéricos: dicen cómo es una clase o qué suele pasar, no el valor que tomó algo individual (en verano, los arroyos se secan en pocos días).\n\nEJEMPLO 1\nNúmeros con su unidad: una medida, un conteo («unidad») y un porcentaje; la variable dice de qué es cada número.\n`documento`\n<<<\n[1] La panadería La Espiga horneó 120 panes. [2] Cada pan pesa 250 gramos, y el 30 % de los panes lleva semillas.\n>>>\n`foco`: oraciones 1 y 2\n{\"datos\": [\n  {\"variable\": \"número de panes horneados por la panadería La Espiga\", \"valor\": \"120\", \"unidad_de_medida\": \"unidad\"},\n  {\"variable\": \"peso de cada pan de la panadería La Espiga\", \"valor\": \"250\", \"unidad_de_medida\": \"gramos\"},\n  {\"variable\": \"porcentaje de panes de la panadería La Espiga con semillas\", \"valor\": \"30\", \"unidad_de_medida\": \"%\"}]}\n\nEJEMPLO 2\nLa fecha o la hora de un hecho es un dato; el hecho mismo («abrió») no lo es.\n`documento`\n<<<\n[1] La feria del libro abrió el 3 de mayo. [2] La charla inaugural empezó a las 10 de la mañana.\n>>>\n`foco`: oraciones 1 y 2\n{\"datos\": [\n  {\"variable\": \"fecha de apertura de la feria del libro\", \"valor\": \"3 de mayo\", \"unidad_de_medida\": \"fecha\"},\n  {\"variable\": \"hora de inicio de la charla inaugural de la feria del libro\", \"valor\": \"10 de la mañana\", \"unidad_de_medida\": \"hora\"}]}\n\nEJEMPLO 3\nSolo la temperatura es dato: «abierta» es sí o no, «junto al parque» es una relación, «vieja» es parte del nombre y la oración 4 es genérica.\n`documento`\n<<<\n[1] La vieja piscina municipal estaba abierta. [2] Su agua estaba a 26 °C. [3] La piscina queda junto al parque. [4] En invierno, las piscinas de la ciudad cierran temprano.\n>>>\n`foco`: oraciones 1, 2, 3 y 4\n{\"datos\": [\n  {\"variable\": \"temperatura del agua de la vieja piscina municipal\", \"valor\": \"26\", \"unidad_de_medida\": \"°C\"}]}\n\nENTRADA\n`documento`\n<<<\n[1] Durante décadas se sostuvo la premisa de que prácticamente todo el oxígeno de la Tierra dependía de la fotosíntesis impulsada por la luz solar. [2] Sin embargo, un hallazgo reciente en la llanura abisal del océano Pacífico transformó esta certidumbre: a cuatro mil metros de profundidad, en un entorno de oscuridad total y presiones extremas, la ciencia detectó una producción constante de oxígeno que desafía los modelos biológicos tradicionales.\n\n[3] La fuente de este gas no procede de formas de vida microbiana, sino de un proceso electroquímico geológico. [4] En el lecho oceánico descansan millones de nódulos polimetálicos cargados de metales como níquel, cobalto y manganeso. [5] La distribución irregular de cargas eléctricas entre estos fragmentos genera diferencias de potencial comparables a baterías químicas ordinarias, logrando disociar las moléculas del agua mediante electrólisis para liberar oxígeno en forma libre.\n\n[6] Este fenómeno, bautizado como oxígeno oscuro, replantea los escenarios donde pudo germinar la vida celular compleja antes de la consolidación fotosintética en el planeta. [7] Asimismo, abre un debate crítico sobre los riesgos ambientales de la minería marina a gran escala, pues la extracción masiva de estos nódulos podría desarticular un soporte vital para las especies del abismo antes de que logremos comprenderlo cabalmente.\n>>>\n`foco`: oración 7\n"
+      }
+    ],
+    "stream": true,
+    "reasoning_effort": "low",
+    "stream_options": {
+      "include_usage": true
+    }
+  },
+  "response": {
+    "model": "grok-4.7",
+    "choices": [
+      {
+        "message": {
+          "role": "assistant",
+          "content": "{\"datos\": []}",
+          "reasoning_content": "The user wants me to extract data from the focus sentence according to the definitions, responding only with JSON.\n"
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 2451,
+      "completion_tokens": 4,
+      "total_tokens": 3076,
+      "prompt_tokens_details": {
+        "text_tokens": 2451,
+        "audio_tokens": 0,
+        "image_tokens": 0,
+        "cached_tokens": 2432
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 621,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "num_sources_used": 0,
+      "cost_in_usd_ticks": 50040000
+    },
+    "_stream_chunks_crudos": [
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\"The\",\"role\":\"assistant\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" user\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" wants\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" me\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" to\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" extract\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" data\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" from\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" the\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" focus\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" sentence\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" according\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" to\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" the\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" definitions\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\",\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" responding\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" only\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" with\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\" JSON\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"reasoning_content\":\".\\n\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"{\\\"\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"datos\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\\\":\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" []}\"}}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[{\"index\":0,\"delta\":{},\"finish_reason\":\"stop\"}],\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "{\"id\":\"9239368e-fcd7-9c69-a101-ae774e585843\",\"object\":\"chat.completion.chunk\",\"created\":1790626447,\"model\":\"grok-4.7\",\"choices\":[],\"usage\":{\"prompt_tokens\":2451,\"completion_tokens\":4,\"total_tokens\":3076,\"prompt_tokens_details\":{\"text_tokens\":2451,\"audio_tokens\":0,\"image_tokens\":0,\"cached_tokens\":2432},\"completion_tokens_details\":{\"reasoning_tokens\":621,\"audio_tokens\":0,\"accepted_prediction_tokens\":0,\"rejected_prediction_tokens\":0},\"num_sources_used\":0,\"cost_in_usd_ticks\":50040000},\"system_fingerprint\":\"fp_c60958d81f66f847\",\"service_tier\":\"default\"}",
+      "[DONE]"
+    ]
+  },
+  "parsed": {
+    "datos": []
+  },
+  "venia_con_cerca": false,
+  "error_parseo": null,
+  "unidad_n": 4,
+  "subtema": "los riesgos ambientales de la minería marina",
+  "oraciones_n": [
+    7
+  ],
+  "texto_unidad": "Asimismo, abre un debate crítico sobre los riesgos ambientales de la minería marina a gran escala, pues la extracción masiva de estos nódulos podría desarticular un soporte vital para las especies del abismo antes de que logremos comprenderlo cabalmente.",
+  "foco": "oración 7"
+}
