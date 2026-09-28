@@ -33,6 +33,12 @@ spike no concluye.
     correr; el de ut1-ut5 está en la sección DU5 de `PLAN.md`), `cache/`
     (crudos), `PLAN.md` (una sección por ronda), `mensaje_<RONDA>.txt` (mensaje
     de cada ronda para el ejecutor).
+- `prototipos/`: banco de prueba del paso 2 (ejemplos prototípicos).
+  `base.md` + `ejemplos/<letra>.md`; `bateria.json` (textos cortos con su
+  respuesta); `correr.py <modelo> <rN> [configs]` (crudos en `cache/`,
+  idempotente) y `evaluar.py <modelo> <rN>` (sin API). Rondas en
+  `prototipos/PLAN.md`; los prompts candidatos armados van a
+  `unidades/prompts/datos_p<letras>.md`.
 - `niveles/`: antecedente sin trabajo activo. Su `run_niveles.py` tiene
   `call_model` (streaming) y los alias de modelos que usan los scripts de
   `unidades/`.
@@ -52,6 +58,7 @@ spike no concluye.
 - `python3 unidades/extraer_unidades.py <doc> <modelo> <prompt> <rN>`
 - `python3 unidades/extraer_datos_u.py <doc> <modelo> <prompt> <rN>`
 - `python3 unidades/extraer_datos_doc.py <doc> <modelo> <prompt_unidades> <prompt_datos> <rN>`
+- `python3 prototipos/correr.py <modelo> <rN> [configs]` · `python3 prototipos/evaluar.py <modelo> <rN>`
 - `python3 probes/<x>.py` · `python3 probes/<bateria>.py run|analyze`
 - `python3 -m py_compile <archivo>` tras tocar código (no hay tests ni lint).
 - Todos los scripts son idempotentes: si el crudo existe, no vuelven a llamar.

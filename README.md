@@ -1,20 +1,23 @@
 # Spike Jev — detección con modelo de decisiones
 
-## Estado actual (2026-09-27)
+## Estado actual (2026-09-28)
 
-**Qué hacemos.** Extraer los **datos** de un `texto` con un LLM (Grok 4.7),
-en el sentido del ensayo de Frat «¿Qué es un dato?», en dos pasos encadenados
-(carpeta `unidades/`, hilo activo):
+**Qué hacemos.** Extraer los **datos** de un `texto` con un LLM barato
+(Grok 4.7 o DeepSeek `deepseek-flash`), en el sentido del ensayo de Frat
+«¿Qué es un dato?», en dos pasos encadenados (carpeta `unidades/`, hilo
+activo):
 
-1. **Subtemas** (`extraer_unidades.py`, prompt vigente `unidades_v3`; en
-   prueba `unidades_v4`): el código parte el texto en oraciones (de punto a
-   punto) y las numera; el LLM las agrupa en subtemas (un asunto nuclear y su
-   desarrollo). v3 da tramos contiguos (`desde`/`hasta`); v4 admite oraciones
-   separadas (listas de números).
-2. **Datos por unidad** (prompt vigente `datos_u7`): una llamada por unidad;
-   el LLM devuelve `{"datos": [{"variable", "valor", "unidad_de_medida"}]}`.
-   Los dos prompts siguen el mismo esquema: tarea de una línea, definiciones
-   cortas y ejemplos nodo (prototípicos y contrastivos).
+1. **Subtemas** (`extraer_unidades.py`, prompt vigente `unidades_v5`): el
+   código parte el texto en oraciones (de punto a punto) y las numera; el LLM
+   las agrupa en subtemas (un asunto nuclear y su desarrollo), con oraciones
+   seguidas o separadas.
+2. **Datos por subtema** (prompts candidatos `datos_pAB` y `datos_pABF`):
+   una llamada por subtema con el documento completo numerado y el foco (las
+   oraciones del subtema); el LLM devuelve
+   `{"datos": [{"variable", "valor", "unidad_de_medida"}]}`. El prompt tiene
+   definiciones cortas, una sección «No son datos» y pocos ejemplos
+   prototípicos (uno por convención que no se deduce), elegidos con la curva
+   de `prototipos/`.
 
 La cadena completa la corre `extraer_datos_doc.py` (entra un documento, sale
 un consolidado con sus datos). Es la capa de datos del grafo datos →
@@ -25,7 +28,9 @@ extraído; no empezado.
 
 - Estado vigente, decisiones, lecciones y pendientes:
   `memoria de trabajo y pendientes.md` (fuente única del estado).
-- Rondas (cambio, conjetura, gold, comandos, reporte): `unidades/PLAN.md`.
+- Rondas (cambio, conjetura, gold, comandos, reporte): `unidades/PLAN.md`
+  y, para los ejemplos prototípicos, `prototipos/PLAN.md` (batería, ejemplos
+  sueltos `ejemplos/*.md`, `correr.py`, `evaluar.py`).
   Prompts en `unidades/prompts/`; unidades de prueba en `unidades/docs/`;
   crudos en `unidades/cache/`; mensaje para el ejecutor de cada ronda en
   `unidades/mensaje_<RONDA>.txt`.

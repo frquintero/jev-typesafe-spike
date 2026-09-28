@@ -1,6 +1,6 @@
 # Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 27-09-2026 (tras ENC3; U5 en curso: `unidades_v4`, subtemas). No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md`.
+Estado al 28-09-2026 (tras las rondas de prototipos P1–P4; paso 2 casi cerrado con `datos_pAB`; el cuello de botella pasó al paso 1). No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md`.
 
 ## 0. Dónde y cómo
 
@@ -10,7 +10,7 @@ Estado al 27-09-2026 (tras ENC3; U5 en curso: `unidades_v4`, subtemas). No es bi
 
 **Flujo de una ronda.**
 1. Frat y Cowork discuten y conjeturan. Se corre solo si hay una conjetura nueva.
-2. Cowork escribe el prompt en `unidades/prompts/` y la sección de la ronda en `unidades/PLAN.md` (cambio, conjetura, comandos, reporte), y hace commit y push.
+2. Cowork escribe el prompt en `unidades/prompts/` y la sección de la ronda en `unidades/PLAN.md` (o en `prototipos/PLAN.md`) (cambio, conjetura, comandos, reporte), y hace commit y push.
 3. Cowork deja el mensaje para el ejecutor en `unidades/mensaje_<RONDA>.txt` (commit incluido): Frat lo pega en su sesión, o Cowork lo lanza sin terminal con `./muse.sh exec --prompt-file <archivo>`.
 4. El ejecutor (Muse, Luna o Claude Code) corre sin modificar nada, reporta sin veredicto y hace commit y push de los crudos.
 5. Cowork lee los crudos (`unidades/cache/`) y los evalúa contra la conjetura. Frat decide.
@@ -25,16 +25,18 @@ Estado al 27-09-2026 (tras ENC3; U5 en curso: `unidades_v4`, subtemas). No es bi
 
 ## 1. Qué hacemos
 
-Extraer los **datos** de un texto, en el sentido del ensayo de Frat «¿Qué es un dato?», con un LLM (Grok 4.7, `reasoning_effort: low`), en dos pasos encadenados (`unidades/`):
+Extraer los **datos** de un texto, en el sentido del ensayo de Frat «¿Qué es un dato?», con un LLM barato (Grok 4.7 o DeepSeek `deepseek-flash`, razonamiento `low`), en dos pasos encadenados (`unidades/`). Meta: un prompt que acierte cerca del 90 % de los casos; la zona gris la juzga después Jev.
 
-1. **Unidades temáticas** (`extraer_unidades.py`, prompt `unidades_v3`): segmentación lineal del texto por subtema; el código numera las oraciones y el LLM devuelve `{"unidades": [{"tema", "desde", "hasta"}]}`.
-2. **Datos por unidad** (`extraer_datos_u.py` para una unidad suelta; prompt `datos_u7`): una llamada por unidad; el LLM devuelve `{"datos": [{"variable", "valor", "unidad_de_medida"}]}`.
+1. **Subtemas** (`extraer_unidades.py`, prompt `unidades_v5`): el código parte el texto en oraciones y las numera; el LLM las agrupa en subtemas, `{"subtemas": [{"subtema", "oraciones": [n, …]}]}`.
+2. **Datos por subtema** (prompts candidatos `datos_pAB` y `datos_pABF`): una llamada por subtema con el **documento completo numerado** y el **foco** (las oraciones del subtema, seguidas o separadas); el LLM devuelve `{"datos": [{"variable", "valor", "unidad_de_medida"}]}`.
 
-**Cadena completa:** `extraer_datos_doc.py <doc> <modelo> <prompt_unidades> <prompt_datos> <rN>` corre el paso 1, arma el texto de cada unidad en código y llama al paso 2 una vez por unidad; deja un consolidado `cache/doc-<doc>-…json`.
+**Cadena completa:** `extraer_datos_doc.py <doc> <modelo> <prompt_unidades> <prompt_datos> <rN>`: corre el paso 1 (o reutiliza su crudo si existe), arma documento y foco en código, envía `x-grok-conv-id` para la caché de prefijo en xAI y deja un consolidado `cache/doc-<doc>-…json`.
 
-**Para qué:** es la capa de datos (nivel 3, detalles de soporte) del grafo datos → argumentos → tesis de **Zettel**. Después, Jev (`jev-1.13.0`) auditará lo extraído y graduará la confianza; no empezado.
+**Prototipos** (`prototipos/`): banco de prueba del paso 2 solo (foco = texto entero), con una batería de 15 textos cortos con respuestas escritas antes de correr y los ejemplos prototípicos como archivos sueltos (`ejemplos/A.md`…`F.md`) que se combinan (`correr.py`, `evaluar.py`).
 
-El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `datos_v1`–`v8` sobre el texto entero) queda como antecedente, sin trabajo activo.
+**Para qué:** es la capa de datos (nivel 3) del grafo datos → argumentos → tesis de **Zettel**. Después, Jev (`jev-1.13.0`) auditará lo extraído y graduará la confianza; no empezado.
+
+El objetivo original del spike (EEL) está suspendido. `niveles/` queda como antecedente.
 
 ## 2. Reglas de trabajo
 
@@ -47,29 +49,32 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `dat
 - Solo documentos sintéticos. No se editan README, diccionario ni guía sin aprobación.
 - **Crítica constructiva:** valorar la propuesta de Frat y mejorarla con razones, sin aceptar todo.
 
-## 3. Paso 1: unidades temáticas
+## 3. Paso 1: subtemas
 
-- **Prompt vigente:** `unidades_v3`. Mismo esquema que el paso 2: tarea de una línea, definiciones cortas (oración numerada; unidad = oraciones seguidas que responden a la misma pregunta; frontera cuando cambia la pregunta, aunque se nombren las mismas cosas; el cambio de párrafo no es por sí solo frontera) y tres ejemplos nodo (párrafo con dos subtemas → se parte; subtema que cruza el párrafo → se une; mismas cosas en temas distintos → unidades distintas). Marcador `{{TEXTO_NUMERADO}}`: el código numera, reconstruye las unidades con el texto original y verifica huecos, solapes y orden.
-- **Resultado (U4, r1):** bio1 → 8 unidades que siguen los subtemas de los párrafos, verificación limpia, 1605 tokens de razonamiento y 21 s (con v2: 11 065 y 158 s). tec2 → 1212 tokens, 16 s; 8 unidades en vez de 4, porque tec2 tiene temas que vuelven tras una interrupción.
-- **Por qué cambió:** `unidades_v2` (núcleo y satélites, oraciones no seguidas) llamaba «temática» a la unidad pero la definía por un caso; en bio1 los casos cruzan los temas y el modelo osciló entre tema y entidad (visible en `reasoning_content`). El seguimiento de entidades pasa a después: la variable ya lleva su caso.
-- **Límite conocido de v3:** un asunto que vuelve tras una interrupción queda en unidades separadas.
-- **En prueba (U5): `unidades_v4`.** Decisiones de Frat: la unidad es el **subtema** = «un asunto nuclear y su desarrollo, en una o varias oraciones, seguidas o separadas»; la **oración** es el texto de punto a punto (la corta el código, no el LLM); el **tema** es la unión de subtemas relacionados (nivel superior, para Zettel). El paso 1 intenta reunir también lo separado; si funciona, se evita un nivel extra. Criterio operativo: «desarrollo» (detalla, explica, continúa, contradice, saca la consecuencia; en la línea de la RST) en lugar de «misma pregunta», cuyo grano era ambiguo; regla contra agrupar por entidad; descripción de una línea en cada ejemplo; seis ejemplos (dos subtemas en un párrafo; subtema que cruza el párrafo; mismas cosas en asuntos distintos; afirmación y contradicción; hecho y consecuencia; subtema que vuelve). Salida `{"subtemas": [{"subtema", "oraciones": [n, …]}]}`. Smoke test sobre tec2.
+- **Prompt vigente:** `unidades_v5`. Subtema = «un asunto nuclear y su desarrollo, en una o varias oraciones, seguidas o separadas» (decisión de Frat); oración = texto de punto a punto (la corta el código); tema = unión de subtemas relacionados (nivel de Zettel, no de este paso). Definiciones: desarrollo (detalla, explica, continúa, contradice o saca la consecuencia; en la línea de la RST); «nombrar el mismo lugar, objeto o persona no basta para unir oraciones»; el nombre del subtema dice qué se dice de las cosas, no cuáles son. Cinco ejemplos con descripción de una línea. `{{TEXTO_NUMERADO}}`; el código reconstruye y verifica huecos, solapes, fuera de rango y no enteros.
+- **Resultados:** tec2 y bio1 bien (bio1: 9 subtemas que separan asunto de entidad). oxi1: 4 subtemas con Grok, 3 con DeepSeek. **tec1 (ENC7):** Grok hizo 13 subtemas de una oración cada uno en 57 s y 2298 tokens de razonamiento; DeepSeek, 4 subtemas razonables (uno por equipo) en 4 s. La regla contra agrupar por entidad, aplicada al pie de la letra, fragmenta los informes de inspección.
+- **Es el cuello de botella actual** (tiempo de Grok y granularidad). Siguiente: llevar al paso 1 el método de prototipos (§4).
+- Historia: v2 (núcleo y satélites) osciló entre tema y entidad (11 065 tokens); v3 (tramos contiguos) no reunía lo separado; v4 nombraba los subtemas por la entidad; v5 lo corrigió.
 
-## 4. Paso 2: datos por unidad
+## 4. Paso 2: datos por subtema
 
-- **Prompt vigente:** `datos_u7` = tarea de una línea + definiciones de una línea (dato, variable, valor, unidad de medida, qué no es dato) + cinco ejemplos nodo (mediciones; cualidades con aspecto dicho y callado; nombres y relaciones; conteos y proporciones; sin datos).
-- **Formato:** `variable` (la magnitud individual, completa: caso, circunstancias y método cuando define qué se midió), `valor` (literal, sin la unidad), `unidad_de_medida` (`null` en los valores cualitativos).
-- **Resultados:** sobre ut1–ut5 (conjunto de desarrollo; gold en la sección DU5 de `unidades/PLAN.md`), DU7 con tres réplicas: 39/39 datos completos, ut4 vacío, variación solo de redacción. Sobre bio1 vía la cadena (U4): 14 datos en 8 unidades; las 10 cantidades del texto con su unidad, ningún dato inventado; revisados con Frat, bien construidos.
-- **ENC3 (oxi1, documento de Frat, sin gold):** paso 1 bien (4 unidades, 14 s); paso 2: de 6 datos, 4 aceptables, 1 variable incompleta («fuente de este gas»: el antecedente «oxígeno» quedó en otra unidad), 1 de más («forma del oxígeno = libre», binario) y 1 omisión (metales de los nódulos). Causa principal: la **correferencia** cruza las unidades.
-- **Diseño acordado para el paso 2 (`datos_u8`, opción A, sin guardar todavía):** una llamada por unidad con el **documento completo numerado** y el **foco** («oraciones 3 a 5»); el documento sirve para completar las variables, los datos se toman solo del foco; lo fijo primero (instrucciones, ejemplos, documento) y el foco al final, para aprovechar la caché de prefijo; descripción de una línea en cada ejemplo; ejemplo 6 nuevo (referencia cruzada: el caudal está fuera del foco y no se reporta). Descartada la opción B (una sola llamada con todo): es volver a `niveles/`.
-- **Historia corta:** definiciones largas (`datos_u3`–`u4`) → seudodatos y «escala» leída como nominal/ordinal; solo ejemplos (`u5`) → mejor, con fallas donde los ejemplos no mostraban la forma; definiciones cortas + ejemplos nodo (`u6`) → 13/13 valores; + aspecto implícito (`u7`) → 39/39.
+- **Prompts candidatos: `datos_pAB`** (429 palabras) y **`datos_pABF`** (525; + prototipo F, ver P4) = `prototipos/base.md` (definiciones y «No son datos» de `datos_u10` + línea de formato) + dos ejemplos prototípicos: **A** número con unidad (medida, conteo con «unidad», porcentaje) y **B** fecha u hora de un hecho. Pendiente de guardar como `datos_u11` cuando Frat lo apruebe.
+- **Definiciones vigentes** (desde `datos_u9`): Documento; Foco (conjunto de oraciones de las que se extraen los datos; el resto del documento solo sirve para saber a qué se refiere cada expresión); Variable (aspecto de una cosa, lugar, persona o hecho individual en el que caben diferencias de valor; se nombra con aquello a lo que pertenece y sus circunstancias); Valor (cantidad —medida, conteo, fracción, fecha, hora— o cualidad; lo vago o aproximado conserva su cuantificador); Unidad de medida (la unidad en que se expresa un número; null si el valor no lleva número); Dato (variable + valor + unidad). **No son datos:** lo que solo afirma o niega (su valor sería sí o no), las relaciones entre cosas, los adjetivos del nombre y los enunciados genéricos. La sección se llama «No son datos», no «Reglas»: solo excluye.
+- **Prototipos (P1, Grok, batería de 15 textos, 29 datos):** k0 (sin ejemplos) 19/29, A 23/29, AB 29/29 y ABC, ABCD, ABCDE también 29/29. Los 10 fallos de k0 fueron todos de convención de unidad («cajas» por «unidad»; null por «fecha» u «hora»); ningún falso dato en ninguna configuración. Decidir que no hay nada fue lo más caro (1175–1957 tokens por texto).
+- **Documentos reales (P2, Grok, contra `datos_u10`):** tec1 igual (9 datos, 58 s); oxi1 mejor (recupera «millones», 6 datos); bio1 casi igual (14 datos, 93 s frente a 118): vuelve «especie más abundante = pez loro»; pierde «finos» y los metales; saca «hora = al mediodía» de una medición. ABE quedó incompleto (créditos de xAI agotados en bio1); en oxi1 no mejoró a AB.
+- **DeepSeek (P3):** con AB bien en informes (bio1 mejor que u9, 96 s; tec1 gana «lunes» pero saca «filtro = saturado»); en el ensayo oxi1 sacó de más (17 datos, 24 773 tokens): lo que se creía, lo que podría pasar, comparaciones, lugares y el tono del autor. **P4:** prototipo **F** (negativo de ensayo: lo que se creía, lo que podría pasar y una comparación, junto a un dato real) → `datos_pABF` (525 palabras) con DeepSeek sobre oxi1: de 17 a 9 datos, de 106 a 71 s y de 24 773 a 16 316 tokens; desaparecen creencias, hipótesis, comparaciones, lugares y tono, y el foco 3 queda vacío (1688 tokens frente a 10 279). Quedan «fuente del oxígeno = proceso electroquímico geológico» (tesis explicativa, pendiente 7) y «forma del oxígeno = libre». Candidato para ensayos: ABF.
+- **Formato:** `variable` (completa: caso, circunstancias y método cuando define qué se midió), `valor` (literal, sin la unidad), `unidad_de_medida`.
+- **Historia corta:** definiciones largas (`u3`–`u4`) → seudodatos; solo ejemplos (`u5`) → mejor; definiciones cortas + ejemplos nodo (`u6`–`u7`) → 39/39 en ut1–ut5; documento completo + foco (`u8`); definiciones reestructuradas, «No son datos», genéricos y cantidades vagas (`u9`); fecha de un hecho es dato (`u10`); prototipos mínimos (`pAB`).
 
-### Decisiones de Frat sobre qué es dato (DU5–U4)
+### Decisiones de Frat sobre qué es dato (DU5–P4)
 
 - **Variable = magnitud individual** (VIM4, nota 2: «the radius of circle a is an instance of length»): «peso de la caja», no «peso» con un caso aparte.
 - **Valor literal**, tal como aparece en `texto`, sin la unidad: «30000», unidad «litros»; «6 de la mañana», unidad «hora».
 - **`unidad_de_medida` en lugar de `escala`:** «escala» es polisémica (el modelo la leía como nominal/ordinal). Los valores cualitativos no tienen unidad de medida: `null`. Los conteos llevan «unidad» (magnitud de dimensión uno).
-- **Binarios** (con fiebre, sin fallas, trabado): hechos, no datos. Hay valor cuando la palabra elige entre más alternativas que el sí y el no.
+- **Binarios** (con fiebre, sin fallas, trabado): hechos, no datos. Hay valor cuando la palabra elige entre más alternativas que el sí y el no; el criterio es cuántos valores admite la variable, no la forma de la frase.
+- **Enunciados genéricos** (sobre una clase o lo que suele pasar) no dan datos: el dato es de algo individual.
+- **Cantidades vagas o aproximadas** («pocas», «unos 5», «cerca de 300») se copian con su cuantificador y nunca se cambian por un número; resolverlas es trabajo de Zettel con el contexto (variable lingüística de Zadeh; clase de comparación). Unidad solo si el valor lleva número («unos 60» → unidad; «pocas» → null).
+- **La fecha u hora de un hecho es dato** (opción A de Frat), aunque además vaya como circunstancia en otras variables («fecha del censo = 12 de marzo»). Borde abierto: la hora de una medición («al mediodía») parece circunstancia, no hecho; los modelos la sacan a veces.
 - **Modificadores cualitativos del nombre** (antiguo, municipal): parte del caso. Una **cantidad con unidad** es dato aunque vaya en el nombre («caja de 12 kg» → peso de la caja = 12, kg). Números y códigos sin unidad que identifican (camión 7, cama 12, C-2) son del caso.
 - **Circunstancias** («a las 8», «en la noche»): dentro de la variable («temperatura del paciente a las 8»). Una hora es valor cuando responde a «¿cuándo?».
 - **Completitud de la variable** (decisión de Frat tras U4/bio1): una variable está bien hecha cuando al leerla queda claro qué varía, con el contexto necesario. El método que define qué se midió («registrados por los censos visuales», «en marea baja») va en la variable; en metrología, reduce la incertidumbre definicional (VIM 2.27). La **procedencia** queda solo para la fuente del dicho («según el informe de…», «el técnico dijo…»): no cambia qué varía, y es lo que Jev podría pesar al graduar la confianza. En bio1 no hubo error de procedencia: «marcadas por los buzos» es el agente de lo contado, y «por los censos visuales», el método.
@@ -108,14 +113,21 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `dat
 - La contradicción entre señales también cuesta tiempo: en el paso 1, «temática» contra «núcleo = caso» llevó a 11 065 tokens de razonamiento; con una sola señal (tema), 1605.
 - Al modelo el juicio, al código el cómputo: con oraciones numeradas, el modelo devuelve índices y el código garantiza la literalidad.
 - Un documento de prueba escrito por quien diseñó los ejemplos, y evaluado sin gold previo, sobreestima el acierto (sesgo retrospectivo).
+- **Las definiciones enseñan los conceptos; los ejemplos, las convenciones** (P1): sin ejemplos, los únicos errores fueron de convención de unidad. Un buen prototipo enseña lo que la definición no deja deducir, con un solo fenómeno y una línea de descripción.
+- **Los ejemplos cargados meten ruido** (P2): el pez loro y el foco de los nódulos se perdieron con `u9`–`u10` (ejemplos con cinco lecciones cada uno) y volvieron con AB. Más ejemplos no es mejor (*over-prompting*); el número lo decide la curva.
+- **El tiempo depende del documento más que del prompt:** acortar el prompt a la mitad casi no cambió los tiempos; el razonamiento se va en los focos dudosos del texto, y decidir que no hay dato cuesta más que extraerlo.
+- **El género del texto pesa más que el modelo** (P3): en informes, Grok y DeepSeek andan bien con AB; en el ensayo, DeepSeek extrae creencias, hipótesis, comparaciones y tono. Los textos de Zettel serán ensayos.
+- Una regla que deja un borde sin cerrar le cuesta al modelo miles de tokens aunque no cambie el resultado (ENC8: la regla de fechas llevó un foco de 492 a 3156 tokens).
+- El razonamiento completo de Grok no se puede leer (solo un resumen corto o el cifrado); para diagnosticar dudas sirve DeepSeek, que lo entrega entero.
 
 ## 7. Pendientes
 
-1. U5 en curso: smoke test de `unidades_v4` (subtemas, seguidas o separadas) sobre tec2; lo implementa Luna (listas de números en `extraer_unidades.py`).
-2. Guardar `datos_u8` (opción A: documento completo + foco) y adaptar `extraer_datos_doc.py` (marcadores `{{DOCUMENTO_NUMERADO}}` y `{{FOCO}}`, foco como lista de oraciones); correr oxi1 y bio1.
-3. Nivel de **tema** (unión de subtemas relacionados) para Zettel: si `unidades_v4` no reúne bien lo separado, hacerlo ahí (embeddings proponen candidatos, Jev juzga si tratan el mismo asunto).
-4. Prueba de verdad de la cadena: documento ajeno con gold escrito antes de correr, más desordenado (tablas, abreviaturas, rangos, negaciones, fechas), del tipo que recibirá Zettel.
-5. Zona gris: cualitativos dentro del nombre que informan algo («estructuras de acero»); composición con valores de tipo («níquel, cobalto y manganeso»).
-6. Frontera entre dato y afirmación (ENC3: «fuente del gas = proceso electroquímico» es una tesis explicativa): objetos información y afirmación, niveles 1 y 2 del grafo de Zettel.
-7. Escala: documentos largos (ventanas superpuestas, partición recursiva).
-8. Jev: auditoría de los datos, graduación de confianza, canonicalización de variables (paráfrasis), reidentificación de casos entre textos, procedencia (fuente del dicho) como capa propia; `esquema.json` y §20.1 del borrador principal.
+1. Decidir `datos_u11`: ABF parece la mejor base (F no debería dañar informes); falta confirmarlo con Grok y con un informe (tec1 o bio1).
+2. Completar ABE sobre bio1 con Grok cuando haya créditos de xAI (baja prioridad: nada indica que E haga falta).
+3. **Paso 1 con el método de prototipos:** batería corta, curva de ejemplos, medir tokens; resolver la fragmentación de Grok en informes (tec1) y su lentitud.
+4. Prueba de verdad de la cadena: documento ajeno con gold escrito antes de correr, más desordenado (tablas, abreviaturas, rangos, negaciones, fechas), del tipo que recibirá Zettel; de preferencia un ensayo.
+5. Nivel de **tema** (unión de subtemas relacionados) para Zettel: embeddings proponen candidatos, Jev juzga.
+6. Zona gris (terreno de Jev, no del prompt): «finos», composición con valores de tipo («níquel, cobalto y manganeso»), «millones», hora de una medición, superlativos (dato de segundo orden).
+7. Frontera entre dato y afirmación (creencias, hipótesis, tesis explicativas): niveles 1 y 2 del grafo de Zettel.
+8. Escala: documentos largos (ventanas superpuestas, partición recursiva).
+9. Jev: auditoría de los datos, graduación de confianza, canonicalización de variables, reidentificación de casos entre textos, procedencia como capa propia.

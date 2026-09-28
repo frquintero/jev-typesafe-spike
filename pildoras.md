@@ -32,6 +32,8 @@ el contexto en que surgió. Se agregan a medida que aparecen.
 23. [Prefill y decodificación](#23-prefill-y-decodificación)
 24. [Variable lingüística (Zadeh)](#24-variable-lingüística-zadeh)
 25. [Clase de comparación](#25-clase-de-comparación)
+26. [Semántica de eventos (Davidson)](#26-semántica-de-eventos-davidson)
+27. [Over-prompting y cobertura de ejemplos](#27-over-prompting-y-cobertura-de-ejemplos)
 
 ---
 
@@ -316,3 +318,30 @@ contexto. TimeML anota las duraciones vagas sin número: «unas semanas» es
 **Contexto.** Frat propuso que «pocas semanas» se resuelva cuando se sume el
 contexto en Zettel. La clase de comparación es justamente ese contexto: por eso
 el extractor no debe fijar el número; lo fija quien conoce la clase.
+
+## 26. Semántica de eventos (Davidson)
+
+**Qué es.** Donald Davidson («The Logical Form of Action Sentences», 1967)
+propuso tratar los eventos como individuos, igual que las cosas: «Bruto
+apuñaló a César con un cuchillo a mediodía» afirma que hubo un evento del que
+se predica que fue un apuñalamiento, que fue con un cuchillo y que ocurrió a
+mediodía. Los complementos son predicados sobre el evento.
+
+**Contexto.** Decisión A de Frat: la fecha u hora de un hecho es dato. El
+hecho mismo («se lubricaron») no es dato (sería sí o no), pero es portador de
+datos: su fecha, su hora, su duración. La variable es un aspecto del evento
+individual («fecha de lubricación de los rodillos = el lunes»).
+
+## 27. Over-prompting y cobertura de ejemplos
+
+**Qué es.** Dos hallazgos sobre los ejemplos en el prompt. *Over-prompting*
+(Tang y otros, 2025): el rendimiento sube con los ejemplos hasta un punto y
+luego baja; el óptimo depende del modelo y se encuentra agregándolos de a
+uno. Cobertura (Gupta y otros, 2023; Levy y otros, 2023): un conjunto de
+ejemplos rinde más cuando entre todos cubren los aspectos importantes de la
+tarea sin repetirse, que cuando son parecidos entre sí.
+
+**Contexto.** Rondas de prototipos P1–P4: con dos ejemplos (A y B) Grok
+acertó 29/29 en la batería y los tres restantes no sumaron; los ejemplos que
+enseñaban cinco cosas a la vez metían ruido. El número de ejemplos lo decide
+la curva, no el bolsillo.
