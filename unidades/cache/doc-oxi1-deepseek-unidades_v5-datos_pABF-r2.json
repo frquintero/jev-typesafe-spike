@@ -1,0 +1,97 @@
+{
+  "doc": "oxi1",
+  "modelo": "deepseek",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_pABF",
+  "rep": "r2",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "el hallazgo de oxígeno oscuro que cuestiona la dependencia de la fotosíntesis",
+      "oraciones_n": [
+        1,
+        2
+      ],
+      "datos": [
+        {
+          "variable": "profundidad de la llanura abisal del océano Pacífico",
+          "valor": "cuatro mil",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "oscuridad del entorno en la llanura abisal del océano Pacífico",
+          "valor": "total",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "presión del entorno en la llanura abisal del océano Pacífico",
+          "valor": "extrema",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "constancia de la producción de oxígeno en la llanura abisal del océano Pacífico",
+          "valor": "constante",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "antigüedad del hallazgo en la llanura abisal del océano Pacífico",
+          "valor": "reciente",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "el origen geológico y el mecanismo electroquímico del oxígeno oscuro",
+      "oraciones_n": [
+        3,
+        4,
+        5
+      ],
+      "datos": [
+        {
+          "variable": "fuente del oxígeno",
+          "valor": "proceso electroquímico geológico",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "número de nódulos polimetálicos en el lecho oceánico",
+          "valor": "millones",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "metales contenidos en los nódulos polimetálicos",
+          "valor": "níquel, cobalto y manganeso",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "distribución de cargas eléctricas entre los nódulos polimetálicos",
+          "valor": "irregular",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "método de disociación de las moléculas de agua",
+          "valor": "electrólisis",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "forma del oxígeno liberado",
+          "valor": "libre",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "las implicaciones del oxígeno oscuro para el origen de la vida y la minería marina",
+      "oraciones_n": [
+        6,
+        7
+      ],
+      "datos": [],
+      "error_parseo": null
+    }
+  ]
+}
