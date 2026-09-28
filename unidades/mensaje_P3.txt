@@ -1,0 +1,9 @@
+Ronda P3. Lee AGENTS.md y la sección «Ronda P3» de prototipos/PLAN.md.
+
+Corre, sin modificar ningún archivo, exportando HTTPS_PROXY y SSL_CERT_FILE como indica AGENTS.md, los tres comandos de esa sección (tec1, oxi1 y bio1 con datos_pAB, deepseek, r1).
+
+El paso 1 no se repite (el script reutiliza los crudos de unidades existentes; es lo esperado). El LLM que se prueba es DeepSeek (deepseek-flash); tú solo ejecutas. Nunca borres, muevas ni sobrescribas un crudo existente. Si una llamada deja el stream sin datos durante un minuto, reporta. Si una llamada falla por autenticación o por créditos, detente y reporta.
+
+Reporte: la salida de cada comando. Sin veredicto ni cálculos.
+
+Al terminar: commit y push a main de estos crudos nuevos, y también de los crudos de la ronda P2 que quedaron sin commitear (unidades/cache/*-grok-datos_pAB-r1.json y unidades/cache/*-grok-datos_pABE-r1.json, incluidos los parciales de bio1), con el mensaje «Rondas P2 (grok, ABE de bio1 incompleto por créditos) y P3: datos_pAB con deepseek (r1)».

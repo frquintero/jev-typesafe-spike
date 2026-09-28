@@ -49,3 +49,15 @@ python3 unidades/extraer_datos_doc.py tec1 grok unidades_v5 datos_pABE r1
 python3 unidades/extraer_datos_doc.py oxi1 grok unidades_v5 datos_pABE r1
 python3 unidades/extraer_datos_doc.py bio1 grok unidades_v5 datos_pABE r1
 ```
+
+## Ronda P3: `datos_pAB` con DeepSeek (tec1, oxi1, bio1)
+
+Pedido de Frat: la misma cadena de P2 con DeepSeek (`deepseek-flash`), solo AB.
+El paso 1 se reutiliza (crudos de ENC5 y ENC7). Una corrida (r1). Comparar
+contra `datos_u9` de DeepSeek (ENC6, ENC7).
+
+```
+python3 unidades/extraer_datos_doc.py tec1 deepseek unidades_v5 datos_pAB r1
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pAB r1
+python3 unidades/extraer_datos_doc.py bio1 deepseek unidades_v5 datos_pAB r1
+```
