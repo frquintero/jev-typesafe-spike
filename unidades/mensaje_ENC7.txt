@@ -1,0 +1,12 @@
+Ronda ENC7. Lee AGENTS.md y la sección «Ronda ENC7» de unidades/PLAN.md.
+
+Corre, sin modificar ningún archivo, exportando HTTPS_PROXY y SSL_CERT_FILE como indica AGENTS.md:
+
+python3 unidades/extraer_datos_doc.py tec1 grok unidades_v5 datos_u9 r1
+python3 unidades/extraer_datos_doc.py tec1 deepseek unidades_v5 datos_u9 r1
+
+Los LLM que se prueban son Grok 4.7 y DeepSeek (deepseek-flash); tú solo ejecutas. Nunca borres, muevas ni sobrescribas un crudo existente. Si una llamada deja el stream sin datos durante un minuto, reporta.
+
+Reporte: por modelo, el parsed del paso 1 y su verificación; por subtema, el foco y el parsed del paso 2; modelo efectivo, tokens (incluidos los de razonamiento) y segundos de cada llamada. Sin veredicto ni cálculos. Si una llamada falla por autenticación, detente y reporta.
+
+Al terminar: commit y push a main de los crudos nuevos (cache/unidades-tec1-{grok,deepseek}-unidades_v5-r1.json, cache/datos-tec1-unidades_v5-u*-{grok,deepseek}-datos_u9-r1.json, cache/doc-tec1-{grok,deepseek}-unidades_v5-datos_u9-r1.json) con el mensaje «Ronda ENC7: unidades_v5 + datos_u9 sobre tec1 con grok y deepseek (r1)».

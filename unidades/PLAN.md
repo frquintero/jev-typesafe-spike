@@ -623,3 +623,18 @@ python3 unidades/extraer_datos_doc.py bio1 deepseek unidades_v5 datos_u9 r1
 
 **Reporte:** por subtema, el foco y el parsed del paso 2; modelo efectivo,
 tokens y segundos de cada llamada. Sin veredicto ni cálculos.
+
+## Ronda ENC7: cadena completa `unidades_v5` + `datos_u9` sobre tec1 (Grok y DeepSeek)
+
+Pedido de Frat: repetir ENC6 con otro documento. tec1 no se ha corrido con v5,
+así que la cadena es completa (paso 1 y paso 2). Una corrida (r1) por modelo.
+Interés adicional: tokens de razonamiento y segundos por llamada.
+
+```
+python3 unidades/extraer_datos_doc.py tec1 grok unidades_v5 datos_u9 r1
+python3 unidades/extraer_datos_doc.py tec1 deepseek unidades_v5 datos_u9 r1
+```
+
+**Reporte:** el de ENC4 (paso 1 con verificación; por subtema, foco y parsed del
+paso 2; modelo efectivo, tokens —incluidos los de razonamiento— y segundos de
+cada llamada). Sin veredicto ni cálculos.
