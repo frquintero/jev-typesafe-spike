@@ -1,0 +1,75 @@
+{
+  "doc": "oxi1",
+  "modelo": "flash_high",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_pABF2",
+  "rep": "r1",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "el descubrimiento del oxígeno oscuro que desafía la premisa de la fotosíntesis",
+      "oraciones_n": [
+        1,
+        2
+      ],
+      "datos": [
+        {
+          "variable": "profundidad a la que se detectó producción de oxígeno en la llanura abisal del océano Pacífico",
+          "valor": "cuatro mil",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "presión del entorno donde se detectó la producción de oxígeno",
+          "valor": "extremas",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "iluminación del entorno donde se detectó la producción de oxígeno",
+          "valor": "total",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "ritmo de la producción de oxígeno detectada en la llanura abisal del océano Pacífico",
+          "valor": "constante",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "el proceso electroquímico geológico que produce el oxígeno",
+      "oraciones_n": [
+        3,
+        4,
+        5
+      ],
+      "datos": [
+        {
+          "variable": "número de nódulos polimetálicos en el lecho oceánico",
+          "valor": "millones",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "las implicaciones del fenómeno para el origen de la vida compleja",
+      "oraciones_n": [
+        6
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 4,
+      "subtema": "los riesgos ambientales de la minería marina de nódulos",
+      "oraciones_n": [
+        7
+      ],
+      "datos": [],
+      "error_parseo": null
+    }
+  ]
+}
