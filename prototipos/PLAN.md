@@ -61,3 +61,14 @@ python3 unidades/extraer_datos_doc.py tec1 deepseek unidades_v5 datos_pAB r1
 python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pAB r1
 python3 unidades/extraer_datos_doc.py bio1 deepseek unidades_v5 datos_pAB r1
 ```
+
+## Ronda P4: `datos_pABF` con DeepSeek sobre oxi1
+
+En P3, DeepSeek con AB sacó de más en el ensayo oxi1 (creencias, posibilidades,
+comparaciones, tono). `ejemplos/F.md`: prototipo negativo de ensayo (lo que se
+creía, lo que podría pasar, una comparación) junto a un dato real.
+`datos_pABF` = `base.md` + A, B, F. Una corrida (r1).
+
+```
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABF r1
+```
