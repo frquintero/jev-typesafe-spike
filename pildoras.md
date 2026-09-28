@@ -24,6 +24,7 @@ el contexto en que surgió. Se agregan a medida que aparecen.
 15. [Incertidumbre definicional](#15-incertidumbre-definicional)
 16. [Tipo y ejemplar](#16-tipo-y-ejemplar)
 17. [La moda como estadístico: dato de segundo orden](#17-la-moda-como-estadístico-dato-de-segundo-orden)
+18. [Correferencia](#18-correferencia)
 
 ---
 
@@ -210,4 +211,18 @@ una muestra es un dato de segundo orden.
 (distribución, escala, momentos) y los valores son la muestra. «Especie más
 abundante = pez loro» es la moda de «especie de cada pez» sobre los 215 y 98
 peces del censo: el texto no reporta una observación, sino un estadístico.
+
+## 18. Correferencia
+
+**Qué es.** En lingüística, dos o más expresiones de un texto que se refieren a
+la misma cosa forman una cadena de correferencia: «el oxígeno… este gas…»,
+«los nódulos… estos fragmentos… estos nódulos». La expresión que remite hacia
+atrás es una anáfora; la primera mención, su antecedente. Resolver la
+correferencia es saber a qué remite cada «este», «su», «esas».
+
+**Contexto.** Análisis de ENC3 (oxi1): la segmentación lineal dejó «este gas»
+en una unidad y su antecedente («oxígeno») en otra, y la variable salió
+incompleta («fuente de este gas»). En textos explicativos las cadenas de
+correferencia cruzan las unidades mucho más que en textos de registro como
+bio1.
 
