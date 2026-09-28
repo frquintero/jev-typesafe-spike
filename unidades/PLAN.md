@@ -638,3 +638,21 @@ python3 unidades/extraer_datos_doc.py tec1 deepseek unidades_v5 datos_u9 r1
 **Reporte:** el de ENC4 (paso 1 con verificación; por subtema, foco y parsed del
 paso 2; modelo efectivo, tokens —incluidos los de razonamiento— y segundos de
 cada llamada). Sin veredicto ni cálculos.
+
+## Ronda ENC8: `datos_u10` con Grok (tec1, oxi1, bio1)
+
+`datos_u10` = `datos_u9` + la fecha u hora de un hecho es dato (decisión A de
+Frat): «fecha» entre las cantidades del valor; ejemplo 3 agrega «fecha de la
+descarga del contenedor… = anoche» (null) y ejemplo 4 «fecha del censo… = 12 de
+marzo» («fecha»). Una corrida (r1). El paso 1 se reutiliza (crudos de ENC4 y
+ENC7), así que solo cambia el prompt 2.
+
+```
+python3 unidades/extraer_datos_doc.py tec1 grok unidades_v5 datos_u10 r1
+python3 unidades/extraer_datos_doc.py oxi1 grok unidades_v5 datos_u10 r1
+python3 unidades/extraer_datos_doc.py bio1 grok unidades_v5 datos_u10 r1
+```
+
+**Reporte:** por subtema, el foco y el parsed del paso 2; modelo efectivo,
+tokens (incluidos los de razonamiento) y segundos de cada llamada. Sin veredicto
+ni cálculos.

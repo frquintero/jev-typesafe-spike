@@ -1,0 +1,13 @@
+Ronda ENC8. Lee AGENTS.md y la sección «Ronda ENC8» de unidades/PLAN.md.
+
+Corre, sin modificar ningún archivo, exportando HTTPS_PROXY y SSL_CERT_FILE como indica AGENTS.md:
+
+python3 unidades/extraer_datos_doc.py tec1 grok unidades_v5 datos_u10 r1
+python3 unidades/extraer_datos_doc.py oxi1 grok unidades_v5 datos_u10 r1
+python3 unidades/extraer_datos_doc.py bio1 grok unidades_v5 datos_u10 r1
+
+El paso 1 no se repite (el script reutiliza los crudos de unidades existentes; es lo esperado). El LLM que se prueba es Grok 4.7; tú solo ejecutas. Nunca borres, muevas ni sobrescribas un crudo existente. Si una llamada deja el stream sin datos durante un minuto, reporta.
+
+Reporte: por documento, por subtema, el foco y el parsed del paso 2; modelo efectivo, tokens (incluidos los de razonamiento) y segundos de cada llamada. Sin veredicto ni cálculos. Si una llamada falla por autenticación, detente y reporta.
+
+Al terminar: commit y push a main de los crudos nuevos (cache/datos-{tec1,oxi1,bio1}-unidades_v5-u*-grok-datos_u10-r1.json, cache/doc-{tec1,oxi1,bio1}-grok-unidades_v5-datos_u10-r1.json) con el mensaje «Ronda ENC8: unidades_v5 + datos_u10 sobre tec1, oxi1 y bio1 con grok (r1)».
