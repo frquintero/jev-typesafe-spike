@@ -589,3 +589,18 @@ python3 unidades/extraer_datos_doc.py bio1 grok unidades_v5 datos_u8 r1
 subtema, el foco enviado y el `parsed` del paso 2 verbatim. Modelo efectivo,
 tokens (prompt, completion con cached, reasoning) y segundos de cada llamada.
 Sin veredicto ni cálculos.
+
+## Ronda ENC5: la misma cadena de ENC4 con DeepSeek (oxi1 y bio1)
+
+Pedido de Frat: comparar modelos (Grok 4.7 frente a DeepSeek `deepseek-flash`,
+razonamiento `low`) con la misma cadena (`unidades_v5` + `datos_u8`), y mirar
+los tiempos de cada fase. Una corrida (r1). Sin cambios de prompts ni de
+código (`x-grok-conv-id` solo aplica a xAI).
+
+```
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_u8 r1
+python3 unidades/extraer_datos_doc.py bio1 deepseek unidades_v5 datos_u8 r1
+```
+
+**Reporte:** el mismo de ENC4. Sin veredicto ni cálculos. DeepSeek puede dejar
+el stream colgado: si pasa un minuto sin datos, reportarlo.
