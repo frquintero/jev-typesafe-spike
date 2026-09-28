@@ -109,3 +109,19 @@ así que se compara directo contra `datos_pABF` (P6 y P4). Una corrida.
 python3 unidades/extraer_datos_doc.py oxi1 flash_high unidades_v5 datos_pABCF r1
 python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABCF r1
 ```
+
+## Ronda P8: `datos_pABF2` (base2) con GLM `high` y DeepSeek sobre oxi1
+
+En P7, GLM descartó las cualidades pegadas al nombre («presiones extremas»,
+«oscuridad total») aplicando «los adjetivos que forman parte del nombre no son
+datos». Decisión de Frat: `base2.md` = `base.md` con (1) Dato: «El valor puede
+venir dicho aparte (la presión es extrema) o pegado al nombre (presiones
+extremas, contenedor de 800 kg). La fecha o la hora de un hecho también es un
+dato (abrió el 3 de mayo).» y (2) No son datos: «Los adjetivos que solo
+identifican algo (antiguo muelle, piscina municipal).» Ejemplos A, B, F. Paso 1
+reutilizado. Una corrida.
+
+```
+python3 unidades/extraer_datos_doc.py oxi1 flash_high unidades_v5 datos_pABF2 r1
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABF2 r1
+```
