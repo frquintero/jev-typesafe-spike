@@ -102,6 +102,7 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `dat
 - «Encuentra los datos» presupone que hay: sin un ejemplo sin datos, el modelo busca reemplazos (ut4 en DU4, visible en `reasoning_content`).
 - Mostrar rinde más que definir (DU5), y la ostensión enseña exactamente lo que muestra: cada falla señala un rasgo que los ejemplos no traen. Por eso los ejemplos se eligen desde el marco, no desde las fallas de la prueba.
 - `reasoning_content` de xAI llega recortado: es menos que los `reasoning_tokens` facturados.
+- Caché de prefijo en xAI: sin el encabezado `x-grok-conv-id`, 77 de 98 llamadas solo cachearon 1152 tokens (un prefijo del proveedor, igual para todo prompt); desde ENC4, `extraer_datos_doc.py` lo envía por cadena (`<doc>-<prompt_unidades>-<prompt_datos>-<rN>`). La caché baja costo y tiempo de prefill, no el tiempo de razonamiento (decodificación).
 - La contradicción entre señales también cuesta tiempo: en el paso 1, «temática» contra «núcleo = caso» llevó a 11 065 tokens de razonamiento; con una sola señal (tema), 1605.
 - Al modelo el juicio, al código el cómputo: con oraciones numeradas, el modelo devuelve índices y el código garantiza la literalidad.
 - Un documento de prueba escrito por quien diseñó los ejemplos, y evaluado sin gold previo, sobreestima el acierto (sesgo retrospectivo).

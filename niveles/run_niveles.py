@@ -81,7 +81,7 @@ def prompt_version(prompt_name):
     )
 
 
-def call_model(version, alias, content):
+def call_model(version, alias, content, conv_id=None):
     """Llama con stream=true (excepcion autorizada: stream es transporte, no
     cambia la salida) mas los parametros extra de MODEL_PARAMS[version][alias]
     (solo los de la tabla del PLAN, nunca temperature). Ensambla los deltas
@@ -100,13 +100,18 @@ def call_model(version, alias, content):
     }
     body.update(cfg["extra"])
     data = json.dumps(body).encode("utf-8")
+    headers = {
+        "Content-Type": "application/json; charset=utf-8",
+        "User-Agent": UA,
+    }
+    # Enrutamiento de caché de prefijo en xAI: mismo servidor para las llamadas
+    # de una misma cadena (no es credencial; la clave la sigue poniendo el proxy).
+    if conv_id and "api.x.ai" in cfg["url"]:
+        headers["x-grok-conv-id"] = conv_id
     req = urllib.request.Request(
         cfg["url"],
         data=data,
-        headers={
-            "Content-Type": "application/json; charset=utf-8",
-            "User-Agent": UA,
-        },
+        headers=headers,
         method="POST",
     )
     chunks_crudos = []

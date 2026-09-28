@@ -29,6 +29,7 @@ el contexto en que surgió. Se agregan a medida que aparecen.
 20. [Teoría de la estructura retórica (RST)](#20-teoría-de-la-estructura-retórica-rst)
 21. [Caché de prefijo (prompt caching)](#21-caché-de-prefijo-prompt-caching)
 22. [Chunking semántico](#22-chunking-semántico)
+23. [Prefill y decodificación](#23-prefill-y-decodificación)
 
 ---
 
@@ -273,4 +274,17 @@ moderna de TextTiling.
 paso 1. Riesgo: la similitud no distingue asunto de entidad. Quedó para el
 nivel de tema, combinado con Jev (los embeddings proponen candidatos, Jev
 juzga).
+
+## 23. Prefill y decodificación
+
+**Qué es.** Un modelo responde en dos fases. El *prefill* procesa todo el
+prompt de entrada de una vez (rápido: miles de tokens en fracciones de
+segundo). La *decodificación* genera la salida token por token (lenta: unas
+decenas de tokens por segundo), y en los modelos de razonamiento incluye los
+tokens de razonamiento. La caché de prefijo solo ahorra prefill.
+
+**Contexto.** Investigación de la caché en ENC4: sin `x-grok-conv-id`, las
+llamadas casi nunca reutilizaron el documento; pero el tiempo de ENC4 (hasta
+49 s por foco) venía de 2000–3350 tokens de razonamiento, es decir, de la
+decodificación. Arreglar la caché baja el costo de entrada, no ese tiempo.
 

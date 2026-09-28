@@ -136,7 +136,10 @@ def run(doc, modelo, prompt_unidades, prompt_datos, rep):
             else:
                 prompt = plantilla_datos.replace("{{TEXTO}}", texto_unidad)
             t0 = time.time()
-            request, response = call_model("toulmin", modelo, prompt)
+            request, response = call_model(
+                "toulmin", modelo, prompt,
+                conv_id=f"{doc}-{prompt_unidades}-{prompt_datos}-{rep}",
+            )
             segundos = round(time.time() - t0, 1)
             parsed_datos, venia_con_cerca, error_parseo = extract_json(
                 response["choices"][0]["message"]["content"]
