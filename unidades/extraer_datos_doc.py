@@ -33,6 +33,14 @@ def ordenar_oraciones(oraciones, texto):
     return [oracion for _, oracion in indexed]
 
 
+def formatear_foco(oraciones_n):
+    """Focus string from sentence numbers, in oraciones_n order."""
+    numeros = list(oraciones_n)
+    if len(numeros) == 1:
+        return f"oración {numeros[0]}"
+    return "oraciones " + ", ".join(str(n) for n in numeros[:-1]) + f" y {numeros[-1]}"
+
+
 def leer_json(path):
     with open(path, encoding="utf-8") as f:
         return json.load(f)
@@ -64,6 +72,15 @@ def run(doc, modelo, prompt_unidades, prompt_datos, rep):
         unidades = unidades_crudo["unidades_reconstruidas"]
     else:
         unidades = parsed_unidades.get("unidades", [])
+    usa_subtemas = (
+        usa_unidades_reconstruidas
+        and len(unidades) > 0
+        and all(
+            isinstance(u, dict) and "subtema" in u and "oraciones_n" in u
+            for u in unidades
+        )
+    )
+    texto_numerado = unidades_crudo.get("texto_numerado", "")
 
     with open(os.path.join(BASE_DIR, "docs", f"{doc}.md"), encoding="utf-8") as f:
         texto = f.read()
@@ -74,7 +91,15 @@ def run(doc, modelo, prompt_unidades, prompt_datos, rep):
 
     unidades_con_datos = []
     for unidad_n, unidad in enumerate(unidades, start=1):
-        if usa_unidades_reconstruidas:
+        if usa_subtemas:
+            oraciones_n = list(unidad.get("oraciones_n", []))
+            foco = formatear_foco(oraciones_n)
+            texto_unidad = " ".join(unidad.get("oraciones", []))
+            campos_unidad = {
+                "subtema": unidad.get("subtema"),
+                "oraciones_n": oraciones_n,
+            }
+        elif usa_unidades_reconstruidas:
             texto_unidad = " ".join(unidad.get("oraciones", []))
             campos_unidad = {
                 "tema": unidad.get("tema"),
@@ -104,7 +129,12 @@ def run(doc, modelo, prompt_unidades, prompt_datos, rep):
         if os.path.exists(datos_path):
             print(f"crudo ya existe, salto ({datos_path})")
         else:
-            prompt = plantilla_datos.replace("{{TEXTO}}", texto_unidad)
+            if usa_subtemas and "{{DOCUMENTO_NUMERADO}}" in plantilla_datos:
+                prompt = plantilla_datos.replace(
+                    "{{DOCUMENTO_NUMERADO}}", texto_numerado
+                ).replace("{{FOCO}}", foco)
+            else:
+                prompt = plantilla_datos.replace("{{TEXTO}}", texto_unidad)
             t0 = time.time()
             request, response = call_model("toulmin", modelo, prompt)
             segundos = round(time.time() - t0, 1)
@@ -125,6 +155,8 @@ def run(doc, modelo, prompt_unidades, prompt_datos, rep):
                 **campos_unidad,
                 "texto_unidad": texto_unidad,
             }
+            if usa_subtemas:
+                crudo_datos["foco"] = foco
             escribir_json(datos_path, crudo_datos)
             print(f"hecho -> {datos_path} ({segundos} s)")
 
@@ -137,13 +169,21 @@ def run(doc, modelo, prompt_unidades, prompt_datos, rep):
         )
         consolidado_unidad = {"unidad_n": unidad_n}
         consolidado_unidad.update(campos_unidad)
-        consolidado_unidad.update(
-            {
-                "texto_unidad": texto_unidad,
-                "datos": datos,
-                "error_parseo": crudo_datos.get("error_parseo"),
-            }
-        )
+        if usa_subtemas:
+            consolidado_unidad.update(
+                {
+                    "datos": datos,
+                    "error_parseo": crudo_datos.get("error_parseo"),
+                }
+            )
+        else:
+            consolidado_unidad.update(
+                {
+                    "texto_unidad": texto_unidad,
+                    "datos": datos,
+                    "error_parseo": crudo_datos.get("error_parseo"),
+                }
+            )
         unidades_con_datos.append(consolidado_unidad)
         cantidad_datos = len(datos) if isinstance(datos, list) else "null"
         print(f"unidad {unidad_n}: {cantidad_datos} datos, {crudo_datos.get('segundos')} s")

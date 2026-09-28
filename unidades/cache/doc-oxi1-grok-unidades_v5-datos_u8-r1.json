@@ -1,0 +1,80 @@
+{
+  "doc": "oxi1",
+  "modelo": "grok",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_u8",
+  "rep": "r1",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "el desafío a la premisa del oxígeno fotosintético",
+      "oraciones_n": [
+        1,
+        2
+      ],
+      "datos": [
+        {
+          "variable": "profundidad del hallazgo reciente en la llanura abisal del océano Pacífico",
+          "valor": "cuatro mil",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "oscuridad del entorno del hallazgo en la llanura abisal del océano Pacífico",
+          "valor": "total",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "presión del entorno del hallazgo en la llanura abisal del océano Pacífico",
+          "valor": "extremas",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "carácter de la producción de oxígeno detectada en la llanura abisal del océano Pacífico",
+          "valor": "constante",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "la producción electroquímica de oxígeno en los nódulos",
+      "oraciones_n": [
+        3,
+        4,
+        5
+      ],
+      "datos": [
+        {
+          "variable": "número de nódulos polimetálicos en el lecho oceánico",
+          "valor": "millones",
+          "unidad_de_medida": "unidad"
+        },
+        {
+          "variable": "metales de los nódulos polimetálicos del lecho oceánico",
+          "valor": "níquel, cobalto y manganeso",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "el replanteo del origen de la vida celular",
+      "oraciones_n": [
+        6
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 4,
+      "subtema": "los riesgos ambientales de la minería marina",
+      "oraciones_n": [
+        7
+      ],
+      "datos": [],
+      "error_parseo": null
+    }
+  ]
+}
