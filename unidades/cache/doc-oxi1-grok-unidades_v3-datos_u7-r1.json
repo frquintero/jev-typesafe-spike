@@ -1,0 +1,77 @@
+{
+  "doc": "oxi1",
+  "modelo": "grok",
+  "prompt_unidades": "unidades_v3",
+  "prompt_datos": "datos_u7",
+  "rep": "r1",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "tema": "el hallazgo que cuestiona el origen fotosintético del oxígeno",
+      "desde": 1,
+      "hasta": 2,
+      "texto_unidad": "Durante décadas se sostuvo la premisa de que prácticamente todo el oxígeno de la Tierra dependía de la fotosíntesis impulsada por la luz solar. Sin embargo, un hallazgo reciente en la llanura abisal del océano Pacífico transformó esta certidumbre: a cuatro mil metros de profundidad, en un entorno de oscuridad total y presiones extremas, la ciencia detectó una producción constante de oxígeno que desafía los modelos biológicos tradicionales.",
+      "datos": [
+        {
+          "variable": "profundidad del hallazgo en la llanura abisal del océano Pacífico",
+          "valor": "cuatro mil",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "grado de oscuridad del entorno del hallazgo en la llanura abisal del océano Pacífico",
+          "valor": "total",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "grado de las presiones del entorno del hallazgo en la llanura abisal del océano Pacífico",
+          "valor": "extremas",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "tema": "el proceso electroquímico de los nódulos",
+      "desde": 3,
+      "hasta": 5,
+      "texto_unidad": "La fuente de este gas no procede de formas de vida microbiana, sino de un proceso electroquímico geológico. En el lecho oceánico descansan millones de nódulos polimetálicos cargados de metales como níquel, cobalto y manganeso. La distribución irregular de cargas eléctricas entre estos fragmentos genera diferencias de potencial comparables a baterías químicas ordinarias, logrando disociar las moléculas del agua mediante electrólisis para liberar oxígeno en forma libre.",
+      "datos": [
+        {
+          "variable": "fuente de este gas",
+          "valor": "proceso electroquímico geológico",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "número de nódulos polimetálicos en el lecho oceánico",
+          "valor": "millones",
+          "unidad_de_medida": "unidad"
+        },
+        {
+          "variable": "forma del oxígeno liberado",
+          "valor": "libre",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "tema": "implicaciones para el origen de la vida",
+      "desde": 6,
+      "hasta": 6,
+      "texto_unidad": "Este fenómeno, bautizado como oxígeno oscuro, replantea los escenarios donde pudo germinar la vida celular compleja antes de la consolidación fotosintética en el planeta.",
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 4,
+      "tema": "los riesgos de la minería marina",
+      "desde": 7,
+      "hasta": 7,
+      "texto_unidad": "Asimismo, abre un debate crítico sobre los riesgos ambientales de la minería marina a gran escala, pues la extracción masiva de estos nódulos podría desarticular un soporte vital para las especies del abismo antes de que logremos comprenderlo cabalmente.",
+      "datos": [],
+      "error_parseo": null
+    }
+  ]
+}
