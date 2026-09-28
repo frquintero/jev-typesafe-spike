@@ -34,3 +34,18 @@ python3 prototipos/correr.py grok r1
 
 **Reporte:** una línea por llamada (config, id, datos, segundos, tokens de
 razonamiento). Sin veredicto ni cálculos.
+
+## Ronda P2: candidatos AB y ABE sobre documentos reales (Grok)
+
+Pedido de Frat tras P1: correr la cadena real con los dos candidatos y comparar
+contra `datos_u10` (ENC8). `unidades/prompts/datos_pAB.md` y `datos_pABE.md` =
+`base.md` + ejemplos A y B (y E). El paso 1 se reutiliza. Una corrida (r1).
+
+```
+python3 unidades/extraer_datos_doc.py tec1 grok unidades_v5 datos_pAB r1
+python3 unidades/extraer_datos_doc.py oxi1 grok unidades_v5 datos_pAB r1
+python3 unidades/extraer_datos_doc.py bio1 grok unidades_v5 datos_pAB r1
+python3 unidades/extraer_datos_doc.py tec1 grok unidades_v5 datos_pABE r1
+python3 unidades/extraer_datos_doc.py oxi1 grok unidades_v5 datos_pABE r1
+python3 unidades/extraer_datos_doc.py bio1 grok unidades_v5 datos_pABE r1
+```

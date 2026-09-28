@@ -1,0 +1,9 @@
+Ronda P2. Lee AGENTS.md y la sección «Ronda P2» de prototipos/PLAN.md.
+
+Corre, sin modificar ningún archivo, exportando HTTPS_PROXY y SSL_CERT_FILE como indica AGENTS.md, los seis comandos de esa sección (tec1, oxi1 y bio1 con datos_pAB y con datos_pABE, grok, r1).
+
+El paso 1 no se repite (el script reutiliza los crudos de unidades existentes; es lo esperado). El LLM que se prueba es Grok 4.7; tú solo ejecutas. Nunca borres, muevas ni sobrescribas un crudo existente. Si una llamada deja el stream sin datos durante un minuto, reporta. Si una llamada falla por autenticación, detente y reporta.
+
+Reporte: la salida de cada comando. Sin veredicto ni cálculos.
+
+Al terminar: commit y push a main de los crudos nuevos (unidades/cache/datos-{tec1,oxi1,bio1}-unidades_v5-u*-grok-datos_pAB*-r1.json y unidades/cache/doc-{tec1,oxi1,bio1}-grok-unidades_v5-datos_pAB*-r1.json) con el mensaje «Ronda P2: datos_pAB y datos_pABE sobre tec1, oxi1 y bio1 con grok (r1)».
