@@ -467,3 +467,48 @@ python3 unidades/extraer_datos_doc.py oxi1 grok unidades_v3 datos_u7 r1
 verificación; por unidad, el `parsed` del paso 2 verbatim. Modelo efectivo,
 tokens (prompt, completion, reasoning) y segundos de cada llamada. Sin
 veredicto ni cálculos.
+
+## Ronda U5: `unidades_v4` (subtemas, oraciones seguidas o separadas) sobre tec2, smoke test del paso 1
+
+Decisiones de Frat (tras ENC3 y la discusión del grano): la unidad del paso 1
+es el **subtema** = «un asunto nuclear y su desarrollo, en una o varias
+oraciones, seguidas o separadas»; la oración es el texto de punto a punto (lo
+corta el código). El **tema** es la unión de subtemas relacionados (nivel
+superior, para Zettel). Se intenta que el paso 1 reúna también lo separado:
+si funciona, se evita un nivel extra (Ockham).
+
+Cambios respecto de `unidades_v3`: definición de subtema; «desarrollo» como
+criterio operativo (detalla, explica, continúa, contradice, saca la
+consecuencia; en la línea de la teoría de la estructura retórica) en lugar de
+«misma pregunta»; regla explícita contra agrupar por entidad; descripción de
+una línea al inicio de cada ejemplo; ejemplos nuevos: afirmación y su
+contradicción (4), hecho y consecuencia (5), subtema que vuelve (6). Salida:
+`{"subtemas": [{"subtema", "oraciones": [n, …]}]}`.
+
+Smoke test sobre tec2 (tiene asuntos que vuelven tras una interrupción). Sin
+conjetura formal; se mira la salida.
+
+### Implementación (la hace el ejecutor): `unidades/extraer_unidades.py`
+
+El camino de v1/v2/v3 no cambia. Si el `parsed` trae `subtemas` con listas
+`oraciones` de números:
+
+1. `unidades_reconstruidas`: por subtema `{"subtema", "oraciones_n",
+   "oraciones"}`, con los números tal como llegaron y las oraciones originales
+   en ese orden.
+2. `verificacion`: `oraciones_del_texto` (N), `huecos` (números sin subtema),
+   `solapes` (números en más de un subtema), `fuera_de_rango`, `no_enteros`.
+   Solo reporta, nunca corrige.
+
+`python3 -m py_compile`; regresión sin API: correr sobre `tec2` con
+`unidades_v3` (el crudo existe, no debe llamar ni cambiar nada).
+
+### Corrida
+
+```
+python3 unidades/extraer_unidades.py tec2 grok unidades_v4 r1
+```
+
+**Reporte:** el `texto_numerado` enviado, el `parsed` verbatim, las
+`unidades_reconstruidas` y la verificación; modelo efectivo, tokens (prompt,
+completion, reasoning) y segundos. Sin veredicto ni cálculos.

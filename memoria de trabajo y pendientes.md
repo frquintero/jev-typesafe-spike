@@ -1,6 +1,6 @@
 # Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 27-09-2026 (tras U4: cadena completa con `unidades_v3` + `datos_u7`). No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md`.
+Estado al 27-09-2026 (tras ENC3; U5 en curso: `unidades_v4`, subtemas). No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md`.
 
 ## 0. Dónde y cómo
 
@@ -50,13 +50,16 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `dat
 - **Prompt vigente:** `unidades_v3`. Mismo esquema que el paso 2: tarea de una línea, definiciones cortas (oración numerada; unidad = oraciones seguidas que responden a la misma pregunta; frontera cuando cambia la pregunta, aunque se nombren las mismas cosas; el cambio de párrafo no es por sí solo frontera) y tres ejemplos nodo (párrafo con dos subtemas → se parte; subtema que cruza el párrafo → se une; mismas cosas en temas distintos → unidades distintas). Marcador `{{TEXTO_NUMERADO}}`: el código numera, reconstruye las unidades con el texto original y verifica huecos, solapes y orden.
 - **Resultado (U4, r1):** bio1 → 8 unidades que siguen los subtemas de los párrafos, verificación limpia, 1605 tokens de razonamiento y 21 s (con v2: 11 065 y 158 s). tec2 → 1212 tokens, 16 s; 8 unidades en vez de 4, porque tec2 tiene temas que vuelven tras una interrupción.
 - **Por qué cambió:** `unidades_v2` (núcleo y satélites, oraciones no seguidas) llamaba «temática» a la unidad pero la definía por un caso; en bio1 los casos cruzan los temas y el modelo osciló entre tema y entidad (visible en `reasoning_content`). El seguimiento de entidades pasa a después: la variable ya lleva su caso.
-- **Límite conocido:** un tema que vuelve tras una interrupción queda en unidades separadas (pendiente 2).
+- **Límite conocido de v3:** un asunto que vuelve tras una interrupción queda en unidades separadas.
+- **En prueba (U5): `unidades_v4`.** Decisiones de Frat: la unidad es el **subtema** = «un asunto nuclear y su desarrollo, en una o varias oraciones, seguidas o separadas»; la **oración** es el texto de punto a punto (la corta el código, no el LLM); el **tema** es la unión de subtemas relacionados (nivel superior, para Zettel). El paso 1 intenta reunir también lo separado; si funciona, se evita un nivel extra. Criterio operativo: «desarrollo» (detalla, explica, continúa, contradice, saca la consecuencia; en la línea de la RST) en lugar de «misma pregunta», cuyo grano era ambiguo; regla contra agrupar por entidad; descripción de una línea en cada ejemplo; seis ejemplos (dos subtemas en un párrafo; subtema que cruza el párrafo; mismas cosas en asuntos distintos; afirmación y contradicción; hecho y consecuencia; subtema que vuelve). Salida `{"subtemas": [{"subtema", "oraciones": [n, …]}]}`. Smoke test sobre tec2.
 
 ## 4. Paso 2: datos por unidad
 
 - **Prompt vigente:** `datos_u7` = tarea de una línea + definiciones de una línea (dato, variable, valor, unidad de medida, qué no es dato) + cinco ejemplos nodo (mediciones; cualidades con aspecto dicho y callado; nombres y relaciones; conteos y proporciones; sin datos).
 - **Formato:** `variable` (la magnitud individual, completa: caso, circunstancias y método cuando define qué se midió), `valor` (literal, sin la unidad), `unidad_de_medida` (`null` en los valores cualitativos).
 - **Resultados:** sobre ut1–ut5 (conjunto de desarrollo; gold en la sección DU5 de `unidades/PLAN.md`), DU7 con tres réplicas: 39/39 datos completos, ut4 vacío, variación solo de redacción. Sobre bio1 vía la cadena (U4): 14 datos en 8 unidades; las 10 cantidades del texto con su unidad, ningún dato inventado; revisados con Frat, bien construidos.
+- **ENC3 (oxi1, documento de Frat, sin gold):** paso 1 bien (4 unidades, 14 s); paso 2: de 6 datos, 4 aceptables, 1 variable incompleta («fuente de este gas»: el antecedente «oxígeno» quedó en otra unidad), 1 de más («forma del oxígeno = libre», binario) y 1 omisión (metales de los nódulos). Causa principal: la **correferencia** cruza las unidades.
+- **Diseño acordado para el paso 2 (`datos_u8`, opción A, sin guardar todavía):** una llamada por unidad con el **documento completo numerado** y el **foco** («oraciones 3 a 5»); el documento sirve para completar las variables, los datos se toman solo del foco; lo fijo primero (instrucciones, ejemplos, documento) y el foco al final, para aprovechar la caché de prefijo; descripción de una línea en cada ejemplo; ejemplo 6 nuevo (referencia cruzada: el caudal está fuera del foco y no se reporta). Descartada la opción B (una sola llamada con todo): es volver a `niveles/`.
 - **Historia corta:** definiciones largas (`datos_u3`–`u4`) → seudodatos y «escala» leída como nominal/ordinal; solo ejemplos (`u5`) → mejor, con fallas donde los ejemplos no mostraban la forma; definiciones cortas + ejemplos nodo (`u6`) → 13/13 valores; + aspecto implícito (`u7`) → 39/39.
 
 ### Decisiones de Frat sobre qué es dato (DU5–U4)
@@ -105,9 +108,11 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` (Toulmin, `dat
 
 ## 7. Pendientes
 
-1. Prueba de verdad de la cadena: un documento que no escriba Cowork (o que escriba Frat con gold antes de correr), más desordenado que bio1 (tablas, abreviaturas, rangos, negaciones, fechas), idealmente del tipo que recibirá Zettel.
-2. Temas que vuelven tras una interrupción: la segmentación lineal los parte. Revisar si hace falta unir unidades del mismo tema antes del paso 2 (juicio que Jev puede sopesar) o darles contexto; los datos no se pierden, porque cada variable lleva su caso.
-3. Zona gris: cualitativos dentro del nombre que informan algo («estructuras de acero», «la tos seca empeoró»).
-4. Escala: documentos largos (el paso 1 manda el texto entero en una llamada; la literatura usa ventanas superpuestas y partición recursiva).
-5. Objetos información y afirmación (niveles 1 y 2 del grafo de Zettel).
-6. Jev: auditoría de los datos, graduación de confianza, canonicalización de variables (paráfrasis) y reidentificación de casos entre textos; la procedencia (fuente del dicho) como capa propia; catálogo único de definiciones (`esquema.json`) y §20.1 del borrador principal.
+1. U5 en curso: smoke test de `unidades_v4` (subtemas, seguidas o separadas) sobre tec2; lo implementa Luna (listas de números en `extraer_unidades.py`).
+2. Guardar `datos_u8` (opción A: documento completo + foco) y adaptar `extraer_datos_doc.py` (marcadores `{{DOCUMENTO_NUMERADO}}` y `{{FOCO}}`, foco como lista de oraciones); correr oxi1 y bio1.
+3. Nivel de **tema** (unión de subtemas relacionados) para Zettel: si `unidades_v4` no reúne bien lo separado, hacerlo ahí (embeddings proponen candidatos, Jev juzga si tratan el mismo asunto).
+4. Prueba de verdad de la cadena: documento ajeno con gold escrito antes de correr, más desordenado (tablas, abreviaturas, rangos, negaciones, fechas), del tipo que recibirá Zettel.
+5. Zona gris: cualitativos dentro del nombre que informan algo («estructuras de acero»); composición con valores de tipo («níquel, cobalto y manganeso»).
+6. Frontera entre dato y afirmación (ENC3: «fuente del gas = proceso electroquímico» es una tesis explicativa): objetos información y afirmación, niveles 1 y 2 del grafo de Zettel.
+7. Escala: documentos largos (ventanas superpuestas, partición recursiva).
+8. Jev: auditoría de los datos, graduación de confianza, canonicalización de variables (paráfrasis), reidentificación de casos entre textos, procedencia (fuente del dicho) como capa propia; `esquema.json` y §20.1 del borrador principal.

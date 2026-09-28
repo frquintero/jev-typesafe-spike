@@ -6,10 +6,11 @@
 en el sentido del ensayo de Frat «¿Qué es un dato?», en dos pasos encadenados
 (carpeta `unidades/`, hilo activo):
 
-1. **Unidades temáticas** (`extraer_unidades.py`, prompt vigente
-   `unidades_v3`): el código numera las oraciones y el LLM segmenta el texto
-   por subtema en tramos contiguos (`{"unidades": [{"tema", "desde",
-   "hasta"}]}`).
+1. **Subtemas** (`extraer_unidades.py`, prompt vigente `unidades_v3`; en
+   prueba `unidades_v4`): el código parte el texto en oraciones (de punto a
+   punto) y las numera; el LLM las agrupa en subtemas (un asunto nuclear y su
+   desarrollo). v3 da tramos contiguos (`desde`/`hasta`); v4 admite oraciones
+   separadas (listas de números).
 2. **Datos por unidad** (prompt vigente `datos_u7`): una llamada por unidad;
    el LLM devuelve `{"datos": [{"variable", "valor", "unidad_de_medida"}]}`.
    Los dos prompts siguen el mismo esquema: tarea de una línea, definiciones

@@ -25,6 +25,10 @@ el contexto en que surgió. Se agregan a medida que aparecen.
 16. [Tipo y ejemplar](#16-tipo-y-ejemplar)
 17. [La moda como estadístico: dato de segundo orden](#17-la-moda-como-estadístico-dato-de-segundo-orden)
 18. [Correferencia](#18-correferencia)
+19. [Granularidad de la segmentación](#19-granularidad-de-la-segmentación)
+20. [Teoría de la estructura retórica (RST)](#20-teoría-de-la-estructura-retórica-rst)
+21. [Caché de prefijo (prompt caching)](#21-caché-de-prefijo-prompt-caching)
+22. [Chunking semántico](#22-chunking-semántico)
 
 ---
 
@@ -225,4 +229,48 @@ en una unidad y su antecedente («oxígeno») en otra, y la variable salió
 incompleta («fuente de este gas»). En textos explicativos las cadenas de
 correferencia cruzan las unidades mucho más que en textos de registro como
 bio1.
+
+## 19. Granularidad de la segmentación
+
+**Qué es.** Qué tan fino se corta un texto al segmentarlo (por idea, por
+subtema, por tema). No hay una granularidad correcta en abstracto: depende de
+para qué se usan las unidades.
+
+**Contexto.** Discusión del paso 1 tras ENC3: en oxi1, la premisa vieja y el
+hallazgo que la contradice van juntas por subtema y separadas por idea. Frat
+fijó el subtema como unidad del paso 1 y el tema como unión de subtemas.
+
+## 20. Teoría de la estructura retórica (RST)
+
+**Qué es.** Mann y Thompson (1988): un texto se describe como tramos unidos
+por relaciones (elaboración, causa, consecuencia, contraste, explicación). En
+cada relación, un tramo es el núcleo (lo central) y el otro el satélite (lo que
+lo desarrolla).
+
+**Contexto.** La definición de Frat del subtema («un asunto nuclear y su
+desarrollo») coincide con ella, y dio el criterio operativo de `unidades_v4`:
+una oración va con el subtema si lo detalla, explica, continúa, contradice o
+saca su consecuencia. `unidades_v1`/`v2` usaban «núcleo» y «satélite» para
+entidades; la RST los usa para tramos de texto.
+
+## 21. Caché de prefijo (prompt caching)
+
+**Qué es.** Cuando varias llamadas a un modelo comparten el mismo comienzo, el
+proveedor no lo vuelve a procesar: lo cobra más barato y responde más rápido.
+Por eso importa el orden del prompt: lo fijo primero, lo que cambia al final.
+
+**Contexto.** Diseño de `datos_u8` (opción A): instrucciones, ejemplos y
+documento completo primero; el foco (las oraciones de la unidad) al final. Los
+crudos ya muestran `cached_tokens` en cada llamada.
+
+## 22. Chunking semántico
+
+**Qué es.** Partir o unir fragmentos de un texto según la similitud de sus
+embeddings (por ejemplo, similitud coseno sobre un umbral). Es la versión
+moderna de TextTiling.
+
+**Contexto.** Propuesta de Frat para unir unidades del mismo asunto tras el
+paso 1. Riesgo: la similitud no distingue asunto de entidad. Quedó para el
+nivel de tema, combinado con Jev (los embeddings proponen candidatos, Jev
+juzga).
 

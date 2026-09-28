@@ -1,0 +1,13 @@
+Ronda U5. Lee AGENTS.md y la sección «Ronda U5» de unidades/PLAN.md.
+
+1. Implementa en unidades/extraer_unidades.py el cambio de la sección «Implementación» de esa ronda, exactamente como se describe. El camino de unidades_v1/v2/v3 no debe cambiar. No modifiques prompts ni documentos. Verifica con python3 -m py_compile y con la regresión sin API que indica la sección. Si algo no es implementable tal cual, detente y pregunta; no decidas diseño.
+
+2. Corre, exportando HTTPS_PROXY y SSL_CERT_FILE como indica AGENTS.md:
+
+python3 unidades/extraer_unidades.py tec2 grok unidades_v4 r1
+
+El LLM que se prueba es Grok 4.7; tú solo implementas y ejecutas. Nunca borres, muevas ni sobrescribas un crudo existente.
+
+Reporte: lo que pide la sección (texto numerado, parsed verbatim, unidades_reconstruidas y verificación; modelo efectivo, tokens y segundos; cerca o error de parseo solo si ocurren). Sin veredicto ni cálculos. Si la llamada falla por autenticación, detente y reporta.
+
+Al terminar: commit y push a main del script y del crudo nuevo (cache/unidades-tec2-grok-unidades_v4-r1.json) con el mensaje «Ronda U5: unidades_v4 (subtemas) sobre tec2 con grok (r1)».
