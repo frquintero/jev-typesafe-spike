@@ -1,0 +1,177 @@
+{
+  "doc": "bio1",
+  "modelo": "grok",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_u10",
+  "rep": "r1",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "la extensión del arrecife, su protección y la profundidad de la cresta",
+      "oraciones_n": [
+        1,
+        2
+      ],
+      "datos": [
+        {
+          "variable": "profundidad de la cresta del arrecife de bahía Coral en marea baja",
+          "valor": "3",
+          "unidad_de_medida": "metros"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "la temperatura del agua en las estaciones",
+      "oraciones_n": [
+        3,
+        4
+      ],
+      "datos": [
+        {
+          "variable": "temperatura del agua en la estación E-2 durante la campaña de agosto al mediodía",
+          "valor": "30,5",
+          "unidad_de_medida": "°C"
+        },
+        {
+          "variable": "temperatura del agua en la estación E-5",
+          "valor": "28",
+          "unidad_de_medida": "°C"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "el blanqueamiento y la resistencia de las colonias y su seguimiento",
+      "oraciones_n": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "datos": [
+        {
+          "variable": "porcentaje de colonias de coral cerebro pálidas en el transecto T-1",
+          "valor": "40",
+          "unidad_de_medida": "%"
+        },
+        {
+          "variable": "estado del tejido de las colonias de coral cuerno de alce",
+          "valor": "sano",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "velocidad de crecimiento de las colonias de coral cuerno de alce",
+          "valor": "rápido",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "número de colonias marcadas por los buzos",
+          "valor": "12",
+          "unidad_de_medida": "unidad"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 4,
+      "subtema": "los censos de peces y la especie más abundante",
+      "oraciones_n": [
+        9,
+        10
+      ],
+      "datos": [
+        {
+          "variable": "número de peces registrados por los censos visuales en el transecto T-1",
+          "valor": "215",
+          "unidad_de_medida": "unidad"
+        },
+        {
+          "variable": "número de peces registrados por los censos visuales en el transecto T-3",
+          "valor": "98",
+          "unidad_de_medida": "unidad"
+        },
+        {
+          "variable": "abundancia del pez loro en los transectos T-1 y T-3",
+          "valor": "la más abundante",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 5,
+      "subtema": "el control de las algas por los herbívoros",
+      "oraciones_n": [
+        11,
+        12
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 6,
+      "subtema": "la menor visibilidad por los sedimentos del río",
+      "oraciones_n": [
+        13,
+        14
+      ],
+      "datos": [
+        {
+          "variable": "visibilidad en la estación E-2",
+          "valor": "8",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "tamaño de los sedimentos que traía el agua del río Manso",
+          "valor": "finos",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 7,
+      "subtema": "la concentración de nitratos en la desembocadura",
+      "oraciones_n": [
+        15
+      ],
+      "datos": [
+        {
+          "variable": "concentración de nitratos de las muestras de la desembocadura del río Manso",
+          "valor": "0,6",
+          "unidad_de_medida": "miligramos por litro"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 8,
+      "subtema": "el cultivo de fragmentos en el vivero y su vigilancia",
+      "oraciones_n": [
+        16,
+        17,
+        18
+      ],
+      "datos": [
+        {
+          "variable": "tamaño de cada fragmento de coral del vivero del proyecto al trasplantarlo",
+          "valor": "unos 5",
+          "unidad_de_medida": "centímetros"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 9,
+      "subtema": "el arrecife como parte de la identidad de la comunidad",
+      "oraciones_n": [
+        19
+      ],
+      "datos": [],
+      "error_parseo": null
+    }
+  ]
+}
