@@ -125,3 +125,15 @@ reutilizado. Una corrida.
 python3 unidades/extraer_datos_doc.py oxi1 flash_high unidades_v5 datos_pABF2 r1
 python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABF2 r1
 ```
+
+## Ronda P9: DeepSeek vuelve a `datos_pABF` (sin lo añadido en base2), oxi1, r3
+
+Decisión de Frat tras P8: quitar lo añadido (frase de «pegado al nombre» y
+fecha de un hecho en Dato; línea de adjetivos) y volver a correr solo DeepSeek.
+Sin lo añadido, el prompt es exactamente `datos_pABF` (base.md + A, B, F). r3:
+réplica nueva, con paso 1 nuevo (en r1 y r2 DeepSeek hizo los mismos 3
+subtemas). Sirve también para ver la variación de ABF entre corridas (r1, r2, r3).
+
+```
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABF r3
+```
