@@ -671,3 +671,20 @@ python3 unidades/extraer_unidades.py evals1 deepseek unidades_v5 r1
 **Reporte:** el de U6 (subtemas con sus oraciones, verificación, modelo
 efectivo, tokens —incluidos los de razonamiento— y segundos). Sin veredicto ni
 cálculos.
+
+## Ronda ENC9: `datos_pABQ5` con DeepSeek sobre evals1 (texto real, genérico y normativo)
+
+Pedido de Frat. Paso 1 reutilizado (crudo de U7: 6 subtemas). Texto
+metodológico: casi todo enunciados genéricos, normas y recomendaciones.
+
+Conjetura: casi todos los focos vacíos. Riesgos: subtema 1 (nombres de
+comandos como valor; «un cambio a la vez»), subtema 2 («algunos ejemplos»),
+subtema 5 («100 %», «dos expertos», en contexto normativo).
+
+```
+python3 unidades/extraer_datos_doc.py evals1 deepseek unidades_v5 datos_pABQ5 r1
+```
+
+**Reporte:** por subtema, el foco y el parsed del paso 2; modelo efectivo,
+tokens (incluidos los de razonamiento) y segundos de cada llamada. Sin veredicto
+ni cálculos.
