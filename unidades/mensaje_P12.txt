@@ -1,0 +1,11 @@
+Ronda P12. Lee AGENTS.md y la sección «Ronda P12» de prototipos/PLAN.md.
+
+Corre, sin modificar ningún archivo, exportando HTTPS_PROXY y SSL_CERT_FILE como indica AGENTS.md:
+
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABQ3 r1
+
+El paso 1 no se repite (es lo esperado). El LLM que se prueba es DeepSeek (deepseek-flash); tú solo ejecutas. Nunca borres, muevas ni sobrescribas un crudo existente. Si una llamada falla por autenticación o por créditos, detente y reporta.
+
+Reporte: la salida del comando. Sin veredicto ni cálculos.
+
+Al terminar: commit y push a main de los crudos nuevos (unidades/cache/datos-oxi1-unidades_v5-u*-deepseek-datos_pABQ3-r1.json, unidades/cache/doc-oxi1-deepseek-unidades_v5-datos_pABQ3-r1.json) con el mensaje «Ronda P12: datos_pABQ3 sobre oxi1 con DeepSeek (r1)».

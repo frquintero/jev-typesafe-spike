@@ -167,3 +167,17 @@ paso 1 reutilizado (ENC5).
 ```
 python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABQ2 r1
 ```
+
+## Ronda P12: `datos_pABQ3` (prompt de Frat) con DeepSeek sobre oxi1
+
+Prompt escrito por Frat: Variable con correferencia explícita; Valor conserva
+cuantificadores y matices; Unidad para cantidades con o sin cifra (millones →
+unidad; décadas → década); No son datos amplía relaciones nombradas con
+sustantivo (origen, fuente, método, contenido), adjetivos que identifican o
+clasifican (riesgos ambientales) y lo que el texto no presenta como hecho
+(creencias, hipótesis, posibilidades); ejemplos 1–3 iguales a `datos_pABQ2` y
+ejemplo 4 nuevo (lago Azul, un solo dato). Una corrida, paso 1 reutilizado.
+
+```
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABQ3 r1
+```
