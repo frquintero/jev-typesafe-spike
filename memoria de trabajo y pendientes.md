@@ -1,6 +1,14 @@
 # Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 29-09-2026 (tras las rondas de prototipos P1–P4; paso 2 casi cerrado con `datos_pAB`; el cuello de botella pasó al paso 1). No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md`.
+Estado al 29-09-2026, fin de sesión. No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md` (`unidades/PLAN.md`, `prototipos/PLAN.md`).
+
+## Dónde quedamos (leer primero)
+
+- **Prompt vigente del paso 2: `datos_pABQ5`** (escrito por Frat; `unidades/prompts/datos_pABQ5.md`). Del paso 1: `unidades_v5`. Modelo en uso: DeepSeek (xAI sin créditos: Grok da 403).
+- **Última prueba: ENC9**, `datos_pABQ5` sobre **evals1**, un texto real metodológico (Anthropic sobre diseño de evaluaciones; `unidades/docs/evals1.md`, segmentado en `unidades/evals1_unidades.md`). Resultado: 5 de 6 focos vacíos y un dato en zona gris («algunos ejemplos»). Frat: acertó en más del 90 % en un texto «difícil» porque no tiene datos. Análisis en §4.
+- **Discusión abierta al cerrar:** (a) ¿el **metadiscurso** (el texto hablando de sí mismo: «cerraremos mostrando algunos ejemplos», «primero destacamos… después…») produce datos? Decide los dos casos de evals1 a la vez. (b) Hipótesis H1 (§6): los tokens de razonamiento delatan los bordes; no probada.
+- **Siguiente paso natural:** decidir (a); reconciliar la gold de oxi1 con las decisiones de `datos_pABQ3`–`5` (pendiente 1); luego la prueba de verdad (pendiente 4). Nada lanzado ni en curso.
+- **Píldoras:** viven en `~/Claude-memoria/pildoras.md` (fuera del repo, con índice temático). Las últimas: 28 OFAT y 29 metadiscurso.
 
 ## 0. Dónde y cómo
 
@@ -28,7 +36,7 @@ Estado al 29-09-2026 (tras las rondas de prototipos P1–P4; paso 2 casi cerrado
 Extraer los **datos** de un texto, en el sentido del ensayo de Frat «¿Qué es un dato?», con un LLM barato (Grok 4.7 o DeepSeek `deepseek-flash`, razonamiento `low`), en dos pasos encadenados (`unidades/`). Meta: un prompt que acierte cerca del 90 % de los casos; la zona gris la juzga después Jev.
 
 1. **Subtemas** (`extraer_unidades.py`, prompt `unidades_v5`): el código parte el texto en oraciones y las numera; el LLM las agrupa en subtemas, `{"subtemas": [{"subtema", "oraciones": [n, …]}]}`.
-2. **Datos por subtema** (prompts candidatos `datos_pAB` y `datos_pABF`): una llamada por subtema con el **documento completo numerado** y el **foco** (las oraciones del subtema, seguidas o separadas); el LLM devuelve `{"datos": [{"variable", "valor", "unidad_de_medida"}]}`.
+2. **Datos por subtema** (prompt vigente `datos_pABQ5`): una llamada por subtema con el **documento completo numerado** y el **foco** (las oraciones del subtema, seguidas o separadas); el LLM devuelve `{"datos": [{"variable", "valor", "unidad_de_medida"}]}`.
 
 **Cadena completa:** `extraer_datos_doc.py <doc> <modelo> <prompt_unidades> <prompt_datos> <rN>`: corre el paso 1 (o reutiliza su crudo si existe), arma documento y foco en código, envía `x-grok-conv-id` para la caché de prefijo en xAI y deja un consolidado `cache/doc-<doc>-…json`.
 
@@ -58,7 +66,9 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 
 ## 4. Paso 2: datos por subtema
 
-- **Prompts candidatos: `datos_pAB`** (429 palabras) y **`datos_pABF`** (525; + prototipo F, ver P4) = `prototipos/base.md` (definiciones y «No son datos» de `datos_u10` + línea de formato) + dos ejemplos prototípicos: **A** número con unidad (medida, conteo con «unidad», porcentaje) y **B** fecha u hora de un hecho. Pendiente de guardar como `datos_u11` cuando Frat lo apruebe.
+- **Prompt vigente: `datos_pABQ5`** (P14, escrito por Frat). Base `prototipos/base3.md` + ejemplos 1–4: números con unidad, tiempo de un hecho, cualidades (Q, dichas aparte o pegadas al nombre) y un ejemplo con un solo dato (lago Azul, frente a lo que creían los pescadores). Respecto de lo anterior: F salió (mezclaba cinco fenómenos y empujaba a «dato = número»); la Variable debe entenderse sin leer el documento (aspecto, de qué es, circunstancias del documento que hagan falta para identificarlo); el Valor conserva cuantificadores y matices, admite cualidades dadas por comparación; la Unidad vale para cantidades con o sin cifra (millones → unidad; siglos → siglo); «No son datos» suma las relaciones nombradas con sustantivo (origen, fuente, método), los adjetivos que identifican o clasifican y el contenido de creencias, hipótesis o posibilidades.
+- **Rondas P5–P14 (oxi1, 28-09):** GLM 5.3 Flash se abstiene de más (3–5 datos, aun en `high`); DeepSeek osciló entre 5 y 18 datos con ABF y variantes. Gold de oxi1 validada por Frat (`unidades/gold/oxi1.json`, 18 datos) sobre la salida de P11 (`datos_pABQ2`, que la reprodujo completa). **P14 (`pABQ5`): 9 datos, los 9 en la gold, ninguno de más**; faltan los que las decisiones de `pABQ3`–`5` excluyen a propósito (lo que se creía: «prácticamente todo», «décadas»; fuente; método «electrólisis»; «nombre del fenómeno»; todo el foco 3: «crítico», «ambientales», «gran escala», «masiva»). La gold es anterior a esas decisiones: hay que reconciliarlas.
+- **Antecedente (P1–P4): `datos_pAB`** (429 palabras) y **`datos_pABF`** (525; + prototipo F, ver P4) = `prototipos/base.md` (definiciones y «No son datos» de `datos_u10` + línea de formato) + dos ejemplos prototípicos: **A** número con unidad (medida, conteo con «unidad», porcentaje) y **B** fecha u hora de un hecho. Pendiente de guardar como `datos_u11` cuando Frat lo apruebe.
 - **Definiciones vigentes** (desde `datos_u9`): Documento; Foco (conjunto de oraciones de las que se extraen los datos; el resto del documento solo sirve para saber a qué se refiere cada expresión); Variable (aspecto de una cosa, lugar, persona o hecho individual en el que caben diferencias de valor; se nombra con aquello a lo que pertenece y sus circunstancias); Valor (cantidad —medida, conteo, fracción, fecha, hora— o cualidad; lo vago o aproximado conserva su cuantificador); Unidad de medida (la unidad en que se expresa un número; null si el valor no lleva número); Dato (variable + valor + unidad). **No son datos:** lo que solo afirma o niega (su valor sería sí o no), las relaciones entre cosas, los adjetivos del nombre y los enunciados genéricos. La sección se llama «No son datos», no «Reglas»: solo excluye.
 - **Prototipos (P1, Grok, batería de 15 textos, 29 datos):** k0 (sin ejemplos) 19/29, A 23/29, AB 29/29 y ABC, ABCD, ABCDE también 29/29. Los 10 fallos de k0 fueron todos de convención de unidad («cajas» por «unidad»; null por «fecha» u «hora»); ningún falso dato en ninguna configuración. Decidir que no hay nada fue lo más caro (1175–1957 tokens por texto).
 - **Documentos reales (P2, Grok, contra `datos_u10`):** tec1 igual (9 datos, 58 s); oxi1 mejor (recupera «millones», 6 datos); bio1 casi igual (14 datos, 93 s frente a 118): vuelve «especie más abundante = pez loro»; pierde «finos» y los metales; saca «hora = al mediodía» de una medición. ABE quedó incompleto (créditos de xAI agotados en bio1); en oxi1 no mejoró a AB.
@@ -71,7 +81,7 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 
 - **Texto genérico sin datos es resultado correcto** (ENC9): el dato es de un caso, no de una clase; las generalizaciones y reglas de un texto metodológico son garantías (nivel de los argumentos), no datos. No se amplía «dato» para que entren.
 - **Pertinencia:** en los bordes, que algo sea dato depende de la práctica que haga pertinente la variable (ensayo l. 121). «Cantidad de ejemplos que trae el artículo = algunos»: a primera vista no; zona gris para Jev.
-- **Modo de una acción no es propiedad del objeto:** «mejorar… un cambio a la vez» es el método de la acción (excluido con las relaciones), no un atributo del comando, a diferencia de «capacidad del tanque = 30000 litros».
+- **Modo de una acción no es propiedad del objeto:** «mejorar… un cambio a la vez» es el método de la acción (excluido con las relaciones), no un atributo del comando, a diferencia de «capacidad del tanque = 30000 litros». Además es un principio general (OFAT) que el texto anuncia como tal (or. 5): una garantía, no un dato. ChatGPT lo defendió como dato; no se aceptó.
 - **Variable = magnitud individual** (VIM4, nota 2: «the radius of circle a is an instance of length»): «peso de la caja», no «peso» con un caso aparte.
 - **Valor literal**, tal como aparece en `texto`, sin la unidad: «30000», unidad «litros»; «6 de la mañana», unidad «hora».
 - **`unidad_de_medida` en lugar de `escala`:** «escala» es polisémica (el modelo la leía como nominal/ordinal). Los valores cualitativos no tienen unidad de medida: `null`. Los conteos llevan «unidad» (magnitud de dimensión uno).
@@ -131,12 +141,14 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 
 ## 7. Pendientes
 
-1. Decidir `datos_u11`: ABF parece la mejor base (F no debería dañar informes); falta confirmarlo con Grok y con un informe (tec1 o bio1).
-2. Completar ABE sobre bio1 con Grok cuando haya créditos de xAI (baja prioridad: nada indica que E haga falta).
-3. **Paso 1 con el método de prototipos:** batería corta, curva de ejemplos, medir tokens; resolver la fragmentación de Grok en informes (tec1) y su lentitud.
-4. Prueba de verdad de la cadena: documento ajeno con gold escrito antes de correr, más desordenado (tablas, abreviaturas, rangos, negaciones, fechas), del tipo que recibirá Zettel; de preferencia un ensayo.
+1. **Reconciliar la gold de oxi1** con las decisiones de `datos_pABQ3`–`5` (creencias, fuente, método, adjetivos que clasifican, foco 3). Con la gold actual, P14 da 9/18 sin falsos; con la reconciliada se sabrá cuánto falta de verdad.
+2. **Metadiscurso:** ¿produce datos? («algunos ejemplos», or. 5 de evals1). Si sí, la variable respeta el futuro del texto («que el artículo mostrará», no «mostrados»).
+3. **Paso 1 con el método de prototipos:** batería corta, curva de ejemplos, medir tokens; resolver la fragmentación de Grok en informes (tec1) y su lentitud. En evals1 el subtema 1 salió con dos asuntos pegados.
+4. Prueba de verdad de la cadena: documento ajeno con gold escrito antes de correr, más desordenado (tablas, abreviaturas, rangos, negaciones, fechas), del tipo que recibirá Zettel; de preferencia un ensayo. Probar `pABQ5` también en un informe (tec1 o bio1).
 5. Nivel de **tema** (unión de subtemas relacionados) para Zettel: embeddings proponen candidatos, Jev juzga.
 6. Zona gris (terreno de Jev, no del prompt): «algunos ejemplos» (evals1), «finos», composición con valores de tipo («níquel, cobalto y manganeso»), «millones», hora de una medición, superlativos (dato de segundo orden).
 7. Frontera entre dato y afirmación (creencias, hipótesis, tesis explicativas): niveles 1 y 2 del grafo de Zettel.
 8. Escala: documentos largos (ventanas superpuestas, partición recursiva).
 9. Jev: auditoría de los datos, graduación de confianza, canonicalización de variables, reidentificación de casos entre textos, procedencia como capa propia.
+10. H1 (§6), solo si llega a importar para Jev: repetir focos con y sin números en la superficie.
+11. Grok sin créditos de xAI: recargar antes de volver a compararlo.
