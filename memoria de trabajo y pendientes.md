@@ -5,9 +5,9 @@ Estado al 29-09-2026, fin de sesión. No es bitácora: solo lo vigente. La histo
 ## Dónde quedamos (leer primero)
 
 - **Prompt vigente del paso 2: `datos_pABQ5`** (escrito por Frat; `unidades/prompts/datos_pABQ5.md`). Del paso 1: `unidades_v5`. Modelo en uso: DeepSeek (xAI sin créditos: Grok da 403).
-- **Última prueba: ENC9**, `datos_pABQ5` sobre **evals1**, un texto real metodológico (Anthropic sobre diseño de evaluaciones; `unidades/docs/evals1.md`, segmentado en `unidades/evals1_unidades.md`). Resultado: 5 de 6 focos vacíos y un dato en zona gris («algunos ejemplos»). Frat: acertó en más del 90 % en un texto «difícil» porque no tiene datos. Análisis en §4.
-- **Discusión abierta al cerrar:** (a) ¿el **metadiscurso** (el texto hablando de sí mismo: «cerraremos mostrando algunos ejemplos», «primero destacamos… después…») produce datos? Decide los dos casos de evals1 a la vez. (b) Hipótesis H1 (§6): los tokens de razonamiento delatan los bordes; no probada.
-- **Siguiente paso natural:** decidir (a); reconciliar la gold de oxi1 con las decisiones de `datos_pABQ3`–`5` (pendiente 1); luego la prueba de verdad (pendiente 4). Nada lanzado ni en curso.
+- **Última prueba: ENC9**, `datos_pABQ5` sobre **evals1**, un texto real metodológico (Anthropic sobre diseño de evaluaciones; `unidades/docs/evals1.md`, segmentado en `unidades/evals1_unidades.md`). Resultado: 5 de 6 focos vacíos y un dato, «algunos ejemplos», que con la decisión del metadiscurso (§4) es correcto: 6 de 6 bajo el prompt. Esa decisión se tomó viendo la salida: confirmarla con gold previa (pendiente 4). Análisis en §4.
+- **Decidido (29-09):** el metadiscurso no es criterio, ni a favor ni en contra; «algunos ejemplos» es dato; la pertinencia sale del extractor sin excepción. Principio operativo: cadena y terminología en §5. Sigue abierta la hipótesis H1 (§6): los tokens de razonamiento delatan los bordes; no probada.
+- **Siguiente paso natural:** reconciliar la gold de oxi1 con las decisiones de `datos_pABQ3`–`5` y con el principio operativo (pendiente 1); luego la prueba de verdad (pendiente 4). Nada lanzado ni en curso.
 - **Píldoras:** viven en `~/Claude-memoria/pildoras.md` (fuera del repo, con índice temático). Las últimas: 28 OFAT y 29 metadiscurso.
 
 ## 0. Dónde y cómo
@@ -73,14 +73,15 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 - **Prototipos (P1, Grok, batería de 15 textos, 29 datos):** k0 (sin ejemplos) 19/29, A 23/29, AB 29/29 y ABC, ABCD, ABCDE también 29/29. Los 10 fallos de k0 fueron todos de convención de unidad («cajas» por «unidad»; null por «fecha» u «hora»); ningún falso dato en ninguna configuración. Decidir que no hay nada fue lo más caro (1175–1957 tokens por texto).
 - **Documentos reales (P2, Grok, contra `datos_u10`):** tec1 igual (9 datos, 58 s); oxi1 mejor (recupera «millones», 6 datos); bio1 casi igual (14 datos, 93 s frente a 118): vuelve «especie más abundante = pez loro»; pierde «finos» y los metales; saca «hora = al mediodía» de una medición. ABE quedó incompleto (créditos de xAI agotados en bio1); en oxi1 no mejoró a AB.
 - **DeepSeek (P3):** con AB bien en informes (bio1 mejor que u9, 96 s; tec1 gana «lunes» pero saca «filtro = saturado»); en el ensayo oxi1 sacó de más (17 datos, 24 773 tokens): lo que se creía, lo que podría pasar, comparaciones, lugares y el tono del autor. **P4:** prototipo **F** (negativo de ensayo: lo que se creía, lo que podría pasar y una comparación, junto a un dato real) → `datos_pABF` (525 palabras) con DeepSeek sobre oxi1: de 17 a 9 datos, de 106 a 71 s y de 24 773 a 16 316 tokens; desaparecen creencias, hipótesis, comparaciones, lugares y tono, y el foco 3 queda vacío (1688 tokens frente a 10 279). Quedan «fuente del oxígeno = proceso electroquímico geológico» (tesis explicativa, pendiente 7) y «forma del oxígeno = libre». Candidato para ensayos: ABF.
-- **Texto genérico (ENC9, DeepSeek, `datos_pABQ5` sobre evals1):** un texto metodológico lleno de números y cuantificadores pero sin casos individuales. 5 de 6 focos vacíos; rechazó «100 %», «dos expertos», «un cambio a la vez», los nombres de los comandos y «alta/baja variación»; el único dato fue «cantidad de ejemplos… = algunos» (zona gris). ChatGPT, aplicando el prompt a mano, llegó a lo mismo salvo ese dato. Los tokens de razonamiento se dispararon justo en los focos con bordes (2173–3310 frente a 457–879). «Un cambio a la vez» es un principio de método (OFAT) que el texto anuncia como tal (or. 5), no una propiedad del comando. «Algunos ejemplos» y la or. 5 son metadiscurso (el texto hablando de sí mismo); DeepSeek extrajo del primero y no de la segunda.
+- **Texto genérico (ENC9, DeepSeek, `datos_pABQ5` sobre evals1):** un texto metodológico lleno de números y cuantificadores pero sin casos individuales. 5 de 6 focos vacíos; rechazó «100 %», «dos expertos», «un cambio a la vez», los nombres de los comandos y «alta/baja variación»; el único dato fue «cantidad de ejemplos… = algunos» (zona gris). ChatGPT, aplicando el prompt a mano, llegó a lo mismo salvo ese dato. Los tokens de razonamiento se dispararon justo en los focos con bordes (2173–3310 frente a 457–879). «Un cambio a la vez» es un principio de método (OFAT) que el texto anuncia como tal (or. 5), no una propiedad del comando. «Algunos ejemplos» y la or. 5 son metadiscurso (el texto hablando de sí mismo); DeepSeek extrajo del primero y no de la segunda; los dos resultados son correctos (decisión del metadiscurso, abajo).
 - **Formato:** `variable` (completa: caso, circunstancias y método cuando define qué se midió), `valor` (literal, sin la unidad), `unidad_de_medida`.
 - **Historia corta:** definiciones largas (`u3`–`u4`) → seudodatos; solo ejemplos (`u5`) → mejor; definiciones cortas + ejemplos nodo (`u6`–`u7`) → 39/39 en ut1–ut5; documento completo + foco (`u8`); definiciones reestructuradas, «No son datos», genéricos y cantidades vagas (`u9`); fecha de un hecho es dato (`u10`); prototipos mínimos (`pAB`).
 
 ### Decisiones de Frat sobre qué es dato (DU5–P4)
 
 - **Texto genérico sin datos es resultado correcto** (ENC9): el dato es de un caso, no de una clase; las generalizaciones y reglas de un texto metodológico son garantías (nivel de los argumentos), no datos. No se amplía «dato» para que entren.
-- **Pertinencia:** en los bordes, que algo sea dato depende de la práctica que haga pertinente la variable (ensayo l. 121). «Cantidad de ejemplos que trae el artículo = algunos»: a primera vista no; zona gris para Jev.
+- **La pertinencia sale del extractor, sin excepción** (29-09): el extractor reinscribe toda determinación bien formada que el texto presenta como hecho, dentro de su alcance; la pertinencia respecto de la práctica (ensayo l. 121, también en los bordes) la juzga Jev después. Principio operativo en §5.
+- **El metadiscurso no es criterio** (29-09), ni a favor ni en contra: el texto puede ser caso. «Cantidad de ejemplos de esos comandos que el artículo mostrará al cerrar = algunos» (evals1) es dato; el futuro se conserva (atribución presente, contenido futuro: el anuncio es un compromiso del autor sobre su propio texto, verificable en el mismo documento, no una creencia). La or. 5 no da dato por razones propias: el orden de las partes es una relación, y «partes del artículo = 2» exigiría un conteo que el texto no dice.
 - **Modo de una acción no es propiedad del objeto:** «mejorar… un cambio a la vez» es el método de la acción (excluido con las relaciones), no un atributo del comando, a diferencia de «capacidad del tanque = 30000 litros». Además es un principio general (OFAT) que el texto anuncia como tal (or. 5): una garantía, no un dato. ChatGPT lo defendió como dato; no se aceptó.
 - **Variable = magnitud individual** (VIM4, nota 2: «the radius of circle a is an instance of length»): «peso de la caja», no «peso» con un caso aparte.
 - **Valor literal**, tal como aparece en `texto`, sin la unidad: «30000», unidad «litros»; «6 de la mañana», unidad «hora».
@@ -104,8 +105,25 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 - **Hecho y determinación:** una frase que solo distingue (algo es, una relación existe) registra un hecho, no un dato. Un hecho puede abrir preguntas cuya respuesta sí sería un dato («colinda con el pozo» abre `distancia(pozo, finca) = ?`).
 - **Condiciones:** constitutivas (si cambian, cambia la pregunta), de representación, de procedencia.
 - **Procedencia:** quien dice o cómo se obtuvo no forma parte del dato; es un dato de otro orden, sobre la ruta (l. 161-163, 293), y pesa en la robustez del sostén. En el extractor, precisado por la decisión de completitud (§4): el método que define qué se midió va en la variable; la procedencia es la fuente del dicho.
-- **Dato:** determinación registrada de modo recuperable. **Información:** el cambio en las respuestas admisibles a una pregunta al considerar un dato.
+- **Dato:** determinación registrada de modo recuperable. Una misma determinación en dos inscripciones es un solo dato («contar filas es contar marcas»: distinción tipo/ejemplar). **Información:** el cambio en las respuestas admisibles a una pregunta al considerar un dato.
 - **Vocabulario del prompt y del ensayo:** el prompt usa «variable» (magnitud individual) y «unidad de medida»; en el ensayo, la variable es el aspecto y la escala es más amplia (unidades, categorías, orden, precisión). El nombre del campo es interfaz con el modelo, no la teoría; el código o `esquema.json` puede ubicar la unidad dentro de la escala. Las condiciones constitutivas viven hoy dentro de la variable.
+
+### Principio operativo: cadena y terminología (29-09)
+
+- **Subtema:** un asunto nuclear y su desarrollo, en una o varias oraciones del documento, seguidas o separadas.
+- **Foco:** ese subtema cuando se entrega al extractor; el resto del documento solo sirve para saber a qué se refiere cada expresión.
+- **Caso:** aquello individuado y reidentificable a lo que una atribución le fija un valor; puede nombrarse dentro o fuera del foco, e incluso contenerlo (el artículo en evals1). En el foco no está el caso sino enunciados.
+- **Atribución:** la operación (medir, clasificar, aplicar una regla, informar) que fija un valor a una variable de un caso; en el foco está su enunciado.
+- **Determinación:** el resultado de la atribución; cierra la pregunta `variable(caso, condiciones) = ?`.
+- **Dato:** la determinación registrada de modo recuperable. El documento es su primera inscripción.
+- **Salida JSON:** una nueva inscripción del dato, `{variable, valor, unidad_de_medida}`, legible fuera del documento (el caso y las condiciones van comprimidos en la variable). Por eso puede agregar o perder algo.
+
+**Cadena:** Documento (primera inscripción) → subtemas → cada uno pasa a ser foco → en el foco, enunciados → el extractor reconstruye las determinaciones que el documento **presenta como hecho** y que están bien formadas (lo que excluye «No son datos», criterio de alcance) → las registra en una **nueva inscripción** JSON → Jev juzga (a) **identidad**: si la inscripción recupera la misma determinación, sin agregar ni perder, y (b) **pertinencia** respecto de la práctica.
+
+**El extractor no crea el dato: lo reinscribe.** No filtra por pertinencia, ni siquiera en los bordes.
+
+- **Alcance no es ontología:** «número de truchas que los pescadores creían que había en el lago = más de mil» es una determinación bien formada (su caso son los pescadores); el extractor la excluye por alcance (pendiente 7), no porque no sea determinación.
+- **Vocabulario partido:** `unidades_v5` dice «subtema»; `datos_pABQ5` dice «unidad temática» y llama «Dato» a la terna (lo que aquí es la inscripción). Es interfaz con el modelo; se unifica en la próxima ronda que toque el prompt (pendiente 2).
 
 ## 6. Lecciones
 
@@ -136,17 +154,17 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 - **Nivel de razonamiento efectivo** (docs oficiales, 28-09): DeepSeek solo tiene `high` y `max`; nuestro `low` se convierte en `high`. GLM 5.3 Flash tiene `low`, `high` y `max` (por defecto `max`, siempre razona); con `low` razonó 0–87 tokens por foco. Grok corre en `low`. Los puntajes de Artificial Analysis se miden en `max`: no se trasladan a nuestras corridas.
 - **Cada modelo tiene su temperamento ante el mismo prompt:** GLM se abstiene cuando duda («Conservative: depth»; AA-Omniscience +7) y necesita un ejemplo positivo de cualidades; DeepSeek afirma de más (AA-Omniscience −5) y necesita el negativo de ensayo (F).
 
-- **Un texto sin datos mide una sola cara del extractor** (ENC9): que no invente. Un prompt que siempre devolviera vacío sacaría 100 %; vale junto a un gold con datos (oxi1).
+- **Un texto sin datos mide una sola cara del extractor** (ENC9; evals1 conserva un dato tras la decisión del metadiscurso): que no invente. Un prompt que siempre devolviera vacío sacaría 100 %; vale junto a un gold con datos (oxi1).
 - **Hipótesis H1 (no probada): los tokens de razonamiento delatan los bordes.** En ENC9 se dispararon justo en los focos que el análisis previo marcó como riesgosos, pero son seis focos y una corrida. Confusor posible: esos focos son también los que traen números o cuantificadores en la superficie. Si se confirma, sería una señal barata para mandar a revisión (como la franja central de Jev).
 
 ## 7. Pendientes
 
-1. **Reconciliar la gold de oxi1** con las decisiones de `datos_pABQ3`–`5` (creencias, fuente, método, adjetivos que clasifican, foco 3). Con la gold actual, P14 da 9/18 sin falsos; con la reconciliada se sabrá cuánto falta de verdad.
-2. **Metadiscurso:** ¿produce datos? («algunos ejemplos», or. 5 de evals1). Si sí, la variable respeta el futuro del texto («que el artículo mostrará», no «mostrados»).
+1. **Reconciliar la gold de oxi1** con las decisiones de `datos_pABQ3`–`5` (creencias, fuente, método, adjetivos que clasifican, foco 3) y con el principio operativo (§5): se excluye por forma o alcance, nunca por pertinencia. Con la gold actual, P14 da 9/18 sin falsos; con la reconciliada se sabrá cuánto falta de verdad.
+2. **Unificar el vocabulario de los prompts** («subtema» frente a «unidad temática»; «Dato» como terna) en la próxima ronda que toque `datos_pABQ*`; no justifica una ronda propia.
 3. **Paso 1 con el método de prototipos:** batería corta, curva de ejemplos, medir tokens; resolver la fragmentación de Grok en informes (tec1) y su lentitud. En evals1 el subtema 1 salió con dos asuntos pegados.
-4. Prueba de verdad de la cadena: documento ajeno con gold escrito antes de correr, más desordenado (tablas, abreviaturas, rangos, negaciones, fechas), del tipo que recibirá Zettel; de preferencia un ensayo. Probar `pABQ5` también en un informe (tec1 o bio1).
+4. Prueba de verdad de la cadena: documento ajeno con gold escrito antes de correr, más desordenado (tablas, abreviaturas, rangos, negaciones, fechas), del tipo que recibirá Zettel; de preferencia un ensayo, con un anuncio metadiscursivo con cantidad (la decisión del metadiscurso se tomó viendo la salida). Probar `pABQ5` también en un informe (tec1 o bio1).
 5. Nivel de **tema** (unión de subtemas relacionados) para Zettel: embeddings proponen candidatos, Jev juzga.
-6. Zona gris (terreno de Jev, no del prompt): «algunos ejemplos» (evals1), «finos», composición con valores de tipo («níquel, cobalto y manganeso»), «millones», hora de una medición, superlativos (dato de segundo orden).
+6. Zona gris (terreno de Jev, no del prompt): «finos», composición con valores de tipo («níquel, cobalto y manganeso»), «millones», hora de una medición, superlativos (dato de segundo orden).
 7. Frontera entre dato y afirmación (creencias, hipótesis, tesis explicativas): niveles 1 y 2 del grafo de Zettel.
 8. Escala: documentos largos (ventanas superpuestas, partición recursiva).
 9. Jev: auditoría de los datos, graduación de confianza, canonicalización de variables, reidentificación de casos entre textos, procedencia como capa propia.
