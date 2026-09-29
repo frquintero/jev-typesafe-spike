@@ -656,3 +656,16 @@ python3 unidades/extraer_datos_doc.py bio1 grok unidades_v5 datos_u10 r1
 **Reporte:** por subtema, el foco y el parsed del paso 2; modelo efectivo,
 tokens (incluidos los de razonamiento) y segundos de cada llamada. Sin veredicto
 ni cálculos.
+
+## Ronda U4: `unidades_v2` sobre un texto real (evals1), Grok
+
+Primer texto no técnico ni sintético: un fragmento traducido de un artículo
+sobre diseño de evaluaciones (`docs/evals1.md`, aportado por Frat; el
+encabezado «DISEÑO DE EVALUACIONES» va como título, `##`). Sin gold: la
+lectura la hacen Frat y Cowork.
+
+```
+python3 unidades/extraer_unidades.py evals1 grok unidades_v2 r1
+```
+
+**Reporte:** el mismo de U1. Sin veredicto.
