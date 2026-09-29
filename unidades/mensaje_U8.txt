@@ -1,0 +1,5 @@
+Ronda U8. Lee AGENTS.md y la sección «Ronda U8» de unidades/PLAN.md y corre, sin modificar nada:
+
+python3 unidades/extraer_unidades.py banrep1 deepseek unidades_v5 r1
+
+Repórtame el JSON parsed verbatim, si venía con cerca o hubo error de parseo, la verificación tal como la imprime el script, el modelo efectivo, los tokens (prompt_tokens, completion_tokens, reasoning_tokens) y los segundos. Sin veredicto. Si hay error, detente y repórtalo tal cual. Al terminar, haz commit del crudo y push a main.

@@ -688,3 +688,21 @@ python3 unidades/extraer_datos_doc.py evals1 deepseek unidades_v5 datos_pABQ5 r1
 **Reporte:** por subtema, el foco y el parsed del paso 2; modelo efectivo,
 tokens (incluidos los de razonamiento) y segundos de cada llamada. Sin veredicto
 ni cálculos.
+
+## Ronda U8: `unidades_v5` sobre un texto real (banrep1), DeepSeek
+
+Pedido de Frat: correr el prompt 1 vigente sobre un informe real de
+expectativas de política monetaria (Banco de la República, septiembre de
+2026; `docs/banrep1.md`, 9 oraciones). Los subtemas servirán para armar el
+gold del paso 2 con ChatGPT, escrito antes de correr el paso 2. Texto
+pegado desde un PDF: se quitaron las viñetas (cada una es un párrafo) y se
+separaron las palabras pegadas; nada más. Con DeepSeek (xAI sin créditos).
+Sin gold del paso 1.
+
+```
+python3 unidades/extraer_unidades.py banrep1 deepseek unidades_v5 r1
+```
+
+**Reporte:** el de U7 (subtemas con sus oraciones, verificación, modelo
+efectivo, tokens —incluidos los de razonamiento— y segundos). Sin veredicto ni
+cálculos.
