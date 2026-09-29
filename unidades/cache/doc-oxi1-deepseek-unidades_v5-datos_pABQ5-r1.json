@@ -1,0 +1,87 @@
+{
+  "doc": "oxi1",
+  "modelo": "deepseek",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_pABQ5",
+  "rep": "r1",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "el hallazgo de producción de oxígeno en el fondo abisal frente a la dependencia de la fotosíntesis",
+      "oraciones_n": [
+        1,
+        2
+      ],
+      "datos": [
+        {
+          "variable": "profundidad a la que la ciencia detectó una producción constante de oxígeno en la llanura abisal del océano Pacífico",
+          "valor": "cuatro mil",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "constancia de la producción de oxígeno detectada por la ciencia en la llanura abisal del océano Pacífico",
+          "valor": "constante",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "oscuridad del entorno donde la ciencia detectó la producción de oxígeno en la llanura abisal del océano Pacífico",
+          "valor": "total",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "presión del entorno donde la ciencia detectó la producción de oxígeno en la llanura abisal del océano Pacífico",
+          "valor": "extrema",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "el origen electroquímico geológico del oxígeno oscuro",
+      "oraciones_n": [
+        3,
+        4,
+        5
+      ],
+      "datos": [
+        {
+          "variable": "número de nódulos polimetálicos en el lecho oceánico de la llanura abisal del océano Pacífico",
+          "valor": "millones",
+          "unidad_de_medida": "unidad"
+        },
+        {
+          "variable": "metales contenidos en los nódulos polimetálicos del lecho oceánico de la llanura abisal del océano Pacífico",
+          "valor": "níquel, cobalto y manganeso, entre otros",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "distribución de cargas eléctricas entre los nódulos polimetálicos del lecho oceánico de la llanura abisal del océano Pacífico",
+          "valor": "irregular",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "magnitud de las diferencias de potencial entre los nódulos polimetálicos del lecho oceánico de la llanura abisal del océano Pacífico",
+          "valor": "comparables a baterías químicas ordinarias",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "forma del oxígeno liberado por el proceso electroquímico geológico en el lecho oceánico de la llanura abisal del océano Pacífico",
+          "valor": "libre",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "las implicaciones del oxígeno oscuro para el origen de la vida y la minería marina",
+      "oraciones_n": [
+        6,
+        7
+      ],
+      "datos": [],
+      "error_parseo": null
+    }
+  ]
+}
