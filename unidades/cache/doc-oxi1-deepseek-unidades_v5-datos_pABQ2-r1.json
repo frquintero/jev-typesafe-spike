@@ -1,0 +1,133 @@
+{
+  "doc": "oxi1",
+  "modelo": "deepseek",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_pABQ2",
+  "rep": "r1",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "el hallazgo de producción de oxígeno en el fondo abisal frente a la dependencia de la fotosíntesis",
+      "oraciones_n": [
+        1,
+        2
+      ],
+      "datos": [
+        {
+          "variable": "proporción del oxígeno de la Tierra que dependía de la fotosíntesis impulsada por la luz solar",
+          "valor": "prácticamente todo",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "duración durante la que se sostuvo la premisa de que prácticamente todo el oxígeno de la Tierra dependía de la fotosíntesis impulsada por la luz solar",
+          "valor": "décadas",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "profundidad de la llanura abisal del océano Pacífico donde la ciencia detectó producción de oxígeno",
+          "valor": "cuatro mil",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "luminosidad del entorno de la llanura abisal del océano Pacífico donde la ciencia detectó producción de oxígeno",
+          "valor": "oscuridad total",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "presión del entorno de la llanura abisal del océano Pacífico donde la ciencia detectó producción de oxígeno",
+          "valor": "extrema",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "estabilidad de la producción de oxígeno detectada por la ciencia en la llanura abisal del océano Pacífico",
+          "valor": "constante",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "el origen electroquímico geológico del oxígeno oscuro",
+      "oraciones_n": [
+        3,
+        4,
+        5
+      ],
+      "datos": [
+        {
+          "variable": "fuente del oxígeno",
+          "valor": "proceso electroquímico geológico",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "número de nódulos polimetálicos en el lecho oceánico",
+          "valor": "millones",
+          "unidad_de_medida": "unidad"
+        },
+        {
+          "variable": "metales contenidos en los nódulos polimetálicos del lecho oceánico",
+          "valor": "níquel, cobalto y manganeso",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "distribución de cargas eléctricas entre los nódulos polimetálicos",
+          "valor": "irregular",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "magnitud de las diferencias de potencial generadas por los nódulos polimetálicos",
+          "valor": "comparables a baterías químicas ordinarias",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "método de disociación de las moléculas de agua",
+          "valor": "electrólisis",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "forma del oxígeno liberado",
+          "valor": "libre",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "las implicaciones del oxígeno oscuro para el origen de la vida y la minería marina",
+      "oraciones_n": [
+        6,
+        7
+      ],
+      "datos": [
+        {
+          "variable": "nombre del fenómeno",
+          "valor": "oxígeno oscuro",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "carácter del debate sobre los riesgos ambientales de la minería marina",
+          "valor": "crítico",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "tipo de riesgos de la minería marina",
+          "valor": "ambientales",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "escala de la minería marina",
+          "valor": "gran escala",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "magnitud de la extracción de nódulos polimetálicos",
+          "valor": "masiva",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    }
+  ]
+}
