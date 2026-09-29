@@ -1,0 +1,5 @@
+Ronda ENC10. Lee AGENTS.md y la sección «Ronda ENC10» de unidades/PLAN.md y corre, sin modificar nada:
+
+python3 unidades/extraer_datos_doc.py banrep1 deepseek unidades_v5 datos_pABQ5 r1
+
+Repórtame, por subtema, el foco y el JSON parsed verbatim del paso 2; si hubo cerca o error de parseo; el modelo efectivo, los tokens (prompt_tokens, completion_tokens, reasoning_tokens) y los segundos de cada llamada. Sin veredicto. Si hay error, detente y repórtalo tal cual. Al terminar, haz commit de los crudos y push a main.

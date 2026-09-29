@@ -706,3 +706,24 @@ python3 unidades/extraer_unidades.py banrep1 deepseek unidades_v5 r1
 **Reporte:** el de U7 (subtemas con sus oraciones, verificación, modelo
 efectivo, tokens —incluidos los de razonamiento— y segundos). Sin veredicto ni
 cálculos.
+
+## Ronda ENC10: `datos_pABQ5` con DeepSeek sobre banrep1 (informe real de pronóstico)
+
+Pedido de Frat. Paso 1 reutilizado (crudo de U8: 4 subtemas). Texto casi todo
+pronóstico («esperamos», «anticipamos», «se daría»); lo presentado como hecho
+está sobre todo en la oración 4.
+
+Sin gold previo por decisión de Frat: primero se mira la salida. ChatGPT
+propuso un gold de 8 datos antes de correr; quedan abiertas las presuposiciones
+(tasa vigente 12,0 %, niveles restrictivos, tasa real contractiva, apreciación
+del peso), «agosto» como fecha o período de referencia y el complemento
+«Colombia». Aviso de método: decidir después de ver la salida arriesga el sesgo
+retrospectivo (§6 de la memoria).
+
+```
+python3 unidades/extraer_datos_doc.py banrep1 deepseek unidades_v5 datos_pABQ5 r1
+```
+
+**Reporte:** el de ENC9 (por subtema, el foco y el parsed del paso 2; modelo
+efectivo, tokens —incluidos los de razonamiento— y segundos de cada llamada).
+Sin veredicto ni cálculos.
