@@ -657,15 +657,17 @@ python3 unidades/extraer_datos_doc.py bio1 grok unidades_v5 datos_u10 r1
 tokens (incluidos los de razonamiento) y segundos de cada llamada. Sin veredicto
 ni cálculos.
 
-## Ronda U4: `unidades_v2` sobre un texto real (evals1), Grok
+## Ronda U7: `unidades_v5` sobre un texto real (evals1), DeepSeek
 
-Primer texto no técnico ni sintético: un fragmento traducido de un artículo
-sobre diseño de evaluaciones (`docs/evals1.md`, aportado por Frat; el
-encabezado «DISEÑO DE EVALUACIONES» va como título, `##`). Sin gold: la
-lectura la hacen Frat y Cowork.
+Pedido de Frat: correr el prompt 1 vigente sobre un fragmento traducido de un
+artículo sobre diseño de evaluaciones (`docs/evals1.md`; el encabezado «DISEÑO
+DE EVALUACIONES» va como título, `##`). Sin gold. Con DeepSeek porque la
+cuenta de xAI agotó sus créditos (403).
 
 ```
-python3 unidades/extraer_unidades.py evals1 grok unidades_v2 r1
+python3 unidades/extraer_unidades.py evals1 deepseek unidades_v5 r1
 ```
 
-**Reporte:** el mismo de U1. Sin veredicto.
+**Reporte:** el de U6 (subtemas con sus oraciones, verificación, modelo
+efectivo, tokens —incluidos los de razonamiento— y segundos). Sin veredicto ni
+cálculos.
