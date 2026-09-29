@@ -137,3 +137,19 @@ subtemas). Sirve también para ver la variación de ABF entre corridas (r1, r2, 
 ```
 python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABF r3
 ```
+
+## Ronda P10: `datos_pABQ` con DeepSeek sobre oxi1
+
+Decisiones de Frat tras P9: F sale (el ejemplo mezclaba cinco fenómenos y
+empujaba a «dato = número»; «toma» en la definición de Valor ya excluye
+creencias y posibilidades). Entra **Q** (cualidades dichas aparte o pegadas al
+nombre). `base3.md`: tarea sin «según las definiciones, como en los
+ejemplos»; Foco sin la frase del resto del documento; nombre de la variable
+explicado; cuantificadores; unidad «en que se expresa el valor»; «adjetivos que
+solo identifican algo». Descripciones de los ejemplos en forma «qué valores
+muestra: cómo se opera» (`A2.md`, `B2.md`, `Q.md`). Una corrida, paso 1
+reutilizado (ENC5).
+
+```
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABQ r1
+```
