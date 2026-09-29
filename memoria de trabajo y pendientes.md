@@ -1,6 +1,6 @@
 # Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 28-09-2026 (tras las rondas de prototipos P1–P4; paso 2 casi cerrado con `datos_pAB`; el cuello de botella pasó al paso 1). No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md`.
+Estado al 29-09-2026 (tras las rondas de prototipos P1–P4; paso 2 casi cerrado con `datos_pAB`; el cuello de botella pasó al paso 1). No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md`.
 
 ## 0. Dónde y cómo
 
@@ -52,7 +52,7 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 ## 3. Paso 1: subtemas
 
 - **Prompt vigente:** `unidades_v5`. Subtema = «un asunto nuclear y su desarrollo, en una o varias oraciones, seguidas o separadas» (decisión de Frat); oración = texto de punto a punto (la corta el código); tema = unión de subtemas relacionados (nivel de Zettel, no de este paso). Definiciones: desarrollo (detalla, explica, continúa, contradice o saca la consecuencia; en la línea de la RST); «nombrar el mismo lugar, objeto o persona no basta para unir oraciones»; el nombre del subtema dice qué se dice de las cosas, no cuáles son. Cinco ejemplos con descripción de una línea. `{{TEXTO_NUMERADO}}`; el código reconstruye y verifica huecos, solapes, fuera de rango y no enteros.
-- **Resultados:** tec2 y bio1 bien (bio1: 9 subtemas que separan asunto de entidad). oxi1: 4 subtemas con Grok, 3 con DeepSeek. **tec1 (ENC7):** Grok hizo 13 subtemas de una oración cada uno en 57 s y 2298 tokens de razonamiento; DeepSeek, 4 subtemas razonables (uno por equipo) en 4 s. La regla contra agrupar por entidad, aplicada al pie de la letra, fragmenta los informes de inspección.
+- **Resultados:** tec2 y bio1 bien (bio1: 9 subtemas que separan asunto de entidad). oxi1: 4 subtemas con Grok, 3 con DeepSeek. **tec1 (ENC7):** Grok hizo 13 subtemas de una oración cada uno en 57 s y 2298 tokens de razonamiento; DeepSeek, 4 subtemas razonables (uno por equipo) en 4 s. La regla contra agrupar por entidad, aplicada al pie de la letra, fragmenta los informes de inspección. **evals1** (texto real, metodológico; U7, DeepSeek): 6 subtemas que siguen la estructura del artículo (introducción, plan y cuatro principios), 8576 tokens de razonamiento; el nombre del subtema 1 enumera tres asuntos, señal de dos subtemas pegados.
 - **Es el cuello de botella actual** (tiempo de Grok y granularidad). Siguiente: llevar al paso 1 el método de prototipos (§4).
 - Historia: v2 (núcleo y satélites) osciló entre tema y entidad (11 065 tokens); v3 (tramos contiguos) no reunía lo separado; v4 nombraba los subtemas por la entidad; v5 lo corrigió.
 
@@ -63,11 +63,15 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 - **Prototipos (P1, Grok, batería de 15 textos, 29 datos):** k0 (sin ejemplos) 19/29, A 23/29, AB 29/29 y ABC, ABCD, ABCDE también 29/29. Los 10 fallos de k0 fueron todos de convención de unidad («cajas» por «unidad»; null por «fecha» u «hora»); ningún falso dato en ninguna configuración. Decidir que no hay nada fue lo más caro (1175–1957 tokens por texto).
 - **Documentos reales (P2, Grok, contra `datos_u10`):** tec1 igual (9 datos, 58 s); oxi1 mejor (recupera «millones», 6 datos); bio1 casi igual (14 datos, 93 s frente a 118): vuelve «especie más abundante = pez loro»; pierde «finos» y los metales; saca «hora = al mediodía» de una medición. ABE quedó incompleto (créditos de xAI agotados en bio1); en oxi1 no mejoró a AB.
 - **DeepSeek (P3):** con AB bien en informes (bio1 mejor que u9, 96 s; tec1 gana «lunes» pero saca «filtro = saturado»); en el ensayo oxi1 sacó de más (17 datos, 24 773 tokens): lo que se creía, lo que podría pasar, comparaciones, lugares y el tono del autor. **P4:** prototipo **F** (negativo de ensayo: lo que se creía, lo que podría pasar y una comparación, junto a un dato real) → `datos_pABF` (525 palabras) con DeepSeek sobre oxi1: de 17 a 9 datos, de 106 a 71 s y de 24 773 a 16 316 tokens; desaparecen creencias, hipótesis, comparaciones, lugares y tono, y el foco 3 queda vacío (1688 tokens frente a 10 279). Quedan «fuente del oxígeno = proceso electroquímico geológico» (tesis explicativa, pendiente 7) y «forma del oxígeno = libre». Candidato para ensayos: ABF.
+- **Texto genérico (ENC9, DeepSeek, `datos_pABQ5` sobre evals1):** un texto metodológico lleno de números y cuantificadores pero sin casos individuales. 5 de 6 focos vacíos; rechazó «100 %», «dos expertos», «un cambio a la vez», los nombres de los comandos y «alta/baja variación»; el único dato fue «cantidad de ejemplos… = algunos» (zona gris). ChatGPT, aplicando el prompt a mano, llegó a lo mismo salvo ese dato. Los tokens de razonamiento se dispararon justo en los focos con bordes (2173–3310 frente a 457–879).
 - **Formato:** `variable` (completa: caso, circunstancias y método cuando define qué se midió), `valor` (literal, sin la unidad), `unidad_de_medida`.
 - **Historia corta:** definiciones largas (`u3`–`u4`) → seudodatos; solo ejemplos (`u5`) → mejor; definiciones cortas + ejemplos nodo (`u6`–`u7`) → 39/39 en ut1–ut5; documento completo + foco (`u8`); definiciones reestructuradas, «No son datos», genéricos y cantidades vagas (`u9`); fecha de un hecho es dato (`u10`); prototipos mínimos (`pAB`).
 
 ### Decisiones de Frat sobre qué es dato (DU5–P4)
 
+- **Texto genérico sin datos es resultado correcto** (ENC9): el dato es de un caso, no de una clase; las generalizaciones y reglas de un texto metodológico son garantías (nivel de los argumentos), no datos. No se amplía «dato» para que entren.
+- **Pertinencia:** en los bordes, que algo sea dato depende de la práctica que haga pertinente la variable (ensayo l. 121). «Cantidad de ejemplos que trae el artículo = algunos»: a primera vista no; zona gris para Jev.
+- **Modo de una acción no es propiedad del objeto:** «mejorar… un cambio a la vez» es el método de la acción (excluido con las relaciones), no un atributo del comando, a diferencia de «capacidad del tanque = 30000 litros».
 - **Variable = magnitud individual** (VIM4, nota 2: «the radius of circle a is an instance of length»): «peso de la caja», no «peso» con un caso aparte.
 - **Valor literal**, tal como aparece en `texto`, sin la unidad: «30000», unidad «litros»; «6 de la mañana», unidad «hora».
 - **`unidad_de_medida` en lugar de `escala`:** «escala» es polisémica (el modelo la leía como nominal/ordinal). Los valores cualitativos no tienen unidad de medida: `null`. Los conteos llevan «unidad» (magnitud de dimensión uno).
@@ -122,6 +126,9 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 - **Nivel de razonamiento efectivo** (docs oficiales, 28-09): DeepSeek solo tiene `high` y `max`; nuestro `low` se convierte en `high`. GLM 5.3 Flash tiene `low`, `high` y `max` (por defecto `max`, siempre razona); con `low` razonó 0–87 tokens por foco. Grok corre en `low`. Los puntajes de Artificial Analysis se miden en `max`: no se trasladan a nuestras corridas.
 - **Cada modelo tiene su temperamento ante el mismo prompt:** GLM se abstiene cuando duda («Conservative: depth»; AA-Omniscience +7) y necesita un ejemplo positivo de cualidades; DeepSeek afirma de más (AA-Omniscience −5) y necesita el negativo de ensayo (F).
 
+- **Un texto sin datos mide una sola cara del extractor** (ENC9): que no invente. Un prompt que siempre devolviera vacío sacaría 100 %; vale junto a un gold con datos (oxi1).
+- **Los tokens de razonamiento delatan los bordes:** en ENC9 se dispararon justo en los focos que el análisis previo marcó como riesgosos. Es una señal barata para mandar a revisión (como la franja central de Jev).
+
 ## 7. Pendientes
 
 1. Decidir `datos_u11`: ABF parece la mejor base (F no debería dañar informes); falta confirmarlo con Grok y con un informe (tec1 o bio1).
@@ -129,7 +136,7 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 3. **Paso 1 con el método de prototipos:** batería corta, curva de ejemplos, medir tokens; resolver la fragmentación de Grok en informes (tec1) y su lentitud.
 4. Prueba de verdad de la cadena: documento ajeno con gold escrito antes de correr, más desordenado (tablas, abreviaturas, rangos, negaciones, fechas), del tipo que recibirá Zettel; de preferencia un ensayo.
 5. Nivel de **tema** (unión de subtemas relacionados) para Zettel: embeddings proponen candidatos, Jev juzga.
-6. Zona gris (terreno de Jev, no del prompt): «finos», composición con valores de tipo («níquel, cobalto y manganeso»), «millones», hora de una medición, superlativos (dato de segundo orden).
+6. Zona gris (terreno de Jev, no del prompt): «algunos ejemplos» (evals1), «finos», composición con valores de tipo («níquel, cobalto y manganeso»), «millones», hora de una medición, superlativos (dato de segundo orden).
 7. Frontera entre dato y afirmación (creencias, hipótesis, tesis explicativas): niveles 1 y 2 del grafo de Zettel.
 8. Escala: documentos largos (ventanas superpuestas, partición recursiva).
 9. Jev: auditoría de los datos, graduación de confianza, canonicalización de variables, reidentificación de casos entre textos, procedencia como capa propia.
