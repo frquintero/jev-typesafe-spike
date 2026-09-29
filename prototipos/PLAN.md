@@ -181,3 +181,15 @@ ejemplo 4 nuevo (lago Azul, un solo dato). Una corrida, paso 1 reutilizado.
 ```
 python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABQ3 r1
 ```
+
+## Ronda P13: `datos_pABQ4` (prompt de Frat) con DeepSeek sobre oxi1
+
+Cambios de Frat sobre `datos_pABQ3`: el nombre de la variable debe entenderse
+sin leer el documento (aspecto, de qué es, circunstancias: dónde, cuándo),
+reemplaza la línea de correferencia; «No son datos»: «el contenido de
+creencias, hipótesis o posibilidades»; ejemplo 4: «lo que creían los
+pescadores (contenido de una creencia)». Una corrida, paso 1 reutilizado.
+
+```
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABQ4 r1
+```
