@@ -193,3 +193,17 @@ pescadores (contenido de una creencia)». Una corrida, paso 1 reutilizado.
 ```
 python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABQ4 r1
 ```
+
+## Ronda P14: `datos_pABQ5` (prompt de Frat) con DeepSeek sobre oxi1
+
+Tras leer la traza de P13 (fricción en el foco 3–5: «contenido» contra la
+composición, la comparación, el «como»): Variable con «las circunstancias
+expresadas en el documento que hagan falta para identificarlo»; Valor admite
+cualidades dadas por comparación y la lista incompleta termina en «entre
+otros»; ejemplos de unidad sin los casos de oxi1 (cientos → unidad; siglos →
+siglo); «contenido» sale de las relaciones; posibilidades amplía ejemplos.
+Una corrida, paso 1 reutilizado.
+
+```
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABQ5 r1
+```
