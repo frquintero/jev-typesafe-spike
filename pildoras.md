@@ -345,3 +345,30 @@ tarea sin repetirse, que cuando son parecidos entre sí.
 acertó 29/29 en la batería y los tres restantes no sumaron; los ejemplos que
 enseñaban cinco cosas a la vez metían ruido. El número de ejemplos lo decide
 la curva, no el bolsillo.
+
+## 28. OFAT (*one factor at a time*)
+
+**Qué es.** Principio clásico de diseño experimental: variar un solo factor
+por vez para poder atribuirle el efecto observado. Es una norma de método,
+válida para cualquier experimento o proceso de mejora, no una propiedad de un
+objeto.
+
+**Contexto.** ENC9 (evals1): «mejorar tu aplicación… un cambio a la vez».
+El texto lo presenta como principio del hillclimbing (or. 5); el comando
+`/claude-api hillclimb` solo lo aplica. Por eso no es dato: es una garantía
+(Toulmin), del nivel del argumento. Contraste: la capacidad de un tanque es
+propiedad de ese tanque.
+
+## 29. Metadiscurso
+
+**Qué es.** Ken Hyland (*Metadiscourse*, 2005): las partes de un texto que
+hablan del texto mismo y no de su tema: «en este artículo primero…»,
+«cerraremos mostrando…», «como vimos». Organizan la lectura; no afirman nada
+sobre el dominio.
+
+**Contexto.** ENC9: «Cerraremos mostrando algunos ejemplos de estos
+comandos» es metadiscurso; si da un dato, es un dato del documento, no del
+dominio. Decisión pendiente: ¿el metadiscurso produce datos? DeepSeek fue
+incoherente: extrajo «algunos ejemplos» y nada de la or. 5 («primero…
+después…»), que es del mismo tipo.
+
