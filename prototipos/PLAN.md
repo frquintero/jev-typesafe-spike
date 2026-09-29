@@ -153,3 +153,17 @@ reutilizado (ENC5).
 ```
 python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABQ r1
 ```
+
+## Ronda P11: `datos_pABQ2` con DeepSeek sobre oxi1
+
+`datos_pABQ2` = `datos_pABQ` (P10) + cambios de Frat: definición de Unidad
+temática; Foco = «conjunto de oraciones que forman una unidad temática, de las
+que se extraen los datos»; Dato + «Se obtiene al responder: «¿qué valor toma
+esta variable que sale de este foco?»»; título EJEMPLOS DE DATOS; en el ejemplo
+1, «de qué es cada valor». Respuesta correcta de oxi1: Frat validó como datos
+«comparables a baterías», «gran escala», «crítico» y «masiva». Una corrida,
+paso 1 reutilizado (ENC5).
+
+```
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABQ2 r1
+```
