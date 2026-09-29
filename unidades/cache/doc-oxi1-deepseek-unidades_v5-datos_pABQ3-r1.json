@@ -1,0 +1,87 @@
+{
+  "doc": "oxi1",
+  "modelo": "deepseek",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_pABQ3",
+  "rep": "r1",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "el hallazgo de producción de oxígeno en el fondo abisal frente a la dependencia de la fotosíntesis",
+      "oraciones_n": [
+        1,
+        2
+      ],
+      "datos": [
+        {
+          "variable": "profundidad a la que la ciencia detectó producción de oxígeno en la llanura abisal del océano Pacífico",
+          "valor": "cuatro mil",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "oscuridad del entorno donde la ciencia detectó producción de oxígeno en la llanura abisal del océano Pacífico",
+          "valor": "total",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "presión del entorno donde la ciencia detectó producción de oxígeno en la llanura abisal del océano Pacífico",
+          "valor": "extremas",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "constancia de la producción de oxígeno detectada por la ciencia en la llanura abisal del océano Pacífico",
+          "valor": "constante",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "el origen electroquímico geológico del oxígeno oscuro",
+      "oraciones_n": [
+        3,
+        4,
+        5
+      ],
+      "datos": [
+        {
+          "variable": "número de nódulos polimetálicos en el lecho oceánico",
+          "valor": "millones",
+          "unidad_de_medida": "unidad"
+        },
+        {
+          "variable": "composición metálica de los nódulos polimetálicos del lecho oceánico",
+          "valor": "metales como níquel, cobalto y manganeso",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "distribución de cargas eléctricas entre los nódulos polimetálicos del lecho oceánico",
+          "valor": "irregular",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "diferencias de potencial generadas por la distribución irregular de cargas eléctricas entre los nódulos polimetálicos del lecho oceánico",
+          "valor": "comparables a baterías químicas ordinarias",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "forma del oxígeno liberado por el proceso electroquímico geológico",
+          "valor": "libre",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "las implicaciones del oxígeno oscuro para el origen de la vida y la minería marina",
+      "oraciones_n": [
+        6,
+        7
+      ],
+      "datos": [],
+      "error_parseo": null
+    }
+  ]
+}
