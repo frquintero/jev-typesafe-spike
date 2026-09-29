@@ -1,0 +1,152 @@
+{
+  "doc": "oxi1",
+  "validado_por": "Frat",
+  "fecha": "2026-09-28",
+  "nota": "Validado por Frat sobre la salida de DeepSeek con datos_pABQ2 (P11). No es independiente de esa corrida: se armó después de verla. Pendiente: «antigüedad del hallazgo = reciente» (salió en otras corridas, no en P11).",
+  "datos": [
+    {
+      "variable": "proporción del oxígeno de la Tierra que dependía de la fotosíntesis",
+      "valor": "prácticamente todo",
+      "unidad_de_medida": null,
+      "oraciones": [
+        1
+      ]
+    },
+    {
+      "variable": "duración durante la que se sostuvo la premisa",
+      "valor": "décadas",
+      "unidad_de_medida": null,
+      "oraciones": [
+        1
+      ]
+    },
+    {
+      "variable": "profundidad de la llanura abisal donde se detectó oxígeno",
+      "valor": "cuatro mil",
+      "unidad_de_medida": "metros",
+      "oraciones": [
+        2
+      ]
+    },
+    {
+      "variable": "oscuridad del entorno",
+      "valor": "total",
+      "unidad_de_medida": null,
+      "oraciones": [
+        2
+      ]
+    },
+    {
+      "variable": "presión del entorno",
+      "valor": "extremas",
+      "unidad_de_medida": null,
+      "oraciones": [
+        2
+      ]
+    },
+    {
+      "variable": "ritmo de la producción de oxígeno",
+      "valor": "constante",
+      "unidad_de_medida": null,
+      "oraciones": [
+        2
+      ]
+    },
+    {
+      "variable": "fuente del oxígeno",
+      "valor": "proceso electroquímico geológico",
+      "unidad_de_medida": null,
+      "oraciones": [
+        3
+      ]
+    },
+    {
+      "variable": "número de nódulos polimetálicos en el lecho oceánico",
+      "valor": "millones",
+      "unidad_de_medida": null,
+      "oraciones": [
+        4
+      ]
+    },
+    {
+      "variable": "metales contenidos en los nódulos",
+      "valor": "níquel, cobalto y manganeso",
+      "unidad_de_medida": null,
+      "oraciones": [
+        4
+      ]
+    },
+    {
+      "variable": "distribución de cargas eléctricas entre los nódulos",
+      "valor": "irregular",
+      "unidad_de_medida": null,
+      "oraciones": [
+        5
+      ]
+    },
+    {
+      "variable": "magnitud de las diferencias de potencial",
+      "valor": "comparables a baterías químicas ordinarias",
+      "unidad_de_medida": null,
+      "oraciones": [
+        5
+      ]
+    },
+    {
+      "variable": "método de disociación de las moléculas de agua",
+      "valor": "electrólisis",
+      "unidad_de_medida": null,
+      "oraciones": [
+        5
+      ]
+    },
+    {
+      "variable": "forma del oxígeno liberado",
+      "valor": "libre",
+      "unidad_de_medida": null,
+      "oraciones": [
+        5
+      ]
+    },
+    {
+      "variable": "nombre del fenómeno",
+      "valor": "oxígeno oscuro",
+      "unidad_de_medida": null,
+      "oraciones": [
+        6
+      ]
+    },
+    {
+      "variable": "carácter del debate sobre los riesgos de la minería marina",
+      "valor": "crítico",
+      "unidad_de_medida": null,
+      "oraciones": [
+        7
+      ]
+    },
+    {
+      "variable": "tipo de riesgos de la minería marina",
+      "valor": "ambientales",
+      "unidad_de_medida": null,
+      "oraciones": [
+        7
+      ]
+    },
+    {
+      "variable": "escala de la minería marina",
+      "valor": "gran escala",
+      "unidad_de_medida": null,
+      "oraciones": [
+        7
+      ]
+    },
+    {
+      "variable": "magnitud de la extracción de nódulos",
+      "valor": "masiva",
+      "unidad_de_medida": null,
+      "oraciones": [
+        7
+      ]
+    }
+  ]
+}
