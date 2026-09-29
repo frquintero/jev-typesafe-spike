@@ -1,23 +1,24 @@
 # Spike Jev — detección con modelo de decisiones
 
-## Estado actual (2026-09-28)
+## Estado actual (2026-09-29)
 
 **Qué hacemos.** Extraer los **datos** de un `texto` con un LLM barato
-(Grok 4.7 o DeepSeek `deepseek-flash`), en el sentido del ensayo de Frat
-«¿Qué es un dato?», en dos pasos encadenados (carpeta `unidades/`, hilo
-activo):
+(DeepSeek `deepseek-flash`; Grok 4.7 cuando haya créditos de xAI), en el
+sentido del ensayo de Frat «¿Qué es un dato?», en dos pasos encadenados
+(carpeta `unidades/`, hilo activo):
 
 1. **Subtemas** (`extraer_unidades.py`, prompt vigente `unidades_v5`): el
    código parte el texto en oraciones (de punto a punto) y las numera; el LLM
    las agrupa en subtemas (un asunto nuclear y su desarrollo), con oraciones
    seguidas o separadas.
-2. **Datos por subtema** (prompts candidatos `datos_pAB` y `datos_pABF`):
+2. **Datos por subtema** (prompt vigente `datos_pABQ5`, escrito por Frat):
    una llamada por subtema con el documento completo numerado y el foco (las
    oraciones del subtema); el LLM devuelve
    `{"datos": [{"variable", "valor", "unidad_de_medida"}]}`. El prompt tiene
-   definiciones cortas, una sección «No son datos» y pocos ejemplos
-   prototípicos (uno por convención que no se deduce), elegidos con la curva
-   de `prototipos/`.
+   definiciones cortas, una sección «No son datos» y cuatro ejemplos
+   (números con unidad, tiempo de un hecho, cualidades y un caso con un solo
+   dato frente a una creencia). Probado en oxi1 (P14) y en evals1, un texto
+   real sin datos (ENC9).
 
 La cadena completa la corre `extraer_datos_doc.py` (entra un documento, sale
 un consolidado con sus datos). Es la capa de datos del grafo datos →
@@ -36,7 +37,7 @@ extraído; no empezado.
   `unidades/mensaje_<RONDA>.txt`.
 - Reglas del ejecutor (red, claves, comandos, reportes): `AGENTS.md`.
 - Píldoras (precisiones de vocabulario y conceptos que surgen en la
-  planeación, con su contexto): `pildoras.md`.
+  planeación): viven fuera del repo, en `~/Claude-memoria/pildoras.md`.
 - Vocabulario de Jev: `jev_typesafe_guia_pedagogica_v2.md` y
   `diccionario.md` (no se editan sin aprobación; la guía no cambia mientras
   estemos en pruebas de extracción).
