@@ -1,0 +1,94 @@
+{
+  "doc": "banrep1",
+  "modelo": "deepseek",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_pABQ6B",
+  "rep": "r1",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "la expectativa de mantener la tasa y el fin del ciclo alcista",
+      "oraciones_n": [
+        1,
+        2
+      ],
+      "datos": [
+        {
+          "variable": "fecha de la próxima reunión de la Junta Directiva del Banco de la República",
+          "valor": "30 de septiembre",
+          "unidad_de_medida": "fecha"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "el contexto de inflación al alza",
+      "oraciones_n": [
+        3,
+        4
+      ],
+      "datos": [
+        {
+          "variable": "aceleración de la inflación anual en agosto",
+          "valor": "20",
+          "unidad_de_medida": "puntos básicos"
+        },
+        {
+          "variable": "tasa de inflación anual en agosto",
+          "valor": "6,24",
+          "unidad_de_medida": "%"
+        },
+        {
+          "variable": "variación mensual de la inflación en agosto",
+          "valor": "0,39",
+          "unidad_de_medida": "%"
+        },
+        {
+          "variable": "nivel relativo de la inflación anual en agosto",
+          "valor": "el registro más alto desde julio de 2024",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "las preocupaciones por las finanzas públicas y el contexto global",
+      "oraciones_n": [
+        5,
+        6
+      ],
+      "datos": [
+        {
+          "variable": "restrictividad de las condiciones financieras del contexto global",
+          "valor": "más restrictivas",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 4,
+      "subtema": "el balance de factores y la proyección de la tasa de interés y la tasa real",
+      "oraciones_n": [
+        7,
+        8,
+        9
+      ],
+      "datos": [
+        {
+          "variable": "condición del entorno internacional en el escenario de la decisión del Banco de la República del 30 de septiembre",
+          "valor": "menos favorable",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "variación del peso en el escenario de la decisión del Banco de la República del 30 de septiembre",
+          "valor": "apreciación",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    }
+  ]
+}

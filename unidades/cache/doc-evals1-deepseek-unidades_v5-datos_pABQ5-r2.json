@@ -1,0 +1,85 @@
+{
+  "doc": "evals1",
+  "modelo": "deepseek",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_pABQ5",
+  "rep": "r2",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "la utilidad y dificultad de las evaluaciones y la ayuda de la skill claude-api",
+      "oraciones_n": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "la estructura y el cierre del artículo",
+      "oraciones_n": [
+        5,
+        6
+      ],
+      "datos": [
+        {
+          "variable": "número de ejemplos de los comandos `/claude-api build-eval` y `/claude-api hillclimb` mostrados al cerrar el artículo",
+          "valor": "algunos",
+          "unidad_de_medida": "unidad"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "las tareas de evaluación deben reflejar la producción",
+      "oraciones_n": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 4,
+      "subtema": "la mejora del rendimiento con modelos más potentes y mayor razonamiento",
+      "oraciones_n": [
+        11,
+        12,
+        13
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 5,
+      "subtema": "el margen superable en la frontera y la claridad de las tareas",
+      "oraciones_n": [
+        14,
+        15,
+        16,
+        17
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 6,
+      "subtema": "la variación entre ejecuciones y sus causas",
+      "oraciones_n": [
+        18,
+        19,
+        20,
+        21,
+        22
+      ],
+      "datos": [],
+      "error_parseo": null
+    }
+  ]
+}

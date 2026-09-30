@@ -1,0 +1,127 @@
+{
+  "doc": "cont1",
+  "modelo": "deepseek",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_pABQ6B",
+  "rep": "r1",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "la cantidad de cajas de repuestos que guardan los almacenes",
+      "oraciones_n": [
+        1,
+        2
+      ],
+      "datos": [
+        {
+          "variable": "número de cajas de repuestos guardadas por el almacén Mirador",
+          "valor": "32",
+          "unidad_de_medida": "unidad"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "la definición de recinto amplio y el área del recinto R-4",
+      "oraciones_n": [
+        3,
+        4
+      ],
+      "datos": [
+        {
+          "variable": "área del recinto R-4",
+          "valor": "más de 80",
+          "unidad_de_medida": "metros cuadrados"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "el abastecimiento del depósito D-2 al huerto Norte",
+      "oraciones_n": [
+        5
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 4,
+      "subtema": "la capacidad del depósito D-2",
+      "oraciones_n": [
+        6
+      ],
+      "datos": [
+        {
+          "variable": "capacidad del depósito D-2",
+          "valor": "470",
+          "unidad_de_medida": "litros"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 5,
+      "subtema": "la temperatura de la muestra M-6 al amanecer",
+      "oraciones_n": [
+        7
+      ],
+      "datos": [
+        {
+          "variable": "temperatura de la muestra M-6 al amanecer",
+          "valor": "14",
+          "unidad_de_medida": "°C"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 6,
+      "subtema": "la apertura del taller Iris al amanecer",
+      "oraciones_n": [
+        8
+      ],
+      "datos": [
+        {
+          "variable": "hora de apertura del taller Iris",
+          "valor": "amanecer",
+          "unidad_de_medida": "hora"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 7,
+      "subtema": "el estado y el ángulo de apertura de la compuerta C-5",
+      "oraciones_n": [
+        9,
+        10
+      ],
+      "datos": [
+        {
+          "variable": "ángulo de apertura de la compuerta C-5",
+          "valor": "30",
+          "unidad_de_medida": "grados"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 8,
+      "subtema": "la textura de las telas de tapicería",
+      "oraciones_n": [
+        11,
+        12
+      ],
+      "datos": [
+        {
+          "variable": "textura de la tela del sofá S-8",
+          "valor": "suave",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    }
+  ]
+}
