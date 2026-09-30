@@ -1,0 +1,284 @@
+{
+  "doc": "biomar1",
+  "modelo": "deepseek",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_pABQ6A",
+  "rep": "r1",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "definición, importancia y conocimiento limitado de la biología marina",
+      "oraciones_n": [
+        1,
+        2,
+        3
+      ],
+      "datos": [
+        {
+          "variable": "porcentaje de la corteza terrestre cubierta por los océanos",
+          "valor": "aproximadamente 71",
+          "unidad_de_medida": "%"
+        },
+        {
+          "variable": "porcentaje del espacio habitable del planeta constituido por los océanos",
+          "valor": "más de 90",
+          "unidad_de_medida": "%"
+        },
+        {
+          "variable": "porcentaje de la vida marina investigada de manera exhaustiva por la humanidad",
+          "valor": "alrededor de 9",
+          "unidad_de_medida": "%"
+        },
+        {
+          "variable": "porcentaje de las especies oceánicas que continúan siendo un misterio para la ciencia contemporánea",
+          "valor": "cerca de 91",
+          "unidad_de_medida": "%"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "alcance y criterios de clasificación de la vida marina",
+      "oraciones_n": [
+        4,
+        5,
+        6
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "organismos bentónicos y sus formas de vida",
+      "oraciones_n": [
+        7,
+        8
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 4,
+      "subtema": "organismos pelágicos y sus subdivisiones",
+      "oraciones_n": [
+        9,
+        10
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 5,
+      "subtema": "el necton y sus ejemplos",
+      "oraciones_n": [
+        11,
+        12
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 6,
+      "subtema": "el plancton y sus tipos",
+      "oraciones_n": [
+        13,
+        14
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 7,
+      "subtema": "organismos neustónicos",
+      "oraciones_n": [
+        15
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 8,
+      "subtema": "cambios de la vida marina con la profundidad y división en zonas oceánicas",
+      "oraciones_n": [
+        16,
+        17,
+        18
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 9,
+      "subtema": "zona epipelágica o fótica",
+      "oraciones_n": [
+        19,
+        20,
+        21
+      ],
+      "datos": [
+        {
+          "variable": "profundidad de la Zona Epipelágica o Fótica",
+          "valor": "desde la superficie hasta los 200",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "luz solar recibida por la Zona Epipelágica o Fótica",
+          "valor": "abundante",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "proporción de biodiversidad conocida concentrada en la Zona Epipelágica o Fótica",
+          "valor": "mayor parte",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "color de los arrecifes de coral de la Zona Epipelágica o Fótica",
+          "valor": "coloridos",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "tamaño de los bancos de peces comerciales de la Zona Epipelágica o Fótica",
+          "valor": "grandes",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 10,
+      "subtema": "zona mesopelágica",
+      "oraciones_n": [
+        22,
+        23,
+        24
+      ],
+      "datos": [
+        {
+          "variable": "profundidad de la Zona Mesopelágica",
+          "valor": "entre los 200 y los 1,000",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "intensidad de la luz solar en la Zona Mesopelágica",
+          "valor": "extremadamente débil",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "suficiencia de la luz solar para la fotosíntesis en la Zona Mesopelágica",
+          "valor": "insuficiente",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "adaptación más notable de los animales que residen en la Zona Mesopelágica",
+          "valor": "bioluminiscencia",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 11,
+      "subtema": "zonas batial y abisal",
+      "oraciones_n": [
+        25,
+        26,
+        27
+      ],
+      "datos": [
+        {
+          "variable": "profundidad de las regiones de la Zona Batial y la Zona Abisal",
+          "valor": "más de 1,000 y hasta 6,000",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "oscuridad del territorio de las regiones de la Zona Batial y la Zona Abisal",
+          "valor": "absoluta",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "calma del territorio de las regiones de la Zona Batial y la Zona Abisal",
+          "valor": "total",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "temperatura del territorio de las regiones de la Zona Batial y la Zona Abisal",
+          "valor": "entre 1 y 4",
+          "unidad_de_medida": "grados Celsius"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 12,
+      "subtema": "zona hadal",
+      "oraciones_n": [
+        28,
+        29,
+        30
+      ],
+      "datos": [
+        {
+          "variable": "profundidad de la Zona Hadal",
+          "valor": "por debajo de los 6,000 hasta los 10,911",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "punto más bajo conocido de los océanos",
+          "valor": "Fosa de las Marianas",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 13,
+      "subtema": "importancia de la biología marina para la humanidad",
+      "oraciones_n": [
+        31,
+        32,
+        33
+      ],
+      "datos": [
+        {
+          "variable": "importancia de la biología marina para la habitabilidad y la supervivencia humana en la Tierra",
+          "valor": "crucial",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "porcentaje del oxígeno que respiramos generado por el fitoplancton de los océanos",
+          "valor": "aproximadamente 50",
+          "unidad_de_medida": "%"
+        },
+        {
+          "variable": "tamaño del sumidero de carbono del fitoplancton de los océanos",
+          "valor": "el más grande del mundo",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "número de personas a nivel global para las que los ecosistemas marinos representan la fuente principal de alimentación y proteínas",
+          "valor": "miles de millones",
+          "unidad_de_medida": "unidad"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 14,
+      "subtema": "amenazas ambientales y conservación marina en el siglo XXI",
+      "oraciones_n": [
+        34,
+        35,
+        36
+      ],
+      "datos": [
+        {
+          "variable": "siglo en que la investigación en biología marina se ha convertido en una carrera contra el tiempo debido al impacto de las actividades humanas",
+          "valor": "XXI",
+          "unidad_de_medida": "siglo"
+        }
+      ],
+      "error_parseo": null
+    }
+  ]
+}
