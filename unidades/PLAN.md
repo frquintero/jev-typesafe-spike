@@ -761,3 +761,72 @@ python3 unidades/extraer_datos_doc.py biomar1 deepseek unidades_v5 datos_pABQ5 r
 **Reporte:** el de ENC9 (por subtema, el foco y el parsed del paso 2; modelo
 efectivo, tokens —incluidos los de razonamiento— y segundos de cada llamada).
 Sin veredicto ni cálculos.
+
+## Rondas ENC12 (A) y ENC13 (B): dos cambios de principio a `datos_pABQ5`
+
+Pedido de Frat: probar dos cambios, uno por ronda, y medir si la extracción
+mejora **en general**, no en biomar1. Criterio de Frat: el prompt no debe
+volverse un mecanismo para resolver un texto. Por eso los ejemplos de los
+cambios no usan palabras ni casos de ningún documento de prueba (halcón,
+llovizna, puente, jardín).
+
+**A → `datos_pABQ6A`** (principio: lo que vale para una clase no es dato de un
+caso). El punto de genéricos de «No son datos» pasa a: «Lo que vale para una
+clase y no para algo individual: los enunciados genéricos, también en singular
+(…; el halcón caza de día), y los valores que definen una clase o categoría:
+si fueran otros, sería otra clase (se llama llovizna a la lluvia de gotas
+menores de medio milímetro).»
+
+**B → `datos_pABQ6B`** (= 6A + principio: reconstruir antes de formatear). Se
+quita la pregunta generadora («Se obtiene al responder: ¿qué valor toma esta
+variable…?») y la definición de Dato dice: «Hay dato cuando el foco le atribuye
+a algo individual un valor en un aspecto que el texto mismo determina. El
+aspecto puede estar implícito (agua turbia → turbidez), pero no se inventa para
+alojar una palabra: si el texto solo valora o realza algo (decisivo, admirable,
+espléndido), no hay variable; …».
+
+**Documentos y papel de cada uno:**
+
+- `biomar1`: desarrollo (de aquí salieron los problemas). Gold provisional en
+  `gold/biomar1.json`, escrita después de ENC11.
+- `oxi1`, `evals1`, `banrep1`: regresión frente a `pABQ5` (no deben perder
+  datos; oxi1 con su gold).
+- `gen1` (nuevo, volcanes): **reserva** sintética, gold escrita antes de correr
+  cualquier prompt (`gold/gen1.json`). Sesgo: la escribió Cowork.
+- `cont1` (nuevo): batería de contrastes C01–C12 de ChatGPT (desarrollo),
+  gold en `gold/cont1.json`.
+
+Conjetura A: bajan las constantes (límites de zonas, «dos categorías») y los
+genéricos de clase en biomar1; nada cambia en la regresión. Conjetura B:
+desaparecen las variables fabricadas («importancia = crucial», «delicado»,
+«siglo = XXI») sin perder los datos firmes.
+
+### ENC12 (A)
+
+Primero la línea base con `pABQ5` en los dos documentos nuevos (crean el paso 1);
+después `pABQ6A` en los seis (pueden ir en paralelo):
+
+```
+python3 unidades/extraer_datos_doc.py gen1 deepseek unidades_v5 datos_pABQ5 r1
+python3 unidades/extraer_datos_doc.py cont1 deepseek unidades_v5 datos_pABQ5 r1
+python3 unidades/extraer_datos_doc.py biomar1 deepseek unidades_v5 datos_pABQ6A r1
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABQ6A r1
+python3 unidades/extraer_datos_doc.py evals1 deepseek unidades_v5 datos_pABQ6A r1
+python3 unidades/extraer_datos_doc.py banrep1 deepseek unidades_v5 datos_pABQ6A r1
+python3 unidades/extraer_datos_doc.py gen1 deepseek unidades_v5 datos_pABQ6A r1
+python3 unidades/extraer_datos_doc.py cont1 deepseek unidades_v5 datos_pABQ6A r1
+```
+
+### ENC13 (B)
+
+```
+python3 unidades/extraer_datos_doc.py biomar1 deepseek unidades_v5 datos_pABQ6B r1
+python3 unidades/extraer_datos_doc.py oxi1 deepseek unidades_v5 datos_pABQ6B r1
+python3 unidades/extraer_datos_doc.py evals1 deepseek unidades_v5 datos_pABQ6B r1
+python3 unidades/extraer_datos_doc.py banrep1 deepseek unidades_v5 datos_pABQ6B r1
+python3 unidades/extraer_datos_doc.py gen1 deepseek unidades_v5 datos_pABQ6B r1
+python3 unidades/extraer_datos_doc.py cont1 deepseek unidades_v5 datos_pABQ6B r1
+```
+
+**Reporte (cada ronda):** por documento, que terminó sin error, cuántos crudos
+dejó y el modelo efectivo. Cowork lee los crudos y evalúa. Sin veredicto.

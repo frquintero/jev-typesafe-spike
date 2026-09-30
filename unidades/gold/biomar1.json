@@ -1,0 +1,38 @@
+{
+ "doc": "biomar1",
+ "validado_por": "Cowork (provisional; pendiente de revisión de Frat)",
+ "fecha": "2026-09-29",
+ "nota": "Texto de desarrollo: escrito después de ver la salida de datos_pABQ5 (ENC11). Sirve para medir las rondas A/B, no como reserva. Zonas = regiones de la Tierra (caso); sus límites de profundidad = constantes de la definición.",
+ "firmes": [
+  "porcentaje de la corteza terrestre cubierta por océanos = aproximadamente 71 %",
+  "porcentaje del espacio habitable del planeta que constituyen los océanos = más del 90 %",
+  "porcentaje de la vida marina investigado exhaustivamente = alrededor del 9 %",
+  "porcentaje de especies oceánicas desconocidas = cerca del 91 %",
+  "temperatura de la zona batial y abisal = entre 1 y 4 °C",
+  "porcentaje del oxígeno que respiramos generado por el fitoplancton oceánico = aproximadamente 50 %",
+  "cantidad de CO2 absorbida por el fitoplancton = colosales masas",
+  "número de personas para las que los ecosistemas marinos son fuente principal de alimento = miles de millones"
+ ],
+ "borde": [
+  "proporción de la biodiversidad conocida en la zona epipelágica = mayor parte",
+  "luz de la zona epipelágica = abundante",
+  "luz de la zona mesopelágica = extremadamente débil / insuficiente",
+  "oscuridad de la zona batial y abisal = absoluta",
+  "calma = total",
+  "nutrientes = falta constante",
+  "posición de la Fosa de las Marianas por profundidad = el punto más bajo conocido",
+  "sumidero de carbono = el más grande del mundo",
+  "organismos descubiertos en la zona hadal = bacterias quimiosintéticas y anfípodos ciegos"
+ ],
+ "no_dato": [
+  "límites de profundidad de cada zona (200; 200-1000; 1000-6000; 6000-10911 m): constantes",
+  "número de categorías de pelágicos = dos: constante",
+  "adaptaciones de las criaturas abisales = extremas: genérico",
+  "cuerpos de las criaturas abisales = blandos o gelatinosos: genérico",
+  "adaptación más notable = bioluminiscencia: genérico",
+  "arrecifes = coloridos; bancos = grandes: adjetivos que clasifican",
+  "importancia = crucial: valoración",
+  "equilibrio = delicado: valoración",
+  "siglo = XXI: tendencia general situada"
+ ]
+}

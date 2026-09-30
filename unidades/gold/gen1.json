@@ -1,0 +1,25 @@
+{
+ "doc": "gen1",
+ "validado_por": "Cowork (provisional)",
+ "fecha": "2026-09-29",
+ "nota": "Reserva sintética escrita ANTES de correr cualquier prompt sobre ella, en otro dominio (volcanes). Sesgo: la escribió quien diseñó los cambios A/B (sin usar sus ejemplos).",
+ "firmes": [
+  "altura del volcán Tumbal = 2300 m",
+  "fecha de inicio de la última erupción del Tumbal = 4 de marzo de 2019",
+  "duración de la última erupción del Tumbal = 41 días",
+  "temperatura de la lava del Tumbal durante la última erupción = 1150 °C",
+  "área de cultivos cubierta por la colada principal de la última erupción del Tumbal = 12 km2",
+  "anchura del cráter del Tumbal en la isla = el más ancho de la isla"
+ ],
+ "borde": [
+  "tipo de volcán del Tumbal = de escudo (valor tipo)"
+ ],
+ "no_dato": [
+  "or. 1: genérico (laderas suaves, lava fluida)",
+  "or. 2: pendiente menor de diez grados: constante de la definición",
+  "or. 3: 1100-1200 °C: genérico (suele)",
+  "or. 4: esencial: valoración",
+  "or. 9: majestuosas: valoración",
+  "or. 10: siglo pasado: tendencia general"
+ ]
+}

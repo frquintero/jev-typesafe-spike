@@ -1,0 +1,22 @@
+{
+ "doc": "cont1",
+ "validado_por": "ChatGPT (etiquetas propuestas) + Cowork",
+ "fecha": "2026-09-29",
+ "nota": "Batería de contrastes C01-C12 de ChatGPT (desarrollo, no reserva), una oración por párrafo.",
+ "firmes": [
+  "or2 número de cajas de repuestos del almacén Mirador = 32 unidad",
+  "or4 área del recinto R-4 = más de 80 m2",
+  "or6 capacidad del depósito D-2 = 470 litros",
+  "or7 temperatura de la muestra M-6 al amanecer = 14 °C (sin fila temporal aparte)",
+  "or8 hora de apertura del taller Iris = al amanecer",
+  "or10 ángulo de apertura de la compuerta C-5 = 30 grados",
+  "or12 textura de la tela del sofá S-8 = suave"
+ ],
+ "no_dato": [
+  "or1 genérico",
+  "or3 definición (constante)",
+  "or5 relación",
+  "or9 binario",
+  "or11 genérico"
+ ]
+}

@@ -1,0 +1,3 @@
+Ronda ENC12. Lee AGENTS.md y la sección «Rondas ENC12 (A) y ENC13 (B)» de unidades/PLAN.md y corre, sin modificar nada, los comandos de ENC12: primero los dos de datos_pABQ5 (gen1 y cont1, en ese orden, uno tras otro: crean el paso 1), y después los seis de datos_pABQ6A, que puedes lanzar en paralelo.
+
+Repórtame, por documento, si terminó sin error, cuántos crudos dejó y el modelo efectivo. Sin veredicto. Si hay error, detente y repórtalo tal cual. Al terminar, haz commit de los crudos y push a main.
