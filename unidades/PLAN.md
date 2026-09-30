@@ -727,3 +727,20 @@ python3 unidades/extraer_datos_doc.py banrep1 deepseek unidades_v5 datos_pABQ5 r
 **Reporte:** el de ENC9 (por subtema, el foco y el parsed del paso 2; modelo
 efectivo, tokens —incluidos los de razonamiento— y segundos de cada llamada).
 Sin veredicto ni cálculos.
+
+## Ronda U9: `unidades_v5` sobre un texto de divulgación (biomar1), DeepSeek
+
+Pedido de Frat: correr el prompt 1 vigente sobre un texto de divulgación de
+biología marina (`docs/biomar1.md`, 36 oraciones, cuatro secciones). Limpieza
+de formato, sin tocar el contenido: se quitaron las negritas, los separadores
+`---` y las viñetas (cada ítem es un párrafo); los títulos quedan como `#`/`##`
+y el código los deja fuera, como en evals1. Se conserva la errata del original
+(«atraer a sus presiones», or. 24). Con DeepSeek (xAI sin créditos). Sin gold.
+
+```
+python3 unidades/extraer_unidades.py biomar1 deepseek unidades_v5 r1
+```
+
+**Reporte:** el de U7 (subtemas con sus oraciones, verificación, modelo
+efectivo, tokens —incluidos los de razonamiento— y segundos). Sin veredicto ni
+cálculos.
