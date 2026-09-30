@@ -1,0 +1,102 @@
+{
+  "doc": "gen1",
+  "modelo": "deepseek",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_pABQ5",
+  "rep": "r3",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "la definición y las características de los volcanes de escudo",
+      "oraciones_n": [
+        1,
+        2,
+        3
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "la importancia de estudiar los volcanes de escudo para la seguridad de las islas",
+      "oraciones_n": [
+        4
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "la ubicación, la altura y los rasgos físicos del volcán Tumbal",
+      "oraciones_n": [
+        5,
+        9
+      ],
+      "datos": [
+        {
+          "variable": "altura del volcán Tumbal, en la isla de Arén",
+          "valor": "2300",
+          "unidad_de_medida": "metros"
+        },
+        {
+          "variable": "apariencia de las laderas del volcán Tumbal",
+          "valor": "majestuosas",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "ancho del cráter del volcán Tumbal",
+          "valor": "el más ancho de la isla",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 4,
+      "subtema": "la última erupción del volcán Tumbal",
+      "oraciones_n": [
+        6,
+        7,
+        8
+      ],
+      "datos": [
+        {
+          "variable": "fecha de inicio de la última erupción del volcán Tumbal",
+          "valor": "4 de marzo de 2019",
+          "unidad_de_medida": "fecha"
+        },
+        {
+          "variable": "duración de la última erupción del volcán Tumbal",
+          "valor": "41",
+          "unidad_de_medida": "días"
+        },
+        {
+          "variable": "temperatura alcanzada por la lava del volcán Tumbal durante esa erupción",
+          "valor": "1150",
+          "unidad_de_medida": "grados Celsius"
+        },
+        {
+          "variable": "superficie de cultivos cubierta por la colada principal del volcán Tumbal",
+          "valor": "12",
+          "unidad_de_medida": "kilómetros cuadrados"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 5,
+      "subtema": "la vulcanología como ciencia de campo",
+      "oraciones_n": [
+        10
+      ],
+      "datos": [
+        {
+          "variable": "siglo en que la vulcanología se convirtió en una ciencia de campo",
+          "valor": "pasado",
+          "unidad_de_medida": "siglo"
+        }
+      ],
+      "error_parseo": null
+    }
+  ]
+}

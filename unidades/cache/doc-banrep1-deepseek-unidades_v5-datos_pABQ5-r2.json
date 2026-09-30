@@ -1,0 +1,83 @@
+{
+  "doc": "banrep1",
+  "modelo": "deepseek",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_pABQ5",
+  "rep": "r2",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "la expectativa y proyección de la tasa de interés",
+      "oraciones_n": [
+        1,
+        2,
+        8,
+        9
+      ],
+      "datos": [],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "la inflación al alza en agosto",
+      "oraciones_n": [
+        3,
+        4
+      ],
+      "datos": [
+        {
+          "variable": "inflación anual en agosto",
+          "valor": "6,24",
+          "unidad_de_medida": "%"
+        },
+        {
+          "variable": "aceleración de la inflación anual en agosto",
+          "valor": "20",
+          "unidad_de_medida": "puntos básicos"
+        },
+        {
+          "variable": "variación mensual de la inflación en agosto",
+          "valor": "0,39",
+          "unidad_de_medida": "%"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "las preocupaciones por las finanzas públicas y el contexto global",
+      "oraciones_n": [
+        5,
+        6
+      ],
+      "datos": [
+        {
+          "variable": "condiciones financieras del contexto global",
+          "valor": "más restrictivas",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 4,
+      "subtema": "el balance del escenario para la decisión",
+      "oraciones_n": [
+        7
+      ],
+      "datos": [
+        {
+          "variable": "favorabilidad del entorno internacional en el escenario de la decisión del Banco de la República",
+          "valor": "menos favorable",
+          "unidad_de_medida": null
+        },
+        {
+          "variable": "variación del peso",
+          "valor": "apreciación",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    }
+  ]
+}

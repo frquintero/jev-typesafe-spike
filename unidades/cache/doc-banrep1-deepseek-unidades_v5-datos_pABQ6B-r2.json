@@ -1,0 +1,78 @@
+{
+  "doc": "banrep1",
+  "modelo": "deepseek",
+  "prompt_unidades": "unidades_v5",
+  "prompt_datos": "datos_pABQ6B",
+  "rep": "r2",
+  "unidades": [
+    {
+      "unidad_n": 1,
+      "subtema": "la expectativa y proyección de la tasa de interés",
+      "oraciones_n": [
+        1,
+        2,
+        8,
+        9
+      ],
+      "datos": [
+        {
+          "variable": "fecha de la próxima reunión de la Junta Directiva del Banco de la República",
+          "valor": "30 de septiembre",
+          "unidad_de_medida": "fecha"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 2,
+      "subtema": "la inflación al alza en agosto",
+      "oraciones_n": [
+        3,
+        4
+      ],
+      "datos": [
+        {
+          "variable": "aceleración de la inflación anual en agosto",
+          "valor": "20",
+          "unidad_de_medida": "puntos básicos"
+        },
+        {
+          "variable": "tasa de inflación anual en agosto",
+          "valor": "6,24",
+          "unidad_de_medida": "%"
+        },
+        {
+          "variable": "variación mensual de la inflación en agosto",
+          "valor": "0,39",
+          "unidad_de_medida": "%"
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 3,
+      "subtema": "las preocupaciones por las finanzas públicas y el contexto global",
+      "oraciones_n": [
+        5,
+        6
+      ],
+      "datos": [
+        {
+          "variable": "grado de restrictividad de las condiciones financieras del contexto global",
+          "valor": "más restrictivas",
+          "unidad_de_medida": null
+        }
+      ],
+      "error_parseo": null
+    },
+    {
+      "unidad_n": 4,
+      "subtema": "el balance del escenario para la decisión",
+      "oraciones_n": [
+        7
+      ],
+      "datos": [],
+      "error_parseo": null
+    }
+  ]
+}
