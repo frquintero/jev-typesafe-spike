@@ -744,3 +744,20 @@ python3 unidades/extraer_unidades.py biomar1 deepseek unidades_v5 r1
 **Reporte:** el de U7 (subtemas con sus oraciones, verificación, modelo
 efectivo, tokens —incluidos los de razonamiento— y segundos). Sin veredicto ni
 cálculos.
+
+## Ronda ENC11: `datos_pABQ5` con DeepSeek sobre biomar1 (divulgación)
+
+Pedido de Frat. Paso 1 reutilizado (crudo de U9: 14 subtemas). Sin gold previo:
+primero se mira la salida. Pregunta: ¿aparece en DeepSeek la fuga que ChatGPT
+diagnosticó en su simulación (variables fabricadas a partir de una expresión:
+«XXI», «el más grande», «absoluta»; clases tratadas como casos; límites que
+definen una zona tomados como valores)? Referencia: la pregunta de prueba de la
+constante de la definición (memoria, §4).
+
+```
+python3 unidades/extraer_datos_doc.py biomar1 deepseek unidades_v5 datos_pABQ5 r1
+```
+
+**Reporte:** el de ENC9 (por subtema, el foco y el parsed del paso 2; modelo
+efectivo, tokens —incluidos los de razonamiento— y segundos de cada llamada).
+Sin veredicto ni cálculos.
