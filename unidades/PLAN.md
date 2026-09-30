@@ -839,3 +839,31 @@ python3 unidades/extraer_datos_doc.py evals1 deepseek unidades_v5 datos_pABQ5 r2
 
 **Reporte (cada ronda):** por documento, que terminó sin error, cuántos crudos
 dejó y el modelo efectivo. Cowork lee los crudos y evalúa. Sin veredicto.
+
+## Ronda ENC14: réplicas de `pABQ5` frente a `pABQ6B` (ruido)
+
+Pedido de Frat tras ENC12–ENC13: el control de ruido mostró que `pABQ5` sacó
+13 filas no-dato en biomar1 r1 y 7 en r2; hay que ver si la ventaja de B
+supera el ruido. Réplicas r2 y r3 en biomar1, gen1 y banrep1. Nota: cada `rN`
+corre su propio paso 1 (`unidades-<doc>-…-rN`), así que la réplica mide el
+ruido de la cadena completa; `pABQ5` y `pABQ6B` con el mismo `rN` comparten el
+mismo paso 1 (comparación pareada). Para cada documento y `rN`, correr primero
+`pABQ5` (crea el paso 1) y después `pABQ6B`; documentos distintos pueden ir en
+paralelo.
+
+```
+python3 unidades/extraer_datos_doc.py biomar1 deepseek unidades_v5 datos_pABQ6B r2
+python3 unidades/extraer_datos_doc.py biomar1 deepseek unidades_v5 datos_pABQ5 r3
+python3 unidades/extraer_datos_doc.py biomar1 deepseek unidades_v5 datos_pABQ6B r3
+python3 unidades/extraer_datos_doc.py gen1 deepseek unidades_v5 datos_pABQ5 r2
+python3 unidades/extraer_datos_doc.py gen1 deepseek unidades_v5 datos_pABQ6B r2
+python3 unidades/extraer_datos_doc.py gen1 deepseek unidades_v5 datos_pABQ5 r3
+python3 unidades/extraer_datos_doc.py gen1 deepseek unidades_v5 datos_pABQ6B r3
+python3 unidades/extraer_datos_doc.py banrep1 deepseek unidades_v5 datos_pABQ5 r2
+python3 unidades/extraer_datos_doc.py banrep1 deepseek unidades_v5 datos_pABQ6B r2
+python3 unidades/extraer_datos_doc.py banrep1 deepseek unidades_v5 datos_pABQ5 r3
+python3 unidades/extraer_datos_doc.py banrep1 deepseek unidades_v5 datos_pABQ6B r3
+```
+
+**Reporte:** por comando, si terminó sin error y el modelo efectivo. Sin
+veredicto. Cowork evalúa.

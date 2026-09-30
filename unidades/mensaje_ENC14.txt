@@ -1,0 +1,3 @@
+Ronda ENC14. Lee AGENTS.md y la sección «Ronda ENC14» de unidades/PLAN.md y corre, sin modificar nada, los once comandos. Para cada documento y cada rN, primero el de datos_pABQ5 y después el de datos_pABQ6B (comparten el paso 1); los tres documentos pueden ir en paralelo.
+
+Repórtame, por comando, si terminó sin error y el modelo efectivo. Sin veredicto. Si hay error, detente y repórtalo tal cual. Al terminar, haz commit de los crudos y push a main.
