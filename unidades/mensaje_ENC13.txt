@@ -1,3 +1,3 @@
-Ronda ENC13. Lee AGENTS.md y la sección «Rondas ENC12 (A) y ENC13 (B)» de unidades/PLAN.md y corre, sin modificar nada, los comandos de ENC13: los seis de datos_pABQ6B, que puedes lanzar en paralelo.
+Ronda ENC13. Lee AGENTS.md y la sección «Rondas ENC12 (A) y ENC13 (B)» de unidades/PLAN.md y corre, sin modificar nada, los comandos de ENC13: los seis de datos_pABQ6B y los dos del control de ruido (datos_pABQ5 r2); los ocho pueden ir en paralelo.
 
 Repórtame, por documento, si terminó sin error, cuántos crudos dejó y el modelo efectivo. Sin veredicto. Si hay error, detente y repórtalo tal cual. Al terminar, haz commit de los crudos y push a main.

@@ -828,5 +828,14 @@ python3 unidades/extraer_datos_doc.py gen1 deepseek unidades_v5 datos_pABQ6B r1
 python3 unidades/extraer_datos_doc.py cont1 deepseek unidades_v5 datos_pABQ6B r1
 ```
 
+Control de ruido (añadido tras ver ENC12: en la regresión, A cambió filas que no
+toca su principio, p. ej. banrep1 y evals1): una réplica de `pABQ5` en los dos
+documentos más sensibles.
+
+```
+python3 unidades/extraer_datos_doc.py biomar1 deepseek unidades_v5 datos_pABQ5 r2
+python3 unidades/extraer_datos_doc.py evals1 deepseek unidades_v5 datos_pABQ5 r2
+```
+
 **Reporte (cada ronda):** por documento, que terminó sin error, cuántos crudos
 dejó y el modelo efectivo. Cowork lee los crudos y evalúa. Sin veredicto.
