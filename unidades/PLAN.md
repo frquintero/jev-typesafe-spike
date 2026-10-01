@@ -874,3 +874,37 @@ las no-dato de biomar1 de media 10 a 6, sin perder datos firmes; banrep1 sin
 diferencia (ruido). Ninguna versión resolvió las constantes de la definición
 (límites de las zonas). **Rondas suspendidas el 30-09** (decisión de Frat: el
 marco del ensayo cambió y se empieza desde cero en otra sesión).
+
+## Ronda F1: ficha v0 sobre los textos de desarrollo (nuevo enfoque, 01-10)
+
+Nuevo enfoque (memoria de trabajo, «Dónde quedamos» y §5): el paso 2 ya no
+decide qué es dato; reconstruye todo lo que el texto establece, organizado
+desde el caso de estudio, en una **ficha** con siete listas (casos,
+relaciones, capas, determinaciones, acciones, marcas, dudas). Prompt:
+`prompts/ficha_v0.md` (ejemplo: el estanque, que por eso queda fuera de la
+prueba). Una llamada por documento, texto entero, **sin subtemas, sin
+inventario y sin Jev**. Script: `unidades/ficha_doc.py` (numera, llama y
+verifica que cada respaldo, mención y marca esté literal en su oración; no
+juzga contenido).
+
+**Qué se prueba:** si DeepSeek produce fichas fieles en textos cortos. Vara
+de Frat: ~90 % correcto y ejecución ágil. Alcance: solo el núcleo conceptual;
+no prueba documentos largos ni la arquitectura completa.
+
+**Textos de desarrollo** (inventados por Cowork; sirven para desarrollar, no
+para medir): `docs/puente1.md`, `docs/represa1.md`. La reserva (dos textos
+escritos por ChatGPT con preguntas fijadas antes) será la ronda F2.
+
+```
+python3 unidades/ficha_doc.py puente1 deepseek ficha_v0 r1
+python3 unidades/ficha_doc.py puente1 deepseek ficha_v0 r2
+python3 unidades/ficha_doc.py puente1 deepseek ficha_v0 r3
+python3 unidades/ficha_doc.py represa1 deepseek ficha_v0 r1
+python3 unidades/ficha_doc.py represa1 deepseek ficha_v0 r2
+python3 unidades/ficha_doc.py represa1 deepseek ficha_v0 r3
+```
+
+**Reporte:** por comando, si terminó sin error, el modelo efectivo, los
+segundos y la verificación que imprime el script. Sin veredicto. Cowork
+evalúa en dos dimensiones (qué recupera; qué agrega o deforma) con los 11
+errores de la memoria §5.4 como guía.
