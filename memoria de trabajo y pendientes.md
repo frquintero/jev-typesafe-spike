@@ -188,3 +188,22 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 9. Jev: auditoría de los datos, graduación de confianza, canonicalización de variables, reidentificación de casos entre textos, procedencia como capa propia.
 10. H1 (§6), solo si llega a importar para Jev: repetir focos con y sin números en la superficie.
 11. Grok sin créditos de xAI: recargar antes de volver a compararlo.
+
+## 8. Referencia: el modelo de statements de Wikidata (30-09)
+
+No es diseño de Zettel (falta mucho para eso). Es literatura para no inventar la rueda, a la mano para cuando toque. Cifras de propiedades escritas de memoria: verificarlas antes de usarlas.
+
+**Las piezas.** Un *statement* = afirmación principal (ítem + propiedad + valor) + **calificadores** (pares propiedad–valor que precisan qué se afirma: fecha P585, «se aplica a la parte» P518, «criterio usado» P1013) + **referencias** (de dónde sale: «publicado en» P248, URL P854, fecha de consulta P813, cita textual P1683) + **rango** (*preferred*, *normal*, *deprecated*, con «motivo del rango obsoleto» P2241). Cada statement tiene GUID: viene reificado.
+
+**Correspondencia con el ensayo.**
+- Caso de estudio → ítem. Fusión de ítems y «diferente de» (P1889) = reindividuación a mano.
+- Aspecto → propiedad (con tipo de dato fijo). Dominio → restricciones de la propiedad. Escala → unidad, límites y precisión de cantidades y fechas (condiciones de representación).
+- Condiciones constitutivas → calificadores (quitarlos cambia la pregunta). Procedencia → referencias (quitarlas deja el dato igual, sin sostén).
+- Estatuto → rango; lo *deprecated* no se borra (sigue recuperable, como en el ensayo).
+- Pregunta abierta → *somevalue* (existe, se ignora cuál) frente a *novalue* (establecido que no hay).
+
+**Coincidencias de fondo.** (1) «Verificabilidad, no verdad»: fuentes rivales conviven como statements distintos; Wikidata se parece más a la capa Claim («la fuente dice») que a Datum (el caso del sensor del ensayo). (2) Mismo valor y calificadores con dos fuentes = un statement con dos referencias = «un dato sostenido dos veces». (3) Doble vista en RDF: plana `wdt:` (solo el mejor rango, casi `aguaA.temperatura = 35`) y completa reificada (`p:/ps:/pq:/pr:`, con `prov:wasDerivedFrom` de PROV-O).
+
+**Donde el ensayo afina.** Los calificadores mezclan constitutivo y procedencia (P459 «método de determinación» es a veces una y a veces otra; el criterio del ensayo —qué cambia si se modifica— decide). Sin núcleo común: dos referencias pesan igual aunque una copie a la otra. Sin pregunta ni información. Marca débil (la cita es opcional y no se ancla a versión ni posición). Error y falsedad juntos en *deprecated*.
+
+**Tomable tal cual, cuando llegue el momento:** estructura del statement; no borrar lo desaprobado; *somevalue* frente a *novalue*; propiedad tipada con dominio y unidades; doble vista plana y reificada.
