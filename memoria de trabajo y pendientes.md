@@ -1,10 +1,15 @@
 # Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 01-10-2026. **Nuevo enfoque decidido (ver «Dónde quedamos» y §5).** No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md` (`unidades/PLAN.md`, `prototipos/PLAN.md`).
+Estado al 01-10-2026, fin de sesión. **Nuevo enfoque en prueba: rondas F1–F4 hechas (ver «Dónde quedamos» y §5.5).** No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md` (`unidades/PLAN.md`, `prototipos/PLAN.md`).
 
 ## Dónde quedamos (leer primero)
 
-Estado al 01-10-2026. **Nuevo enfoque decidido; ninguna corrida lanzada.** Lo anterior a esta fecha (§3–§4, §6) es registro de lo aprendido con el enfoque viejo.
+Estado al 01-10-2026, fin de sesión. **Rondas F1–F4 hechas; prompt vigente `ficha_v1` (con referencias implícitas). Siguiente: congelarlo y probarlo en una reserva por géneros.** Resultados en §5.5; lecciones en §6.
+
+- **Directriz de Frat (01-10):** todo cambio al prompt se piensa como **generalización**, no como particularización: el prompt debe servir para documentos de contenido general (divulgación, ensayo no especializado, opinión), no para resolver los textos de prueba. No se sigue afinando sobre los textos de desarrollo.
+- **Siguiente paso:** pedir (a ChatGPT u otro) tres textos de reserva de varios párrafos, uno por género, con preguntas fijadas antes (incluida al menos una de referencia implícita: «otro», «igual», «el mismo»); correr `ficha_v1` congelada; medir la vara de Frat (≈90 % correcto, ejecución ágil). Si el costo resulta alto en textos de tamaño real, es un problema de arquitectura o de modelo, no de seguir retocando el prompt.
+
+Plan con el que se arrancó el nuevo enfoque (cumplido hasta el punto 5): Lo anterior a esta fecha (§3–§4, §6) es registro de lo aprendido con el enfoque viejo.
 
 - **Marco fijo:** ensayo «¿Qué es un dato?» (versión del 30-09). El marco no se mueve más. Resumen operativo en §5.
 - **Cambio de enfoque (sesión 30-09/01-10, Frat + Cowork, con revisiones de ChatGPT):** el paso 1 (`unidades_v5`) se conserva. El paso 2 deja de decidir «qué es dato» y pasa a **reconstruir todo lo que el texto establece, organizado desde el caso de estudio**. La pertinencia se decide después (Jev o la pregunta). Decisiones en §5.
@@ -170,13 +175,25 @@ Casi todos son de **identidad**: la ficha agrega o pierde algo.
 
 Dos lectores atentos discreparon sobre todo al individuar el caso de estudio, como los anotadores de MeasEval (acuerdo 0,55): ahí se espera que falle el modelo.
 
-### 5.5 Antecedentes revisados
+### 5.5 Rondas F1–F4 (01-10; DeepSeek; script `unidades/ficha_doc.py`)
+
+- **F1** (`ficha_v0`, desarrollo: puente1, represa1; 3 réplicas): núcleo fiel en lo grueso (capas, negación en el valor, acción recomendada dentro de su capa, «otra sequía igual» como duda, cambios conservados). Inestable en lo chico: «anexo 4» tratado de tres maneras; una relación sin extremos.
+- **F2** (`ficha_v0`, reserva de ChatGPT: pintura1, cafe1; preguntas en `gold/preguntas_reserva_F2.md`): las 12 preguntas se responden en las 3 réplicas (36/36), incluidas las de capa (Vélez, Salgado), alcance (el acta no registra ≠ no hubo ventas), caso correcto (250 g de la muestra) y no inventar (madera, total del lote). Falla de **formato**: campos de relaciones y acciones distintos en cada réplica, referencias como texto (`"C2,C5"`), hechos con agente a veces en acciones y a veces en relaciones; fila mal articulada «identificación en inventario = identificada».
+- **Lectura del razonamiento de F2:** el modelo dudaba dónde poner hechos con agente (el prompt solo nombraba acciones para recomendaciones), inventaba campos («el formato no está especificado»), no sabía adónde mandar los números que identifican; 21–50 % del razonamiento es un borrador del JSON.
+- **F3** (`ficha_v1` = contrato de representación: función y campos de cada lista; identificadores en el nombre del caso; referencias como ids): forma estable en las 12 corridas y 36/36 conservado; desaparece la fila mal articulada. **El costo subió** (razonamiento medio 9–13,7 mil → 10,3–15,6 mil tokens; 37–79 s): el contrato abrió nuevas decisiones (en qué lista va cada hecho, campos `modalidad`/`cambio` sin definir, `inferido` faltante en relaciones, nombre o determinación para adjetivos) y el modelo busca más relaciones. Muse se colgó sin lanzar comandos; los corrió Cowork sin modificar nada.
+- **Hallazgo de fundamento (ChatGPT, verificado):** «otra sequía igual» no se enlazaba con la sequía de 2024 en ninguna réplica; el modelo veía el antecedente y lo descartaba por el principio 5 (cuyo ejemplo estaba tomado de la propia represa) y por «lo ambiguo no se resuelve». Sin el término de comparación, la condición de la creencia de Ríos no es recuperable sin volver al texto.
+- **F4** (`ficha_v1` modificada en el lugar, decisión de Frat; las corridas F3 guardan el prompt anterior en su `request`): principio 5 general (resolver referencias implícitas con un solo antecedente, marcadas `inferido`; lo comparado y el término de comparación son casos distintos unidos por una relación; varios antecedentes → dudas), sin ejemplo de la represa; principio 9: ambiguo = más de una lectura posible; `inferido` en relaciones. Una corrida (represa1 r4): enlace correcto («otra sequía igual» —igual a→ «sequía de 2024», inferido, dentro de la capa de Ríos; la condición apunta a ese caso). Efectos: valor «no» en vez de «no resistiría» (el matiz queda en `modalidad`); «40 millones de m³» registrado como determinación y como relación con «agua». Costo 80 s y 17 400 tokens de razonamiento. Una corrida en texto de desarrollo: muestra que funciona aquí, no que generalice.
+- **Pendiente detectado, no corregido:** el principio 1 aún usa un ejemplo tomado de la represa («el técnico Pablo Ríos»).
+
+### 5.6 Antecedentes revisados
 
 - **MeasEval** (SemEval-2021, tarea 8): cantidad, unidad, entidad medida, propiedad medida y calificador, todos anclados en el texto; relaciones opcionales. Acuerdo humano: cantidad 0,94; propiedad 0,64; entidad 0,55; calificador 0,33. Solo mediciones.
 - **GraphRAG** (Microsoft, 2024): entidades, relaciones y *claims* extraídos por LLM; trozos chicos recuperan casi el doble; *gleaning* para omisiones. Fusiona entidades por nombre exacto y resume en prosa: dos cosas a evitar.
 - **Wikidata:** §8.
 
 ## 6. Lecciones
+
+- **Nuevo enfoque (01-10):** (a) una lista sin forma declarada se inventa distinta en cada réplica; un ejemplo con listas vacías no enseña nada; (b) cada «no va aquí» necesita un «va allá»; (c) un contrato más explícito estabiliza la forma pero no abarata: abre decisiones nuevas (en qué lista va cada hecho) y el modelo registra más; (d) un ejemplo tomado del texto de prueba enseña cautela justo en ese caso (principio 5); (e) referencia implícita con un solo antecedente ≠ ambigüedad; (f) leer el `reasoning_content` antes de proponer cambios localiza la causa; (g) no afinar sobre textos de desarrollo: la directriz es generalizar.
 
 - Un campo obligatorio no filtra: el modelo inventa algo para llenarlo (seudoescalas en D6; escalas inventadas en DU2).
 - «Puede formularse una pregunta» es una fuga: a cualquier hecho se le fabrica una.
@@ -213,6 +230,15 @@ Dos lectores atentos discreparon sobre todo al individuar el caso de estudio, co
 - **Hipótesis H1 (no probada): los tokens de razonamiento delatan los bordes.** En ENC9 se dispararon justo en los focos que el análisis previo marcó como riesgosos, pero son seis focos y una corrida. Confusor posible: esos focos son también los que traen números o cuantificadores en la superficie. Si se confirma, sería una señal barata para mandar a revisión (como la franja central de Jev).
 
 ## 7. Pendientes
+
+**Vigentes (nuevo enfoque, 01-10):**
+
+- A. Reserva por géneros (divulgación, ensayo no especializado, opinión; varios párrafos; escritos por otro; preguntas antes) con `ficha_v1` congelada; medir ≈90 % y tiempo.
+- B. Costo: medir en textos de tamaño real antes de decidir; palancas posibles son arquitectura (subtemas, inventario de casos) o modelo, no más contrato.
+- C. Ejemplo del principio 1 tomado de la represa: reemplazar por uno neutro cuando se toque el prompt.
+- D. Muse se colgó en F3 sin lanzar comandos (siete minutos); si se repite, revisar `muse.sh exec` o correr los comandos directamente.
+
+**Del enfoque anterior:**
 
 **Suspendidos (30-09)** hasta el nuevo enfoque de la sesión que empieza desde cero; se conservan como referencia.
 
