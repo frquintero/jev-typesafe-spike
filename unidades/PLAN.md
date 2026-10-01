@@ -908,3 +908,20 @@ python3 unidades/ficha_doc.py represa1 deepseek ficha_v0 r3
 segundos y la verificación que imprime el script. Sin veredicto. Cowork
 evalúa en dos dimensiones (qué recupera; qué agrega o deforma) con los 11
 errores de la memoria §5.4 como guía.
+
+## Ronda F2: ficha v0 sobre la reserva (textos de ChatGPT)
+
+Mismo prompt y script que F1. Textos de reserva escritos por ChatGPT sin ver
+el prompt: `docs/pintura1.md`, `docs/cafe1.md`; preguntas y respuestas
+esperadas fijadas antes en `gold/preguntas_reserva_F2.md`. Estos sí miden.
+
+```
+python3 unidades/ficha_doc.py pintura1 deepseek ficha_v0 r1
+python3 unidades/ficha_doc.py pintura1 deepseek ficha_v0 r2
+python3 unidades/ficha_doc.py pintura1 deepseek ficha_v0 r3
+python3 unidades/ficha_doc.py cafe1 deepseek ficha_v0 r1
+python3 unidades/ficha_doc.py cafe1 deepseek ficha_v0 r2
+python3 unidades/ficha_doc.py cafe1 deepseek ficha_v0 r3
+```
+
+**Reporte:** igual que F1. Sin veredicto.
