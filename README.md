@@ -1,49 +1,60 @@
 # Spike Jev — detección con modelo de decisiones
 
-## Estado actual (2026-09-30)
+## Estado actual (2026-10-01)
 
-**Pruebas de extracción suspendidas.** Frat afinó el marco filosófico del
-ensayo «¿Qué es un dato?» y el trabajo se retoma desde cero en otra sesión;
-el enfoque del prompt probablemente cambie. Lo aprendido hasta aquí (fallas
-por género, la pregunta generadora como fuga, la estructura de tres
-condiciones caso/aspecto/hecho, presuposición, ruido entre corridas) está en
-`memoria de trabajo y pendientes.md`, «Dónde quedamos». Lo que sigue describe
-el estado al suspender.
+**Nuevo enfoque del paso 2; rondas F1 y F2 preparadas, sin correr.** El marco
+queda fijo: ensayo de Frat «¿Qué es un dato?», versión del 30-09 (resumen
+operativo en `memoria de trabajo y pendientes.md`, §5). Las pruebas del
+enfoque anterior (`datos_pABQ5`, `datos_pABQ6B`) se suspendieron el 30-09;
+lo aprendido con ellas queda en la memoria (§3–§4, §6).
 
+**Qué hacemos.** Reconstruir con un LLM barato (DeepSeek `deepseek-flash`)
+**todo lo que un texto establece, organizado desde el caso de estudio**, en
+el vocabulario del ensayo (caso de estudio, aspecto, marca de posición,
+condiciones, valor, dato). El extractor ya no decide «qué es dato»: la
+pertinencia se decide después (Jev o la pregunta que se le haga al texto).
+Es la capa de datos del grafo datos → argumentos → tesis de **Zettel**.
 
-**Qué hacemos.** Extraer los **datos** de un `texto` con un LLM barato
-(DeepSeek `deepseek-flash`; Grok 4.7 cuando haya créditos de xAI), en el
-sentido del ensayo de Frat «¿Qué es un dato?», en dos pasos encadenados
-(carpeta `unidades/`, hilo activo):
+1. **Subtemas** (`unidades/extraer_unidades.py`, prompt `unidades_v5`): el
+   código parte el texto en oraciones y las numera; el LLM las agrupa en
+   subtemas. Se conserva, pero queda fuera de la prueba actual.
+2. **Ficha** (`unidades/ficha_doc.py`, prompt `unidades/prompts/ficha_v0.md`):
+   una llamada por documento, con el texto entero numerado. La ficha tiene
+   siete listas: casos, relaciones, capas (creer, recomendar, decir,
+   suponer, citar), determinaciones, acciones, marcas y dudas. Toda
+   determinación lleva los fragmentos literales que la respaldan. El código
+   solo numera y verifica que cada respaldo, mención y marca esté literal en
+   su oración; no juzga contenido. El ejemplo del prompt es el texto del
+   estanque, que por eso queda fuera de la prueba.
 
-1. **Subtemas** (`extraer_unidades.py`, prompt vigente `unidades_v5`): el
-   código parte el texto en oraciones (de punto a punto) y las numera; el LLM
-   las agrupa en subtemas (un asunto nuclear y su desarrollo), con oraciones
-   seguidas o separadas.
-2. **Datos por subtema** (prompt vigente `datos_pABQ5`, escrito por Frat; `datos_pABQ6B` rindió mejor en las réplicas ENC12–14 y quedó sin adoptar):
-   una llamada por subtema con el documento completo numerado y el foco (las
-   oraciones del subtema); el LLM devuelve
-   `{"datos": [{"variable", "valor", "unidad_de_medida"}]}`. El prompt tiene
-   definiciones cortas, una sección «No son datos» y cuatro ejemplos
-   (números con unidad, tiempo de un hecho, cualidades y un caso con un solo
-   dato frente a una creencia). Probado en oxi1 (P14) y en evals1, un texto
-   real sin datos (ENC9).
+**Prueba preparada: el núcleo conceptual en textos cortos** (DeepSeek, tres
+réplicas por texto; vara de Frat: cerca del 90 % correcto y ejecución ágil).
 
-La cadena completa la corre `extraer_datos_doc.py` (entra un documento, sale
-un consolidado con sus datos). Es la capa de datos del grafo datos →
-argumentos → tesis de **Zettel**. Después, **Jev** (`jev-1.13.0`) auditará lo
-extraído; no empezado.
+| Ronda | Textos | Papel |
+|---|---|---|
+| F1 | `puente1`, `represa1` (inventados por Cowork) | desarrollo: sirven para desarrollar, no para medir |
+| F2 | `pintura1`, `cafe1` (escritos por ChatGPT sin ver el prompt) | reserva: miden; preguntas y respuestas fijadas antes en `unidades/gold/preguntas_reserva_F2.md` |
+
+La lectura es en dos dimensiones: qué recupera y qué agrega o deforma, con
+los 11 errores de la memoria (§5.4) como guía; se admiten errores nuevos.
+**Fuera de alcance:** subtemas, inventario de casos, documentos largos y
+Jev. **Arquitectura propuesta para después (no decidida):** oraciones
+(código) → subtemas (LLM) → inventario de casos de estudio por documento
+(LLM) → determinaciones por foco (LLM) → verificación literal (código) → Jev
+(identidad, correferencias, omisiones mirando el texto).
 
 **Dónde está cada cosa.**
 
-- Estado vigente, decisiones, lecciones y pendientes:
-  `memoria de trabajo y pendientes.md` (fuente única del estado).
+- Estado vigente, marco, decisiones, errores, lecciones y pendientes:
+  `memoria de trabajo y pendientes.md` (fuente única del estado; §5 manda
+  sobre lo anterior).
 - Rondas (cambio, conjetura, gold, comandos, reporte): `unidades/PLAN.md`
-  y, para los ejemplos prototípicos, `prototipos/PLAN.md` (batería, ejemplos
-  sueltos `ejemplos/*.md`, `correr.py`, `evaluar.py`).
-  Prompts en `unidades/prompts/`; unidades de prueba en `unidades/docs/`;
-  crudos en `unidades/cache/`; mensaje para el ejecutor de cada ronda en
-  `unidades/mensaje_<RONDA>.txt`.
+  (F1 y F2 al final); mensaje para el ejecutor de cada ronda en
+  `unidades/mensaje_<RONDA>.txt`. Prompts en `unidades/prompts/`, textos en
+  `unidades/docs/`, golds y preguntas en `unidades/gold/`, crudos en
+  `unidades/cache/`.
+- Enfoque anterior: `unidades/extraer_datos_doc.py` (cadena subtemas → datos)
+  y `prototipos/` (batería de ejemplos prototípicos, `prototipos/PLAN.md`).
 - Reglas del ejecutor (red, claves, comandos, reportes): `AGENTS.md`.
 - Píldoras (precisiones de vocabulario y conceptos que surgen en la
   planeación): viven fuera del repo, en `~/Claude-memoria/pildoras.md`.
@@ -52,10 +63,10 @@ extraído; no empezado.
   estemos en pruebas de extracción).
 
 **Cómo se trabaja.** Frat y Cowork planean (piensan, discuten, conjeturan);
-solo hay corrida cuando hay una conjetura nueva. Cowork escribe prompt y
-ronda, hace commit y push; el ejecutor (Muse Code, GPT-6 Luna o Claude Code) corre sin modificar
-nada, reporta sin veredicto y sube los crudos; Cowork evalúa contra la
-conjetura y Frat decide.
+solo hay corrida cuando hay una conjetura nueva, y el prompt se muestra antes
+de correr. Cowork escribe prompt y ronda, hace commit y push; el ejecutor
+(Muse Code, GPT-6 Luna o Claude Code) corre sin modificar nada, reporta sin
+veredicto y sube los crudos; Cowork evalúa contra la conjetura y Frat decide.
 
 **Antecedentes.** `niveles/` (extracción sobre el texto entero, `datos_v1`–
 `v8`) queda sin trabajo activo. El objetivo original del spike (Jev en lugar
@@ -96,7 +107,7 @@ La primera vez, mitmdump crea su certificado en `~/.mitmproxy/`. Desde un shell 
 
 ```bash
 export HTTPS_PROXY=http://127.0.0.1:8080 SSL_CERT_FILE=$HOME/.mitmproxy/mitmproxy-ca-cert.pem
-python3 unidades/extraer_datos_doc.py bio1 grok unidades_v3 datos_u7 r1
+python3 unidades/ficha_doc.py puente1 deepseek ficha_v0 r1
 ```
 
 El certificado del proxy solo lo usan los procesos que exportan `SSL_CERT_FILE`; no se instala en el sistema. El proxy agrega la clave solo a los cuatro hosts de la tabla y deja pasar el streaming. Al reiniciar la máquina, el proxy se apaga y hay que arrancarlo de nuevo.
