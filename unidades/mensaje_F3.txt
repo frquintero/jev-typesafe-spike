@@ -1,0 +1,3 @@
+Ronda F3. Lee AGENTS.md y la sección «Ronda F3» de unidades/PLAN.md y corre, sin modificar nada, los doce comandos (los cuatro documentos pueden ir en paralelo; dentro de cada documento, en orden r1, r2, r3).
+
+Repórtame, por comando, si terminó sin error, el modelo efectivo, los segundos y la verificación que imprime el script. Sin veredicto. Si hay error, detente y repórtalo tal cual. Al terminar, haz commit de los crudos y push a main.

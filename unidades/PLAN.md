@@ -925,3 +925,40 @@ python3 unidades/ficha_doc.py cafe1 deepseek ficha_v0 r3
 ```
 
 **Reporte:** igual que F1. Sin veredicto.
+
+## Ronda F3: `ficha_v1` (contrato de representación), regresión sobre F1 y F2
+
+Pedido de Frat tras leer el razonamiento de F2: el modelo dudaba dónde poner
+los hechos con agente (acciones solo se nombraban para recomendaciones),
+inventaba los campos de relaciones y acciones (distintos en cada réplica), no
+sabía dónde ir los números que identifican y escribía referencias como texto
+(`"C2,C5"`). Entre 21 % y 50 % del razonamiento era un borrador del JSON.
+
+**Cambio (un principio: contrato de representación; nada de contenido):** el
+apartado FORMATO declara la función y los campos de cada lista; acciones =
+lo que alguien hace, hizo o se recomienda/ordena hacer; los identificadores
+van en el nombre y las menciones del caso (principio 8 con destino); toda
+referencia es un id o lista de ids (`refs` en marcas, también en el ejemplo).
+Tarea, definiciones, demás principios y ejemplo del estanque, iguales.
+
+**Conjetura:** campos estables entre réplicas; las 12 preguntas de
+`gold/preguntas_reserva_F2.md` siguen respondiéndose; baja el razonamiento
+(v0: 7.700–14.900 tokens por texto).
+
+```
+python3 unidades/ficha_doc.py puente1 deepseek ficha_v1 r1
+python3 unidades/ficha_doc.py puente1 deepseek ficha_v1 r2
+python3 unidades/ficha_doc.py puente1 deepseek ficha_v1 r3
+python3 unidades/ficha_doc.py represa1 deepseek ficha_v1 r1
+python3 unidades/ficha_doc.py represa1 deepseek ficha_v1 r2
+python3 unidades/ficha_doc.py represa1 deepseek ficha_v1 r3
+python3 unidades/ficha_doc.py pintura1 deepseek ficha_v1 r1
+python3 unidades/ficha_doc.py pintura1 deepseek ficha_v1 r2
+python3 unidades/ficha_doc.py pintura1 deepseek ficha_v1 r3
+python3 unidades/ficha_doc.py cafe1 deepseek ficha_v1 r1
+python3 unidades/ficha_doc.py cafe1 deepseek ficha_v1 r2
+python3 unidades/ficha_doc.py cafe1 deepseek ficha_v1 r3
+```
+
+**Reporte:** por comando, si terminó sin error, el modelo efectivo, los
+segundos y la verificación que imprime el script. Sin veredicto.
