@@ -1,17 +1,21 @@
 # Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 30-09-2026, fin de sesión. **Pruebas de extracción suspendidas.** No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md` (`unidades/PLAN.md`, `prototipos/PLAN.md`).
+Estado al 01-10-2026. **Nuevo enfoque decidido (ver «Dónde quedamos» y §5).** No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md` (`unidades/PLAN.md`, `prototipos/PLAN.md`).
 
 ## Dónde quedamos (leer primero)
 
-- **Pruebas suspendidas (30-09, decisión de Frat).** Frat afinó el marco filosófico del ensayo «¿Qué es un dato?» y va a empezar desde cero en otra sesión: el enfoque del prompt probablemente cambie. Lo de abajo es el registro de lo aprendido hasta aquí, para llevar a la nueva sesión; nada está lanzado ni en curso.
-- **Últimos prompts:** paso 1 `unidades_v5`; paso 2 `datos_pABQ5` (vigente formal) y `datos_pABQ6B` (mejor en las réplicas, no adoptado por la suspensión). Modelo: DeepSeek (xAI sin créditos).
-- **Lo que vale la pena llevar al nuevo enfoque** (detalle en §4–§6):
-  1. **Fallas por género:** en informes y ensayos `pABQ5` es preciso; en divulgación que describe clases (biomar1) saca de más: constantes de la definición, genéricos de clase en singular, variables fabricadas («importancia = crucial», «grado de delicadeza = delicado», «siglo = XXI») y adjetivos que clasifican.
-  2. **La pregunta generadora** («¿qué valor toma esta variable…?») es una fuga: va de la expresión a la variable. Quitarla y exigir que el foco atribuya a algo individual un valor en un aspecto que el texto determina (`pABQ6B`) bajó las filas de más sin perder datos firmes.
-  3. **Estructura propuesta, no probada (`pABQ7`):** cambiar la lista creciente de «No son datos» por tres condiciones de la fórmula del ensayo, `variable(caso, condiciones) = valor`: **caso** individual (no clase ni genérico), **aspecto** que podría haber sido otro sin que el caso dejara de ser el que es (esencial frente a accidental; excluye constantes, binarios, relaciones y valoraciones) y **hecho** (no creencia, hipótesis ni posibilidad). Un borde nuevo cae en una casilla en vez de sumar una línea.
-  4. **Presuposición** (Karttunen, Heim; FactBank): lo que la voz del texto da por sentado está presentado como hecho; los condicionales filtran; los factivos comprometen al autor. Propuesta: regla gruesa en el prompt y fineza para Jev (Jev poda lo de más; nadie recupera lo omitido).
-  5. **Método:** una corrida no basta (con el mismo prompt, biomar1 dio 13 y 7 filas no-dato); medir con réplicas, regresión y un texto de reserva con gold previa que no escriba quien diseña el prompt.
+Estado al 01-10-2026. **Nuevo enfoque decidido; ninguna corrida lanzada.** Lo anterior a esta fecha (§3–§4, §6) es registro de lo aprendido con el enfoque viejo.
+
+- **Marco fijo:** ensayo «¿Qué es un dato?» (versión del 30-09). El marco no se mueve más. Resumen operativo en §5.
+- **Cambio de enfoque (sesión 30-09/01-10, Frat + Cowork, con revisiones de ChatGPT):** el paso 1 (`unidades_v5`) se conserva. El paso 2 deja de decidir «qué es dato» y pasa a **reconstruir todo lo que el texto establece, organizado desde el caso de estudio**. La pertinencia se decide después (Jev o la pregunta). Decisiones en §5.
+- **Plan vigente (en este orden; solo el núcleo conceptual en textos cortos):**
+  1. **Ficha** (formato de salida) con las decisiones de §5. Cowork la propone; Frat decide.
+  2. **Prompt v0**: tarea, definiciones, ficha, principios (no parches por error) y un ejemplo resuelto. Se muestra antes de correr.
+  3. **Textos.** Desarrollo: estanque, puente y represa (inventados por Cowork en la sesión; §5.3). Reserva: dos textos escritos por otro (ChatGPT), con preguntas fijadas antes de ver el prompt.
+  4. **Corrida:** DeepSeek, tres réplicas por texto.
+  5. **Lectura en dos dimensiones:** qué recupera y qué agrega o deforma. Los 11 errores de §5.4 guían la lectura; se admiten errores nuevos.
+- **Fuera de alcance de esta prueba:** subtemas, inventario de casos, documentos largos y Jev. **Alcance de lo que concluye:** si las fichas salen fieles, hay base para sumar el siguiente componente; si fallan, se localiza la falla (formato, instrucciones, representación o reconstrucción) antes de decidir arquitectura o el papel de Jev. Un error recurrente no define por sí solo el juicio de Jev.
+- **Arquitectura propuesta para después (no decidida):** oraciones (código) → subtemas (LLM) → inventario de casos de estudio por documento (LLM, borrador ampliable) → determinaciones por foco (LLM) → verificación literal (código) → Jev (identidad, correferencias, omisiones mirando el texto).
 
 ## 0. Dónde y cómo
 
@@ -87,7 +91,7 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 - **Formato:** `variable` (completa: caso, circunstancias y método cuando define qué se midió), `valor` (literal, sin la unidad), `unidad_de_medida`.
 - **Historia corta:** definiciones largas (`u3`–`u4`) → seudodatos; solo ejemplos (`u5`) → mejor; definiciones cortas + ejemplos nodo (`u6`–`u7`) → 39/39 en ut1–ut5; documento completo + foco (`u8`); definiciones reestructuradas, «No son datos», genéricos y cantidades vagas (`u9`); fecha de un hecho es dato (`u10`); prototipos mínimos (`pAB`).
 
-### Decisiones de Frat sobre qué es dato (DU5–P4)
+### Decisiones de Frat sobre qué es dato (DU5–P4) — enfoque viejo; donde choquen con §5, manda §5
 
 - **Texto genérico sin datos es resultado correcto** (ENC9): el dato es de un caso, no de una clase; las generalizaciones y reglas de un texto metodológico son garantías (nivel de los argumentos), no datos. No se amplía «dato» para que entren.
 - **La pertinencia sale del extractor, sin excepción** (29-09): el extractor reinscribe toda determinación bien formada que el texto presenta como hecho, dentro de su alcance; la pertinencia respecto de la práctica (ensayo l. 121, también en los bordes) la juzga Jev después. Principio operativo en §5.
@@ -106,35 +110,71 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 - **Completitud de la variable** (decisión de Frat tras U4/bio1): una variable está bien hecha cuando al leerla queda claro qué varía, con el contexto necesario. El método que define qué se midió («registrados por los censos visuales», «en marea baja») va en la variable; en metrología, reduce la incertidumbre definicional (VIM 2.27). La **procedencia** queda solo para la fuente del dicho («según el informe de…», «el técnico dijo…»): no cambia qué varía, y es lo que Jev podría pesar al graduar la confianza. En bio1 no hubo error de procedencia: «marcadas por los buzos» es el agente de lo contado, y «por los censos visuales», el método.
 - **El valor puede ser un tipo, no un ejemplar** (decisión de Frat tras U4/bio1): la variable tiene la estructura del fenómeno (soporte, escala, distribución, momentos) y los valores son realizaciones. «Especie más abundante = pez loro» está bien construido: «pez loro» es un tipo (categoría del soporte de una variable nominal), no un caso concreto; además es la moda de «especie de cada pez» sobre la muestra del censo, un dato de segundo orden. Lo que no puede ser valor es un ejemplar (un individuo concreto): eso sigue siendo relación entre casos. «Estado del tejido = sano» también está bien: variable categórica con más de dos estados.
 
-## 5. Marco: qué es un dato (ensayo)
+## 5. Marco y decisiones del nuevo enfoque (30-09 / 01-10)
 
-- **Caso:** lo distinguido al observar; unidad individuada y reidentificable que reúne determinaciones. Nombres e identificadores sirven para reidentificarlo (l. 91): forman parte del caso, no son valores.
-- **Variable:** aspecto del caso que admite diferencias; tiene un dominio de determinaciones admisibles. Un aspecto sin diferencias es una constante.
-- **Escala:** sistema de unidades, categorías, orden, precisión y conversión. El dominio dice qué es admisible; la escala, cómo se expresa (l. 127-133).
-- **Valor:** posición o elemento de una escala. No es otro caso: si la respuesta es un individuo concreto (un ejemplar), lo registrado es una relación entre casos. Un tipo (una especie, una categoría) sí puede ser valor (decisión de Frat, §4).
-- **Determinación:** resultado de la atribución de un valor a un caso bajo una variable; **cierra una pregunta** `variable(caso, condiciones) = ?`.
-- **Hecho y determinación:** una frase que solo distingue (algo es, una relación existe) registra un hecho, no un dato. Un hecho puede abrir preguntas cuya respuesta sí sería un dato («colinda con el pozo» abre `distancia(pozo, finca) = ?`).
-- **Condiciones:** constitutivas (si cambian, cambia la pregunta), de representación, de procedencia.
-- **Procedencia:** quien dice o cómo se obtuvo no forma parte del dato; es un dato de otro orden, sobre la ruta (l. 161-163, 293), y pesa en la robustez del sostén. En el extractor, precisado por la decisión de completitud (§4): el método que define qué se midió va en la variable; la procedencia es la fuente del dicho.
-- **Dato:** determinación registrada de modo recuperable. Una misma determinación en dos inscripciones es un solo dato («contar filas es contar marcas»: distinción tipo/ejemplar). **Información:** el cambio en las respuestas admisibles a una pregunta al considerar un dato.
-- **Vocabulario del prompt y del ensayo:** el prompt usa «variable» (magnitud individual) y «unidad de medida»; en el ensayo, la variable es el aspecto y la escala es más amplia (unidades, categorías, orden, precisión). El nombre del campo es interfaz con el modelo, no la teoría; el código o `esquema.json` puede ubicar la unidad dentro de la escala. Las condiciones constitutivas viven hoy dentro de la variable.
+Reemplaza la §5 anterior (vocabulario viejo: «variable», «valor = posición», «caso»). Donde §4 contradiga esto (genéricos, constantes y binarios excluidos; campo `variable`), manda esta sección.
 
-### Principio operativo: cadena y terminología (29-09)
+### 5.1 Vocabulario del ensayo
 
-- **Subtema:** un asunto nuclear y su desarrollo, en una o varias oraciones del documento, seguidas o separadas.
-- **Foco:** ese subtema cuando se entrega al extractor; el resto del documento solo sirve para saber a qué se refiere cada expresión.
-- **Caso:** aquello individuado y reidentificable a lo que una atribución le fija un valor; puede nombrarse dentro o fuera del foco, e incluso contenerlo (el artículo en evals1). En el foco no está el caso sino enunciados.
-- **Atribución:** la operación (medir, clasificar, aplicar una regla, informar) que fija un valor a una variable de un caso; en el foco está su enunciado.
-- **Determinación:** el resultado de la atribución; cierra la pregunta `variable(caso, condiciones) = ?`.
-- **Dato:** la determinación registrada de modo recuperable. El documento es su primera inscripción.
-- **Salida JSON:** una nueva inscripción del dato, `{variable, valor, unidad_de_medida}`, legible fuera del documento (el caso y las condiciones van comprimidos en la variable). Por eso puede agregar o perder algo.
+- **Caso** (filosófico): lo que acaece. **Caso de estudio:** unidad individuada y reidentificada acerca de la cual se reúnen determinaciones (l. 87–97). No confundirlos.
+- **Aspecto:** aquello bajo lo cual se considera el caso de estudio. **Variable** solo hay cuando una serie comparable muestra variación (l. 129); un texto aislado da aspectos.
+- **Marca:** configuración individuada, simple o compuesta, interpretable bajo reglas; una cláusula también es marca. **Marca de posición:** la que, leída con escala, calendario o categorías, señala una posición entre otras («1972», «unos 40 millones de m³», «la mitad», «diciembre»). Una marca puede cumplir varias funciones (expresar posición, identificar, remitir). Ninguna marca determina por sí sola (l. 117).
+- **Marca ≠ posición ≠ valor.** El valor es la determinación completa (caso de estudio + aspecto + condiciones + posición), no el número.
+- **Condiciones:** constitutivas (si cambian, cambia la pregunta), de representación, de procedencia (cambia la ruta).
+- **Dato:** valor que queda (determinación registrada de modo recuperable). **Información:** cambio en las respuestas admisibles a una pregunta.
+- Documento y foco **no son conceptos del ensayo**: son arquitectura de Zettel compatible con él.
 
-**Cadena:** Documento (primera inscripción) → subtemas → cada uno pasa a ser foco → en el foco, enunciados → el extractor reconstruye las determinaciones que el documento **presenta como hecho** y que están bien formadas (lo que excluye «No son datos», criterio de alcance) → las registra en una **nueva inscripción** JSON → Jev juzga (a) **identidad**: si la inscripción recupera la misma determinación, sin agregar ni perder, y (b) **pertinencia** respecto de la práctica.
+### 5.2 Decisiones (cerradas el 01-10)
 
-**El extractor no crea el dato: lo reinscribe.** No filtra por pertinencia, ni siquiera en los bordes.
+| Tema | Decisión |
+|---|---|
+| Qué se reconstruye | Todo lo que el texto establece; la pertinencia, después |
+| Genéricos, constantes, valoraciones | Producen determinaciones (l. 91, 129, 215) |
+| Organización | Desde el caso de estudio |
+| Caso de estudio o condición | Por **qué cambia si se modifica**, no por cuántas veces aparece |
+| Campo `valor` | Guarda la posición; la ficha completa es el valor |
+| Marca de posición | Solo donde hay escala, calendario o categorías; no se recorta a la fuerza |
+| Respaldo | Toda determinación lleva los fragmentos que sostienen sus componentes (pueden ser varias oraciones) |
+| Aspecto | Con respaldo textual; no se inventa para alojar algo («pesaba» respalda «peso») |
+| Capas (creer, recomendar, decir, suponer, citar) | Dos niveles: lo que el texto establece (que alguien cree/recomienda, como hecho) y el contenido, con su modalidad y quién lo sostiene (puede ser el propio autor) |
+| Recomendación | Capa cuyo contenido es una acción; no se le inventa una propiedad al objeto |
+| Comparación | Puede nombrar un caso de estudio; lo comparado no se vuelve ese caso («otra sequía igual» ≠ la sequía de 2024) |
+| Cambios | Se conservan («bajó a la mitad» ≠ «está a la mitad») |
+| Lo dicho al pasar | Aposiciones y ubicaciones también se registran («el técnico», «en su anexo 4») |
+| `modo` | Se parte en tres: cómo se presenta el contenido, quién lo sostiene, cuánto reconstruyó el extractor |
+| Dudas | Se registran, no se resuelven («almacena»: ¿volumen o capacidad?; «la mitad»: ¿de qué?) |
+| Código | Solo numera y verifica que los respaldos estén literales. Se descartó la lista de control de números: explicar las marcas es trabajo del LLM |
+| Evaluación | Qué recupera y qué agrega o deforma, más preguntas escritas antes de correr (que el texto responde, que deja abiertas, en conflicto); «el documento no lo establece» es respuesta explícita |
 
-- **Alcance no es ontología:** «número de truchas que los pescadores creían que había en el lago = más de mil» es una determinación bien formada (su caso son los pescadores); el extractor la excluye por alcance (pendiente 7), no porque no sea determinación.
-- **Vocabulario partido:** `unidades_v5` dice «subtema»; `datos_pABQ5` dice «unidad temática» y llama «Dato» a la terna (lo que aquí es la inscripción). Es interfaz con el modelo; se unifica en la próxima ronda que toque el prompt (pendiente 2).
+### 5.3 Textos de desarrollo (inventados en la sesión; solo desarrollo, no medición)
+
+- **Estanque:** «(1) En la superficie, el agua del estanque norte de la finca El Roble está a 18 °C. (2) Además tiene un color verdoso, algo preocupante según la bióloga Ana Ruiz.»
+- **Puente:** «(1) El puente colgante de San Rafael mide 120 metros de largo y fue inaugurado en 1958. (2) En invierno, sus cables se contraen hasta 4 centímetros. (3) Según el ingeniero Luis Mora, ese movimiento es normal en puentes de acero.»
+- **Represa:** «(1) La represa El Cóndor, construida en 1972, almacena unos 40 millones de metros cúbicos de agua. (2) Durante la sequía de 2024, su nivel bajó a la mitad. (3) El técnico Pablo Ríos cree que la compuerta 2 no resistiría otra sequía igual. (4) El informe municipal, en su anexo 4, recomienda revisarla antes de diciembre.»
+
+### 5.4 Errores cometidos al leer esos textos (Cowork y ChatGPT)
+
+Casi todos son de **identidad**: la ficha agrega o pierde algo.
+
+1. Meter una condición en el caso de estudio («agua *en la superficie*» arrastró la superficie al color).
+2. Decidir caso o condición por frecuencia (la altura vale para tres determinaciones y sigue siendo condición).
+3. Inventar un aspecto («plazo de revisión» de la compuerta; «nivel de preocupación»).
+4. Recortar marcas a la fuerza («antes de diciembre», «no resistiría»).
+5. Exigir que todo número sea valor («camión 7», «anexo 4»).
+6. Confundir mencionar con reidentificar («otra sequía igual»).
+7. Mezclar los dos niveles de una creencia.
+8. Perder un cambio («bajó a»).
+9. Perder lo dicho al pasar («el técnico», «anexo 4»).
+10. Una sola etiqueta (`modo`) para tres preguntas.
+11. Sobrevender el código (lista de control de números).
+
+Dos lectores atentos discreparon sobre todo al individuar el caso de estudio, como los anotadores de MeasEval (acuerdo 0,55): ahí se espera que falle el modelo.
+
+### 5.5 Antecedentes revisados
+
+- **MeasEval** (SemEval-2021, tarea 8): cantidad, unidad, entidad medida, propiedad medida y calificador, todos anclados en el texto; relaciones opcionales. Acuerdo humano: cantidad 0,94; propiedad 0,64; entidad 0,55; calificador 0,33. Solo mediciones.
+- **GraphRAG** (Microsoft, 2024): entidades, relaciones y *claims* extraídos por LLM; trozos chicos recuperan casi el doble; *gleaning* para omisiones. Fusiona entidades por nombre exacto y resume en prosa: dos cosas a evitar.
+- **Wikidata:** §8.
 
 ## 6. Lecciones
 
