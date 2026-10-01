@@ -988,3 +988,31 @@ python3 unidades/ficha_doc.py represa1 deepseek ficha_v1 r4
 
 **Reporte:** si terminó sin error, el modelo efectivo, los segundos y la
 verificación que imprime el script. Sin veredicto.
+
+## Ronda F5: `ficha_v1` congelada sobre la reserva por géneros
+
+Pedido de Frat (textos y preguntas de ChatGPT). `ficha_v1` tal como quedó en
+F4, sin modificarla durante la ronda aunque aparezcan errores. Textos de
+reserva de unos 220 palabras: `docs/jardin1.md` (divulgación),
+`docs/radio1.md` (ensayo), `docs/biblioteca1.md` (opinión). Preguntas y
+respuestas en `gold/preguntas_reserva_F5.md` (fuera de las llamadas: DeepSeek
+recibe solo prompt y texto); las marcadas «fuera del contrato» se cuentan
+aparte. Tres réplicas por texto, misma configuración de F4.
+
+```
+python3 unidades/ficha_doc.py jardin1 deepseek ficha_v1 r1
+python3 unidades/ficha_doc.py jardin1 deepseek ficha_v1 r2
+python3 unidades/ficha_doc.py jardin1 deepseek ficha_v1 r3
+python3 unidades/ficha_doc.py radio1 deepseek ficha_v1 r1
+python3 unidades/ficha_doc.py radio1 deepseek ficha_v1 r2
+python3 unidades/ficha_doc.py radio1 deepseek ficha_v1 r3
+python3 unidades/ficha_doc.py biblioteca1 deepseek ficha_v1 r1
+python3 unidades/ficha_doc.py biblioteca1 deepseek ficha_v1 r2
+python3 unidades/ficha_doc.py biblioteca1 deepseek ficha_v1 r3
+```
+
+**Reporte:** por comando, si terminó sin error, el modelo efectivo, los
+segundos y la verificación que imprime el script. Sin veredicto. Evalúa
+Cowork (por género y réplica: preguntas recuperadas; agregado, deformado u
+omitido; errores de formato; tiempo y tokens de razonamiento); ChatGPT puede
+evaluar las mismas fichas por su cuenta.
