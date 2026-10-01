@@ -1,0 +1,3 @@
+Ronda F4. Lee AGENTS.md y la sección «Ronda F4» de unidades/PLAN.md y corre, sin modificar nada, el único comando.
+
+Repórtame si terminó sin error, el modelo efectivo, los segundos y la verificación que imprime el script. Sin veredicto. Si hay error, detente y repórtalo tal cual. Al terminar, haz commit del crudo y push a main.

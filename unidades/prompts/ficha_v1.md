@@ -31,15 +31,19 @@ PRINCIPIOS
    con el id de su capa. Una capa puede estar dentro de otra.
 4. La negación va donde opera: «no cree» va en la capa; «cree que no» va en el
    valor.
-5. Mencionar algo para compararlo no lo vuelve lo comparado: «otra sequía igual
-   a la de 2024» no es la sequía de 2024.
+5. Resuelve las referencias implícitas (pronombres, sujetos omitidos, términos
+   de comparación como «otro», «igual», «el mismo») cuando el contexto da un
+   solo antecedente: regístralas con "inferido": true y su respaldo. Mencionar
+   algo para compararlo no lo vuelve lo comparado: lo comparado y el término de
+   comparación son casos distintos, unidos por una relación. Si hay más de un
+   antecedente posible, va a "dudas".
 6. Los cambios se conservan en "cambio" («bajó a», «subió de… a…»).
 7. Una recomendación u orden contiene una acción (lista "acciones"). No le
    atribuyas propiedades al objeto de la acción.
 8. Explica en "marcas" cada marca de posición y cada número: qué hace (posición,
    identifica, remite). Un número que identifica o remite no es un valor:
    forma parte del nombre del caso que identifica.
-9. Lo ambiguo va a "dudas". No lo resuelvas.
+9. Lo ambiguo (más de una lectura posible) va a "dudas". No lo resuelvas.
 10. Copia los fragmentos de "respaldo" literales de la oración indicada. Un
     fragmento puede respaldar varias cosas.
 11. Usa ids (C1, K1, D1, A1) para referirte a lo ya registrado.
@@ -55,7 +59,7 @@ va vacía: [].
 - relaciones: un vínculo que el texto establece entre dos casos (parte de,
   muestra de, procede de, guardado en).
   {"id":"R1","tipo":"…","de":"C1","a":"C2","dentro_de":null,"condiciones":[],
-   "respaldo":[{"o":1,"f":"…"}]}
+   "inferido":false,"respaldo":[{"o":1,"f":"…"}]}
 - capas: el texto atribuye algo a alguien.
   {"id":"K1","expresion":"…","quien":"C2","dentro_de":null,"respaldo":[…]}
 - determinaciones: lo establecido acerca de un caso bajo un aspecto (forma en

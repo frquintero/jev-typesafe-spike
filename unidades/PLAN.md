@@ -962,3 +962,29 @@ python3 unidades/ficha_doc.py cafe1 deepseek ficha_v1 r3
 
 **Reporte:** por comando, si terminó sin error, el modelo efectivo, los
 segundos y la verificación que imprime el script. Sin veredicto.
+
+## Ronda F4: `ficha_v1` con referencias implícitas (una corrida)
+
+Hallazgo de ChatGPT, verificado en el razonamiento de F3: en las tres
+réplicas de represa1, DeepSeek ve que «otra sequía igual» remite a la sequía
+de 2024, pero no lo enlaza (cita el principio 5 y que el texto no lo dice
+literalmente); queda solo como duda. Causa: chocan «menciones por pronombre o
+sujeto implícito» con «lo ambiguo no se resuelve», y el ejemplo del principio 5
+estaba tomado del propio texto de la represa.
+
+**Cambio en `ficha_v1` (decisión de Frat: se incorpora en v1; las corridas F3
+guardan el prompt anterior en su `request`):** principio 5 reescrito en
+general (resolver referencias implícitas con un solo antecedente, marcadas
+`inferido`; lo comparado y el término de comparación son casos distintos
+unidos por una relación; varios antecedentes → dudas), sin el ejemplo de la
+represa; principio 9 precisa «ambiguo = más de una lectura posible»; las
+relaciones suman el campo `inferido`.
+
+Una sola corrida (pedido de Frat), `r4` para no pisar F3:
+
+```
+python3 unidades/ficha_doc.py represa1 deepseek ficha_v1 r4
+```
+
+**Reporte:** si terminó sin error, el modelo efectivo, los segundos y la
+verificación que imprime el script. Sin veredicto.
