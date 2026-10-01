@@ -1,6 +1,15 @@
 # Spike Jev — detección con modelo de decisiones
 
-## Estado actual (2026-09-29)
+## Estado actual (2026-09-30)
+
+**Pruebas de extracción suspendidas.** Frat afinó el marco filosófico del
+ensayo «¿Qué es un dato?» y el trabajo se retoma desde cero en otra sesión;
+el enfoque del prompt probablemente cambie. Lo aprendido hasta aquí (fallas
+por género, la pregunta generadora como fuga, la estructura de tres
+condiciones caso/aspecto/hecho, presuposición, ruido entre corridas) está en
+`memoria de trabajo y pendientes.md`, «Dónde quedamos». Lo que sigue describe
+el estado al suspender.
+
 
 **Qué hacemos.** Extraer los **datos** de un `texto` con un LLM barato
 (DeepSeek `deepseek-flash`; Grok 4.7 cuando haya créditos de xAI), en el
@@ -11,7 +20,7 @@ sentido del ensayo de Frat «¿Qué es un dato?», en dos pasos encadenados
    código parte el texto en oraciones (de punto a punto) y las numera; el LLM
    las agrupa en subtemas (un asunto nuclear y su desarrollo), con oraciones
    seguidas o separadas.
-2. **Datos por subtema** (prompt vigente `datos_pABQ5`, escrito por Frat):
+2. **Datos por subtema** (prompt vigente `datos_pABQ5`, escrito por Frat; `datos_pABQ6B` rindió mejor en las réplicas ENC12–14 y quedó sin adoptar):
    una llamada por subtema con el documento completo numerado y el foco (las
    oraciones del subtema); el LLM devuelve
    `{"datos": [{"variable", "valor", "unidad_de_medida"}]}`. El prompt tiene

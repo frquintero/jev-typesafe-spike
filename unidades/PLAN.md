@@ -867,3 +867,10 @@ python3 unidades/extraer_datos_doc.py banrep1 deepseek unidades_v5 datos_pABQ6B 
 
 **Reporte:** por comando, si terminó sin error y el modelo efectivo. Sin
 veredicto. Cowork evalúa.
+
+**Resultado ENC12–ENC14 (evaluó Cowork; detalle en la memoria, §4):** B
+(`datos_pABQ6B`) dejó 0 filas de más en gen1 en r1–r3 (pABQ5: 2·1·2) y bajó
+las no-dato de biomar1 de media 10 a 6, sin perder datos firmes; banrep1 sin
+diferencia (ruido). Ninguna versión resolvió las constantes de la definición
+(límites de las zonas). **Rondas suspendidas el 30-09** (decisión de Frat: el
+marco del ensayo cambió y se empieza desde cero en otra sesión).

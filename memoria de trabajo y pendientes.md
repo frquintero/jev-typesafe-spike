@@ -1,14 +1,17 @@
 # Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 29-09-2026, fin de sesión. No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md` (`unidades/PLAN.md`, `prototipos/PLAN.md`).
+Estado al 30-09-2026, fin de sesión. **Pruebas de extracción suspendidas.** No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md` (`unidades/PLAN.md`, `prototipos/PLAN.md`).
 
 ## Dónde quedamos (leer primero)
 
-- **Prompt vigente del paso 2: `datos_pABQ5`** (escrito por Frat; `unidades/prompts/datos_pABQ5.md`). Del paso 1: `unidades_v5`. Modelo en uso: DeepSeek (xAI sin créditos: Grok da 403).
-- **Última prueba: ENC9**, `datos_pABQ5` sobre **evals1**, un texto real metodológico (Anthropic sobre diseño de evaluaciones; `unidades/docs/evals1.md`, segmentado en `unidades/evals1_unidades.md`). Resultado: 5 de 6 focos vacíos y un dato, «algunos ejemplos», que con la decisión del metadiscurso (§4) es correcto: 6 de 6 bajo el prompt. Esa decisión se tomó viendo la salida: confirmarla con gold previa (pendiente 4). Análisis en §4.
-- **Decidido (29-09):** el metadiscurso no es criterio, ni a favor ni en contra; «algunos ejemplos» es dato; la pertinencia sale del extractor sin excepción. Principio operativo: cadena y terminología en §5. Sigue abierta la hipótesis H1 (§6): los tokens de razonamiento delatan los bordes; no probada.
-- **Siguiente paso natural:** reconciliar la gold de oxi1 con las decisiones de `datos_pABQ3`–`5` y con el principio operativo (pendiente 1); luego la prueba de verdad (pendiente 4). Nada lanzado ni en curso.
-- **Píldoras:** viven en `~/Claude-memoria/pildoras.md` (fuera del repo, con índice temático). Las últimas: 28 OFAT y 29 metadiscurso.
+- **Pruebas suspendidas (30-09, decisión de Frat).** Frat afinó el marco filosófico del ensayo «¿Qué es un dato?» y va a empezar desde cero en otra sesión: el enfoque del prompt probablemente cambie. Lo de abajo es el registro de lo aprendido hasta aquí, para llevar a la nueva sesión; nada está lanzado ni en curso.
+- **Últimos prompts:** paso 1 `unidades_v5`; paso 2 `datos_pABQ5` (vigente formal) y `datos_pABQ6B` (mejor en las réplicas, no adoptado por la suspensión). Modelo: DeepSeek (xAI sin créditos).
+- **Lo que vale la pena llevar al nuevo enfoque** (detalle en §4–§6):
+  1. **Fallas por género:** en informes y ensayos `pABQ5` es preciso; en divulgación que describe clases (biomar1) saca de más: constantes de la definición, genéricos de clase en singular, variables fabricadas («importancia = crucial», «grado de delicadeza = delicado», «siglo = XXI») y adjetivos que clasifican.
+  2. **La pregunta generadora** («¿qué valor toma esta variable…?») es una fuga: va de la expresión a la variable. Quitarla y exigir que el foco atribuya a algo individual un valor en un aspecto que el texto determina (`pABQ6B`) bajó las filas de más sin perder datos firmes.
+  3. **Estructura propuesta, no probada (`pABQ7`):** cambiar la lista creciente de «No son datos» por tres condiciones de la fórmula del ensayo, `variable(caso, condiciones) = valor`: **caso** individual (no clase ni genérico), **aspecto** que podría haber sido otro sin que el caso dejara de ser el que es (esencial frente a accidental; excluye constantes, binarios, relaciones y valoraciones) y **hecho** (no creencia, hipótesis ni posibilidad). Un borde nuevo cae en una casilla en vez de sumar una línea.
+  4. **Presuposición** (Karttunen, Heim; FactBank): lo que la voz del texto da por sentado está presentado como hecho; los condicionales filtran; los factivos comprometen al autor. Propuesta: regla gruesa en el prompt y fineza para Jev (Jev poda lo de más; nadie recupera lo omitido).
+  5. **Método:** una corrida no basta (con el mismo prompt, biomar1 dio 13 y 7 filas no-dato); medir con réplicas, regresión y un texto de reserva con gold previa que no escriba quien diseña el prompt.
 
 ## 0. Dónde y cómo
 
@@ -74,6 +77,13 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 - **Documentos reales (P2, Grok, contra `datos_u10`):** tec1 igual (9 datos, 58 s); oxi1 mejor (recupera «millones», 6 datos); bio1 casi igual (14 datos, 93 s frente a 118): vuelve «especie más abundante = pez loro»; pierde «finos» y los metales; saca «hora = al mediodía» de una medición. ABE quedó incompleto (créditos de xAI agotados en bio1); en oxi1 no mejoró a AB.
 - **DeepSeek (P3):** con AB bien en informes (bio1 mejor que u9, 96 s; tec1 gana «lunes» pero saca «filtro = saturado»); en el ensayo oxi1 sacó de más (17 datos, 24 773 tokens): lo que se creía, lo que podría pasar, comparaciones, lugares y el tono del autor. **P4:** prototipo **F** (negativo de ensayo: lo que se creía, lo que podría pasar y una comparación, junto a un dato real) → `datos_pABF` (525 palabras) con DeepSeek sobre oxi1: de 17 a 9 datos, de 106 a 71 s y de 24 773 a 16 316 tokens; desaparecen creencias, hipótesis, comparaciones, lugares y tono, y el foco 3 queda vacío (1688 tokens frente a 10 279). Quedan «fuente del oxígeno = proceso electroquímico geológico» (tesis explicativa, pendiente 7) y «forma del oxígeno = libre». Candidato para ensayos: ABF.
 - **Texto genérico (ENC9, DeepSeek, `datos_pABQ5` sobre evals1):** un texto metodológico lleno de números y cuantificadores pero sin casos individuales. 5 de 6 focos vacíos; rechazó «100 %», «dos expertos», «un cambio a la vez», los nombres de los comandos y «alta/baja variación»; el único dato fue «cantidad de ejemplos… = algunos» (zona gris). ChatGPT, aplicando el prompt a mano, llegó a lo mismo salvo ese dato. Los tokens de razonamiento se dispararon justo en los focos con bordes (2173–3310 frente a 457–879). «Un cambio a la vez» es un principio de método (OFAT) que el texto anuncia como tal (or. 5), no una propiedad del comando. «Algunos ejemplos» y la or. 5 son metadiscurso (el texto hablando de sí mismo); DeepSeek extrajo del primero y no de la segunda; los dos resultados son correctos (decisión del metadiscurso, abajo).
+- **Rondas ENC10–ENC14 (29/30-09, DeepSeek):**
+  - **banrep1** (informe de pronóstico, ENC10): 5 datos, todos dentro de la propuesta de ChatGPT (8); omitió la fecha de la reunión, «menos favorable» y la presuposición del 12,0 %.
+  - **biomar1** (divulgación, ENC11): 31 filas; ~8 datos firmes y ~13 no-dato (límites de profundidad de las zonas, «dos categorías», genéricos de clase, adjetivos que clasifican, valoraciones fabricadas).
+  - **A = `datos_pABQ6A`** (genéricos también en singular + valores que definen una clase): sin efecto claro; los límites de las zonas siguieron.
+  - **B = `datos_pABQ6B`** (= A + sin la pregunta generadora; el dato exige atribución a algo individual en un aspecto que el texto determina; no se inventa aspecto para alojar una valoración). Réplicas r1–r3 (ENC14): gen1 (reserva, volcanes, gold previa de Cowork) 6/6 firmes y **0 de más** en las tres (pABQ5: 2·1·2); biomar1 no-dato media **6** (5·5·8) frente a **10** (13·7·10), firmes 7/8 en ambas; banrep1 sin diferencia (ruido). Regresión sin pérdidas (oxi1 idéntico, evals1 «algunos», cont1 7/7).
+  - Sin resolver por ninguna versión: los límites de profundidad de las zonas y «dos categorías» (constantes de la definición). «Colosales masas» de CO₂ se perdió en 5 de 6 corridas con ambas versiones.
+  - Golds provisionales: `gold/biomar1.json` (desarrollo, escrita después de ENC11), `gold/gen1.json` (reserva), `gold/cont1.json` (contrastes de ChatGPT).
 - **Formato:** `variable` (completa: caso, circunstancias y método cuando define qué se midió), `valor` (literal, sin la unidad), `unidad_de_medida`.
 - **Historia corta:** definiciones largas (`u3`–`u4`) → seudodatos; solo ejemplos (`u5`) → mejor; definiciones cortas + ejemplos nodo (`u6`–`u7`) → 39/39 en ut1–ut5; documento completo + foco (`u8`); definiciones reestructuradas, «No son datos», genéricos y cantidades vagas (`u9`); fecha de un hecho es dato (`u10`); prototipos mínimos (`pAB`).
 
@@ -155,10 +165,17 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 - **Nivel de razonamiento efectivo** (docs oficiales, 28-09): DeepSeek solo tiene `high` y `max`; nuestro `low` se convierte en `high`. GLM 5.3 Flash tiene `low`, `high` y `max` (por defecto `max`, siempre razona); con `low` razonó 0–87 tokens por foco. Grok corre en `low`. Los puntajes de Artificial Analysis se miden en `max`: no se trasladan a nuestras corridas.
 - **Cada modelo tiene su temperamento ante el mismo prompt:** GLM se abstiene cuando duda («Conservative: depth»; AA-Omniscience +7) y necesita un ejemplo positivo de cualidades; DeepSeek afirma de más (AA-Omniscience −5) y necesita el negativo de ensayo (F).
 
+- **El ruido entre corridas puede ser tan grande como el efecto** (ENC13–14): con el mismo prompt, biomar1 dio 13 y 7 filas no-dato. Cada `rN` corre también su paso 1; comparar prompts con el mismo `rN` (pareado).
+- **Un prompt preciso en un género puede no serlo en otro:** sin falsos en informes y ensayos, muchos en divulgación que describe clases.
+- **El singular definido nombra clases** («el plancton», «la zona abisal»; Carlson 1977): un genérico que no parece genérico.
+- **Una pregunta que va del valor a la variable fabrica variables** («grado de delicadeza = delicado»): confirma la lección de la pregunta como fuga.
 - **Un texto sin datos mide una sola cara del extractor** (ENC9; evals1 conserva un dato tras la decisión del metadiscurso): que no invente. Un prompt que siempre devolviera vacío sacaría 100 %; vale junto a un gold con datos (oxi1).
 - **Hipótesis H1 (no probada): los tokens de razonamiento delatan los bordes.** En ENC9 se dispararon justo en los focos que el análisis previo marcó como riesgosos, pero son seis focos y una corrida. Confusor posible: esos focos son también los que traen números o cuantificadores en la superficie. Si se confirma, sería una señal barata para mandar a revisión (como la franja central de Jev).
 
 ## 7. Pendientes
+
+**Suspendidos (30-09)** hasta el nuevo enfoque de la sesión que empieza desde cero; se conservan como referencia.
+
 
 1. **Reconciliar la gold de oxi1** con las decisiones de `datos_pABQ3`–`5` (creencias, fuente, método, adjetivos que clasifican, foco 3) y con el principio operativo (§5): se excluye por forma o alcance, nunca por pertinencia. Con la gold actual, P14 da 9/18 sin falsos; con la reconciliada se sabrá cuánto falta de verdad.
 2. **Unificar el vocabulario de los prompts** («subtema» frente a «unidad temática»; «Dato» como terna) en la próxima ronda que toque `datos_pABQ*`; no justifica una ronda propia.
