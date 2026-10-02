@@ -288,6 +288,63 @@ caracteres; si aparecen marcas tipo `[n]`, negritas o texto fuera del JSON
 (citar solo lo necesario); número de referencias. Nada de cookies ni tokens.
 Commit del crudo y del reporte, y push a `main`.
 
+## Ronda FN2: determinaciones como tabla de datos (jardin1)
+
+**Estado:** autorizada por Frat el 02-10-2026. Ejecuta Muse en local.
+
+**Resultado de FN1** (`reporte-FN1.md`): el servidor rechazó la pregunta
+(`ChatError`, status 3: pregunta demasiado larga; `ficha_v1` ≈ 6.500
+caracteres). Sin ficha. Lección (Frat): no calcar el prompt de DeepSeek;
+reformular la tarea según la forma de la herramienta.
+
+**Cambios (un principio: usar la forma propia de NotebookLM):**
+
+1. Salida por **tabla de datos** (`artifacts.generate_data_table`, CSV), no
+   por el chat.
+2. Solo **determinaciones**, el núcleo de la ficha; casos, capas, acciones y
+   dudas quedan para después.
+3. Columnas con el vocabulario del ensayo: caso de estudio, aspecto, valor,
+   unidad, cambio, condición, quién lo sostiene, inferido, oración, fragmento
+   literal.
+4. Instrucciones breves (seis reglas destiladas de `ficha_v1`), en
+   `prompts/tabla_det_v1.md` (≈ 1.800 caracteres).
+5. Fuente sin cambios (jardin1 numerado); el script guarda además el texto
+   recuperado, para ver en qué difiere (FN1 dio `false` sin guardarlo).
+
+**Conjetura:** la tabla llega como CSV con las diez columnas, una fila por
+determinación y fragmentos literales verificables por código.
+
+**Referencia (DeepSeek, F5):** determinaciones de jardin1 en
+`unidades/cache/ficha-jardin1-deepseek-ficha_v1-r{1,2,3}.json`: 27 / 23 / 19;
+fragmentos no literales 0 en las tres; 102,6–126,5 s por ficha completa. El
+contenido se compara después (Cowork y Frat).
+
+**Script:** `tabla_nblm.py` (cuaderno nuevo, carga, espera, pide la tabla,
+espera hasta 600 s, baja el CSV, verifica fragmentos). Mismos frenos que
+py-r2. Crudos en `cache/tabla-jardin1-nblm-tabla_det_v1-r1/` (`crudo.json`,
+`tabla.csv`); la carpeta no puede existir.
+
+**Antes de ejecutar:** `git pull --ff-only` (copia limpia); comprobar el commit
+de preparación y que no existe la carpeta de crudos. No correr `notebooklm
+auth check` ni listar cuadernos; no leer el archivo de sesión.
+
+**Comando:**
+
+```bash
+env -u HTTPS_PROXY -u SSL_CERT_FILE \
+  /home/fratquintero/.local/share/nblm-spike/venv-notebooklm-py/bin/python \
+  notebooklm-spike/tabla_nblm.py jardin1 tabla_det_v1 r1 \
+  --storage /home/fratquintero/.notebooklm/profiles/nblm-spike/storage_state.json
+```
+
+Si falla, no reintentar ni cambiar nada: conservar crudos y reportar.
+
+**Reporte (sin veredicto), en `reporte-FN2.md`:** `completed` y error; segundos
+por etapa y total; si la fuente quedó igual y, si no, en qué difiere (citar
+lo mínimo); columnas recibidas y faltantes; número de filas; fragmentos no
+literales con fila, oración y fragmento; el CSV completo si tiene hasta 40
+filas (si no, las primeras 15). Commit de los crudos y del reporte, y push.
+
 ## Alcance anterior: API oficial Google Cloud (detenido)
 
 **Restricción vigente de Frat (2026-10-02): sin gastos.** Configuración Cloud detenida; no asociar facturación ni activar/comprar suscripciones. El smoke oficial no se ejecutó. Las operaciones anteriores y sus crudos se conservan; no continuar con los pasos de habilitación que siguen documentados históricamente.
