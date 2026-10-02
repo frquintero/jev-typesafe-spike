@@ -4,15 +4,17 @@ Estado al 01-10-2026. **Solo lo vigente:** lo que estamos haciendo y nos guía. 
 
 ## Dónde quedamos (leer primero)
 
-- **Qué hacemos:** reconstruir con un LLM barato (DeepSeek `deepseek-flash`) todo lo que un texto establece, organizado desde el caso de estudio, en una **ficha** JSON (`unidades/ficha_doc.py`, prompt vigente `unidades/prompts/ficha_v1.md`). El extractor no decide qué es dato: la pertinencia se decide después (Jev o la pregunta). Es la capa de datos del grafo de **Zettel**. Marco: ensayo de Frat «¿Qué es un dato?», versión del 30-09 (§2).
-- **Estado:** el núcleo conceptual quedó probado en textos cortos. En la reserva por géneros (F5: divulgación, ensayo, opinión; ~220 palabras; textos y preguntas de ChatGPT) con `ficha_v1` congelada: **fidelidad ≈ 95 %** (60/63 preguntas, tres réplicas) y formato estable. **No es ágil:** 76–127 s y 15–25 mil tokens de razonamiento por texto. Detalle en §3.
-- **Decisión abierta (siguiente):** cómo lograr agilidad sin perder fidelidad. Es de **arquitectura o de modelo** (partir el documento, menos registros por llamada, otro modelo o nivel de razonamiento), no de seguir retocando el prompt. Hasta decidirlo, `ficha_v1` queda congelada.
+- **Qué hacemos:** reconstruir con un LLM barato (DeepSeek `deepseek-flash`) todo lo que un texto establece, organizado desde el caso de estudio, en una **ficha** JSON (`unidades/ficha_doc.py`, base congelada `unidades/prompts/ficha_v1.md`). El extractor no decide qué es dato: la pertinencia se decide después (Jev o la pregunta). Es la capa de datos del grafo de **Zettel**. Marco: ensayo de Frat «¿Qué es un dato?», versión del 30-09 (§2), íntegro en `marco filosófico/Que es un dato - 2026-09-30.md`.
+- **Estado medido:** en F5 (divulgación, ensayo, opinión; ~220 palabras; textos y preguntas de ChatGPT), `ficha_v1` obtuvo 60/63 puntos en las preguntas dentro del contrato (95,2 %), 7/9 aparte y 67/72 en total (93,1 %), con tres réplicas y formato estable. El porcentaje mide preguntas, no la corrección de cada registro. Tiempo: 76,3–126,5 s, promedio 102,49 s. Detalle en §3.
+- **Siguiente ronda:** F6 preparada con autorización de Frat el 01-10; candidato `unidades/prompts/ficha_v2.md`. Único principio: circunstancias del acto de sostener algo en `condiciones` de la capa; circunstancias del contenido en sus registros; conservar expresiones temporales y su orden con la precisión del texto. Plan y reporte en `unidades/PLAN.md`, sección F6. Corridas pendientes de la indicación de Frat al implementador. `ficha_v1` sigue congelada y el candidato no ha sido adoptado.
+- **Decisión abierta:** cómo lograr agilidad conservando aproximadamente 90 % de contenido correcto. Partir el documento, modificar arquitectura o cambiar modelo/configuración son hipótesis pendientes; todavía no se ha demostrado que dividir reduzca el costo total ni que la solución solo pueda venir de arquitectura o modelo. Los cambios de prompt requieren una enseñanza general importante para divulgación, ensayo no especializado y opinión. F6 compara efecto y regresiones sobre los textos conocidos de F5; la generalización necesita una reserva independiente.
 - **Arquitectura candidata (no decidida):** oraciones (código) → subtemas (LLM, `unidades_v5`, ya existe) → inventario de casos de estudio por documento (LLM) → ficha por foco (LLM) → verificación literal (código) → Jev (identidad, correferencias, omisiones mirando el texto).
 
 ## 0. Dónde y cómo
 
 - **Carpeta:** `/home/fratquintero/Documentos/Claude/jev-typesafe-spike/` (máquina local de Frat, Linux). Trabajo activo en `unidades/` (script `ficha_doc.py`, prompts en `prompts/`, textos en `docs/`, preguntas en `gold/`, crudos en `cache/`).
 - **Repositorio:** `https://github.com/frquintero/jev-typesafe-spike`, rama `main`.
+- **Continuidad en nube:** ChatGPT Work consulta y prepara archivos desde una copia del repositorio público; el estado publicado en GitHub permite recuperar el trabajo con el PC apagado. La copia del PC se actualiza desde `main`. El acceso local a APIs mediante `127.0.0.1` no se transfiere a Work Cloud; una futura ejecución allí requiere configurar primero un acceso autorizado.
 - **Roles:** Frat y Cowork (Claude) planean. La implementación y las corridas las hacen los ejecutores: Muse Code (Meta Muse Spark) en local, GPT-6 Luna (OpenAI, vía Codex o ChatGPT) y Claude Code en la nube como alternativa. El rol va con la tarea, no con el modelo.
 
 **Flujo de una ronda.**
@@ -136,15 +138,17 @@ No es diseño de Zettel (falta mucho para eso). Es literatura para no inventar l
 
 **Lo que funciona** (reserva F2 y F5, tres réplicas): capas (quién sostiene qué, incluido el autor como «yo»); negación y alcance («no prueba que…», «el acta no registra» ≠ «no hubo ventas»); modalidades («puede», «tal vez», «puede que», «no sé si»); referencias implícitas («este último», «el primero», «el documento», «otra sequía igual» → la de 2024); atribución al caso correcto (250 g de la muestra, no del lote); no inventa lo que el texto no establece; formato estable y fragmentos literales.
 
-**Huecos generales del contrato** (vistos en F5; no corregidos porque `ficha_v1` está congelada; se abordan como generalización cuando se descongele):
-- Las capas no tienen condiciones: se pierde el tiempo de una creencia o interpretación («durante un tiempo… después»).
-- Las acciones no tienen modalidad: lo que se recomienda («debería», «habría que») solo se conserva si el modelo crea una capa; a veces no la crea.
-- Exceso de casos (22–34 por texto de ~220 palabras): cantidades, metáforas y pronombres como casos («unos 20 litros», «esponja», «eso»).
+**Observaciones de la revisión** (`ficha_v1` sigue congelada; F6 solo experimenta con condiciones de las capas):
+- Las capas no tienen condiciones. En `radio1`, las tres réplicas pierden «durante un tiempo»; «después comprendí que» aparece solo en respaldos pertinentes de r1 y r3. En r2 las otras ocurrencias de «después» pertenecen a la última oración. La representación del orden entre las posturas queda parcial. F6 prueba si condiciones en capas permiten recuperarlo.
+- Biblioteca r2 omite las capas de «debería» y «habría que»; r1 y r3 las representan con el mismo esquema. No se ha demostrado que resolver la omisión requiera añadir modalidad a las acciones.
+- Hay 22–34 casos por texto de ~220 palabras. El número por sí solo no demuestra exceso: genéricos y términos de comparación pueden ser casos legítimos. Revisar identidad y función; no excluir tipos de contenido para reducir registros por reflejo.
+- Jardín r1, D26 («el terreno tiene un límite»), lleva `inferido: true`; no se cuenta como inferencia sin marcar.
+- En F4, «otra sequía igual» se recuperó en una corrida como caso distinto, relacionado con la de 2024 dentro de la creencia. Eso no prueba estabilidad ni generalización. El informe municipal fue puesto como agente de revisar la compuerta, aunque el texto solo lo presenta como quien recomienda; recomendar una acción no determina quién la realiza.
 - A veces fusiona casos distintos en uno o guarda contenido en el nombre de un caso.
 - Los vínculos de razón entre hechos («por esa razón», «porque») no tienen lugar en la ficha (relaciones solo entre casos): son de los niveles 1–2 de Zettel, no de datos.
 - El principio 1 usa un ejemplo tomado de la represa («el técnico Pablo Ríos»).
 
-**Costo** (F5, por texto de ~220 palabras): divulgación 103–127 s, 18,5–25 mil tokens de razonamiento; ensayo 96–109 s, 17,6–20,3 mil; opinión 76–102 s, 14,7–20,6 mil. Textos de 3–5 frases: 37–80 s. El costo crece con el texto y con la cantidad de registros; un contrato más explícito estabilizó la forma pero subió el costo (F3).
+**Costo** (F5, por texto de ~220 palabras): 76,3–126,5 s, promedio 102,49 s; razonamiento 14.702–24.977 tokens por llamada. DeepSeek incluye `reasoning_tokens` en `completion_tokens`: ficha final = `completion_tokens - reasoning_tokens`, 5.305–8.940 tokens. Aproximadamente 74 % de los tokens generados fue razonamiento. No sumar razonamiento y completion como cantidades independientes. Textos de 3–5 frases: 37–80 s. F3 estabilizó la forma y elevó el costo; las causas y mejoras posibles siguen por probar.
 
 ## 4. Lecciones vigentes
 
@@ -157,13 +161,14 @@ No es diseño de Zettel (falta mucho para eso). Es literatura para no inventar l
 - **Un contrato más explícito estabiliza la forma pero no abarata:** abre decisiones nuevas (en qué lista va cada hecho) y el modelo registra más.
 - **El género pesa más que el modelo:** un prompt preciso en un género puede no serlo en otro; probar siempre en varios géneros.
 - **Al modelo el juicio, al código el cómputo:** numerar oraciones y verificar literalidad lo hace el código.
-- **Jev corrige lo que se afirma de más, no lo que se omite:** las omisiones del extractor no se recuperan aguas abajo.
+- **Jev es posterior:** subtemas, inventario global y Jev siguen fuera de las pruebas del núcleo. La detección o recuperación posterior de omisiones no se ha probado aquí.
 - **Operativo:** DeepSeek solo tiene razonamiento `high` y `max` (nuestro `low` se vuelve `high`); puede dejar el stream colgado (si pasa un minuto sin bytes, relanzar).
 
 ## 5. Pendientes vigentes
 
-1. **Agilidad:** decidir arquitectura o modelo con una prueba sobre los mismos textos de reserva (F5) y uno real más largo: partir el documento (subtemas, inventario de casos), menos registros por llamada, otro modelo o nivel de razonamiento. Vara de Frat: ≈90 % correcto y ejecución ágil.
-2. **Huecos del contrato (§3):** abordarlos como generalización cuando se descongele el prompt, y medir en reserva nueva.
-3. **Vínculos de razón entre afirmaciones** («por esa razón», «porque»): niveles 1–2 del grafo de Zettel; fuera de la ficha de datos.
-4. **Jev:** identidad de lo registrado, correferencias, omisiones; después de la arquitectura.
-5. Grok sin créditos de xAI: recargar si se quiere compararlo.
+1. **F6 preparada:** el implementador ejecuta el candidato solo cuando Frat le indique arrancar. Evaluar recuperación y ubicación de condiciones, orden temporal, regresiones, formato y costo, según `unidades/PLAN.md`. Sin cambiar prompt, textos, esperados ni exclusiones durante la ronda.
+2. **Agilidad:** comparar hipótesis de arquitectura, división y modelo/configuración. Vara de Frat: ≈90 % de contenido correcto y ejecución ágil. Falta demostrar el efecto sobre costo total.
+3. **Generalización:** medir cualquier candidato prometedor con una reserva nueva e independiente; las observaciones de §3 no autorizan cambios adicionales por sí solas.
+4. **Vínculos de razón entre afirmaciones** («por esa razón», «porque»): niveles 1–2 del grafo de Zettel; fuera de la ficha de datos.
+5. **Jev:** identidad de lo registrado, correferencias, omisiones; componente posterior.
+6. Grok sin créditos de xAI: recargar si se quiere compararlo.

@@ -1023,3 +1023,138 @@ después» de las capas), opinión 22,5/24 (r2 sin capa para «debería» / «ha
 que»). Fuera del contrato 7/9. Formato estable, fragmentos literales. Costo:
 76–127 s y 14,7–25 mil tokens de razonamiento por texto de ~220 palabras;
 22–34 casos por texto. Detalle y huecos en la memoria, §3.
+
+## Ronda F6: condiciones del acto de sostener algo (`ficha_v2`, candidato)
+
+**Estado:** preparación y publicación autorizadas por Frat el 01-10-2026.
+La ejecución queda a cargo del implementador cuando Frat le indique arrancar.
+`ficha_v1` permanece congelada; `ficha_v2` es una candidata experimental.
+
+**Cambio (un principio general):** separar las circunstancias del acto de
+creer, decir, interpretar o recomendar de las circunstancias del contenido
+atribuido. Las primeras se guardan en `condiciones` de la capa; las segundas,
+en los registros del contenido. Se conservan las expresiones temporales y
+su orden con la precisión que ofrece el texto.
+
+Prompt completo: `prompts/ficha_v2.md`, copia de `ficha_v1` con estos cambios:
+
+1. Principio 12 añadido:
+
+   > Conserva las circunstancias del acto de sostener algo en "condiciones" de
+   > su capa, y las del contenido atribuido en los registros correspondientes.
+   > Conserva las expresiones temporales y su orden con la precisión del texto.
+
+2. Contrato de `capas` con el mismo campo que ya usan otros registros:
+
+   ```json
+   {"id":"K1","expresion":"…","quien":"C2","dentro_de":null,"condiciones":[],"respaldo":[…]}
+   ```
+
+   Cada condición conserva la estructura existente:
+   `{"texto":"…","ref":id o null,"respaldo":[…]}`. En el ejemplo del estanque
+   la capa recibe `condiciones: []`, porque allí no se establece una
+   circunstancia del acto de atribuir. El resto del ejemplo se conserva.
+
+Tarea, definiciones, principios 1–11, demás campos, textos, código y
+configuración del modelo quedan iguales. No se añaden ejemplos de la reserva
+al prompt ni modalidad a las acciones. Las preguntas y sus respuestas
+esperadas originales, incluidas sus exclusiones, se conservan íntegramente.
+
+**Conjetura:** el campo y el principio permiten recuperar las circunstancias
+del acto de sostener algo y el orden entre posturas, ubicándolos en las capas
+correspondientes, sin trasladarlos al contenido atribuido ni inventar fechas
+o duraciones. Se espera conservar la fidelidad del resto y la uniformidad
+del formato entre réplicas. El efecto sobre tiempo y tokens se mide.
+
+**Alcance de la comparación:** los tres documentos conocidos de F5, tres
+réplicas por documento, frente a sus nueve crudos de `ficha_v1`. Esta es una
+prueba del efecto y de regresión sobre textos ya examinados. La generalización
+a textos nuevos requerirá una reserva independiente, con preguntas fijadas
+antes de correr. F6 no demuestra por sí sola esa generalización ni que partir
+documentos reduzca el costo total.
+
+**Antes de ejecutar:**
+
+- Leer `AGENTS.md`, la memoria vigente y esta sección; revisar el diff del
+  candidato frente a `ficha_v1`. Sin ajustes durante la ronda.
+- Actualizar una copia limpia de `main` con `git pull --ff-only`. Si hay
+  cambios locales que impiden actualizarla, detenerse y reportar.
+- Comprobar que no existe ninguno de los nueve destinos
+  `cache/ficha-{jardin1,radio1,biblioteca1}-deepseek-ficha_v2-r{1,2,3}.json`.
+  Si alguno existe, detenerse y reportar; no borrar, mover ni sobrescribir
+  crudos ni saltar réplicas para completar la ronda.
+- Usar el mismo acceso local autorizado y la misma configuración de F5,
+  conforme a `AGENTS.md`. El alias `deepseek` debe responder como
+  `deepseek-flash`. Exportar `HTTPS_PROXY` y `SSL_CERT_FILE` solo en el
+  comando o sesión que llame a la API. El proxy local y sus credenciales
+  no están disponibles en Work Cloud; allí se requiere configurar antes
+  un acceso autorizado. No buscar ni copiar claves del ordenador.
+
+**Comandos:** una llamada por documento completo. Los documentos pueden
+ejecutarse en paralelo; dentro de cada documento, mantener r1, r2, r3 en
+orden, como en F5. DeepSeek recibe únicamente prompt y texto numerado.
+
+```bash
+python3 unidades/ficha_doc.py jardin1 deepseek ficha_v2 r1
+python3 unidades/ficha_doc.py jardin1 deepseek ficha_v2 r2
+python3 unidades/ficha_doc.py jardin1 deepseek ficha_v2 r3
+python3 unidades/ficha_doc.py radio1 deepseek ficha_v2 r1
+python3 unidades/ficha_doc.py radio1 deepseek ficha_v2 r2
+python3 unidades/ficha_doc.py radio1 deepseek ficha_v2 r3
+python3 unidades/ficha_doc.py biblioteca1 deepseek ficha_v2 r1
+python3 unidades/ficha_doc.py biblioteca1 deepseek ficha_v2 r2
+python3 unidades/ficha_doc.py biblioteca1 deepseek ficha_v2 r3
+```
+
+Si hay error, autenticación fallida, un minuto sin datos en el stream o modelo
+efectivo distinto, detener nuevas llamadas y reportar el incidente. Conservar
+los crudos ya generados y reportar el estado de las llamadas en curso. Cualquier
+reintento se decide después y usa una réplica nueva.
+
+**Reporte del implementador (sin veredicto):** por comando, ruta del crudo,
+si terminó sin error, modelo efectivo, segundos, error de parseo y la
+verificación que imprime `ficha_doc.py`. Añadir `prompt_tokens`,
+`completion_tokens`, `reasoning_tokens`, tokens de ficha final y los conteos
+de las siete listas. En DeepSeek, `reasoning_tokens` está incluido en
+`completion_tokens`; ficha final = `completion_tokens - reasoning_tokens`.
+No sumar ambas cantidades como independientes. Si falta un dato, reportarlo
+como ausente. Conservar request, respuesta, razonamiento y parsed en los
+crudos; citar solo los pasajes necesarios en el reporte. Al terminar, commit
+de los crudos nuevos y push a `main`, conforme a `AGENTS.md`.
+
+**Evaluación posterior, con criterios fijados antes de F6:**
+
+1. Recuperación específica en `radio1`, por réplica: `durante un tiempo`
+   asociado a la capa de interpretar; `después` asociado a la de comprender;
+   orden recuperable entre ambas posturas. Distinguir conservación en un
+   respaldo de representación suficiente en las condiciones. F5: la primera
+   expresión falta en 3/3; la segunda aparece en el respaldo pertinente de
+   r1 y r3 y falta en r2. Las ocurrencias `después de nosotros` pertenecen a
+   otra oración. Revisar también que se conserve el contenido de ambas
+   posturas y que no se invente el antecedente de `aquello`.
+2. Ubicación y precisión en los tres géneros: cada circunstancia conservada
+   corresponde al acto o al contenido que el texto establece; un plazo de
+   una acción recomendada sigue perteneciendo a esa acción. Registrar
+   adiciones, deformaciones, traslados indebidos y pérdidas, con IDs y
+   respaldos. Revisar referencias existentes y campo `condiciones` en todas
+   las capas, vacío cuando corresponda. El verificador del script comprueba
+   literalidad y presencia de listas; esta revisión semántica y del contrato
+   se hace aparte.
+3. Preguntas originales de `gold/preguntas_reserva_F5.md`, sin cambiar
+   esperados ni exclusiones: 1 punto correcta, 0,5 parcial, 0 incorrecta,
+   con respaldo de la ficha. Informar por género y réplica y agregados dentro
+   del contrato (base F5: 60/63), aparte (7/9) y total (67/72). Ese porcentaje
+   mide recuperación de preguntas; las observaciones de cada registro se
+   reportan adicionalmente. No añadir el diagnóstico temporal al denominador
+   ni convertir preguntas excluidas en incluidas después de ver resultados.
+4. Estabilidad y costo: aciertos y fallos en las tres réplicas; tiempos y
+   tokens por corrida, rango y promedio por género y global. Comparar con
+   F5 (76,3–126,5 s; promedio 102,49 s; razonamiento 14.702–24.977;
+   ficha final 5.305–8.940; aproximadamente 74 % de los tokens generados fue
+   razonamiento). Reportar diferencias sin suponer una reducción de costo.
+   Los números de réplica identifican corridas, no una semilla compartida.
+
+La referencia práctica sigue siendo aproximadamente 90 % de contenido
+correcto con un modelo barato y ejecución ágil. Frat decide la adopción del
+candidato después de revisar recuperación, regresiones y costo. Subtemas,
+inventario global y Jev siguen fuera de esta ronda.
