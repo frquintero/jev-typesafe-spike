@@ -177,6 +177,7 @@ def main():
                 if not all(checks.values()):
                     raise RuntimeError("S3 semantic check failed")
                 return
+            await step("S0-notebook", lambda: client.notebooks.get("f113873f-7fdb-416a-bb83-d429c4a3ce1b"))
             await step("S0-limits", client.settings.get_account_limits)
             title = f"NBLM-SMOKE-001 {args.replica} {summary['started_utc']}"
             nb = await step("S1-create", lambda: client.notebooks.create(title))

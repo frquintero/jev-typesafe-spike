@@ -19,10 +19,15 @@ por la propia librería):
    antigua ni recibe `--session-file`.
 2. Cuenta fija `ACCOUNT = 0` (antes 1) en la comprobación de la sesión, en
    la ruta del cliente y en `summary.json`.
-3. S0 ya no lee el cuaderno sintético `f113873f-…`: pertenece a la cuenta 1.
-   S0 = abrir la sesión + `settings.get_account_limits`.
-4. Sin proxy local: NotebookLM no necesita claves; las cookies de Google no
+3. Sin proxy local: NotebookLM no necesita claves; las cookies de Google no
    pasan por 127.0.0.1:8080.
+
+S0 sigue igual que en `py-r1`: abrir la sesión, leer el cuaderno sintético
+`f113873f-7fdb-416a-bb83-d429c4a3ce1b` y `settings.get_account_limits`. Ese
+cuaderno lo creó `api-r1` con el cliente anterior y Frat lo ve en su cuenta
+Pro (sin `authuser` en la URL); leerlo con `notebooklm-py` comprueba lectura
+de un cuaderno existente y que la cuenta es la misma. S1 se mantiene: es la
+única prueba de que `notebooklm-py` crea y carga.
 
 Se conservan: freno ante cualquier fallo de autenticación (`AUTH_STOP`),
 recuperación automática desactivada, sin keepalive, cero reintentos de
@@ -71,7 +76,7 @@ en `true` — S1–S2: `fulltext_matches`, `answer_contains_17`,
 **Reporte del ejecutor (sin veredicto), en `reporte-py-r2.md`** con el
 formato de `reporte-py-r1.md`: hora de inicio; `completed` y paso final de
 cada proceso; segundos por etapa (líneas que imprime el script) y total;
-número de peticiones HTTP; cupos devueltos por S0 (los campos ausentes,
+número de peticiones HTTP; título e ID del cuaderno leído en S0; cupos devueltos por S0 (los campos ausentes,
 como ausentes); IDs de cuaderno y fuente; la respuesta de S2 verbatim; las
 referencias (ID de fuente, texto citado) y los pasajes recuperados; el
 valor de cada comprobación; el error con su paso, si lo hubo. Citar los
