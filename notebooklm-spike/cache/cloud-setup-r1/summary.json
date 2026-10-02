@@ -1,0 +1,14 @@
+{
+  "projectId": "notebooklm-spike-20261002",
+  "displayName": "NotebookLM Spike",
+  "started_utc": "2026-10-02T16:26:27.455813+00:00",
+  "authorized_by": "Frat selected creation of NotebookLM Spike",
+  "billing_linked_by_script": false,
+  "licenses_purchased": false,
+  "creation_operation": "operations/create_project.global.8786673216456041069",
+  "projectNumber": "265423575040",
+  "project_created": true,
+  "state": "ACTIVE",
+  "billing_enabled": false,
+  "discoveryengine_state": "DISABLED"
+}

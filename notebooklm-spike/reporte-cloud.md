@@ -43,6 +43,16 @@ Frat instaló Google Cloud SDK 587.0.0 y completó `gcloud auth application-defa
 
 Python utilizó esas ADC y ejecutó una lectura autenticada de Cloud Resource Manager (`projects.search`): **HTTP 200**, 14 proyectos, sin página adicional. Esto acredita autenticación OAuth y acceso a ese servicio Cloud; todavía no acredita permisos ni licencia de NotebookLM. Se pidió a Frat elegir el proyecto. El inventario completo no se guardó en el repo; los metadatos observados están en `cache/cloud-auth-r1/observations.json`.
 
+### Proyecto exclusivo creado (2026-10-02)
+
+Frat eligió crear «NotebookLM Spike». `crear_proyecto_cloud.py` ejecutó `POST https://cloudresourcemanager.googleapis.com/v3/projects` con `projectId: notebooklm-spike-20261002` y `displayName: NotebookLM Spike`; siguió la operación con dos lecturas hasta su finalización. Proyecto **ACTIVE**, número **265423575040**. Creación y comprobaciones: cinco respuestas HTTP 200, conservadas en `cache/cloud-setup-r1/`.
+
+Las lecturas de Cloud Billing y Service Usage confirmaron `billingEnabled: false` y Discovery Engine `DISABLED`. No se asoció una cuenta de facturación ni se compraron licencias. La lectura adicional de cuentas de facturación devolvió tres cuentas, una abierta; el inventario permanece en almacenamiento privado fuera del repo.
+
+Siguiente acción preparada: asociar el proyecto a la cuenta abierta «My Billing Account 1» y habilitar Discovery Engine, previa autorización de Frat para la asociación de cobros. La licencia Enterprise y la configuración de identidad siguen pendientes. Consultadas mediante Exa: la [documentación de licencias](https://docs.cloud.google.com/gemini/enterprise/notebooklm-enterprise/docs/set-up-licensing) describe una prueba gratuita de 14 días; la [página comercial](https://cloud.google.com/gemini-enterprise/gemini-notebook) anuncia 30 días y USD 9 por licencia/mes, mínimo 15 licencias. Las condiciones concretas de la prueba deben verificarse en la consola antes de activarla; no se activó ninguna suscripción.
+
+El smoke `smoke_cloud.py` todavía no se ejecutó contra este proyecto. Crear el proyecto y leer la configuración no acreditan funcionamiento de la API de notebooks.
+
 ## Código listo para el smoke autenticado
 
 `smoke_cloud.py` usa `google-auth==2.59.1` y `requests==2.34.2`, instalados en el entorno aislado existente. Verificación realizada: compilación Python y `--help`; el recorrido autenticado aún no se ha ejecutado.

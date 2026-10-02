@@ -1,0 +1,8 @@
+{
+  "method": "POST",
+  "url": "https://cloudresourcemanager.googleapis.com/v3/projects",
+  "body": {
+    "projectId": "notebooklm-spike-20261002",
+    "displayName": "NotebookLM Spike"
+  }
+}

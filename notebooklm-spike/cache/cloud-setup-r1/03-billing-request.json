@@ -1,0 +1,5 @@
+{
+  "method": "GET",
+  "url": "https://cloudbilling.googleapis.com/v1/projects/notebooklm-spike-20261002/billingInfo",
+  "body": null
+}

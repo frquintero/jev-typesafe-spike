@@ -1,0 +1,20 @@
+{
+  "name": "operations/create_project.global.8786673216456041069",
+  "metadata": {
+    "@type": "type.googleapis.com/google.cloud.resourcemanager.v3.CreateProjectMetadata",
+    "createTime": "2026-10-02T16:26:28.134Z",
+    "gettable": true,
+    "ready": true
+  },
+  "done": true,
+  "response": {
+    "@type": "type.googleapis.com/google.cloud.resourcemanager.v3.Project",
+    "name": "projects/265423575040",
+    "projectId": "notebooklm-spike-20261002",
+    "state": "ACTIVE",
+    "displayName": "NotebookLM Spike",
+    "createTime": "2026-10-02T16:26:28.134Z",
+    "updateTime": "2026-10-02T16:26:29.161611Z",
+    "etag": "W/\"c2a2d272ffb2e2cb\""
+  }
+}

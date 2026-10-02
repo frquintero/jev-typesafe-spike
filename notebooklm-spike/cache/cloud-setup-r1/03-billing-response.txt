@@ -1,0 +1,6 @@
+{
+  "name": "projects/notebooklm-spike-20261002/billingInfo",
+  "projectId": "notebooklm-spike-20261002",
+  "billingAccountName": "",
+  "billingEnabled": false
+}

@@ -1,0 +1,6 @@
+{
+  "name": "operations/create_project.global.8786673216456041069",
+  "metadata": {
+    "@type": "type.googleapis.com/google.cloud.resourcemanager.v3.CreateProjectMetadata"
+  }
+}
