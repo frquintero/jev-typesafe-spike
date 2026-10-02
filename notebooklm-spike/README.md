@@ -11,8 +11,8 @@ adoptado; `py-r1` se detuvo en S0 (sesión exportada no aceptada). Sesión
 renovada desde cero con el login propio de la librería (perfil
 `nblm-spike`, cuenta principal de Frat, `authuser 0`); `auth check --test`
 la acepta. `py-r2` y `py-r3` se detuvieron en S1 por errores del script.
-`py-r4` ejecutó S0–S2 (carga, consulta y cita); falta S3, preparada en
-`PLAN.md` sobre los datos de `py-r4`. Vía Cloud Enterprise detenida por costo (ver más abajo).
+S0–S3 cubiertos con `py-r4` (sesión, carga, consulta con cita y reconexión
+desde otro proceso). Siguiente: decidir qué funciones explorar. Vía Cloud Enterprise detenida por costo (ver más abajo).
 
 ## Dónde está cada cosa
 
