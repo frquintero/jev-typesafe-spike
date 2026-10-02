@@ -1,0 +1,17 @@
+{
+  "index": 9,
+  "step": "S2-ask",
+  "method": "POST",
+  "host": "notebook.google.com",
+  "path": "/_/LabsTailwindUi/data/google.internal.labs.tailwind.orchestration.v1.LabsTailwindOrchestrationService/GenerateFreeFormStreamed",
+  "query": {
+    "bl": "boq_labs-tailwind-frontend_20260802.02_p0",
+    "hl": "en",
+    "_reqid": "200000",
+    "rt": "c",
+    "authuser": "[REDACTED_EMAIL]"
+  },
+  "f.req": "[null,\"[[[[\\\"0e063965-f331-4bf5-b2c3-4e4de17128cb\\\"]]],\\\"Seg\\\\u00fan la fuente, \\\\u00bfcu\\\\u00e1ntas fichas conten\\\\u00eda Luma y de qu\\\\u00e9 color eran? Incluye la cita que respalda la respuesta.\\\",null,[2,null,[1],[1]],\\\"19f40a45-26d1-4b2e-97eb-4ce930706931\\\",null,null,\\\"bdcc07c8-a114-4a86-bb95-3c57e256b993\\\",1]\"]",
+  "user_agent": "spike-jev/1.0",
+  "auth_fields_omitted": true
+}

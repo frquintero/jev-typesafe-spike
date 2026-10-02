@@ -1,0 +1,17 @@
+{
+  "index": 5,
+  "step": "S1-add-text",
+  "method": "POST",
+  "host": "notebook.google.com",
+  "path": "/_/LabsTailwindUi/data/batchexecute",
+  "query": {
+    "rpcids": "izAoDd",
+    "source-path": "/notebook/bdcc07c8-a114-4a86-bb95-3c57e256b993",
+    "hl": "en",
+    "rt": "c",
+    "authuser": "[REDACTED_EMAIL]"
+  },
+  "f.req": "[[[\"izAoDd\",\"[[[null,[\\\"NBLM-SMOKE-001 py-r4 2026-10-02T20:24:32.303236+00:00\\\",\\\"En el ensayo ficticio NBLM-SMOKE-001, el recipiente Luma conten\\\\u00eda 17 fichas violetas. El recipiente Neri conten\\\\u00eda 8 fichas blancas.\\\"],null,2,null,null,null,null,null,null,1]],\\\"bdcc07c8-a114-4a86-bb95-3c57e256b993\\\",[2,null,null,[1,null,null,null,null,null,null,null,null,null,[1]]]]\",null,\"generic\"]]]",
+  "user_agent": "spike-jev/1.0",
+  "auth_fields_omitted": true
+}

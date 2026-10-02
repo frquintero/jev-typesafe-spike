@@ -1,0 +1,60 @@
+{
+  "replica": "py-r4",
+  "client": "notebooklm-py==0.8.4",
+  "started_utc": "2026-10-02T20:24:32.303236+00:00",
+  "account": 0,
+  "completed": false,
+  "stages": [
+    {
+      "step": "S0-notebook",
+      "seconds": 0.525
+    },
+    {
+      "step": "S0-limits",
+      "seconds": 0.272
+    },
+    {
+      "step": "S1-create",
+      "seconds": 0.37
+    },
+    {
+      "step": "S1-add-text",
+      "seconds": 1.787
+    },
+    {
+      "step": "S1-ready",
+      "seconds": 0.488
+    },
+    {
+      "step": "S1-fulltext",
+      "seconds": 0.353
+    },
+    {
+      "step": "S2-ask",
+      "seconds": 9.331
+    },
+    {
+      "step": "S2-passage-1",
+      "seconds": 0.329
+    }
+  ],
+  "text": "En el ensayo ficticio NBLM-SMOKE-001, el recipiente Luma contenía 17 fichas violetas. El recipiente Neri contenía 8 fichas blancas.",
+  "prompt": "Según la fuente, ¿cuántas fichas contenía Luma y de qué color eran? Incluye la cita que respalda la respuesta.",
+  "notebook_id": "bdcc07c8-a114-4a86-bb95-3c57e256b993",
+  "source_id": "0e063965-f331-4bf5-b2c3-4e4de17128cb",
+  "answer": "El recipiente Luma contenía **17 fichas** de color **violeta** [1].\n\n💡 ¿Te gustaría saber más información sobre las fichas del recipiente Neri o algún otro detalle de este ensayo?",
+  "checks": {
+    "fulltext_matches": true,
+    "answer_contains_17": true,
+    "answer_contains_violetas": false,
+    "citation_matches_uploaded_source": true,
+    "retrieved_passage_supports_answer": true
+  },
+  "error": {
+    "type": "RuntimeError",
+    "step": "S2-passage-1",
+    "message": "S2 content/citation check failed"
+  },
+  "http_requests": 10,
+  "total_seconds": 14.381
+}
