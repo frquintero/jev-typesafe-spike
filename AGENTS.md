@@ -47,6 +47,15 @@ spike no concluye.
   API).
 - `cutoff-spike/`: `run_cutoff.py smoke|coarse|coarse2|all`,
   `analyze.py v1|v2|delta|all`. No editar sus JSON de sondas sin releer su PLAN.
+- `notebooklm-spike/`: exploración independiente de NotebookLM como
+  extractor alternativo o complementario a DeepSeek. Vía vigente: cliente
+  `notebooklm-py` (sesión web de la cuenta gratuita; sin gcloud, ADC ni
+  clave de API). La vía Cloud Enterprise quedó **detenida por costo** — no
+  retomarla sin autorización expresa de Frat. Sesión/cookies/tokens
+  siempre fuera del repo. **No probado desde Work Cloud:** el proxy local
+  y la sesión del PC no se transfieren; hace falta configurar un acceso
+  autorizado aparte. Detalle en su propio `README.md`/`PLAN.md`/
+  `tareas.md`; no usa las credenciales de `proxy_local.py`.
 - `proxy_local.py`: inyecta `Authorization` según host. `muse.sh`: arranque
   de Muse con el proxy.
 - `deleted/`: snapshots históricos; no es fuente.
