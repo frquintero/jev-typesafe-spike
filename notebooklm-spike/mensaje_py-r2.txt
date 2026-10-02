@@ -1,6 +1,6 @@
 Ronda py-r2 — notebooklm-py, S0–S3 con la sesión renovada.
 
-Commit de preparación: cfe6c7a8e1a939416d5f67842446e7641cce2b3a (main).
+Commit de preparación: 52ea08c3b696505af3e8a7b2ea9c5e32a048b1c1 (main).
 
 Actualiza una copia limpia de main con git pull --ff-only. Si hay cambios locales que impiden actualizarla, detente y reporta. Comprueba que el commit de preparación está incluido en tu copia.
 
