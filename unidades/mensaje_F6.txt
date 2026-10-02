@@ -1,0 +1,18 @@
+Ronda F6 — condiciones del acto de sostener algo.
+
+Commit de preparación: 469579ea81be53387c6d74e81546cbd205c4812c (main).
+Este mensaje se entrega al implementador cuando Frat indique arrancar la prueba.
+
+Actualiza una copia limpia de main con git pull --ff-only. Si hay cambios locales que impiden actualizarla, detente y reporta. Comprueba que el commit de preparación está incluido en tu copia.
+
+Lee AGENTS.md, memoria de trabajo y pendientes.md y la sección «Ronda F6» de unidades/PLAN.md. Revisa unidades/prompts/ficha_v2.md y su diff frente a ficha_v1. Ejecuta, sin modificar nada, los nueve comandos de F6 (los tres documentos pueden ir en paralelo; dentro de cada documento, r1, r2, r3 en orden).
+
+Antes de la primera llamada, comprueba que no existe ninguno de los nueve destinos ficha-*-deepseek-ficha_v2-r*.json indicados en el plan. Si existe alguno, detente y reporta. Conserva ficha_v1, todos los crudos anteriores, textos, preguntas, respuestas esperadas y exclusiones de F5.
+
+Usa el acceso local autorizado y la configuración de F5 conforme a AGENTS.md. DeepSeek recibe únicamente prompt y texto numerado. El proxy 127.0.0.1 y las credenciales locales no se transfieren a Work Cloud: para ejecutar allí hace falta configurar primero un acceso autorizado. No busques ni copies claves del ordenador.
+
+Reporta por comando la ruta del crudo, si terminó sin error, modelo efectivo, segundos, error de parseo, verificación del script, tokens y conteos de las siete listas según F6. En DeepSeek, reasoning_tokens está incluido en completion_tokens; tokens de ficha final = completion_tokens - reasoning_tokens. Conserva request, respuesta, razonamiento y parsed; cita solo los pasajes necesarios. Sin veredicto.
+
+Si hay error, autenticación fallida, un minuto sin datos en el stream o modelo efectivo distinto de deepseek-flash, detén nuevas llamadas y reporta el incidente y el estado de las llamadas en curso. Conserva los crudos generados. No reintentes ni cambies prompt, configuración o réplica por tu cuenta.
+
+Al terminar, haz commit de los crudos nuevos y push a main; informa el commit. La evaluación y la decisión de adoptar el candidato vienen después.
