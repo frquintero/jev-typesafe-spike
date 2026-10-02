@@ -1,0 +1,15 @@
+{
+  "replica": "py-r1",
+  "client": "notebooklm-py==0.8.4",
+  "started_utc": "2026-10-02T17:26:37.512435+00:00",
+  "account": 1,
+  "completed": false,
+  "stages": [],
+  "error": {
+    "type": "RuntimeError",
+    "step": "S0-open",
+    "message": "AUTH_STOP: HTTP 302"
+  },
+  "http_requests": 2,
+  "total_seconds": 0.493
+}

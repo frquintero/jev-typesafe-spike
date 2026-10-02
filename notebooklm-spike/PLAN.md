@@ -1,6 +1,10 @@
 # Smoke de conectividad — NBLM-SMOKE-001
 
-## Alcance vigente: API oficial Google Cloud
+## Alcance vigente desde 2026-10-02: notebooklm-py, cuenta web gratuita
+
+Frat eligió `notebooklm-py` y autorizó su adopción y la revisión completa de funciones con propuesta de pruebas iniciales. Paquete base `0.8.4` instalado en entorno exclusivo externo al repo; versión/importación/dependencias comprobadas. Vía: SDK Python, backend Web, sesión externa, sin gastos Cloud. Frat autorizó S0–S3: `smoke_py.py` ejecutó `py-r1`, detenido en S0 por HTTP 302 hacia login con la sesión guardada. Dos GET, cero mutaciones/consultas; S1–S3 pendientes de renovar sesión. Detalle en `reporte-py-r1.md` y `cache/py-r1/`. Inventario y propuesta S0–S10 en `funcionalidades-notebooklm-py.md`; primera secuencia propuesta S0–S3. Dependencia en `requirements-py.txt`.
+
+## Alcance anterior: API oficial Google Cloud (detenido)
 
 **Restricción vigente de Frat (2026-10-02): sin gastos.** Configuración Cloud detenida; no asociar facturación ni activar/comprar suscripciones. El smoke oficial no se ejecutó. Las operaciones anteriores y sus crudos se conservan; no continuar con los pasos de habilitación que siguen documentados históricamente.
 

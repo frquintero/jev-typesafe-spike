@@ -1,0 +1,13 @@
+{
+  "index": 1,
+  "step": "S0-open",
+  "method": "GET",
+  "host": "notebook.google.com",
+  "path": "/",
+  "query": {
+    "authuser": "1"
+  },
+  "f.req": null,
+  "user_agent": "spike-jev/1.0",
+  "auth_fields_omitted": true
+}
