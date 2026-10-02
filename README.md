@@ -2,11 +2,11 @@
 
 ## Estado actual (2026-10-01, fin de sesión)
 
-**Nuevo enfoque del paso 2; rondas F1–F4 hechas; prompt vigente `ficha_v1`.** El marco
+**Nuevo enfoque del paso 2; rondas F1–F5 hechas; prompt vigente `ficha_v1`, congelado.** El marco
 queda fijo: ensayo de Frat «¿Qué es un dato?», versión del 30-09 (resumen
-operativo en `memoria de trabajo y pendientes.md`, §5). Las pruebas del
+operativo en `memoria de trabajo y pendientes.md`, §2). Las pruebas del
 enfoque anterior (`datos_pABQ5`, `datos_pABQ6B`) se suspendieron el 30-09;
-lo aprendido con ellas queda en la memoria (§3–§4, §6).
+lo aprendido con ellas queda en `historico/memoria-hasta-2026-10-01.md`.
 
 **Qué hacemos.** Reconstruir con un LLM barato (DeepSeek `deepseek-flash`)
 **todo lo que un texto establece, organizado desde el caso de estudio**, en
@@ -28,7 +28,7 @@ Es la capa de datos del grafo datos → argumentos → tesis de **Zettel**.
    estanque, que por eso queda fuera de la prueba.
 
 **Pruebas del núcleo conceptual en textos cortos** (DeepSeek; vara de Frat:
-cerca del 90 % correcto y ejecución ágil; detalle en la memoria, §5.5).
+cerca del 90 % correcto y ejecución ágil; detalle en la memoria, §3).
 
 | Ronda | Prompt | Textos | Resultado |
 |---|---|---|---|
@@ -36,17 +36,16 @@ cerca del 90 % correcto y ejecución ágil; detalle en la memoria, §5.5).
 | F2 | `ficha_v0` | `pintura1`, `cafe1` (reserva, de ChatGPT; preguntas en `unidades/gold/preguntas_reserva_F2.md`) | 12 preguntas respondidas en 3 réplicas (36/36); forma de relaciones y acciones inestable |
 | F3 | `ficha_v1` (contrato de representación) | los cuatro | forma estable, 36/36 conservado; el costo subió (37–79 s, 10–16 mil tokens de razonamiento por texto) |
 | F4 | `ficha_v1` + referencias implícitas | `represa1`, una corrida | «otra sequía igual» queda enlazada a la sequía de 2024 sin confundirlas |
+| F5 | `ficha_v1` congelada | `jardin1`, `radio1`, `biblioteca1` (reserva por géneros, de ChatGPT; preguntas en `unidades/gold/preguntas_reserva_F5.md`) | fidelidad ≈95 % (60/63); formato estable; no ágil: 76–127 s y 15–25 mil tokens de razonamiento por texto de ~220 palabras |
 
 **Directriz de Frat:** los cambios al prompt se piensan como generalización,
 para documentos de contenido general (divulgación, ensayo no especializado,
-opinión), no para resolver los textos de prueba. **Siguiente paso:** congelar
-`ficha_v1` y probarla en una reserva por géneros, de varios párrafos, escrita
-por otro y con preguntas fijadas antes; ahí se mide la vara de Frat. El costo
-se evalúa con textos de tamaño real; si es alto, la palanca es la arquitectura
-o el modelo, no más retoques al prompt.
+opinión), no para resolver los textos de prueba. **Siguiente paso:** decidir cómo lograr agilidad sin perder fidelidad;
+es una decisión de arquitectura o de modelo, no de retocar el prompt
+(`ficha_v1` queda congelada mientras tanto).
 
 La lectura es en dos dimensiones: qué recupera y qué agrega o deforma, con
-los 11 errores de la memoria (§5.4) como guía; se admiten errores nuevos.
+los 11 errores de la memoria (§2.4) como guía; se admiten errores nuevos.
 **Fuera de alcance:** subtemas, inventario de casos, documentos largos y
 Jev. **Arquitectura propuesta para después (no decidida):** oraciones
 (código) → subtemas (LLM) → inventario de casos de estudio por documento
@@ -56,10 +55,10 @@ Jev. **Arquitectura propuesta para después (no decidida):** oraciones
 **Dónde está cada cosa.**
 
 - Estado vigente, marco, decisiones, errores, lecciones y pendientes:
-  `memoria de trabajo y pendientes.md` (fuente única del estado; §5 manda
+  `memoria de trabajo y pendientes.md` (fuente única del estado; §2 manda
   sobre lo anterior).
 - Rondas (cambio, conjetura, gold, comandos, reporte): `unidades/PLAN.md`
-  (F1–F4 al final); mensaje para el ejecutor de cada ronda en
+  (F1–F5 al final); mensaje para el ejecutor de cada ronda en
   `unidades/mensaje_<RONDA>.txt`. Prompts en `unidades/prompts/`, textos en
   `unidades/docs/`, golds y preguntas en `unidades/gold/`, crudos en
   `unidades/cache/`.

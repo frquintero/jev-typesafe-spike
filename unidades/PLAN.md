@@ -1016,3 +1016,10 @@ segundos y la verificación que imprime el script. Sin veredicto. Evalúa
 Cowork (por género y réplica: preguntas recuperadas; agregado, deformado u
 omitido; errores de formato; tiempo y tokens de razonamiento); ChatGPT puede
 evaluar las mismas fichas por su cuenta.
+
+**Resultado F5 (evaluó Cowork):** preguntas dentro del contrato 60/63 (≈95 %):
+divulgación 21/21, ensayo 16,5/18 (se pierde el orden «durante un tiempo…
+después» de las capas), opinión 22,5/24 (r2 sin capa para «debería» / «habría
+que»). Fuera del contrato 7/9. Formato estable, fragmentos literales. Costo:
+76–127 s y 14,7–25 mil tokens de razonamiento por texto de ~220 palabras;
+22–34 casos por texto. Detalle y huecos en la memoria, §3.

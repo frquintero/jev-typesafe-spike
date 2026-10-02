@@ -1,30 +1,17 @@
 # Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 01-10-2026, fin de sesión. **Nuevo enfoque en prueba: rondas F1–F4 hechas (ver «Dónde quedamos» y §5.5).** No es bitácora: solo lo vigente. La historia está en `git log` y en los `PLAN.md` (`unidades/PLAN.md`, `prototipos/PLAN.md`).
+Estado al 01-10-2026. **Solo lo vigente:** lo que estamos haciendo y nos guía. Lo superado (enfoque de `datos_pABQ*`, rondas DU/P/ENC/U, sus decisiones y pendientes) está en `historico/memoria-hasta-2026-10-01.md`; el detalle de cada ronda, en `unidades/PLAN.md` y `git log`.
 
 ## Dónde quedamos (leer primero)
 
-Estado al 01-10-2026, fin de sesión. **Rondas F1–F4 hechas; prompt vigente `ficha_v1` (con referencias implícitas). Siguiente: congelarlo y probarlo en una reserva por géneros.** Resultados en §5.5; lecciones en §6.
-
-- **Directriz de Frat (01-10):** todo cambio al prompt se piensa como **generalización**, no como particularización: el prompt debe servir para documentos de contenido general (divulgación, ensayo no especializado, opinión), no para resolver los textos de prueba. No se sigue afinando sobre los textos de desarrollo.
-- **Siguiente paso:** pedir (a ChatGPT u otro) tres textos de reserva de varios párrafos, uno por género, con preguntas fijadas antes (incluida al menos una de referencia implícita: «otro», «igual», «el mismo»); correr `ficha_v1` congelada; medir la vara de Frat (≈90 % correcto, ejecución ágil). Si el costo resulta alto en textos de tamaño real, es un problema de arquitectura o de modelo, no de seguir retocando el prompt.
-
-Plan con el que se arrancó el nuevo enfoque (cumplido hasta el punto 5): Lo anterior a esta fecha (§3–§4, §6) es registro de lo aprendido con el enfoque viejo.
-
-- **Marco fijo:** ensayo «¿Qué es un dato?» (versión del 30-09). El marco no se mueve más. Resumen operativo en §5.
-- **Cambio de enfoque (sesión 30-09/01-10, Frat + Cowork, con revisiones de ChatGPT):** el paso 1 (`unidades_v5`) se conserva. El paso 2 deja de decidir «qué es dato» y pasa a **reconstruir todo lo que el texto establece, organizado desde el caso de estudio**. La pertinencia se decide después (Jev o la pregunta). Decisiones en §5.
-- **Plan vigente (en este orden; solo el núcleo conceptual en textos cortos):**
-  1. **Ficha** (formato de salida) con las decisiones de §5. Cowork la propone; Frat decide.
-  2. **Prompt v0**: tarea, definiciones, ficha, principios (no parches por error) y un ejemplo resuelto. Se muestra antes de correr.
-  3. **Textos.** Desarrollo: estanque, puente y represa (inventados por Cowork en la sesión; §5.3). Reserva: dos textos escritos por otro (ChatGPT), con preguntas fijadas antes de ver el prompt.
-  4. **Corrida:** DeepSeek, tres réplicas por texto.
-  5. **Lectura en dos dimensiones:** qué recupera y qué agrega o deforma. Los 11 errores de §5.4 guían la lectura; se admiten errores nuevos.
-- **Fuera de alcance de esta prueba:** subtemas, inventario de casos, documentos largos y Jev. **Alcance de lo que concluye:** si las fichas salen fieles, hay base para sumar el siguiente componente; si fallan, se localiza la falla (formato, instrucciones, representación o reconstrucción) antes de decidir arquitectura o el papel de Jev. Un error recurrente no define por sí solo el juicio de Jev.
-- **Arquitectura propuesta para después (no decidida):** oraciones (código) → subtemas (LLM) → inventario de casos de estudio por documento (LLM, borrador ampliable) → determinaciones por foco (LLM) → verificación literal (código) → Jev (identidad, correferencias, omisiones mirando el texto).
+- **Qué hacemos:** reconstruir con un LLM barato (DeepSeek `deepseek-flash`) todo lo que un texto establece, organizado desde el caso de estudio, en una **ficha** JSON (`unidades/ficha_doc.py`, prompt vigente `unidades/prompts/ficha_v1.md`). El extractor no decide qué es dato: la pertinencia se decide después (Jev o la pregunta). Es la capa de datos del grafo de **Zettel**. Marco: ensayo de Frat «¿Qué es un dato?», versión del 30-09 (§2).
+- **Estado:** el núcleo conceptual quedó probado en textos cortos. En la reserva por géneros (F5: divulgación, ensayo, opinión; ~220 palabras; textos y preguntas de ChatGPT) con `ficha_v1` congelada: **fidelidad ≈ 95 %** (60/63 preguntas, tres réplicas) y formato estable. **No es ágil:** 76–127 s y 15–25 mil tokens de razonamiento por texto. Detalle en §3.
+- **Decisión abierta (siguiente):** cómo lograr agilidad sin perder fidelidad. Es de **arquitectura o de modelo** (partir el documento, menos registros por llamada, otro modelo o nivel de razonamiento), no de seguir retocando el prompt. Hasta decidirlo, `ficha_v1` queda congelada.
+- **Arquitectura candidata (no decidida):** oraciones (código) → subtemas (LLM, `unidades_v5`, ya existe) → inventario de casos de estudio por documento (LLM) → ficha por foco (LLM) → verificación literal (código) → Jev (identidad, correferencias, omisiones mirando el texto).
 
 ## 0. Dónde y cómo
 
-- **Carpeta:** `/home/fratquintero/Documentos/Claude/jev-typesafe-spike/` (máquina local de Frat, Linux). Trabajo activo en `unidades/`.
+- **Carpeta:** `/home/fratquintero/Documentos/Claude/jev-typesafe-spike/` (máquina local de Frat, Linux). Trabajo activo en `unidades/` (script `ficha_doc.py`, prompts en `prompts/`, textos en `docs/`, preguntas en `gold/`, crudos en `cache/`).
 - **Repositorio:** `https://github.com/frquintero/jev-typesafe-spike`, rama `main`.
 - **Roles:** Frat y Cowork (Claude) planean. La implementación y las corridas las hacen los ejecutores: Muse Code (Meta Muse Spark) en local, GPT-6 Luna (OpenAI, vía Codex o ChatGPT) y Claude Code en la nube como alternativa. El rol va con la tarea, no con el modelo.
 
@@ -42,23 +29,9 @@ Plan con el que se arrancó el nuevo enfoque (cumplido hasta el punto 5): Lo ant
 - Las reglas del ejecutor viven solo en `AGENTS.md`. Muse y Codex (donde corre Luna) lo cargan solos; en el chat de ChatGPT, Luna lo lee porque cada mensaje empieza con «Lee AGENTS.md». `CLAUDE.md` es una línea que apunta ahí (`@AGENTS.md`).
 - Claves: `proxy_local.py` las inyecta por host (TypeSafe, Z.ai, DeepSeek, xAI); nunca van en archivos del repo.
 - Cowork hace git con Desktop Commander, no con el shell aislado (no ve credenciales y deja bloqueos en `.git/`). Para detener procesos, la herramienta `kill_process` de Desktop Commander (`kill` desde la terminal está bloqueado).
+- Muse se colgó una vez (F3: siete minutos sin lanzar comandos). Si pasa, se detiene con `kill_process` y los comandos de `PLAN.md` se corren tal cual, sin modificar nada (exportando `HTTPS_PROXY` y `SSL_CERT_FILE`).
 
-## 1. Qué hacemos
-
-Extraer los **datos** de un texto, en el sentido del ensayo de Frat «¿Qué es un dato?», con un LLM barato (Grok 4.7 o DeepSeek `deepseek-flash`, razonamiento `low`), en dos pasos encadenados (`unidades/`). Meta: un prompt que acierte cerca del 90 % de los casos; la zona gris la juzga después Jev.
-
-1. **Subtemas** (`extraer_unidades.py`, prompt `unidades_v5`): el código parte el texto en oraciones y las numera; el LLM las agrupa en subtemas, `{"subtemas": [{"subtema", "oraciones": [n, …]}]}`.
-2. **Datos por subtema** (prompt vigente `datos_pABQ5`): una llamada por subtema con el **documento completo numerado** y el **foco** (las oraciones del subtema, seguidas o separadas); el LLM devuelve `{"datos": [{"variable", "valor", "unidad_de_medida"}]}`.
-
-**Cadena completa:** `extraer_datos_doc.py <doc> <modelo> <prompt_unidades> <prompt_datos> <rN>`: corre el paso 1 (o reutiliza su crudo si existe), arma documento y foco en código, envía `x-grok-conv-id` para la caché de prefijo en xAI y deja un consolidado `cache/doc-<doc>-…json`.
-
-**Prototipos** (`prototipos/`): banco de prueba del paso 2 solo (foco = texto entero), con una batería de 15 textos cortos con respuestas escritas antes de correr y los ejemplos prototípicos como archivos sueltos (`ejemplos/A.md`…`F.md`) que se combinan (`correr.py`, `evaluar.py`).
-
-**Para qué:** es la capa de datos (nivel 3) del grafo datos → argumentos → tesis de **Zettel**. Después, Jev (`jev-1.13.0`) auditará lo extraído y graduará la confianza; no empezado.
-
-El objetivo original del spike (EEL) está suspendido. `niveles/` queda como antecedente.
-
-## 2. Reglas de trabajo
+## 1. Reglas de trabajo
 
 - **Ockham:** empezar con lo que funciona. Cada elemento del prompt tiene que servir a la tarea; quitar lo que no se use.
 - **Una cosa por ronda.** Varios cambios solo si aplican un mismo principio.
@@ -66,60 +39,15 @@ El objetivo original del spike (EEL) está suspendido. `niveles/` queda como ant
 - **No reinventar la rueda:** revisar la literatura antes de diseñar.
 - **Mostrar el prompt antes de correr** y esperar el «adelante».
 - **Sin ejemplos tomados de los documentos de prueba** (invalidan la prueba).
-- Solo documentos sintéticos. No se editan README, diccionario ni guía sin aprobación.
+- No se editan README, diccionario ni guía sin aprobación.
 - **Crítica constructiva:** valorar la propuesta de Frat y mejorarla con razones, sin aceptar todo.
+- **Generalizar, no particularizar (directriz de Frat, 01-10):** todo cambio al prompt se piensa para documentos de contenido general (divulgación, ensayo no especializado, opinión), no para resolver los textos de prueba. No se afina sobre textos de desarrollo; lo que mide es una reserva escrita por otro, con preguntas fijadas antes.
 
-## 3. Paso 1: subtemas
+## 2. Marco y decisiones (vigentes desde el 01-10)
 
-- **Prompt vigente:** `unidades_v5`. Subtema = «un asunto nuclear y su desarrollo, en una o varias oraciones, seguidas o separadas» (decisión de Frat); oración = texto de punto a punto (la corta el código); tema = unión de subtemas relacionados (nivel de Zettel, no de este paso). Definiciones: desarrollo (detalla, explica, continúa, contradice o saca la consecuencia; en la línea de la RST); «nombrar el mismo lugar, objeto o persona no basta para unir oraciones»; el nombre del subtema dice qué se dice de las cosas, no cuáles son. Cinco ejemplos con descripción de una línea. `{{TEXTO_NUMERADO}}`; el código reconstruye y verifica huecos, solapes, fuera de rango y no enteros.
-- **Resultados:** tec2 y bio1 bien (bio1: 9 subtemas que separan asunto de entidad). oxi1: 4 subtemas con Grok, 3 con DeepSeek. **tec1 (ENC7):** Grok hizo 13 subtemas de una oración cada uno en 57 s y 2298 tokens de razonamiento; DeepSeek, 4 subtemas razonables (uno por equipo) en 4 s. La regla contra agrupar por entidad, aplicada al pie de la letra, fragmenta los informes de inspección. **evals1** (texto real, metodológico; U7, DeepSeek): 6 subtemas que siguen la estructura del artículo (introducción, plan y cuatro principios), 8576 tokens de razonamiento; el nombre del subtema 1 enumera tres asuntos, señal de dos subtemas pegados.
-- **Es el cuello de botella actual** (tiempo de Grok y granularidad). Siguiente: llevar al paso 1 el método de prototipos (§4).
-- Historia: v2 (núcleo y satélites) osciló entre tema y entidad (11 065 tokens); v3 (tramos contiguos) no reunía lo separado; v4 nombraba los subtemas por la entidad; v5 lo corrigió.
+Vocabulario del ensayo y decisiones cerradas. Donde algo del histórico las contradiga, mandan estas.
 
-## 4. Paso 2: datos por subtema
-
-- **Prompt vigente: `datos_pABQ5`** (P14, escrito por Frat). Base `prototipos/base3.md` + ejemplos 1–4: números con unidad, tiempo de un hecho, cualidades (Q, dichas aparte o pegadas al nombre) y un ejemplo con un solo dato (lago Azul, frente a lo que creían los pescadores). Respecto de lo anterior: F salió (mezclaba cinco fenómenos y empujaba a «dato = número»); la Variable debe entenderse sin leer el documento (aspecto, de qué es, circunstancias del documento que hagan falta para identificarlo); el Valor conserva cuantificadores y matices, admite cualidades dadas por comparación; la Unidad vale para cantidades con o sin cifra (millones → unidad; siglos → siglo); «No son datos» suma las relaciones nombradas con sustantivo (origen, fuente, método), los adjetivos que identifican o clasifican y el contenido de creencias, hipótesis o posibilidades.
-- **Rondas P5–P14 (oxi1, 28-09):** GLM 5.3 Flash se abstiene de más (3–5 datos, aun en `high`); DeepSeek osciló entre 5 y 18 datos con ABF y variantes. Gold de oxi1 validada por Frat (`unidades/gold/oxi1.json`, 18 datos) sobre la salida de P11 (`datos_pABQ2`, que la reprodujo completa). **P14 (`pABQ5`): 9 datos, los 9 en la gold, ninguno de más**; faltan los que las decisiones de `pABQ3`–`5` excluyen a propósito (lo que se creía: «prácticamente todo», «décadas»; fuente; método «electrólisis»; «nombre del fenómeno»; todo el foco 3: «crítico», «ambientales», «gran escala», «masiva»). La gold es anterior a esas decisiones: hay que reconciliarlas.
-- **Antecedente (P1–P4): `datos_pAB`** (429 palabras) y **`datos_pABF`** (525; + prototipo F, ver P4) = `prototipos/base.md` (definiciones y «No son datos» de `datos_u10` + línea de formato) + dos ejemplos prototípicos: **A** número con unidad (medida, conteo con «unidad», porcentaje) y **B** fecha u hora de un hecho. Pendiente de guardar como `datos_u11` cuando Frat lo apruebe.
-- **Definiciones vigentes** (desde `datos_u9`): Documento; Foco (conjunto de oraciones de las que se extraen los datos; el resto del documento solo sirve para saber a qué se refiere cada expresión); Variable (aspecto de una cosa, lugar, persona o hecho individual en el que caben diferencias de valor; se nombra con aquello a lo que pertenece y sus circunstancias); Valor (cantidad —medida, conteo, fracción, fecha, hora— o cualidad; lo vago o aproximado conserva su cuantificador); Unidad de medida (la unidad en que se expresa un número; null si el valor no lleva número); Dato (variable + valor + unidad). **No son datos:** lo que solo afirma o niega (su valor sería sí o no), las relaciones entre cosas, los adjetivos del nombre y los enunciados genéricos. La sección se llama «No son datos», no «Reglas»: solo excluye.
-- **Prototipos (P1, Grok, batería de 15 textos, 29 datos):** k0 (sin ejemplos) 19/29, A 23/29, AB 29/29 y ABC, ABCD, ABCDE también 29/29. Los 10 fallos de k0 fueron todos de convención de unidad («cajas» por «unidad»; null por «fecha» u «hora»); ningún falso dato en ninguna configuración. Decidir que no hay nada fue lo más caro (1175–1957 tokens por texto).
-- **Documentos reales (P2, Grok, contra `datos_u10`):** tec1 igual (9 datos, 58 s); oxi1 mejor (recupera «millones», 6 datos); bio1 casi igual (14 datos, 93 s frente a 118): vuelve «especie más abundante = pez loro»; pierde «finos» y los metales; saca «hora = al mediodía» de una medición. ABE quedó incompleto (créditos de xAI agotados en bio1); en oxi1 no mejoró a AB.
-- **DeepSeek (P3):** con AB bien en informes (bio1 mejor que u9, 96 s; tec1 gana «lunes» pero saca «filtro = saturado»); en el ensayo oxi1 sacó de más (17 datos, 24 773 tokens): lo que se creía, lo que podría pasar, comparaciones, lugares y el tono del autor. **P4:** prototipo **F** (negativo de ensayo: lo que se creía, lo que podría pasar y una comparación, junto a un dato real) → `datos_pABF` (525 palabras) con DeepSeek sobre oxi1: de 17 a 9 datos, de 106 a 71 s y de 24 773 a 16 316 tokens; desaparecen creencias, hipótesis, comparaciones, lugares y tono, y el foco 3 queda vacío (1688 tokens frente a 10 279). Quedan «fuente del oxígeno = proceso electroquímico geológico» (tesis explicativa, pendiente 7) y «forma del oxígeno = libre». Candidato para ensayos: ABF.
-- **Texto genérico (ENC9, DeepSeek, `datos_pABQ5` sobre evals1):** un texto metodológico lleno de números y cuantificadores pero sin casos individuales. 5 de 6 focos vacíos; rechazó «100 %», «dos expertos», «un cambio a la vez», los nombres de los comandos y «alta/baja variación»; el único dato fue «cantidad de ejemplos… = algunos» (zona gris). ChatGPT, aplicando el prompt a mano, llegó a lo mismo salvo ese dato. Los tokens de razonamiento se dispararon justo en los focos con bordes (2173–3310 frente a 457–879). «Un cambio a la vez» es un principio de método (OFAT) que el texto anuncia como tal (or. 5), no una propiedad del comando. «Algunos ejemplos» y la or. 5 son metadiscurso (el texto hablando de sí mismo); DeepSeek extrajo del primero y no de la segunda; los dos resultados son correctos (decisión del metadiscurso, abajo).
-- **Rondas ENC10–ENC14 (29/30-09, DeepSeek):**
-  - **banrep1** (informe de pronóstico, ENC10): 5 datos, todos dentro de la propuesta de ChatGPT (8); omitió la fecha de la reunión, «menos favorable» y la presuposición del 12,0 %.
-  - **biomar1** (divulgación, ENC11): 31 filas; ~8 datos firmes y ~13 no-dato (límites de profundidad de las zonas, «dos categorías», genéricos de clase, adjetivos que clasifican, valoraciones fabricadas).
-  - **A = `datos_pABQ6A`** (genéricos también en singular + valores que definen una clase): sin efecto claro; los límites de las zonas siguieron.
-  - **B = `datos_pABQ6B`** (= A + sin la pregunta generadora; el dato exige atribución a algo individual en un aspecto que el texto determina; no se inventa aspecto para alojar una valoración). Réplicas r1–r3 (ENC14): gen1 (reserva, volcanes, gold previa de Cowork) 6/6 firmes y **0 de más** en las tres (pABQ5: 2·1·2); biomar1 no-dato media **6** (5·5·8) frente a **10** (13·7·10), firmes 7/8 en ambas; banrep1 sin diferencia (ruido). Regresión sin pérdidas (oxi1 idéntico, evals1 «algunos», cont1 7/7).
-  - Sin resolver por ninguna versión: los límites de profundidad de las zonas y «dos categorías» (constantes de la definición). «Colosales masas» de CO₂ se perdió en 5 de 6 corridas con ambas versiones.
-  - Golds provisionales: `gold/biomar1.json` (desarrollo, escrita después de ENC11), `gold/gen1.json` (reserva), `gold/cont1.json` (contrastes de ChatGPT).
-- **Formato:** `variable` (completa: caso, circunstancias y método cuando define qué se midió), `valor` (literal, sin la unidad), `unidad_de_medida`.
-- **Historia corta:** definiciones largas (`u3`–`u4`) → seudodatos; solo ejemplos (`u5`) → mejor; definiciones cortas + ejemplos nodo (`u6`–`u7`) → 39/39 en ut1–ut5; documento completo + foco (`u8`); definiciones reestructuradas, «No son datos», genéricos y cantidades vagas (`u9`); fecha de un hecho es dato (`u10`); prototipos mínimos (`pAB`).
-
-### Decisiones de Frat sobre qué es dato (DU5–P4) — enfoque viejo; donde choquen con §5, manda §5
-
-- **Texto genérico sin datos es resultado correcto** (ENC9): el dato es de un caso, no de una clase; las generalizaciones y reglas de un texto metodológico son garantías (nivel de los argumentos), no datos. No se amplía «dato» para que entren.
-- **La pertinencia sale del extractor, sin excepción** (29-09): el extractor reinscribe toda determinación bien formada que el texto presenta como hecho, dentro de su alcance; la pertinencia respecto de la práctica (ensayo l. 121, también en los bordes) la juzga Jev después. Principio operativo en §5.
-- **Constante de la definición frente a valor** (29-09, IMPORTANTE, decisión de Frat): la pregunta de prueba es **¿podría haber sido otro el valor sin que cambiara qué es el caso? Si no, es una constante de la definición**, no un dato («un aspecto sin diferencias es una constante», §5). Ej. (biomar1): «la Zona Epipelágica se extiende hasta los 200 metros» define la capa (constante); «temperaturas que oscilan entre 1 y 4 grados» en la zona abisal es un valor empírico. Borde asociado: la referencia a clases con singular definido («el plancton se divide…», Carlson 1977) es genérica aunque no lo parezca.
-- **El metadiscurso no es criterio** (29-09), ni a favor ni en contra: el texto puede ser caso. «Cantidad de ejemplos de esos comandos que el artículo mostrará al cerrar = algunos» (evals1) es dato; el futuro se conserva (atribución presente, contenido futuro: el anuncio es un compromiso del autor sobre su propio texto, verificable en el mismo documento, no una creencia). La or. 5 no da dato por razones propias: el orden de las partes es una relación, y «partes del artículo = 2» exigiría un conteo que el texto no dice.
-- **Modo de una acción no es propiedad del objeto:** «mejorar… un cambio a la vez» es el método de la acción (excluido con las relaciones), no un atributo del comando, a diferencia de «capacidad del tanque = 30000 litros». Además es un principio general (OFAT) que el texto anuncia como tal (or. 5): una garantía, no un dato. ChatGPT lo defendió como dato; no se aceptó.
-- **Variable = magnitud individual** (VIM4, nota 2: «the radius of circle a is an instance of length»): «peso de la caja», no «peso» con un caso aparte.
-- **Valor literal**, tal como aparece en `texto`, sin la unidad: «30000», unidad «litros»; «6 de la mañana», unidad «hora».
-- **`unidad_de_medida` en lugar de `escala`:** «escala» es polisémica (el modelo la leía como nominal/ordinal). Los valores cualitativos no tienen unidad de medida: `null`. Los conteos llevan «unidad» (magnitud de dimensión uno).
-- **Binarios** (con fiebre, sin fallas, trabado): hechos, no datos. Hay valor cuando la palabra elige entre más alternativas que el sí y el no; el criterio es cuántos valores admite la variable, no la forma de la frase.
-- **Enunciados genéricos** (sobre una clase o lo que suele pasar) no dan datos: el dato es de algo individual.
-- **Cantidades vagas o aproximadas** («pocas», «unos 5», «cerca de 300») se copian con su cuantificador y nunca se cambian por un número; resolverlas es trabajo de Zettel con el contexto (variable lingüística de Zadeh; clase de comparación). Unidad solo si el valor lleva número («unos 60» → unidad; «pocas» → null).
-- **La fecha u hora de un hecho es dato** (opción A de Frat), aunque además vaya como circunstancia en otras variables («fecha del censo = 12 de marzo»). Borde abierto: la hora de una medición («al mediodía») parece circunstancia, no hecho; los modelos la sacan a veces.
-- **Modificadores cualitativos del nombre** (antiguo, municipal): parte del caso. Una **cantidad con unidad** es dato aunque vaya en el nombre («caja de 12 kg» → peso de la caja = 12, kg). Números y códigos sin unidad que identifican (camión 7, cama 12, C-2) son del caso.
-- **Circunstancias** («a las 8», «en la noche»): dentro de la variable («temperatura del paciente a las 8»). Una hora es valor cuando responde a «¿cuándo?».
-- **Completitud de la variable** (decisión de Frat tras U4/bio1): una variable está bien hecha cuando al leerla queda claro qué varía, con el contexto necesario. El método que define qué se midió («registrados por los censos visuales», «en marea baja») va en la variable; en metrología, reduce la incertidumbre definicional (VIM 2.27). La **procedencia** queda solo para la fuente del dicho («según el informe de…», «el técnico dijo…»): no cambia qué varía, y es lo que Jev podría pesar al graduar la confianza. En bio1 no hubo error de procedencia: «marcadas por los buzos» es el agente de lo contado, y «por los censos visuales», el método.
-- **El valor puede ser un tipo, no un ejemplar** (decisión de Frat tras U4/bio1): la variable tiene la estructura del fenómeno (soporte, escala, distribución, momentos) y los valores son realizaciones. «Especie más abundante = pez loro» está bien construido: «pez loro» es un tipo (categoría del soporte de una variable nominal), no un caso concreto; además es la moda de «especie de cada pez» sobre la muestra del censo, un dato de segundo orden. Lo que no puede ser valor es un ejemplar (un individuo concreto): eso sigue siendo relación entre casos. «Estado del tejido = sano» también está bien: variable categórica con más de dos estados.
-
-## 5. Marco y decisiones del nuevo enfoque (30-09 / 01-10)
-
-Reemplaza la §5 anterior (vocabulario viejo: «variable», «valor = posición», «caso»). Donde §4 contradiga esto (genéricos, constantes y binarios excluidos; campo `variable`), manda esta sección.
-
-### 5.1 Vocabulario del ensayo
+### 2.1 Vocabulario del ensayo
 
 - **Caso** (filosófico): lo que acaece. **Caso de estudio:** unidad individuada y reidentificada acerca de la cual se reúnen determinaciones (l. 87–97). No confundirlos.
 - **Aspecto:** aquello bajo lo cual se considera el caso de estudio. **Variable** solo hay cuando una serie comparable muestra variación (l. 129); un texto aislado da aspectos.
@@ -129,7 +57,7 @@ Reemplaza la §5 anterior (vocabulario viejo: «variable», «valor = posición�
 - **Dato:** valor que queda (determinación registrada de modo recuperable). **Información:** cambio en las respuestas admisibles a una pregunta.
 - Documento y foco **no son conceptos del ensayo**: son arquitectura de Zettel compatible con él.
 
-### 5.2 Decisiones (cerradas el 01-10)
+### 2.2 Decisiones (cerradas el 01-10)
 
 | Tema | Decisión |
 |---|---|
@@ -151,13 +79,13 @@ Reemplaza la §5 anterior (vocabulario viejo: «variable», «valor = posición�
 | Código | Solo numera y verifica que los respaldos estén literales. Se descartó la lista de control de números: explicar las marcas es trabajo del LLM |
 | Evaluación | Qué recupera y qué agrega o deforma, más preguntas escritas antes de correr (que el texto responde, que deja abiertas, en conflicto); «el documento no lo establece» es respuesta explícita |
 
-### 5.3 Textos de desarrollo (inventados en la sesión; solo desarrollo, no medición)
+### 2.3 Textos de desarrollo (inventados en la sesión; solo desarrollo, no medición)
 
 - **Estanque:** «(1) En la superficie, el agua del estanque norte de la finca El Roble está a 18 °C. (2) Además tiene un color verdoso, algo preocupante según la bióloga Ana Ruiz.»
 - **Puente:** «(1) El puente colgante de San Rafael mide 120 metros de largo y fue inaugurado en 1958. (2) En invierno, sus cables se contraen hasta 4 centímetros. (3) Según el ingeniero Luis Mora, ese movimiento es normal en puentes de acero.»
 - **Represa:** «(1) La represa El Cóndor, construida en 1972, almacena unos 40 millones de metros cúbicos de agua. (2) Durante la sequía de 2024, su nivel bajó a la mitad. (3) El técnico Pablo Ríos cree que la compuerta 2 no resistiría otra sequía igual. (4) El informe municipal, en su anexo 4, recomienda revisarla antes de diciembre.»
 
-### 5.4 Errores cometidos al leer esos textos (Cowork y ChatGPT)
+### 2.4 Errores cometidos al leer esos textos (Cowork y ChatGPT)
 
 Casi todos son de **identidad**: la ficha agrega o pierde algo.
 
@@ -175,87 +103,13 @@ Casi todos son de **identidad**: la ficha agrega o pierde algo.
 
 Dos lectores atentos discreparon sobre todo al individuar el caso de estudio, como los anotadores de MeasEval (acuerdo 0,55): ahí se espera que falle el modelo.
 
-### 5.5 Rondas F1–F4 (01-10; DeepSeek; script `unidades/ficha_doc.py`)
-
-- **F1** (`ficha_v0`, desarrollo: puente1, represa1; 3 réplicas): núcleo fiel en lo grueso (capas, negación en el valor, acción recomendada dentro de su capa, «otra sequía igual» como duda, cambios conservados). Inestable en lo chico: «anexo 4» tratado de tres maneras; una relación sin extremos.
-- **F2** (`ficha_v0`, reserva de ChatGPT: pintura1, cafe1; preguntas en `gold/preguntas_reserva_F2.md`): las 12 preguntas se responden en las 3 réplicas (36/36), incluidas las de capa (Vélez, Salgado), alcance (el acta no registra ≠ no hubo ventas), caso correcto (250 g de la muestra) y no inventar (madera, total del lote). Falla de **formato**: campos de relaciones y acciones distintos en cada réplica, referencias como texto (`"C2,C5"`), hechos con agente a veces en acciones y a veces en relaciones; fila mal articulada «identificación en inventario = identificada».
-- **Lectura del razonamiento de F2:** el modelo dudaba dónde poner hechos con agente (el prompt solo nombraba acciones para recomendaciones), inventaba campos («el formato no está especificado»), no sabía adónde mandar los números que identifican; 21–50 % del razonamiento es un borrador del JSON.
-- **F3** (`ficha_v1` = contrato de representación: función y campos de cada lista; identificadores en el nombre del caso; referencias como ids): forma estable en las 12 corridas y 36/36 conservado; desaparece la fila mal articulada. **El costo subió** (razonamiento medio 9–13,7 mil → 10,3–15,6 mil tokens; 37–79 s): el contrato abrió nuevas decisiones (en qué lista va cada hecho, campos `modalidad`/`cambio` sin definir, `inferido` faltante en relaciones, nombre o determinación para adjetivos) y el modelo busca más relaciones. Muse se colgó sin lanzar comandos; los corrió Cowork sin modificar nada.
-- **Hallazgo de fundamento (ChatGPT, verificado):** «otra sequía igual» no se enlazaba con la sequía de 2024 en ninguna réplica; el modelo veía el antecedente y lo descartaba por el principio 5 (cuyo ejemplo estaba tomado de la propia represa) y por «lo ambiguo no se resuelve». Sin el término de comparación, la condición de la creencia de Ríos no es recuperable sin volver al texto.
-- **F4** (`ficha_v1` modificada en el lugar, decisión de Frat; las corridas F3 guardan el prompt anterior en su `request`): principio 5 general (resolver referencias implícitas con un solo antecedente, marcadas `inferido`; lo comparado y el término de comparación son casos distintos unidos por una relación; varios antecedentes → dudas), sin ejemplo de la represa; principio 9: ambiguo = más de una lectura posible; `inferido` en relaciones. Una corrida (represa1 r4): enlace correcto («otra sequía igual» —igual a→ «sequía de 2024», inferido, dentro de la capa de Ríos; la condición apunta a ese caso). Efectos: valor «no» en vez de «no resistiría» (el matiz queda en `modalidad`); «40 millones de m³» registrado como determinación y como relación con «agua». Costo 80 s y 17 400 tokens de razonamiento. Una corrida en texto de desarrollo: muestra que funciona aquí, no que generalice.
-- **Pendiente detectado, no corregido:** el principio 1 aún usa un ejemplo tomado de la represa («el técnico Pablo Ríos»).
-
-### 5.6 Antecedentes revisados
+### 2.5 Antecedentes revisados
 
 - **MeasEval** (SemEval-2021, tarea 8): cantidad, unidad, entidad medida, propiedad medida y calificador, todos anclados en el texto; relaciones opcionales. Acuerdo humano: cantidad 0,94; propiedad 0,64; entidad 0,55; calificador 0,33. Solo mediciones.
 - **GraphRAG** (Microsoft, 2024): entidades, relaciones y *claims* extraídos por LLM; trozos chicos recuperan casi el doble; *gleaning* para omisiones. Fusiona entidades por nombre exacto y resume en prosa: dos cosas a evitar.
-- **Wikidata:** §8.
+- **Wikidata:** §2.6.
 
-## 6. Lecciones
-
-- **Nuevo enfoque (01-10):** (a) una lista sin forma declarada se inventa distinta en cada réplica; un ejemplo con listas vacías no enseña nada; (b) cada «no va aquí» necesita un «va allá»; (c) un contrato más explícito estabiliza la forma pero no abarata: abre decisiones nuevas (en qué lista va cada hecho) y el modelo registra más; (d) un ejemplo tomado del texto de prueba enseña cautela justo en ese caso (principio 5); (e) referencia implícita con un solo antecedente ≠ ambigüedad; (f) leer el `reasoning_content` antes de proponer cambios localiza la causa; (g) no afinar sobre textos de desarrollo: la directriz es generalizar.
-
-- Un campo obligatorio no filtra: el modelo inventa algo para llenarlo (seudoescalas en D6; escalas inventadas en DU2).
-- «Puede formularse una pregunta» es una fuga: a cualquier hecho se le fabrica una.
-- Menos prompt rinde más: `unidades_v2` dio lo mismo que `v1` con la mitad de tokens.
-- Si dos señales del prompt se contradicen, el modelo oscila; el remedio es un solo principio.
-- Para que el modelo omita con confianza, omitir tiene que ser parte de la tarea.
-- Citar el criterio del ensayo casi literal; parafrasear introduce errores.
-- Una sola corrida no separa el efecto del prompt del ruido.
-- El `reasoning_content` es el mejor instrumento de diagnóstico.
-- Jev corrige lo que el modelo afirma de más, no lo que omite.
-- Operativo: DeepSeek puede dejar el stream colgado; si pasa un minuto sin bytes, matar la llamada y relanzar solo ese modelo.
-- Una palabra polisémica en el prompt («escala») arrastra al modelo a su sentido más frecuente; mejor el término que el modelo tiene fijado («unidad de medida»).
-- «Encuentra los datos» presupone que hay: sin un ejemplo sin datos, el modelo busca reemplazos (ut4 en DU4, visible en `reasoning_content`).
-- Mostrar rinde más que definir (DU5), y la ostensión enseña exactamente lo que muestra: cada falla señala un rasgo que los ejemplos no traen. Por eso los ejemplos se eligen desde el marco, no desde las fallas de la prueba.
-- `reasoning_content` de xAI llega recortado: es menos que los `reasoning_tokens` facturados.
-- Caché de prefijo en xAI: sin el encabezado `x-grok-conv-id`, 77 de 98 llamadas solo cachearon 1152 tokens (un prefijo del proveedor, igual para todo prompt); desde ENC4, `extraer_datos_doc.py` lo envía por cadena (`<doc>-<prompt_unidades>-<prompt_datos>-<rN>`). La caché baja costo y tiempo de prefill, no el tiempo de razonamiento (decodificación).
-- La contradicción entre señales también cuesta tiempo: en el paso 1, «temática» contra «núcleo = caso» llevó a 11 065 tokens de razonamiento; con una sola señal (tema), 1605.
-- Al modelo el juicio, al código el cómputo: con oraciones numeradas, el modelo devuelve índices y el código garantiza la literalidad.
-- Un documento de prueba escrito por quien diseñó los ejemplos, y evaluado sin gold previo, sobreestima el acierto (sesgo retrospectivo).
-- **Las definiciones enseñan los conceptos; los ejemplos, las convenciones** (P1): sin ejemplos, los únicos errores fueron de convención de unidad. Un buen prototipo enseña lo que la definición no deja deducir, con un solo fenómeno y una línea de descripción.
-- **Los ejemplos cargados meten ruido** (P2): el pez loro y el foco de los nódulos se perdieron con `u9`–`u10` (ejemplos con cinco lecciones cada uno) y volvieron con AB. Más ejemplos no es mejor (*over-prompting*); el número lo decide la curva.
-- **El tiempo depende del documento más que del prompt:** acortar el prompt a la mitad casi no cambió los tiempos; el razonamiento se va en los focos dudosos del texto, y decidir que no hay dato cuesta más que extraerlo.
-- **El género del texto pesa más que el modelo** (P3): en informes, Grok y DeepSeek andan bien con AB; en el ensayo, DeepSeek extrae creencias, hipótesis, comparaciones y tono. Los textos de Zettel serán ensayos.
-- Una regla que deja un borde sin cerrar le cuesta al modelo miles de tokens aunque no cambie el resultado (ENC8: la regla de fechas llevó un foco de 492 a 3156 tokens).
-- El razonamiento completo de Grok no se puede leer (solo un resumen corto o el cifrado); para diagnosticar dudas sirve DeepSeek, que lo entrega entero.
-- **Nivel de razonamiento efectivo** (docs oficiales, 28-09): DeepSeek solo tiene `high` y `max`; nuestro `low` se convierte en `high`. GLM 5.3 Flash tiene `low`, `high` y `max` (por defecto `max`, siempre razona); con `low` razonó 0–87 tokens por foco. Grok corre en `low`. Los puntajes de Artificial Analysis se miden en `max`: no se trasladan a nuestras corridas.
-- **Cada modelo tiene su temperamento ante el mismo prompt:** GLM se abstiene cuando duda («Conservative: depth»; AA-Omniscience +7) y necesita un ejemplo positivo de cualidades; DeepSeek afirma de más (AA-Omniscience −5) y necesita el negativo de ensayo (F).
-
-- **El ruido entre corridas puede ser tan grande como el efecto** (ENC13–14): con el mismo prompt, biomar1 dio 13 y 7 filas no-dato. Cada `rN` corre también su paso 1; comparar prompts con el mismo `rN` (pareado).
-- **Un prompt preciso en un género puede no serlo en otro:** sin falsos en informes y ensayos, muchos en divulgación que describe clases.
-- **El singular definido nombra clases** («el plancton», «la zona abisal»; Carlson 1977): un genérico que no parece genérico.
-- **Una pregunta que va del valor a la variable fabrica variables** («grado de delicadeza = delicado»): confirma la lección de la pregunta como fuga.
-- **Un texto sin datos mide una sola cara del extractor** (ENC9; evals1 conserva un dato tras la decisión del metadiscurso): que no invente. Un prompt que siempre devolviera vacío sacaría 100 %; vale junto a un gold con datos (oxi1).
-- **Hipótesis H1 (no probada): los tokens de razonamiento delatan los bordes.** En ENC9 se dispararon justo en los focos que el análisis previo marcó como riesgosos, pero son seis focos y una corrida. Confusor posible: esos focos son también los que traen números o cuantificadores en la superficie. Si se confirma, sería una señal barata para mandar a revisión (como la franja central de Jev).
-
-## 7. Pendientes
-
-**Vigentes (nuevo enfoque, 01-10):**
-
-- A. Reserva por géneros (divulgación, ensayo no especializado, opinión; varios párrafos; escritos por otro; preguntas antes) con `ficha_v1` congelada; medir ≈90 % y tiempo.
-- B. Costo: medir en textos de tamaño real antes de decidir; palancas posibles son arquitectura (subtemas, inventario de casos) o modelo, no más contrato.
-- C. Ejemplo del principio 1 tomado de la represa: reemplazar por uno neutro cuando se toque el prompt.
-- D. Muse se colgó en F3 sin lanzar comandos (siete minutos); si se repite, revisar `muse.sh exec` o correr los comandos directamente.
-
-**Del enfoque anterior:**
-
-**Suspendidos (30-09)** hasta el nuevo enfoque de la sesión que empieza desde cero; se conservan como referencia.
-
-
-1. **Reconciliar la gold de oxi1** con las decisiones de `datos_pABQ3`–`5` (creencias, fuente, método, adjetivos que clasifican, foco 3) y con el principio operativo (§5): se excluye por forma o alcance, nunca por pertinencia. Con la gold actual, P14 da 9/18 sin falsos; con la reconciliada se sabrá cuánto falta de verdad.
-2. **Unificar el vocabulario de los prompts** («subtema» frente a «unidad temática»; «Dato» como terna) en la próxima ronda que toque `datos_pABQ*`; no justifica una ronda propia.
-3. **Paso 1 con el método de prototipos:** batería corta, curva de ejemplos, medir tokens; resolver la fragmentación de Grok en informes (tec1) y su lentitud. En evals1 el subtema 1 salió con dos asuntos pegados.
-4. Prueba de verdad de la cadena: documento ajeno con gold escrito antes de correr, más desordenado (tablas, abreviaturas, rangos, negaciones, fechas), del tipo que recibirá Zettel; de preferencia un ensayo, con un anuncio metadiscursivo con cantidad (la decisión del metadiscurso se tomó viendo la salida). Probar `pABQ5` también en un informe (tec1 o bio1).
-5. Nivel de **tema** (unión de subtemas relacionados) para Zettel: embeddings proponen candidatos, Jev juzga.
-6. Zona gris (terreno de Jev, no del prompt): «finos», composición con valores de tipo («níquel, cobalto y manganeso»), «millones», hora de una medición, superlativos (dato de segundo orden).
-7. Frontera entre dato y afirmación (creencias, hipótesis, tesis explicativas): niveles 1 y 2 del grafo de Zettel.
-8. Escala: documentos largos (ventanas superpuestas, partición recursiva).
-9. Jev: auditoría de los datos, graduación de confianza, canonicalización de variables, reidentificación de casos entre textos, procedencia como capa propia.
-10. H1 (§6), solo si llega a importar para Jev: repetir focos con y sin números en la superficie.
-11. Grok sin créditos de xAI: recargar antes de volver a compararlo.
-
-## 8. Referencia: el modelo de statements de Wikidata (30-09)
+### 2.6 Referencia: el modelo de statements de Wikidata (30-09)
 
 No es diseño de Zettel (falta mucho para eso). Es literatura para no inventar la rueda, a la mano para cuando toque. Cifras de propiedades escritas de memoria: verificarlas antes de usarlas.
 
@@ -273,3 +127,43 @@ No es diseño de Zettel (falta mucho para eso). Es literatura para no inventar l
 **Donde el ensayo afina.** Los calificadores mezclan constitutivo y procedencia (P459 «método de determinación» es a veces una y a veces otra; el criterio del ensayo —qué cambia si se modifica— decide). Sin núcleo común: dos referencias pesan igual aunque una copie a la otra. Sin pregunta ni información. Marca débil (la cita es opcional y no se ancla a versión ni posición). Error y falsedad juntos en *deprecated*.
 
 **Tomable tal cual, cuando llegue el momento:** estructura del statement; no borrar lo desaprobado; *somevalue* frente a *novalue*; propiedad tipada con dominio y unidades; doble vista plana y reificada.
+
+## 3. La ficha: qué sabemos
+
+**Prompt `ficha_v1`.** Tarea, definiciones, 11 principios, contrato de representación (función y campos fijos de las siete listas: casos, relaciones, capas, determinaciones, acciones, marcas, dudas; identificadores en el nombre del caso; referencias como ids) y un ejemplo (el estanque). El principio 5 resuelve referencias implícitas con un solo antecedente («otro», «igual», «el mismo»), marcadas `inferido`; lo comparado y el término de comparación son casos distintos unidos por una relación; varios antecedentes → dudas. El código solo numera y verifica que respaldos, menciones y marcas estén literales.
+
+**Textos.** Desarrollo (escritos por Cowork; no miden): `puente1`, `represa1` (y el estanque, ejemplo del prompt). Reserva (escritos por ChatGPT, preguntas fijadas antes en `unidades/gold/`): `pintura1`, `cafe1` (F2), `jardin1`, `radio1`, `biblioteca1` (F5).
+
+**Lo que funciona** (reserva F2 y F5, tres réplicas): capas (quién sostiene qué, incluido el autor como «yo»); negación y alcance («no prueba que…», «el acta no registra» ≠ «no hubo ventas»); modalidades («puede», «tal vez», «puede que», «no sé si»); referencias implícitas («este último», «el primero», «el documento», «otra sequía igual» → la de 2024); atribución al caso correcto (250 g de la muestra, no del lote); no inventa lo que el texto no establece; formato estable y fragmentos literales.
+
+**Huecos generales del contrato** (vistos en F5; no corregidos porque `ficha_v1` está congelada; se abordan como generalización cuando se descongele):
+- Las capas no tienen condiciones: se pierde el tiempo de una creencia o interpretación («durante un tiempo… después»).
+- Las acciones no tienen modalidad: lo que se recomienda («debería», «habría que») solo se conserva si el modelo crea una capa; a veces no la crea.
+- Exceso de casos (22–34 por texto de ~220 palabras): cantidades, metáforas y pronombres como casos («unos 20 litros», «esponja», «eso»).
+- A veces fusiona casos distintos en uno o guarda contenido en el nombre de un caso.
+- Los vínculos de razón entre hechos («por esa razón», «porque») no tienen lugar en la ficha (relaciones solo entre casos): son de los niveles 1–2 de Zettel, no de datos.
+- El principio 1 usa un ejemplo tomado de la represa («el técnico Pablo Ríos»).
+
+**Costo** (F5, por texto de ~220 palabras): divulgación 103–127 s, 18,5–25 mil tokens de razonamiento; ensayo 96–109 s, 17,6–20,3 mil; opinión 76–102 s, 14,7–20,6 mil. Textos de 3–5 frases: 37–80 s. El costo crece con el texto y con la cantidad de registros; un contrato más explícito estabilizó la forma pero subió el costo (F3).
+
+## 4. Lecciones vigentes
+
+- **Leer el `reasoning_content` antes de proponer cambios:** localiza la causa (DeepSeek lo entrega entero; el de Grok no se puede leer).
+- **Una sola corrida no separa el efecto del ruido;** con el mismo prompt el resultado puede variar tanto como el efecto buscado. Réplicas, y comparar prompts con el mismo `rN`.
+- **No afinar sobre textos de desarrollo;** medir en una reserva escrita por otro, con preguntas fijadas antes. Un texto escrito por quien diseña el prompt sobreestima el acierto.
+- **Un ejemplo enseña exactamente lo que muestra:** una lista vacía no enseña nada; un ejemplo tomado del texto de prueba enseña cautela justo en ese caso. Los ejemplos se eligen desde el marco, no desde las fallas.
+- **Si dos señales del prompt se contradicen, el modelo oscila y delibera** (cuesta tokens). Remedio: un solo principio. Referencia implícita con un solo antecedente ≠ ambigüedad.
+- **Cada «no va aquí» necesita un «va allá»;** una lista o campo sin forma declarada se inventa distinto en cada réplica; un campo obligatorio no filtra.
+- **Un contrato más explícito estabiliza la forma pero no abarata:** abre decisiones nuevas (en qué lista va cada hecho) y el modelo registra más.
+- **El género pesa más que el modelo:** un prompt preciso en un género puede no serlo en otro; probar siempre en varios géneros.
+- **Al modelo el juicio, al código el cómputo:** numerar oraciones y verificar literalidad lo hace el código.
+- **Jev corrige lo que se afirma de más, no lo que se omite:** las omisiones del extractor no se recuperan aguas abajo.
+- **Operativo:** DeepSeek solo tiene razonamiento `high` y `max` (nuestro `low` se vuelve `high`); puede dejar el stream colgado (si pasa un minuto sin bytes, relanzar).
+
+## 5. Pendientes vigentes
+
+1. **Agilidad:** decidir arquitectura o modelo con una prueba sobre los mismos textos de reserva (F5) y uno real más largo: partir el documento (subtemas, inventario de casos), menos registros por llamada, otro modelo o nivel de razonamiento. Vara de Frat: ≈90 % correcto y ejecución ágil.
+2. **Huecos del contrato (§3):** abordarlos como generalización cuando se descongele el prompt, y medir en reserva nueva.
+3. **Vínculos de razón entre afirmaciones** («por esa razón», «porque»): niveles 1–2 del grafo de Zettel; fuera de la ficha de datos.
+4. **Jev:** identidad de lo registrado, correferencias, omisiones; después de la arquitectura.
+5. Grok sin créditos de xAI: recargar si se quiere compararlo.
