@@ -1,0 +1,15 @@
+Ronda py-r4 — notebooklm-py, S0–S3: réplica de py-r3 sin idempotent=True en add_text.
+
+Commit de preparación: 5930beb9d1d9243461a538d278a8802e578f0202 (main).
+
+Actualiza una copia limpia de main con git pull --ff-only. Si hay cambios locales que impiden actualizarla, detente y reporta. Comprueba que el commit de preparación está incluido en tu copia.
+
+Lee AGENTS.md, notebooklm-spike/README.md y las secciones «Ronda py-r4» y «Ronda py-r2» de notebooklm-spike/PLAN.md (py-r4 remite a py-r2 para entradas, criterio y reporte). Ejecuta, sin modificar nada, el único comando de la ronda (el script lanza solo la reconexión S3). Corre en local, sin el proxy: no exportes HTTPS_PROXY ni SSL_CERT_FILE; el comando del plan las quita.
+
+Antes de ejecutar, comprueba que no existe notebooklm-spike/cache/py-r4/. Si existe, detente y reporta. No corras notebooklm auth check ni nada que liste cuadernos, y no leas ni imprimas el archivo de sesión. Conserva py-r1, py-r2, py-r3 y todos los crudos anteriores.
+
+Si el script termina con error (AUTH_STOP, comprobación fallida o tiempo agotado), no reintentes ni cambies código, sesión o réplica: conserva los crudos y reporta el error con su paso.
+
+Escribe reporte-py-r4.md con lo que pide el plan, con el formato de reporte-py-r3.md: completed y paso final de cada proceso, segundos por etapa y total, peticiones HTTP, cupos de S0, IDs, respuesta de S2 verbatim, referencias y pasajes, y el valor de cada comprobación. Cita los crudos; nada de cookies, tokens ni cabeceras privadas. Sin veredicto.
+
+Al terminar, haz commit de cache/py-r4/ y reporte-py-r4.md, y push a main; informa el commit.
