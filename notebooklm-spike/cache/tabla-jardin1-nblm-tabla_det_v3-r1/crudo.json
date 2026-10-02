@@ -1,0 +1,127 @@
+{
+  "doc": "jardin1",
+  "instrucciones_archivo": "tabla_det_v3",
+  "rep": "r1",
+  "cliente": "notebooklm-py==0.8.4",
+  "herramienta": "generate_data_table",
+  "inicio_utc": "2026-10-02T23:18:41.984518+00:00",
+  "texto_numerado": "[1] En el patio de la escuela de Valdemora, una parte del suelo está más baja que el camino que la rodea. [2] Allí crecen plantas de hojas estrechas y tallos flexibles. [3] Parece un jardín corriente, pero su forma tiene una función: recibir parte del agua que baja del pavimento cuando llueve.\n\n[4] El agua entra por una abertura entre las piedras del borde. [5] Después puede penetrar lentamente en la tierra, en lugar de seguir de inmediato hacia la calle. [6] Si llega más de la que el terreno admite, un conducto situado cerca del borde superior permite que el exceso salga hacia el desagüe.\n\n[7] Según Clara Beltrán, encargada del huerto escolar, las raíces ayudan a mantener pequeños espacios por los que circula el agua. [8] Ella advierte que eso no convierte cualquier terreno en una esponja: un suelo muy compacto puede absorberla con dificultad. [9] Por esa razón, antes de plantar se retiraron cascotes y se mezcló la tierra con material más suelto.\n\n[10] Durante una demostración se vertieron unos 20 litros en el jardín y una cantidad semejante sobre el camino. [11] En este último quedó un charco visible; en el primero, el agua fue desapareciendo de la superficie. [12] La diferencia ayuda a entender su función, aunque no prueba que el jardín pueda recoger toda la lluvia de una tormenta.",
+  "oraciones_numeradas": [
+    {
+      "n": 1,
+      "oracion": "En el patio de la escuela de Valdemora, una parte del suelo está más baja que el camino que la rodea."
+    },
+    {
+      "n": 2,
+      "oracion": "Allí crecen plantas de hojas estrechas y tallos flexibles."
+    },
+    {
+      "n": 3,
+      "oracion": "Parece un jardín corriente, pero su forma tiene una función: recibir parte del agua que baja del pavimento cuando llueve."
+    },
+    {
+      "n": 4,
+      "oracion": "El agua entra por una abertura entre las piedras del borde."
+    },
+    {
+      "n": 5,
+      "oracion": "Después puede penetrar lentamente en la tierra, en lugar de seguir de inmediato hacia la calle."
+    },
+    {
+      "n": 6,
+      "oracion": "Si llega más de la que el terreno admite, un conducto situado cerca del borde superior permite que el exceso salga hacia el desagüe."
+    },
+    {
+      "n": 7,
+      "oracion": "Según Clara Beltrán, encargada del huerto escolar, las raíces ayudan a mantener pequeños espacios por los que circula el agua."
+    },
+    {
+      "n": 8,
+      "oracion": "Ella advierte que eso no convierte cualquier terreno en una esponja: un suelo muy compacto puede absorberla con dificultad."
+    },
+    {
+      "n": 9,
+      "oracion": "Por esa razón, antes de plantar se retiraron cascotes y se mezcló la tierra con material más suelto."
+    },
+    {
+      "n": 10,
+      "oracion": "Durante una demostración se vertieron unos 20 litros en el jardín y una cantidad semejante sobre el camino."
+    },
+    {
+      "n": 11,
+      "oracion": "En este último quedó un charco visible; en el primero, el agua fue desapareciendo de la superficie."
+    },
+    {
+      "n": 12,
+      "oracion": "La diferencia ayuda a entender su función, aunque no prueba que el jardín pueda recoger toda la lluvia de una tormenta."
+    }
+  ],
+  "instrucciones_enviadas": "Construye una tabla con una fila por cada determinación: cada cosa que el texto establece acerca de un caso de estudio bajo un aspecto. Un mismo caso de estudio puede ocupar muchas filas. Usa exactamente estas columnas, en este orden:\n- caso de estudio: aquello de lo que el texto dice algo (una cosa, persona, lugar o estado), nombrado como lo nombra el texto.\n- aspecto: aquello bajo lo cual el texto considera el caso de estudio (temperatura, longitud, año de construcción).\n- valor: solo la posición, tal como la da el texto y con sus aproximadores («unos 18», «más fría», «semejante»), sin la unidad.\n- unidad: la unidad de medida, si la hay; si no, vacío.\n- respecto de: si el valor es una comparación («más fría», «semejante», «igual»), aquello con lo que se compara; si no, vacío.\n- cambio: si el texto dice que algo cambió («bajó a la mitad», «subió de… a…»); si no, vacío.\n- condición: lo que, si cambiara, cambiaría la pregunta («en la superficie», «en verano»); si no hay, vacío.\n- quién lo sostiene: «autor» si lo afirma el texto mismo; si el texto lo atribuye a alguien (cree, dice, recomienda, según), esa persona o entidad.\n- inferido: «sí» si completaste algo que el texto no dice literalmente (una referencia, el término de una comparación, una unidad); si no, «no».\n- oración: el número de la oración de la fuente de donde sale la fila.\n- fragmento literal: el fragmento de esa oración que respalda la fila, copiado exacto; si la fila sale de dos partes de la oración, sepáralas con « / ».\n\nReglas:\n1. Registra todo lo que el texto establece, también lo dicho al pasar y las valoraciones. No decidas qué es importante.\n2. No inventes ni agregues palabras que el texto no dice. El aspecto debe estar respaldado por el texto.\n3. La fila completa, entre todas sus columnas, debe entenderse sin leer el resto del texto. Completa referencias («ese estanque», «allí») y términos de comparación solo cuando el texto da un único antecedente, y marca inferido = sí; si hay más de uno, no completes.\n4. Si al cambiar algo cambia la pregunta, es una condición y va solo en «condición»; si cambia la cosa de la que se habla, es parte del caso de estudio.\n5. Lo que el texto atribuye a alguien (cree, dice, recomienda, según) lleva en «quién lo sostiene» a esa persona, no al autor.\n6. Un número que identifica algo («camión 7», «anexo 4») va en el nombre del caso de estudio, no como valor.\n7. Una determinación por fila: si una oración establece dos cosas, usa dos filas.\n\nEjemplo (otro texto, solo para mostrar la forma):\nTexto: [1] En la superficie, el agua del estanque norte está a unos 18 °C. [2] En el fondo es más fría. [3] En ese estanque viven carpas de unos 30 centímetros. [4] Según la bióloga Ana Ruiz, en verano el agua del estanque sur alcanza una temperatura semejante.\nTabla:\n| caso de estudio | aspecto | valor | unidad | respecto de | cambio | condición | quién lo sostiene | inferido | oración | fragmento literal |\n| agua del estanque norte | temperatura | unos 18 | °C | | | en la superficie | autor | no | 1 | En la superficie, el agua del estanque norte está a unos 18 °C |\n| agua del estanque norte | temperatura | más fría | | la temperatura en la superficie (unos 18 °C) | | en el fondo | autor | sí | 2 | En el fondo es más fría |\n| carpas del estanque norte | longitud | unos 30 | centímetros | | | | autor | sí | 3 | En ese estanque viven carpas de unos 30 centímetros |\n| Ana Ruiz | presentada como | bióloga | | | | | autor | no | 4 | la bióloga Ana Ruiz |\n| agua del estanque sur | temperatura | semejante | | | | en verano | Ana Ruiz | no | 4 | en verano el agua del estanque sur alcanza una temperatura semejante |\n(En la última fila «semejante» queda sin «respecto de»: puede compararse con la superficie o con el fondo del estanque norte; con más de un antecedente no se completa.)",
+  "etapas": {
+    "crear": 0.369,
+    "cargar": 1.208,
+    "lista": 0.392,
+    "texto": 0.242,
+    "pedir_tabla": 0.968,
+    "esperar_tabla": 25.215,
+    "bajar_csv": 0.194
+  },
+  "completed": true,
+  "notebook_id": "3ef72021-06af-48ed-92b6-6150ddfbbecb",
+  "source_id": "75ba1fb9-6d8e-4b0f-b69f-97b64f536e38",
+  "fuente_recuperada": "[1] En el patio de la escuela de Valdemora, una parte del suelo está más baja que el camino que la rodea. [2] Allí crecen plantas de hojas estrechas y tallos flexibles. [3] Parece un jardín corriente, pero su forma tiene una función: recibir parte del agua que baja del pavimento cuando llueve.\n\n\n\n[4] El agua entra por una abertura entre las piedras del borde. [5] Después puede penetrar lentamente en la tierra, en lugar de seguir de inmediato hacia la calle. [6] Si llega más de la que el terreno admite, un conducto situado cerca del borde superior permite que el exceso salga hacia el desagüe.\n\n\n\n[7] Según Clara Beltrán, encargada del huerto escolar, las raíces ayudan a mantener pequeños espacios por los que circula el agua. [8] Ella advierte que eso no convierte cualquier terreno en una esponja: un suelo muy compacto puede absorberla con dificultad. [9] Por esa razón, antes de plantar se retiraron cascotes y se mezcló la tierra con material más suelto.\n\n\n\n[10] Durante una demostración se vertieron unos 20 litros en el jardín y una cantidad semejante sobre el camino. [11] En este último quedó un charco visible; en el primero, el agua fue desapareciendo de la superficie. [12] La diferencia ayuda a entender su función, aunque no prueba que el jardín pueda recoger toda la lluvia de una tormenta.",
+  "fuente_igual_al_texto_numerado": false,
+  "generacion": {
+    "task_id": "94fc6198-9e2b-445f-8873-fef4534eec5e",
+    "status": "in_progress",
+    "url": null,
+    "error": null,
+    "error_code": null,
+    "metadata": null
+  },
+  "estado_final": {
+    "task_id": "94fc6198-9e2b-445f-8873-fef4534eec5e",
+    "status": "completed",
+    "url": null,
+    "error": null,
+    "error_code": null,
+    "metadata": null
+  },
+  "segundos_total": 29.361,
+  "columnas_recibidas": [
+    "caso de estudio",
+    "aspecto",
+    "valor",
+    "unidad",
+    "respecto de",
+    "cambio",
+    "condición",
+    "quién lo sostiene",
+    "inferido",
+    "oración",
+    "fragmento literal",
+    "Fuente"
+  ],
+  "columnas_pedidas": [
+    "caso de estudio",
+    "aspecto",
+    "valor",
+    "unidad",
+    "respecto de",
+    "cambio",
+    "condición",
+    "quién lo sostiene",
+    "inferido",
+    "oración",
+    "fragmento literal"
+  ],
+  "columnas_faltantes": [],
+  "filas": 17,
+  "no_literales": [
+    {
+      "fila": 3,
+      "oración": "2",
+      "fragmento": "Allí crecen plantas de [...] tallos flexibles"
+    }
+  ]
+}
