@@ -1,0 +1,118 @@
+{
+  "doc": "jardin1",
+  "instrucciones_archivo": "tabla_det_v2",
+  "rep": "r1",
+  "cliente": "notebooklm-py==0.8.4",
+  "herramienta": "generate_data_table",
+  "inicio_utc": "2026-10-02T23:05:53.641925+00:00",
+  "texto_numerado": "[1] En el patio de la escuela de Valdemora, una parte del suelo está más baja que el camino que la rodea. [2] Allí crecen plantas de hojas estrechas y tallos flexibles. [3] Parece un jardín corriente, pero su forma tiene una función: recibir parte del agua que baja del pavimento cuando llueve.\n\n[4] El agua entra por una abertura entre las piedras del borde. [5] Después puede penetrar lentamente en la tierra, en lugar de seguir de inmediato hacia la calle. [6] Si llega más de la que el terreno admite, un conducto situado cerca del borde superior permite que el exceso salga hacia el desagüe.\n\n[7] Según Clara Beltrán, encargada del huerto escolar, las raíces ayudan a mantener pequeños espacios por los que circula el agua. [8] Ella advierte que eso no convierte cualquier terreno en una esponja: un suelo muy compacto puede absorberla con dificultad. [9] Por esa razón, antes de plantar se retiraron cascotes y se mezcló la tierra con material más suelto.\n\n[10] Durante una demostración se vertieron unos 20 litros en el jardín y una cantidad semejante sobre el camino. [11] En este último quedó un charco visible; en el primero, el agua fue desapareciendo de la superficie. [12] La diferencia ayuda a entender su función, aunque no prueba que el jardín pueda recoger toda la lluvia de una tormenta.",
+  "oraciones_numeradas": [
+    {
+      "n": 1,
+      "oracion": "En el patio de la escuela de Valdemora, una parte del suelo está más baja que el camino que la rodea."
+    },
+    {
+      "n": 2,
+      "oracion": "Allí crecen plantas de hojas estrechas y tallos flexibles."
+    },
+    {
+      "n": 3,
+      "oracion": "Parece un jardín corriente, pero su forma tiene una función: recibir parte del agua que baja del pavimento cuando llueve."
+    },
+    {
+      "n": 4,
+      "oracion": "El agua entra por una abertura entre las piedras del borde."
+    },
+    {
+      "n": 5,
+      "oracion": "Después puede penetrar lentamente en la tierra, en lugar de seguir de inmediato hacia la calle."
+    },
+    {
+      "n": 6,
+      "oracion": "Si llega más de la que el terreno admite, un conducto situado cerca del borde superior permite que el exceso salga hacia el desagüe."
+    },
+    {
+      "n": 7,
+      "oracion": "Según Clara Beltrán, encargada del huerto escolar, las raíces ayudan a mantener pequeños espacios por los que circula el agua."
+    },
+    {
+      "n": 8,
+      "oracion": "Ella advierte que eso no convierte cualquier terreno en una esponja: un suelo muy compacto puede absorberla con dificultad."
+    },
+    {
+      "n": 9,
+      "oracion": "Por esa razón, antes de plantar se retiraron cascotes y se mezcló la tierra con material más suelto."
+    },
+    {
+      "n": 10,
+      "oracion": "Durante una demostración se vertieron unos 20 litros en el jardín y una cantidad semejante sobre el camino."
+    },
+    {
+      "n": 11,
+      "oracion": "En este último quedó un charco visible; en el primero, el agua fue desapareciendo de la superficie."
+    },
+    {
+      "n": 12,
+      "oracion": "La diferencia ayuda a entender su función, aunque no prueba que el jardín pueda recoger toda la lluvia de una tormenta."
+    }
+  ],
+  "instrucciones_enviadas": "Construye una tabla con una fila por cada cosa que el texto establece acerca de algo. Usa exactamente estas columnas, en este orden:\n- caso de estudio: aquello de lo que el texto dice algo (una cosa, persona, lugar, hecho o estado).\n- aspecto: aquello bajo lo cual el texto considera el caso de estudio (temperatura, color, año de construcción).\n- valor: la posición que el texto establece bajo ese aspecto («18», «verdoso»), sin la unidad.\n- unidad: la unidad de medida, si la hay; si no, vacío.\n- cambio: si el texto dice que algo cambió («bajó a la mitad», «subió de… a…»); si no, vacío.\n- condición: lo que, si cambiara, cambiaría la pregunta («en la superficie»); si no hay, vacío.\n- quién lo sostiene: «autor» si lo afirma el texto mismo; si el texto lo atribuye a alguien (cree, dice, recomienda, según), esa persona o entidad.\n- inferido: «sí» si no está dicho literalmente en el texto; si no, «no».\n- oración: el número de la oración de la fuente de donde sale la fila.\n- fragmento literal: el fragmento de esa oración que respalda la fila, copiado exacto.\n\nReglas:\n1. Registra todo lo que el texto establece, también lo dicho al pasar y las valoraciones. No decidas qué es importante.\n2. No inventes: el aspecto debe estar respaldado por el texto. Si algo no está dicho literalmente, marca inferido = sí.\n3. Si al cambiar algo cambia la pregunta, es una condición; si cambia la cosa de la que se habla, es parte del caso de estudio.\n4. Lo que el texto atribuye a alguien (cree, dice, recomienda, según) lleva en «quién lo sostiene» a esa persona, no al autor.\n5. Un número que identifica algo («camión 7», «anexo 4») va en el nombre del caso de estudio, no como valor.\n6. El fragmento literal se copia exacto de la oración indicada.\n7. El valor debe entenderse sin leer el resto del texto: conserva los aproximadores («unos 20», «cerca de», «más de») y completa las comparaciones y referencias («semejante a unos 20 litros», «allí» → el lugar al que remite) cuando el texto da un solo antecedente; en ese caso, inferido = sí.\n\nEjemplo (otro texto, solo para mostrar la forma):\nTexto: [1] La represa El Cóndor, construida en 1972, almacena unos 40 millones de metros cúbicos de agua. [2] Durante la sequía de 2024, su nivel bajó a la mitad. [3] El técnico Pablo Ríos cree que la compuerta 2 no resistiría otra sequía igual.\nTabla:\n| caso de estudio | aspecto | valor | unidad | cambio | condición | quién lo sostiene | inferido | oración | fragmento literal |\n| represa El Cóndor | año de construcción | 1972 | | | | autor | no | 1 | construida en 1972 |\n| represa El Cóndor | volumen de agua almacenada | unos 40 millones | metros cúbicos | | | autor | no | 1 | almacena unos 40 millones de metros cúbicos de agua |\n| represa El Cóndor | nivel | la mitad | | bajó a la mitad | durante la sequía de 2024 | autor | no | 2 | su nivel bajó a la mitad |\n| Pablo Ríos | presentado como | técnico | | | | autor | no | 3 | El técnico Pablo Ríos |\n| compuerta 2 de la represa El Cóndor | resistencia | no resistiría | | | ante otra sequía igual a la de 2024 | Pablo Ríos | sí | 3 | la compuerta 2 no resistiría otra sequía igual |\n(«la mitad» queda sin completar: puede ser la mitad de la capacidad o del nivel anterior; con más de un antecedente no se completa.)",
+  "etapas": {
+    "crear": 0.371,
+    "cargar": 1.258,
+    "lista": 0.352,
+    "texto": 0.25,
+    "pedir_tabla": 1.009,
+    "esperar_tabla": 25.285,
+    "bajar_csv": 0.221
+  },
+  "completed": true,
+  "notebook_id": "15f3f09b-e874-4116-b3aa-36f53c134203",
+  "source_id": "83a3db77-42f5-4cd4-ac73-f7315bbccdfe",
+  "fuente_recuperada": "[1] En el patio de la escuela de Valdemora, una parte del suelo está más baja que el camino que la rodea. [2] Allí crecen plantas de hojas estrechas y tallos flexibles. [3] Parece un jardín corriente, pero su forma tiene una función: recibir parte del agua que baja del pavimento cuando llueve.\n\n\n\n[4] El agua entra por una abertura entre las piedras del borde. [5] Después puede penetrar lentamente en la tierra, en lugar de seguir de inmediato hacia la calle. [6] Si llega más de la que el terreno admite, un conducto situado cerca del borde superior permite que el exceso salga hacia el desagüe.\n\n\n\n[7] Según Clara Beltrán, encargada del huerto escolar, las raíces ayudan a mantener pequeños espacios por los que circula el agua. [8] Ella advierte que eso no convierte cualquier terreno en una esponja: un suelo muy compacto puede absorberla con dificultad. [9] Por esa razón, antes de plantar se retiraron cascotes y se mezcló la tierra con material más suelto.\n\n\n\n[10] Durante una demostración se vertieron unos 20 litros en el jardín y una cantidad semejante sobre el camino. [11] En este último quedó un charco visible; en el primero, el agua fue desapareciendo de la superficie. [12] La diferencia ayuda a entender su función, aunque no prueba que el jardín pueda recoger toda la lluvia de una tormenta.",
+  "fuente_igual_al_texto_numerado": false,
+  "generacion": {
+    "task_id": "e301789d-698a-4e2f-9ba3-d0a34db9c332",
+    "status": "in_progress",
+    "url": null,
+    "error": null,
+    "error_code": null,
+    "metadata": null
+  },
+  "estado_final": {
+    "task_id": "e301789d-698a-4e2f-9ba3-d0a34db9c332",
+    "status": "completed",
+    "url": null,
+    "error": null,
+    "error_code": null,
+    "metadata": null
+  },
+  "segundos_total": 29.499,
+  "columnas_recibidas": [
+    "caso de estudio",
+    "aspecto",
+    "valor",
+    "unidad",
+    "cambio",
+    "condición",
+    "quién lo sostiene",
+    "inferido",
+    "oración",
+    "fragmento literal",
+    "Fuente"
+  ],
+  "columnas_faltantes": [],
+  "filas": 19,
+  "no_literales": [
+    {
+      "fila": 7,
+      "oración": "2",
+      "fragmento": "hojas estrechas / tallos flexibles"
+    },
+    {
+      "fila": 19,
+      "oración": "12",
+      "fragmento": "La diferencia ayuda a entender su función / no prueba que el jardín pueda recoger toda la lluvia de una tormenta"
+    }
+  ]
+}
