@@ -12,13 +12,16 @@ renovada desde cero con el login propio de la librería (perfil
 `nblm-spike`, cuenta principal de Frat, `authuser 0`); `auth check --test`
 la acepta. `py-r2` y `py-r3` se detuvieron en S1 por errores del script.
 S0–S3 cubiertos con `py-r4` (sesión, carga, consulta con cita y reconexión
-desde otro proceso). Siguiente: decidir qué funciones explorar. Vía Cloud Enterprise detenida por costo (ver más abajo).
+desde otro proceso). `code-r1`: la ejecución de código está activa en la
+cuenta Pro; NotebookLM generó un archivo JSON y lo bajamos con
+`descargar_artefacto.py`. Siguiente: decidir qué funciones explorar. Vía Cloud Enterprise detenida por costo (ver más abajo).
 
 ## Dónde está cada cosa
 
 - `tareas.md` — tabla de estado de cada línea de trabajo.
 - `PLAN.md` — plan operativo e historial de decisiones.
-- `reporte-api-r1.md`, `reporte-cloud.md`, `reporte-py-rN.md` — reporte
+- `reporte-api-r1.md`, `reporte-cloud.md`, `reporte-py-rN.md`,
+  `reporte-code-r1.md` — reporte
   detallado de cada intento/vía, con su evidencia.
 - `funcionalidades-notebooklm-py.md` — inventario de funciones del cliente
   adoptado y las pruebas S0–S10 propuestas.
@@ -30,6 +33,8 @@ desde otro proceso). Siguiente: decidir qué funciones explorar. Vía Cloud Ente
 - `smoke_api.py`, `smoke_cloud.py`, `smoke_py.py` — scripts de cada vía
   probada: cliente anterior (`notebooklm-mcp-cli`), API oficial Cloud
   Enterprise, cliente adoptado (`notebooklm-py`).
+- `codigo_r1.py` (consulta que pide ejecutar código) y `descargar_artefacto.py`
+  (baja archivos tipo `FILE`, que la librería no descarga).
 - `requirements-cloud.txt`, `requirements-py.txt` — dependencias fijadas
   por vía.
 - `crear_proyecto_cloud.py` — script usado para crear el proyecto Cloud

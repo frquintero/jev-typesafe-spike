@@ -206,6 +206,26 @@ peticiones HTTP, el valor de cada comprobación, el historial recuperado
 falla, no reintentar ni cambiar nada. Commit de los archivos `reconnect-*`
 y del reporte, y push a `main`.
 
+## Exploración code-r1: ejecución de código (hecha por Cowork)
+
+**Estado:** autorizada por Frat el 02-10-2026 y hecha por Cowork desde Python,
+fuera del flujo de rondas del ejecutor (una consulta y una descarga). Detalle
+y crudos en `reporte-code-r1.md` y `cache/code-r1/`.
+
+**Pregunta:** ¿la ejecución de código de Gemini Notebook está activa en la
+cuenta Pro y su resultado es recuperable desde Python?
+
+**Resultado:** sí. Con la pregunta «Usa código para dividir la fuente en
+oraciones numeradas y entrégame un archivo JSON con ellas», NotebookLM
+ejecutó Python y creó un artefacto tipo `FILE` (`oraciones-numeradas.json`).
+`notebooklm-py` 0.8.4 no descarga ese tipo; `descargar_artefacto.py` extrae
+el enlace de descarga de la respuesta cruda del RPC `gArtLc` y lo baja con
+la sesión. Dependencia frágil: formato interno no documentado.
+
+**Implicación:** la salida estructurada deja de depender del texto del chat
+(negritas, `[n]`, sugerencias). Queda por decidir qué uso del proyecto
+probar con esto.
+
 ## Alcance anterior: API oficial Google Cloud (detenido)
 
 **Restricción vigente de Frat (2026-10-02): sin gastos.** Configuración Cloud detenida; no asociar facturación ni activar/comprar suscripciones. El smoke oficial no se ejecutó. Las operaciones anteriores y sus crudos se conservan; no continuar con los pasos de habilitación que siguen documentados históricamente.

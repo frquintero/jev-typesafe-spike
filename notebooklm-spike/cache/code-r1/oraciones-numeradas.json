@@ -1,0 +1,14 @@
+{
+  "fuente": "NBLM-SMOKE-001",
+  "total_oraciones": 2,
+  "oraciones": [
+    {
+      "numero": 1,
+      "texto": "En el ensayo ficticio NBLM-SMOKE-001, el recipiente Luma contenía 17 fichas violetas."
+    },
+    {
+      "numero": 2,
+      "texto": "El recipiente Neri contenía 8 fichas blancas."
+    }
+  ]
+}

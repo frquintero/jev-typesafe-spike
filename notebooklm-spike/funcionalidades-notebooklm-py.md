@@ -67,6 +67,8 @@ La disponibilidad depende de la cuenta, del backend y de Google. La lista de cap
 6. Algunas mutaciones pueden quedar con resultado desconocido después de un fallo. No reintentar a ciegas. En particular, `add_text(..., idempotent=True)` no se puede usar: la librería lo rechaza (`NonIdempotentRetryError`) porque el servidor no deduplica textos; recomienda un título único y deduplicar del lado del cliente (comprobado en `py-r3`).
 7. El chat maneja streaming internamente y `ask()` devuelve la respuesta completa. No suponer que el API pública exponga un iterador de tokens.
 8. Las lecturas de cuaderno pueden actualizar su marca de acceso reciente. Leer solamente cuadernos sintéticos conocidos y no listar la biblioteca personal en la primera prueba.
+9. La respuesta del chat trae Markdown, marcas `[n]` y una sugerencia final con emoji (`py-r4`, `code-r1`). Con un texto corto, la cita cubre la fuente entera (un solo trozo), no la oración (`py-r4`).
+10. Ejecución de código (Gemini Notebook, activa en la cuenta Pro desde Python, `code-r1`): pedida en `chat.ask`, crea un artefacto tipo `FILE` (código 10). La librería no lo descarga; el enlace está en la respuesta cruda de `gArtLc` (`descargar_artefacto.py`). El modelo decide si ejecuta código.
 
 ## Smoke tests propuestos (todavía no ejecutados)
 
