@@ -1,0 +1,15 @@
+Ronda py-r4-S3 — notebooklm-py: solo la reconexión (S3) sobre los datos de py-r4.
+
+Commit de preparación: 97adeee0bb4196d8a28a2536f6199cdb38e092fa (main).
+
+Actualiza una copia limpia de main con git pull --ff-only. Si hay cambios locales que impiden actualizarla, detente y reporta. Comprueba que el commit de preparación está incluido en tu copia.
+
+Lee AGENTS.md, notebooklm-spike/README.md y la sección «Ronda py-r4-S3» de notebooklm-spike/PLAN.md. Ejecuta, sin modificar nada, el único comando de la ronda. Corre en local, sin el proxy: no exportes HTTPS_PROXY ni SSL_CERT_FILE; el comando del plan las quita.
+
+Esta ronda escribe en la carpeta existente cache/py-r4/ por excepción expresa del plan: solo archivos nuevos con prefijo reconnect-. Antes de ejecutar, comprueba que existe cache/py-r4/summary.json y que no existe cache/py-r4/reconnect-summary.json; si no se cumple, detente y reporta. No corras notebooklm auth check ni nada que liste cuadernos, y no leas ni imprimas el archivo de sesión. No modifiques ningún crudo existente.
+
+Si el script termina con error, no reintentes ni cambies nada: conserva los crudos y reporta el error con su paso.
+
+Añade a reporte-py-r4.md la sección «S3 (reconexión)» que pide el plan: completed, paso final, segundos por etapa y total, peticiones HTTP, el valor de cada comprobación y el historial recuperado verbatim. Cita los crudos; nada de cookies, tokens ni cabeceras privadas. Sin veredicto.
+
+Al terminar, haz commit de los archivos reconnect-* y de reporte-py-r4.md, y push a main; informa el commit.
