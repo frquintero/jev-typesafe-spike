@@ -5,7 +5,7 @@ Intento autorizado (sección «Ronda py-r4» de `notebooklm-spike/PLAN.md`; rép
 ## Procesos y pasos finales
 
 - Proceso principal: `completed: false`, paso final `S2-passage-1` (`cache/py-r4/summary.json`).
-- Reconexión S3 (proceso hijo): no se lanzó; no existe `cache/py-r4/reconnect-summary.json`.
+- Reconexión S3 (ronda py-r4-S3, otro proceso): `completed: true`, paso final `S3-history` (`cache/py-r4/reconnect-summary.json`).
 
 ## Tiempos (líneas que imprimió el script; coinciden con `summary.json`)
 
@@ -104,9 +104,46 @@ Comprobaciones S1–S2 (`summary.json`, campo `checks`):
 - `citation_matches_uploaded_source`: true.
 - `retrieved_passage_supports_answer`: true.
 
-## S3: no ejecutado
+## S3: no ejecutado (ronda py-r4; previo a py-r4-S3)
 
-Comprobaciones `notebook_id_matches`, `source_content_matches`, `history_recovers_question_answer`: no evaluadas; no existe `reconnect-summary.json`.
+Comprobaciones `notebook_id_matches`, `source_content_matches`, `history_recovers_question_answer`: no evaluadas entonces; ver «S3 (reconexión)» abajo.
+
+## S3 (reconexión)
+
+Ronda py-r4-S3: solo la reconexión sobre `cache/py-r4/summary.json`, en otro proceso, sin crear cuadernos, sin cargas y sin consultas generativas (`cache/py-r4/reconnect-summary.json`; comando al pie, sin proxy).
+
+- `completed: true`, paso final `S3-history`, sin error (`error: null`).
+- Segundos por etapa (líneas que imprimió el script; coinciden con `reconnect-summary.json`): `S3-notebook`: 0,472 s; `S3-fulltext`: 0,314 s; `S3-history`: 0,569 s. Total: 2,154 s.
+- Peticiones HTTP: 5, todas HTTP 200 (`reconnect-summary.json`: `http_requests`; `cache/py-r4/reconnect-http-*-request.json` / `reconnect-http-*-response.json`):
+  1. `GET /?authuser=0` (S3-open): 200, 499.234 bytes en 0,444 s; cuerpo no guardado (HTML de arranque con datos de cuenta/sesión).
+  2. `POST …/batchexecute` `rpcids=rLM1Ne` (S3-notebook): 200, 5.770 bytes en 0,417 s; cuerpo en `reconnect-http-02-response.txt`.
+  3. `POST …/batchexecute` `rpcids=hizoJc` (S3-fulltext): 200, 5.644 bytes en 0,268 s; cuerpo en `reconnect-http-03-response.txt`.
+  4. `POST …/batchexecute` `rpcids=hPTbtc` (S3-history): 200, 233 bytes en 0,291 s; cuerpo en `reconnect-http-04-response.txt`.
+  5. `POST …/batchexecute` `rpcids=khqZz` (S3-history): 200, 3.440 bytes en 0,269 s; cuerpo en `reconnect-http-05-response.txt`.
+- Comprobaciones (`reconnect-summary.json`, campo `checks`): `notebook_id_matches`: true; `source_content_matches`: true; `history_recovers_question_answer`: true.
+- Cuaderno recuperado (`cache/py-r4/reconnect-S3-notebook.json`): ID `bdcc07c8-a114-4a86-bb95-3c57e256b993`, el creado en S1 de py-r4; `sources_count: 1`.
+- Texto de la fuente (`cache/py-r4/reconnect-S3-fulltext.json`, `content` verbatim): «En el ensayo ficticio NBLM-SMOKE-001, el recipiente Luma contenía 17 fichas violetas. El recipiente Neri contenía 8 fichas blancas.» (`source_id`: `0e063965-f331-4bf5-b2c3-4e4de17128cb`, `char_count: 131`).
+- Historial recuperado (`cache/py-r4/reconnect-S3-history.json`, verbatim, un turno):
+
+```text
+Pregunta: Según la fuente, ¿cuántas fichas contenía Luma y de qué color eran? Incluye la cita que respalda la respuesta.
+Respuesta: El recipiente Luma contenía **17 fichas** de color **violeta** [1].
+
+💡 ¿Te gustaría saber más información sobre las fichas del recipiente Neri o algún otro detalle de este ensayo?
+```
+
+- Error con su paso: ninguno (`completed: true`, `error: null` en `reconnect-summary.json`).
+
+Comando ejecutado (sin proxy, como fija el plan):
+
+```bash
+env -u HTTPS_PROXY -u SSL_CERT_FILE \
+  /home/fratquintero/.local/share/nblm-spike/venv-notebooklm-py/bin/python \
+  notebooklm-spike/smoke_py.py py-r4 --reconnect \
+  --storage /home/fratquintero/.notebooklm/profiles/nblm-spike/storage_state.json
+```
+
+Sin cookies, tokens ni cabeceras privadas en los crudos. No se corrió `notebooklm auth check` ni nada que liste cuadernos; no se leyó ni imprimió el archivo de sesión. Ningún crudo previo de `py-r4` fue modificado.
 
 ## Error y su paso
 
@@ -140,7 +177,7 @@ Esperado: 17 fichas violetas con fuente/pasaje recuperables.
 
 ## Evidencia y reproducción
 
-`cache/py-r4/` contiene las diez peticiones con sus metadatos de respuesta, los cuerpos redactados de las nueve RPC (`http-02/03/04/05/06/07/08/09/10-response.txt`), `S0-notebook.json`, `S0-limits.json`, `S1-create.json`, `S1-add-text.json`, `S1-ready.json`, `S1-fulltext.json`, `S2-ask.json`, `S2-passage-1.json`, `inputs.json` y `summary.json`. Sin `reconnect-summary.json`. Sin cookies, tokens ni cabeceras privadas en los crudos.
+`cache/py-r4/` contiene las diez peticiones con sus metadatos de respuesta, los cuerpos redactados de las nueve RPC (`http-02/03/04/05/06/07/08/09/10-response.txt`), `S0-notebook.json`, `S0-limits.json`, `S1-create.json`, `S1-add-text.json`, `S1-ready.json`, `S1-fulltext.json`, `S2-ask.json`, `S2-passage-1.json`, `inputs.json` y `summary.json`, más los 17 archivos `reconnect-*` de S3 (`reconnect-summary.json`, `reconnect-S3-notebook.json`, `reconnect-S3-fulltext.json`, `reconnect-S3-history.json` y las cinco peticiones con sus metadatos y cuerpos redactados). Sin cookies, tokens ni cabeceras privadas en los crudos.
 
 Comando ejecutado (sin proxy, como fija el plan):
 

@@ -1,0 +1,28 @@
+{
+  "replica": "py-r4",
+  "client": "notebooklm-py==0.8.4",
+  "started_utc": "2026-10-02T20:29:22.535456+00:00",
+  "account": 0,
+  "completed": true,
+  "stages": [
+    {
+      "step": "S3-notebook",
+      "seconds": 0.472
+    },
+    {
+      "step": "S3-fulltext",
+      "seconds": 0.314
+    },
+    {
+      "step": "S3-history",
+      "seconds": 0.569
+    }
+  ],
+  "checks": {
+    "notebook_id_matches": true,
+    "source_content_matches": true,
+    "history_recovers_question_answer": true
+  },
+  "http_requests": 5,
+  "total_seconds": 2.154
+}

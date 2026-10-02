@@ -1,0 +1,17 @@
+{
+  "index": 5,
+  "step": "S3-history",
+  "method": "POST",
+  "host": "notebook.google.com",
+  "path": "/_/LabsTailwindUi/data/batchexecute",
+  "query": {
+    "rpcids": "khqZz",
+    "source-path": "/notebook/bdcc07c8-a114-4a86-bb95-3c57e256b993",
+    "hl": "en",
+    "rt": "c",
+    "authuser": "[REDACTED_EMAIL]"
+  },
+  "f.req": "[[[\"khqZz\",\"[[],null,null,\\\"19f40a45-26d1-4b2e-97eb-4ce930706931\\\",100]\",null,\"generic\"]]]",
+  "user_agent": "spike-jev/1.0",
+  "auth_fields_omitted": true
+}
