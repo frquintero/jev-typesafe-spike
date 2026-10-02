@@ -1,0 +1,23 @@
+{
+  "index": 5,
+  "step": "05-query",
+  "method": "POST",
+  "host": "notebook.google.com",
+  "path": "/_/LabsTailwindUi/data/google.internal.labs.tailwind.orchestration.v1.LabsTailwindOrchestrationService/GenerateFreeFormStreamed",
+  "query": {
+    "bl": "boq_labs-tailwind-frontend_20260929.12_p0",
+    "hl": "en",
+    "_reqid": "1033857",
+    "rt": "c",
+    "authuser": "1"
+  },
+  "content_type": "application/x-www-form-urlencoded;charset=UTF-8",
+  "user_agent": "spike-jev/1.0",
+  "f.req": "[null,\"[[[[\\\"84fa991a-73de-4113-96a0-5a88818f9941\\\"]]],\\\"Según la fuente, ¿cuántas fichas contenía Luma y de qué color eran? Incluye la cita que respalda la respuesta.\\\",null,[2,null,[1]],\\\"7d0e9f56-89c8-49dc-b169-6d88e6747099\\\"]\"]",
+  "auth_fields_omitted": [
+    "cookies",
+    "at",
+    "f.sid",
+    "csrf headers"
+  ]
+}

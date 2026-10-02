@@ -1,0 +1,19 @@
+{
+  "answer": "El recipiente **Luma** contenía **17 fichas violetas** [1].\n\n*Cita de la fuente:*\n> «El recipiente Luma contenía 17 fichas violetas.» [1]\n\n💡 ¿Te gustaría saber cuántas fichas tenía el recipiente Neri o explorar algún otro detalle de este ensayo?",
+  "conversation_id": "7d0e9f56-89c8-49dc-b169-6d88e6747099",
+  "sources_used": [
+    "84fa991a-73de-4113-96a0-5a88818f9941"
+  ],
+  "citations": {
+    "1": "84fa991a-73de-4113-96a0-5a88818f9941"
+  },
+  "references": [
+    {
+      "source_id": "84fa991a-73de-4113-96a0-5a88818f9941",
+      "citation_number": 1,
+      "cited_text": "En el ensayo ficticio NBLM-SMOKE-001, el recipiente Luma contenía 17 fichas violetas. El recipiente Neri contenía 8 fichas blancas."
+    }
+  ],
+  "turn_number": 1,
+  "is_follow_up": false
+}

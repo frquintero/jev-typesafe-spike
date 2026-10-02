@@ -1,0 +1,8 @@
+{
+  "index": 1,
+  "step": "01-auth-read",
+  "status": 200,
+  "seconds": 0.558,
+  "bytes": 5761,
+  "content_type": "application/json; charset=utf-8"
+}

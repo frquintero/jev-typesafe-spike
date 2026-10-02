@@ -1,0 +1,24 @@
+{
+  "index": 4,
+  "step": "04-processing",
+  "method": "POST",
+  "host": "notebook.google.com",
+  "path": "/_/LabsTailwindUi/data/batchexecute",
+  "query": {
+    "rpcids": "rLM1Ne",
+    "source-path": "/notebook/f113873f-7fdb-416a-bb83-d429c4a3ce1b",
+    "bl": "boq_labs-tailwind-frontend_20260929.12_p0",
+    "hl": "en",
+    "rt": "c",
+    "authuser": "1"
+  },
+  "content_type": "application/x-www-form-urlencoded;charset=UTF-8",
+  "user_agent": "spike-jev/1.0",
+  "f.req": "[[[\"rLM1Ne\",\"[\\\"f113873f-7fdb-416a-bb83-d429c4a3ce1b\\\",null,[2],null,0]\",null,\"generic\"]]]",
+  "auth_fields_omitted": [
+    "cookies",
+    "at",
+    "f.sid",
+    "csrf headers"
+  ]
+}

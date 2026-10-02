@@ -1,0 +1,6 @@
+{
+  "status": 400,
+  "operation": "GET public discovery v1alpha with nested notebooks field selector",
+  "error": "HTTPError: Bad Request; body not captured in first attempt",
+  "authenticated": false
+}

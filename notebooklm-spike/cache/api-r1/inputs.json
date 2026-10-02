@@ -1,0 +1,14 @@
+{
+  "replica": "api-r1",
+  "started_utc": "2026-10-02T15:59:23.610643+00:00",
+  "transport": "Python httpx HTTPS (no browser transport)",
+  "client": {
+    "notebooklm-mcp-cli": "0.15.0",
+    "httpx": "0.28.1"
+  },
+  "auth": "external Google browser session; cookies + at + f.sid; authuser=1",
+  "text": "En el ensayo ficticio NBLM-SMOKE-001, el recipiente Luma contenía 17 fichas violetas. El recipiente Neri contenía 8 fichas blancas.",
+  "prompt": "Según la fuente, ¿cuántas fichas contenía Luma y de qué color eran? Incluye la cita que respalda la respuesta.",
+  "title": "NBLM-SMOKE-001 · api-r1-2026-10-02T15:59:23.610609+00:00",
+  "expected": "17 fichas violetas; cita vinculada a la fuente y pasaje recuperable"
+}

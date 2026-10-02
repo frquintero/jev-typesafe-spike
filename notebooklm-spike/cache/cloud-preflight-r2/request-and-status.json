@@ -1,0 +1,8 @@
+{
+  "method": "GET",
+  "url": "https://discoveryengine.googleapis.com/$discovery/rest?version=v1alpha&fields=name%2Cversion%2CrootUrl%2CservicePath",
+  "status": 400,
+  "seconds": 0.309,
+  "authenticated": false,
+  "scope": "public service discovery; no NotebookLM operation"
+}

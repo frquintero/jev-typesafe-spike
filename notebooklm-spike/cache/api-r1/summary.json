@@ -1,0 +1,60 @@
+{
+  "replica": "api-r1",
+  "started_utc": "2026-10-02T15:59:23.610643+00:00",
+  "transport": "Python httpx HTTPS (no browser transport)",
+  "client": {
+    "notebooklm-mcp-cli": "0.15.0",
+    "httpx": "0.28.1"
+  },
+  "auth": "external Google browser session; cookies + at + f.sid; authuser=1",
+  "text": "En el ensayo ficticio NBLM-SMOKE-001, el recipiente Luma contenía 17 fichas violetas. El recipiente Neri contenía 8 fichas blancas.",
+  "prompt": "Según la fuente, ¿cuántas fichas contenía Luma y de qué color eran? Incluye la cita que respalda la respuesta.",
+  "title": "NBLM-SMOKE-001 · api-r1-2026-10-02T15:59:23.610609+00:00",
+  "expected": "17 fichas violetas; cita vinculada a la fuente y pasaje recuperable",
+  "notebook_id": "f113873f-7fdb-416a-bb83-d429c4a3ce1b",
+  "url": "https://notebook.google.com/notebook/f113873f-7fdb-416a-bb83-d429c4a3ce1b?authuser=1",
+  "source_id": "84fa991a-73de-4113-96a0-5a88818f9941",
+  "observations": {
+    "answer": "El recipiente **Luma** contenía **17 fichas violetas** [1].\n\n*Cita de la fuente:*\n> «El recipiente Luma contenía 17 fichas violetas.» [1]\n\n💡 ¿Te gustaría saber cuántas fichas tenía el recipiente Neri o explorar algún otro detalle de este ensayo?",
+    "contains_17": true,
+    "contains_violetas": true,
+    "citations_link_uploaded_source": true,
+    "references": [
+      {
+        "source_id": "84fa991a-73de-4113-96a0-5a88818f9941",
+        "citation_number": 1,
+        "cited_text": "En el ensayo ficticio NBLM-SMOKE-001, el recipiente Luma contenía 17 fichas violetas. El recipiente Neri contenía 8 fichas blancas."
+      }
+    ],
+    "full_source_matches_input": true
+  },
+  "completed": true,
+  "stages": [
+    {
+      "step": "01-auth-read",
+      "seconds": 0.69
+    },
+    {
+      "step": "02-create",
+      "seconds": 0.393
+    },
+    {
+      "step": "03-add-text",
+      "seconds": 1.29
+    },
+    {
+      "step": "04-processing",
+      "seconds": 0.57
+    },
+    {
+      "step": "05-query",
+      "seconds": 9.469
+    },
+    {
+      "step": "06-source-fulltext",
+      "seconds": 0.417
+    }
+  ],
+  "http_requests": 6,
+  "total_seconds": 12.832
+}

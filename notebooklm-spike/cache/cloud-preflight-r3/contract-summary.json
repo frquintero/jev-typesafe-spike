@@ -1,0 +1,16 @@
+{
+  "rootUrl": "https://discoveryengine.googleapis.com/",
+  "version": "v1alpha",
+  "notebook_methods": [
+    "listRecentlyViewed",
+    "get",
+    "share",
+    "batchDelete",
+    "create"
+  ],
+  "subresources": [
+    "audioOverviews",
+    "sources"
+  ],
+  "error": null
+}
