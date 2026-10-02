@@ -1,0 +1,7 @@
+{
+  "status": 200,
+  "bytes": 499233,
+  "seconds": 0.491,
+  "body_saved": false,
+  "omission": "auth bootstrap HTML contains account/session data"
+}

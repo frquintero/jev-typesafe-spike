@@ -1,0 +1,17 @@
+{
+  "index": 4,
+  "step": "S1-create",
+  "method": "POST",
+  "host": "notebook.google.com",
+  "path": "/_/LabsTailwindUi/data/batchexecute",
+  "query": {
+    "rpcids": "CCqFvf",
+    "source-path": "/",
+    "hl": "en",
+    "rt": "c",
+    "authuser": "[REDACTED_EMAIL]"
+  },
+  "f.req": "[[[\"CCqFvf\",\"[\\\"NBLM-SMOKE-001 py-r3 2026-10-02T20:18:47.220549+00:00\\\",null,null,[2,null,null,[1,null,null,null,null,null,null,null,null,null,[1]]]]\",null,\"generic\"]]]",
+  "user_agent": "spike-jev/1.0",
+  "auth_fields_omitted": true
+}

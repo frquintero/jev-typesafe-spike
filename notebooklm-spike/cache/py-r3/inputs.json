@@ -1,0 +1,5 @@
+{
+  "text": "En el ensayo ficticio NBLM-SMOKE-001, el recipiente Luma contenía 17 fichas violetas. El recipiente Neri contenía 8 fichas blancas.",
+  "prompt": "Según la fuente, ¿cuántas fichas contenía Luma y de qué color eran? Incluye la cita que respalda la respuesta.",
+  "expected": "17 fichas violetas, cita y pasaje recuperable"
+}

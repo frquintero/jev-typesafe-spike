@@ -1,0 +1,31 @@
+{
+  "replica": "py-r3",
+  "client": "notebooklm-py==0.8.4",
+  "started_utc": "2026-10-02T20:18:47.220549+00:00",
+  "account": 0,
+  "completed": false,
+  "stages": [
+    {
+      "step": "S0-notebook",
+      "seconds": 0.725
+    },
+    {
+      "step": "S0-limits",
+      "seconds": 0.216
+    },
+    {
+      "step": "S1-create",
+      "seconds": 0.402
+    }
+  ],
+  "text": "En el ensayo ficticio NBLM-SMOKE-001, el recipiente Luma contenía 17 fichas violetas. El recipiente Neri contenía 8 fichas blancas.",
+  "prompt": "Según la fuente, ¿cuántas fichas contenía Luma y de qué color eran? Incluye la cita que respalda la respuesta.",
+  "notebook_id": "24c644b5-a657-401c-b7dd-eb80c76d7fa9",
+  "error": {
+    "type": "NonIdempotentRetryError",
+    "step": "S1-add-text",
+    "message": "add_text cannot be marked idempotent: text sources have no reliable server-side dedupe key (titles non-unique, content not exposed). For idempotent text imports, embed a UUID in the title and dedupe client-side. See docs/python-api.md#idempotency."
+  },
+  "http_requests": 4,
+  "total_seconds": 2.205
+}
