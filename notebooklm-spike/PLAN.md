@@ -226,6 +226,68 @@ la sesión. Dependencia frágil: formato interno no documentado.
 (negritas, `[n]`, sugerencias). Queda por decidir qué uso del proyecto
 probar con esto.
 
+## Ronda FN1: `ficha_v1` con NotebookLM sobre jardin1
+
+**Estado:** autorizada por Frat el 02-10-2026. Ejecuta Muse en local.
+
+**Pregunta:** ¿sirve NotebookLM como extractor de la ficha? Se le da la misma
+tarea que a DeepSeek en F5 y se compara. Sin ejecución de código ni
+autoverificación (descartadas por Frat: sin un para qué en esta prueba).
+
+**Igual que F5:** prompt `unidades/prompts/ficha_v1.md` (congelado), documento
+`unidades/docs/jardin1.md` (divulgación, 12 oraciones), numeración de
+`numerar_oraciones`, `extract_json` y el verificador `verificar` de
+`ficha_doc.py`, importados sin cambios.
+
+**Diferencias (las que impone el extractor):**
+
+1. El texto numerado va como **fuente** de un cuaderno nuevo; la pregunta es
+   `ficha_v1` con `{{TEXTO_NUMERADO}}` reemplazado por «El texto con sus
+   oraciones numeradas es la fuente de este cuaderno.».
+2. Modelo no expuesto ni configurable (Gemini Notebook); `chat.ask` con
+   `source_ids=[fuente]`, conversación nueva en cuaderno nuevo.
+
+**Conjetura:** NotebookLM devuelve por el chat una ficha JSON parseable con las
+siete listas y respaldos literales según nuestro verificador, en menos tiempo
+que DeepSeek.
+
+**Referencia F5 (`unidades/cache/ficha-jardin1-deepseek-ficha_v1-r{1,2,3}.json`):**
+126,5 / 102,6 / 113,1 s; fragmentos 147 / 114 / 114, no literales 0 / 0 / 0;
+ninguna lista faltante. La calidad de contenido se evalúa después con
+`unidades/gold/preguntas_reserva_F5.md` (Cowork y Frat), no en esta ronda.
+
+**Script:** `notebooklm-spike/ficha_nblm.py`. Crea cuaderno, carga, espera,
+comprueba que la fuente indexada es igual al texto numerado, pregunta una vez,
+guarda la respuesta cruda, parsea y verifica. Mismos frenos que py-r2 (sin
+reintentos, sin keepalive, recuperación de autenticación desactivada);
+`chat_timeout` 600 s. Crudo único, nunca sobrescrito.
+
+**Antes de ejecutar:** `git pull --ff-only` (copia limpia; si no, detenerse);
+comprobar el commit de preparación; comprobar que no existe
+`notebooklm-spike/cache/ficha-jardin1-nblm-ficha_v1-r1.json`. No correr
+`notebooklm auth check` ni listar cuadernos; no leer el archivo de sesión.
+
+**Comando** (desde la raíz):
+
+```bash
+env -u HTTPS_PROXY -u SSL_CERT_FILE \
+  /home/fratquintero/.local/share/nblm-spike/venv-notebooklm-py/bin/python \
+  notebooklm-spike/ficha_nblm.py jardin1 ficha_v1 r1 \
+  --storage /home/fratquintero/.notebooklm/profiles/nblm-spike/storage_state.json
+```
+
+Si termina con error (autenticación, pregunta rechazada, tiempo agotado), no
+reintentar ni cambiar nada: conservar el crudo y reportar.
+
+**Reporte del ejecutor (sin veredicto), en `reporte-FN1.md`:** ruta del crudo;
+`completed` y error si lo hubo; segundos por etapa y total; si la fuente quedó
+igual al texto numerado; si la respuesta venía con cerca, error de parseo;
+verificación tal como la imprime el script (fragmentos, no literales con sus
+rutas, listas faltantes, conteo de las siete listas); largo de la respuesta en
+caracteres; si aparecen marcas tipo `[n]`, negritas o texto fuera del JSON
+(citar solo lo necesario); número de referencias. Nada de cookies ni tokens.
+Commit del crudo y del reporte, y push a `main`.
+
 ## Alcance anterior: API oficial Google Cloud (detenido)
 
 **Restricción vigente de Frat (2026-10-02): sin gastos.** Configuración Cloud detenida; no asociar facturación ni activar/comprar suscripciones. El smoke oficial no se ejecutó. Las operaciones anteriores y sus crudos se conservan; no continuar con los pasos de habilitación que siguen documentados históricamente.

@@ -14,7 +14,8 @@ la acepta. `py-r2` y `py-r3` se detuvieron en S1 por errores del script.
 S0–S3 cubiertos con `py-r4` (sesión, carga, consulta con cita y reconexión
 desde otro proceso). `code-r1`: la ejecución de código está activa en la
 cuenta Pro; NotebookLM generó un archivo JSON y lo bajamos con
-`descargar_artefacto.py`. Siguiente: decidir qué funciones explorar. Vía Cloud Enterprise detenida por costo (ver más abajo).
+`descargar_artefacto.py`. En curso: FN1, `ficha_v1` con NotebookLM sobre
+jardin1, comparada con DeepSeek (F5). Vía Cloud Enterprise detenida por costo (ver más abajo).
 
 ## Dónde está cada cosa
 
@@ -35,6 +36,8 @@ cuenta Pro; NotebookLM generó un archivo JSON y lo bajamos con
   Enterprise, cliente adoptado (`notebooklm-py`).
 - `codigo_r1.py` (consulta que pide ejecutar código) y `descargar_artefacto.py`
   (baja archivos tipo `FILE`, que la librería no descarga).
+- `ficha_nblm.py` — la ficha (`ficha_v1`) con NotebookLM; reutiliza la numeración
+  y el verificador de `unidades/`.
 - `requirements-cloud.txt`, `requirements-py.txt` — dependencias fijadas
   por vía.
 - `crear_proyecto_cloud.py` — script usado para crear el proyecto Cloud
