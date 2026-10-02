@@ -331,6 +331,26 @@ Método del spike:
     que sirva para Gagarin puede no servir para Einstein); se retienen
     márgenes como heurísticos (guía §4.6, prueba 7).
 
+**Antecedentes revisados para retomar EEL (2026-10-02).**
+
+- **Nombre de la tarea en la literatura:** reconstrucción jerárquica de la
+  estructura del documento. Banco de prueba: HRDoc (AAAI 2023,
+  [arXiv 2303.13839](https://arxiv.org/abs/2303.13839)). Método reciente:
+  *Detect-Order-Construct* ([arXiv 2401.11874](https://arxiv.org/abs/2401.11874)):
+  detectar qué es título, ordenar los bloques, construir el árbol. Es el mismo
+  reparto de EEL: A decide localmente «¿es rótulo?», orden y marcador dan el
+  contexto, la pila (código) construye la jerarquía.
+- **Por qué es difícil:** el nivel de un título es relacional (depende del uso
+  del formato en todo el documento), no una propiedad de la línea. Una línea
+  es una marca; «ninguna marca determina por sí sola» (ensayo, l. 117).
+- **Para qué serviría:** [PageIndex](https://github.com/VectifyAI/PageIndex)
+  (VectifyAI, MIT) consulta documentos largos recorriendo su árbol con un LLM
+  en vez de buscar trozos por similitud, pero el árbol lo saca del diseño del
+  PDF. EEL lo reconstruiría cuando el documento no trae estructura limpia.
+  Camino posible para documentos largos en Zettel: EEL (árbol) → PageIndex
+  (consulta) → ficha por nodo (la «ficha por foco» de la arquitectura
+  candidata).
+
 ## Arquitectura que veo (propuesta, a acordar)
 
 *Suspendida junto con el objetivo EEL.*
