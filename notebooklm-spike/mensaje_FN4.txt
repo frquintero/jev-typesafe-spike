@@ -1,0 +1,15 @@
+Ronda FN4 — tabla de determinaciones de jardin1 con la forma del marco (una réplica).
+
+Commit de preparación: 0c6e86ec439920dbdee44ed05ab2370f688ba3a8 (main).
+
+Actualiza una copia limpia de main con git pull --ff-only. Si hay cambios locales que impiden actualizarla, detente y reporta. Comprueba que el commit de preparación está incluido en tu copia.
+
+Lee AGENTS.md, notebooklm-spike/README.md y la sección «Ronda FN4» de notebooklm-spike/PLAN.md. Ejecuta, sin modificar nada, el único comando de la ronda. Corre en local, sin el proxy: no exportes HTTPS_PROXY ni SSL_CERT_FILE; el comando del plan las quita.
+
+Antes de ejecutar, comprueba que no existe notebooklm-spike/cache/tabla-jardin1-nblm-tabla_det_v3-r1/. Si existe, detente y reporta. No corras notebooklm auth check ni nada que liste cuadernos, y no leas ni imprimas el archivo de sesión. Conserva todos los crudos anteriores.
+
+Si el script termina con error, no reintentes ni cambies nada: conserva los crudos y reporta el error.
+
+Escribe reporte-FN4.md con lo que pide el plan. Cita los crudos; nada de cookies ni tokens. Sin veredicto.
+
+Al terminar, haz commit de la carpeta de crudos y de reporte-FN4.md, y push a main; informa el commit.
