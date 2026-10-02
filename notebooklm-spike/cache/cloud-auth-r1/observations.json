@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-02",
+  "scope": "Local ADC metadata and authenticated read-only Cloud Resource Manager project discovery",
+  "gcloud_version": "587.0.0 (user terminal output)",
+  "configured_project": null,
+  "adc_present": true,
+  "adc_type": "authorized_user",
+  "quota_project_id": null,
+  "refresh_token_present": true,
+  "operation": "GET https://cloudresourcemanager.googleapis.com/v3/projects:search?pageSize=20",
+  "http_status": 200,
+  "returned_projects": 14,
+  "has_next_page": false,
+  "notebooklm_operation_executed": false,
+  "pending": "User project selection, quota project association and NotebookLM Enterprise service access",
+  "evidence_note": "Observations from command output; full project inventory response was not saved. No credential contents or project inventory included."
+}

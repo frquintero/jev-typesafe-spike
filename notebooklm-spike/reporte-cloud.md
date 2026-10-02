@@ -32,10 +32,16 @@ Los contratos se revisaron con Exa en documentación oficial y se contrastaron c
 - El contrato publicado incluye `create`, `get`, `listRecentlyViewed`, `share`, `batchDelete`, además de fuentes y audio. No publica un método de chat/consulta en ese recurso. No se sustituyó por un endpoint interno.
 - Dos intentos previos de reducir el documento mediante `fields` devolvieron HTTP 400. El segundo cuerpo explica que el selector de campos no se admite como se envió; el tercero sin `fields` devolvió el documento. Se conservan los intentos en carpetas separadas.
 - Esto comprueba acceso al endpoint público de descripción. **No comprueba autenticación ni consumo de notebooks de un proyecto.**
-- En esta máquina: `gcloud` ausente del PATH; directorio convencional de configuración gcloud y ADC ausentes; `GOOGLE_APPLICATION_CREDENTIALS`, `GOOGLE_CLOUD_PROJECT` y `GCLOUD_PROJECT` no configuradas en el entorno inspeccionado. No se buscaron secretos por vías alternativas.
-- Falta indicar proyecto (preferentemente número), ubicación y proporcionar/configurar credenciales OAuth autorizadas fuera del repo. Se pidió esa información a Frat.
+- Antes de la instalación: `gcloud` ausente del PATH; directorio convencional de configuración gcloud y ADC ausentes; `GOOGLE_APPLICATION_CREDENTIALS`, `GOOGLE_CLOUD_PROJECT` y `GCLOUD_PROJECT` no configuradas en el entorno inspeccionado. No se buscaron secretos por vías alternativas.
+- Al preparar el script faltaban proyecto, ubicación y credenciales OAuth. El avance de autenticación se registra debajo.
 
 Google documenta como requisitos un proyecto con facturación y Discovery Engine habilitados, permisos Cloud NotebookLM y licencia Enterprise. La cuenta que abre la web de consumo no acredita por sí sola estos requisitos.
+
+### Autenticación configurada por Frat (2026-10-02)
+
+Frat instaló Google Cloud SDK 587.0.0 y completó `gcloud auth application-default login`. Se comprobó que el archivo ADC existe fuera del repo y es de tipo `authorized_user`, con refresh token presente, sin imprimirlo. `gcloud config get-value project` devolvió `(unset)`; ADC aún no tiene `quota_project_id`.
+
+Python utilizó esas ADC y ejecutó una lectura autenticada de Cloud Resource Manager (`projects.search`): **HTTP 200**, 14 proyectos, sin página adicional. Esto acredita autenticación OAuth y acceso a ese servicio Cloud; todavía no acredita permisos ni licencia de NotebookLM. Se pidió a Frat elegir el proyecto. El inventario completo no se guardó en el repo; los metadatos observados están en `cache/cloud-auth-r1/observations.json`.
 
 ## Código listo para el smoke autenticado
 
