@@ -4,6 +4,81 @@
 
 Frat eligió `notebooklm-py` y autorizó su adopción y la revisión completa de funciones con propuesta de pruebas iniciales. Paquete base `0.8.4` instalado en entorno exclusivo externo al repo; versión/importación/dependencias comprobadas. Vía: SDK Python, backend Web, sesión externa, sin gastos Cloud. Frat autorizó S0–S3: `smoke_py.py` ejecutó `py-r1`, detenido en S0 por HTTP 302 hacia login con la sesión guardada. Dos GET, cero mutaciones/consultas; S1–S3 pendientes de renovar sesión. Detalle en `reporte-py-r1.md` y `cache/py-r1/`. Inventario y propuesta S0–S10 en `funcionalidades-notebooklm-py.md`; primera secuencia propuesta S0–S3. Dependencia en `requirements-py.txt`.
 
+## Ronda py-r2: S0–S3 con la sesión renovada
+
+**Estado:** autorizada por Frat el 02-10-2026. Ejecuta Muse en local. Smoke
+de conectividad y funcionalidad básica; no mide calidad de extracción ni
+compara con DeepSeek.
+
+**Cambios respecto de `py-r1`** (un mismo principio: usar la sesión creada
+por la propia librería):
+
+1. Sesión: `~/.notebooklm/profiles/nblm-spike/storage_state.json`, escrita
+   por `notebooklm -p nblm-spike login` (cuenta principal de Frat,
+   `authuser 0`). El script la lee tal cual; ya no convierte la exportación
+   antigua ni recibe `--session-file`.
+2. Cuenta fija `ACCOUNT = 0` (antes 1) en la comprobación de la sesión, en
+   la ruta del cliente y en `summary.json`.
+3. S0 ya no lee el cuaderno sintético `f113873f-…`: pertenece a la cuenta 1.
+   S0 = abrir la sesión + `settings.get_account_limits`.
+4. Sin proxy local: NotebookLM no necesita claves; las cookies de Google no
+   pasan por 127.0.0.1:8080.
+
+Se conservan: freno ante cualquier fallo de autenticación (`AUTH_STOP`),
+recuperación automática desactivada, sin keepalive, cero reintentos de
+429/5xx, registro HTTP redactado, crudos únicos y reconexión (S3) en un
+proceso hijo.
+
+**Conjetura:** con la sesión renovada, nuestro Python con `notebooklm-py`
+autentica, crea un cuaderno, carga y recupera el texto, responde con cita a
+la fuente cargada y reconecta desde otro proceso.
+
+**Entradas (fijas, las de `py-r1`):** `docs/smoke-001.txt` y
+`prompts/smoke-001.txt`. Esperado: 17 fichas violetas, con cita a la fuente
+cargada y pasaje recuperable. Uso: un cuaderno nuevo, una fuente, una
+consulta generativa. El cuaderno se conserva para revisión.
+
+**Antes de ejecutar:**
+
+- Leer `AGENTS.md`, `notebooklm-spike/README.md` y esta sección.
+- `git pull --ff-only` sobre una copia limpia de `main`; si no se puede,
+  detenerse y reportar. Comprobar que incluye el commit de preparación.
+- Comprobar que no existe `notebooklm-spike/cache/py-r2/`. Si existe,
+  detenerse y reportar.
+- No correr `notebooklm auth check` ni ningún comando que liste cuadernos.
+  No leer ni imprimir el archivo de sesión.
+
+**Comando** (desde la raíz del repo; el script lanza solo la reconexión S3):
+
+```bash
+env -u HTTPS_PROXY -u SSL_CERT_FILE \
+  /home/fratquintero/.local/share/nblm-spike/venv-notebooklm-py/bin/python \
+  notebooklm-spike/smoke_py.py py-r2 \
+  --storage /home/fratquintero/.notebooklm/profiles/nblm-spike/storage_state.json
+```
+
+Si termina con error (`AUTH_STOP`, comprobación fallida, tiempo agotado),
+no reintentar ni cambiar código, sesión o réplica: conservar los crudos y
+reportar. Cualquier reintento lo deciden Frat y Cowork, con un `rN` nuevo.
+
+**Criterio de éxito (lo comprueba el script):** `completed: true` en
+`summary.json` y en `reconnect-summary.json`, con todas las comprobaciones
+en `true` — S1–S2: `fulltext_matches`, `answer_contains_17`,
+`answer_contains_violetas`, `citation_matches_uploaded_source`,
+`retrieved_passage_supports_answer`; S3: `notebook_id_matches`,
+`source_content_matches`, `history_recovers_question_answer`.
+
+**Reporte del ejecutor (sin veredicto), en `reporte-py-r2.md`** con el
+formato de `reporte-py-r1.md`: hora de inicio; `completed` y paso final de
+cada proceso; segundos por etapa (líneas que imprime el script) y total;
+número de peticiones HTTP; cupos devueltos por S0 (los campos ausentes,
+como ausentes); IDs de cuaderno y fuente; la respuesta de S2 verbatim; las
+referencias (ID de fuente, texto citado) y los pasajes recuperados; el
+valor de cada comprobación; el error con su paso, si lo hubo. Citar los
+crudos detrás de cada dato. Nada de cookies, tokens ni cabeceras privadas.
+Al terminar: commit de `cache/py-r2/` y `reporte-py-r2.md`, y push a
+`main`; informar el commit.
+
 ## Alcance anterior: API oficial Google Cloud (detenido)
 
 **Restricción vigente de Frat (2026-10-02): sin gastos.** Configuración Cloud detenida; no asociar facturación ni activar/comprar suscripciones. El smoke oficial no se ejecutó. Las operaciones anteriores y sus crudos se conservan; no continuar con los pasos de habilitación que siguen documentados históricamente.

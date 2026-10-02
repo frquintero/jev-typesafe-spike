@@ -21,6 +21,9 @@ from notebooklm.options import ClientConfig, FeatureOptions, RetryOptions, WebBa
 from notebooklm._web.transport.session_auth import WebSessionAuth
 
 
+ACCOUNT = 0  # authuser of the nblm-spike profile (Frat's main account)
+
+
 async def stop_refresh(self, expected_epoch):
     raise RuntimeError("AUTH_STOP: automatic authentication recovery disabled")
 
@@ -28,7 +31,6 @@ async def stop_refresh(self, expected_epoch):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("replica")
-    parser.add_argument("--session-file", type=Path)
     parser.add_argument("--storage", type=Path, required=True)
     parser.add_argument("--reconnect", action="store_true")
     args = parser.parse_args()
@@ -41,23 +43,13 @@ def main():
     if storage.is_relative_to(root.parent):
         parser.error("storage must be outside the repository")
     run = root / "cache" / args.replica
+    # Session written by `notebooklm -p <profile> login`; read only, never rewritten here.
+    state = json.loads(storage.read_text())
+    if state.get("notebooklm", {}).get("account", {}).get("authuser") != ACCOUNT:
+        raise RuntimeError(f"Expected account {ACCOUNT}")
     if not args.reconnect:
-        if not args.session_file or args.session_file.resolve().is_relative_to(root.parent):
-            parser.error("an external session file is required")
         run.mkdir(parents=True, exist_ok=False)
-        original = json.loads(args.session_file.read_text())
-        if str(original.get("authuser")) != "1":
-            raise RuntimeError("Expected account 1")
-        storage.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
-        os.chmod(storage.parent, 0o700)
-        state = {"cookies": original["cookies"], "origins": [],
-                 "notebooklm": {"version": 1, "account": {"authuser": 1}}}
-        fd = os.open(storage, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-        with os.fdopen(fd, "w") as f:
-            json.dump(state, f)
-    else:
-        state = json.loads(storage.read_text())
-        original = {}
+    original = {}
     secrets = {c["value"] for c in state["cookies"] if len(c["value"]) >= 6}
     secrets.update(original[k] for k in ("csrf_token", "session_id") if original.get(k))
     prefix = "reconnect-" if args.reconnect else ""
@@ -154,7 +146,7 @@ def main():
 
     summary = {"replica": args.replica, "client": "notebooklm-py==0.8.4",
                "started_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
-               "account": 1, "completed": False, "stages": stages}
+               "account": ACCOUNT, "completed": False, "stages": stages}
     if not args.reconnect:
         text = (root / "docs/smoke-001.txt").read_text().strip()
         prompt = (root / "prompts/smoke-001.txt").read_text().strip()
@@ -170,7 +162,7 @@ def main():
                                 retry=RetryOptions(rate_limit_max_retries=0, server_error_max_retries=0),
                                 features=FeatureOptions(chat_timeout=60)),
         ) as client:
-            if client.get_account_authuser() != 1:
+            if client.get_account_authuser() != ACCOUNT:
                 raise RuntimeError("Wrong account route")
             if args.reconnect:
                 previous = json.loads((run / "summary.json").read_text())
@@ -185,7 +177,6 @@ def main():
                 if not all(checks.values()):
                     raise RuntimeError("S3 semantic check failed")
                 return
-            await step("S0-notebook", lambda: client.notebooks.get("f113873f-7fdb-416a-bb83-d429c4a3ce1b"))
             await step("S0-limits", client.settings.get_account_limits)
             title = f"NBLM-SMOKE-001 {args.replica} {summary['started_utc']}"
             nb = await step("S1-create", lambda: client.notebooks.create(title))

@@ -7,9 +7,11 @@ demuestra. Subproyecto separado de las demás rondas del repositorio.
 
 **Estado actual:** ver `tareas.md` (tabla con fecha, objetivo y estado de
 cada línea de trabajo). Al 02-10-2026: cliente `notebooklm-py==0.8.4`
-adoptado; smoke `py-r1` detenido en S0 (autenticación) por sesión no
-aceptada — pendiente renovar sesión y reintentar en `py-r2`. Vía Cloud
-Enterprise detenida por costo (ver más abajo).
+adoptado; `py-r1` se detuvo en S0 (sesión exportada no aceptada). Sesión
+renovada desde cero con el login propio de la librería (perfil
+`nblm-spike`, cuenta principal de Frat, `authuser 0`); `auth check --test`
+la acepta. `smoke_py.py` adaptado a esa sesión; ronda `py-r2` (S0–S3)
+preparada en `PLAN.md`, pendiente de que Muse la corra. Vía Cloud Enterprise detenida por costo (ver más abajo).
 
 ## Dónde está cada cosa
 
@@ -35,19 +37,26 @@ Enterprise detenida por costo (ver más abajo).
 ## Reglas de este subproyecto (adicionales a `AGENTS.md`)
 
 - **Vía vigente:** cliente comunitario `notebooklm-py` — SDK Python,
-  backend `web`, sesión de la cuenta gratuita (cookies en un
-  `storage_state.json` externo al repo). Sin gcloud, ADC, proyecto Cloud
-  ni clave de API.
+  backend `web`, sesión de la cuenta principal de Frat (plan Pro). Frat
+  decidió no crear una cuenta dedicada hasta ver si NotebookLM promete
+  valor. Sesión creada con `notebooklm -p nblm-spike login` y guardada en
+  `~/.notebooklm/profiles/nblm-spike/storage_state.json` (fuera del repo,
+  carpeta 0700, archivo 0600). El extra `[browser]` (Playwright) se instaló
+  solo para ese login. Sin gcloud, ADC, proyecto Cloud ni clave de API.
+- **Sin proxy local para NotebookLM:** no necesita claves, y así las cookies
+  de Google no pasan por el proxy de 127.0.0.1:8080. No exportar
+  `HTTPS_PROXY` ni `SSL_CERT_FILE` en estas corridas.
 - **Vía Cloud Enterprise: detenida.** Requiere facturación y licencia de
   pago; Frat la rechazó explícitamente el 02-10-2026. No retomarla sin
   autorización expresa.
 - Sesión, cookies y tokens siempre fuera del repo y de los crudos; nunca
   en código ni en registros. Un fallo de autenticación detiene el
   intento — no se reintenta a ciegas ni se repiten mutaciones.
-- **Acceso desde Work Cloud (Claude Code) no probado:** el proxy local
-  (127.0.0.1) y la sesión del PC no se transfieren automáticamente; hace
-  falta configurar un acceso autorizado aparte antes de ejecutar nada de
-  este subproyecto desde la nube.
+- **Solo ejecución local (Muse).** Con la cuenta principal, la sesión no se
+  transfiere a la nube; se descartó pasarla como secreto
+  (`NOTEBOOKLM_AUTH_JSON`). Claude Code no ejecuta este subproyecto.
+- Leer solo los cuadernos sintéticos que crea cada corrida; no listar la
+  biblioteca personal.
 
 ## Referencias
 
