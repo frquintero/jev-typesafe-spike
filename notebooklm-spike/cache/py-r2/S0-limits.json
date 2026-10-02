@@ -1,0 +1,12 @@
+{
+  "notebook_limit": 500,
+  "source_limit": 300,
+  "raw_limits": [
+    6,
+    500,
+    300,
+    500000,
+    2
+  ],
+  "tier": 2
+}

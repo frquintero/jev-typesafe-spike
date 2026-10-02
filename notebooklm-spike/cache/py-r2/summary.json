@@ -1,0 +1,31 @@
+{
+  "replica": "py-r2",
+  "client": "notebooklm-py==0.8.4",
+  "started_utc": "2026-10-02T20:15:06.999327+00:00",
+  "account": 0,
+  "completed": false,
+  "stages": [
+    {
+      "step": "S0-notebook",
+      "seconds": 0.559
+    },
+    {
+      "step": "S0-limits",
+      "seconds": 0.255
+    },
+    {
+      "step": "S1-create",
+      "seconds": 0.414
+    }
+  ],
+  "text": "En el ensayo ficticio NBLM-SMOKE-001, el recipiente Luma contenía 17 fichas violetas. El recipiente Neri contenía 8 fichas blancas.",
+  "prompt": "Según la fuente, ¿cuántas fichas contenía Luma y de qué color eran? Incluye la cita que respalda la respuesta.",
+  "notebook_id": "5eccd8bb-9ad5-4797-9c05-e51d3b5a579d",
+  "error": {
+    "type": "NameError",
+    "step": "S1-add-text",
+    "message": "cannot access free variable 'text' where it is not associated with a value in enclosing scope"
+  },
+  "http_requests": 4,
+  "total_seconds": 2.177
+}

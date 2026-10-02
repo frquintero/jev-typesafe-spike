@@ -1,0 +1,17 @@
+{
+  "index": 3,
+  "step": "S0-limits",
+  "method": "POST",
+  "host": "notebook.google.com",
+  "path": "/_/LabsTailwindUi/data/batchexecute",
+  "query": {
+    "rpcids": "ZwVcOc",
+    "source-path": "/",
+    "hl": "en",
+    "rt": "c",
+    "authuser": "[REDACTED_EMAIL]"
+  },
+  "f.req": "[[[\"ZwVcOc\",\"[null,[1,null,null,null,null,null,null,null,null,null,[1]]]\",null,\"generic\"]]]",
+  "user_agent": "spike-jev/1.0",
+  "auth_fields_omitted": true
+}

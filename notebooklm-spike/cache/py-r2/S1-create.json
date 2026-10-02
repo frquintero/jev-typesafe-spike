@@ -1,0 +1,18 @@
+{
+  "id": "5eccd8bb-9ad5-4797-9c05-e51d3b5a579d",
+  "title": "NBLM-SMOKE-001 py-r2 2026-10-02T20:15:06.999327+00:00",
+  "created_at": null,
+  "sources_count": 0,
+  "is_owner": true,
+  "modified_at": null,
+  "role": 1,
+  "last_viewed_at": null,
+  "emoji": null,
+  "premium_features": null,
+  "chat_sessions": [
+    {
+      "id": "d5c7ddde-1dab-428c-b4d2-7981f4d13898"
+    }
+  ],
+  "chat_settings": null
+}

@@ -1,0 +1,17 @@
+{
+  "index": 2,
+  "step": "S0-notebook",
+  "method": "POST",
+  "host": "notebook.google.com",
+  "path": "/_/LabsTailwindUi/data/batchexecute",
+  "query": {
+    "rpcids": "rLM1Ne",
+    "source-path": "/notebook/f113873f-7fdb-416a-bb83-d429c4a3ce1b",
+    "hl": "en",
+    "rt": "c",
+    "authuser": "[REDACTED_EMAIL]"
+  },
+  "f.req": "[[[\"rLM1Ne\",\"[\\\"f113873f-7fdb-416a-bb83-d429c4a3ce1b\\\",null,[2,null,null,[1,null,null,null,null,null,null,null,null,null,[1]]],null,0]\",null,\"generic\"]]]",
+  "user_agent": "spike-jev/1.0",
+  "auth_fields_omitted": true
+}
