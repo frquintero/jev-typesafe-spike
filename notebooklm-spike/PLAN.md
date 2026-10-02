@@ -2,6 +2,8 @@
 
 ## Alcance vigente: API oficial Google Cloud
 
+**Restricción vigente de Frat (2026-10-02): sin gastos.** Configuración Cloud detenida; no asociar facturación ni activar/comprar suscripciones. El smoke oficial no se ejecutó. Las operaciones anteriores y sus crudos se conservan; no continuar con los pasos de habilitación que siguen documentados históricamente.
+
 Frat precisó que el smoke debe conectar Python a la API oficial de Google Cloud, autenticarse por OAuth y consumirla. `smoke_cloud.py` implementa creación/lectura de notebook y carga/lectura de la fuente sintética usando `google-auth` y credenciales ADC externas al repo. Frat instaló gcloud y configuró ADC; luego eligió crear el proyecto exclusivo «NotebookLM Spike» (`notebooklm-spike-20261002`, número `265423575040`). Ya está ACTIVE; requiere asociación de facturación, habilitación de Discovery Engine y configuración/licencia Enterprise antes del smoke. Endpoint, autenticación y contratos se contrastaron con documentación oficial mediante Exa. La documentación de administración de notebooks no presenta un método de chat/consulta; no se sustituye con endpoints internos.
 
 La corrida anterior de sesión web que sigue documentada abajo no cumple el alcance Cloud. Se conserva sin alterar sus crudos.

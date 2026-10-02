@@ -1,5 +1,9 @@
 # API oficial de NotebookLM en Google Cloud
 
+**Estado vigente:** Frat rechazó gastos el 2026-10-02. Se detuvo la configuración Cloud. No hay autorización para asociar facturación, comprar licencias o activar suscripciones. El proyecto permanece sin facturación, Discovery Engine deshabilitado y el smoke de notebooks sin ejecutar. Los apartados siguientes conservan lo observado antes de esta decisión.
+
+La vía Enterprise publica USD 9 por licencia/mes con mínimo de 15 licencias (USD 135/mes en licencias), según la página comercial consultada de nuevo con Exa. No se comprobó una tarifa por tokens o por consulta; la expresión «consumos» usada al pedir autorización no distinguió ese costo de suscripción y fue imprecisa. El requisito y el costo debieron explicarse antes de instalar gcloud y crear el proyecto.
+
 Alcance precisado por Frat el 2026-10-02: conectar código Python a la API oficial de Google Cloud, autenticar por OAuth y consumirla. La prueba anterior de endpoints internos (`api-r1`) no cierra esta tarea.
 
 ## Endpoint y contrato comprobados
