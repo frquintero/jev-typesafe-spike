@@ -1,0 +1,30 @@
+{
+  "project_number": "265423575040",
+  "http_status": 400,
+  "billing_associated": false,
+  "error": {
+    "code": 400,
+    "message": "Billing account for project '265423575040' is not found. Billing must be enabled for activation of service(s) 'discoveryengine.googleapis.com' to proceed.\nHelp Token: Ad9DraC_3uk2v4oCTrwq_0Zn_B_ZAsQwO1bVkw8VZ5PWvf0tlZV12oTVqc_zKcbE3RtAYgORQNa7IX1HoBhMLJ2btVKk7JBnTxLGJ5zkHhaUojQO",
+    "status": "FAILED_PRECONDITION",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google.rpc.PreconditionFailure",
+        "violations": [
+          {
+            "type": "googleapis.com/billing-enabled",
+            "subject": "?error_code=390001&project=265423575040&services=discoveryengine.googleapis.com"
+          }
+        ]
+      },
+      {
+        "@type": "type.googleapis.com/google.rpc.ErrorInfo",
+        "reason": "UREQ_PROJECT_BILLING_NOT_FOUND",
+        "domain": "serviceusage.googleapis.com/billing-enabled",
+        "metadata": {
+          "project": "265423575040",
+          "services": "discoveryengine.googleapis.com"
+        }
+      }
+    ]
+  }
+}

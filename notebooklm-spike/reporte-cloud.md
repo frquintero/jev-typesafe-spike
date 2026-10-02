@@ -53,6 +53,12 @@ Siguiente acción preparada: asociar el proyecto a la cuenta abierta «My Billin
 
 El smoke `smoke_cloud.py` todavía no se ejecutó contra este proyecto. Crear el proyecto y leer la configuración no acreditan funcionamiento de la API de notebooks.
 
+### Habilitación de Discovery Engine intentada
+
+Se llamó desde Python a `POST https://serviceusage.googleapis.com/v1/projects/265423575040/services/discoveryengine.googleapis.com:enable` con cuerpo `{}`. Google devolvió **HTTP 400**, `FAILED_PRECONDITION`, razón `UREQ_PROJECT_BILLING_NOT_FOUND`: la facturación debe estar habilitada para activar Discovery Engine. Petición y cuerpo recibido preservados en `cache/cloud-enable-r1/`.
+
+Este es un bloqueo de configuración confirmado por el servicio, no un fallo de autenticación. La siguiente acción requiere que Frat autorice asociar «My Billing Account 1» al proyecto. Esa asociación permite facturar consumos del proyecto; la activación de una suscripción Enterprise se revisará aparte. No se repitió la solicitud ni se asoció la cuenta.
+
 ## Código listo para el smoke autenticado
 
 `smoke_cloud.py` usa `google-auth==2.59.1` y `requests==2.34.2`, instalados en el entorno aislado existente. Verificación realizada: compilación Python y `--help`; el recorrido autenticado aún no se ha ejecutado.
