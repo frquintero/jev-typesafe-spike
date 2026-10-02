@@ -470,6 +470,33 @@ Si falla, no reintentar ni cambiar nada: conservar crudos y reportar.
 CSV completo si tiene hasta 40 filas). Commit de los crudos y del reporte, y
 push.
 
+## Rediseño tras FN4 (en discusión, 02-10-2026)
+
+**Diagnóstico.** La tabla de un solo paso sobre el texto entero no rinde más:
+FN2–FN4 corrigieron fallas puntuales y abrieron otras. Causas comunes: el
+modelo decide los casos sobre la marcha; el alcance es el texto entero; un
+fragmento por fila no respalda la fila completa; nadie verifica lo que el
+modelo marca como inferido. Error de método: se afinaba sobre jardin1, texto
+de la reserva de F5.
+
+**Decisión de Frat:** reintroducir los elementos excluidos el 01-10 (ronda
+F1: «sin subtemas, sin inventario y sin Jev»), porque ahora se necesitan.
+
+**Propuesta de Cowork (a discutir):**
+
+0. Código: oraciones numeradas (luego, un segmentador real: pySBD o spaCy).
+1. Subtemas: `unidades/prompts/unidades_v5.md` (probado con DeepSeek, U7–U9).
+2. Inventario de casos de estudio: tabla de datos de NotebookLM, una fila por
+   caso (su forma natural), con menciones y oraciones.
+3. Determinaciones por subtema: tabla con los casos fijados de antemano y solo
+   las oraciones del foco.
+4. Respaldo por componente: fragmentos para valor, condición y «respecto de».
+5. Verificación: literalidad por código; juicio fino con Jev.
+
+**Método:** construir paso a paso (primero el inventario); ajustar sobre
+textos de desarrollo; la reserva de F5 solo mide al final; una réplica por
+ronda salvo decisión de Frat.
+
 ## Alcance anterior: API oficial Google Cloud (detenido)
 
 **Restricción vigente de Frat (2026-10-02): sin gastos.** Configuración Cloud detenida; no asociar facturación ni activar/comprar suscripciones. El smoke oficial no se ejecutó. Las operaciones anteriores y sus crudos se conservan; no continuar con los pasos de habilitación que siguen documentados históricamente.

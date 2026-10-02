@@ -6,19 +6,26 @@ contenido correcto y ejecución ágil; un smoke de conectividad no lo
 demuestra. Subproyecto separado de las demás rondas del repositorio.
 
 **Estado actual:** ver `tareas.md` (tabla con fecha, objetivo y estado de
-cada línea de trabajo). Al 02-10-2026: cliente `notebooklm-py==0.8.4`
-adoptado; `py-r1` se detuvo en S0 (sesión exportada no aceptada). Sesión
-renovada desde cero con el login propio de la librería (perfil
-`nblm-spike`, cuenta principal de Frat, `authuser 0`); `auth check --test`
-la acepta. `py-r2` y `py-r3` se detuvieron en S1 por errores del script.
-S0–S3 cubiertos con `py-r4` (sesión, carga, consulta con cita y reconexión
-desde otro proceso). `code-r1`: la ejecución de código está activa en la
-cuenta Pro; NotebookLM generó un archivo JSON y lo bajamos con
-`descargar_artefacto.py`. FN1 (`ficha_v1` por el chat) fue rechazada por
-larga. FN2 (determinaciones como tabla de datos): 18 filas, 18/18 literales,
-29 s. FN3 (ejemplo + regla 7): resuelve aproximadores, comparaciones y
-referencias, pero pierde condiciones. FN4 (forma del marco, columna «respecto
-de»): valor y comparaciones bien; aparecen casos nominalizados y omisiones. Vía Cloud Enterprise detenida por costo (ver más abajo).
+cada línea de trabajo). Al 02-10-2026:
+
+- **Conexión resuelta.** Cliente `notebooklm-py==0.8.4`, sesión propia de la
+  librería (perfil `nblm-spike`, cuenta principal de Frat, `authuser 0`).
+  S0–S3 cubiertos con `py-r4` (sesión, carga, consulta con cita, reconexión).
+- **Ejecución de código activa** en la cuenta Pro (`code-r1`); los archivos
+  generados se bajan con `descargar_artefacto.py`.
+- **Extracción en un solo paso, agotada.** FN1 (`ficha_v1` por el chat):
+  rechazada por larga. FN2–FN4 (determinaciones como tabla de datos sobre
+  jardin1): rápidas (~29 s) y literales, pero cada ajuste de reglas movió el
+  error a otro lado (condiciones perdidas, casos inventados o nominalizados,
+  omisiones). Además se estaba afinando sobre un texto de la reserva de F5.
+- **Decisión (Frat, 02-10):** dejar de estirar la tabla de un solo paso y
+  reintroducir lo que se excluyó el 01-10: subtemas, inventario de casos,
+  ficha por foco, respaldo por componente y verificación (código + Jev). Cada
+  paso con la herramienta cuya forma le calza. Rediseño en discusión
+  (`PLAN.md`, sección «Rediseño»); se ajusta sobre textos de desarrollo, la
+  reserva solo mide.
+
+Vía Cloud Enterprise detenida por costo (ver más abajo).
 
 ## Dónde está cada cosa
 
