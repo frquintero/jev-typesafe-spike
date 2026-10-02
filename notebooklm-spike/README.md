@@ -17,7 +17,8 @@ cuenta Pro; NotebookLM generó un archivo JSON y lo bajamos con
 `descargar_artefacto.py`. FN1 (`ficha_v1` por el chat) fue rechazada por
 larga. FN2 (determinaciones como tabla de datos): 18 filas, 18/18 literales,
 29 s. FN3 (ejemplo + regla 7): resuelve aproximadores, comparaciones y
-referencias, pero pierde condiciones. Siguiente: decidir con Frat. Vía Cloud Enterprise detenida por costo (ver más abajo).
+referencias, pero pierde condiciones. En curso: FN4, tabla con la forma del
+marco (ejemplo nuevo, columna «respecto de», una fila por determinación). Vía Cloud Enterprise detenida por costo (ver más abajo).
 
 ## Dónde está cada cosa
 

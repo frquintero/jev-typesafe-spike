@@ -6,7 +6,8 @@ Uso (desde la raíz, sin HTTPS_PROXY):
 Cuaderno nuevo; fuente = texto numerado con la numeración de unidades/ficha_doc.py;
 generate_data_table(language="es", instructions=notebooklm-spike/prompts/<instrucciones>.md);
 espera a que termine, baja el CSV y comprueba con código que cada «fragmento literal»
-aparezca en la oración indicada. No juzga el contenido. Crudos únicos en
+aparezca en la oración indicada (varios fragmentos separados por « / »). No juzga
+el contenido. Crudos únicos en
 cache/tabla-<doc>-nblm-<instrucciones>-<rN>/ (la carpeta no puede existir).
 """
 import argparse, asyncio, csv, dataclasses, datetime as dt, enum, io, json, os, sys, time
@@ -21,8 +22,15 @@ from notebooklm.options import ClientConfig, RetryOptions, WebBackendConfig  # n
 from notebooklm._web.transport.session_auth import WebSessionAuth  # noqa: E402
 
 ACCOUNT = 0
-COLUMNAS = ["caso de estudio", "aspecto", "valor", "unidad", "cambio", "condición",
-            "quién lo sostiene", "inferido", "oración", "fragmento literal"]
+
+
+def columnas_pedidas(instrucciones):
+    """Columnas esperadas: las líneas «- nombre: …» antes de «Reglas:»."""
+    cols = []
+    for linea in instrucciones.split("Reglas:")[0].splitlines():
+        if linea.startswith("- ") and ":" in linea:
+            cols.append(linea[2:].split(":")[0].strip().lower())
+    return cols
 
 
 async def stop_refresh(self, expected_epoch):
@@ -49,7 +57,8 @@ def verificar(filas, registros):
             n = int(str(o).strip().strip("[]"))
         except ValueError:
             n = None
-        if n not in por_n or not frag or frag.strip() not in por_n[n]:
+        partes = [x.strip() for x in str(frag).split(" / ")]
+        if n not in por_n or not frag or any(not x or x not in por_n[n] for x in partes):
             malos.append({"fila": i + 1, "oración": o, "fragmento": frag})
     return malos
 
@@ -123,7 +132,8 @@ def main():
         filas = list(csv.DictReader(io.StringIO(texto_csv)))
         cab = list(filas[0].keys()) if filas else next(csv.reader(io.StringIO(texto_csv)), [])
         crudo["columnas_recibidas"] = cab
-        crudo["columnas_faltantes"] = [x for x in COLUMNAS if x not in [norm(h) for h in cab]]
+        crudo["columnas_pedidas"] = columnas_pedidas(instrucciones)
+        crudo["columnas_faltantes"] = [x for x in crudo["columnas_pedidas"] if x not in [norm(h) for h in cab]]
         crudo["filas"] = len(filas)
         crudo["no_literales"] = verificar(filas, registros)
     with (out / "crudo.json").open("x", encoding="utf-8") as f:

@@ -400,6 +400,76 @@ Si falla, no reintentar ni cambiar nada: conservar crudos y reportar.
 CSV completo si tiene hasta 40 filas). Commit de los crudos y del reporte, y
 push.
 
+## Ronda FN4: tabla con la forma del marco (jardin1)
+
+**Estado:** autorizada por Frat el 02-10-2026. Ejecuta Muse en local. Una
+réplica.
+
+**Resultado de FN3** (`reporte-FN3.md`): 29,5 s, 19 filas, 17/19 literales
+(dos filas unen fragmentos con « / »). Resolvió «unos 20», «semejante a unos
+20 litros», «allí» y «más baja que…», pero las condiciones bajaron de 5 a 1 y
+«demostración» pasó a ser caso. Análisis (Frat y Cowork), tres causas a
+corregir juntas:
+
+1. El ejemplo enseñó lo que mostraba: caso = entidad grande con el contenido
+   en el aspecto, y condición vacía en 4 de 5 filas.
+2. La regla 7 pedía que **el valor** se entendiera solo, contra la decisión
+   de que el campo valor guarda solo la posición (y contra el ensayo: ninguna
+   marca determina por sí sola).
+3. La tabla de datos tiende a una fila por entidad (formato ancho); la nuestra
+   es una fila por determinación (formato largo).
+
+**Cambios (un principio: que la tabla tenga la forma del marco):**
+
+1. Ejemplo nuevo (estanque, texto de desarrollo ampliado): el caso es la cosa;
+   condiciones en 3 de 5 filas; comparación completada en su columna;
+   referencia resuelta sin agregar de más; un «semejante» sin completar por
+   tener dos antecedentes.
+2. Valor = solo la posición, con aproximadores; columna nueva **respecto de**
+   para el término de comparación; la regla de autosuficiencia pasa a la fila
+   completa (regla 3).
+3. Primera frase «una fila por cada determinación… un mismo caso puede ocupar
+   muchas filas» y regla 7 «una determinación por fila». Fragmentos múltiples
+   permitidos con « / » (el verificador los separa). «Sin información» y la
+   columna «Fuente» son de la plantilla de la herramienta: se ignoran.
+
+Instrucciones: `prompts/tabla_det_v3.md` (≈ 3.900 caracteres). Script: el de
+FN2/FN3, con dos ajustes (columnas esperadas leídas de las instrucciones;
+fragmentos con « / »).
+
+**Conjetura:** la tabla conserva los logros de FN3 (aproximadores,
+comparaciones, referencias) y recupera las condiciones de FN2, con el caso
+como la cosa y una determinación por fila.
+
+**Criterios fijados antes de correr (los evalúan Cowork y Frat):** (1) «unos
+20» en el valor; (2) «semejante» con «respecto de» = el agua vertida en el
+jardín (unos 20 litros); (3) «allí» resuelto; (4) «más baja» con «respecto de»
+= el camino; (5) condiciones: «durante una demostración», «cuando llueve»,
+«si llega más de la que el terreno admite», solo en su columna; (6) caso = la
+cosa, no «demostración»; (7) oración 12 en dos filas; (8) fragmentos
+literales; (9) atribuciones a Clara Beltrán; (10) palabras agregadas que el
+texto no dice.
+
+**Antes de ejecutar:** `git pull --ff-only` (copia limpia); comprobar el commit
+de preparación y que no existe
+`notebooklm-spike/cache/tabla-jardin1-nblm-tabla_det_v3-r1/`. No correr
+`notebooklm auth check` ni listar cuadernos; no leer el archivo de sesión.
+
+**Comando:**
+
+```bash
+env -u HTTPS_PROXY -u SSL_CERT_FILE \
+  /home/fratquintero/.local/share/nblm-spike/venv-notebooklm-py/bin/python \
+  notebooklm-spike/tabla_nblm.py jardin1 tabla_det_v3 r1 \
+  --storage /home/fratquintero/.notebooklm/profiles/nblm-spike/storage_state.json
+```
+
+Si falla, no reintentar ni cambiar nada: conservar crudos y reportar.
+
+**Reporte (sin veredicto), en `reporte-FN4.md`:** el mismo de FN2 (incluido el
+CSV completo si tiene hasta 40 filas). Commit de los crudos y del reporte, y
+push.
+
 ## Alcance anterior: API oficial Google Cloud (detenido)
 
 **Restricción vigente de Frat (2026-10-02): sin gastos.** Configuración Cloud detenida; no asociar facturación ni activar/comprar suscripciones. El smoke oficial no se ejecutó. Las operaciones anteriores y sus crudos se conservan; no continuar con los pasos de habilitación que siguen documentados históricamente.
