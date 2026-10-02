@@ -182,7 +182,7 @@ def main():
             title = f"NBLM-SMOKE-001 {args.replica} {summary['started_utc']}"
             nb = await step("S1-create", lambda: client.notebooks.create(title))
             summary["notebook_id"] = nb.id
-            source = await step("S1-add-text", lambda: client.sources.add_text(nb.id,title,text,idempotent=True))
+            source = await step("S1-add-text", lambda: client.sources.add_text(nb.id,title,text))
             summary["source_id"] = source.id
             await step("S1-ready", lambda: client.sources.wait_until_ready(nb.id,source.id,timeout=60))
             full = await step("S1-fulltext", lambda: client.sources.get_fulltext(nb.id,source.id))

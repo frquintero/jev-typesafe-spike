@@ -121,6 +121,45 @@ env -u HTTPS_PROXY -u SSL_CERT_FILE \
 Si termina con error, no reintentar ni cambiar nada: conservar los crudos y
 reportar.
 
+## Ronda py-r4: réplica de py-r3 sin `idempotent=True`
+
+**Estado:** autorizada por Frat el 02-10-2026. Ejecuta Muse en local.
+
+**Resultado de py-r3** (`reporte-py-r3.md`, `cache/py-r3/`): S0 y S1-create
+pasaron; se detuvo en `S1-add-text` con `NonIdempotentRetryError`, antes de
+enviar la carga: la librería rechaza `add_text(..., idempotent=True)` porque
+el servidor no deduplica textos. Error del script, no de la API. 4
+peticiones HTTP 200, cero consultas.
+
+**Cambio (uno):** `add_text` sin `idempotent=True`. La regla de no repetir
+mutaciones se mantiene por `RetryOptions` en cero; el título del cuaderno ya
+es único (réplica + hora), como recomienda la librería. El detalle n.º 6 de
+`funcionalidades-notebooklm-py.md` leía esa opción como protección.
+
+Antes de preparar esta ronda, Cowork contrastó con el paquete instalado las
+llamadas restantes de S1–S3 (`wait_until_ready`, `get_fulltext`, `ask` con
+`source_ids`, `references`/`source_id`, `resolve_chat_reference_passage`,
+`get_history`): firmas y campos coinciden con el script.
+
+**Conjetura, entradas, criterio de éxito y reporte:** los de la ronda
+`py-r2`, con `py-r4` (carpeta `cache/py-r4/`, reporte `reporte-py-r4.md`).
+Los cuadernos vacíos de `py-r2` y `py-r3` se conservan; no se reutilizan.
+
+**Antes de ejecutar:** los mismos pasos de `py-r2`; comprobar que no existe
+`notebooklm-spike/cache/py-r4/`.
+
+**Comando:**
+
+```bash
+env -u HTTPS_PROXY -u SSL_CERT_FILE \
+  /home/fratquintero/.local/share/nblm-spike/venv-notebooklm-py/bin/python \
+  notebooklm-spike/smoke_py.py py-r4 \
+  --storage /home/fratquintero/.notebooklm/profiles/nblm-spike/storage_state.json
+```
+
+Si termina con error, no reintentar ni cambiar nada: conservar los crudos y
+reportar.
+
 ## Alcance anterior: API oficial Google Cloud (detenido)
 
 **Restricción vigente de Frat (2026-10-02): sin gastos.** Configuración Cloud detenida; no asociar facturación ni activar/comprar suscripciones. El smoke oficial no se ejecutó. Las operaciones anteriores y sus crudos se conservan; no continuar con los pasos de habilitación que siguen documentados históricamente.

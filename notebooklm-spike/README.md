@@ -10,9 +10,9 @@ cada línea de trabajo). Al 02-10-2026: cliente `notebooklm-py==0.8.4`
 adoptado; `py-r1` se detuvo en S0 (sesión exportada no aceptada). Sesión
 renovada desde cero con el login propio de la librería (perfil
 `nblm-spike`, cuenta principal de Frat, `authuser 0`); `auth check --test`
-la acepta. `py-r2`: S0 pasó (autenticación y lectura); se detuvo en S1 por
-un error del script, ya corregido. Ronda `py-r3` (S0–S3) preparada en
-`PLAN.md`, pendiente de que Muse la corra. Vía Cloud Enterprise detenida por costo (ver más abajo).
+la acepta. `py-r2` y `py-r3`: S0 pasó (autenticación y lectura); ambas se
+detuvieron en S1 por errores del script, ya corregidos. Ronda `py-r4`
+(S0–S3) preparada en `PLAN.md`. Vía Cloud Enterprise detenida por costo (ver más abajo).
 
 ## Dónde está cada cosa
 

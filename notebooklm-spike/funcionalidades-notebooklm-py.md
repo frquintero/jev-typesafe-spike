@@ -64,7 +64,7 @@ La disponibilidad depende de la cuenta, del backend y de Google. La lista de cap
 3. Las posiciones de citas son unidades UTF-16 del documento estructurado. No cortar `answer` ni `fulltext.content` con esos números usando índices Python. Usar `fulltext.document.slice(...)` y la utilidad de resolución, y conservar texto citado e IDs.
 4. `AskResult.raw_response` es un fragmento limitado, no un registro HTTP completo. Para crudos completos habrá que instrumentar el transporte y redactar secretos; no habilitar DEBUG indiscriminadamente.
 5. Aceptación de una generación no equivale a terminación. Hay que comprobar el estado final y después validar el archivo descargado.
-6. Algunas mutaciones pueden quedar con resultado desconocido después de un fallo. No reintentar a ciegas. En particular, `add_text(..., idempotent=True)` permite que el cliente rechace una repetición insegura; no significa que el servidor deduplique texto.
+6. Algunas mutaciones pueden quedar con resultado desconocido después de un fallo. No reintentar a ciegas. En particular, `add_text(..., idempotent=True)` no se puede usar: la librería lo rechaza (`NonIdempotentRetryError`) porque el servidor no deduplica textos; recomienda un título único y deduplicar del lado del cliente (comprobado en `py-r3`).
 7. El chat maneja streaming internamente y `ask()` devuelve la respuesta completa. No suponer que el API pública exponga un iterador de tokens.
 8. Las lecturas de cuaderno pueden actualizar su marca de acceso reciente. Leer solamente cuadernos sintéticos conocidos y no listar la biblioteca personal en la primera prueba.
 
