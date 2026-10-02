@@ -160,6 +160,52 @@ env -u HTTPS_PROXY -u SSL_CERT_FILE \
 Si termina con error, no reintentar ni cambiar nada: conservar los crudos y
 reportar.
 
+## Ronda py-r4-S3: reconexión sobre los datos de py-r4
+
+**Estado:** autorizada por Frat el 02-10-2026. Ejecuta Muse en local.
+
+**Resultado de py-r4** (`reporte-py-r4.md`, `cache/py-r4/`): S0, S1 y S2
+ejecutados; 10 peticiones, 14,381 s. Respuesta: «El recipiente Luma contenía
+**17 fichas** de color **violeta** [1].» más una sugerencia final; cita [1] a
+la fuente cargada; pasaje recuperado. Comprobaciones en `true` salvo
+`answer_contains_violetas`, que exigía la forma plural; el script abortó y
+no lanzó S3.
+
+**Cambio (uno, para corridas futuras):** la comprobación pasa a
+`answer_contains_violeta` y acepta «violeta» o «violetas». No afecta a S3.
+
+**Qué se corre:** solo la reconexión (S3) sobre `cache/py-r4/summary.json`:
+otro proceso abre la sesión y recupera el cuaderno de py-r4
+(`notebook_id` y `source_id` de su `summary.json`), el texto de la
+fuente y el historial. Sin crear cuadernos, sin cargas, sin consultas
+generativas. Excepción expresa a la regla de `rN` existente: los archivos
+nuevos llevan el prefijo `reconnect-`, se abren en modo exclusivo y no
+sobrescriben nada de `py-r4`.
+
+**Antes de ejecutar:** los pasos de `py-r2`, salvo el de la carpeta:
+comprobar que existe `cache/py-r4/summary.json` y que no existe
+`cache/py-r4/reconnect-summary.json`; si no se cumple, detenerse y reportar.
+
+**Comando:**
+
+```bash
+env -u HTTPS_PROXY -u SSL_CERT_FILE \
+  /home/fratquintero/.local/share/nblm-spike/venv-notebooklm-py/bin/python \
+  notebooklm-spike/smoke_py.py py-r4 --reconnect \
+  --storage /home/fratquintero/.notebooklm/profiles/nblm-spike/storage_state.json
+```
+
+**Criterio de éxito (lo comprueba el script):** `completed: true` en
+`cache/py-r4/reconnect-summary.json`, con `notebook_id_matches`,
+`source_content_matches` y `history_recovers_question_answer` en `true`.
+
+**Reporte (sin veredicto):** añadir a `reporte-py-r4.md` una sección «S3
+(reconexión)» con `completed`, paso final, segundos por etapa y total,
+peticiones HTTP, el valor de cada comprobación, el historial recuperado
+(pregunta y respuesta verbatim) y el error con su paso, si lo hubo. Si
+falla, no reintentar ni cambiar nada. Commit de los archivos `reconnect-*`
+y del reporte, y push a `main`.
+
 ## Alcance anterior: API oficial Google Cloud (detenido)
 
 **Restricción vigente de Frat (2026-10-02): sin gastos.** Configuración Cloud detenida; no asociar facturación ni activar/comprar suscripciones. El smoke oficial no se ejecutó. Las operaciones anteriores y sus crudos se conservan; no continuar con los pasos de habilitación que siguen documentados históricamente.

@@ -196,7 +196,7 @@ def main():
                 passages.append(await step(f"S2-passage-{i+1}",lambda ref=ref: resolve_chat_reference_passage(client,nb.id,ref)))
             checks = {"fulltext_matches": full.content.strip()==text,
                       "answer_contains_17": bool(re.search(r"\b17\b",result.answer)),
-                      "answer_contains_violetas": "violetas" in result.answer.lower(),
+                      "answer_contains_violeta": bool(re.search(r"\bvioletas?\b",result.answer.lower())),
                       "citation_matches_uploaded_source": bool(cited),
                       "retrieved_passage_supports_answer": any("17" in p and "violetas" in p.lower() and "Luma" in p for p in passages)}
             summary["checks"] = checks
