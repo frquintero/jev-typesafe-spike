@@ -1,0 +1,75 @@
+{
+  "doc": "jardin1",
+  "modelo": "notebooklm (Gemini Notebook, modelo no expuesto)",
+  "cliente": "notebooklm-py==0.8.4",
+  "prompt": "ficha_v1",
+  "rep": "r1",
+  "inicio_utc": "2026-10-02T21:19:07.251494+00:00",
+  "texto_numerado": "[1] En el patio de la escuela de Valdemora, una parte del suelo está más baja que el camino que la rodea. [2] Allí crecen plantas de hojas estrechas y tallos flexibles. [3] Parece un jardín corriente, pero su forma tiene una función: recibir parte del agua que baja del pavimento cuando llueve.\n\n[4] El agua entra por una abertura entre las piedras del borde. [5] Después puede penetrar lentamente en la tierra, en lugar de seguir de inmediato hacia la calle. [6] Si llega más de la que el terreno admite, un conducto situado cerca del borde superior permite que el exceso salga hacia el desagüe.\n\n[7] Según Clara Beltrán, encargada del huerto escolar, las raíces ayudan a mantener pequeños espacios por los que circula el agua. [8] Ella advierte que eso no convierte cualquier terreno en una esponja: un suelo muy compacto puede absorberla con dificultad. [9] Por esa razón, antes de plantar se retiraron cascotes y se mezcló la tierra con material más suelto.\n\n[10] Durante una demostración se vertieron unos 20 litros en el jardín y una cantidad semejante sobre el camino. [11] En este último quedó un charco visible; en el primero, el agua fue desapareciendo de la superficie. [12] La diferencia ayuda a entender su función, aunque no prueba que el jardín pueda recoger toda la lluvia de una tormenta.",
+  "oraciones_numeradas": [
+    {
+      "n": 1,
+      "oracion": "En el patio de la escuela de Valdemora, una parte del suelo está más baja que el camino que la rodea."
+    },
+    {
+      "n": 2,
+      "oracion": "Allí crecen plantas de hojas estrechas y tallos flexibles."
+    },
+    {
+      "n": 3,
+      "oracion": "Parece un jardín corriente, pero su forma tiene una función: recibir parte del agua que baja del pavimento cuando llueve."
+    },
+    {
+      "n": 4,
+      "oracion": "El agua entra por una abertura entre las piedras del borde."
+    },
+    {
+      "n": 5,
+      "oracion": "Después puede penetrar lentamente en la tierra, en lugar de seguir de inmediato hacia la calle."
+    },
+    {
+      "n": 6,
+      "oracion": "Si llega más de la que el terreno admite, un conducto situado cerca del borde superior permite que el exceso salga hacia el desagüe."
+    },
+    {
+      "n": 7,
+      "oracion": "Según Clara Beltrán, encargada del huerto escolar, las raíces ayudan a mantener pequeños espacios por los que circula el agua."
+    },
+    {
+      "n": 8,
+      "oracion": "Ella advierte que eso no convierte cualquier terreno en una esponja: un suelo muy compacto puede absorberla con dificultad."
+    },
+    {
+      "n": 9,
+      "oracion": "Por esa razón, antes de plantar se retiraron cascotes y se mezcló la tierra con material más suelto."
+    },
+    {
+      "n": 10,
+      "oracion": "Durante una demostración se vertieron unos 20 litros en el jardín y una cantidad semejante sobre el camino."
+    },
+    {
+      "n": 11,
+      "oracion": "En este último quedó un charco visible; en el primero, el agua fue desapareciendo de la superficie."
+    },
+    {
+      "n": 12,
+      "oracion": "La diferencia ayuda a entender su función, aunque no prueba que el jardín pueda recoger toda la lluvia de una tormenta."
+    }
+  ],
+  "pregunta_enviada": "TAREA\nLees un texto con sus oraciones numeradas. Reconstruye en una ficha JSON todo lo\nque el texto establece, organizado por casos de estudio. No decides qué es\nimportante: registras lo dicho, sin agregar ni perder nada.\n\nDEFINICIONES\n- Caso de estudio: aquello de lo que el texto dice algo (una cosa, persona, lugar,\n  hecho, estado, o incluso otra determinación). Se reconoce por sus menciones:\n  nombre, pronombre, sujeto implícito.\n- Aspecto: aquello bajo lo cual el texto considera el caso de estudio\n  (temperatura, color, año de construcción).\n- Determinación: lo que queda establecido acerca de un caso de estudio bajo un\n  aspecto: «la temperatura del agua es 18 °C». El campo \"valor\" guarda solo la\n  posición («18»); la fila entera es la determinación.\n- Condición: lo que, si cambiara, cambiaría la pregunta respondida («en la\n  superficie»: la temperatura en el fondo es otra pregunta). Si al cambiarlo\n  cambia la cosa de la que se habla, es parte del caso de estudio.\n- Capa: el texto atribuye algo a alguien (cree, dice, recomienda, según, supone).\n  El texto afirma la capa; lo que va dentro lo sostiene quien la tiene, aunque\n  sea el propio autor.\n- Marca de posición: número, fecha, cantidad o categoría que señala una posición\n  entre otras posibles.\n\nPRINCIPIOS\n1. Registra todo lo que el texto establece, incluidas generalizaciones,\n   valoraciones y lo dicho al pasar («el técnico Pablo Ríos»).\n2. No inventes. El aspecto debe tener respaldo en el texto. Si registras algo que\n   el texto no dice, marca \"inferido\": true y da los fragmentos que te llevaron\n   a ello.\n3. Lo que está dentro de una creencia, recomendación o cita lleva \"dentro_de\"\n   con el id de su capa. Una capa puede estar dentro de otra.\n4. La negación va donde opera: «no cree» va en la capa; «cree que no» va en el\n   valor.\n5. Resuelve las referencias implícitas (pronombres, sujetos omitidos, términos\n   de comparación como «otro», «igual», «el mismo») cuando el contexto da un\n   solo antecedente: regístralas con \"inferido\": true y su respaldo. Mencionar\n   algo para compararlo no lo vuelve lo comparado: lo comparado y el término de\n   comparación son casos distintos, unidos por una relación. Si hay más de un\n   antecedente posible, va a \"dudas\".\n6. Los cambios se conservan en \"cambio\" («bajó a», «subió de… a…»).\n7. Una recomendación u orden contiene una acción (lista \"acciones\"). No le\n   atribuyas propiedades al objeto de la acción.\n8. Explica en \"marcas\" cada marca de posición y cada número: qué hace (posición,\n   identifica, remite). Un número que identifica o remite no es un valor:\n   forma parte del nombre del caso que identifica.\n9. Lo ambiguo (más de una lectura posible) va a \"dudas\". No lo resuelvas.\n10. Copia los fragmentos de \"respaldo\" literales de la oración indicada. Un\n    fragmento puede respaldar varias cosas.\n11. Usa ids (C1, K1, D1, A1) para referirte a lo ya registrado.\n\nFORMATO\nUn solo objeto JSON con siete listas. Cada lista tiene una función y una forma\nfija: usa exactamente estos campos, en cualquier texto. Una lista sin elementos\nva vacía: [].\n- casos: aquello de lo que el texto dice algo.\n  {\"id\":\"C1\",\"nombre\":\"…\",\"menciones\":[{\"o\":1,\"f\":\"…\"}]}\n  Los nombres, números o códigos que identifican un caso van en su nombre y sus\n  menciones («pintura n.º 27 del inventario»), no como determinación.\n- relaciones: un vínculo que el texto establece entre dos casos (parte de,\n  muestra de, procede de, guardado en).\n  {\"id\":\"R1\",\"tipo\":\"…\",\"de\":\"C1\",\"a\":\"C2\",\"dentro_de\":null,\"condiciones\":[],\n   \"inferido\":false,\"respaldo\":[{\"o\":1,\"f\":\"…\"}]}\n- capas: el texto atribuye algo a alguien.\n  {\"id\":\"K1\",\"expresion\":\"…\",\"quien\":\"C2\",\"dentro_de\":null,\"respaldo\":[…]}\n- determinaciones: lo establecido acerca de un caso bajo un aspecto (forma en\n  el ejemplo).\n- acciones: lo que alguien hace, hizo, o se recomienda u ordena hacer. Una\n  recomendación u orden es una acción dentro de su capa.\n  {\"id\":\"A1\",\"agente\":\"C1\",\"accion\":\"…\",\"objeto\":\"C2\",\"negada\":false,\n   \"dentro_de\":null,\"condiciones\":[],\"respaldo\":[…]}\n  \"agente\" u \"objeto\" van null si el texto no los dice.\n- marcas: cada marca de posición y cada número.\n  {\"marca\":\"…\",\"o\":1,\"funciones\":[{\"funcion\":\"posición | identifica | remite\",\n   \"refs\":[\"D1\"]}]}\n- dudas: lo ambiguo, sin resolverlo.\n  {\"id\":\"Q1\",\"texto\":\"…\",\"respaldo\":[…]}\nToda referencia a otro registro es un id (\"C2\") o una lista de ids\n([\"C2\",\"C5\"]), nunca texto libre. Una condición es\n{\"texto\":\"…\",\"ref\":id o null,\"respaldo\":[…]}.\n\nEJEMPLO\nTexto:\n[1] En la superficie, el agua del estanque norte de la finca El Roble está a 18 °C. [2] Además tiene un color verdoso, algo preocupante según la bióloga Ana Ruiz.\n\nFicha:\n{\n \"casos\": [\n  {\"id\":\"C1\",\"nombre\":\"agua del estanque norte de la finca El Roble\",\n   \"menciones\":[{\"o\":1,\"f\":\"el agua del estanque norte de la finca El Roble\"},{\"o\":2,\"f\":\"tiene\"}]},\n  {\"id\":\"C2\",\"nombre\":\"Ana Ruiz\",\"menciones\":[{\"o\":2,\"f\":\"la bióloga Ana Ruiz\"}]}\n ],\n \"relaciones\": [],\n \"capas\": [\n  {\"id\":\"K1\",\"expresion\":\"según\",\"quien\":\"C2\",\"dentro_de\":null,\n   \"respaldo\":[{\"o\":2,\"f\":\"según la bióloga Ana Ruiz\"}]}\n ],\n \"determinaciones\": [\n  {\"id\":\"D1\",\"dentro_de\":null,\"caso\":\"C1\",\"aspecto\":\"temperatura\",\"valor\":\"18\",\"unidad\":\"°C\",\n   \"cambio\":null,\"condiciones\":[{\"texto\":\"en la superficie\",\"ref\":null,\"respaldo\":[{\"o\":1,\"f\":\"En la superficie\"}]}],\n   \"modalidad\":null,\"inferido\":false,\"respaldo\":[{\"o\":1,\"f\":\"está a 18 °C\"}]},\n  {\"id\":\"D2\",\"dentro_de\":null,\"caso\":\"C1\",\"aspecto\":\"color\",\"valor\":\"verdoso\",\"unidad\":null,\n   \"cambio\":null,\"condiciones\":[],\"modalidad\":null,\"inferido\":false,\n   \"respaldo\":[{\"o\":2,\"f\":\"tiene un color verdoso\"}]},\n  {\"id\":\"D3\",\"dentro_de\":null,\"caso\":\"C2\",\"aspecto\":\"presentada como\",\"valor\":\"bióloga\",\"unidad\":null,\n   \"cambio\":null,\"condiciones\":[],\"modalidad\":null,\"inferido\":false,\n   \"respaldo\":[{\"o\":2,\"f\":\"la bióloga Ana Ruiz\"}]},\n  {\"id\":\"D4\",\"dentro_de\":\"K1\",\"caso\":\"D2\",\"aspecto\":\"carácter\",\"valor\":\"algo preocupante\",\"unidad\":null,\n   \"cambio\":null,\"condiciones\":[],\"modalidad\":null,\"inferido\":false,\n   \"respaldo\":[{\"o\":2,\"f\":\"algo preocupante\"}]}\n ],\n \"acciones\": [],\n \"marcas\": [\n  {\"marca\":\"18 °C\",\"o\":1,\"funciones\":[{\"funcion\":\"posición\",\"refs\":[\"D1\"]}]},\n  {\"marca\":\"verdoso\",\"o\":2,\"funciones\":[{\"funcion\":\"posición\",\"refs\":[\"D2\"]}]},\n  {\"marca\":\"algo preocupante\",\"o\":2,\"funciones\":[{\"funcion\":\"posición\",\"refs\":[\"D4\"]}]}\n ],\n \"dudas\": []\n}\n\nTEXTO\nEl texto con sus oraciones numeradas es la fuente de este cuaderno.\n",
+  "etapas": {
+    "crear": 0.461,
+    "cargar": 1.201,
+    "lista": 0.285,
+    "texto": 0.261
+  },
+  "completed": false,
+  "notebook_id": "c85cac34-bd5d-4042-9b0e-e0a313a4d450",
+  "source_id": "33548a81-8a04-4575-9d65-99260b0022c4",
+  "fuente_igual_al_texto_numerado": false,
+  "error": {
+    "type": "ChatError",
+    "message": "Chat request was rejected by the server (status 3). This usually means the request was malformed or too large — most often an over-long question past the server-side size limit; shorten it and try again."
+  },
+  "segundos_total": 3.519
+}
