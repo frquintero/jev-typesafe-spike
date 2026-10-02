@@ -15,7 +15,8 @@ S0–S3 cubiertos con `py-r4` (sesión, carga, consulta con cita y reconexión
 desde otro proceso). `code-r1`: la ejecución de código está activa en la
 cuenta Pro; NotebookLM generó un archivo JSON y lo bajamos con
 `descargar_artefacto.py`. FN1 (`ficha_v1` por el chat) fue rechazada por
-larga. En curso: FN2, determinaciones de jardin1 como tabla de datos. Vía Cloud Enterprise detenida por costo (ver más abajo).
+larga. FN2 (determinaciones como tabla de datos): 18 filas, 18/18 literales,
+29 s. En curso: FN3, con ejemplo resuelto y regla 7. Vía Cloud Enterprise detenida por costo (ver más abajo).
 
 ## Dónde está cada cosa
 
@@ -68,6 +69,8 @@ larga. En curso: FN2, determinaciones de jardin1 como tabla de datos. Vía Cloud
   (`NOTEBOOKLM_AUTH_JSON`). Claude Code no ejecuta este subproyecto.
 - Leer solo los cuadernos sintéticos que crea cada corrida; no listar la
   biblioteca personal.
+- **Bajo volumen:** una réplica por ronda, salvo decisión expresa de Frat
+  (02-10-2026), para no llamar la atención sobre la cuenta.
 
 ## Referencias
 

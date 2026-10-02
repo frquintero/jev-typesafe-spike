@@ -345,6 +345,61 @@ lo mínimo); columnas recibidas y faltantes; número de filas; fragmentos no
 literales con fila, oración y fragmento; el CSV completo si tiene hasta 40
 filas (si no, las primeras 15). Commit de los crudos y del reporte, y push.
 
+## Ronda FN3: tabla de determinaciones con ejemplo y regla 7 (jardin1)
+
+**Estado:** autorizada por Frat el 02-10-2026. Ejecuta Muse en local. **Una
+sola réplica** (decisión de Frat: bajo volumen en la cuenta).
+
+**Resultado de FN2** (`reporte-FN2.md`): 29,2 s, 10 columnas pedidas (+ «Fuente»
+agregada por NotebookLM), 18 filas, 18/18 fragmentos literales. Análisis de
+Frat y Cowork: valores que no se entienden sin contexto («semejante», «allí»;
+«más baja» resuelto en el aspecto), aproximador perdido («unos 20» → «20»),
+condición repetida en el nombre del caso. DeepSeek r3 comete los mismos
+errores en la misma oración; r1 los resuelve.
+
+**Cambios (un principio: cada fila se entiende sola y fiel al texto):**
+
+1. Regla 7: el valor conserva aproximadores y completa comparaciones y
+   referencias con un solo antecedente (inferido = sí).
+2. Un ejemplo resuelto con la represa (texto de desarrollo, §2.3 de la
+   memoria): aproximador, condición fuera del nombre, comparación completada,
+   atribución, identificador en el nombre, y «la mitad» sin completar por
+   tener dos antecedentes.
+
+Instrucciones: `prompts/tabla_det_v2.md` (v1 + regla 7 + ejemplo). Script,
+fuente y frenos iguales a FN2.
+
+**Conjetura:** con la regla 7 y el ejemplo, la tabla conserva «unos 20»,
+completa «semejante» y «allí», y deja los casos sin la condición repetida, sin
+perder literalidad ni las atribuciones de FN2.
+
+**Criterios fijados antes de correr (los evalúan Cowork y Frat):** (1) «unos
+20» conservado; (2) «semejante» completado («semejante a unos 20 litros» o
+equivalente); (3) «allí» resuelto; (4) término de comparación de «más baja» en
+el valor; (5) casos sin la condición repetida; (6) fragmentos literales
+(verificador); (7) atribuciones a Clara Beltrán y condiciones de FN2
+mantenidas.
+
+**Antes de ejecutar:** `git pull --ff-only` (copia limpia); comprobar el commit
+de preparación y que no existe
+`notebooklm-spike/cache/tabla-jardin1-nblm-tabla_det_v2-r1/`. No correr
+`notebooklm auth check` ni listar cuadernos; no leer el archivo de sesión.
+
+**Comando:**
+
+```bash
+env -u HTTPS_PROXY -u SSL_CERT_FILE \
+  /home/fratquintero/.local/share/nblm-spike/venv-notebooklm-py/bin/python \
+  notebooklm-spike/tabla_nblm.py jardin1 tabla_det_v2 r1 \
+  --storage /home/fratquintero/.notebooklm/profiles/nblm-spike/storage_state.json
+```
+
+Si falla, no reintentar ni cambiar nada: conservar crudos y reportar.
+
+**Reporte (sin veredicto), en `reporte-FN3.md`:** el mismo de FN2 (incluido el
+CSV completo si tiene hasta 40 filas). Commit de los crudos y del reporte, y
+push.
+
 ## Alcance anterior: API oficial Google Cloud (detenido)
 
 **Restricción vigente de Frat (2026-10-02): sin gastos.** Configuración Cloud detenida; no asociar facturación ni activar/comprar suscripciones. El smoke oficial no se ejecutó. Las operaciones anteriores y sus crudos se conservan; no continuar con los pasos de habilitación que siguen documentados históricamente.
