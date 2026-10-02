@@ -16,7 +16,8 @@ desde otro proceso). `code-r1`: la ejecución de código está activa en la
 cuenta Pro; NotebookLM generó un archivo JSON y lo bajamos con
 `descargar_artefacto.py`. FN1 (`ficha_v1` por el chat) fue rechazada por
 larga. FN2 (determinaciones como tabla de datos): 18 filas, 18/18 literales,
-29 s. En curso: FN3, con ejemplo resuelto y regla 7. Vía Cloud Enterprise detenida por costo (ver más abajo).
+29 s. FN3 (ejemplo + regla 7): resuelve aproximadores, comparaciones y
+referencias, pero pierde condiciones. Siguiente: decidir con Frat. Vía Cloud Enterprise detenida por costo (ver más abajo).
 
 ## Dónde está cada cosa
 
