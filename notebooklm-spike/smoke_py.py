@@ -168,10 +168,10 @@ def main():
                 previous = json.loads((run / "summary.json").read_text())
                 nb_id, src_id = previous["notebook_id"], previous["source_id"]
                 nb = await step("S3-notebook", lambda: client.notebooks.get(nb_id))
-                text = await step("S3-fulltext", lambda: client.sources.get_fulltext(nb_id, src_id))
+                fulltext3 = await step("S3-fulltext", lambda: client.sources.get_fulltext(nb_id, src_id))
                 history = await step("S3-history", lambda: client.chat.get_history(nb_id))
                 checks = {"notebook_id_matches": nb.id == nb_id,
-                          "source_content_matches": text.content.strip() == previous["text"],
+                          "source_content_matches": fulltext3.content.strip() == previous["text"],
                           "history_recovers_question_answer": any(q == previous["prompt"] and a.strip() == previous["answer"].strip() for q,a in history)}
                 summary["checks"] = checks
                 if not all(checks.values()):

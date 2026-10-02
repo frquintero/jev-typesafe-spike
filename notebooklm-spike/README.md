@@ -10,14 +10,15 @@ cada línea de trabajo). Al 02-10-2026: cliente `notebooklm-py==0.8.4`
 adoptado; `py-r1` se detuvo en S0 (sesión exportada no aceptada). Sesión
 renovada desde cero con el login propio de la librería (perfil
 `nblm-spike`, cuenta principal de Frat, `authuser 0`); `auth check --test`
-la acepta. `smoke_py.py` adaptado a esa sesión; ronda `py-r2` (S0–S3)
-preparada en `PLAN.md`, pendiente de que Muse la corra. Vía Cloud Enterprise detenida por costo (ver más abajo).
+la acepta. `py-r2`: S0 pasó (autenticación y lectura); se detuvo en S1 por
+un error del script, ya corregido. Ronda `py-r3` (S0–S3) preparada en
+`PLAN.md`, pendiente de que Muse la corra. Vía Cloud Enterprise detenida por costo (ver más abajo).
 
 ## Dónde está cada cosa
 
 - `tareas.md` — tabla de estado de cada línea de trabajo.
 - `PLAN.md` — plan operativo e historial de decisiones.
-- `reporte-api-r1.md`, `reporte-cloud.md`, `reporte-py-r1.md` — reporte
+- `reporte-api-r1.md`, `reporte-cloud.md`, `reporte-py-rN.md` — reporte
   detallado de cada intento/vía, con su evidencia.
 - `funcionalidades-notebooklm-py.md` — inventario de funciones del cliente
   adoptado y las pruebas S0–S10 propuestas.

@@ -1,6 +1,6 @@
 # Smoke de conectividad — NBLM-SMOKE-001
 
-## Alcance vigente desde 2026-10-02: notebooklm-py, cuenta web gratuita
+## Alcance vigente desde 2026-10-02: notebooklm-py, cuenta web de Frat (Pro)
 
 Frat eligió `notebooklm-py` y autorizó su adopción y la revisión completa de funciones con propuesta de pruebas iniciales. Paquete base `0.8.4` instalado en entorno exclusivo externo al repo; versión/importación/dependencias comprobadas. Vía: SDK Python, backend Web, sesión externa, sin gastos Cloud. Frat autorizó S0–S3: `smoke_py.py` ejecutó `py-r1`, detenido en S0 por HTTP 302 hacia login con la sesión guardada. Dos GET, cero mutaciones/consultas; S1–S3 pendientes de renovar sesión. Detalle en `reporte-py-r1.md` y `cache/py-r1/`. Inventario y propuesta S0–S10 en `funcionalidades-notebooklm-py.md`; primera secuencia propuesta S0–S3. Dependencia en `requirements-py.txt`.
 
@@ -83,6 +83,43 @@ valor de cada comprobación; el error con su paso, si lo hubo. Citar los
 crudos detrás de cada dato. Nada de cookies, tokens ni cabeceras privadas.
 Al terminar: commit de `cache/py-r2/` y `reporte-py-r2.md`, y push a
 `main`; informar el commit.
+
+## Ronda py-r3: réplica de py-r2 con la corrección del script
+
+**Estado:** autorizada por Frat el 02-10-2026. Ejecuta Muse en local.
+
+**Resultado de py-r2** (`reporte-py-r2.md`, `cache/py-r2/`): S0 pasó con la
+sesión renovada (leyó `f113873f-…`, 1 fuente, `is_owner: true`; cupos
+`notebook_limit` 500, `source_limit` 300, `tier` 2). S1 creó el cuaderno
+`5eccd8bb-…` y se detuvo en `S1-add-text` con `NameError` sobre `text`:
+error del script, no de la API. 4 peticiones HTTP 200, cero consultas.
+
+**Cambio (uno):** en la rama de reconexión, la variable que guarda el texto
+recuperado en S3 pasa de `text` a `fulltext3`. Asignar `text` dentro de
+`execute` lo volvía local a toda la función y dejaba sin valor el texto de
+entrada que usa S1. El error ya estaba en `py-r1`, que no llegó a S1. Nada
+más cambia: sesión, entradas, pasos, comprobaciones y frenos son los de
+`py-r2`.
+
+**Conjetura, entradas, criterio de éxito y reporte:** los de la ronda
+`py-r2`, con `py-r3` en lugar de `py-r2` (carpeta `cache/py-r3/`, reporte
+`reporte-py-r3.md`). El cuaderno vacío `5eccd8bb-…` de `py-r2` se conserva;
+no se reutiliza.
+
+**Antes de ejecutar:** los mismos pasos de `py-r2`; comprobar que no existe
+`notebooklm-spike/cache/py-r3/`.
+
+**Comando:**
+
+```bash
+env -u HTTPS_PROXY -u SSL_CERT_FILE \
+  /home/fratquintero/.local/share/nblm-spike/venv-notebooklm-py/bin/python \
+  notebooklm-spike/smoke_py.py py-r3 \
+  --storage /home/fratquintero/.notebooklm/profiles/nblm-spike/storage_state.json
+```
+
+Si termina con error, no reintentar ni cambiar nada: conservar los crudos y
+reportar.
 
 ## Alcance anterior: API oficial Google Cloud (detenido)
 
