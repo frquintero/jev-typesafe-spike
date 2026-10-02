@@ -1,0 +1,15 @@
+Ronda FN1 — ficha_v1 con NotebookLM sobre jardin1.
+
+Commit de preparación: cf27e5e1ff1e45e043f09a88902bc91edc8f2f2f (main).
+
+Actualiza una copia limpia de main con git pull --ff-only. Si hay cambios locales que impiden actualizarla, detente y reporta. Comprueba que el commit de preparación está incluido en tu copia.
+
+Lee AGENTS.md, notebooklm-spike/README.md y la sección «Ronda FN1» de notebooklm-spike/PLAN.md. Ejecuta, sin modificar nada, el único comando de la ronda. Corre en local, sin el proxy: no exportes HTTPS_PROXY ni SSL_CERT_FILE; el comando del plan las quita.
+
+Antes de ejecutar, comprueba que no existe notebooklm-spike/cache/ficha-jardin1-nblm-ficha_v1-r1.json. Si existe, detente y reporta. No corras notebooklm auth check ni nada que liste cuadernos, y no leas ni imprimas el archivo de sesión. Conserva todos los crudos anteriores.
+
+Si el script termina con error, no reintentes ni cambies nada: conserva el crudo y reporta el error.
+
+Escribe reporte-FN1.md con lo que pide el plan: completed, segundos por etapa y total, si la fuente quedó igual al texto numerado, cerca y error de parseo, la verificación tal como la imprime el script, largo de la respuesta, presencia de marcas [n], negritas o texto fuera del JSON, y número de referencias. Cita solo lo necesario del crudo; nada de cookies ni tokens. Sin veredicto.
+
+Al terminar, haz commit del crudo y de reporte-FN1.md, y push a main; informa el commit.
