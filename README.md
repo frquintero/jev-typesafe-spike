@@ -55,6 +55,7 @@ cerca del 90 % correcto y ejecución ágil; detalle en la memoria, §3).
 | F3 | `ficha_v1` (contrato de representación) | los cuatro | forma estable, 36/36 conservado; el costo subió (37–79 s, 10–16 mil tokens de razonamiento por texto) |
 | F4 | `ficha_v1` + referencias implícitas | `represa1`, una corrida | «otra sequía igual» queda enlazada a la sequía de 2024 sin confundirlas |
 | F5 | `ficha_v1` congelada | `jardin1`, `radio1`, `biblioteca1` (reserva por géneros, de ChatGPT; preguntas en `unidades/gold/preguntas_reserva_F5.md`) | fidelidad ≈95 % (60/63); formato estable; no ágil: 76–127 s y 15–25 mil tokens de razonamiento por texto de ~220 palabras |
+| F6 | `ficha_v2` (candidato: condiciones del acto de sostener algo) | `jardin1`, `radio1`, `biblioteca1`, tres réplicas | **corrida, sin evaluar** (crudos en `unidades/cache/`); `ficha_v1` sigue siendo la base |
 
 **Directriz de Frat:** los cambios al prompt se piensan como generalización,
 para documentos de contenido general (divulgación, ensayo no especializado,
