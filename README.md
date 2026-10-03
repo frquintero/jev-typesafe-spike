@@ -1,5 +1,23 @@
 # Spike Jev — detección con modelo de decisiones
 
+## Principio de trabajo: el camino se hace al andar
+
+Lo único fijo, o casi fijo, es el **marco filosófico** (`marco filosófico/`)
+y lo que se deriva directamente de él. Los planes, arquitecturas candidatas,
+niveles, versiones de prompts y anotaciones alrededor de los proyectos son
+ideas en desarrollo: algunas ni siquiera llegan a una prueba. No son ley.
+Antes de usarlas como base, se valida que sigan vigentes y que se relacionen
+con lo que se está haciendo.
+
+## Proyectos en curso
+
+Solo referencia al proyecto que se trabaja; no es bitácora (el detalle vive
+en el README, PLAN y tareas de cada carpeta).
+
+- Fecha: 2026-10-01 · Proyecto: ficha de datos con DeepSeek (`unidades/`)
+- Fecha: 2026-10-02 · Proyecto: NotebookLM como extractor alternativo o
+  complementario (`notebooklm-spike/`)
+
 ## Estado actual (2026-10-01, fin de sesión)
 
 **Nuevo enfoque del paso 2; rondas F1–F5 hechas; prompt vigente `ficha_v1`, congelado.** El marco

@@ -7,6 +7,21 @@ Frat y Cowork planean; el ejecutor corre lo que el plan indica, informa con
 números y crudos, y no decide diseño, prompts, umbrales ni veredictos. El
 spike no concluye.
 
+## Principio de trabajo
+
+Lo único fijo, o casi fijo, es el marco filosófico (`marco filosófico/`) y lo
+que se deriva directamente de él. Planes, arquitecturas, niveles, versiones de
+prompts y anotaciones son ideas en desarrollo, no ley: antes de tomarlas como
+base, validar que sigan vigentes y que se relacionen con lo que se está
+haciendo. El camino se hace al andar.
+
+**Proyectos en curso.** El `README.md` de la raíz lista los proyectos que se
+trabajan («Fecha: AAAA-MM-DD · Proyecto: … (carpeta)»), solo como
+referencia, no como bitácora. Si infieres o detectas que se está trabajando
+un proyecto nuevo (carpeta nueva, línea de trabajo nueva en un mensaje o en
+`memoria de trabajo y pendientes.md`), agrégalo a esa lista en el mismo
+commit; si un proyecto se cierra o se suspende, quítalo.
+
 ## Arranque de cada sesión
 
 1. `git status --short` + `git log --oneline -5` (rama de trabajo: `main`).
