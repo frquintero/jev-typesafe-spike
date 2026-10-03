@@ -1,0 +1,13 @@
+Ronda FU1 — ficha por unidad sobre gen1, DeepSeek frente a NotebookLM (una réplica).
+
+Actualiza una copia limpia de main con git pull --ff-only. Si hay cambios locales que impiden actualizarla, detente y reporta.
+
+Lee AGENTS.md, nblm-grafo-semantico/README.md, notebooklm-spike/README.md (reglas de NotebookLM) y la sección «Ronda FU1» de nblm-grafo-semantico/PLAN.md. Ejecuta, sin modificar nada, los dos comandos de la ronda. El de DeepSeek exporta HTTPS_PROXY y SSL_CERT_FILE; el de NotebookLM corre sin el proxy (el comando las quita). Pueden correr en paralelo.
+
+Antes de ejecutar, comprueba que no existen nblm-grafo-semantico/cache/fu-gen1-deepseek-ficha_v1-r1.json ni nblm-grafo-semantico/cache/fu-gen1-nblm-ficha_v1-r1.json. Si alguno existe, detente y reporta. No corras notebooklm auth check ni nada que liste cuadernos, y no leas ni imprimas el archivo de sesión.
+
+Si un script termina con error, no reintentes ni cambies nada: conserva los crudos y reporta el error.
+
+Escribe nblm-grafo-semantico/reporte-FU1.md con lo que pide el plan. Cita los crudos; nada de cookies ni tokens. Sin veredicto.
+
+Al terminar, haz commit de los crudos y de reporte-FU1.md, y push a main; informa el commit.

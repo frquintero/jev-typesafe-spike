@@ -67,4 +67,4 @@ Las de `AGENTS.md` y las de `notebooklm-spike/README.md`: cliente
 local, sesión y cookies fuera del repo, bajo volumen, crudos que nunca se
 borran ni se sobrescriben (una réplica nueva lleva un `rN` nuevo).
 
-Estado de cada tarea: `tareas.md`.
+Estado de cada tarea: `tareas.md`. Rondas: `PLAN.md`.
