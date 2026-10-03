@@ -88,9 +88,10 @@ los tres sitios.
   local (Muse), sin el proxy local:** la sesión no se transfiere a la nube.
   Detalle en su propio `README.md`/`PLAN.md`/
   `tareas.md`; no usa las credenciales de `proxy_local.py`.
-- `nblm-grafo-semantico/`: extracción en dos pasos con NotebookLM. Prompt 1
-  (subtemas, `unidades_v5` adaptado) comparado con DeepSeek, leyendo; si
-  rinde parecido, prompt 2 (datos por unidad) propio de NotebookLM. Mismas
+- `nblm-grafo-semantico/`: arquitectura mixta, paso 1 (subtemas) con
+  DeepSeek y paso 2 (datos por unidad) con NotebookLM, cada unidad como
+  fuente aparte en un cuaderno. Calibración del paso 1 en NotebookLM,
+  opcional. Mismas
   reglas que `notebooklm-spike/` (solo local, sin proxy, bajo volumen).
   Estado en su `README.md` y `tareas.md`.
 - `langextract-spike/`: frente **cerrado** el 03-10 (LangExtract de Google,

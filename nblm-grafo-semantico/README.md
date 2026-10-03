@@ -14,23 +14,43 @@ responder.
 ## Por qué NotebookLM
 
 1. Modelo frontera con un arnés pensado para trabajo semántico sobre fuentes.
-2. Rápido: unos 29 s por consulta en FN2–FN4, frente a unos 100 s de DeepSeek
-   con `ficha_v1`.
+2. Rápido donde DeepSeek es lento: la tabla de determinaciones de FN2–FN4
+   tardó unos 29 s por documento, frente a unos 100 s de la ficha completa de
+   DeepSeek (`ficha_v1`, F5). Ojo con el alcance: la tabla cubre solo
+   determinaciones (una lista frente a siete). En el paso 1 DeepSeek ya es
+   rápido y estable (`unidades_v5`: 4,4–62,3 s, media 22,8 s; 17/17 corridas
+   sin huecos ni solapes), así que ahí NotebookLM no tiene ventaja.
 
 Riesgo asumido (Frat): cliente no oficial (`notebooklm-py`), cuenta personal,
 solo local, modelo sin versión fija.
 
-## Plan
+## Plan (revisado el 03-10, decisión de Frat)
 
-1. **Prompt 1.** Adaptar `unidades/prompts/unidades_v5.md` (el último usado,
-   estable con DeepSeek en U7–U9 y ENC5–ENC14) a la forma de NotebookLM y
-   compararlo con lo que hizo DeepSeek sobre los mismos textos.
-   - Referencia: crudos de DeepSeek en `unidades/cache/unidades-*-deepseek-unidades_v5-r*.json`
-     (réplicas de biomar1, gen1, oxi1 y evals1).
-   - Juez: Frat y Cowork leyendo. La variación de DeepSeek entre sus propias
-     réplicas sirve de medida de lo que cuenta como «similar».
-2. **Si el prompt 1 rinde parecido:** migrarlo a NotebookLM y construir un
-   prompt 2 propio de NotebookLM, ajustado a lo que la herramienta pide y hace.
+La decisión está en el paso 2, donde DeepSeek es lento. Arquitectura mixta:
+**paso 1 con DeepSeek, paso 2 con NotebookLM.**
+
+1. **Diseño en papel del prompt 2 para NotebookLM.** Decidir el contenido
+   (la ficha o una forma reducida) y la superficie (chat con salida JSON y
+   reglas en `chat.configure`, o tabla de datos).
+2. **Primera corrida, en el paso 2:** gen1 con sus unidades de DeepSeek
+   (`unidades/cache/unidades-gen1-deepseek-unidades_v5-r*.json`: 5 unidades,
+   idénticas en las tres réplicas, incluida la no contigua `[5, 9]`). Un solo
+   cuaderno con cada unidad como fuente aparte; cada consulta con
+   `source_ids=[esa unidad]`, para que la herramienta acote el foco.
+   Posible fuente extra: un mapa breve del documento (idea rescatada de
+   LangExtract). Se mide el tiempo real por unidad y si el foco se respeta.
+3. **Calibración del paso 1 (opcional, si sobra cuota):** `unidades_v5`
+   casi intacto (solo cambian la salida a filas, una línea que traduce los
+   ejemplos y el verificador `verificar_subtemas` sobre el CSV), sobre gen1,
+   una réplica. Mide si la tabla respeta celdas no contiguas y entrega una
+   partición válida; no mide calidad semántica.
+
+Juez: Frat y Cowork leyendo. gen1 es reserva: si se itera un prompt sobre
+él, queda quemado como reserva.
+
+`unidades_v1` (eje núcleo y satélites) no es una partición con nombre sino
+una estructura de dos niveles; su lugar natural sería el paso de inventario
+de casos. Discusión aparte (pendiente 7 de la memoria).
 
 ## Lecciones que traemos (`notebooklm-spike/`)
 

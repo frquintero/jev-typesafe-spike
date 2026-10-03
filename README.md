@@ -60,7 +60,7 @@ en el README, PLAN y tareas de cada carpeta).
 - Fecha: 2026-10-02 · Proyecto: NotebookLM como extractor alternativo o
   complementario (`notebooklm-spike/`)
 - Fecha: 2026-10-03 · Proyecto: pruebas NotebookLM — grafo semántico
-  (prompt 1 y prompt 2 en NotebookLM) (`nblm-grafo-semantico/`)
+  (paso 2 en NotebookLM sobre unidades de DeepSeek) (`nblm-grafo-semantico/`)
 
 ## Frentes cerrados: lecciones e ideas rescatables
 
