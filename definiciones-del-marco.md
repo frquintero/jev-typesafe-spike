@@ -14,8 +14,11 @@ de ese archivo.
   fecha y su origen. Antes de usarlas como base, validar que sigan vigentes
   (principio de trabajo del `README.md`).
 
-Ningún prompt ni plan redefine un término de la parte A. Si una ronda
-necesita otro uso, se agrega o corrige en la parte B, con fecha.
+**Traducciones en los prompts.** Un prompt puede traducir un término de la
+parte A a lenguaje operativo: el modelo no lee el ensayo, y copiarlo no le
+enseña. Toda traducción se registra en la parte B con su versión y su fecha,
+y sus diferencias con A quedan a la vista. Ningún prompt ni plan cambia lo
+que A dice (decisión de Frat, 03-10).
 
 ---
 
@@ -179,14 +182,18 @@ necesita otro uso, se agrega o corrige en la parte B, con fecha.
 | Término | Definición en el proyecto | Relación con el marco | Origen |
 |---|---|---|---|
 | **Oración** | Tramo de texto de un `.`, `?` o `!` al siguiente; el código la numera (`[1]`, `[2]`…). Ingenua ante abreviaturas, miles con punto y siglas. | Unidad de inscripción y de respaldo; no es concepto del ensayo. | `unidades_v1`; código desde U4 (`unidades_v3`) |
-| **Caso** (en los prompts) | «La unidad concreta, no una clase, que queda distinguida en `texto` y acerca de la cual `texto` dice algo. Es la misma unidad aunque `texto` la nombre de varias maneras o con pronombres.» | Es el **caso de estudio** del ensayo (A.2), no el caso filosófico. | `unidades_v1`; vigente por decisión de Frat, 02-10 |
-| **Unidad temática** | «Un núcleo, sus satélites y todas las oraciones de `texto` que se refieren a ellos.» **Núcleo:** el caso principal de un tramo. **Satélite:** un caso del que se habla por su relación con un núcleo. | Reúne las menciones de un caso de estudio: individuación y reidentificación dentro del documento. | `unidades_v1`/`v2`; **vuelve a regir por decisión de Frat, 02-10** (`v3`–`v5` habían cambiado el eje al asunto) |
+| **Caso** (prompts de unidades) | «La unidad concreta, no una clase, que queda distinguida en `texto` y acerca de la cual `texto` dice algo. Es la misma unidad aunque `texto` la nombre de varias maneras o con pronombres.» | Es el **caso de estudio** del ensayo (A.2), no el caso filosófico. Recoge la **reidentificación**. «No una clase» es más estrecho que A.2, donde el criterio es indiferente a aquello sobre lo que recae. | `unidades_v1`; vigente por decisión de Frat, 02-10 |
+| **Caso de estudio** (ficha) | «Aquello de lo que el texto dice algo (una cosa, persona, lugar, hecho, estado, o incluso otra determinación). Se reconoce por sus menciones: nombre, pronombre, sujeto implícito.» | A.2. Recoge la **indiferencia del criterio** (puede ser otra determinación). Ni esta ni la de unidades dicen lo central de A.2: unidad constituida y mantenida por criterios de individuación y reidentificación. | `ficha_v1` (idéntica en `v2`); registrada 03-10 |
+| **Aspecto** (ficha) | «Aquello bajo lo cual el texto considera el caso de estudio (temperatura, color, año de construcción).» | A.3; omite que el aspecto fija qué diferencias cuentan. | `ficha_v1` (idéntica en `v2`); registrada 03-10 |
+| **Determinación** (ficha) | «Lo que queda establecido acerca de un caso de estudio bajo un aspecto: "la temperatura del agua es 18 °C".» | Es el **valor** del ensayo (A.4). La definición no nombra las condiciones; el registro las lleva en su propio campo. | `ficha_v1` (idéntica en `v2`); registrada 03-10 |
+| **Condición** (ficha) | «Lo que, si cambiara, cambiaría la pregunta respondida ("en la superficie": la temperatura en el fondo es otra pregunta). Si al cambiarlo cambia la cosa de la que se habla, es parte del caso de estudio.» | Solo las **constitutivas** de A.5. Por verificar: las de procedencia irían en la capa y el respaldo (la ruta, A.7) y las de representación en la marca de posición (unidad, aproximador). | `ficha_v1` (idéntica en `v2`); registrada 03-10 |
+| **Unidad temática** | «Un núcleo, sus satélites y todas las oraciones de `texto` que se refieren a ellos.» **Núcleo:** el caso principal de un tramo. **Satélite:** un caso del que se habla por su relación con un núcleo. | Reúne las menciones de un caso de estudio: individuación y reidentificación dentro del documento. | `unidades_v1`/`v2`; **vuelve a regir por decisión de Frat, 02-10** (`v3`–`v5` habían cambiado el eje al asunto). El prompt vigente sigue siendo `unidades_v5`: pendiente 7 de la memoria |
 | **Ficha** | Reconstrucción de todo lo que un texto establece, en siete listas: casos, relaciones, capas, determinaciones, acciones, marcas, dudas. | Determinaciones con su respaldo; pasan a contar como datos cuando el esquema queda registrado (A.5–A.6). | `ficha_v0`/`v1`, 01-10 |
 | **Campo «valor» de la ficha** | Guarda solo la **posición** («18»); la fila entera es la determinación. | El **valor** del ensayo es la determinación completa (A.4). | Decisión 01-10 |
 | **Capa** | El texto atribuye algo a alguien (cree, dice, recomienda, según). Dos niveles: que alguien lo sostiene (lo establece el texto) y el contenido sostenido. | Sujeto como caso de estudio (A.2); procedencia del contenido. | Decisión 01-10 |
 | **Respaldo** | Fragmento literal más número de oración que sostiene cada componente de un registro. | Parte de la **ruta** (A.7); lo verifica el código. | `ficha_v1` |
 | **Inferido** | Marca de que el extractor completó algo que el texto no dice literalmente (referencia, término de comparación, unidad). | Distingue lo establecido por el texto de lo reconstruido por el extractor. | `ficha_v1` |
-| **Marca de posición** | Marca que, leída con escala, calendario o categorías, señala una posición entre otras («unos 40 millones de m³», «diciembre»). Conserva aproximadores («unos 20» ≠ «20»). | Marca y posición (A.4). | Memoria §2.1; FN2–FN4, 02-10 |
+| **Marca de posición** | Marca que, leída con escala, calendario o categorías, señala una posición entre otras («unos 40 millones de m³», «diciembre»). Conserva aproximadores («unos 20» ≠ «20»). En `ficha_v1`/`v2`: «número, fecha, cantidad o categoría que señala una posición entre otras posibles». | Marca y posición (A.4). | Memoria §2.1; FN2–FN4, 02-10; versión de la ficha registrada 03-10 |
 | **Dudas** | Lo que tiene más de una lectura; se registra sin resolverlo. | Indeterminación (A.7). | `ficha_v1` |
 | **«El documento no lo establece»** | Respuesta explícita y válida en la evaluación. | Dato mudo ante una pregunta (A.8). | Decisión 01-10 |
 | **Recuperar / responder** (evaluación) | Recuperar = reconstruir una determinación registrada tal cual. Responder puede exigir reglas y otros datos (efecto informativo). Las preguntas de evaluación deben separar ambas clases. | A.6 frente a A.8. | Precisión del 02-10 |
