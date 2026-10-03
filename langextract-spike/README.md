@@ -28,7 +28,8 @@ lo fijan la instrucción y los ejemplos.
 
 ## Estado
 
-Por definir qué se prueba (en discusión con Frat).
+Ver `tareas.md`. Tres preguntas, en orden: ¿funciona con nuestro modelo?,
+¿representa nuestro contrato?, ¿gana algo frente a la ficha?
 
 ## Referencias
 
