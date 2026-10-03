@@ -52,6 +52,8 @@ Vocabulario del ensayo y decisiones cerradas. Donde algo del histórico las cont
 
 ### 2.1 Vocabulario del ensayo
 
+Referencia completa, con líneas del ensayo y definiciones operativas: `definiciones-del-marco.md` (raíz). Lo de abajo es el resumen de trabajo.
+
 - **Caso** (filosófico): lo que acaece. **Caso de estudio:** unidad individuada y reidentificada acerca de la cual se reúnen determinaciones (l. 87–97). No confundirlos.
 - **Aspecto:** aquello bajo lo cual se considera el caso de estudio. **Variable** solo hay cuando una serie comparable muestra variación (l. 129); un texto aislado da aspectos.
 - **Marca:** configuración individuada, simple o compuesta, interpretable bajo reglas; una cláusula también es marca. **Marca de posición:** la que, leída con escala, calendario o categorías, señala una posición entre otras («1972», «unos 40 millones de m³», «la mitad», «diciembre»). Una marca puede cumplir varias funciones (expresar posición, identificar, remitir). Ninguna marca determina por sí sola (l. 117).
@@ -173,4 +175,4 @@ No es diseño de Zettel (falta mucho para eso). Es literatura para no inventar l
 4. **Vínculos de razón entre afirmaciones** («por esa razón», «porque»): niveles 1–2 del grafo de Zettel; fuera de la ficha de datos.
 5. **Jev:** identidad de lo registrado, correferencias, omisiones; componente posterior.
 6. Grok sin créditos de xAI: recargar si se quiere compararlo.
-7. **Documento de definiciones (pedido de Frat, 02-10):** crear en la raíz del repo un documento que mantenga las definiciones filosóficas y operativas derivadas del marco (`marco filosófico/`), para que no se pierdan entre versiones de prompts. Primera decisión a incluir: la **unidad temática** vuelve a la definición de `unidades_v1`/`v2` — «un núcleo, sus satélites y todas las oraciones de `texto` que se refieren a ellos», con «caso: la unidad concreta… es la misma unidad aunque `texto` la nombre de varias maneras o con pronombres» (desde `v3` se había cambiado el eje al asunto; Frat decide volver a la de `v1`).
+7. **Documento de definiciones (pedido de Frat, 02-10) — primera versión hecha: `definiciones-del-marco.md`.** crear en la raíz del repo un documento que mantenga las definiciones filosóficas y operativas derivadas del marco (`marco filosófico/`), para que no se pierdan entre versiones de prompts. Primera decisión a incluir: la **unidad temática** vuelve a la definición de `unidades_v1`/`v2` — «un núcleo, sus satélites y todas las oraciones de `texto` que se refieren a ellos», con «caso: la unidad concreta… es la misma unidad aunque `texto` la nombre de varias maneras o con pronombres» (desde `v3` se había cambiado el eje al asunto; Frat decide volver a la de `v1`).

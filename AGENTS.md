@@ -31,6 +31,9 @@ commit; si un proyecto se cierra o se suspende, quítalo.
    `PLAN.md` que indique el mensaje).
 4. `diccionario.md` y `jev_typesafe_guia_pedagogica_v2.md` son el vocabulario
    de Jev; releer solo si la ronda cita una sección.
+5. `definiciones-del-marco.md` es el vocabulario del marco (ensayo «¿Qué es un
+   dato?») y las definiciones operativas del spike; ningún prompt redefine sus
+   términos.
 
 ## Mapa del repo
 
@@ -74,7 +77,7 @@ commit; si un proyecto se cierra o se suspende, quítalo.
 - `proxy_local.py`: inyecta `Authorization` según host. `muse.sh`: arranque
   de Muse con el proxy.
 - `deleted/`: snapshots históricos; no es fuente.
-- Documentos vivos (no editar sin aprobación): `README.md`, `diccionario.md`,
+- Documentos vivos (no editar sin aprobación): `README.md`, `definiciones-del-marco.md`, `diccionario.md`,
   `jev_typesafe_guia_pedagogica_v2.md`.
 
 ## Comandos
