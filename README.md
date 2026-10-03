@@ -1,5 +1,47 @@
 # Spike Jev — detección con modelo de decisiones
 
+## Visión: el objetivo primordial de Zettel
+
+Zettel busca construir, a partir de los documentos que el usuario elige, un
+**ecosistema de unidades temáticas y datos** sobre el que operen
+**preguntas** y se obtenga **información**.
+
+**Información**, en el sentido del marco (`definiciones-del-marco.md`, A.8),
+no es algo guardado en el texto que se trae: es el **cambio en A(Q)**, el
+conjunto de respuestas admisibles a una pregunta Q, cuando se consideran
+datos D conforme a reglas R. Tres modos: respuestas que dejan de ser
+admisibles, respuestas que ganan o pierden sostén, distinciones que
+aparecen. El mismo dato puede excluir una respuesta, sostener otra y quedar
+mudo ante una tercera.
+
+*Ejemplo.* Q: «¿La represa existía en 1980?»; antes de considerar datos,
+A₀ = {sí, no}. Dato: *represa · año de construcción · 1972*; regla: lo
+construido existe después, salvo demolición. Resultado: el «sí» gana
+sostén, y el «no» queda admisible solo si hubo demolición antes de 1980
+(una distinción que aparece). Ese cambio, con su ruta, es la información.
+El dato *represa · volumen · unos 40 millones* queda mudo ante esa
+pregunta.
+
+**Qué se sigue:**
+
+- **Recuperar no es responder.** Traer un pasaje, o reconstruir tal cual un
+  dato registrado, es recuperar; la información exige D, R y Q. Por eso la
+  literatura de RAG y *chunking*, que mide si se recupera el pasaje, no nos
+  sirve de vara.
+- **Todo se juzga por lo que permite hacer a una pregunta:** encontrar los
+  datos pertinentes (el campo); que cada dato traiga caso, aspecto y
+  condiciones, para que las reglas operen sobre él y no quede mudo; mostrar
+  el paso de A₀ a A₁ con su sostén y su ruta; y, al evaluar, separar
+  recuperar de responder.
+- **Las unidades temáticas** dan el contexto que impide que un dato pierda
+  su caso y sus condiciones al separarse del texto, y son el terreno donde
+  la pregunta opera.
+
+Antecedentes: la pregunta como conjunto de respuestas posibles (Hamblin) y
+la información como exclusión de posibilidades (Bar-Hillel y Carnap). El
+marco agrega sostén, distinciones nuevas y reglas, y su cambio no es
+monótono.
+
 ## Principio de trabajo: el camino se hace al andar
 
 Lo único fijo, o casi fijo, es el **marco filosófico** (`marco filosófico/`)

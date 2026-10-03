@@ -7,6 +7,17 @@ Frat y Cowork planean; el ejecutor corre lo que el plan indica, informa con
 números y crudos, y no decide diseño, prompts, umbrales ni veredictos. El
 spike no concluye.
 
+## Faro: el objetivo de Zettel
+
+Todo lo que se hace aquí sirve a un objetivo: construir un **ecosistema de
+unidades temáticas y datos** sobre el que operen **preguntas** y se obtenga
+**información**. Información, en el marco, es el cambio en el conjunto de
+respuestas admisibles a una pregunta, A(Q), cuando se consideran datos
+conforme a reglas; no es un pasaje que se trae. **Recuperar no es
+responder.** Cada unidad, dato, extractor o prueba se juzga por lo que
+permite hacer a una pregunta. Detalle y ejemplo: `README.md`, «Visión»;
+definición: `definiciones-del-marco.md`, A.8.
+
 ## Principio de trabajo
 
 Lo único fijo, o casi fijo, es el marco filosófico (`marco filosófico/`) y lo
