@@ -74,6 +74,8 @@ commit; si un proyecto se cierra o se suspende, quítalo.
   local (Muse), sin el proxy local:** la sesión no se transfiere a la nube.
   Detalle en su propio `README.md`/`PLAN.md`/
   `tareas.md`; no usa las credenciales de `proxy_local.py`.
+- `langextract-spike/`: frente abierto el 03-10 para probar LangExtract
+  (Google) como extractor con anclaje literal; detalle en su `README.md`.
 - `proxy_local.py`: inyecta `Authorization` según host. `muse.sh`: arranque
   de Muse con el proxy.
 - `deleted/`: snapshots históricos; no es fuente.

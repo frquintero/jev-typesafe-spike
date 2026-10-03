@@ -17,6 +17,8 @@ en el README, PLAN y tareas de cada carpeta).
 - Fecha: 2026-10-01 · Proyecto: ficha de datos con DeepSeek (`unidades/`)
 - Fecha: 2026-10-02 · Proyecto: NotebookLM como extractor alternativo o
   complementario (`notebooklm-spike/`)
+- Fecha: 2026-10-03 · Proyecto: LangExtract para la capa de datos
+  (`langextract-spike/`)
 
 ## Estado actual (2026-10-02)
 
