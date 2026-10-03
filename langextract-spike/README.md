@@ -23,8 +23,20 @@ modelo de lenguaje para sacar información estructurada de un texto.
 - **Modelos:** Gemini por defecto; también OpenAI, Ollama (local) y servicios
   compatibles con la API de OpenAI.
 
-Lo que no hace: definir el contrato. Qué es caso de estudio, capa o condición
-lo fijan la instrucción y los ejemplos.
+**Es código, y se puede modificar.** Licencia Apache 2.0: se puede usar,
+modificar y redistribuir conservando el aviso de licencia y señalando los
+cambios. Tres niveles, de menos a más intrusivo: configurarlo (instrucción,
+ejemplos, modelo, trozos, pasadas); extenderlo desde nuestro repo (por
+ejemplo, un proveedor propio para DeepSeek con streaming y razonamiento); o
+copiarlo y cambiar su código (*fork*), con el mantenimiento a nuestro cargo.
+
+**Reparto de trabajo.** LangExtract pone la maquinaria de extracción, más
+sofisticada que nuestro código: trozos, paralelo, varias pasadas, ubicación
+de cada extracción en el texto, conectores, visualización. Nosotros ponemos
+el **contrato** (qué es caso de estudio, capa, condición, dato: el marco y
+`definiciones-del-marco.md`, que entran por la instrucción y los ejemplos) y
+la **manera de medir** (crudos únicos, réplicas, preguntas fijadas antes de
+correr). La calidad del modelo no la resuelve el código.
 
 ## Estado
 
