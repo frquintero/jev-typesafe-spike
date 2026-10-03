@@ -31,7 +31,10 @@ trabajan («Fecha: AAAA-MM-DD · Proyecto: … (carpeta)»), solo como
 referencia, no como bitácora. Si infieres o detectas que se está trabajando
 un proyecto nuevo (carpeta nueva, línea de trabajo nueva en un mensaje o en
 `memoria de trabajo y pendientes.md`), agrégalo a esa lista en el mismo
-commit; si un proyecto se cierra o se suspende, quítalo.
+commit; si un proyecto se cierra o se suspende, quítalo. En el mismo
+commit, actualiza también el «Mapa del repo» de este archivo y «Dónde
+quedamos» en `memoria de trabajo y pendientes.md`: el mismo hecho vive en
+los tres sitios.
 
 ## Arranque de cada sesión
 
@@ -85,6 +88,11 @@ commit; si un proyecto se cierra o se suspende, quítalo.
   local (Muse), sin el proxy local:** la sesión no se transfiere a la nube.
   Detalle en su propio `README.md`/`PLAN.md`/
   `tareas.md`; no usa las credenciales de `proxy_local.py`.
+- `nblm-grafo-semantico/`: extracción en dos pasos con NotebookLM. Prompt 1
+  (subtemas, `unidades_v5` adaptado) comparado con DeepSeek, leyendo; si
+  rinde parecido, prompt 2 (datos por unidad) propio de NotebookLM. Mismas
+  reglas que `notebooklm-spike/` (solo local, sin proxy, bajo volumen).
+  Estado en su `README.md` y `tareas.md`.
 - `langextract-spike/`: frente **cerrado** el 03-10 (LangExtract de Google,
   evaluado y no adoptado); lección en su `README.md`, ideas rescatables en
   el `README.md` de la raíz.
