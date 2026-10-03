@@ -18,9 +18,9 @@ en el README, PLAN y tareas de cada carpeta).
 - Fecha: 2026-10-02 · Proyecto: NotebookLM como extractor alternativo o
   complementario (`notebooklm-spike/`)
 
-## Estado actual (2026-10-01, fin de sesión)
+## Estado actual (2026-10-02)
 
-**Nuevo enfoque del paso 2; rondas F1–F5 hechas; prompt vigente `ficha_v1`, congelado.** El marco
+**Nuevo enfoque del paso 2; rondas F1–F5 hechas y F6 corrida, sin evaluar; prompt vigente `ficha_v1`, congelado.** El marco
 queda fijo: ensayo de Frat «¿Qué es un dato?», versión del 30-09 (resumen
 operativo en `memoria de trabajo y pendientes.md`, §2). Las pruebas del
 enfoque anterior (`datos_pABQ5`, `datos_pABQ6B`) se suspendieron el 30-09;
@@ -77,7 +77,7 @@ Jev. **Arquitectura propuesta para después (no decidida):** oraciones
   `memoria de trabajo y pendientes.md` (fuente única del estado; §2 manda
   sobre lo anterior).
 - Rondas (cambio, conjetura, gold, comandos, reporte): `unidades/PLAN.md`
-  (F1–F5 al final); mensaje para el ejecutor de cada ronda en
+  (F1–F6 al final); mensaje para el ejecutor de cada ronda en
   `unidades/mensaje_<RONDA>.txt`. Prompts en `unidades/prompts/`, textos en
   `unidades/docs/`, golds y preguntas en `unidades/gold/`, crudos en
   `unidades/cache/`.

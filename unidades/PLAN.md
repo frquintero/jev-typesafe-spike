@@ -1026,9 +1026,13 @@ que»). Fuera del contrato 7/9. Formato estable, fragmentos literales. Costo:
 
 ## Ronda F6: condiciones del acto de sostener algo (`ficha_v2`, candidato)
 
-**Estado:** preparación y publicación autorizadas por Frat el 01-10-2026.
-La ejecución queda a cargo del implementador cuando Frat le indique arrancar.
-`ficha_v1` permanece congelada; `ficha_v2` es una candidata experimental.
+**Estado:** preparación y publicación autorizadas por Frat el 01-10-2026;
+ronda **ejecutada** la noche del 01-10 (nueve crudos, commits `433baef`,
+parcial, y `a174eb2`, completa) y **pendiente de evaluación** al 02-10. Los
+apartados «Antes de ejecutar» y «Comandos» se conservan como registro de lo
+ejecutado.
+`ficha_v1` permanece congelada; `ficha_v2` es una candidata experimental, no
+adoptada.
 
 **Cambio (un principio general):** separar las circunstancias del acto de
 creer, decir, interpretar o recomendar de las circunstancias del contenido
