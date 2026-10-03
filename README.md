@@ -17,8 +17,33 @@ en el README, PLAN y tareas de cada carpeta).
 - Fecha: 2026-10-01 · Proyecto: ficha de datos con DeepSeek (`unidades/`)
 - Fecha: 2026-10-02 · Proyecto: NotebookLM como extractor alternativo o
   complementario (`notebooklm-spike/`)
-- Fecha: 2026-10-03 · Proyecto: LangExtract para la capa de datos
-  (`langextract-spike/`)
+
+## Frentes cerrados: lecciones e ideas rescatables
+
+**LangExtract (Google), 2026-10-03 — evaluado, no adoptado**
+(`langextract-spike/`). Revisado su código y su documentación, sin llamadas
+a modelos. Sirve para extracciones locales (entidades, atributos, citas) en
+textos largos. Para lo nuestro no: su unidad es el **trozo por tamaño**
+(1000 caracteres por defecto), procesado siempre con la misma instrucción;
+nosotros buscamos estructura semántica (quién sostiene qué, identidad del
+caso, cómo se desarrolla una idea), y eso exige unidades de sentido
+(unidad temática v1). En biomar1, un trozo tocaba cuatro subtemas y un
+subtema quedaba repartido entre trozos. **Lección:** «estructurado» no es
+solo tener campos, es tener lógica semántica; antes de adoptar una
+herramienta, mirar qué unidad de texto usa.
+
+Ideas que podrían servirnos:
+
+1. **Anclaje exacto con estado de coincidencia.** Cada extracción lleva su
+   intervalo de caracteres en el texto original y si se ubicó de forma
+   exacta, parcial o aproximada. Nosotros aceptaríamos solo la exacta; lo
+   demás va a revisión. Encaja con el respaldo por componente y la
+   verificación por código.
+2. **Página de revisión automática.** Un HTML con el texto y cada
+   extracción resaltada en su lugar, para auditar a ojo sin leer JSON.
+3. **Contexto del documento en cada llamada** (su `additional_context`).
+   Al procesar una unidad temática, adjuntar un mapa breve del documento
+   (subtemas y casos) para que la unidad no se lea aislada.
 
 ## Estado actual (2026-10-02)
 
