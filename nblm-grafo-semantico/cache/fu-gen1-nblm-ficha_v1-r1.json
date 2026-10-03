@@ -1,0 +1,1227 @@
+{
+  "doc": "gen1",
+  "modelo": "notebooklm (Gemini Notebook, modelo no expuesto)",
+  "cliente": "notebooklm-py==0.8.4",
+  "prompt": "ficha_v1",
+  "rep": "r1",
+  "crudo_paso1": "unidades/cache/unidades-gen1-deepseek-unidades_v5-r1.json",
+  "inicio_utc": "2026-10-03T22:38:23.862053+00:00",
+  "custom_prompt_enviado": "TAREA\nLees un texto con sus oraciones numeradas. Reconstruye en una ficha JSON todo lo\nque el texto establece, organizado por casos de estudio. No decides qué es\nimportante: registras lo dicho, sin agregar ni perder nada.\n\nDEFINICIONES\n- Caso de estudio: aquello de lo que el texto dice algo (una cosa, persona, lugar,\n  hecho, estado, o incluso otra determinación). Se reconoce por sus menciones:\n  nombre, pronombre, sujeto implícito.\n- Aspecto: aquello bajo lo cual el texto considera el caso de estudio\n  (temperatura, color, año de construcción).\n- Determinación: lo que queda establecido acerca de un caso de estudio bajo un\n  aspecto: «la temperatura del agua es 18 °C». El campo \"valor\" guarda solo la\n  posición («18»); la fila entera es la determinación.\n- Condición: lo que, si cambiara, cambiaría la pregunta respondida («en la\n  superficie»: la temperatura en el fondo es otra pregunta). Si al cambiarlo\n  cambia la cosa de la que se habla, es parte del caso de estudio.\n- Capa: el texto atribuye algo a alguien (cree, dice, recomienda, según, supone).\n  El texto afirma la capa; lo que va dentro lo sostiene quien la tiene, aunque\n  sea el propio autor.\n- Marca de posición: número, fecha, cantidad o categoría que señala una posición\n  entre otras posibles.\n\nPRINCIPIOS\n1. Registra todo lo que el texto establece, incluidas generalizaciones,\n   valoraciones y lo dicho al pasar («el técnico Pablo Ríos»).\n2. No inventes. El aspecto debe tener respaldo en el texto. Si registras algo que\n   el texto no dice, marca \"inferido\": true y da los fragmentos que te llevaron\n   a ello.\n3. Lo que está dentro de una creencia, recomendación o cita lleva \"dentro_de\"\n   con el id de su capa. Una capa puede estar dentro de otra.\n4. La negación va donde opera: «no cree» va en la capa; «cree que no» va en el\n   valor.\n5. Resuelve las referencias implícitas (pronombres, sujetos omitidos, términos\n   de comparación como «otro», «igual», «el mismo») cuando el contexto da un\n   solo antecedente: regístralas con \"inferido\": true y su respaldo. Mencionar\n   algo para compararlo no lo vuelve lo comparado: lo comparado y el término de\n   comparación son casos distintos, unidos por una relación. Si hay más de un\n   antecedente posible, va a \"dudas\".\n6. Los cambios se conservan en \"cambio\" («bajó a», «subió de… a…»).\n7. Una recomendación u orden contiene una acción (lista \"acciones\"). No le\n   atribuyas propiedades al objeto de la acción.\n8. Explica en \"marcas\" cada marca de posición y cada número: qué hace (posición,\n   identifica, remite). Un número que identifica o remite no es un valor:\n   forma parte del nombre del caso que identifica.\n9. Lo ambiguo (más de una lectura posible) va a \"dudas\". No lo resuelvas.\n10. Copia los fragmentos de \"respaldo\" literales de la oración indicada. Un\n    fragmento puede respaldar varias cosas.\n11. Usa ids (C1, K1, D1, A1) para referirte a lo ya registrado.\n\nFORMATO\nUn solo objeto JSON con siete listas. Cada lista tiene una función y una forma\nfija: usa exactamente estos campos, en cualquier texto. Una lista sin elementos\nva vacía: [].\n- casos: aquello de lo que el texto dice algo.\n  {\"id\":\"C1\",\"nombre\":\"…\",\"menciones\":[{\"o\":1,\"f\":\"…\"}]}\n  Los nombres, números o códigos que identifican un caso van en su nombre y sus\n  menciones («pintura n.º 27 del inventario»), no como determinación.\n- relaciones: un vínculo que el texto establece entre dos casos (parte de,\n  muestra de, procede de, guardado en).\n  {\"id\":\"R1\",\"tipo\":\"…\",\"de\":\"C1\",\"a\":\"C2\",\"dentro_de\":null,\"condiciones\":[],\n   \"inferido\":false,\"respaldo\":[{\"o\":1,\"f\":\"…\"}]}\n- capas: el texto atribuye algo a alguien.\n  {\"id\":\"K1\",\"expresion\":\"…\",\"quien\":\"C2\",\"dentro_de\":null,\"respaldo\":[…]}\n- determinaciones: lo establecido acerca de un caso bajo un aspecto (forma en\n  el ejemplo).\n- acciones: lo que alguien hace, hizo, o se recomienda u ordena hacer. Una\n  recomendación u orden es una acción dentro de su capa.\n  {\"id\":\"A1\",\"agente\":\"C1\",\"accion\":\"…\",\"objeto\":\"C2\",\"negada\":false,\n   \"dentro_de\":null,\"condiciones\":[],\"respaldo\":[…]}\n  \"agente\" u \"objeto\" van null si el texto no los dice.\n- marcas: cada marca de posición y cada número.\n  {\"marca\":\"…\",\"o\":1,\"funciones\":[{\"funcion\":\"posición | identifica | remite\",\n   \"refs\":[\"D1\"]}]}\n- dudas: lo ambiguo, sin resolverlo.\n  {\"id\":\"Q1\",\"texto\":\"…\",\"respaldo\":[…]}\nToda referencia a otro registro es un id (\"C2\") o una lista de ids\n([\"C2\",\"C5\"]), nunca texto libre. Una condición es\n{\"texto\":\"…\",\"ref\":id o null,\"respaldo\":[…]}.\n\nEJEMPLO\nTexto:\n[1] En la superficie, el agua del estanque norte de la finca El Roble está a 18 °C. [2] Además tiene un color verdoso, algo preocupante según la bióloga Ana Ruiz.\n\nFicha:\n{\n \"casos\": [\n  {\"id\":\"C1\",\"nombre\":\"agua del estanque norte de la finca El Roble\",\n   \"menciones\":[{\"o\":1,\"f\":\"el agua del estanque norte de la finca El Roble\"},{\"o\":2,\"f\":\"tiene\"}]},\n  {\"id\":\"C2\",\"nombre\":\"Ana Ruiz\",\"menciones\":[{\"o\":2,\"f\":\"la bióloga Ana Ruiz\"}]}\n ],\n \"relaciones\": [],\n \"capas\": [\n  {\"id\":\"K1\",\"expresion\":\"según\",\"quien\":\"C2\",\"dentro_de\":null,\n   \"respaldo\":[{\"o\":2,\"f\":\"según la bióloga Ana Ruiz\"}]}\n ],\n \"determinaciones\": [\n  {\"id\":\"D1\",\"dentro_de\":null,\"caso\":\"C1\",\"aspecto\":\"temperatura\",\"valor\":\"18\",\"unidad\":\"°C\",\n   \"cambio\":null,\"condiciones\":[{\"texto\":\"en la superficie\",\"ref\":null,\"respaldo\":[{\"o\":1,\"f\":\"En la superficie\"}]}],\n   \"modalidad\":null,\"inferido\":false,\"respaldo\":[{\"o\":1,\"f\":\"está a 18 °C\"}]},\n  {\"id\":\"D2\",\"dentro_de\":null,\"caso\":\"C1\",\"aspecto\":\"color\",\"valor\":\"verdoso\",\"unidad\":null,\n   \"cambio\":null,\"condiciones\":[],\"modalidad\":null,\"inferido\":false,\n   \"respaldo\":[{\"o\":2,\"f\":\"tiene un color verdoso\"}]},\n  {\"id\":\"D3\",\"dentro_de\":null,\"caso\":\"C2\",\"aspecto\":\"presentada como\",\"valor\":\"bióloga\",\"unidad\":null,\n   \"cambio\":null,\"condiciones\":[],\"modalidad\":null,\"inferido\":false,\n   \"respaldo\":[{\"o\":2,\"f\":\"la bióloga Ana Ruiz\"}]},\n  {\"id\":\"D4\",\"dentro_de\":\"K1\",\"caso\":\"D2\",\"aspecto\":\"carácter\",\"valor\":\"algo preocupante\",\"unidad\":null,\n   \"cambio\":null,\"condiciones\":[],\"modalidad\":null,\"inferido\":false,\n   \"respaldo\":[{\"o\":2,\"f\":\"algo preocupante\"}]}\n ],\n \"acciones\": [],\n \"marcas\": [\n  {\"marca\":\"18 °C\",\"o\":1,\"funciones\":[{\"funcion\":\"posición\",\"refs\":[\"D1\"]}]},\n  {\"marca\":\"verdoso\",\"o\":2,\"funciones\":[{\"funcion\":\"posición\",\"refs\":[\"D2\"]}]},\n  {\"marca\":\"algo preocupante\",\"o\":2,\"funciones\":[{\"funcion\":\"posición\",\"refs\":[\"D4\"]}]}\n ],\n \"dudas\": []\n}\n\nTEXTO\nEl texto con sus oraciones numeradas es la fuente seleccionada en cada pregunta.\n",
+  "custom_prompt_caracteres": 6476,
+  "pregunta_enviada": "Reconstruye la ficha JSON del texto de la fuente seleccionada, según tus instrucciones. Responde solo con el JSON.",
+  "etapas": {
+    "crear": 0.449,
+    "configurar": 0.354,
+    "cargar_U1": 1.042,
+    "cargar_U2": 1.208,
+    "cargar_U3": 1.053,
+    "cargar_U4": 1.14,
+    "cargar_U5": 1.161,
+    "lista_U1": 0.475,
+    "texto_U1": 0.221,
+    "lista_U2": 0.297,
+    "texto_U2": 0.239,
+    "lista_U3": 0.414,
+    "texto_U3": 0.259,
+    "lista_U4": 0.29,
+    "texto_U4": 0.261,
+    "lista_U5": 0.294,
+    "texto_U5": 0.382,
+    "preguntar_U1": 75.535,
+    "borrar_conv_U1": 0.29,
+    "preguntar_U2": 61.233,
+    "borrar_conv_U2": 0.624,
+    "preguntar_U3": 82.02,
+    "borrar_conv_U3": 0.198,
+    "preguntar_U4": 137.305,
+    "borrar_conv_U4": 0.167,
+    "preguntar_U5": 34.0,
+    "borrar_conv_U5": 0.188,
+    "sonda": 59.732
+  },
+  "unidades": [
+    {
+      "id": "U1",
+      "subtema": "la definición y las características de los volcanes de escudo",
+      "oraciones": [
+        1,
+        2,
+        3
+      ],
+      "texto": "[1] Un volcán de escudo es un volcán de laderas suaves, formado por coladas de lava muy fluida. [2] Se llama de escudo al volcán cuyas laderas tienen una pendiente menor de diez grados. [3] La lava basáltica suele alcanzar temperaturas de entre 1100 y 1200 grados Celsius.",
+      "registros": [
+        {
+          "n": 1,
+          "oracion": "Un volcán de escudo es un volcán de laderas suaves, formado por coladas de lava muy fluida."
+        },
+        {
+          "n": 2,
+          "oracion": "Se llama de escudo al volcán cuyas laderas tienen una pendiente menor de diez grados."
+        },
+        {
+          "n": 3,
+          "oracion": "La lava basáltica suele alcanzar temperaturas de entre 1100 y 1200 grados Celsius."
+        }
+      ],
+      "fuente_igual_al_texto": true,
+      "source_id": "44fe3503-5a3f-4ac9-b9cf-7d702b3e7182",
+      "segundos": 75.535,
+      "respuesta": "{\n \"casos\": [\n  {\n   \"id\": \"C1\",\n   \"nombre\": \"volcán de escudo\",\n   \"menciones\": [\n    {\n     \"o\": 1,\n     \"f\": \"Un volcán de escudo\"\n    },\n    {\n     \"o\": 1,\n     \"f\": \"un volcán\"\n    },\n    {\n     \"o\": 2,\n     \"f\": \"de escudo\"\n    },\n    {\n     \"o\": 2,\n     \"f\": \"al volcán\"\n    }\n   ]\n  },\n  {\n   \"id\": \"C2\",\n   \"nombre\": \"laderas del volcán de escudo\",\n   \"menciones\": [\n    {\n     \"o\": 1,\n     \"f\": \"laderas\"\n    },\n    {\n     \"o\": 2,\n     \"f\": \"cuyas laderas\"\n    }\n   ]\n  },\n  {\n   \"id\": \"C3\",\n   \"nombre\": \"coladas de lava\",\n   \"menciones\": [\n    {\n     \"o\": 1,\n     \"f\": \"coladas de lava\"\n    }\n   ]\n  },\n  {\n   \"id\": \"C4\",\n   \"nombre\": \"lava basáltica\",\n   \"menciones\": [\n    {\n     \"o\": 3,\n     \"f\": \"La lava basáltica\"\n    }\n   ]\n  }\n ],\n \"relaciones\": [\n  {\n   \"id\": \"R1\",\n   \"tipo\": \"parte de\",\n   \"de\": \"C2\",\n   \"a\": \"C1\",\n   \"dentro_de\": null,\n   \"condiciones\": [],\n   \"inferido\": false,\n   \"respaldo\": [\n    {\n     \"o\": 1,\n     \"f\": \"un volcán de laderas suaves\"\n    },\n    {\n     \"o\": 2,\n     \"f\": \"al volcán cuyas laderas\"\n    }\n   ]\n  },\n  {\n   \"id\": \"R2\",\n   \"tipo\": \"formado por\",\n   \"de\": \"C1\",\n   \"a\": \"C3\",\n   \"dentro_de\": null,\n   \"condiciones\": [],\n   \"inferido\": false,\n   \"respaldo\": [\n    {\n     \"o\": 1,\n     \"f\": \"formado por coladas de lava\"\n    }\n   ]\n  }\n ],\n \"capas\": [],\n \"determinaciones\": [\n  {\n   \"id\": \"D1\",\n   \"dentro_de\": null,\n   \"caso\": \"C1\",\n   \"aspecto\": \"clasificación\",\n   \"valor\": \"volcán\",\n   \"unidad\": null,\n   \"cambio\": null,\n   \"condiciones\": [],\n   \"modalidad\": null,\n   \"inferido\": false,\n   \"respaldo\": [\n    {\n     \"o\": 1,\n     \"f\": \"es un volcán\"\n    }\n   ]\n  },\n  {\n   \"id\": \"D2\",\n   \"dentro_de\": null,\n   \"caso\": \"C2\",\n   \"aspecto\": \"forma\",\n   \"valor\": \"suaves\",\n   \"unidad\": null,\n   \"cambio\": null,\n   \"condiciones\": [],\n   \"modalidad\": null,\n   \"inferido\": false,\n   \"respaldo\": [\n    {\n     \"o\": 1,\n     \"f\": \"laderas suaves\"\n    }\n   ]\n  },\n  {\n   \"id\": \"D3\",\n   \"dentro_de\": null,\n   \"caso\": \"C3\",\n   \"aspecto\": \"fluidez\",\n   \"valor\": \"muy fluida\",\n   \"unidad\": null,\n   \"cambio\": null,\n   \"condiciones\": [],\n   \"modalidad\": null,\n   \"inferido\": false,\n   \"respaldo\": [\n    {\n     \"o\": 1,\n     \"f\": \"muy fluida\"\n    }\n   ]\n  },\n  {\n   \"id\": \"D4\",\n   \"dentro_de\": null,\n   \"caso\": \"C1\",\n   \"aspecto\": \"denominación\",\n   \"valor\": \"de escudo\",\n   \"unidad\": null,\n   \"cambio\": null,\n   \"condiciones\": [\n    {\n     \"texto\": \"cuyas laderas tienen una pendiente menor de diez grados\",\n     \"ref\": \"D5\",\n     \"respaldo\": [\n      {\n       \"o\": 2,\n       \"f\": \"cuyas laderas tienen una pendiente menor de diez grados\"\n      }\n     ]\n    }\n   ],\n   \"modalidad\": null,\n   \"inferido\": false,\n   \"respaldo\": [\n    {\n     \"o\": 2,\n     \"f\": \"Se llama de escudo\"\n    }\n   ]\n  },\n  {\n   \"id\": \"D5\",\n   \"dentro_de\": null,\n   \"caso\": \"C2\",\n   \"aspecto\": \"pendiente\",\n   \"valor\": \"menor de 10\",\n   \"unidad\": \"grados\",\n   \"cambio\": null,\n   \"condiciones\": [],\n   \"modalidad\": null,\n   \"inferido\": false,\n   \"respaldo\": [\n    {\n     \"o\": 2,\n     \"f\": \"tienen una pendiente menor de diez grados\"\n    }\n   ]\n  },\n  {\n   \"id\": \"D6\",\n   \"dentro_de\": null,\n   \"caso\": \"C4\",\n   \"aspecto\": \"temperatura\",\n   \"valor\": \"1100 y 1200\",\n   \"unidad\": \"grados Celsius\",\n   \"cambio\": null,\n   \"condiciones\": [],\n   \"modalidad\": \"suele alcanzar\",\n   \"inferido\": false,\n   \"respaldo\": [\n    {\n     \"o\": 3,\n     \"f\": \"suele alcanzar temperaturas de entre 1100 y 1200 grados Celsius\"\n    }\n   ]\n  }\n ],\n \"acciones\": [],\n \"marcas\": [\n  {\n   \"marca\": \"suaves\",\n   \"o\": 1,\n   \"funciones\": [\n    {\n     \"funcion\": \"posición\",\n     \"refs\": [\n      \"D2\"\n     ]\n    }\n   ]\n  },\n  {\n   \"marca\": \"muy fluida\",\n   \"o\": 1,\n   \"funciones\": [\n    {\n     \"funcion\": \"posición\",\n     \"refs\": [\n      \"D3\"\n     ]\n    }\n   ]\n  },\n  {\n   \"marca\": \"diez grados\",\n   \"o\": 2,\n   \"funciones\": [\n    {\n     \"funcion\": \"posición\",\n     \"refs\": [\n      \"D5\"\n     ]\n    }\n   ]\n  },\n  {\n   \"marca\": \"1100 y 1200 grados Celsius\",\n   \"o\": 3,\n   \"funciones\": [\n    {\n     \"funcion\": \"posición\",\n     \"refs\": [\n      \"D6\"\n     ]\n    }\n   ]\n  }\n ],\n \"dudas\": []\n}",
+      "conversation_id": "ee07347c-be99-4e2f-9ec6-3b574db4be1b",
+      "referencias": [],
+      "raw_response": ")]}'\n\n458\n[[\"wrb.fr\",null,\"[[\\\"\\\",null,[\\\"ee07347c-be99-4e2f-9ec6-3b574db4be1b\\\",\\\"4d30e57d-31db-42fb-96ef-9f902d1ad3bf\\\",1215408682],null,[[[[null,null,null,null,null,null,null,null,[[[null,null,[[[null,null,[\\\"**Analyzing Instructions**\\\\n\\\\nI am carefully reviewing the instructions to understand the user's needs for rebuilding the index card.\\\\n\\\\n\\\\n\\\"]]]]]]]]]],null,null,null,1]],null,null,null,false,null,false,\\\"ChBlZjcxNTdmMTc3YmM1ZDZlEAgaATAqA3VzZQ\\\"]\"]]\n581\n[[\"wrb.fr\",null,\"[[\\\"\\\",null,[\\\"ee07347c-be99-4e2f-9ec6-3b574db4be1b\\\",\\\"4d30e57d-31db-42fb-96ef-9f902d1ad3bf\\\",1215408682],null,[[[[null,null,null,null,null,null,null,null,[[[null,null,[[[null,null,[\\\"**Analyzing Instructions**\\\\n\\\\nI am carefully reviewing the instructions to understand the user's needs for rebuilding the index card.\\\\n\\\\n\\\\n\\\"]]]]],[null,null,null,null,null,null,null,null,null,[\\\"list_dir\\\",[[[\\\"DirectoryPath\\\",[null,null,\\\"/workspace/knowledge\\\"]]]]]]]]]]],null,null,null,1]],null,null,null,false,null,fa",
+      "citas_total": 0,
+      "citas_fuera_de_la_unidad": [],
+      "parsed": {
+        "casos": [
+          {
+            "id": "C1",
+            "nombre": "volcán de escudo",
+            "menciones": [
+              {
+                "o": 1,
+                "f": "Un volcán de escudo"
+              },
+              {
+                "o": 1,
+                "f": "un volcán"
+              },
+              {
+                "o": 2,
+                "f": "de escudo"
+              },
+              {
+                "o": 2,
+                "f": "al volcán"
+              }
+            ]
+          },
+          {
+            "id": "C2",
+            "nombre": "laderas del volcán de escudo",
+            "menciones": [
+              {
+                "o": 1,
+                "f": "laderas"
+              },
+              {
+                "o": 2,
+                "f": "cuyas laderas"
+              }
+            ]
+          },
+          {
+            "id": "C3",
+            "nombre": "coladas de lava",
+            "menciones": [
+              {
+                "o": 1,
+                "f": "coladas de lava"
+              }
+            ]
+          },
+          {
+            "id": "C4",
+            "nombre": "lava basáltica",
+            "menciones": [
+              {
+                "o": 3,
+                "f": "La lava basáltica"
+              }
+            ]
+          }
+        ],
+        "relaciones": [
+          {
+            "id": "R1",
+            "tipo": "parte de",
+            "de": "C2",
+            "a": "C1",
+            "dentro_de": null,
+            "condiciones": [],
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 1,
+                "f": "un volcán de laderas suaves"
+              },
+              {
+                "o": 2,
+                "f": "al volcán cuyas laderas"
+              }
+            ]
+          },
+          {
+            "id": "R2",
+            "tipo": "formado por",
+            "de": "C1",
+            "a": "C3",
+            "dentro_de": null,
+            "condiciones": [],
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 1,
+                "f": "formado por coladas de lava"
+              }
+            ]
+          }
+        ],
+        "capas": [],
+        "determinaciones": [
+          {
+            "id": "D1",
+            "dentro_de": null,
+            "caso": "C1",
+            "aspecto": "clasificación",
+            "valor": "volcán",
+            "unidad": null,
+            "cambio": null,
+            "condiciones": [],
+            "modalidad": null,
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 1,
+                "f": "es un volcán"
+              }
+            ]
+          },
+          {
+            "id": "D2",
+            "dentro_de": null,
+            "caso": "C2",
+            "aspecto": "forma",
+            "valor": "suaves",
+            "unidad": null,
+            "cambio": null,
+            "condiciones": [],
+            "modalidad": null,
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 1,
+                "f": "laderas suaves"
+              }
+            ]
+          },
+          {
+            "id": "D3",
+            "dentro_de": null,
+            "caso": "C3",
+            "aspecto": "fluidez",
+            "valor": "muy fluida",
+            "unidad": null,
+            "cambio": null,
+            "condiciones": [],
+            "modalidad": null,
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 1,
+                "f": "muy fluida"
+              }
+            ]
+          },
+          {
+            "id": "D4",
+            "dentro_de": null,
+            "caso": "C1",
+            "aspecto": "denominación",
+            "valor": "de escudo",
+            "unidad": null,
+            "cambio": null,
+            "condiciones": [
+              {
+                "texto": "cuyas laderas tienen una pendiente menor de diez grados",
+                "ref": "D5",
+                "respaldo": [
+                  {
+                    "o": 2,
+                    "f": "cuyas laderas tienen una pendiente menor de diez grados"
+                  }
+                ]
+              }
+            ],
+            "modalidad": null,
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 2,
+                "f": "Se llama de escudo"
+              }
+            ]
+          },
+          {
+            "id": "D5",
+            "dentro_de": null,
+            "caso": "C2",
+            "aspecto": "pendiente",
+            "valor": "menor de 10",
+            "unidad": "grados",
+            "cambio": null,
+            "condiciones": [],
+            "modalidad": null,
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 2,
+                "f": "tienen una pendiente menor de diez grados"
+              }
+            ]
+          },
+          {
+            "id": "D6",
+            "dentro_de": null,
+            "caso": "C4",
+            "aspecto": "temperatura",
+            "valor": "1100 y 1200",
+            "unidad": "grados Celsius",
+            "cambio": null,
+            "condiciones": [],
+            "modalidad": "suele alcanzar",
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 3,
+                "f": "suele alcanzar temperaturas de entre 1100 y 1200 grados Celsius"
+              }
+            ]
+          }
+        ],
+        "acciones": [],
+        "marcas": [
+          {
+            "marca": "suaves",
+            "o": 1,
+            "funciones": [
+              {
+                "funcion": "posición",
+                "refs": [
+                  "D2"
+                ]
+              }
+            ]
+          },
+          {
+            "marca": "muy fluida",
+            "o": 1,
+            "funciones": [
+              {
+                "funcion": "posición",
+                "refs": [
+                  "D3"
+                ]
+              }
+            ]
+          },
+          {
+            "marca": "diez grados",
+            "o": 2,
+            "funciones": [
+              {
+                "funcion": "posición",
+                "refs": [
+                  "D5"
+                ]
+              }
+            ]
+          },
+          {
+            "marca": "1100 y 1200 grados Celsius",
+            "o": 3,
+            "funciones": [
+              {
+                "funcion": "posición",
+                "refs": [
+                  "D6"
+                ]
+              }
+            ]
+          }
+        ],
+        "dudas": []
+      },
+      "venia_con_cerca": false,
+      "error_parseo": null,
+      "verificacion": {
+        "fragmentos": 22,
+        "no_literales": [],
+        "listas_faltantes": [],
+        "conteo": {
+          "casos": 4,
+          "relaciones": 2,
+          "capas": 0,
+          "determinaciones": 6,
+          "acciones": 0,
+          "marcas": 4,
+          "dudas": 0
+        }
+      }
+    },
+    {
+      "id": "U2",
+      "subtema": "la importancia de estudiar los volcanes de escudo",
+      "oraciones": [
+        4
+      ],
+      "texto": "[4] El estudio de estos volcanes es esencial para la seguridad de las islas.",
+      "registros": [
+        {
+          "n": 4,
+          "oracion": "El estudio de estos volcanes es esencial para la seguridad de las islas."
+        }
+      ],
+      "fuente_igual_al_texto": true,
+      "source_id": "1df8252f-1f87-43bd-9faf-f8f23bfcb19b",
+      "segundos": 61.233,
+      "respuesta": "{\n \"casos\": [\n  {\n   \"id\": \"C1\",\n   \"nombre\": \"estudio de estos volcanes\",\n   \"menciones\": [\n    {\n     \"o\": 4,\n     \"f\": \"El estudio de estos volcanes\"\n    }\n   ]\n  },\n  {\n   \"id\": \"C2\",\n   \"nombre\": \"seguridad de las islas\",\n   \"menciones\": [\n    {\n     \"o\": 4,\n     \"f\": \"la seguridad de las islas\"\n    }\n   ]\n  }\n ],\n \"relaciones\": [],\n \"capas\": [],\n \"determinaciones\": [\n  {\n   \"dentro_de\": null,\n   \"caso\": \"C1\",\n   \"aspecto\": \"carácter\",\n   \"valor\": \"esencial\",\n   \"unidad\": null,\n   \"cambio\": null,\n   \"condiciones\": [\n    {\n     \"texto\": \"para la seguridad de las islas\",\n     \"ref\": \"C2\",\n     \"respaldo\": [\n      {\n       \"o\": 4,\n       \"f\": \"para la seguridad de las islas\"\n      }\n     ]\n    }\n   ],\n   \"modalidad\": null,\n   \"inferido\": false,\n   \"respaldo\": [\n    {\n     \"o\": 4,\n     \"f\": \"es esencial\"\n    }\n   ]\n  }\n ],\n \"acciones\": [],\n \"marcas\": [\n  {\n   \"marca\": \"esencial\",\n   \"o\": 4,\n   \"funciones\": [\n    {\n     \"funcion\": \"posición\",\n     \"refs\": [\n      \"D1\"\n     ]\n    }\n   ]\n  }\n ],\n \"dudas\": []\n}",
+      "conversation_id": "ee07347c-be99-4e2f-9ec6-3b574db4be1b",
+      "referencias": [],
+      "raw_response": ")]}'\n\n440\n[[\"wrb.fr\",null,\"[[\\\"\\\",null,[\\\"ee07347c-be99-4e2f-9ec6-3b574db4be1b\\\",\\\"20c3bb30-dfc1-4097-b76f-776e08ab7e98\\\",1015710863],null,[[[[null,null,null,null,null,null,null,null,[[[null,null,[[[null,null,[\\\"**Reconstructing the source**\\\\n\\\\nI am now working to reconstruct the specified data file based on its instructions.\\\\n\\\\n\\\\n\\\"]]]]]]]]]],null,null,null,1]],null,null,null,false,null,false,\\\"ChA5N2ZlMzFkMWRlZDJkMjBkEAgaATAqA3VzZQ\\\"]\"]]\n563\n[[\"wrb.fr\",null,\"[[\\\"\\\",null,[\\\"ee07347c-be99-4e2f-9ec6-3b574db4be1b\\\",\\\"20c3bb30-dfc1-4097-b76f-776e08ab7e98\\\",1015710863],null,[[[[null,null,null,null,null,null,null,null,[[[null,null,[[[null,null,[\\\"**Reconstructing the source**\\\\n\\\\nI am now working to reconstruct the specified data file based on its instructions.\\\\n\\\\n\\\\n\\\"]]]]],[null,null,null,null,null,null,null,null,null,[\\\"list_dir\\\",[[[\\\"DirectoryPath\\\",[null,null,\\\"/workspace/knowledge\\\"]]]]]]]]]]],null,null,null,1]],null,null,null,false,null,false,\\\"ChA5N2ZlMzFkMWRlZDJkMjBkEAgaAT",
+      "citas_total": 0,
+      "citas_fuera_de_la_unidad": [],
+      "parsed": {
+        "casos": [
+          {
+            "id": "C1",
+            "nombre": "estudio de estos volcanes",
+            "menciones": [
+              {
+                "o": 4,
+                "f": "El estudio de estos volcanes"
+              }
+            ]
+          },
+          {
+            "id": "C2",
+            "nombre": "seguridad de las islas",
+            "menciones": [
+              {
+                "o": 4,
+                "f": "la seguridad de las islas"
+              }
+            ]
+          }
+        ],
+        "relaciones": [],
+        "capas": [],
+        "determinaciones": [
+          {
+            "dentro_de": null,
+            "caso": "C1",
+            "aspecto": "carácter",
+            "valor": "esencial",
+            "unidad": null,
+            "cambio": null,
+            "condiciones": [
+              {
+                "texto": "para la seguridad de las islas",
+                "ref": "C2",
+                "respaldo": [
+                  {
+                    "o": 4,
+                    "f": "para la seguridad de las islas"
+                  }
+                ]
+              }
+            ],
+            "modalidad": null,
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 4,
+                "f": "es esencial"
+              }
+            ]
+          }
+        ],
+        "acciones": [],
+        "marcas": [
+          {
+            "marca": "esencial",
+            "o": 4,
+            "funciones": [
+              {
+                "funcion": "posición",
+                "refs": [
+                  "D1"
+                ]
+              }
+            ]
+          }
+        ],
+        "dudas": []
+      },
+      "venia_con_cerca": false,
+      "error_parseo": null,
+      "verificacion": {
+        "fragmentos": 5,
+        "no_literales": [],
+        "listas_faltantes": [],
+        "conteo": {
+          "casos": 2,
+          "relaciones": 0,
+          "capas": 0,
+          "determinaciones": 1,
+          "acciones": 0,
+          "marcas": 1,
+          "dudas": 0
+        }
+      }
+    },
+    {
+      "id": "U3",
+      "subtema": "las características físicas del volcán Tumbal",
+      "oraciones": [
+        5,
+        9
+      ],
+      "texto": "[5] El volcán Tumbal, en la isla de Arén, es un volcán de escudo de 2300 metros de altura. [9] Sus laderas son majestuosas y su cráter es el más ancho de la isla.",
+      "registros": [
+        {
+          "n": 5,
+          "oracion": "El volcán Tumbal, en la isla de Arén, es un volcán de escudo de 2300 metros de altura."
+        },
+        {
+          "n": 9,
+          "oracion": "Sus laderas son majestuosas y su cráter es el más ancho de la isla."
+        }
+      ],
+      "fuente_igual_al_texto": true,
+      "source_id": "383a5a08-3c2c-46ca-9213-e55212e95f4b",
+      "segundos": 82.02,
+      "respuesta": "{\n \"casos\": [\n  {\n   \"id\": \"C1\",\n   \"nombre\": \"volcán Tumbal\",\n   \"menciones\": [\n    {\n     \"o\": 5,\n     \"f\": \"El volcán Tumbal\"\n    },\n    {\n     \"o\": 9,\n     \"f\": \"Sus\"\n    },\n    {\n     \"o\": 9,\n     \"f\": \"su\"\n    }\n   ]\n  },\n  {\n   \"id\": \"C2\",\n   \"nombre\": \"isla de Arén\",\n   \"menciones\": [\n    {\n     \"o\": 5,\n     \"f\": \"la isla de Arén\"\n    },\n    {\n     \"o\": 9,\n     \"f\": \"la isla\"\n    }\n   ]\n  },\n  {\n   \"id\": \"C3\",\n   \"nombre\": \"laderas del volcán Tumbal\",\n   \"menciones\": [\n    {\n     \"o\": 9,\n     \"f\": \"Sus laderas\"\n    }\n   ]\n  },\n  {\n   \"id\": \"C4\",\n   \"nombre\": \"cráter del volcán Tumbal\",\n   \"menciones\": [\n    {\n     \"o\": 9,\n     \"f\": \"su cráter\"\n    }\n   ]\n  }\n ],\n \"relaciones\": [\n  {\n   \"id\": \"R1\",\n   \"tipo\": \"ubicado en\",\n   \"de\": \"C1\",\n   \"a\": \"C2\",\n   \"dentro_de\": null,\n   \"condiciones\": [],\n   \"inferido\": false,\n   \"respaldo\": [\n    {\n     \"o\": 5,\n     \"f\": \"en la isla de Arén\"\n    }\n   ]\n  },\n  {\n   \"id\": \"R2\",\n   \"tipo\": \"parte de\",\n   \"de\": \"C3\",\n   \"a\": \"C1\",\n   \"dentro_de\": null,\n   \"condiciones\": [],\n   \"inferido\": true,\n   \"respaldo\": [\n    {\n     \"o\": 9,\n     \"f\": \"Sus laderas\"\n    }\n   ]\n  },\n  {\n   \"id\": \"R3\",\n   \"tipo\": \"parte de\",\n   \"de\": \"C4\",\n   \"a\": \"C1\",\n   \"dentro_de\": null,\n   \"condiciones\": [],\n   \"inferido\": true,\n   \"respaldo\": [\n    {\n     \"o\": 9,\n     \"f\": \"su cráter\"\n    }\n   ]\n  }\n ],\n \"capas\": [],\n \"determinaciones\": [\n  {\n   \"dentro_de\": null,\n   \"caso\": \"C1\",\n   \"aspecto\": \"tipo\",\n   \"valor\": \"volcán de escudo\",\n   \"unidad\": null,\n   \"cambio\": null,\n   \"condiciones\": [],\n   \"modalidad\": null,\n   \"inferido\": false,\n   \"respaldo\": [\n    {\n     \"o\": 5,\n     \"f\": \"es un volcán de escudo\"\n    }\n   ]\n  },\n  {\n   \"dentro_de\": null,\n   \"caso\": \"C1\",\n   \"aspecto\": \"altura\",\n   \"valor\": \"2300\",\n   \"unidad\": \"metros\",\n   \"cambio\": null,\n   \"condiciones\": [],\n   \"modalidad\": null,\n   \"inferido\": false,\n   \"respaldo\": [\n    {\n     \"o\": 5,\n     \"f\": \"de 2300 metros de altura\"\n    }\n   ]\n  },\n  {\n   \"dentro_de\": null,\n   \"caso\": \"C3\",\n   \"aspecto\": \"aspecto\",\n   \"valor\": \"majestuosas\",\n   \"unidad\": null,\n   \"cambio\": null,\n   \"condiciones\": [],\n   \"modalidad\": null,\n   \"inferido\": false,\n   \"respaldo\": [\n    {\n     \"o\": 9,\n     \"f\": \"son majestuosas\"\n    }\n   ]\n  },\n  {\n   \"dentro_de\": null,\n   \"caso\": \"C4\",\n   \"aspecto\": \"ancho\",\n   \"valor\": \"el más ancho\",\n   \"unidad\": null,\n   \"cambio\": null,\n   \"condiciones\": [\n    {\n     \"texto\": \"de la isla\",\n     \"ref\": \"C2\",\n     \"respaldo\": [\n      {\n       \"o\": 9,\n       \"f\": \"de la isla\"\n      }\n     ]\n    }\n   ],\n   \"modalidad\": null,\n   \"inferido\": false,\n   \"respaldo\": [\n    {\n     \"o\": 9,\n     \"f\": \"es el más ancho de la isla\"\n    }\n   ]\n  }\n ],\n \"acciones\": [],\n \"marcas\": [\n  {\n   \"marca\": \"2300\",\n   \"o\": 5,\n   \"funciones\": [\n    {\n     \"funcion\": \"posición\",\n     \"refs\": [\n      \"D2\"\n     ]\n    }\n   ]\n  },\n  {\n   \"marca\": \"majestuosas\",\n   \"o\": 9,\n   \"funciones\": [\n    {\n     \"funcion\": \"posición\",\n     \"refs\": [\n      \"D3\"\n     ]\n    }\n   ]\n  },\n  {\n   \"marca\": \"el más ancho\",\n   \"o\": 9,\n   \"funciones\": [\n    {\n     \"funcion\": \"posición\",\n     \"refs\": [\n      \"D4\"\n     ]\n    }\n   ]\n  }\n ],\n \"dudas\": []\n}",
+      "conversation_id": "ee07347c-be99-4e2f-9ec6-3b574db4be1b",
+      "referencias": [],
+      "raw_response": ")]}'\n\n520\n[[\"wrb.fr\",null,\"[[\\\"\\\",null,[\\\"ee07347c-be99-4e2f-9ec6-3b574db4be1b\\\",\\\"2dc6f9a2-406b-44e1-8f69-662b809d211f\\\",3812036245],null,[[[[null,null,null,null,null,null,null,null,[[[null,null,[[[null,null,[\\\"**Reviewing Instructions**\\\\n\\\\nI am now reviewing the instructions to reconstruct the index card from the selected source, ensuring I understand the persona's guidelines for structured extraction.\\\\n\\\\n\\\\n\\\"]]]]]]]]]],null,null,null,1]],null,null,null,false,null,false,\\\"ChAxOTAzODI2OTgyZDgwNGQzEAgaATAqA3VzZQ\\\"]\"]]\n643\n[[\"wrb.fr\",null,\"[[\\\"\\\",null,[\\\"ee07347c-be99-4e2f-9ec6-3b574db4be1b\\\",\\\"2dc6f9a2-406b-44e1-8f69-662b809d211f\\\",3812036245],null,[[[[null,null,null,null,null,null,null,null,[[[null,null,[[[null,null,[\\\"**Reviewing Instructions**\\\\n\\\\nI am now reviewing the instructions to reconstruct the index card from the selected source, ensuring I understand the persona's guidelines for structured extraction.\\\\n\\\\n\\\\n\\\"]]]]],[null,null,null,null,null,null,null,null,null,[\\\"li",
+      "citas_total": 0,
+      "citas_fuera_de_la_unidad": [],
+      "parsed": {
+        "casos": [
+          {
+            "id": "C1",
+            "nombre": "volcán Tumbal",
+            "menciones": [
+              {
+                "o": 5,
+                "f": "El volcán Tumbal"
+              },
+              {
+                "o": 9,
+                "f": "Sus"
+              },
+              {
+                "o": 9,
+                "f": "su"
+              }
+            ]
+          },
+          {
+            "id": "C2",
+            "nombre": "isla de Arén",
+            "menciones": [
+              {
+                "o": 5,
+                "f": "la isla de Arén"
+              },
+              {
+                "o": 9,
+                "f": "la isla"
+              }
+            ]
+          },
+          {
+            "id": "C3",
+            "nombre": "laderas del volcán Tumbal",
+            "menciones": [
+              {
+                "o": 9,
+                "f": "Sus laderas"
+              }
+            ]
+          },
+          {
+            "id": "C4",
+            "nombre": "cráter del volcán Tumbal",
+            "menciones": [
+              {
+                "o": 9,
+                "f": "su cráter"
+              }
+            ]
+          }
+        ],
+        "relaciones": [
+          {
+            "id": "R1",
+            "tipo": "ubicado en",
+            "de": "C1",
+            "a": "C2",
+            "dentro_de": null,
+            "condiciones": [],
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 5,
+                "f": "en la isla de Arén"
+              }
+            ]
+          },
+          {
+            "id": "R2",
+            "tipo": "parte de",
+            "de": "C3",
+            "a": "C1",
+            "dentro_de": null,
+            "condiciones": [],
+            "inferido": true,
+            "respaldo": [
+              {
+                "o": 9,
+                "f": "Sus laderas"
+              }
+            ]
+          },
+          {
+            "id": "R3",
+            "tipo": "parte de",
+            "de": "C4",
+            "a": "C1",
+            "dentro_de": null,
+            "condiciones": [],
+            "inferido": true,
+            "respaldo": [
+              {
+                "o": 9,
+                "f": "su cráter"
+              }
+            ]
+          }
+        ],
+        "capas": [],
+        "determinaciones": [
+          {
+            "dentro_de": null,
+            "caso": "C1",
+            "aspecto": "tipo",
+            "valor": "volcán de escudo",
+            "unidad": null,
+            "cambio": null,
+            "condiciones": [],
+            "modalidad": null,
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 5,
+                "f": "es un volcán de escudo"
+              }
+            ]
+          },
+          {
+            "dentro_de": null,
+            "caso": "C1",
+            "aspecto": "altura",
+            "valor": "2300",
+            "unidad": "metros",
+            "cambio": null,
+            "condiciones": [],
+            "modalidad": null,
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 5,
+                "f": "de 2300 metros de altura"
+              }
+            ]
+          },
+          {
+            "dentro_de": null,
+            "caso": "C3",
+            "aspecto": "aspecto",
+            "valor": "majestuosas",
+            "unidad": null,
+            "cambio": null,
+            "condiciones": [],
+            "modalidad": null,
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 9,
+                "f": "son majestuosas"
+              }
+            ]
+          },
+          {
+            "dentro_de": null,
+            "caso": "C4",
+            "aspecto": "ancho",
+            "valor": "el más ancho",
+            "unidad": null,
+            "cambio": null,
+            "condiciones": [
+              {
+                "texto": "de la isla",
+                "ref": "C2",
+                "respaldo": [
+                  {
+                    "o": 9,
+                    "f": "de la isla"
+                  }
+                ]
+              }
+            ],
+            "modalidad": null,
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 9,
+                "f": "es el más ancho de la isla"
+              }
+            ]
+          }
+        ],
+        "acciones": [],
+        "marcas": [
+          {
+            "marca": "2300",
+            "o": 5,
+            "funciones": [
+              {
+                "funcion": "posición",
+                "refs": [
+                  "D2"
+                ]
+              }
+            ]
+          },
+          {
+            "marca": "majestuosas",
+            "o": 9,
+            "funciones": [
+              {
+                "funcion": "posición",
+                "refs": [
+                  "D3"
+                ]
+              }
+            ]
+          },
+          {
+            "marca": "el más ancho",
+            "o": 9,
+            "funciones": [
+              {
+                "funcion": "posición",
+                "refs": [
+                  "D4"
+                ]
+              }
+            ]
+          }
+        ],
+        "dudas": []
+      },
+      "venia_con_cerca": false,
+      "error_parseo": null,
+      "verificacion": {
+        "fragmentos": 18,
+        "no_literales": [],
+        "listas_faltantes": [],
+        "conteo": {
+          "casos": 4,
+          "relaciones": 3,
+          "capas": 0,
+          "determinaciones": 4,
+          "acciones": 0,
+          "marcas": 3,
+          "dudas": 0
+        }
+      }
+    },
+    {
+      "id": "U4",
+      "subtema": "la última erupción del volcán Tumbal",
+      "oraciones": [
+        6,
+        7,
+        8
+      ],
+      "texto": "[6] Su última erupción comenzó el 4 de marzo de 2019 y duró 41 días. [7] Durante esa erupción, la lava del Tumbal alcanzó 1150 grados Celsius. [8] La colada principal cubrió 12 kilómetros cuadrados de cultivos.",
+      "registros": [
+        {
+          "n": 6,
+          "oracion": "Su última erupción comenzó el 4 de marzo de 2019 y duró 41 días."
+        },
+        {
+          "n": 7,
+          "oracion": "Durante esa erupción, la lava del Tumbal alcanzó 1150 grados Celsius."
+        },
+        {
+          "n": 8,
+          "oracion": "La colada principal cubrió 12 kilómetros cuadrados de cultivos."
+        }
+      ],
+      "fuente_igual_al_texto": true,
+      "source_id": "a97b436d-4086-46c2-af23-f5ca6dd72589",
+      "segundos": 137.305,
+      "respuesta": "{\n  \"casos\": [\n    {\n      \"id\": \"C1\",\n      \"nombre\": \"Tumbal\",\n      \"menciones\": [\n        {\n          \"o\": 6,\n          \"f\": \"Su\"\n        },\n        {\n          \"o\": 7,\n          \"f\": \"Tumbal\"\n        }\n      ]\n    },\n    {\n      \"id\": \"C2\",\n      \"nombre\": \"última erupción del Tumbal\",\n      \"menciones\": [\n        {\n          \"o\": 6,\n          \"f\": \"Su última erupción\"\n        },\n        {\n          \"o\": 7,\n          \"f\": \"esa erupción\"\n        }\n      ]\n    },\n    {\n      \"id\": \"C3\",\n      \"nombre\": \"lava del Tumbal\",\n      \"menciones\": [\n        {\n          \"o\": 7,\n          \"f\": \"la lava del Tumbal\"\n        }\n      ]\n    },\n    {\n      \"id\": \"C4\",\n      \"nombre\": \"colada principal\",\n      \"menciones\": [\n        {\n          \"o\": 8,\n          \"f\": \"La colada principal\"\n        }\n      ]\n    },\n    {\n      \"id\": \"C5\",\n      \"nombre\": \"cultivos\",\n      \"menciones\": [\n        {\n          \"o\": 8,\n          \"f\": \"cultivos\"\n        }\n      ]\n    }\n  ],\n  \"relaciones\": [\n    {\n      \"id\": \"R1\",\n      \"tipo\": \"erupción de\",\n      \"de\": \"C2\",\n      \"a\": \"C1\",\n      \"dentro_de\": null,\n      \"condiciones\": [],\n      \"inferido\": true,\n      \"respaldo\": [\n        {\n          \"o\": 6,\n          \"f\": \"Su última erupción\"\n        }\n      ]\n    },\n    {\n      \"id\": \"R2\",\n      \"tipo\": \"procede de\",\n      \"de\": \"C3\",\n      \"a\": \"C1\",\n      \"dentro_de\": null,\n      \"condiciones\": [],\n      \"inferido\": false,\n      \"respaldo\": [\n        {\n          \"o\": 7,\n          \"f\": \"la lava del Tumbal\"\n        }\n      ]\n    },\n    {\n      \"id\": \"R3\",\n      \"tipo\": \"procede de\",\n      \"de\": \"C4\",\n      \"a\": \"C3\",\n      \"dentro_de\": null,\n      \"condiciones\": [],\n      \"inferido\": true,\n      \"respaldo\": [\n        {\n          \"o\": 8,\n          \"f\": \"La colada principal\"\n        }\n      ]\n    }\n  ],\n  \"capas\": [],\n  \"determinaciones\": [\n    {\n      \"id\": \"D1\",\n      \"dentro_de\": null,\n      \"caso\": \"C2\",\n      \"aspecto\": \"comienzo\",\n      \"valor\": \"4 de marzo de 2019\",\n      \"unidad\": null,\n      \"cambio\": null,\n      \"condiciones\": [],\n      \"modalidad\": null,\n      \"inferido\": false,\n      \"respaldo\": [\n        {\n          \"o\": 6,\n          \"f\": \"comenzó el 4 de marzo de 2019\"\n        }\n      ]\n    },\n    {\n      \"id\": \"D2\",\n      \"dentro_de\": null,\n      \"caso\": \"C2\",\n      \"aspecto\": \"duración\",\n      \"valor\": \"41\",\n      \"unidad\": \"días\",\n      \"cambio\": null,\n      \"condiciones\": [],\n      \"modalidad\": null,\n      \"inferido\": false,\n      \"respaldo\": [\n        {\n          \"o\": 6,\n          \"f\": \"duró 41 días\"\n        }\n      ]\n    },\n    {\n      \"id\": \"D3\",\n      \"dentro_de\": null,\n      \"caso\": \"C3\",\n      \"aspecto\": \"temperatura\",\n      \"valor\": \"1150\",\n      \"unidad\": \"grados Celsius\",\n      \"cambio\": null,\n      \"condiciones\": [\n        {\n          \"texto\": \"durante esa erupción\",\n          \"ref\": \"C2\",\n          \"respaldo\": [\n            {\n              \"o\": 7,\n              \"f\": \"Durante esa erupción\"\n            }\n          ]\n        }\n      ],\n      \"modalidad\": null,\n      \"inferido\": false,\n      \"respaldo\": [\n        {\n          \"o\": 7,\n          \"f\": \"la lava del Tumbal alcanzó 1150 grados Celsius\"\n        }\n      ]\n    },\n    {\n      \"id\": \"D4\",\n      \"dentro_de\": null,\n      \"caso\": \"C4\",\n      \"aspecto\": \"superficie cubierta\",\n      \"valor\": \"12\",\n      \"unidad\": \"kilómetros cuadrados\",\n      \"cambio\": null,\n      \"condiciones\": [\n        {\n          \"texto\": \"de cultivos\",\n          \"ref\": \"C5\",\n          \"respaldo\": [\n            {\n              \"o\": 8,\n              \"f\": \"de cultivos\"\n            }\n          ]\n        }\n      ],\n      \"modalidad\": null,\n      \"inferido\": false,\n      \"respaldo\": [\n        {\n          \"o\": 8,\n          \"f\": \"cubrió 12 kilómetros cuadrados de cultivos\"\n        }\n      ]\n    }\n  ],\n  \"acciones\": [\n    {\n      \"id\": \"A1\",\n      \"agente\": \"C4\",\n      \"accion\": \"cubrió\",\n      \"objeto\": \"C5\",\n      \"negada\": false,\n      \"dentro_de\": null,\n      \"condiciones\": [],\n      \"respaldo\": [\n        {\n          \"o\": 8,\n          \"f\": \"La colada principal cubrió 12 kilómetros cuadrados de cultivos\"\n        }\n      ]\n    }\n  ],\n  \"marcas\": [\n    {\n      \"marca\": \"Su\",\n      \"o\": 6,\n      \"funciones\": [\n        {\n          \"funcion\": \"remite\",\n          \"refs\": [\n            \"C1\"\n          ]\n        }\n      ]\n    },\n    {\n      \"marca\": \"última\",\n      \"o\": 6,\n      \"funciones\": [\n        {\n          \"funcion\": \"posición\",\n          \"refs\": [\n            \"C2\"\n          ]\n        }\n      ]\n    },\n    {\n      \"marca\": \"4 de marzo de 2019\",\n      \"o\": 6,\n      \"funciones\": [\n        {\n          \"funcion\": \"posición\",\n          \"refs\": [\n            \"D1\"\n          ]\n        }\n      ]\n    },\n    {\n      \"marca\": \"41 días\",\n      \"o\": 6,\n      \"funciones\": [\n        {\n          \"funcion\": \"posición\",\n          \"refs\": [\n            \"D2\"\n          ]\n        }\n      ]\n    },\n    {\n      \"marca\": \"esa\",\n      \"o\": 7,\n      \"funciones\": [\n        {\n          \"funcion\": \"remite\",\n          \"refs\": [\n            \"C2\"\n          ]\n        }\n      ]\n    },\n    {\n      \"marca\": \"1150 grados Celsius\",\n      \"o\": 7,\n      \"funciones\": [\n        {\n          \"funcion\": \"posición\",\n          \"refs\": [\n            \"D3\"\n          ]\n        }\n      ]\n    },\n    {\n      \"marca\": \"12 kilómetros cuadrados\",\n      \"o\": 8,\n      \"funciones\": [\n        {\n          \"funcion\": \"posición\",\n          \"refs\": [\n            \"D4\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"dudas\": []\n}",
+      "conversation_id": "ee07347c-be99-4e2f-9ec6-3b574db4be1b",
+      "referencias": [],
+      "raw_response": ")]}'\n\n482\n[[\"wrb.fr\",null,\"[[\\\"\\\",null,[\\\"ee07347c-be99-4e2f-9ec6-3b574db4be1b\\\",\\\"5146fbbb-536d-46da-abdf-1a514c890c5c\\\",1210458959],null,[[[[null,null,null,null,null,null,null,null,[[[null,null,[[[null,null,[\\\"**Analyzing Source Content**\\\\n\\\\nI'm carefully reviewing the provided text and instructions to reconstruct the requested information from the selected source.\\\\n\\\\n\\\\n\\\"]]]]]]]]]],null,null,null,1]],null,null,null,false,null,false,\\\"ChA0MDU3NjFmMzIzODQxYzQyEAgaATAqA3VzZQ\\\"]\"]]\n605\n[[\"wrb.fr\",null,\"[[\\\"\\\",null,[\\\"ee07347c-be99-4e2f-9ec6-3b574db4be1b\\\",\\\"5146fbbb-536d-46da-abdf-1a514c890c5c\\\",1210458959],null,[[[[null,null,null,null,null,null,null,null,[[[null,null,[[[null,null,[\\\"**Analyzing Source Content**\\\\n\\\\nI'm carefully reviewing the provided text and instructions to reconstruct the requested information from the selected source.\\\\n\\\\n\\\\n\\\"]]]]],[null,null,null,null,null,null,null,null,null,[\\\"list_dir\\\",[[[\\\"DirectoryPath\\\",[null,null,\\\"/workspace/knowledge\\\"]]]]]]]]]]]",
+      "citas_total": 0,
+      "citas_fuera_de_la_unidad": [],
+      "parsed": {
+        "casos": [
+          {
+            "id": "C1",
+            "nombre": "Tumbal",
+            "menciones": [
+              {
+                "o": 6,
+                "f": "Su"
+              },
+              {
+                "o": 7,
+                "f": "Tumbal"
+              }
+            ]
+          },
+          {
+            "id": "C2",
+            "nombre": "última erupción del Tumbal",
+            "menciones": [
+              {
+                "o": 6,
+                "f": "Su última erupción"
+              },
+              {
+                "o": 7,
+                "f": "esa erupción"
+              }
+            ]
+          },
+          {
+            "id": "C3",
+            "nombre": "lava del Tumbal",
+            "menciones": [
+              {
+                "o": 7,
+                "f": "la lava del Tumbal"
+              }
+            ]
+          },
+          {
+            "id": "C4",
+            "nombre": "colada principal",
+            "menciones": [
+              {
+                "o": 8,
+                "f": "La colada principal"
+              }
+            ]
+          },
+          {
+            "id": "C5",
+            "nombre": "cultivos",
+            "menciones": [
+              {
+                "o": 8,
+                "f": "cultivos"
+              }
+            ]
+          }
+        ],
+        "relaciones": [
+          {
+            "id": "R1",
+            "tipo": "erupción de",
+            "de": "C2",
+            "a": "C1",
+            "dentro_de": null,
+            "condiciones": [],
+            "inferido": true,
+            "respaldo": [
+              {
+                "o": 6,
+                "f": "Su última erupción"
+              }
+            ]
+          },
+          {
+            "id": "R2",
+            "tipo": "procede de",
+            "de": "C3",
+            "a": "C1",
+            "dentro_de": null,
+            "condiciones": [],
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 7,
+                "f": "la lava del Tumbal"
+              }
+            ]
+          },
+          {
+            "id": "R3",
+            "tipo": "procede de",
+            "de": "C4",
+            "a": "C3",
+            "dentro_de": null,
+            "condiciones": [],
+            "inferido": true,
+            "respaldo": [
+              {
+                "o": 8,
+                "f": "La colada principal"
+              }
+            ]
+          }
+        ],
+        "capas": [],
+        "determinaciones": [
+          {
+            "id": "D1",
+            "dentro_de": null,
+            "caso": "C2",
+            "aspecto": "comienzo",
+            "valor": "4 de marzo de 2019",
+            "unidad": null,
+            "cambio": null,
+            "condiciones": [],
+            "modalidad": null,
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 6,
+                "f": "comenzó el 4 de marzo de 2019"
+              }
+            ]
+          },
+          {
+            "id": "D2",
+            "dentro_de": null,
+            "caso": "C2",
+            "aspecto": "duración",
+            "valor": "41",
+            "unidad": "días",
+            "cambio": null,
+            "condiciones": [],
+            "modalidad": null,
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 6,
+                "f": "duró 41 días"
+              }
+            ]
+          },
+          {
+            "id": "D3",
+            "dentro_de": null,
+            "caso": "C3",
+            "aspecto": "temperatura",
+            "valor": "1150",
+            "unidad": "grados Celsius",
+            "cambio": null,
+            "condiciones": [
+              {
+                "texto": "durante esa erupción",
+                "ref": "C2",
+                "respaldo": [
+                  {
+                    "o": 7,
+                    "f": "Durante esa erupción"
+                  }
+                ]
+              }
+            ],
+            "modalidad": null,
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 7,
+                "f": "la lava del Tumbal alcanzó 1150 grados Celsius"
+              }
+            ]
+          },
+          {
+            "id": "D4",
+            "dentro_de": null,
+            "caso": "C4",
+            "aspecto": "superficie cubierta",
+            "valor": "12",
+            "unidad": "kilómetros cuadrados",
+            "cambio": null,
+            "condiciones": [
+              {
+                "texto": "de cultivos",
+                "ref": "C5",
+                "respaldo": [
+                  {
+                    "o": 8,
+                    "f": "de cultivos"
+                  }
+                ]
+              }
+            ],
+            "modalidad": null,
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 8,
+                "f": "cubrió 12 kilómetros cuadrados de cultivos"
+              }
+            ]
+          }
+        ],
+        "acciones": [
+          {
+            "id": "A1",
+            "agente": "C4",
+            "accion": "cubrió",
+            "objeto": "C5",
+            "negada": false,
+            "dentro_de": null,
+            "condiciones": [],
+            "respaldo": [
+              {
+                "o": 8,
+                "f": "La colada principal cubrió 12 kilómetros cuadrados de cultivos"
+              }
+            ]
+          }
+        ],
+        "marcas": [
+          {
+            "marca": "Su",
+            "o": 6,
+            "funciones": [
+              {
+                "funcion": "remite",
+                "refs": [
+                  "C1"
+                ]
+              }
+            ]
+          },
+          {
+            "marca": "última",
+            "o": 6,
+            "funciones": [
+              {
+                "funcion": "posición",
+                "refs": [
+                  "C2"
+                ]
+              }
+            ]
+          },
+          {
+            "marca": "4 de marzo de 2019",
+            "o": 6,
+            "funciones": [
+              {
+                "funcion": "posición",
+                "refs": [
+                  "D1"
+                ]
+              }
+            ]
+          },
+          {
+            "marca": "41 días",
+            "o": 6,
+            "funciones": [
+              {
+                "funcion": "posición",
+                "refs": [
+                  "D2"
+                ]
+              }
+            ]
+          },
+          {
+            "marca": "esa",
+            "o": 7,
+            "funciones": [
+              {
+                "funcion": "remite",
+                "refs": [
+                  "C2"
+                ]
+              }
+            ]
+          },
+          {
+            "marca": "1150 grados Celsius",
+            "o": 7,
+            "funciones": [
+              {
+                "funcion": "posición",
+                "refs": [
+                  "D3"
+                ]
+              }
+            ]
+          },
+          {
+            "marca": "12 kilómetros cuadrados",
+            "o": 8,
+            "funciones": [
+              {
+                "funcion": "posición",
+                "refs": [
+                  "D4"
+                ]
+              }
+            ]
+          }
+        ],
+        "dudas": []
+      },
+      "venia_con_cerca": false,
+      "error_parseo": null,
+      "verificacion": {
+        "fragmentos": 24,
+        "no_literales": [],
+        "listas_faltantes": [],
+        "conteo": {
+          "casos": 5,
+          "relaciones": 3,
+          "capas": 0,
+          "determinaciones": 4,
+          "acciones": 1,
+          "marcas": 7,
+          "dudas": 0
+        }
+      }
+    },
+    {
+      "id": "U5",
+      "subtema": "la vulcanología como ciencia de campo",
+      "oraciones": [
+        10
+      ],
+      "texto": "[10] En el siglo pasado, la vulcanología se convirtió en una ciencia de campo.",
+      "registros": [
+        {
+          "n": 10,
+          "oracion": "En el siglo pasado, la vulcanología se convirtió en una ciencia de campo."
+        }
+      ],
+      "fuente_igual_al_texto": true,
+      "source_id": "c4913aa3-b07a-460c-aa17-e28e5d50d6e2",
+      "segundos": 34.0,
+      "respuesta": "{\n \"casos\": [\n  {\n   \"id\": \"C1\",\n   \"nombre\": \"la vulcanología\",\n   \"menciones\": [\n    {\n     \"o\": 10,\n     \"f\": \"la vulcanología\"\n    }\n   ]\n  }\n ],\n \"relaciones\": [],\n \"capas\": [],\n \"determinaciones\": [\n  {\n   \"id\": \"D1\",\n   \"dentro_de\": null,\n   \"caso\": \"C1\",\n   \"aspecto\": \"tipo de ciencia\",\n   \"valor\": \"ciencia de campo\",\n   \"unidad\": null,\n   \"cambio\": \"se convirtió en\",\n   \"condiciones\": [\n    {\n     \"texto\": \"En el siglo pasado\",\n     \"ref\": null,\n     \"respaldo\": [\n      {\n       \"o\": 10,\n       \"f\": \"En el siglo pasado\"\n      }\n     ]\n    }\n   ],\n   \"modalidad\": null,\n   \"inferido\": false,\n   \"respaldo\": [\n    {\n     \"o\": 10,\n     \"f\": \"En el siglo pasado, la vulcanología se convirtió en una ciencia de campo.\"\n    }\n   ]\n  }\n ],\n \"acciones\": [],\n \"marcas\": [\n  {\n   \"marca\": \"el siglo pasado\",\n   \"o\": 10,\n   \"funciones\": [\n    {\n     \"funcion\": \"posición\",\n     \"refs\": [\n      \"D1\"\n     ]\n    }\n   ]\n  },\n  {\n   \"marca\": \"ciencia de campo\",\n   \"o\": 10,\n   \"funciones\": [\n    {\n     \"funcion\": \"posición\",\n     \"refs\": [\n      \"D1\"\n     ]\n    }\n   ]\n  }\n ],\n \"dudas\": []\n}",
+      "conversation_id": "ee07347c-be99-4e2f-9ec6-3b574db4be1b",
+      "referencias": [],
+      "raw_response": ")]}'\n\n497\n[[\"wrb.fr\",null,\"[[\\\"\\\",null,[\\\"ee07347c-be99-4e2f-9ec6-3b574db4be1b\\\",\\\"6bc29ef8-6df1-47c2-be21-b85ae64a0700\\\",494730789],null,[[[[null,null,null,null,null,null,null,null,[[[null,null,[[[null,null,[\\\"**Analyzing Source Content**\\\\n\\\\nI'm examining the source text to understand its structure and extract key information for reconstruction, focusing on the numbered sentences.\\\\n\\\\n\\\\n\\\"]]]]]]]]]],null,null,null,1]],null,null,null,false,null,false,\\\"ChA5MmJhNmFmZTAwMjcxNzg2EAgaATAqA3VzZQ\\\"]\"]]\n803\n[[\"wrb.fr\",null,\"[[\\\"\\\",null,[\\\"ee07347c-be99-4e2f-9ec6-3b574db4be1b\\\",\\\"6bc29ef8-6df1-47c2-be21-b85ae64a0700\\\",494730789],null,[[[[null,null,null,null,null,null,null,null,[[[null,null,[[[null,null,[\\\"**Analyzing Source Content**\\\\n\\\\nI'm examining the source text to understand its structure and extract key information for reconstruction, focusing on the numbered sentences.\\\\n\\\\n\\\\n\\\"]]]]]]]],[null,null,null,null,null,null,null,null,[[[null,null,[[[null,null,[\\\"**Reconstructing Finding",
+      "citas_total": 0,
+      "citas_fuera_de_la_unidad": [],
+      "parsed": {
+        "casos": [
+          {
+            "id": "C1",
+            "nombre": "la vulcanología",
+            "menciones": [
+              {
+                "o": 10,
+                "f": "la vulcanología"
+              }
+            ]
+          }
+        ],
+        "relaciones": [],
+        "capas": [],
+        "determinaciones": [
+          {
+            "id": "D1",
+            "dentro_de": null,
+            "caso": "C1",
+            "aspecto": "tipo de ciencia",
+            "valor": "ciencia de campo",
+            "unidad": null,
+            "cambio": "se convirtió en",
+            "condiciones": [
+              {
+                "texto": "En el siglo pasado",
+                "ref": null,
+                "respaldo": [
+                  {
+                    "o": 10,
+                    "f": "En el siglo pasado"
+                  }
+                ]
+              }
+            ],
+            "modalidad": null,
+            "inferido": false,
+            "respaldo": [
+              {
+                "o": 10,
+                "f": "En el siglo pasado, la vulcanología se convirtió en una ciencia de campo."
+              }
+            ]
+          }
+        ],
+        "acciones": [],
+        "marcas": [
+          {
+            "marca": "el siglo pasado",
+            "o": 10,
+            "funciones": [
+              {
+                "funcion": "posición",
+                "refs": [
+                  "D1"
+                ]
+              }
+            ]
+          },
+          {
+            "marca": "ciencia de campo",
+            "o": 10,
+            "funciones": [
+              {
+                "funcion": "posición",
+                "refs": [
+                  "D1"
+                ]
+              }
+            ]
+          }
+        ],
+        "dudas": []
+      },
+      "venia_con_cerca": false,
+      "error_parseo": null,
+      "verificacion": {
+        "fragmentos": 5,
+        "no_literales": [],
+        "listas_faltantes": [],
+        "conteo": {
+          "casos": 1,
+          "relaciones": 0,
+          "capas": 0,
+          "determinaciones": 1,
+          "acciones": 0,
+          "marcas": 2,
+          "dudas": 0
+        }
+      }
+    }
+  ],
+  "completed": true,
+  "notebook_id": "b11862e8-c347-458f-a111-a449066cb199",
+  "sonda": {
+    "unidad": "U2",
+    "source_id": "1df8252f-1f87-43bd-9faf-f8f23bfcb19b",
+    "pregunta": "¿Qué altura tiene el volcán Tumbal?",
+    "respuesta": "{\n \"casos\": [\n  {\n   \"id\": \"C1\",\n   \"nombre\": \"estudio de estos volcanes\",\n   \"menciones\": [\n    {\n     \"o\": 4,\n     \"f\": \"El estudio de estos volcanes\"\n    }\n   ]\n  },\n  {\n   \"id\": \"C2\",\n   \"nombre\": \"estos volcanes\",\n   \"menciones\": [\n    {\n     \"o\": 4,\n     \"f\": \"estos volcanes\"\n    }\n   ]\n  },\n  {\n   \"id\": \"C3\",\n   \"nombre\": \"las islas\",\n   \"menciones\": [\n    {\n     \"o\": 4,\n     \"f\": \"las islas\"\n    }\n   ]\n  },\n  {\n   \"id\": \"C4\",\n   \"nombre\": \"seguridad de las islas\",\n   \"menciones\": [\n    {\n     \"o\": 4,\n     \"f\": \"la seguridad de las islas\"\n    }\n   ]\n  }\n ],\n \"relaciones\": [],\n \"capas\": [],\n \"determinaciones\": [\n  {\n   \"id\": \"D1\",\n   \"dentro_de\": null,\n   \"caso\": \"C1\",\n   \"aspecto\": \"carácter\",\n   \"valor\": \"esencial\",\n   \"unidad\": null,\n   \"cambio\": null,\n   \"condiciones\": [\n    {\n     \"texto\": \"para la seguridad de las islas\",\n     \"ref\": \"C4\",\n     \"respaldo\": [\n      {\n       \"o\": 4,\n       \"f\": \"para la seguridad de las islas\"\n      }\n     ]\n    }\n   ],\n   \"modalidad\": null,\n   \"inferido\": false,\n   \"respaldo\": [\n    {\n     \"o\": 4,\n     \"f\": \"es esencial\"\n    }\n   ]\n  }\n ],\n \"acciones\": [],\n \"marcas\": [],\n \"dudas\": [\n  {\n   \"id\": \"Q1\",\n   \"texto\": \"El texto no menciona la altura del volcán Tumbal ni contiene información sobre dicho volcán.\",\n   \"respaldo\": [\n    {\n     \"o\": 4,\n     \"f\": \"El estudio de estos volcanes es esencial para la seguridad de las islas.\"\n    }\n   ]\n  }\n ]\n}",
+    "referencias": [],
+    "citas_fuera_de_la_unidad": []
+  },
+  "segundos_total": 461.754
+}
