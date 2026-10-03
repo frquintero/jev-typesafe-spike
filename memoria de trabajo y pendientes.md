@@ -1,9 +1,10 @@
 # Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 02-10-2026. **Solo lo vigente:** lo que estamos haciendo y nos guía. Lo superado (enfoque de `datos_pABQ*`, rondas DU/P/ENC/U, sus decisiones y pendientes) está en `historico/memoria-hasta-2026-10-01.md`; el detalle de cada ronda, en `unidades/PLAN.md` y `git log`.
+Estado al 03-10-2026. **Solo lo vigente:** lo que estamos haciendo y nos guía. Lo superado (enfoque de `datos_pABQ*`, rondas DU/P/ENC/U, sus decisiones y pendientes) está en `historico/memoria-hasta-2026-10-01.md`; el detalle de cada ronda, en `unidades/PLAN.md` y `git log`.
 
 ## Dónde quedamos (leer primero)
 
+- **Faro (03-10):** el objetivo de Zettel es un ecosistema de unidades temáticas y datos sobre el que operen preguntas y se obtenga información: el cambio en A(Q) al considerar datos conforme a reglas. Recuperar no es responder. Detalle y ejemplo en `README.md`, «Visión».
 - **Qué hacemos:** reconstruir con un LLM barato (DeepSeek `deepseek-flash`) todo lo que un texto establece, organizado desde el caso de estudio, en una **ficha** JSON (`unidades/ficha_doc.py`, base congelada `unidades/prompts/ficha_v1.md`). El extractor no decide qué es dato: la pertinencia se decide después (Jev o la pregunta). Es la capa de datos del grafo de **Zettel**. Marco: ensayo de Frat «¿Qué es un dato?», versión del 30-09 (§2), íntegro en `marco filosófico/Que es un dato - 2026-09-30.md`.
 - **Estado medido:** en F5 (divulgación, ensayo, opinión; ~220 palabras; textos y preguntas de ChatGPT), `ficha_v1` obtuvo 60/63 puntos en las preguntas dentro del contrato (95,2 %), 7/9 aparte y 67/72 en total (93,1 %), con tres réplicas y formato estable. El porcentaje mide preguntas, no la corrección de cada registro. Tiempo: 76,3–126,5 s, promedio 102,49 s. Detalle en §3.
 - **F6 ejecutada, sin evaluar:** candidato `unidades/prompts/ficha_v2.md` (circunstancias del acto de sostener algo en `condiciones` de la capa; las del contenido en sus registros; expresiones temporales y su orden con la precisión del texto). Las nueve corridas se hicieron la noche del 01-10 (commits `433baef`, parcial, y `a174eb2`, completa; crudos `unidades/cache/ficha-*-deepseek-ficha_v2-r*.json`). **Nota (02-10): F6 no se ha evaluado** contra los criterios de `unidades/PLAN.md`, sección F6. `ficha_v1` sigue siendo la base; el candidato no ha sido adoptado.

@@ -87,7 +87,7 @@ Ideas que podrían servirnos:
    Al procesar una unidad temática, adjuntar un mapa breve del documento
    (subtemas y casos) para que la unidad no se lea aislada.
 
-## Estado actual (2026-10-02)
+## Estado actual (2026-10-03)
 
 **Nuevo enfoque del paso 2; rondas F1–F5 hechas y F6 corrida, sin evaluar; prompt vigente `ficha_v1`, congelado.** El marco
 queda fijo: ensayo de Frat «¿Qué es un dato?», versión del 30-09 (resumen
@@ -145,6 +145,8 @@ Jev. **Arquitectura propuesta para después (no decidida):** oraciones
 - Estado vigente, marco, decisiones, errores, lecciones y pendientes:
   `memoria de trabajo y pendientes.md` (fuente única del estado; §2 manda
   sobre lo anterior).
+- Definiciones del marco (filosóficas con líneas del ensayo, operativas y
+  homónimos): `definiciones-del-marco.md` (documento vivo).
 - Rondas (cambio, conjetura, gold, comandos, reporte): `unidades/PLAN.md`
   (F1–F6 al final); mensaje para el ejecutor de cada ronda en
   `unidades/mensaje_<RONDA>.txt`. Prompts en `unidades/prompts/`, textos en
