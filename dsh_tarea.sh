@@ -21,8 +21,9 @@
 # Con una sesión nueva, guarda su id en ~/.cache/dsh_tareas/<etiqueta>.json
 # (campo session_id).
 #
-# Esfuerzo de razonamiento: variable ESFUERZO = off | low | high | max
-# (por defecto high). Se aplica por llamada con --patch
+# Esfuerzo de razonamiento: variable ESFUERZO = off | low | high | max,
+# OBLIGATORIA (sin valor por defecto: se elige en cada corrida según la
+# tarea). Se aplica por llamada con --patch
 # (~/.config/dsh_tarea/esfuerzo/<nivel>.yml), también al continuar una sesión.
 # Política de uso: Claude-memoria/memoria/agentes-delegados.md, §8.
 
@@ -42,7 +43,8 @@ ETIQ="$1"; MSG="$2"; SES="${3:-}"
 TOPIC="$(tr -d '[:space:]' < "$CONF/ntfy_topic")"
 if [ -z "$SES" ] && [ -f "$CONF/sesion" ]; then SES="$(tr -d '[:space:]' < "$CONF/sesion")"; fi
 [ "$SES" = "nueva" ] && SES=""
-ESF="${ESFUERZO:-high}"
+ESF="${ESFUERZO:-}"
+[ -n "$ESF" ] || { echo "falta ESFUERZO (off|low|high|max): elígelo según la tarea (agentes-delegados.md, §8)" >&2; exit 2; }
 [[ "$ESF" =~ ^(off|low|high|max)$ ]] || { echo "ESFUERZO inválido: $ESF (off|low|high|max)" >&2; exit 2; }
 PATCH="$CONF/esfuerzo/$ESF.yml"
 [ -f "$PATCH" ] || { echo "falta $PATCH" >&2; exit 2; }

@@ -20,8 +20,8 @@
 # y publica en ntfy.sh "muse:<etiqueta> exit=<código> <segundos>s" en el tema
 # privado de ~/.config/dsh_tarea/ntfy_topic (el mismo de dsh_tarea.sh).
 #
-# Esfuerzo de razonamiento: variable ESFUERZO = off | low | high | max (por
-# defecto high), la misma escala que dsh_tarea.sh. Muse no tiene «sin
+# Esfuerzo de razonamiento: variable ESFUERZO = off | low | high | max,
+# OBLIGATORIA (sin valor por defecto), la misma escala que dsh_tarea.sh. Muse no tiene «sin
 # razonar» con la suscripción (none: «not supported with --provider meta»):
 # off se traduce a minimal. Política de uso: Claude-memoria/memoria/
 # agentes-delegados.md, §8.
@@ -43,7 +43,8 @@ ETIQ="$1"; MSG="$2"; SES="${3:-}"
 TOPIC="$(tr -d '[:space:]' < "$HOME/.config/dsh_tarea/ntfy_topic")"
 if [ -z "$SES" ] && [ -f "$CONF/sesion" ]; then SES="$(tr -d '[:space:]' < "$CONF/sesion")"; fi
 if [ -z "$SES" ] || [ "$SES" = "nueva" ]; then SES="$(python3 -c 'import uuid;print(uuid.uuid4())')"; fi
-ESF="${ESFUERZO:-high}"
+ESF="${ESFUERZO:-}"
+[ -n "$ESF" ] || { echo "falta ESFUERZO (off|low|high|max): elígelo según la tarea (agentes-delegados.md, §8)" >&2; exit 2; }
 case "$ESF" in off) EFM=minimal ;; low|high|max) EFM="$ESF" ;; *) echo "ESFUERZO inválido: $ESF (off|low|high|max)" >&2; exit 2 ;; esac
 mkdir -p "$SALIDA"
 for ext in out err json jsonl; do
