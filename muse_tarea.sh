@@ -19,6 +19,12 @@
 # Al terminar deja en ~/.cache/muse_tareas/<etiqueta>.{jsonl,out,err,json,msg}
 # y publica en ntfy.sh "muse:<etiqueta> exit=<código> <segundos>s" en el tema
 # privado de ~/.config/dsh_tarea/ntfy_topic (el mismo de dsh_tarea.sh).
+#
+# Esfuerzo de razonamiento: variable ESFUERZO = off | low | high | max (por
+# defecto high), la misma escala que dsh_tarea.sh. Muse no tiene «sin
+# razonar» con la suscripción (none: «not supported with --provider meta»):
+# off se traduce a minimal. Política de uso: Claude-memoria/memoria/
+# agentes-delegados.md, §8.
 
 set -euo pipefail
 
@@ -37,6 +43,8 @@ ETIQ="$1"; MSG="$2"; SES="${3:-}"
 TOPIC="$(tr -d '[:space:]' < "$HOME/.config/dsh_tarea/ntfy_topic")"
 if [ -z "$SES" ] && [ -f "$CONF/sesion" ]; then SES="$(tr -d '[:space:]' < "$CONF/sesion")"; fi
 if [ -z "$SES" ] || [ "$SES" = "nueva" ]; then SES="$(python3 -c 'import uuid;print(uuid.uuid4())')"; fi
+ESF="${ESFUERZO:-high}"
+case "$ESF" in off) EFM=minimal ;; low|high|max) EFM="$ESF" ;; *) echo "ESFUERZO inválido: $ESF (off|low|high|max)" >&2; exit 2 ;; esac
 mkdir -p "$SALIDA"
 for ext in out err json jsonl; do
   [ -e "$SALIDA/$ETIQ.$ext" ] && { echo "ya existe $SALIDA/$ETIQ.$ext: usa otra etiqueta" >&2; exit 2; }
@@ -51,6 +59,7 @@ cp "$MSG" "$SALIDA/$ETIQ.msg"
   inicio=$(date +%s)
   env -u META_API_KEY MUSE_NO_AUTO_UPDATE=1 timeout "$TOPE" "$MUSE" exec \
       --disable-sandbox --disable-approval --json --session-id "$SES" \
+      --reasoning-effort "$EFM" \
       --prompt-file "$SALIDA/$ETIQ.msg" \
       > "$SALIDA/$ETIQ.jsonl" 2> "$SALIDA/$ETIQ.err" && rc=0 || rc=$?
   python3 - "$SALIDA/$ETIQ.jsonl" > "$SALIDA/$ETIQ.out" 2>/dev/null <<'PY' || true
@@ -66,9 +75,9 @@ for l in open(sys.argv[1], encoding="utf-8"):
 print(ultimo)
 PY
   seg=$(( $(date +%s) - inicio ))
-  printf '{"etiqueta":"%s","session_id":"%s","exit":%s,"segundos":%s,"inicio":%s}\n' \
-    "$ETIQ" "$SES" "$rc" "$seg" "$inicio" > "$SALIDA/$ETIQ.json"
+  printf '{"etiqueta":"%s","session_id":"%s","esfuerzo":"%s","exit":%s,"segundos":%s,"inicio":%s}\n' \
+    "$ETIQ" "$SES" "$EFM" "$rc" "$seg" "$inicio" > "$SALIDA/$ETIQ.json"
   curl -s -m 15 -d "muse:$ETIQ exit=$rc ${seg}s" "https://ntfy.sh/$TOPIC" > /dev/null || true
 ) > /dev/null 2>&1 &
 disown
-echo "lanzada: $ETIQ (sesión Muse: $SES); resultado en $SALIDA/$ETIQ.out"
+echo "lanzada: $ETIQ (sesión Muse: $SES, esfuerzo: $EFM); resultado en $SALIDA/$ETIQ.out"
