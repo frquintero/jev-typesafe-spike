@@ -42,6 +42,11 @@ la información como exclusión de posibilidades (Bar-Hillel y Carnap). El
 marco agrega sostén, distinciones nuevas y reglas, y su cambio no es
 monótono.
 
+**Cómo lo soñamos, de punta a punta:** `zettel-vision-operativa.md`
+(04-10): un ejemplo completo con documento, extracción, pregunta,
+orquestador que trae el mundo (K), reglas de la consulta (R), juicio de Jev,
+información para el usuario y dato derivado para el sistema.
+
 ## Principio de trabajo: el camino se hace al andar
 
 Lo único fijo, o casi fijo, es el **marco filosófico** (`marco filosófico/`)

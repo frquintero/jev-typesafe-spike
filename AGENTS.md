@@ -16,7 +16,8 @@ respuestas admisibles a una pregunta, A(Q), cuando se consideran datos
 conforme a reglas; no es un pasaje que se trae. **Recuperar no es
 responder.** Cada unidad, dato, extractor o prueba se juzga por lo que
 permite hacer a una pregunta. Detalle y ejemplo: `README.md`, «Visión»;
-definición: `definiciones-del-marco.md`, A.8.
+definición: `definiciones-del-marco.md`, A.8. Cómo lo soñamos de punta a
+punta (pregunta, mundo, orquestador, Jev): `zettel-vision-operativa.md`.
 
 ## Principio de trabajo
 
