@@ -52,3 +52,47 @@ contradice el marco; todas señalan una regla que falta.
 2. Ajustar `validar.py`: ese modo, y que `--comparar` incluya dependencias.
 3. Si se adoptan, repetir la mesa 1 con un documento nuevo (otro par de
    tablas por separado) antes de la mesa 2 con DeepSeek llenando el esquema.
+
+## Decisiones tras la revisión (04-10, Frat, Cowork y DeepSeek)
+
+Respuesta completa de DeepSeek en `respuesta_ds.md`. Se adopta:
+
+1. **Escala.** El aspecto fija la escala, y toda posición se escribe en ella.
+2. **Encabezado.** El caso se cita por su id de la ficha (sin ficha: nombre
+   canónico e id pendiente). Lo ya establecido va en `ruta`, nunca en `si`.
+3. **Genéricos.** Solo una determinación incompatible, bajo las mismas
+   condiciones constitutivas, vuelve inadmisible una posición (ensayo,
+   l. 229). Una regla genérica solo añade sostén. Con genéricos, lo normal es
+   «admisible sin sostén»: la información viene de distinguir, no de excluir.
+4. **Mundo registrado.** Todo saber del mundo que fija una posición va en
+   `ruta`, como dependencia con su procedencia.
+5. **Conflicto.** Se marca con un campo `conflicto: [ids]` por tabla. La
+   pérdida de sostén se calcula del conflicto; `si` queda para las
+   distinciones.
+6. **Dependencias y campo.** `dependencias` = lo que aparece en alguna ruta.
+   Un campo `campo` lista los datos considerados pertinentes (término ya
+   registrado en la parte C de las definiciones); los mudos son el campo
+   menos las rutas.
+7. **Ids.** D = dato del corpus; K = mundo (dato o regla); R = regla de la
+   consulta.
+8. **Clases de cambio del diff:** cambian de estado (en los dos sentidos:
+   dejan de ser admisibles o vuelven a serlo); ganan o pierden sostén (fila
+   admisible que cambia de ruta, o que entra en un conflicto); cambia la
+   razón de exclusión (fila inadmisible que cambia de ruta); aparecen
+   distinciones (filas nuevas o cambios en `si`).
+
+**Sobre la P3.** Como está escrita («¿cuándo empieza?»), se responde con un
+evento: «cuando la uva alcanza 22 °Bx», una posición con sostén D3. La
+premisa «año cálido/frío» fue inventada. La versión en fechas es otra
+pregunta y es **no cerrable**: falta un dato (dónde está la bodega) que ni el
+documento ni el mundo disponible dan. No equivale a P2: con reglas genéricas
+registradas (K1, K2), dos intervalos ganan sostén bajo supuestos distintos
+y el resto queda admisible sin sostén; hay información parcial, sin cierre.
+Salida correcta: mostrar las dos ramas y, como último recurso, preguntar al
+usuario («¿dónde está San Martín?»). La prueba de la regla 3 se repite en la
+mesa 1b con un genérico limpio.
+
+**Siguiente:** mesa 1b, con documento nuevo que traiga a propósito una regla
+genérica, un conflicto de fuentes, una posición que vuelve a ser admisible,
+un dato mudo, una pregunta respondida por un evento y una pregunta no
+cerrable que termine en el usuario; `validar.py` ajustado a estas reglas.

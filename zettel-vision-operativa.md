@@ -40,22 +40,44 @@ cosa. Es la misma operación con otra escritura (registrada en
 - **Brecha:** lo que falta para pasar de A(Q | K) a una respuesta.
 
 **La tabla de A(Q).** A(Q) se representa, para que el efecto no sea un
-autorreporte del modelo. Una fila por posición (o por regla de dominio,
-cuando el dominio es grande: «las demás horas»):
+autorreporte del modelo. Reglas probadas en la mesa 1 (`mvp/mesa1/`):
 
-| posición | condición | estado | sostén |
+| posicion | si | estado | ruta |
 |---|---|---|---|
-| la posición del dominio | la distinción, si la hay | admisible o inadmisible | las rutas: ids de dependencias |
+| una posición, escrita en la escala que fija el aspecto | supuesto no establecido del que depende la fila | admisible o inadmisible | ids de lo que establece el estado |
 
-- **Estado:** solo admisible o inadmisible. Verdadero, falso o indeterminado
-  son predicados de la determinación, no de la posición; mezclarlos es un
-  error categorial (ensayo, l. 223). Una posición admisible sin ruta es
-  «admisible, sin sostén», no un tercer estado.
+- **Fila `resto`:** el dominio se escribe como regla, y una fila `resto`
+  cubre lo no listado. Para el diff, una posición listada en una tabla
+  tenía en la anterior el estado de `resto`.
+- **`si`:** solo supuestos no establecidos («horario de verano», «la bodega
+  está en el hemisferio norte»). Lo establecido va en `ruta`.
+- **`estado`:** solo admisible o inadmisible. Verdadero, falso o
+  indeterminado son predicados de la determinación, no de la posición
+  (ensayo, l. 223). Una posición admisible sin ruta es «admisible, sin
+  sostén», no un tercer estado.
+- **`ruta`:** en una fila admisible es su sostén; en una inadmisible, su
+  razón de exclusión. Todo saber del mundo que fija una posición está en la
+  ruta como dependencia.
+- **Excluir y sostener.** Solo una determinación incompatible, bajo las
+  mismas condiciones constitutivas, vuelve inadmisible una posición (ensayo,
+  l. 229). Una regla genérica («suele») solo añade sostén.
+- **Por tabla:** `conflicto: [ids]` cuando dos fuentes chocan; `campo`: los
+  datos considerados pertinentes (los mudos son el campo menos las rutas).
+- **Ids:** D = dato del corpus; K = mundo (dato o regla); R = regla de la
+  consulta.
 - **Quién la escribe:** el orquestador propone las filas; el código llena
   lo que es cómputo (fechas, husos, aritmética).
 - **El efecto informativo** es la diferencia entre la tabla de antes y la de
-  después, y la calcula el código. Si son iguales, no hubo efecto y el
-  sistema lo dice.
+  después, calculada por el código, en cuatro clases: cambian de estado (en
+  los dos sentidos); ganan o pierden sostén (fila admisible que cambia de
+  ruta o entra en un conflicto); cambia la razón de exclusión (fila
+  inadmisible que cambia de ruta); aparecen distinciones (filas nuevas o
+  cambios en `si`). Si no hay cambios, no hubo efecto y el sistema lo dice.
+- **Tres desenlaces** cuando la pregunta no se cierra: **no establecido**
+  (nada mueve la tabla: «el documento no lo establece»); **no cerrable**
+  (falta un dato que ni el corpus ni el mundo disponible dan; puede haber
+  información parcial, como ramas con `si`); en los dos, el usuario es la
+  fuente de último recurso.
 
 **Los datos (D).** Los datos que se consideran: los del documento o los
 derivados. Todos tienen el mismo estatus de dato.
@@ -171,8 +193,8 @@ orquestador tiene libertad.
 
 1. **Estructura la pregunta.** Caso de estudio: el vuelo AV-569. Aspecto:
    hora local de llegada. Condición: París. Dominio: x:yy, de 0:00 a 23:59.
-2. **Escribe la tabla inicial.** Una fila: «todas las posiciones del
-   dominio · — · admisible · —». Es A(Q | K).
+2. **Escribe la tabla inicial.** Una fila: «resto · — · admisible · —».
+   Es A(Q | K).
 3. **Lee R** y **busca el campo:** D0, D1 y D2.
 4. **Mide la brecha:** faltan la fecha de «el lunes», la duración, los husos
    y una validación del horario.
@@ -186,16 +208,18 @@ orquestador tiene libertad.
 6. **El código calcula:** 13:15 UTC + 10 h 35 min = 23:50 UTC = 1:50 en
    París. Y llena la tabla final:
 
-| posición | condición | estado | sostén |
+| posicion | si | estado | ruta |
 |---|---|---|---|
-| 1:50 | 28-9-2026, duración normal | admisible | ruta 1: D0, D1, K1, K2, K3 |
-| 0:50 | — | inadmisible | D0 + K3 dan el 28-9, en horario de verano (K2) |
-| las demás | — | inadmisible | contradicen D1 + K1 + K2 |
+| 1:50 | duración normal | admisible | D0, D1, K1, K2, K3 |
+| 0:50 | — | inadmisible | D0, K3, K2 (el 28-9 rige el horario de verano) |
+| resto | — | inadmisible | D1, K1, K2 |
 
+   `campo`: D0, D1, D2.
    El efecto (diferencia de tablas): de todo el dominio admisible a una
    sola posición. D2 no aparece en ninguna fila: quedó **mudo**.
 7. **Lleva la respuesta a Jev:** juicio «el AV-569 llega a París hacia la
-   1:50, hora local», con el expediente. Supuesto: grado 0,88, banda «muy
+   1:50, hora local», con el expediente (los valores de la ruta, no solo sus
+   ids). Supuesto: grado 0,88, banda «muy
    seguramente cierto».
 
 El orquestador puede lanzar varias instancias de un LLM con funciones
@@ -254,8 +278,8 @@ suscribirse a la fuente (fuera de la MVP).
   hora de llegada; solo la de salida».
 - **Boletín sin fecha propia.** Falta D0 y «el lunes» no se resuelve (la
   radicación no sirve). La tabla final muestra la distinción: 1:50 admisible
-  con la condición «horario de verano», 0:50 admisible con «horario de
-  invierno». Como último recurso, el orquestador pregunta: «¿de qué lunes se
+  con `si` «horario de verano», 0:50 admisible con `si` «horario de
+  invierno». Es un desenlace no cerrable, con información parcial. Como último recurso, el orquestador pregunta: «¿de qué lunes se
   trata?».
 
 ## Lo probado y lo por probar

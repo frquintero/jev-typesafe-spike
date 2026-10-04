@@ -1,0 +1,39 @@
+Tarea de Cowork (Claude) para DeepSeek, con autorización de Frat. Prueba de mesa 1b de la MVP de Zettel.
+
+ANTES DE EMPEZAR, lee (solo lectura):
+- mvp/mesa1/resultado.md, sobre todo «Decisiones tras la revisión»: son las reglas vigentes del esquema.
+- zettel-vision-operativa.md, sección «La tabla de A(Q)».
+- mvp/mesa1/validar.py (lo vas a ajustar en una copia).
+
+QUÉ SE PRUEBA. Que las reglas adoptadas dejen el esquema sin ambigüedad: dos lectores (tú y Cowork) llenando por separado deberían coincidir mucho más que en la mesa 1 (18 celdas distintas). Sin API de modelos.
+
+ESQUEMA (cambios respecto de la mesa 1): cada tabla es un objeto {"filas": [...], "conflicto": [ids] o [], "campo": [ids]}. Filas: posicion · si · estado · ruta, con fila "resto". La posición se escribe en la escala que fija el aspecto (con su unidad). Encabezado: caso con nombre canónico e "id": "pendiente". Ids: D = dato del corpus, K = mundo (dato o regla), R = regla de la consulta. dependencias = solo lo que aparece en alguna ruta; cada una con id, tipo (dato | regla), valor, procedencia, fecha. Una regla genérica («suele») solo sostiene, nunca excluye. Todo saber del mundo que fija una posición va en la ruta como dependencia. Y un campo "desenlace" por pregunta: "cerrada" | "no establecido" | "no cerrable".
+
+TU TAREA (escribe solo dentro de mvp/mesa1b/):
+
+A) documento.md — documento sintético nuevo, 4 a 6 oraciones numeradas, otro dominio (no vuelos, represa, estanque, bodega, ni textos de unidades/docs). Radicación: 4-10-2026. Debe traer a propósito: una fecha propia; un dato que quedará mudo; algo respondido por un evento o condición; algo cuya respuesta exige un dato que no está ni en el documento ni en un mundo razonable (p. ej., dónde está algo no identificado).
+
+B) preguntas.md — seis preguntas, cada una con su R y su salida esperada en una línea:
+- Q1: cerrada por el documento, R = «solo el documento».
+- Q2: no establecido, R = «solo el documento» (diff vacío).
+- Q3: «¿cuándo…?» respondida por un evento o condición del documento (una posición).
+- Q4: no cerrable: falta un dato que ni D ni K disponible dan; con una regla genérica de K (registrada, «suele») que da sostén a dos ramas con `si` distintos y deja el resto admisible sin sostén. La salida termina preguntando al usuario por el dato que falta.
+- Q5: conflicto de fuentes: el documento dice una cosa y una premisa de K (simulada, con procedencia y fecha inventadas) dice otra. Tres tablas: inicial, final (solo documento), revisada (con K). Marcar `conflicto`.
+- Q6: una posición que vuelve a ser admisible: primero queda excluida por un dato, después ese dato se revisa (premisa de K simulada que lo invalida) y la posición vuelve a ser admisible. Tres tablas: inicial, final, revisada.
+
+C) tablas_ds.json — tus tablas a mano, en el esquema de arriba (una lista, un objeto por pregunta, con id, pregunta, R, encabezado, dominio, desenlace, dependencias, tabla_inicial, tabla_final, tabla_revisada si aplica, salida_esperada).
+
+D) validar.py — copia de mvp/mesa1/validar.py ajustada:
+1. Tablas en el formato nuevo ({"filas", "conflicto", "campo"}); todo id de conflicto y de campo existe (los de campo pueden no estar en dependencias si son mudos: entonces deben estar declarados en una lista "datos" de la pregunta con id y valor).
+2. Diff en cuatro clases: cambian de estado (admisible→inadmisible y inadmisible→admisible, por separado); ganan o pierden sostén (fila admisible que cambia de ruta, o cuyos ids entran en `conflicto`); cambia la razón de exclusión (fila inadmisible que cambia de ruta); aparecen distinciones (filas nuevas o cambio en `si`).
+3. Coherencia del desenlace: "no establecido" ⇒ diff vacío; "cerrada" ⇒ exactamente una fila admisible además de resto inadmisible; "no cerrable" ⇒ resto admisible.
+4. Condición 2 (R «solo el documento» ⇒ sin dependencias K de tipo dato) y condición 3 (si hay `conflicto`, la salida esperada lo menciona: basta comprobar que no está vacía y avisar).
+5. --comparar incluye dependencias, conflicto, campo y desenlace.
+
+E) Corre validar.py sobre tablas_ds.json y pega la salida en reporte_ds.md, con dos o tres líneas sobre dónde dudaste.
+
+ORDEN: escribe primero documento.md y preguntas.md, y luego lo demás.
+
+NO HAGAS: no hagas commit ni push; no llames a APIs de modelos; no edites nada fuera de mvp/mesa1b/; no leas ni copies claves.
+
+Respuesta final corta: archivos creados y salida del validador.

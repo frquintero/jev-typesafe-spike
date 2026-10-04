@@ -1,0 +1,81 @@
+[
+ {"id": "Q1", "pregunta": "¿Cuántas literas tiene el refugio de Peña Alta?",
+  "R": {"fuentes": "solo el documento"},
+  "encabezado": {"caso": {"nombre": "refugio de Peña Alta", "id": "pendiente"}, "aspecto": "número de literas", "condiciones": []},
+  "dominio": "números naturales de literas", "desenlace": "cerrada",
+  "dependencias": [{"id": "D1", "tipo": "dato", "valor": "refugio de Peña Alta · literas · 24", "procedencia": "documento, oración 2", "fecha": "radicación 4-10-2026"}],
+  "tabla_inicial": {"filas": [{"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}], "conflicto": [], "campo": []},
+  "tabla_final": {"filas": [
+     {"posicion": "24 literas", "si": null, "estado": "admisible", "ruta": ["D1"]},
+     {"posicion": "resto", "si": null, "estado": "inadmisible", "ruta": ["D1"]}], "conflicto": [], "campo": ["D1"]},
+  "salida_esperada": "El refugio de Peña Alta tiene 24 literas (oración 2)."},
+
+ {"id": "Q2", "pregunta": "¿Cuántas horas de autonomía tiene el generador del refugio de Peña Alta?",
+  "R": {"fuentes": "solo el documento"},
+  "encabezado": {"caso": {"nombre": "generador del refugio de Peña Alta", "id": "pendiente"}, "aspecto": "autonomía en horas", "condiciones": []},
+  "dominio": "horas ≥ 0", "desenlace": "no establecido",
+  "datos": [{"id": "D5", "valor": "refugio de Peña Alta · generador eléctrico · 3 kW", "procedencia": "documento, oración 6"}],
+  "dependencias": [],
+  "tabla_inicial": {"filas": [{"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}], "conflicto": [], "campo": []},
+  "tabla_final": {"filas": [{"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}], "conflicto": [], "campo": ["D5"]},
+  "salida_esperada": "El documento no lo establece: dice que el generador es de 3 kW (oración 6), no su autonomía."},
+
+ {"id": "Q3", "pregunta": "¿Cuándo sale la excursión al refugio de Peña Alta?",
+  "R": {"fuentes": "solo el documento"},
+  "encabezado": {"caso": {"nombre": "excursión al refugio de Peña Alta", "id": "pendiente"}, "aspecto": "momento de salida (evento o condición)", "condiciones": []},
+  "dominio": "eventos o condiciones que marcan la salida", "desenlace": "cerrada",
+  "dependencias": [{"id": "D3", "tipo": "dato", "valor": "excursión al refugio · momento de salida · cuando amanece", "procedencia": "documento, oración 4", "fecha": "radicación 4-10-2026"}],
+  "tabla_inicial": {"filas": [{"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}], "conflicto": [], "campo": []},
+  "tabla_final": {"filas": [
+     {"posicion": "al amanecer", "si": null, "estado": "admisible", "ruta": ["D3"]},
+     {"posicion": "resto", "si": null, "estado": "inadmisible", "ruta": ["D3"]}], "conflicto": [], "campo": ["D3"]},
+  "salida_esperada": "La excursión sale al amanecer (oración 4)."},
+
+ {"id": "Q4", "pregunta": "¿Dónde está el refugio de Peña Alta?",
+  "R": {"fuentes": "libre"},
+  "encabezado": {"caso": {"nombre": "refugio de Peña Alta", "id": "pendiente"}, "aspecto": "ubicación", "condiciones": []},
+  "dominio": "lugares", "desenlace": "no cerrable",
+  "dependencias": [{"id": "K1", "tipo": "regla", "valor": "un refugio de montaña suele estar junto al collado por el que sube su senda de acceso", "procedencia": "K: mundo del orquestador", "fecha": "4-10-2026"}],
+  "tabla_inicial": {"filas": [{"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}], "conflicto": [], "campo": []},
+  "tabla_final": {"filas": [
+     {"posicion": "junto al collado Norte", "si": "la senda de acceso sube por el norte", "estado": "admisible", "ruta": ["K1"]},
+     {"posicion": "junto al collado Sur", "si": "la senda de acceso sube por el sur", "estado": "admisible", "ruta": ["K1"]},
+     {"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}], "conflicto": [], "campo": []},
+  "salida_esperada": "No puedo cerrarlo: el documento no dice dónde está el refugio y no tengo un dato que lo identifique. Si la senda sube por el norte, lo normal es que esté junto al collado Norte; si sube por el sur, junto al Sur. ¿Por qué collado se sube al refugio?"},
+
+ {"id": "Q5", "pregunta": "¿Cuántas mantas hay en el refugio de Peña Alta?",
+  "R": {"fuentes": "libre"},
+  "encabezado": {"caso": {"nombre": "refugio de Peña Alta", "id": "pendiente"}, "aspecto": "número de mantas", "condiciones": []},
+  "dominio": "números naturales de mantas", "desenlace": "en conflicto",
+  "dependencias": [
+    {"id": "D4", "tipo": "dato", "valor": "refugio de Peña Alta · mantas del club · 40", "procedencia": "documento, oración 5", "fecha": "radicación 4-10-2026"},
+    {"id": "K2", "tipo": "dato", "valor": "refugio de Peña Alta · mantas · 55", "procedencia": "K: inventario del club (premisa simulada)", "fecha": "consulta 1-10-2026"}],
+  "tabla_inicial": {"filas": [{"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}], "conflicto": [], "campo": []},
+  "tabla_final": {"filas": [
+     {"posicion": "40 mantas", "si": null, "estado": "admisible", "ruta": ["D4"]},
+     {"posicion": "resto", "si": null, "estado": "inadmisible", "ruta": ["D4"]}], "conflicto": [], "campo": ["D4"]},
+  "tabla_revisada": {"filas": [
+     {"posicion": "40 mantas", "si": null, "estado": "admisible", "ruta": ["D4"]},
+     {"posicion": "55 mantas", "si": null, "estado": "admisible", "ruta": ["K2"]},
+     {"posicion": "resto", "si": null, "estado": "inadmisible", "ruta": ["D4", "K2"]}], "conflicto": ["D4", "K2"], "campo": ["D4", "K2"]},
+  "salida_esperada": "Hay un conflicto: el aviso dice que el club guarda 40 mantas en el refugio (oración 5) y el inventario del club, consultado el 1-10-2026, dice 55 (premisa simulada)."},
+
+ {"id": "Q6", "pregunta": "¿Qué día reabre la senda de acceso al refugio de Peña Alta tras las obras?",
+  "R": {"fuentes": "libre"},
+  "encabezado": {"caso": {"nombre": "senda de acceso al refugio de Peña Alta", "id": "pendiente"}, "aspecto": "fecha de reapertura", "condiciones": ["tras las obras de octubre de 2026"]},
+  "dominio": "fechas del calendario (día)", "desenlace": "en conflicto",
+  "dependencias": [
+    {"id": "D0", "tipo": "dato", "valor": "aviso · fecha de emisión · 20-9-2026", "procedencia": "documento, oración 1", "fecha": "radicación 4-10-2026"},
+    {"id": "D2", "tipo": "dato", "valor": "senda de acceso · cierre por obras · del 15 al 31 de octubre", "procedencia": "documento, oración 3", "fecha": "radicación 4-10-2026"},
+    {"id": "K4", "tipo": "regla", "valor": "un cierre «del X al Y» termina el día Y: la reapertura es el día siguiente", "procedencia": "K: mundo del orquestador", "fecha": "4-10-2026"},
+    {"id": "K3", "tipo": "dato", "valor": "senda de acceso · fin de la clausura · 18-10-2026", "procedencia": "K: aviso de obras del parque (premisa simulada)", "fecha": "consulta 2-10-2026"}],
+  "tabla_inicial": {"filas": [{"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}], "conflicto": [], "campo": []},
+  "tabla_final": {"filas": [
+     {"posicion": "1-11-2026", "si": null, "estado": "admisible", "ruta": ["D0", "D2", "K4"]},
+     {"posicion": "resto", "si": null, "estado": "inadmisible", "ruta": ["D0", "D2", "K4"]}], "conflicto": [], "campo": ["D0", "D2"]},
+  "tabla_revisada": {"filas": [
+     {"posicion": "1-11-2026", "si": null, "estado": "admisible", "ruta": ["D0", "D2", "K4"]},
+     {"posicion": "18-10-2026", "si": null, "estado": "admisible", "ruta": ["K3"]},
+     {"posicion": "resto", "si": null, "estado": "inadmisible", "ruta": ["D0", "D2", "K4", "K3"]}], "conflicto": ["D2", "K3"], "campo": ["D0", "D2", "K3"]},
+  "salida_esperada": "Hay un conflicto: el aviso del 20-9 anuncia el cierre hasta el 31 de octubre, de modo que la senda reabriría el 1 de noviembre; el aviso de obras del parque (premisa simulada) dice que la clausura terminó el 18 de octubre. Además, esa premisa está fechada el 2-10 y habla de un hecho del 18-10: hay que verificarla antes de preferirla."}
+]
