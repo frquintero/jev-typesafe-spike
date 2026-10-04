@@ -101,6 +101,7 @@ los tres sitios.
   antecedente; ya no se usa).
 - `dsh_tarea.sh`: delega una tarea a DeepSeek Harness por terminal y avisa
   por ntfy.sh al terminar (ver «DeepSeek Harness por terminal»).
+- `muse_tarea.sh`: lo mismo con Muse Code (ver «Muse como agente por terminal»).
 - `deleted/`: snapshots históricos; no es fuente.
 - Documentos vivos (no editar sin aprobación): `README.md`, `definiciones-del-marco.md`, `diccionario.md`,
   `jev_typesafe_guia_pedagogica_v2.md`.
@@ -231,6 +232,37 @@ El mensaje dice qué hacer y qué no (por defecto: solo lectura, sin
 commit, sin llamar a APIs de modelos) y pide respuesta corta. Lo que
 DeepSeek responde es un reporte de ejecutor: se verifica contra los
 crudos antes de tomarlo como hecho.
+
+## Muse como agente por terminal (muse_tarea.sh)
+
+Misma regla dura que DeepSeek Harness: **autorización expresa y previa de
+Frat** en cada caso; **exclusivo de Claude y ChatGPT**.
+
+- `./muse_tarea.sh <etiqueta> <archivo_mensaje> [<uuid>|nueva]` (raíz del
+  repo). Lanza `muse exec` en segundo plano y devuelve el control al
+  instante. Sin tercer argumento usa la sesión de `~/.config/muse_tarea/sesion`;
+  `nueva` crea una con un uuid propio (Muse acepta el id que le damos con
+  `--session-id`, así que siempre se conoce).
+- Cómo corre Muse: suscripción Everyday (el envoltorio además quita
+  `META_API_KEY` por si acaso), `--disable-sandbox`, **`--disable-approval`**
+  (decisión de Frat, 04-10: sin terminal no hay quién apruebe), `--json`,
+  tope de tiempo `MUSE_TAREA_TIMEOUT` (1800 s por defecto) y
+  `MUSE_NO_AUTO_UPDATE=1`. **Una sola tarea de Muse a la vez:** un candado
+  rechaza la segunda (código 3).
+- Deja en `~/.cache/muse_tareas/`: `<etiqueta>.out` (texto final, del evento
+  `run_terminal`), `.jsonl` (eventos), `.err`, `.json` (`session_id`, `exit`,
+  `segundos`) y `.msg`. Una etiqueta ya usada se rechaza.
+- Aviso: el mismo tema privado de ntfy.sh que `dsh_tarea.sh`, con prefijo
+  `muse:` (`"muse:<etiqueta> exit=<código> <segundos>s"`). Claude lo recibe
+  con la misma vigilancia; ChatGPT revisa o espera el `.json`.
+- Códigos de salida de `muse exec`: 0 turno completo (no garantiza que el
+  trabajo esté bien), 1 fallo o cancelación (incluye tope de pasos), 2 error
+  de uso, 124 tope de tiempo (`timeout`), 130/143 señales.
+- Una sesión nueva no sabe nada del proyecto: el primer mensaje le pide leer
+  `AGENTS.md`, la memoria y lo que la tarea necesite. Lo que Muse reporta se
+  verifica contra los archivos antes de tomarlo como hecho.
+- Reparto sugerido: DeepSeek para investigar, razonar y verificar; Muse para
+  implementar y correr.
 
 ## Modelos
 

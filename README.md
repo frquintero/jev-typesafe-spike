@@ -217,6 +217,13 @@ ya no se carga en las terminales (línea comentada en `~/.bashrc`).
 `muse.sh` (el envoltorio que encendía y apagaba el proxy y quitaba la clave
 de Meta) se retiró el 04-10.
 
+**Como agente.** `muse_tarea.sh` hace con Muse lo mismo que `dsh_tarea.sh`
+con DeepSeek: lanza la tarea en segundo plano (sin aprobaciones, una a la
+vez, con tope de tiempo) y avisa por ntfy.sh al terminar. Así Claude tiene
+dos agentes: DeepSeek para investigar y verificar, Muse para implementar.
+Requiere autorización expresa y previa de Frat; exclusivo de Claude y
+ChatGPT. Detalle: `AGENTS.md`.
+
 **Qué lee Muse.** Muse carga solo `AGENTS.md` en cada sesión, interactiva o no. Ahí están sus reglas de red, claves, comandos y reportes. `CLAUDE.md` es una sola línea (`@AGENTS.md`): si se usa Claude Code, lee las mismas reglas. Hay una sola fuente.
 
 ## DeepSeek Harness como agente por terminal (dsh headless)
