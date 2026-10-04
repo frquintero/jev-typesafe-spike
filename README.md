@@ -201,62 +201,15 @@ el proveedor. Las claves nunca se imprimen ni quedan en archivos del repo.
 bash -ic 'python3 unidades/ficha_doc.py puente1 deepseek ficha_v0 r1'
 ```
 
-## Muse Code (configuración vigente)
+## Muse Code y agentes delegados
 
-Muse Code (Meta Muse Spark) es el implementador. Usa la suscripción **Muse
-Code Everyday** (límite semanal), nunca pago por uso: por eso `META_API_KEY`
-ya no se carga en las terminales (línea comentada en `~/.bashrc`).
-
-- **Interactivo:** `muse` (alias de `command muse --disable-sandbox`; sin
-  sandbox para tener red completa y `.git` escribible; las aprobaciones
-  siguen activas).
-- **Sin terminal:** `command muse exec --disable-sandbox --prompt-file <archivo>`
-  corre un mensaje completo y termina. Así Cowork lanza las rondas desde
-  Desktop Commander: Muse corre, reporta, hace commit y push.
-
-`muse.sh` (el envoltorio que encendía y apagaba el proxy y quitaba la clave
-de Meta) se retiró el 04-10.
-
-**Como agente.** `muse_tarea.sh` hace con Muse lo mismo que `dsh_tarea.sh`
-con DeepSeek: lanza la tarea en segundo plano (sin aprobaciones, una a la
-vez, con tope de tiempo) y avisa por ntfy.sh al terminar. Así Claude tiene
-dos agentes: DeepSeek para investigar y verificar, Muse para implementar.
-Requiere autorización expresa y previa de Frat; exclusivo de Claude y
-ChatGPT. Detalle: `AGENTS.md`.
+Muse Code (Meta Muse Spark) es el implementador; DeepSeek Harness, el
+agente de investigación y verificación; NotebookLM, una herramienta en
+evaluación. Cómo se arrancan, se delegan tareas y se recibe el aviso al
+terminar, con sus reglas (autorización previa de Frat; exclusivo de Claude
+y ChatGPT): `/home/fratquintero/Claude-memoria/memoria/agentes-delegados.md`.
 
 **Qué lee Muse.** Muse carga solo `AGENTS.md` en cada sesión, interactiva o no. Ahí están sus reglas de red, claves, comandos y reportes. `CLAUDE.md` es una sola línea (`@AGENTS.md`): si se usa Claude Code, lee las mismas reglas. Hay una sola fuente.
-
-## DeepSeek Harness como agente por terminal (dsh headless)
-
-Desde el 03-10, DeepSeek Harness (`dsh`, instalado en el PC de Frat) puede
-trabajar como ejecutor y verificador **sin abrir su ventana**: Claude
-(Cowork o Claude Code) o ChatGPT (Luna) le escriben por terminal con
-`dsh headless`, y la respuesta llega como texto. La conversación queda
-guardada como una sesión del Harness y se continúa mensaje a mensaje, con
-su historial.
-
-**Autorización.** Este canal se usa solo con **autorización expresa y
-previa de Frat** para cada uso, y es **exclusivo de Claude y ChatGPT**.
-Ningún otro agente lo abre ni lo usa.
-
-**Cómo funciona.** La sesión se crea desde la terminal (no desde la
-ventana web) y se retoma por su id; el mensaje entra por stdin. Las
-sesiones creadas en la ventana web no sirven: llevan un preset de agente
-que el modo `headless` rechaza por diseño. Una sesión nueva empieza sin
-contexto, así que el primer mensaje le pide leer `AGENTS.md`, la memoria y
-los reportes que hagan falta. Valen sus reglas de ejecutor (`AGENTS.md`).
-Pasos técnicos: `AGENTS.md`, «DeepSeek Harness por terminal».
-
-Sesión de trabajo vigente: `session-c19a1631-6349-46f8-9b9a-84dd5d7e7ab3`
-(creada el 03-10, contexto cargado).
-
-**Delegar mientras se conversa.** `dsh_tarea.sh` (raíz del repo) lanza la
-tarea en segundo plano y, cuando DeepSeek termina, avisa por ntfy.sh (un
-servicio público de avisos, con un tema privado guardado fuera del repo).
-Claude recibe el aviso al instante con su vigilancia (Monitor) y lee la
-respuesta; así DeepSeek trabaja como agente (investiga, programa, prueba)
-sin interrumpir la conversación. ChatGPT (Codex) no recibe avisos: revisa o
-espera el archivo de resultado. Detalle: `AGENTS.md`.
 
 ## Contexto
 

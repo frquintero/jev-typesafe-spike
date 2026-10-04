@@ -99,9 +99,8 @@ los tres sitios.
   el `README.md` de la raíz.
 - `proxy_local.py`: proxy de claves retirado el 04-10 (se conserva como
   antecedente; ya no se usa).
-- `dsh_tarea.sh`: delega una tarea a DeepSeek Harness por terminal y avisa
-  por ntfy.sh al terminar (ver «DeepSeek Harness por terminal»).
-- `muse_tarea.sh`: lo mismo con Muse Code (ver «Muse como agente por terminal»).
+- `dsh_tarea.sh`, `muse_tarea.sh`: delegan tareas a DeepSeek Harness y a Muse
+  (ver «Agentes delegados»).
 - `deleted/`: snapshots históricos; no es fuente.
 - Documentos vivos (no editar sin aprobación): `README.md`, `definiciones-del-marco.md`, `diccionario.md`,
   `jev_typesafe_guia_pedagogica_v2.md`.
@@ -138,131 +137,21 @@ necesita correr igual en la nube y en el PC).
 - Verificar presencia sin imprimir valores:
   `bash -ic 'for v in TYPESAFE_API_KEY ZAI_API_KEY DEEPSEEK_API_KEY XAI_API_KEY; do
   [ -n "${!v}" ] && echo "$v: SET" || echo "$v: MISSING"; done'`
-- **Muse usa la suscripción Muse Code Everyday, nunca pago por uso.**
-  `META_API_KEY` ya no se carga en las terminales (línea comentada en
-  `~/.bashrc`; el archivo sigue en `~/.config/meta/api_key.env`): no
-  cargarla ni pasarla a Muse. Frat arranca Muse con `muse` (alias de
-  `command muse --disable-sandbox`: red completa y `.git` escribible; las
-  aprobaciones siguen). Sin terminal:
-  `command muse exec --disable-sandbox --prompt-file <archivo>` (el flag va
-  después de `exec`).
+- **Muse usa la suscripción Muse Code Everyday, nunca pago por uso:** no
+  cargar ni pasarle `META_API_KEY`. Cómo se arranca y se delega: `/home/fratquintero/Claude-memoria/memoria/agentes-delegados.md`.
 - Las sondas viejas de `probes/` y `cutoff-spike/` arman sus propias
   cabeceras sin clave (pensadas para el proxy retirado); si se reanudan, se
   pasan por `call_model` o se les agrega la clave del mismo modo.
 - Si una llamada falla por autenticación, **detenerse y reportar**; no buscar
   la clave por otros medios.
 
-## DeepSeek Harness por terminal (dsh headless)
+## Agentes delegados (DeepSeek Harness, Muse, NotebookLM)
 
-**Regla dura.** Comunicarse con DeepSeek Harness por `dsh headless`
-requiere **autorización expresa y previa de Frat** en cada caso, y es
-**exclusivo de Claude (Cowork o Claude Code) y ChatGPT (Luna)**. Muse u
-otro agente no lo usan. Sin autorización, no se envía nada.
-
-Pasos técnicos (en el PC de Frat; desde Cowork, con Desktop Commander, no
-con el shell aislado):
-
-1. Binario: `D=~/.npm/_npx/1e7f6d9597241db0/node_modules/.bin/dsh` (o
-   `npx @deepseek-ai/dsh`). El Harness usa
-   su propia clave en `~/.dsh/` (no leerla).
-2. Ejecutar siempre **desde la raíz del repo**: una sesión solo se retoma
-   desde la carpeta donde se creó.
-3. Escribir el mensaje en un archivo temporal **fuera del repo** (p. ej.
-   `/tmp/dsh_msg.txt`) y pasarlo por stdin con `-` (evita problemas de
-   comillas).
-4. **Crear una sesión** (solo si no hay una vigente):
-   `$D headless --json - < /tmp/dsh_msg.txt > /tmp/dsh_out.jsonl`.
-   El primer evento trae `"sessionId":"session-…"`; anotarlo en el README
-   («Sesión de trabajo vigente»). Su primer mensaje carga el contexto
-   (AGENTS.md, README, memoria, reportes pertinentes).
-5. **Continuarla:**
-   `$D headless --session-id <id> - < /tmp/dsh_msg.txt > /tmp/dsh_out.txt 2>/tmp/dsh_err.txt`.
-   La respuesta final va a stdout; el razonamiento y los diagnósticos, a
-   stderr. Con `--json`, stdout trae los eventos (texto, uso de tokens,
-   fin de turno) y el final en `{"type":"final",…}`.
-6. Tareas largas: lanzarlo en segundo plano (`nohup … &`) y leer los
-   archivos de salida al terminar; las llamadas de Desktop Commander tienen
-   tiempo límite.
-7. Al leer la respuesta, descartar las líneas de razonamiento que a veces
-   se filtran al final del texto (en inglés).
-
-**Delegar sin quedarse esperando: `dsh_tarea.sh` + aviso por ntfy.sh**
-(vigente desde el 03-10). Para mandar a DeepSeek a investigar, programar o
-probar mientras la conversación con Frat sigue:
-
-- `./dsh_tarea.sh <etiqueta> <archivo_mensaje> [<session-id>|nueva]`
-  (raíz del repo). Lanza `dsh headless` en segundo plano y devuelve el
-  control al instante. Sin tercer argumento usa la sesión vigente, guardada
-  en `~/.config/dsh_tarea/sesion`; `nueva` crea otra (su id queda en el
-  `.json` de la tarea; si pasa a ser la de trabajo, actualizar ese archivo y
-  el README).
-- Al terminar DeepSeek, el envoltorio deja en `~/.cache/dsh_tareas/`:
-  `<etiqueta>.out` (respuesta), `.err` (razonamiento y diagnósticos),
-  `.json` (`session_id`, `exit`, `segundos`) y `.msg` (copia del mensaje), y
-  publica en ntfy.sh el aviso `"<etiqueta> exit=<código> <segundos>s"`. Una
-  etiqueta ya usada se rechaza (no sobrescribe).
-- **El aviso no lo manda DeepSeek:** el envoltorio corre `dsh` y, cuando
-  ese proceso termina, ejecuta un `curl` a ntfy.sh. ntfy.sh reenvía el
-  aviso al instante a quien esté suscrito al tema.
-- **El tema es privado:** su nombre aleatorio vive solo en
-  `~/.config/dsh_tarea/ntfy_topic` (0600). El repo es público: nunca
-  escribir el tema en el repo, en mensajes ni en reportes. Por ntfy.sh solo
-  viaja el aviso; las respuestas no salen del PC.
-- **Cómo se entera Claude (Cowork):** al empezar, lee el tema con Desktop
-  Commander (`cat ~/.config/dsh_tarea/ntfy_topic`) y arma una vigilancia
-  (herramienta Monitor, en la nube) suscrita al flujo del tema:
-  `curl -s -N https://ntfy.sh/<tema>/raw`, una línea por aviso; vence a los
-  30 min y se rearma. Con el aviso, lee `<etiqueta>.out` con Desktop
-  Commander. Mientras tanto no consulta nada.
-- **Cómo se entera ChatGPT (Codex):** Codex no tiene un mecanismo que lo
-  despierte con un evento externo (su `notify` solo avisa a la persona
-  cuando Codex termina un turno). Opciones: lanzar la tarea y, cuando
-  convenga, revisar si existe `~/.cache/dsh_tareas/<etiqueta>.json`; o
-  esperarla bloqueando:
-  `until [ -f ~/.cache/dsh_tareas/<etiqueta>.json ]; do sleep 5; done`.
-  ChatGPT en el chat web no tiene shell local y no usa este canal.
-
-Restricciones (código de `@deepseek-ai/dsh-headless`): rechaza toda
-sesión con preset de agente (todas las creadas en la ventana web llevan
-«standard»; un `--patch` no lo evita), las de subagentes y las de otra
-carpeta. Una sesión creada por terminal puede abrirse luego en la ventana
-web, pero no conviene usar las dos a la vez (bloqueo `session.lock`).
-
-El mensaje dice qué hacer y qué no (por defecto: solo lectura, sin
-commit, sin llamar a APIs de modelos) y pide respuesta corta. Lo que
-DeepSeek responde es un reporte de ejecutor: se verifica contra los
-crudos antes de tomarlo como hecho.
-
-## Muse como agente por terminal (muse_tarea.sh)
-
-Misma regla dura que DeepSeek Harness: **autorización expresa y previa de
-Frat** en cada caso; **exclusivo de Claude y ChatGPT**.
-
-- `./muse_tarea.sh <etiqueta> <archivo_mensaje> [<uuid>|nueva]` (raíz del
-  repo). Lanza `muse exec` en segundo plano y devuelve el control al
-  instante. Sin tercer argumento usa la sesión de `~/.config/muse_tarea/sesion`;
-  `nueva` crea una con un uuid propio (Muse acepta el id que le damos con
-  `--session-id`, así que siempre se conoce).
-- Cómo corre Muse: suscripción Everyday (el envoltorio además quita
-  `META_API_KEY` por si acaso), `--disable-sandbox`, **`--disable-approval`**
-  (decisión de Frat, 04-10: sin terminal no hay quién apruebe), `--json`,
-  tope de tiempo `MUSE_TAREA_TIMEOUT` (1800 s por defecto) y
-  `MUSE_NO_AUTO_UPDATE=1`. **Una sola tarea de Muse a la vez:** un candado
-  rechaza la segunda (código 3).
-- Deja en `~/.cache/muse_tareas/`: `<etiqueta>.out` (texto final, del evento
-  `run_terminal`), `.jsonl` (eventos), `.err`, `.json` (`session_id`, `exit`,
-  `segundos`) y `.msg`. Una etiqueta ya usada se rechaza.
-- Aviso: el mismo tema privado de ntfy.sh que `dsh_tarea.sh`, con prefijo
-  `muse:` (`"muse:<etiqueta> exit=<código> <segundos>s"`). Claude lo recibe
-  con la misma vigilancia; ChatGPT revisa o espera el `.json`.
-- Códigos de salida de `muse exec`: 0 turno completo (no garantiza que el
-  trabajo esté bien), 1 fallo o cancelación (incluye tope de pasos), 2 error
-  de uso, 124 tope de tiempo (`timeout`), 130/143 señales.
-- Una sesión nueva no sabe nada del proyecto: el primer mensaje le pide leer
-  `AGENTS.md`, la memoria y lo que la tarea necesite. Lo que Muse reporta se
-  verifica contra los archivos antes de tomarlo como hecho.
-- Reparto sugerido: DeepSeek para investigar, razonar y verificar; Muse para
-  implementar y correr.
+Todo lo de los agentes a los que Claude y ChatGPT delegan trabajo
+(`dsh_tarea.sh`, `muse_tarea.sh`, NotebookLM: cómo se lanzan, avisos,
+sesiones, ubicaciones y reglas) está en un solo documento, fuera del repo:
+`/home/fratquintero/Claude-memoria/memoria/agentes-delegados.md`. Leerlo antes de usarlos. Regla dura: **autorización expresa y
+previa de Frat** en cada uso; **exclusivo de Claude y ChatGPT**.
 
 ## Modelos
 
