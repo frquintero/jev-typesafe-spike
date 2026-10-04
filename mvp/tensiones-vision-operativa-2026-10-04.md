@@ -2,8 +2,12 @@
 
 **Fecha:** 2026-10-04. **Origen:** conversación Frat–DeepSeek sobre
 `zettel-vision-operativa.md`. **Para:** Opus, que lo lea y aporte su opinión.
-**Estado:** borrador de trabajo, **no** documento vivo. Ningún documento vivo
-se ha tocado.
+**Estado:** **cerrado el 04-10.** Frat y Cowork revisaron las cinco
+decisiones; lo acordado se llevó a `zettel-vision-operativa.md` y a
+`definiciones-del-marco.md` (B y C). Correcciones al borrador: los estados de
+la tabla son solo admisible/inadmisible (l. 223); con D0 la 0:50 es
+inadmisible; R es homónimo (C); «alcance» queda como regla de uso; `mvp/` no
+es proyecto todavía. Se conserva como antecedente.
 
 **Cómo leerlo.** Cada tensión trae: lo que dice hoy la visión, el problema, lo
 **acordado** y lo que queda **propuesto sin decidir**. Lo acordado son cuatro
