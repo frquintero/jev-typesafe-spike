@@ -290,7 +290,11 @@ suscribirse a la fuente (fuera de la MVP).
   evaluar.
 - **Lo que separa de la MVP:** las etapas 4 (orquestador, tabla, brecha,
   tareas al mundo), 5 (condiciones de entrega) y 6 (dato derivado con
-  dependencias y juicio). Ninguna se ha probado.
+  dependencias y juicio). Al 04-10: la forma de la tabla se probó a mano
+  (mesas 1 y 1b) y el registro del dato derivado con su prueba de
+  mantenimiento funciona sobre tablas escritas a mano (`mvp/pieza1/`, pasos
+  1 y 2 del orden de abajo). Ningún modelo ha hecho todavía de orquestador:
+  falta el paso 3.
 - **Orden de prueba propuesto:**
   1. Prueba de mesa, a mano: la tabla de A(Q) para el vuelo (con y sin D0) y
      para una pregunta sobre la represa.
