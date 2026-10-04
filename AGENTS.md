@@ -140,6 +140,51 @@ los tres sitios.
 - Si una llamada falla por autenticación, **detenerse y reportar**; no buscar
   la clave por otros medios.
 
+## DeepSeek Harness por terminal (dsh headless)
+
+**Regla dura.** Comunicarse con DeepSeek Harness por `dsh headless`
+requiere **autorización expresa y previa de Frat** en cada caso, y es
+**exclusivo de Claude (Cowork o Claude Code) y ChatGPT (Luna)**. Muse u
+otro agente no lo usan. Sin autorización, no se envía nada.
+
+Pasos técnicos (en el PC de Frat; desde Cowork, con Desktop Commander, no
+con el shell aislado):
+
+1. Binario: `D=~/.npm/_npx/1e7f6d9597241db0/node_modules/.bin/dsh` (o
+   `npx @deepseek-ai/dsh`). No necesita el proxy de claves: el Harness usa
+   su propia clave en `~/.dsh/` (no leerla).
+2. Ejecutar siempre **desde la raíz del repo**: una sesión solo se retoma
+   desde la carpeta donde se creó.
+3. Escribir el mensaje en un archivo temporal **fuera del repo** (p. ej.
+   `/tmp/dsh_msg.txt`) y pasarlo por stdin con `-` (evita problemas de
+   comillas).
+4. **Crear una sesión** (solo si no hay una vigente):
+   `$D headless --json - < /tmp/dsh_msg.txt > /tmp/dsh_out.jsonl`.
+   El primer evento trae `"sessionId":"session-…"`; anotarlo en el README
+   («Sesión de trabajo vigente»). Su primer mensaje carga el contexto
+   (AGENTS.md, README, memoria, reportes pertinentes).
+5. **Continuarla:**
+   `$D headless --session-id <id> - < /tmp/dsh_msg.txt > /tmp/dsh_out.txt 2>/tmp/dsh_err.txt`.
+   La respuesta final va a stdout; el razonamiento y los diagnósticos, a
+   stderr. Con `--json`, stdout trae los eventos (texto, uso de tokens,
+   fin de turno) y el final en `{"type":"final",…}`.
+6. Tareas largas: lanzarlo en segundo plano (`nohup … &`) y leer los
+   archivos de salida al terminar; las llamadas de Desktop Commander tienen
+   tiempo límite.
+7. Al leer la respuesta, descartar las líneas de razonamiento que a veces
+   se filtran al final del texto (en inglés).
+
+Restricciones (código de `@deepseek-ai/dsh-headless`): rechaza toda
+sesión con preset de agente (todas las creadas en la ventana web llevan
+«standard»; un `--patch` no lo evita), las de subagentes y las de otra
+carpeta. Una sesión creada por terminal puede abrirse luego en la ventana
+web, pero no conviene usar las dos a la vez (bloqueo `session.lock`).
+
+El mensaje dice qué hacer y qué no (por defecto: solo lectura, sin
+commit, sin llamar a APIs de modelos) y pide respuesta corta. Lo que
+DeepSeek responde es un reporte de ejecutor: se verifica contra los
+crudos antes de tomarlo como hecho.
+
 ## Modelos
 
 - `grok` = `grok-4.7` (`reasoning_effort: "low"`, `stream_options` con

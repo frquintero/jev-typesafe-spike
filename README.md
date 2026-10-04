@@ -229,6 +229,30 @@ A Muse no se le exportan `HTTPS_PROXY` ni `SSL_CERT_FILE`: su propio tráfico no
 
 **Qué lee Muse.** Muse carga solo `AGENTS.md` en cada sesión, interactiva o no. Ahí están sus reglas de red, claves, comandos y reportes. `CLAUDE.md` es una sola línea (`@AGENTS.md`): si se usa Claude Code, lee las mismas reglas. Hay una sola fuente.
 
+## DeepSeek Harness como agente por terminal (dsh headless)
+
+Desde el 03-10, DeepSeek Harness (`dsh`, instalado en el PC de Frat) puede
+trabajar como ejecutor y verificador **sin abrir su ventana**: Claude
+(Cowork o Claude Code) o ChatGPT (Luna) le escriben por terminal con
+`dsh headless`, y la respuesta llega como texto. La conversación queda
+guardada como una sesión del Harness y se continúa mensaje a mensaje, con
+su historial.
+
+**Autorización.** Este canal se usa solo con **autorización expresa y
+previa de Frat** para cada uso, y es **exclusivo de Claude y ChatGPT**.
+Ningún otro agente lo abre ni lo usa.
+
+**Cómo funciona.** La sesión se crea desde la terminal (no desde la
+ventana web) y se retoma por su id; el mensaje entra por stdin. Las
+sesiones creadas en la ventana web no sirven: llevan un preset de agente
+que el modo `headless` rechaza por diseño. Una sesión nueva empieza sin
+contexto, así que el primer mensaje le pide leer `AGENTS.md`, la memoria y
+los reportes que hagan falta. Valen sus reglas de ejecutor (`AGENTS.md`).
+Pasos técnicos: `AGENTS.md`, «DeepSeek Harness por terminal».
+
+Sesión de trabajo vigente: `session-c19a1631-6349-46f8-9b9a-84dd5d7e7ab3`
+(creada el 03-10, contexto cargado).
+
 ## Contexto
 
 *Objetivo suspendido (ver Estado actual).*

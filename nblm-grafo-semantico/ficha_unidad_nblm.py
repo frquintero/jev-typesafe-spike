@@ -2,16 +2,15 @@
 
 Uso (desde la raíz, sin HTTPS_PROXY ni SSL_CERT_FILE):
   <venv>/bin/python nblm-grafo-semantico/ficha_unidad_nblm.py <doc> <prompt> <rN> <crudo_paso1>
-      --storage <storage_state.json> --sonda-unidad Ux --sonda-pregunta "..."
+      --storage <storage_state.json>
 
 Un cuaderno nuevo. Las reglas (el prompt, con su sección TEXTO remitida a la
 fuente) van en chat.configure (goal CUSTOM, respuesta LONGER). Cada unidad es
 una fuente aparte, con sus números de oración originales. Una pregunta corta
 por unidad con source_ids=[esa unidad]; tras cada una se borra la conversación
-para que la siguiente no herede historial. Al final, una sonda de aislamiento:
-una pregunta cuya respuesta está en otra unidad, con source_ids=[sonda-unidad].
-Comprueba por código que las citas apuntan solo a la fuente seleccionada y
-aplica el verificador de unidades/ficha_doc.py. No juzga el contenido.
+para que la siguiente no herede historial. Comprueba por código que las citas
+apuntan solo a la fuente seleccionada y aplica el verificador de
+unidades/ficha_doc.py. No juzga el contenido.
 Crudo único: nblm-grafo-semantico/cache/fu-<doc>-nblm-<prompt>-<rN>.json
 """
 import argparse
@@ -58,8 +57,6 @@ def main():
     ap.add_argument("doc"); ap.add_argument("prompt"); ap.add_argument("rep")
     ap.add_argument("crudo_paso1")
     ap.add_argument("--storage", type=Path, required=True)
-    ap.add_argument("--sonda-unidad", required=True)
-    ap.add_argument("--sonda-pregunta", required=True)
     a = ap.parse_args()
     storage = a.storage.resolve()
     if storage.is_relative_to(ROOT.parent):
@@ -78,8 +75,6 @@ def main():
     if len(custom) > LIMITE_CUSTOM:
         raise SystemExit(f"custom_prompt de {len(custom)} caracteres > {LIMITE_CUSTOM}")
     unidades, _ = cargar_unidades(a.doc, a.crudo_paso1)
-    if a.sonda_unidad not in {u["id"] for u in unidades}:
-        raise SystemExit(f"sonda-unidad {a.sonda_unidad} no existe")
 
     WebSessionAuth.refresh_base = stop_refresh
     os.environ["NOTEBOOKLM_DISABLE_KEEPALIVE_POKE"] = "1"
@@ -134,14 +129,6 @@ def main():
                         "citas_fuera_de_la_unidad": [s for s in refs if s != sid]}
                 crudo["unidades"].append(fila)
                 await etapa(f"borrar_conv_{u['id']}", lambda: c.chat.delete_conversation(nb.id, r.conversation_id))
-            sid = fuentes[a.sonda_unidad]
-            r = await etapa("sonda", lambda: c.chat.ask(nb.id, a.sonda_pregunta, source_ids=[sid]))
-            crudo["sonda"] = {"unidad": a.sonda_unidad, "source_id": sid, "pregunta": a.sonda_pregunta,
-                              "respuesta": r.answer, "referencias": r.references,
-                              "citas_fuera_de_la_unidad": [getattr(x, "source_id", None)
-                                                           for x in (r.references or [])
-                                                           if getattr(x, "source_id", None) != sid]}
-
     t0 = time.monotonic()
     try:
         asyncio.run(run())
@@ -162,8 +149,7 @@ def main():
                     "error_parseo": u["error_parseo"],
                     "no_literales": len(u["verificacion"]["no_literales"]) if u["verificacion"] else None,
                     "conteo": u["verificacion"]["conteo"] if u["verificacion"] else None}
-                   for u in crudo["unidades"]],
-               "sonda": {k: crudo.get("sonda", {}).get(k) for k in ("respuesta", "citas_fuera_de_la_unidad")}}
+                   for u in crudo["unidades"]]}
     print(f"hecho -> {out}")
     print(json.dumps(resumen, ensure_ascii=False, indent=2, default=convert))
     return 0 if crudo["completed"] else 1
