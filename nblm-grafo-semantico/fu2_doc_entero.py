@@ -3,7 +3,7 @@
 Uso: <venv>/bin/python nblm-grafo-semantico/fu2_doc_entero.py <doc> <prompt> <rN> --storage <state>
 Un cuaderno, una fuente (el texto numerado completo), reglas en chat.configure
 (goal CUSTOM, longitud por defecto), una pregunta. Cronometra la pregunta y cada
-fragmento del flujo HTTP (hora relativa y bytes); guarda el flujo completo.
+fragmento del flujo HTTP; guarda solo los hitos (razonamiento y herramientas con su hora).
 """
 import argparse, asyncio, dataclasses, datetime as dt, enum, json, os, sys, time
 from pathlib import Path
@@ -12,6 +12,7 @@ from unidades_comun import MARCADOR, ROOT, UNIDADES
 from extraer_unidades import numerar_oraciones
 from run_niveles import extract_json
 from ficha_doc import verificar
+from hitos_flujo import hitos
 from notebooklm import NotebookLMClient
 from notebooklm._types.enums import ChatGoal
 from notebooklm.options import ClientConfig, FeatureOptions, RetryOptions, WebBackendConfig
@@ -82,7 +83,8 @@ def main():
     except Exception as e:
         crudo["completed"] = False; crudo["error"] = f"{type(e).__name__}: {str(e)[:400]}"
     crudo["segundos_total"] = round(time.monotonic() - t0, 3)
-    fr = FLUJO["fragmentos"]; crudo["flujo"] = fr
+    fr = FLUJO["fragmentos"]
+    crudo["flujo_hitos"], crudo["flujo_resumen"] = hitos(fr)  # solo hitos, no el flujo entero
     if fr:
         crudo["primer_fragmento_s"] = fr[0]["t"]; crudo["ultimo_fragmento_s"] = fr[-1]["t"]
         crudo["fragmentos_n"] = len(fr); crudo["flujo_bytes"] = sum(x["bytes"] for x in fr)
