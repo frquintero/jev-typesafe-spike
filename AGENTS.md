@@ -95,10 +95,12 @@ los tres sitios.
   opcional. Mismas
   reglas que `notebooklm-spike/` (solo local, bajo volumen).
   Estado en su `README.md` y `tareas.md`.
-- `mvp/`: diseño del MVP de Zettel. `tensiones-vision-operativa-2026-10-04.md`
+- `mvp/`: carpeta del futuro MVP de Zettel. `tensiones-vision-operativa-2026-10-04.md`
   recoge lo acordado y lo propuesto sobre la representación de A(Q), las
   premisas de K, el sostén frente al grado de Jev y el vocabulario operativo.
-  Borrador de trabajo, no documento vivo; pendiente de la opinión de Opus.
+  Borrador cerrado el 04-10 (lo acordado está en `zettel-vision-operativa.md`
+  y `definiciones-del-marco.md`); se conserva como antecedente. No es proyecto
+  todavía.
 - `langextract-spike/`: frente **cerrado** el 03-10 (LangExtract de Google,
   evaluado y no adoptado); lección en su `README.md`, ideas rescatables en
   el `README.md` de la raíz.
