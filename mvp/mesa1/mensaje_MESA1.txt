@@ -1,0 +1,45 @@
+Tarea de Cowork (Claude) para DeepSeek, con autorización de Frat. Prueba de mesa 1 de la MVP de Zettel.
+
+ANTES DE EMPEZAR, lee (solo lectura):
+- zettel-vision-operativa.md (sobre todo «La tabla de A(Q)», «Dependencias y promoción» y el ejemplo completo)
+- mvp/tensiones-vision-operativa-2026-10-04.md (tu borrador, ya cerrado; arriba están las correcciones)
+
+QUÉ SE PRUEBA. No que un modelo responda bien: que el esquema de la tabla de A(Q) no sea ambiguo y que el diff de tablas decida el efecto. Sin API de modelos.
+
+DECISIONES YA TOMADAS (Frat y Cowork) que cierran tus tres ambigüedades. Encabezado de cada fila: posicion · si · estado · ruta.
+1. `si`: solo los supuestos NO establecidos de los que depende la fila («horario de verano», «duración normal»). Lo establecido por datos o reglas no va en `si`: sale por la ruta. Lo que la pregunta fija para todas las filas (caso, condiciones) va en el encabezado de la pregunta, no en las filas.
+2. `ruta`: ids de dependencias que establecen el estado de la fila. En una admisible es su sostén; en una inadmisible, su ruta de exclusión. «Sostén» se reserva para las admisibles.
+3. Dominio escrito como regla + una fila con posicion "resto" que cubre lo no listado. Para el diff, una posición listada en la tabla final tenía en la inicial el estado de "resto".
+4. estado ∈ {admisible, inadmisible}. Nada de verdadero/falso/indeterminado/indecidible.
+5. Una fila gana o pierde sostén cuando, con el mismo estado, cambia su ruta o su `si`.
+
+TU TAREA (escribe solo dentro de mvp/mesa1/):
+
+A) mvp/mesa1/documento.md — documento sintético nuevo, 3 a 5 oraciones, otro dominio (no vuelos, no represa, no estanque, ni textos de unidades/docs). Debe traer: una fecha propia; un hecho que depende de una condición que el texto NO fija; un dato que quedará mudo; y algo que permita la P4. Oraciones numeradas [1], [2]… Fecha de radicación: 3-10-2026.
+
+B) mvp/mesa1/preguntas.md — cuatro preguntas, cada una con su R:
+- P1: la responde el documento sin mundo externo → la tabla se mueve.
+- P2: el documento NO la responde y R = «solo el documento» → la tabla no se mueve; salida correcta: «el documento no lo establece».
+- P3: dos respuestas posibles según un supuesto no fijado → tabla final con dos filas admisibles con `si` distintos.
+- P4: conflicto y revisión. El documento dice una cosa; una premisa de K escrita a mano (márcala «simulada», con procedencia y fecha de consulta inventadas) dice otra. Esta pregunta lleva tres tablas: inicial, final (solo con el documento y las reglas) y revisada (tras entrar la premisa de K). La salida correcta muestra el conflicto.
+Para cada pregunta, la salida esperada en una línea.
+
+C) mvp/mesa1/tablas_ds.json — tus tablas a mano. Una lista con un objeto por pregunta:
+{"id": "P1", "pregunta": "...", "R": {"fuentes": "solo el documento" | "libre"},
+ "encabezado": {"caso": "...", "aspecto": "...", "condiciones": ["..."]},
+ "dominio": "regla del dominio en texto",
+ "dependencias": [{"id": "D1", "tipo": "dato" | "regla", "valor": "...", "procedencia": "documento, oración N" | "K: ...", "fecha": "radicación o consulta"}],
+ "tabla_inicial": [{"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}],
+ "tabla_final": [{"posicion": "...", "si": null, "estado": "...", "ruta": ["D1"]}, ..., {"posicion": "resto", ...}],
+ "tabla_revisada": (solo P4),
+ "salida_esperada": "..."}
+
+D) mvp/mesa1/validar.py — validador sin API, stdlib. `python3 validar.py tablas.json` revisa por pregunta:
+1. estados válidos; 2. hay fila "resto" en cada tabla; 3. todo id de ruta existe en dependencias y cada dependencia tiene valor, procedencia y fecha; 4. la tabla inicial es solo «resto admisible, sin ruta»; 5. diff inicial→final (y final→revisada en P4) clasificado en los tres modos del marco: dejan de ser admisibles / ganan o pierden sostén (mismo estado, cambia ruta o si) / aparecen distinciones (una misma posición o posiciones nuevas con `si` distintos); 6. condición de entrega 1 (diff ≠ ∅) y 2 (si R = «solo el documento», ninguna dependencia de tipo dato con procedencia K); 7. cuenta y marca las filas admisibles sin ruta (no son error).
+Y `python3 validar.py --comparar a.json b.json`: lista las celdas en que dos juegos de tablas para las mismas preguntas difieren (por pregunta, posición y columna).
+
+E) Corre validar.py sobre tablas_ds.json y pega la salida al final de mvp/mesa1/reporte_ds.md, con dos o tres líneas sobre dónde dudaste al llenar el esquema.
+
+NO HAGAS: no hagas commit ni push (lo hace Cowork); no llames a APIs de modelos; no edites nada fuera de mvp/mesa1/; no leas ni copies claves.
+
+Respuesta final corta: qué archivos creaste y la salida del validador.

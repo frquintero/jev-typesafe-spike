@@ -1,0 +1,126 @@
+[
+  {
+    "id": "P1",
+    "pregunta": "¿Cuántos kilos de uva prensa la bodega de San Martín al día?",
+    "R": {"fuentes": "solo el documento"},
+    "encabezado": {
+      "caso": "bodega de San Martín, prensado de uva",
+      "aspecto": "kilos de uva prensados por día",
+      "condiciones": ["prensa de la bodega"]
+    },
+    "dominio": "cualquier cantidad positiva de kilos de uva por día; se enumera la posición distinguida (8 000) y «resto» cubre las demás.",
+    "dependencias": [
+      {
+        "id": "D4",
+        "tipo": "dato",
+        "valor": "la bodega prensa 8 000 kilos de uva al día",
+        "procedencia": "documento, oración 4",
+        "fecha": "radicación 3-10-2026"
+      }
+    ],
+    "tabla_inicial": [
+      {"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}
+    ],
+    "tabla_final": [
+      {"posicion": "8 000", "si": null, "estado": "admisible", "ruta": ["D4"]},
+      {"posicion": "resto", "si": null, "estado": "inadmisible", "ruta": ["D4"]}
+    ],
+    "salida_esperada": "La bodega prensa 8 000 kilos de uva al día (oración 4); la tabla pasa de todo el dominio admisible a 8 000 admisible con sostén D4 y el resto inadmisible."
+  },
+  {
+    "id": "P2",
+    "pregunta": "¿Cuántas barricas de roble tiene la bodega de San Martín?",
+    "R": {"fuentes": "solo el documento"},
+    "encabezado": {
+      "caso": "bodega de San Martín, barricas de roble",
+      "aspecto": "número de barricas de roble",
+      "condiciones": ["barricas de la bodega"]
+    },
+    "dominio": "cualquier número entero no negativo de barricas de roble; «resto» cubre los no enumerados.",
+    "dependencias": [
+      {
+        "id": "D5",
+        "tipo": "dato",
+        "valor": "la bodega guarda el vino en barricas de roble (no dice cuántas)",
+        "procedencia": "documento, oración 5",
+        "fecha": "radicación 3-10-2026"
+      }
+    ],
+    "tabla_inicial": [
+      {"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}
+    ],
+    "tabla_final": [
+      {"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}
+    ],
+    "salida_esperada": "El documento no lo establece: la tabla no se mueve (diff vacío); D5 queda mudo y ninguna posición gana sostén."
+  },
+  {
+    "id": "P3",
+    "pregunta": "¿Cuándo empieza la vendimia en la parcela Los Olivos?",
+    "R": {"fuentes": "libre"},
+    "encabezado": {
+      "caso": "parcela Los Olivos, vendimia",
+      "aspecto": "fecha de inicio de la vendimia",
+      "condiciones": ["uva de Los Olivos", "campaña de 2026"]
+    },
+    "dominio": "fechas de inicio de la vendimia dentro de la campaña; se enumeran las dos quincenas distinguidas y «resto» cubre las demás.",
+    "dependencias": [
+      {
+        "id": "D3",
+        "tipo": "regla",
+        "valor": "la vendimia de Los Olivos empieza cuando la uva alcanza 22 grados Brix",
+        "procedencia": "documento, oración 3",
+        "fecha": "radicación 3-10-2026"
+      }
+    ],
+    "tabla_inicial": [
+      {"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}
+    ],
+    "tabla_final": [
+      {"posicion": "primera quincena de septiembre", "si": "año cálido: los 22 °Brix se alcanzan antes del 15-9", "estado": "admisible", "ruta": ["D3"]},
+      {"posicion": "primera quincena de octubre", "si": "año frío: los 22 °Brix se alcanzan después del 1-10", "estado": "admisible", "ruta": ["D3"]},
+      {"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}
+    ],
+    "salida_esperada": "Dos inicios admisibles según el supuesto no fijado: primera quincena de septiembre si el año es cálido y primera quincena de octubre si es frío; el resto de fechas sigue admisible sin sostén."
+  },
+  {
+    "id": "P4",
+    "pregunta": "¿Cuántas hectáreas tiene la parcela Los Olivos?",
+    "R": {"fuentes": "libre"},
+    "encabezado": {
+      "caso": "parcela Los Olivos, superficie",
+      "aspecto": "superficie en hectáreas",
+      "condiciones": ["parcela Los Olivos"]
+    },
+    "dominio": "cualquier superficie positiva en hectáreas; se enumeran las posiciones distinguidas (3 y, tras K, 2,5) y «resto» cubre las demás.",
+    "dependencias": [
+      {
+        "id": "D2",
+        "tipo": "dato",
+        "valor": "la parcela Los Olivos tiene 3 hectáreas",
+        "procedencia": "documento, oración 2",
+        "fecha": "radicación 3-10-2026"
+      },
+      {
+        "id": "K4",
+        "tipo": "dato",
+        "valor": "la parcela Los Olivos mide 2,5 hectáreas",
+        "procedencia": "K: catastro municipal de San Martín (premisa simulada)",
+        "fecha": "consulta 28-9-2026"
+      }
+    ],
+    "tabla_inicial": [
+      {"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}
+    ],
+    "tabla_final": [
+      {"posicion": "3", "si": null, "estado": "admisible", "ruta": ["D2"]},
+      {"posicion": "resto", "si": null, "estado": "inadmisible", "ruta": ["D2"]}
+    ],
+    "tabla_revisada": [
+      {"posicion": "3", "si": null, "estado": "admisible", "ruta": ["D2"]},
+      {"posicion": "2,5", "si": null, "estado": "admisible", "ruta": ["K4"]},
+      {"posicion": "resto", "si": null, "estado": "inadmisible", "ruta": ["D2", "K4"]}
+    ],
+    "salida_esperada": "Conflicto: el documento dice 3 hectáreas (D2) y la premisa simulada de K dice 2,5 hectáreas (K4, catastro consultado el 28-9-2026); la tabla revisada muestra ambas admisibles con rutas distintas y el resto inadmisible por las dos."
+  }
+]

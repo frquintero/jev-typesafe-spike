@@ -1,0 +1,66 @@
+[
+ {"id": "P1",
+  "pregunta": "¿Cuántos kilos de uva prensa la bodega de San Martín al día?",
+  "R": {"fuentes": "solo el documento"},
+  "encabezado": {"caso": "bodega de San Martín", "aspecto": "kilos de uva prensados", "condiciones": ["por día"]},
+  "dominio": "cantidades de kilos ≥ 0",
+  "dependencias": [
+   {"id": "D4", "tipo": "dato", "valor": "bodega de San Martín · uva prensada por día · 8 000 kg", "procedencia": "documento, oración 4", "fecha": "radicación 3-10-2026"}
+  ],
+  "tabla_inicial": [{"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}],
+  "tabla_final": [
+   {"posicion": "8 000 kg", "si": null, "estado": "admisible", "ruta": ["D4"]},
+   {"posicion": "resto", "si": null, "estado": "inadmisible", "ruta": ["D4"]}
+  ],
+  "salida_esperada": "La bodega prensa 8 000 kilos de uva al día (oración 4)."},
+
+ {"id": "P2",
+  "pregunta": "¿Cuántas barricas de roble tiene la bodega de San Martín?",
+  "R": {"fuentes": "solo el documento"},
+  "encabezado": {"caso": "bodega de San Martín", "aspecto": "número de barricas de roble", "condiciones": []},
+  "dominio": "números naturales",
+  "dependencias": [],
+  "tabla_inicial": [{"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}],
+  "tabla_final": [{"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}],
+  "salida_esperada": "El documento no lo establece: dice que la bodega guarda el vino en barricas de roble (oración 5), no cuántas tiene."},
+
+ {"id": "P3",
+  "pregunta": "¿Cuándo empieza la vendimia en la parcela Los Olivos?",
+  "R": {"fuentes": "libre"},
+  "encabezado": {"caso": "vendimia de la parcela Los Olivos", "aspecto": "fecha de inicio", "condiciones": ["vendimia próxima al aviso del 10-9-2026"]},
+  "dominio": "fechas del calendario (por intervalos de semanas)",
+  "dependencias": [
+   {"id": "D1", "tipo": "dato", "valor": "aviso · fecha de emisión · 10-9-2026", "procedencia": "documento, oración 1", "fecha": "radicación 3-10-2026"},
+   {"id": "D3", "tipo": "regla", "valor": "la vendimia de Los Olivos empieza cuando la uva alcanza 22 °Bx", "procedencia": "documento, oración 3", "fecha": "radicación 3-10-2026"},
+   {"id": "K1", "tipo": "regla", "valor": "en viñedos del hemisferio norte la uva suele alcanzar 22 °Bx entre fines de agosto y octubre", "procedencia": "K: mundo del orquestador", "fecha": "4-10-2026"},
+   {"id": "K2", "tipo": "regla", "valor": "en viñedos del hemisferio sur la uva suele alcanzar 22 °Bx entre febrero y abril", "procedencia": "K: mundo del orquestador", "fecha": "4-10-2026"}
+  ],
+  "tabla_inicial": [{"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}],
+  "tabla_final": [
+   {"posicion": "fines de agosto a octubre de 2026", "si": "la bodega está en el hemisferio norte", "estado": "admisible", "ruta": ["D1", "D3", "K1"]},
+   {"posicion": "febrero a abril de 2027", "si": "la bodega está en el hemisferio sur", "estado": "admisible", "ruta": ["D1", "D3", "K2"]},
+   {"posicion": "resto", "si": null, "estado": "inadmisible", "ruta": ["D3", "K1", "K2"]}
+  ],
+  "salida_esperada": "Empieza cuando la uva alcance 22 °Bx (oración 3); en fechas, depende de dónde esté la bodega: hacia fines de agosto a octubre de 2026 si está en el hemisferio norte, o de febrero a abril de 2027 si está en el sur. El documento no dice dónde está San Martín."},
+
+ {"id": "P4",
+  "pregunta": "¿Cuántas hectáreas tiene la parcela Los Olivos?",
+  "R": {"fuentes": "libre"},
+  "encabezado": {"caso": "parcela Los Olivos", "aspecto": "superficie", "condiciones": []},
+  "dominio": "superficies en hectáreas > 0",
+  "dependencias": [
+   {"id": "D2", "tipo": "dato", "valor": "parcela Los Olivos · superficie · 3 ha", "procedencia": "documento, oración 2", "fecha": "radicación 3-10-2026"},
+   {"id": "K4", "tipo": "dato", "valor": "parcela Los Olivos · superficie · 2,5 ha", "procedencia": "K: catastro municipal de San Martín (premisa simulada)", "fecha": "consulta 28-9-2026"}
+  ],
+  "tabla_inicial": [{"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}],
+  "tabla_final": [
+   {"posicion": "3 ha", "si": null, "estado": "admisible", "ruta": ["D2"]},
+   {"posicion": "resto", "si": null, "estado": "inadmisible", "ruta": ["D2"]}
+  ],
+  "tabla_revisada": [
+   {"posicion": "3 ha", "si": "el aviso es correcto", "estado": "admisible", "ruta": ["D2"]},
+   {"posicion": "2,5 ha", "si": "el catastro es correcto", "estado": "admisible", "ruta": ["K4"]},
+   {"posicion": "resto", "si": null, "estado": "inadmisible", "ruta": ["D2", "K4"]}
+  ],
+  "salida_esperada": "Hay un conflicto: el aviso dice 3 hectáreas (oración 2) y el catastro municipal, consultado el 28-9-2026, dice 2,5 (premisa simulada). Puede que midan cosas distintas (superficie plantada y catastral)."}
+]
