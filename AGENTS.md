@@ -85,20 +85,20 @@ los tres sitios.
   `nblm-spike`; sin gcloud, ADC ni clave de API). La vía Cloud Enterprise
   quedó **detenida por costo** — no retomarla sin autorización expresa de
   Frat. Sesión/cookies/tokens siempre fuera del repo. **Solo ejecución
-  local (Muse), sin el proxy local:** la sesión no se transfiere a la nube.
+  local (Muse):** la sesión no se transfiere a la nube.
   Detalle en su propio `README.md`/`PLAN.md`/
-  `tareas.md`; no usa las credenciales de `proxy_local.py`.
+  `tareas.md`.
 - `nblm-grafo-semantico/`: arquitectura mixta, paso 1 (subtemas) con
   DeepSeek y paso 2 (datos por unidad) con NotebookLM, cada unidad como
   fuente aparte en un cuaderno. Calibración del paso 1 en NotebookLM,
   opcional. Mismas
-  reglas que `notebooklm-spike/` (solo local, sin proxy, bajo volumen).
+  reglas que `notebooklm-spike/` (solo local, bajo volumen).
   Estado en su `README.md` y `tareas.md`.
 - `langextract-spike/`: frente **cerrado** el 03-10 (LangExtract de Google,
   evaluado y no adoptado); lección en su `README.md`, ideas rescatables en
   el `README.md` de la raíz.
-- `proxy_local.py`: inyecta `Authorization` según host. `muse.sh`: arranque
-  de Muse con el proxy.
+- `proxy_local.py`: proxy de claves retirado el 04-10 (se conserva como
+  antecedente; ya no se usa).
 - `dsh_tarea.sh`: delega una tarea a DeepSeek Harness por terminal y avisa
   por ntfy.sh al terminar (ver «DeepSeek Harness por terminal»).
 - `deleted/`: snapshots históricos; no es fuente.
@@ -122,23 +122,32 @@ los tres sitios.
 
 ## Red y claves (regla dura)
 
-- El código del repo **nunca** arma `Authorization` ni lee `*_API_KEY`.
-  Solo `Content-Type` + `User-Agent: spike-jev/1.0`.
+Desde el 04-10 no hay proxy de claves (decisión de Frat: el código no
+necesita correr igual en la nube y en el PC).
+
+- Las llamadas a modelos pasan por `call_model` (`niveles/run_niveles.py`),
+  que lee la clave del entorno según el host y la pone en `Authorization`;
+  sin la variable, no pone cabecera. Ningún otro código lee claves.
 - Claves: `TYPESAFE_API_KEY` (api.typesafe.ai), `ZAI_API_KEY` (api.z.ai),
   `DEEPSEEK_API_KEY` (api.deepseek.com), `XAI_API_KEY` (api.x.ai). Viven en
-  `~/.bashrc` (ZAI en `~/.config/zai/api_key.env`) y solo las lee el proxy.
+  `~/.bashrc` (ZAI en `~/.config/zai/api_key.env`); los shells no
+  interactivos no las cargan solos: correr con `bash -ic '…'`.
+- **Una clave nunca se imprime, ni se escribe en crudos, reportes, logs o
+  mensajes.** Los crudos guardan el cuerpo de la petición, no las cabeceras.
 - Verificar presencia sin imprimir valores:
   `bash -ic 'for v in TYPESAFE_API_KEY ZAI_API_KEY DEEPSEEK_API_KEY XAI_API_KEY; do
   [ -n "${!v}" ] && echo "$v: SET" || echo "$v: MISSING"; done'`
-- Frat arranca Muse con `muse` (alias de `muse.sh`); Cowork puede lanzarlo sin
-  terminal con `./muse.sh exec --prompt-file <archivo>`. `muse.sh` levanta el
-  proxy en 127.0.0.1:8080 si no corre, lanza Muse con `--disable-sandbox`
-  (red completa y `.git` escribible; las aprobaciones siguen) y apaga el proxy
-  al salir. **No arrancar otro proxy** ni inspeccionar el entorno de su proceso.
-- En cada comando que llame a una API, exportar antes:
-  `export HTTPS_PROXY=http://127.0.0.1:8080
-  SSL_CERT_FILE=$HOME/.mitmproxy/mitmproxy-ca-cert.pem`.
-  No exportarlas de forma global: el tráfico propio de Muse no pasa por el proxy.
+- **Muse usa la suscripción Muse Code Everyday, nunca pago por uso.**
+  `META_API_KEY` ya no se carga en las terminales (línea comentada en
+  `~/.bashrc`; el archivo sigue en `~/.config/meta/api_key.env`): no
+  cargarla ni pasarla a Muse. Frat arranca Muse con `muse` (alias de
+  `command muse --disable-sandbox`: red completa y `.git` escribible; las
+  aprobaciones siguen). Sin terminal:
+  `command muse exec --disable-sandbox --prompt-file <archivo>` (el flag va
+  después de `exec`).
+- Las sondas viejas de `probes/` y `cutoff-spike/` arman sus propias
+  cabeceras sin clave (pensadas para el proxy retirado); si se reanudan, se
+  pasan por `call_model` o se les agrega la clave del mismo modo.
 - Si una llamada falla por autenticación, **detenerse y reportar**; no buscar
   la clave por otros medios.
 
@@ -153,7 +162,7 @@ Pasos técnicos (en el PC de Frat; desde Cowork, con Desktop Commander, no
 con el shell aislado):
 
 1. Binario: `D=~/.npm/_npx/1e7f6d9597241db0/node_modules/.bin/dsh` (o
-   `npx @deepseek-ai/dsh`). No necesita el proxy de claves: el Harness usa
+   `npx @deepseek-ai/dsh`). El Harness usa
    su propia clave en `~/.dsh/` (no leerla).
 2. Ejecutar siempre **desde la raíz del repo**: una sesión solo se retoma
    desde la carpeta donde se creó.

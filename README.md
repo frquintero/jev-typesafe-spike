@@ -175,9 +175,14 @@ de GLM para la detección de estructura del piloto EEL; secciones Contexto,
 Arquitectura y Plan de pruebas, más abajo) está **suspendido**, no
 abandonado. Las reglas 1–26 y el marco conceptual de Jev siguen vigentes.
 
-## Correr las pruebas en local (proxy de claves)
+## Correr las pruebas en local (claves)
 
-**Por qué hay un proxy.** Los scripts nunca leen claves ni arman la cabecera `Authorization`. En la nube, un proxy agrega la clave a cada llamada. En local hacemos lo mismo con `proxy_local.py`. Así el código es idéntico en los dos entornos, hay un solo repositorio y las claves nunca quedan en archivos del repositorio.
+**Sin proxy desde el 04-10.** Antes, un proxy local (`proxy_local.py`) ponía
+la clave en cada llamada para que el código fuera idéntico en la nube y en
+el PC. Frat decidió que eso no hace falta (la nube la cubre Claude Code), y
+se retiró: más simple. Ahora `call_model` (`niveles/run_niveles.py`), por
+donde pasan las llamadas del trabajo activo, lee la clave del entorno según
+el proveedor. Las claves nunca se imprimen ni quedan en archivos del repo.
 
 **Claves de los proveedores.** Son variables globales del shell, definidas en `~/.bashrc`:
 
@@ -188,44 +193,29 @@ abandonado. Las reglas 1–26 y el marco conceptual de Jev siguen vigentes.
 | DeepSeek | `api.deepseek.com` | `DEEPSEEK_API_KEY` |
 | xAI (Grok) | `api.x.ai` | `XAI_API_KEY` |
 
-`ZAI_API_KEY` no está escrita en `~/.bashrc`: la carga desde `~/.config/zai/api_key.env`. Para agregar o cambiar una clave, pon una línea `export NOMBRE=clave` en `~/.bashrc` y corre `source ~/.bashrc` (para xAI hay un asistente: `bash configurar_clave_xai.sh`, que la pide sin mostrarla). El proxy lee las claves solo al arrancar, así que después de cambiar una hay que reiniciarlo.
+`ZAI_API_KEY` no está escrita en `~/.bashrc`: la carga desde `~/.config/zai/api_key.env`. Para agregar o cambiar una clave, pon una línea `export NOMBRE=clave` en `~/.bashrc` y corre `source ~/.bashrc` (para xAI hay un asistente: `bash configurar_clave_xai.sh`, que la pide sin mostrarla).
 
-**Instalar mitmproxy (una vez).** Ubuntu no deja instalar con `pip --user`, así que va en un entorno aparte:
-
-```bash
-python3 -m venv ~/.venvs/mitmproxy && ~/.venvs/mitmproxy/bin/pip install mitmproxy
-```
-
-**Arrancar el proxy** (terminal 1, desde la raíz del repositorio; escucha solo en localhost):
+**Correr un script** (desde un shell no interactivo, como Desktop Commander, con `bash -ic` para que cargue `~/.bashrc`):
 
 ```bash
-~/.venvs/mitmproxy/bin/mitmdump -q --listen-host 127.0.0.1 -p 8080 -s proxy_local.py
+bash -ic 'python3 unidades/ficha_doc.py puente1 deepseek ficha_v0 r1'
 ```
 
-La primera vez, mitmdump crea su certificado en `~/.mitmproxy/`. Desde un shell no interactivo, como el de Desktop Commander, hay que arrancarlo con `bash -ic '…'` para que cargue `~/.bashrc`.
+## Muse Code (configuración vigente)
 
-**Correr un script** (terminal 2):
+Muse Code (Meta Muse Spark) es el implementador. Usa la suscripción **Muse
+Code Everyday** (límite semanal), nunca pago por uso: por eso `META_API_KEY`
+ya no se carga en las terminales (línea comentada en `~/.bashrc`).
 
-```bash
-export HTTPS_PROXY=http://127.0.0.1:8080 SSL_CERT_FILE=$HOME/.mitmproxy/mitmproxy-ca-cert.pem
-python3 unidades/ficha_doc.py puente1 deepseek ficha_v0 r1
-```
+- **Interactivo:** `muse` (alias de `command muse --disable-sandbox`; sin
+  sandbox para tener red completa y `.git` escribible; las aprobaciones
+  siguen activas).
+- **Sin terminal:** `command muse exec --disable-sandbox --prompt-file <archivo>`
+  corre un mensaje completo y termina. Así Cowork lanza las rondas desde
+  Desktop Commander: Muse corre, reporta, hace commit y push.
 
-El certificado del proxy solo lo usan los procesos que exportan `SSL_CERT_FILE`; no se instala en el sistema. El proxy agrega la clave solo a los cuatro hosts de la tabla y deja pasar el streaming. Al reiniciar la máquina, el proxy se apaga y hay que arrancarlo de nuevo.
-
-## Correr las pruebas con Muse Code (configuración vigente)
-
-Las pruebas en local las corre **Muse Code** (Meta Muse Spark). Frat y Cowork planean; Muse ejecuta.
-
-**`muse.sh`** (raíz del repo; en `~/.bashrc` hay un alias: escribir `muse` lo arranca):
-
-1. Si nada escucha en `127.0.0.1:8080`, levanta el proxy en segundo plano con las claves de la tabla (log en `~/.cache/proxy_local.log`).
-2. Arranca Muse en el directorio desde donde se llama, sin `META_API_KEY` (usa la suscripción) y con `--disable-sandbox`: con el sandbox activo, el shell de Muse no alcanza el proxy y `.git` es de solo lectura. Las aprobaciones siguen activas.
-3. Al salir de Muse, o al cerrar la terminal, apaga el proxy si lo arrancó él. Si ya había uno corriendo, lo usa y no lo toca.
-
-A Muse no se le exportan `HTTPS_PROXY` ni `SSL_CERT_FILE`: su propio tráfico no pasa por el proxy. Esas dos variables se exportan en cada comando que llama a una API. Para el binario sin proxy: `command muse`.
-
-**Modo sin terminal.** `./muse.sh exec --prompt-file <archivo>` corre un mensaje completo y termina. Así Cowork lanza las rondas desde Desktop Commander sin que haya que copiar mensajes: Muse corre, reporta, hace commit y push.
+`muse.sh` (el envoltorio que encendía y apagaba el proxy y quitaba la clave
+de Meta) se retiró el 04-10.
 
 **Qué lee Muse.** Muse carga solo `AGENTS.md` en cada sesión, interactiva o no. Ahí están sus reglas de red, claves, comandos y reportes. `CLAUDE.md` es una sola línea (`@AGENTS.md`): si se usa Claude Code, lee las mismas reglas. Hay una sola fuente.
 

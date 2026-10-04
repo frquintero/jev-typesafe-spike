@@ -6,9 +6,9 @@ Uso: python3 niveles/run_niveles.py <doc> <modelo> <prompt_A> <prompt_B> <rN>
 
 El esquema (v1: datos/argumentos; v2: datos/garantias/conclusiones) se elige
 por el sufijo de <prompt_A> (_v1 o _v2). v1 sigue funcionando igual que en la
-ronda 1. No usa Jev. Modelos vía credencial de API inyectada por proxy (mismo
-patron que TypeSafe/z.ai/DeepSeek en este entorno cloud): nunca se arma
-Authorization ni se lee ninguna clave. Sin SDK: urllib + dicts planos.
+ronda 1. No usa Jev. La clave de cada proveedor se lee del entorno y va en
+Authorization (ver cabecera_clave); sin la variable, no se pone cabecera.
+Sin SDK: urllib + dicts planos.
 """
 import json
 import os
@@ -24,6 +24,21 @@ PROMPTS_DIR = os.path.join(BASE_DIR, "prompts")
 CACHE_DIR = os.path.join(BASE_DIR, "cache")
 
 UA = "spike-jev/1.0"
+# Clave por host, leída del entorno (cargada en ~/.bashrc). Nunca se imprime ni
+# se guarda: el crudo guarda el cuerpo de la petición, no las cabeceras. Si la
+# variable no existe, no se pone cabecera (un proxy externo puede ponerla).
+CLAVE_POR_HOST = {
+    "api.deepseek.com": "DEEPSEEK_API_KEY",
+    "api.z.ai": "ZAI_API_KEY",
+    "api.x.ai": "XAI_API_KEY",
+    "api.typesafe.ai": "TYPESAFE_API_KEY",
+}
+
+
+def cabecera_clave(url):
+    host = url.split("/")[2]
+    clave = os.environ.get(CLAVE_POR_HOST.get(host, ""), "")
+    return {"Authorization": f"Bearer {clave}"} if clave else {}
 PUNCT = set(string.punctuation)
 
 # Confirmado contra la doc de cada proveedor (ver reportes de la sesión).
@@ -114,9 +129,10 @@ def call_model(version, alias, content, conv_id=None):
     headers = {
         "Content-Type": "application/json; charset=utf-8",
         "User-Agent": UA,
+        **cabecera_clave(cfg["url"]),
     }
     # Enrutamiento de caché de prefijo en xAI: mismo servidor para las llamadas
-    # de una misma cadena (no es credencial; la clave la sigue poniendo el proxy).
+    # de una misma cadena (no es credencial).
     if conv_id and "api.x.ai" in cfg["url"]:
         headers["x-grok-conv-id"] = conv_id
     req = urllib.request.Request(

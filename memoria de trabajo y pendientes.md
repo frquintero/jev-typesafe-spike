@@ -23,18 +23,18 @@ Estado al 03-10-2026. **Solo lo vigente:** lo que estamos haciendo y nos guía. 
 **Flujo de una ronda.**
 1. Frat y Cowork discuten y conjeturan. Se corre solo si hay una conjetura nueva.
 2. Cowork escribe el prompt en `unidades/prompts/` y la sección de la ronda en `unidades/PLAN.md` (o en `prototipos/PLAN.md`) (cambio, conjetura, comandos, reporte), y hace commit y push.
-3. Cowork deja el mensaje para el ejecutor en `unidades/mensaje_<RONDA>.txt` (commit incluido): Frat lo pega en su sesión, o Cowork lo lanza sin terminal con `./muse.sh exec --prompt-file <archivo>`.
+3. Cowork deja el mensaje para el ejecutor en `unidades/mensaje_<RONDA>.txt` (commit incluido): Frat lo pega en su sesión, o Cowork lo lanza sin terminal con `command muse exec --disable-sandbox --prompt-file <archivo>`.
 4. El ejecutor (Muse, Luna o Claude Code) corre sin modificar nada, reporta sin veredicto y hace commit y push de los crudos.
 5. Cowork lee los crudos (`unidades/cache/`) y los evalúa contra la conjetura. Frat decide.
 
-**Aviso de fin de ronda (decisión de Frat):** cuando Cowork lanza a Muse (`nohup bash -ic './muse.sh exec --prompt-file …' &` por Desktop Commander), arma un Monitor que consulta `git ls-remote` del repo en GitHub cada 30 s y avisa cuando aparece el commit nuevo; entonces Cowork le manda a Frat una notificación de escritorio (PushNotification) con el resultado en una línea.
+**Aviso de fin de ronda (decisión de Frat):** cuando Cowork lanza a Muse (`nohup bash -ic 'command muse exec --disable-sandbox --prompt-file …' &` por Desktop Commander), arma un Monitor que consulta `git ls-remote` del repo en GitHub cada 30 s y avisa cuando aparece el commit nuevo; entonces Cowork le manda a Frat una notificación de escritorio (PushNotification) con el resultado en una línea.
 
-**Configuración** (detalle en el README, «Correr las pruebas con Muse Code»):
-- `muse.sh` (alias `muse` en `~/.bashrc`) levanta el proxy de claves si no corre, arranca Muse sin sandbox en la carpeta actual y apaga el proxy al salir si lo arrancó él.
+**Configuración** (detalle en el README, «Muse Code» y «Correr las pruebas en local»):
+- Sin proxy ni `muse.sh` desde el 04-10: `muse` es alias de `command muse --disable-sandbox`; Muse usa la suscripción Everyday y `META_API_KEY` ya no se carga en las terminales.
 - Las reglas del ejecutor viven solo en `AGENTS.md`. Muse y Codex (donde corre Luna) lo cargan solos; en el chat de ChatGPT, Luna lo lee porque cada mensaje empieza con «Lee AGENTS.md». `CLAUDE.md` es una línea que apunta ahí (`@AGENTS.md`).
-- Claves: `proxy_local.py` las inyecta por host (TypeSafe, Z.ai, DeepSeek, xAI); nunca van en archivos del repo.
+- Claves: `call_model` (`niveles/run_niveles.py`) las lee del entorno por host (TypeSafe, Z.ai, DeepSeek, xAI); nunca se imprimen ni van en archivos del repo.
 - Cowork hace git con Desktop Commander, no con el shell aislado (no ve credenciales y deja bloqueos en `.git/`). Para detener procesos, la herramienta `kill_process` de Desktop Commander (`kill` desde la terminal está bloqueado).
-- Muse se colgó una vez (F3: siete minutos sin lanzar comandos). Si pasa, se detiene con `kill_process` y los comandos de `PLAN.md` se corren tal cual, sin modificar nada (exportando `HTTPS_PROXY` y `SSL_CERT_FILE`).
+- Muse se colgó una vez (F3: siete minutos sin lanzar comandos). Si pasa, se detiene con `kill_process` y los comandos de `PLAN.md` se corren tal cual, sin modificar nada (con `bash -ic` para cargar las claves).
 
 ## 1. Reglas de trabajo
 
