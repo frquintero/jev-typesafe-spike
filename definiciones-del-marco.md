@@ -197,6 +197,8 @@ que A dice (decisión de Frat, 03-10).
 | **Dudas** | Lo que tiene más de una lectura; se registra sin resolverlo. | Indeterminación (A.7). | `ficha_v1` |
 | **«El documento no lo establece»** | Respuesta explícita y válida en la evaluación. | Dato mudo ante una pregunta (A.8). | Decisión 01-10 |
 | **Recuperar / responder** (evaluación) | Recuperar = reconstruir una determinación registrada tal cual. Responder puede exigir reglas y otros datos (efecto informativo). Las preguntas de evaluación deben separar ambas clases. | A.6 frente a A.8. | Precisión del 02-10 |
+| **Documento** | La unidad que el usuario incorpora a Zettel; lleva fecha de radicación (fecha de ingreso), que también llevan los datos extraídos de él. Si trae una fecha propia, esa fecha es un dato. | No es concepto del ensayo: es un soporte de inscripciones (A.6). | Arquitectura de Zettel; `zettel-vision-operativa.md`, 04-10 |
+| **Foco** | El caso de estudio, o grupo de casos, sobre el que se reconstruye una ficha. Para acotar una consulta se dice **alcance**, no foco. | No es concepto del ensayo: recorta el campo por caso de estudio (A.2). | Arquitectura candidata, 03-10; regla de uso, 04-10 |
 
 ---
 
@@ -209,6 +211,7 @@ que A dice (decisión de Frat, 03-10).
 | **Caso** | Lo que acaece (A.2). | En los prompts: caso de estudio (B). |
 | **Valor** | La determinación completa (A.4). | Campo de la ficha: solo la posición (B). |
 | **Variable** | Aspecto en una serie comparable con variación (A.3). | Rondas antiguas (DU/ENC): campo del extractor, hoy fuera de uso. |
+| **Mundo** | Solo en «modelo-mundo»: la articulación presente entera, observador y registros incluidos (l. 45, 51). | K: lo que entra como marco fuera del corpus (mundo del orquestador, del código y de las fuentes consultadas). Es parte del modelo-mundo, no el modelo-mundo. |
 
 Al escribir prompts, planes o reportes, usar el sentido del ensayo y marcar
 explícitamente cuándo se usa el de Zettel.

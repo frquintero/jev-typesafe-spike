@@ -36,9 +36,9 @@ La decisión está en el paso 2, donde DeepSeek es lento. Arquitectura mixta:
    (`unidades/cache/unidades-gen1-deepseek-unidades_v5-r*.json`: 5 unidades,
    idénticas en las tres réplicas, incluida la no contigua `[5, 9]`). Un solo
    cuaderno con cada unidad como fuente aparte; cada consulta con
-   `source_ids=[esa unidad]`, para que la herramienta acote el foco.
+   `source_ids=[esa unidad]`, para que la herramienta acote el alcance a esa unidad.
    Posible fuente extra: un mapa breve del documento (idea rescatada de
-   LangExtract). Se mide el tiempo real por unidad y si el foco se respeta.
+   LangExtract). Se mide el tiempo real por unidad y si ese alcance se respeta.
 3. **Calibración del paso 1 (opcional, si sobra cuota):** `unidades_v5`
    casi intacto (solo cambian la salida a filas, una línea que traduce los
    ejemplos y el verificador `verificar_subtemas` sobre el CSV), sobre gen1,
