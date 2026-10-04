@@ -253,6 +253,14 @@ Pasos técnicos: `AGENTS.md`, «DeepSeek Harness por terminal».
 Sesión de trabajo vigente: `session-c19a1631-6349-46f8-9b9a-84dd5d7e7ab3`
 (creada el 03-10, contexto cargado).
 
+**Delegar mientras se conversa.** `dsh_tarea.sh` (raíz del repo) lanza la
+tarea en segundo plano y, cuando DeepSeek termina, avisa por ntfy.sh (un
+servicio público de avisos, con un tema privado guardado fuera del repo).
+Claude recibe el aviso al instante con su vigilancia (Monitor) y lee la
+respuesta; así DeepSeek trabaja como agente (investiga, programa, prueba)
+sin interrumpir la conversación. ChatGPT (Codex) no recibe avisos: revisa o
+espera el archivo de resultado. Detalle: `AGENTS.md`.
+
 ## Contexto
 
 *Objetivo suspendido (ver Estado actual).*

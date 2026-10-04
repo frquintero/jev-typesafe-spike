@@ -99,6 +99,8 @@ los tres sitios.
   el `README.md` de la raíz.
 - `proxy_local.py`: inyecta `Authorization` según host. `muse.sh`: arranque
   de Muse con el proxy.
+- `dsh_tarea.sh`: delega una tarea a DeepSeek Harness por terminal y avisa
+  por ntfy.sh al terminar (ver «DeepSeek Harness por terminal»).
 - `deleted/`: snapshots históricos; no es fuente.
 - Documentos vivos (no editar sin aprobación): `README.md`, `definiciones-del-marco.md`, `diccionario.md`,
   `jev_typesafe_guia_pedagogica_v2.md`.
@@ -173,6 +175,42 @@ con el shell aislado):
    tiempo límite.
 7. Al leer la respuesta, descartar las líneas de razonamiento que a veces
    se filtran al final del texto (en inglés).
+
+**Delegar sin quedarse esperando: `dsh_tarea.sh` + aviso por ntfy.sh**
+(vigente desde el 03-10). Para mandar a DeepSeek a investigar, programar o
+probar mientras la conversación con Frat sigue:
+
+- `./dsh_tarea.sh <etiqueta> <archivo_mensaje> [<session-id>|nueva]`
+  (raíz del repo). Lanza `dsh headless` en segundo plano y devuelve el
+  control al instante. Sin tercer argumento usa la sesión vigente, guardada
+  en `~/.config/dsh_tarea/sesion`; `nueva` crea otra (su id queda en el
+  `.json` de la tarea; si pasa a ser la de trabajo, actualizar ese archivo y
+  el README).
+- Al terminar DeepSeek, el envoltorio deja en `~/.cache/dsh_tareas/`:
+  `<etiqueta>.out` (respuesta), `.err` (razonamiento y diagnósticos),
+  `.json` (`session_id`, `exit`, `segundos`) y `.msg` (copia del mensaje), y
+  publica en ntfy.sh el aviso `"<etiqueta> exit=<código> <segundos>s"`. Una
+  etiqueta ya usada se rechaza (no sobrescribe).
+- **El aviso no lo manda DeepSeek:** el envoltorio corre `dsh` y, cuando
+  ese proceso termina, ejecuta un `curl` a ntfy.sh. ntfy.sh reenvía el
+  aviso al instante a quien esté suscrito al tema.
+- **El tema es privado:** su nombre aleatorio vive solo en
+  `~/.config/dsh_tarea/ntfy_topic` (0600). El repo es público: nunca
+  escribir el tema en el repo, en mensajes ni en reportes. Por ntfy.sh solo
+  viaja el aviso; las respuestas no salen del PC.
+- **Cómo se entera Claude (Cowork):** al empezar, lee el tema con Desktop
+  Commander (`cat ~/.config/dsh_tarea/ntfy_topic`) y arma una vigilancia
+  (herramienta Monitor, en la nube) suscrita al flujo del tema:
+  `curl -s -N https://ntfy.sh/<tema>/raw`, una línea por aviso; vence a los
+  30 min y se rearma. Con el aviso, lee `<etiqueta>.out` con Desktop
+  Commander. Mientras tanto no consulta nada.
+- **Cómo se entera ChatGPT (Codex):** Codex no tiene un mecanismo que lo
+  despierte con un evento externo (su `notify` solo avisa a la persona
+  cuando Codex termina un turno). Opciones: lanzar la tarea y, cuando
+  convenga, revisar si existe `~/.cache/dsh_tareas/<etiqueta>.json`; o
+  esperarla bloqueando:
+  `until [ -f ~/.cache/dsh_tareas/<etiqueta>.json ]; do sleep 5; done`.
+  ChatGPT en el chat web no tiene shell local y no usa este canal.
 
 Restricciones (código de `@deepseek-ai/dsh-headless`): rechaza toda
 sesión con preset de agente (todas las creadas en la ventana web llevan
