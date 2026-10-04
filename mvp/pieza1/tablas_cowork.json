@@ -1,0 +1,360 @@
+{
+ "esquema": "2-candidato",
+ "autor": "Cowork, 04-10-2026, sobre ficha_mano.json",
+ "preguntas": [
+  {
+   "pregunta": "Q5",
+   "texto": "¿Cuántas mantas guarda el club en el refugio de Peña Alta?",
+   "R": "libre",
+   "encabezado": {
+    "caso": "C3",
+    "aspecto": "número de mantas",
+    "condiciones": [
+     {
+      "texto": "las que guarda el club",
+      "ref": "C2"
+     }
+    ]
+   },
+   "dominio": {
+    "escala": "número natural de mantas",
+    "regla": "0, 1, 2, …"
+   },
+   "dependencias": [
+    {
+     "id": "D6",
+     "origen": "documento",
+     "mundo": null,
+     "tipo": "dato",
+     "valor": "C3 · número de mantas · 40",
+     "condiciones": [
+      "las que guarda el club (C2)"
+     ],
+     "procedencia": "documento, oración 5",
+     "version": null,
+     "radicacion": "4-10-2026",
+     "consulta": null
+    },
+    {
+     "id": "M2",
+     "origen": "mundo",
+     "mundo": "fuente",
+     "tipo": "dato",
+     "valor": "C3 · número de mantas · 55",
+     "condiciones": [
+      "las que guarda el club (C2)"
+     ],
+     "procedencia": "inventario del club (premisa simulada)",
+     "version": null,
+     "radicacion": null,
+     "consulta": "1-10-2026"
+    }
+   ],
+   "tablas_esperadas": [
+    "inicial",
+    "final",
+    "revisada"
+   ],
+   "tabla_inicial": {
+    "filas": [
+     {
+      "posicion": "resto",
+      "si": null,
+      "estado": "admisible",
+      "ruta": []
+     }
+    ],
+    "conflicto": [],
+    "campo": [],
+    "desenlace": "no establecido"
+   },
+   "tabla_final": {
+    "filas": [
+     {
+      "posicion": "40 mantas",
+      "si": null,
+      "estado": "admisible",
+      "ruta": [
+       "D6"
+      ]
+     },
+     {
+      "posicion": "resto",
+      "si": null,
+      "estado": "inadmisible",
+      "ruta": [
+       "D6"
+      ]
+     }
+    ],
+    "conflicto": [],
+    "campo": [
+     "D6"
+    ],
+    "desenlace": "cerrada"
+   },
+   "tabla_revisada": {
+    "filas": [
+     {
+      "posicion": "40 mantas",
+      "si": null,
+      "estado": "admisible",
+      "ruta": [
+       "D6"
+      ]
+     },
+     {
+      "posicion": "55 mantas",
+      "si": null,
+      "estado": "admisible",
+      "ruta": [
+       "M2"
+      ]
+     },
+     {
+      "posicion": "resto",
+      "si": null,
+      "estado": "inadmisible",
+      "ruta": [
+       "D6",
+       "M2"
+      ]
+     }
+    ],
+    "conflicto": [
+     "D6",
+     "M2"
+    ],
+    "campo": [
+     "D6",
+     "M2"
+    ],
+    "desenlace": "en conflicto"
+   },
+   "salida_esperada": "Hay un conflicto. El aviso del club (oración 5) dice que el club guarda 40 mantas en el refugio; el inventario del club, consultado el 1-10-2026, dice 55. Zettel no elige entre las dos."
+  },
+  {
+   "pregunta": "Q6r",
+   "texto": "¿Qué día reabre la senda de acceso al refugio de Peña Alta tras las obras?",
+   "R": "sin externas, con el mundo del orquestador",
+   "encabezado": {
+    "caso": "C4",
+    "aspecto": "fecha de reapertura",
+    "condiciones": [
+     {
+      "texto": "tras el cierre por obras",
+      "ref": "D3"
+     }
+    ]
+   },
+   "dominio": {
+    "escala": "fecha d-m-aaaa",
+    "regla": "días del calendario"
+   },
+   "dependencias": [
+    {
+     "id": "D1",
+     "origen": "documento",
+     "mundo": null,
+     "tipo": "dato",
+     "valor": "C1 · fecha de emisión · 20-9-2026",
+     "condiciones": [],
+     "procedencia": "documento, oración 1",
+     "version": null,
+     "radicacion": "4-10-2026",
+     "consulta": null
+    },
+    {
+     "id": "D3",
+     "origen": "documento",
+     "mundo": null,
+     "tipo": "dato",
+     "valor": "C4 · periodo de cierre · del 15 al 31 de octubre",
+     "condiciones": [],
+     "procedencia": "documento, oración 3",
+     "version": null,
+     "radicacion": "4-10-2026",
+     "consulta": null
+    },
+    {
+     "id": "M1",
+     "origen": "mundo",
+     "mundo": "orquestador",
+     "tipo": "regla",
+     "valor": "un cierre «del X al Y» deja cerrado el día Y; se reabre el día Y + 1",
+     "condiciones": [],
+     "procedencia": "mundo del orquestador",
+     "version": null,
+     "radicacion": null,
+     "consulta": null
+    },
+    {
+     "id": "M3",
+     "origen": "mundo",
+     "mundo": "orquestador",
+     "tipo": "regla",
+     "valor": "un mes sin año en un texto fechado es la próxima ocurrencia de ese mes desde la fecha del texto",
+     "condiciones": [],
+     "procedencia": "mundo del orquestador",
+     "version": null,
+     "radicacion": null,
+     "consulta": null
+    },
+    {
+     "id": "M4",
+     "origen": "mundo",
+     "mundo": "código",
+     "tipo": "regla",
+     "valor": "aritmética de calendario (31-10-2026 + 1 día)",
+     "condiciones": [],
+     "procedencia": "código",
+     "version": "la del código de la corrida",
+     "radicacion": null,
+     "consulta": null
+    }
+   ],
+   "tablas_esperadas": [
+    "inicial",
+    "final"
+   ],
+   "tabla_inicial": {
+    "filas": [
+     {
+      "posicion": "resto",
+      "si": null,
+      "estado": "admisible",
+      "ruta": []
+     }
+    ],
+    "conflicto": [],
+    "campo": [],
+    "desenlace": "no establecido"
+   },
+   "tabla_final": {
+    "filas": [
+     {
+      "posicion": "1-11-2026",
+      "si": null,
+      "estado": "admisible",
+      "ruta": [
+       "D1",
+       "D3",
+       "M1",
+       "M3",
+       "M4"
+      ]
+     },
+     {
+      "posicion": "resto",
+      "si": null,
+      "estado": "inadmisible",
+      "ruta": [
+       "D1",
+       "D3",
+       "M1",
+       "M3",
+       "M4"
+      ]
+     }
+    ],
+    "conflicto": [],
+    "campo": [
+     "D1",
+     "D3"
+    ],
+    "desenlace": "cerrada"
+   },
+   "salida_esperada": "La senda reabre el 1-11-2026: el aviso del 20-9-2026 la cierra del 15 al 31 de octubre por obras (oración 3).",
+   "dato_derivado": {
+    "esquema": "2-candidato",
+    "id": "DD1",
+    "caso": "C4",
+    "aspecto": "fecha de reapertura",
+    "valor": "1-11-2026",
+    "unidad": null,
+    "condiciones": [
+     {
+      "texto": "tras el cierre por obras",
+      "ref": "D3"
+     }
+    ],
+    "inferido": true,
+    "respaldo": [
+     {
+      "o": 3,
+      "f": "cierra del 15 al 31 de octubre"
+     },
+     {
+      "o": 1,
+      "f": "20 de septiembre de 2026"
+     }
+    ],
+    "derivacion": {
+     "pregunta": "Q6r",
+     "R": "sin externas, con el mundo del orquestador",
+     "radicacion": "día en que se guarda",
+     "dependencias": [
+      {
+       "id": "D1",
+       "origen": "documento",
+       "mundo": null,
+       "tipo": "dato",
+       "valor": "C1 · fecha de emisión · 20-9-2026",
+       "condiciones": [],
+       "procedencia": "documento, oración 1",
+       "fecha": "radicación 4-10-2026",
+       "version": null
+      },
+      {
+       "id": "D3",
+       "origen": "documento",
+       "mundo": null,
+       "tipo": "dato",
+       "valor": "C4 · periodo de cierre · del 15 al 31 de octubre",
+       "condiciones": [],
+       "procedencia": "documento, oración 3",
+       "fecha": "radicación 4-10-2026",
+       "version": null
+      },
+      {
+       "id": "M1",
+       "origen": "mundo",
+       "mundo": "orquestador",
+       "tipo": "regla",
+       "valor": "un cierre «del X al Y» deja cerrado el día Y; se reabre el día Y + 1",
+       "condiciones": [],
+       "procedencia": "mundo del orquestador",
+       "fecha": null,
+       "version": null
+      },
+      {
+       "id": "M3",
+       "origen": "mundo",
+       "mundo": "orquestador",
+       "tipo": "regla",
+       "valor": "un mes sin año en un texto fechado es la próxima ocurrencia de ese mes desde la fecha del texto",
+       "condiciones": [],
+       "procedencia": "mundo del orquestador",
+       "fecha": null,
+       "version": null
+      },
+      {
+       "id": "M4",
+       "origen": "mundo",
+       "mundo": "código",
+       "tipo": "regla",
+       "valor": "aritmética de calendario (31-10-2026 + 1 día)",
+       "condiciones": [],
+       "procedencia": "código",
+       "fecha": null,
+       "version": "se fija en la corrida"
+      }
+     ],
+     "rutas": 1,
+     "juicio": null
+    }
+   },
+   "mantenimiento": "Si D3 pasa a «del 15 al 25 de octubre»: 1-11-2026 pierde sostén y 26-10-2026 pasa a ser admisible."
+  }
+ ]
+}

@@ -1,0 +1,74 @@
+$ python3 mvp/pieza1/pieza1.py validar mvp/pieza1/tablas_cowork.json
+validar mvp/pieza1/tablas_cowork.json (preguntas: 2)
+== Q5 ==
+  sello: 2-candidato
+  R: libre
+  tablas esperadas: ['tabla_inicial', 'tabla_final', 'tabla_revisada']; presentes: ['tabla_inicial', 'tabla_final', 'tabla_revisada']
+  tabla_inicial: desenlace=no establecido filas=['resto'] conflicto=[] campo=[]
+  tabla_final: desenlace=cerrada filas=['40 mantas', 'resto'] conflicto=[] campo=['D6']
+  tabla_revisada: desenlace=en conflicto filas=['40 mantas', '55 mantas', 'resto'] conflicto=['D6', 'M2'] campo=['D6', 'M2']
+
+== Q6r ==
+  sello: 2-candidato
+  R: sin externas, con el mundo del orquestador
+  tablas esperadas: ['tabla_inicial', 'tabla_final']; presentes: ['tabla_inicial', 'tabla_final']
+  tabla_inicial: desenlace=no establecido filas=['resto'] conflicto=[] campo=[]
+  tabla_final: desenlace=cerrada filas=['1-11-2026', 'resto'] conflicto=[] campo=['D1', 'D3']
+
+== resumen ==
+  preguntas: 2
+  errores: 0
+rc=0
+
+$ python3 mvp/pieza1/pieza1.py validar mvp/pieza1/tablas_ds.json
+validar mvp/pieza1/tablas_ds.json (preguntas: 2)
+== Q5 ==
+  sello: 2-candidato
+  R: libre
+  tablas esperadas: ['tabla_inicial', 'tabla_final', 'tabla_revisada']; presentes: ['tabla_inicial', 'tabla_final', 'tabla_revisada']
+  tabla_inicial: desenlace=no establecido filas=['resto'] conflicto=[] campo=[]
+  tabla_final: desenlace=cerrada filas=['40 mantas', 'resto'] conflicto=[] campo=['D6']
+  tabla_revisada: desenlace=en conflicto filas=['40 mantas', '55 mantas', 'resto'] conflicto=['D6', 'M2'] campo=['D6', 'M2']
+
+== Q6r ==
+  sello: 2-candidato
+  R: sin externas, con el mundo del orquestador
+  tablas esperadas: ['tabla_inicial', 'tabla_final']; presentes: ['tabla_inicial', 'tabla_final']
+  tabla_inicial: desenlace=no establecido filas=['resto'] conflicto=[] campo=[]
+  tabla_final: desenlace=cerrada filas=['1-11-2026', 'resto'] conflicto=[] campo=['D1', 'D3']
+
+== resumen ==
+  preguntas: 2
+  errores: 0
+rc=0
+
+$ python3 mvp/pieza1/pieza1.py comparar mvp/pieza1/tablas_cowork.json mvp/pieza1/tablas_ds.json
+comparar mvp/pieza1/tablas_cowork.json vs mvp/pieza1/tablas_ds.json
+Q5 dominio.escala: "número natural de mantas" vs "número de mantas"
+Q5 dominio.regla: "0, 1, 2, …" vs "se enumeran las posiciones sostenidas por alguna ruta (40 y 55 mantas) y «resto» cubre los demás números."
+Q5 dependencia D6.condiciones: ["las que guarda el club (C2)"] vs null
+Q5 dependencia M2.condiciones: ["las que guarda el club (C2)"] vs null
+Q6r encabezado.condiciones: [{"texto": "tras el cierre por obras", "ref": "D3"}] vs []
+Q6r dominio.escala: "fecha d-m-aaaa" vs "fechas del calendario (d-m-aaaa)"
+Q6r dominio.regla: "días del calendario" vs "se enumera la posición derivada (1-11-2026) y «resto» cubre las demás fechas."
+Q6r dependencia M1.procedencia: "mundo del orquestador" vs "mundo del orquestador (convención de lectura)"
+Q6r dependencia M3.procedencia: "mundo del orquestador" vs "mundo del orquestador (convención de lectura)"
+Q6r dependencia M4.valor: "aritmética de calendario (31-10-2026 + 1 día)" vs "aritmética de calendario"
+Q6r dependencia M4.procedencia: "código" vs "mundo del código (cómputo estable)"
+Q6r dependencia M4.version: "la del código de la corrida" vs "calendario-v1"
+diferencias: 12
+rc=0
+
+$ python3 mvp/pieza1/pieza1.py guardar mvp/pieza1/tablas_cowork.json mvp/pieza1/corpus.jsonl
+guardar: DD1 (Q6r) valor 1-11-2026 -> mvp/pieza1/corpus.jsonl (radicacion 4-10-2026, dependencias: 5 objetos)
+verificación: 1 línea(s) leída(s) de vuelta de mvp/pieza1/corpus.jsonl, iguales a lo escrito: SÍ
+rc=0
+
+$ python3 mvp/pieza1/pieza1.py mantener mvp/pieza1/corpus.jsonl D3 "del 15 al 25 de octubre"
+dato DD1 (Q6r), dependencia D3
+  posición registrada: 1-11-2026
+  recalculada con valores registrados [fecha del texto 20-9-2026 (D1), cierre C4 · periodo de cierre · del 15 al 31 de octubre]: 1-11-2026 — coincide: SÍ (chequeo aritmético M1+M3+M4)
+  M4 (código): aritmética con datetime — version: Python 3.12.3 (datetime)
+  con D3 = 'del 15 al 25 de octubre': nueva posición: 26-10-2026
+  pierde sostén: 1-11-2026; gana sostén: 26-10-2026
+rc=0

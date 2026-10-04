@@ -1,0 +1,229 @@
+[
+  {
+    "esquema": "2-candidato",
+    "pregunta": "Q5",
+    "texto": "¿Cuántas mantas guarda el club en el refugio de Peña Alta?",
+    "R": "libre",
+    "encabezado": {
+      "caso": "C3",
+      "aspecto": "número de mantas",
+      "condiciones": [
+        {"texto": "las que guarda el club", "ref": "C2"}
+      ]
+    },
+    "dominio": {
+      "escala": "número de mantas",
+      "regla": "se enumeran las posiciones sostenidas por alguna ruta (40 y 55 mantas) y «resto» cubre los demás números."
+    },
+    "dependencias": [
+      {
+        "id": "D6",
+        "origen": "documento",
+        "mundo": null,
+        "tipo": "dato",
+        "valor": "C3 · número de mantas · 40",
+        "procedencia": "documento, oración 5",
+        "fecha": "4-10-2026",
+        "version": null
+      },
+      {
+        "id": "M2",
+        "origen": "mundo",
+        "mundo": "fuente",
+        "tipo": "dato",
+        "valor": "C3 · número de mantas · 55",
+        "procedencia": "inventario del club (premisa simulada)",
+        "fecha": "1-10-2026",
+        "version": null
+      }
+    ],
+    "tablas_esperadas": ["inicial", "final", "revisada"],
+    "tabla_inicial": {
+      "filas": [
+        {"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}
+      ],
+      "conflicto": [],
+      "campo": [],
+      "desenlace": "no establecido"
+    },
+    "tabla_final": {
+      "filas": [
+        {"posicion": "40 mantas", "si": null, "estado": "admisible", "ruta": ["D6"]},
+        {"posicion": "resto", "si": null, "estado": "inadmisible", "ruta": ["D6"]}
+      ],
+      "conflicto": [],
+      "campo": ["D6"],
+      "desenlace": "cerrada"
+    },
+    "tabla_revisada": {
+      "filas": [
+        {"posicion": "40 mantas", "si": null, "estado": "admisible", "ruta": ["D6"]},
+        {"posicion": "55 mantas", "si": null, "estado": "admisible", "ruta": ["M2"]},
+        {"posicion": "resto", "si": null, "estado": "inadmisible", "ruta": ["D6", "M2"]}
+      ],
+      "conflicto": ["D6", "M2"],
+      "campo": ["D6", "M2"],
+      "desenlace": "en conflicto"
+    },
+    "salida_esperada": "Conflicto de fuentes: el documento dice 40 mantas (D6, oración 5) y la fuente consultada el 1-10-2026 dice 55 mantas (M2, inventario del club); se muestran las dos posiciones admisibles, conflicto [D6, M2], y no se elige."
+  },
+  {
+    "esquema": "2-candidato",
+    "pregunta": "Q6r",
+    "texto": "¿Qué día reabre la senda de acceso al refugio de Peña Alta tras las obras?",
+    "R": "sin externas, con el mundo del orquestador",
+    "encabezado": {
+      "caso": "C4",
+      "aspecto": "fecha de reapertura",
+      "condiciones": []
+    },
+    "dominio": {
+      "escala": "fechas del calendario (d-m-aaaa)",
+      "regla": "se enumera la posición derivada (1-11-2026) y «resto» cubre las demás fechas."
+    },
+    "dependencias": [
+      {
+        "id": "D1",
+        "origen": "documento",
+        "mundo": null,
+        "tipo": "dato",
+        "valor": "C1 · fecha de emisión · 20-9-2026",
+        "procedencia": "documento, oración 1",
+        "fecha": "4-10-2026",
+        "version": null
+      },
+      {
+        "id": "D3",
+        "origen": "documento",
+        "mundo": null,
+        "tipo": "dato",
+        "valor": "C4 · periodo de cierre · del 15 al 31 de octubre",
+        "procedencia": "documento, oración 3",
+        "fecha": "4-10-2026",
+        "version": null
+      },
+      {
+        "id": "M1",
+        "origen": "mundo",
+        "mundo": "orquestador",
+        "tipo": "regla",
+        "valor": "un cierre «del X al Y» deja cerrado el día Y; se reabre el día Y + 1",
+        "procedencia": "mundo del orquestador (convención de lectura)",
+        "fecha": null,
+        "version": null
+      },
+      {
+        "id": "M3",
+        "origen": "mundo",
+        "mundo": "orquestador",
+        "tipo": "regla",
+        "valor": "un mes sin año en un texto fechado es la próxima ocurrencia de ese mes desde la fecha del texto",
+        "procedencia": "mundo del orquestador (convención de lectura)",
+        "fecha": null,
+        "version": null
+      },
+      {
+        "id": "M4",
+        "origen": "mundo",
+        "mundo": "código",
+        "tipo": "regla",
+        "valor": "aritmética de calendario",
+        "procedencia": "mundo del código (cómputo estable)",
+        "fecha": null,
+        "version": "calendario-v1"
+      }
+    ],
+    "tablas_esperadas": ["inicial", "final"],
+    "tabla_inicial": {
+      "filas": [
+        {"posicion": "resto", "si": null, "estado": "admisible", "ruta": []}
+      ],
+      "conflicto": [],
+      "campo": [],
+      "desenlace": "no establecido"
+    },
+    "tabla_final": {
+      "filas": [
+        {"posicion": "1-11-2026", "si": null, "estado": "admisible", "ruta": ["D1", "D3", "M1", "M3", "M4"]},
+        {"posicion": "resto", "si": null, "estado": "inadmisible", "ruta": ["D1", "D3", "M1", "M3", "M4"]}
+      ],
+      "conflicto": [],
+      "campo": ["D1", "D3"],
+      "desenlace": "cerrada"
+    },
+    "dato_derivado": {
+      "esquema": "2-candidato",
+      "id": "DD1",
+      "caso": "C4",
+      "aspecto": "fecha de reapertura",
+      "valor": "1-11-2026",
+      "unidad": null,
+      "condiciones": [],
+      "inferido": true,
+      "respaldo": [
+        {"o": 1, "f": "20 de septiembre de 2026"},
+        {"o": 3, "f": "cierra del 15 al 31 de octubre"}
+      ],
+      "derivacion": {
+        "pregunta": "Q6r",
+        "R": "sin externas, con el mundo del orquestador",
+        "radicacion": "4-10-2026",
+        "dependencias": [
+          {
+            "id": "D1",
+            "origen": "documento",
+            "mundo": null,
+            "tipo": "dato",
+            "valor": "C1 · fecha de emisión · 20-9-2026",
+            "procedencia": "documento, oración 1",
+            "fecha": "4-10-2026",
+            "version": null
+          },
+          {
+            "id": "D3",
+            "origen": "documento",
+            "mundo": null,
+            "tipo": "dato",
+            "valor": "C4 · periodo de cierre · del 15 al 31 de octubre",
+            "procedencia": "documento, oración 3",
+            "fecha": "4-10-2026",
+            "version": null
+          },
+          {
+            "id": "M1",
+            "origen": "mundo",
+            "mundo": "orquestador",
+            "tipo": "regla",
+            "valor": "un cierre «del X al Y» deja cerrado el día Y; se reabre el día Y + 1",
+            "procedencia": "mundo del orquestador (convención de lectura)",
+            "fecha": null,
+            "version": null
+          },
+          {
+            "id": "M3",
+            "origen": "mundo",
+            "mundo": "orquestador",
+            "tipo": "regla",
+            "valor": "un mes sin año en un texto fechado es la próxima ocurrencia de ese mes desde la fecha del texto",
+            "procedencia": "mundo del orquestador (convención de lectura)",
+            "fecha": null,
+            "version": null
+          },
+          {
+            "id": "M4",
+            "origen": "mundo",
+            "mundo": "código",
+            "tipo": "regla",
+            "valor": "aritmética de calendario",
+            "procedencia": "mundo del código (cómputo estable)",
+            "fecha": null,
+            "version": "calendario-v1"
+          }
+        ],
+        "rutas": 1,
+        "juicio": null
+      }
+    },
+    "salida_esperada": "La senda reabre el 1-11-2026: D3 (cierre del 15 al 31 de octubre, oración 3) con la fecha del aviso D1 (20-9-2026, oración 1) fija octubre de 2026, M1 (reabre el día Y + 1) y M4 (calendario) derivan el 1-11-2026, única posición admisible, con ruta [D1, D3, M1, M3, M4]."
+  }
+]

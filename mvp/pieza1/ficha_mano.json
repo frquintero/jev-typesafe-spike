@@ -1,0 +1,43 @@
+{
+ "esquema": "2-candidato",
+ "nota": "FICHA ESCRITA A MANO por Cowork (04-10-2026) con la forma de ficha_v1. No es un crudo de corrida. Estado: CONGELADA el 04-10-2026, tras la lectura de DeepSeek. No se edita.",
+ "documento": "mvp/mesa1b/documento.md",
+ "radicacion": "4-10-2026",
+ "casos": [
+  {"id":"C1","nombre":"aviso del Club de Montaña Peña Alta","menciones":[{"o":1,"f":"Aviso del Club de Montaña Peña Alta"}]},
+  {"id":"C2","nombre":"Club de Montaña Peña Alta","menciones":[{"o":1,"f":"Club de Montaña Peña Alta"},{"o":5,"f":"El club"}]},
+  {"id":"C3","nombre":"refugio de Peña Alta","menciones":[{"o":2,"f":"El refugio de Peña Alta"},{"o":4,"f":"al refugio"},{"o":5,"f":"en el refugio"},{"o":6,"f":"El refugio"}]},
+  {"id":"C4","nombre":"senda de acceso","menciones":[{"o":3,"f":"La senda de acceso"}]},
+  {"id":"C5","nombre":"excursión al refugio","menciones":[{"o":4,"f":"La excursión al refugio"}]},
+  {"id":"C6","nombre":"generador eléctrico del refugio","menciones":[{"o":6,"f":"un generador eléctrico"}]}
+ ],
+ "relaciones": [
+  {"id":"R1","tipo":"emitido por","de":"C1","a":"C2","dentro_de":null,"condiciones":[],"inferido":false,"respaldo":[{"o":1,"f":"Aviso del Club de Montaña Peña Alta"}]},
+  {"id":"R2","tipo":"acceso a","de":"C4","a":"C3","dentro_de":null,"condiciones":[],"inferido":true,"respaldo":[{"o":3,"f":"La senda de acceso"},{"o":2,"f":"El refugio de Peña Alta"}]},
+  {"id":"R3","tipo":"destino","de":"C5","a":"C3","dentro_de":null,"condiciones":[],"inferido":false,"respaldo":[{"o":4,"f":"La excursión al refugio"}]},
+  {"id":"R4","tipo":"guardado en","de":"C6","a":"C3","dentro_de":null,"condiciones":[],"inferido":false,"respaldo":[{"o":6,"f":"El refugio guarda un generador eléctrico"}]}
+ ],
+ "capas": [],
+ "determinaciones": [
+  {"id":"D1","dentro_de":null,"caso":"C1","aspecto":"fecha de emisión","valor":"20 de septiembre de 2026","unidad":null,"cambio":null,"condiciones":[],"modalidad":null,"inferido":false,"respaldo":[{"o":1,"f":"20 de septiembre de 2026"}]},
+  {"id":"D2","dentro_de":null,"caso":"C3","aspecto":"número de literas","valor":"24","unidad":"literas","cambio":null,"condiciones":[],"modalidad":null,"inferido":false,"respaldo":[{"o":2,"f":"tiene 24 literas"}]},
+  {"id":"D3","dentro_de":null,"caso":"C4","aspecto":"periodo de cierre","valor":"del 15 al 31 de octubre","unidad":null,"cambio":null,"condiciones":[],"modalidad":null,"inferido":false,"respaldo":[{"o":3,"f":"cierra del 15 al 31 de octubre"}]},
+  {"id":"D4","dentro_de":null,"caso":"D3","aspecto":"motivo","valor":"obras","unidad":null,"cambio":null,"condiciones":[],"modalidad":null,"inferido":false,"respaldo":[{"o":3,"f":"por obras"}]},
+  {"id":"D5","dentro_de":null,"caso":"C5","aspecto":"momento de salida","valor":"cuando amanece","unidad":null,"cambio":null,"condiciones":[],"modalidad":null,"inferido":false,"respaldo":[{"o":4,"f":"sale cuando amanece"}]},
+  {"id":"D6","dentro_de":null,"caso":"C3","aspecto":"número de mantas","valor":"40","unidad":"mantas","cambio":null,"condiciones":[{"texto":"las que guarda el club","ref":"C2","respaldo":[{"o":5,"f":"El club guarda"}]}],"modalidad":null,"inferido":false,"respaldo":[{"o":5,"f":"El club guarda 40 mantas en el refugio"}]},
+  {"id":"D7","dentro_de":null,"caso":"C6","aspecto":"potencia","valor":"3","unidad":"kW","cambio":null,"condiciones":[],"modalidad":null,"inferido":false,"respaldo":[{"o":6,"f":"de 3 kW"}]}
+ ],
+ "acciones": [],
+ "marcas": [
+  {"marca":"20 de septiembre de 2026","o":1,"funciones":[{"funcion":"posición","refs":["D1"]}]},
+  {"marca":"24","o":2,"funciones":[{"funcion":"posición","refs":["D2"]}]},
+  {"marca":"del 15 al 31 de octubre","o":3,"funciones":[{"funcion":"posición","refs":["D3"]}]},
+  {"marca":"cuando amanece","o":4,"funciones":[{"funcion":"posición","refs":["D5"]}]},
+  {"marca":"40","o":5,"funciones":[{"funcion":"posición","refs":["D6"]}]},
+  {"marca":"3 kW","o":6,"funciones":[{"funcion":"posición","refs":["D7"]}]}
+ ],
+ "dudas": [
+  {"id":"Q1","texto":"«del 15 al 31 de octubre» no dice el año; el aviso está fechado el 20-9-2026.","respaldo":[{"o":3,"f":"del 15 al 31 de octubre"},{"o":1,"f":"20 de septiembre de 2026"}]},
+  {"id":"Q2","texto":"¿El 31 de octubre está todavía cerrado o ya abierto?","respaldo":[{"o":3,"f":"del 15 al 31 de octubre"}]}
+ ]
+}
