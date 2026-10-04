@@ -435,8 +435,9 @@ Método del spike:
   en vez de buscar trozos por similitud, pero el árbol lo saca del diseño del
   PDF. EEL lo reconstruiría cuando el documento no trae estructura limpia.
   Camino posible para documentos largos en Zettel: EEL (árbol) → PageIndex
-  (consulta) → ficha por nodo (la «ficha por foco» de la arquitectura
-  candidata).
+  (consulta) → fichas dentro de cada nodo, una por foco (caso de estudio),
+  como en la arquitectura candidata. Un nodo es un tramo del documento y
+  puede contener varios focos.
 
 ## Arquitectura que veo (propuesta, a acordar)
 
