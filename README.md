@@ -66,6 +66,8 @@ en el README, PLAN y tareas de cada carpeta).
   complementario (`notebooklm-spike/`)
 - Fecha: 2026-10-03 · Proyecto: pruebas NotebookLM — grafo semántico
   (paso 2 en NotebookLM sobre unidades de DeepSeek) (`nblm-grafo-semantico/`)
+- Fecha: 2026-10-04 · Proyecto: MVP de Zettel — tensiones de la visión
+  operativa (`mvp/`)
 
 ## Frentes cerrados: lecciones e ideas rescatables
 
