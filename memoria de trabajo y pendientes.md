@@ -1,6 +1,6 @@
 # Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 03-10-2026. **Solo lo vigente:** lo que estamos haciendo y nos guía. Lo superado (enfoque de `datos_pABQ*`, rondas DU/P/ENC/U, sus decisiones y pendientes) está en `historico/memoria-hasta-2026-10-01.md`; el detalle de cada ronda, en `unidades/PLAN.md` y `git log`.
+Estado al 04-10-2026. **Solo lo vigente:** lo que estamos haciendo y nos guía. Lo superado (enfoque de `datos_pABQ*`, rondas DU/P/ENC/U, sus decisiones y pendientes) está en `historico/memoria-hasta-2026-10-01.md`; el detalle de cada ronda, en `unidades/PLAN.md` y `git log`.
 
 ## Dónde quedamos (leer primero)
 
@@ -18,7 +18,7 @@ Estado al 03-10-2026. **Solo lo vigente:** lo que estamos haciendo y nos guía. 
 
 - **Carpeta:** `/home/fratquintero/Documentos/Claude/jev-typesafe-spike/` (máquina local de Frat, Linux). Trabajo activo en `unidades/` (script `ficha_doc.py`, prompts en `prompts/`, textos en `docs/`, preguntas en `gold/`, crudos en `cache/`).
 - **Repositorio:** `https://github.com/frquintero/jev-typesafe-spike`, rama `main`.
-- **Continuidad en nube:** ChatGPT Work consulta y prepara archivos desde una copia del repositorio público; el estado publicado en GitHub permite recuperar el trabajo con el PC apagado. La copia del PC se actualiza desde `main`. El acceso local a APIs mediante `127.0.0.1` no se transfiere a Work Cloud; una futura ejecución allí requiere configurar primero un acceso autorizado.
+- **Continuidad en nube:** ChatGPT Work consulta y prepara archivos desde una copia del repositorio público; el estado publicado en GitHub permite recuperar el trabajo con el PC apagado. La copia del PC se actualiza desde `main`. Las claves de las APIs viven en el `~/.bashrc` del PC y no se transfieren a Work Cloud; una futura ejecución allí requiere configurar primero un acceso autorizado.
 - **Roles:** Frat y Cowork (Claude) planean. La implementación y las corridas las hacen los ejecutores: Muse Code (Meta Muse Spark) en local, GPT-6 Luna (OpenAI, vía Codex o ChatGPT) y Claude Code en la nube como alternativa. El rol va con la tarea, no con el modelo.
 
 **Flujo de una ronda.**

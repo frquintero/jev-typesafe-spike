@@ -94,7 +94,12 @@ Ideas que podrían servirnos:
    Al procesar una unidad temática, adjuntar un mapa breve del documento
    (subtemas y casos) para que la unidad no se lea aislada.
 
-## Estado actual (2026-10-03)
+## Estado actual (2026-10-04)
+
+**04-10: visión operativa de Zettel** (`zettel-vision-operativa.md`): la
+pregunta como punto de partida, el mundo (K) junto al corpus (D), reglas de
+la consulta (R), orquestador y Jev. Lo que separa de la MVP: etapas 4–6, sin
+probar.
 
 **Nuevo enfoque del paso 2; rondas F1–F5 hechas y F6 corrida, sin evaluar; prompt vigente `ficha_v1`, congelado.** El marco
 queda fijo: ensayo de Frat «¿Qué es un dato?», versión del 30-09 (resumen
@@ -154,6 +159,9 @@ Jev. **Arquitectura propuesta para después (no decidida):** oraciones
   sobre lo anterior).
 - Definiciones del marco (filosóficas con líneas del ensayo, operativas y
   homónimos): `definiciones-del-marco.md` (documento vivo).
+- Visión operativa de Zettel (ejemplo completo de punta a punta: documento,
+  extracción, pregunta, orquestador, mundo K, reglas R, Jev, información y
+  dato derivado): `zettel-vision-operativa.md` (documento vivo).
 - Rondas (cambio, conjetura, gold, comandos, reporte): `unidades/PLAN.md`
   (F1–F6 al final); mensaje para el ejecutor de cada ronda en
   `unidades/mensaje_<RONDA>.txt`. Prompts en `unidades/prompts/`, textos en

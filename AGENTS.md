@@ -103,8 +103,8 @@ los tres sitios.
 - `dsh_tarea.sh`, `muse_tarea.sh`: delegan tareas a DeepSeek Harness y a Muse
   (ver «Agentes delegados»).
 - `deleted/`: snapshots históricos; no es fuente.
-- Documentos vivos (no editar sin aprobación): `README.md`, `definiciones-del-marco.md`, `diccionario.md`,
-  `jev_typesafe_guia_pedagogica_v2.md`.
+- Documentos vivos (no editar sin aprobación): `README.md`, `definiciones-del-marco.md`,
+  `zettel-vision-operativa.md`, `diccionario.md`, `jev_typesafe_guia_pedagogica_v2.md`.
 
 ## Comandos
 
