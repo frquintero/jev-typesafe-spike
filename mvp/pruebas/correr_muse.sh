@@ -46,6 +46,7 @@ if not p.suffix:
     p = raiz / "unidades" / "prompts" / f"{prompt_arg}.md"
 if not p.exists():
     raise SystemExit(f"no encuentro el prompt: {prompt_arg}")
+doc, p = doc.resolve(), p.resolve()
 
 texto = doc.read_text(encoding="utf-8")
 plantilla = p.read_text(encoding="utf-8")
@@ -61,7 +62,7 @@ Ejecuta el prompt del repo que va abajo sobre el documento indicado y devuelve
 su salida. Trabajas en el repo jev-typesafe-spike.
 
 NIVEL DE RAZONAMIENTO
-{os.environ.get('ESF', 'high')}: hay que decidir el agrupamiento; no es mecánico.
+{os.environ.get('ESF', 'high')}: hay que leer el documento y decidir; no es mecánico.
 
 QUÉ NO HACER
 - No escribas ni modifiques archivos del repo. No hagas commit ni push.

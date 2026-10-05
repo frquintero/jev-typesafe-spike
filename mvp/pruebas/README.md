@@ -115,20 +115,115 @@ asunto corta fino.
 subtema `[5, 6]` empieza con «Su techo…», pero la oración que dice de quién es el
 techo —«La escuela de la vereda tiene 34 alumnos»— quedó en `[4]`, otro subtema.
 Con `[2]`, «Su eje», no pasa: su referente está en `[1]` y quedaron juntos. No es
-un descuido del modelo: v5 **no tiene campo** para anotar la referencia —su
-salida solo trae `subtema` y `oraciones`—, mientras que v1 trae `anaforas`
-justamente para eso. Agrupar por asuntos puede partir el contexto que Zettel
-necesita conservar; agrupar por caso y sus relaciones lo mantiene, a costa de
-unidades más gruesas.
+un descuido del modelo: v5 **no tiene campo** para anotar la referencia —su salida
+solo trae `subtema` y `oraciones`—, así que cuando el corte deja el antecedente
+afuera no hay dónde dejarlo dicho: que las dos oraciones queden juntas o separadas
+depende de dónde cayó la frontera del asunto, no de un registro.
 
-**El contraste con v1 está preparado y sin correr** (`mensaje_contraste-v1.md`).
-Y la expectativa que escribí antes estaba incompleta: dije que v1 daría dos
-unidades —molino (1, 2, 3) y escuela (4, 5, 6)— y **dejé sin ubicar la oración
-7**, la de la tormenta y la alcaldía. Bajo v1 la 7 tiene que caer en alguna parte
-—una unidad, como satélite de uno de los dos núcleos, o en `oraciones_sin_unidad`—
-y además v1 tiene un campo `procedencias` para «la alcaldía». Cuál de las dos
-unidades se queda con la tormenta hay que verlo corriéndolo: **es una
-expectativa, no un resultado.**
+**Esta corrida deja una partición formalmente correcta y un hallazgo: la
+referencia que el grupo deja fuera.** Sobre ese hallazgo se hicieron las dos
+variantes del prompt que vienen abajo.
+
+---
+
+## Prueba 2 · dos variantes del prompt, sobre el mismo documento · 5-10-2026
+
+Se cambiaron solo los prompts; el documento, el agente y el esfuerzo fueron los
+mismos (Muse Code, `high`, sesión nueva cada vez). El punto era resolver la
+referencia externa **sin tocar la partición**.
+
+### Variante A · `prompt_v6.md` — agrupar y resolver a la vez
+
+Prompt nuevo: una sola tarea que agrupa y resuelve referencias, con `referencias`
+anidado en cada subtema, un ejemplo de referencia entre grupos y otro de
+referencia ambigua.
+
+- Resultado: `exit 0`, **46 s**; 3 subtemas —`[1,2,3] [4,5,6] [7]`—.
+- **Resolvió las referencias y rompió la partición.** La oración [4] se fue con
+  [5,6], y la [3] con [1,2]: las dos fusiones son por entidad compartida, que el
+  propio criterio prohíbe («compartir una entidad no basta»).
+- La cláusula «citar una oración como respaldo no cambia su pertenencia» valió
+  para los enlaces —la tormenta entre [2], [5] y [7]— y no valió para el dueño
+  del techo: el camino barato era absorber.
+- Lo mecánico quedó limpio (cobertura, literalidad, `null`/`duda`), así que el
+  fallo era semántico.
+
+### Variante B · `prompt_v7.md` — v5 íntegro más una tarea acotada después
+
+**v5 conservado byte a byte** —los cinco ejemplos incluidos—, la TAREA
+sustituida por «agrupa y después conserva ese agrupamiento», y un bloque
+`REFERENCIAS EXTERNAS` (procedimiento, alcance, registro, ejemplo adicional)
+insertado entre el ejemplo 5 y `texto`.
+
+- Resultado: `exit 0`, **36 s**; 5 subtemas —`[1,2] [3] [4] [5,6] [7]`—,
+  **idénticos a los de v5**.
+- `referencias` presente en los cinco: el campo nuevo no fue desplazado por los
+  ejemplos viejos.
+- «Su» de [5] → «La escuela de la vereda La Esperanza», con respaldo que cita
+  **[1], [4] y [5]**: el antecedente viaja y [4] no se mueve.
+- «la alcaldía» no se registró, como pedía el ALCANCE.
+- Cero problemas mecánicos: cobertura, literalidad de `expresion` y `respaldo`,
+  pertenencia al propio subtema, `null`/`duda` coherentes.
+
+### Las tres corridas
+
+| | v5 | v6 | v7 |
+|---|---|---|---|
+| Partición | `[1,2][3][4][5,6][7]` | `[1,2,3][4,5,6][7]` | `[1,2][3][4][5,6][7]` |
+| `referencias` | no | sí | sí |
+| «Su» del techo | no registrada | resuelta, **[4] absorbida** | **resuelta citando [4], [4] quieta** |
+| «la alcaldía» | — | `null` + duda | no registrada |
+| Segundos | 18 | 46 | 36 |
+| Razonamiento (tokens) | 1 115 | 5 310 | 4 539 |
+| Salida (tokens) | 1 293 | 6 241 | 5 492 |
+
+Los conteos salen del diario de la sesión, no del `.jsonl` del envoltorio.
+
+### El resumen de razonamiento
+
+Muse deja un **resumen** de su razonamiento —no la cadena completa, que viene
+cifrada— en
+`~/.local/share/muse/sessions/AÑO/MES/DÍA/<session_id>/session.jsonl`. De la v7:
+
+> Separating the water-supply function from the roof-leak and petition as distinct subtemas.
+> Resolving the 'la misma tormenta' reference to the [2] mention and **marking 'El maestro' as null due to missing explicit antecedent**.
+
+Es un **indicio** de lo que hizo, no una prueba de que siguiera la secuencia del
+prompt: es lo que el modelo cuenta de sí mismo.
+
+### Dos observaciones de la v7, sin corregir
+
+1. **«El maestro» quedó `null` y «la alcaldía» ni se registró.** No son la misma
+   figura: uno es un papel ligado a una escuela ya mencionada; el otro introduce
+   una fuente. Y el texto **no dice** que el maestro sea el de esa escuela, así
+   que el `null` es defendible. Una regla general —«papel sin institución no es
+   referencia sin resolver»— taparía ambigüedades reales.
+2. **«la tormenta» de [7], con referente «la tormenta».** El `referente` repite
+   la expresión, pero el **respaldo** cita [2] y [7], y eso establece que es el
+   mismo acontecimiento en dos subtemas. Lo que importa es si leyendo el subtema
+   aislado se identifica el referente; citando [2], se identifica.
+
+## Cierre del ensayo · 5-10-2026
+
+**Resultado favorable, no estabilidad demostrada.** v7 consiguió en este
+documento lo que se buscaba: conservar la partición de v5 y llevar dentro de cada
+subtema el respaldo de sus referencias externas, con menos tiempo y menos
+razonamiento que v6. Queda **como candidato**, en `mvp/pruebas/prompt_v7.md`.
+
+**Límites de lo probado:** un solo documento, una réplica por variante, un solo
+agente. Nada de esto dice cómo se comporta con otros textos ni si repite el
+resultado. Que el resumen de razonamiento describa la secuencia del prompt
+tampoco lo prueba.
+
+**Siguiente paso:** probarlo en dos o tres **textos nuevos**, con los criterios
+escritos **antes** de correr —referencias resueltas, partición conservada, nada
+inventado— y con réplicas. Ese gold tiene para qué aquí: lo que se pide es medir
+estabilidad, no montar la tubería. Seguir ajustando sobre el molino y la escuela
+enseñaría cada vez menos.
+
+**Si se adopta** como prompt del paso 1, le correspondería `unidades/prompts/`
+con el número siguiente a `unidades_v5`; hoy vive en esta carpeta de pruebas y esa
+decisión no está tomada.
 
 ---
 
@@ -143,29 +238,34 @@ expectativa, no un resultado.**
 ```
 
 `<doc>` acepta una ruta o un nombre suelto de `unidades/docs`; `<prompt>` es el
-nombre sin `.md` de `unidades/prompts`. Detecta sola si el prompt usa
-`{{TEXTO_NUMERADO}}` o `{{TEXTO}}`, así que sirve igual para v5 y para el eje de
-v1. Cada corrida deja `corrida_<etiqueta>.json` con el documento y el prompt
-usados, y `recoger` verifica contra **ese** documento; el `<doc>` solo hace falta
-si el archivo de la corrida no está. El encabezado de instrucciones que genera no
-es byte a byte el que se envió en la prueba 1 —se conserva el enviado como
-registro—, pero el prompt y el texto sí son idénticos.
+nombre sin `.md` de `unidades/prompts`, o una ruta a un archivo. Detecta sola si
+el prompt usa `{{TEXTO_NUMERADO}}` o `{{TEXTO}}`, así que sirve igual con el
+prompt de v5 y con el de v7. Cada corrida deja `corrida_<etiqueta>.json` con el
+documento y el prompt usados, y `recoger` verifica contra **ese** documento; el
+`<doc>` solo hace falta si el archivo de la corrida no está. El encabezado de
+instrucciones que genera no es byte a byte el que se envió en la prueba 1 —se
+conserva el enviado como registro—, pero el prompt y el texto sí son idénticos.
 
 ## Archivos
 
+Todo lo que deja una corrida lleva la etiqueta en el nombre
+(`<tipo>_<etiqueta>`); las etiquetas son `prueba1-v5`, `prueba2-v6`, `prueba3-v7`
+y `consulta1` (el turno en que se le preguntó a Muse por su propia salida).
+
 | Archivo | Qué es |
 |---|---|
-| `doc1.md` | Documento sintético de la prueba 1. |
-| `correr_muse.sh` | Herramienta: armar, lanzar y recoger la corrida. |
-| `corrida_prueba1-v5.json` | Documento y prompt de la corrida, para que `recoger` verifique contra el correcto. |
-| `mensaje_prueba1-v5.md` | Mensaje generado con v5 (instrucciones + prompt con el texto numerado). |
-| `mensaje_prueba1-v5_enviado.md` | Copia del `.msg` que Muse recibió de verdad en la prueba 1. |
-| `mensaje_contraste-v1.md` | Mensaje preparado con `unidades_v1` para el contraste pendiente. |
-| `salida_prueba1-v5.md` | Salida cruda de Muse (el JSON). |
-| `salida_prueba1-v5.jsonl` | Traza completa de la sesión de Muse (46 KB). |
-| `salida_prueba1-v5.err` | Diagnósticos de Muse, con el aviso de `CLAUDE.md`. |
-| `salida_prueba1-v5_meta.json` | Etiqueta, sesión, esfuerzo, `exit` y segundos. |
-| `verificacion_prueba1-v5.json` | Verificación del repo y unidades reconstruidas. |
+| `doc1.md` | El documento sintético. El mismo en las tres corridas. |
+| `correr_muse.sh` | Herramienta: armar, lanzar y recoger en un comando. |
+| `prompt_v6.md` | Variante A: agrupar y resolver a la vez. |
+| `prompt_v7.md` | Variante B: v5 íntegro más el bloque de referencias externas. |
+| `mensaje_<etiqueta>.md` | Mensaje preparado (instrucciones + prompt con el texto numerado). |
+| `mensaje_<etiqueta>_enviado.md` | Copia del `.msg` que Muse recibió de verdad. |
+| `corrida_<etiqueta>.json` | Documento y prompt de la corrida, para que `recoger` verifique contra el correcto. |
+| `salida_<etiqueta>.md` | Salida cruda de Muse. |
+| `salida_<etiqueta>.jsonl` | Traza del `muse exec`. |
+| `salida_<etiqueta>.err` | Diagnósticos de Muse. |
+| `salida_<etiqueta>_meta.json` | Etiqueta, sesión, esfuerzo, `exit` y segundos. |
+| `verificacion_<etiqueta>.json` | Verificación del repo y unidades reconstruidas. |
 
 ## Revisión de las fricciones · 5-10-2026
 
@@ -191,9 +291,9 @@ que la oración los abarca a los dos y el texto numerado lleva el corte dentro d
 Medido: afecta a **2 de 21** documentos del repo —`biomar1.md` (33 oraciones, 3
 afectadas) y `evals1.md` (22, 1)—. Y verificado el daño real: la oración oficial
 **sí** es literal en el documento, mientras que una copia sin el salto **no** lo
-es; por eso el camino sin numerar (v1/v2), cuya verificación comprueba
+es; por eso el camino sin numerar, cuya verificación comprueba
 literalidad, marcaría `no_literales` sobre una copia fiel. En el camino numerado
-(v5) la verificación no mira literalidad, así que ahí es cosmético.
+la verificación no mira literalidad, así que ahí es cosmético.
 
 **Qué no se toca:** colapsar los blancos de la oración rompería la literalidad
 del respaldo, que es la garantía del repo. El código queda como está.
@@ -227,11 +327,10 @@ el documento de política, que vive fuera del repo, no se modificó.
 
 ## Pendiente
 
-- **Contraste con v1**, el único resultado que falta para cerrar la lectura de
-  esta prueba:
-  `./mvp/pruebas/correr_muse.sh correr doc1.md unidades_v1 contraste-v1` y después
-  `./mvp/pruebas/correr_muse.sh recoger contraste-v1`. Requiere autorización de
-  Frat para ese uso de Muse, como cada uso.
+- **Probar v7 en textos nuevos**, con los criterios escritos antes y con
+  réplicas. Es el siguiente paso definido en el cierre.
+- **Decidir** si v7 se adopta como prompt del paso 1 y con qué nombre en
+  `unidades/prompts/`.
 - **Aparcado:** el límite de la oración (punto 3 de la revisión de fricciones).
 
-Commit de la carpeta y de la sincronía de los tres sitios: `0a4e76f`.
+Historial de la carpeta: `git log -- mvp/pruebas/`.

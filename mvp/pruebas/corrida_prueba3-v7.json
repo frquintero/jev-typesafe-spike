@@ -1,0 +1,7 @@
+{
+  "etiqueta": "prueba3-v7",
+  "doc": "/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/pruebas/doc1.md",
+  "prompt": "/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/pruebas/prompt_v7.md",
+  "marcador": "{{TEXTO_NUMERADO}}",
+  "oraciones": 7
+}
