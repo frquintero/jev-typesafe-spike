@@ -108,9 +108,9 @@ los tres sitios.
   independientes (`orquestador-arquitectura-deepseek-2026-10-04.md`,
   `orquestador-arquitectura-muse-2026-10-04.md`). `mesa-dominio-plan.md`,
   `-materiales.md`, `-referencia.md` y `-resultado.md`: mesa de dominio del MVP
-  (T1–T6, ejecutada el 05-10 en comprobación guiada); su cierre propone sustituir
-  el índice de casos previo de §4.1 del plan del orquestador por alcance por
-  dominio y reidentificación acreditada al consultar, a decisión de Frat.
+  (T1–T6, ejecutada el 05-10 en comprobación guiada); su cierre sustituyó
+  (decisión de Frat, 05-10) el índice de casos previo de §4.1 del plan del
+  orquestador por alcance por dominio y reidentificación acreditada al consultar.
 - `langextract-spike/`: frente **cerrado** el 03-10 (LangExtract de Google,
   evaluado y no adoptado); lección en su `README.md`, ideas rescatables en
   el `README.md` de la raíz.

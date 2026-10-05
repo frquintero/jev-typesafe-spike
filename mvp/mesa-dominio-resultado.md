@@ -347,7 +347,11 @@ evidencia sobre la claridad del contrato, no sobre la verdad de los recorridos.
   exigencia de un índice de casos previo a la consulta
   (`mvp/orquestador-plan.md`, §4.1) por alcance por dominio más
   reidentificación acreditada durante la consulta. No se adopta E8. El plan
-  original permanece intacto hasta esa decisión (plan §9).
+  original permaneció intacto hasta esa decisión (plan §9).
+- **Decisión (5-10-2026):** Frat aprobó la sustitución. `mvp/orquestador-plan.md`
+  quedó actualizado: §4.1 sin índice previo, con alcance por dominio y
+  reidentificación acreditada; y las referencias coherentes en §2, §3 (E0, E1),
+  §4.2, §4.4, §11 (F0, F4), §12 y §13.
 - **Primer trabajo ejecutable:** la parte mecánica, sin LLM y sin Jev:
   pertenencia por dominio, consulta ligada al dominio, lectura **completa** de la
   unidad seleccionada (texto, datos, condiciones, respaldo, documento y

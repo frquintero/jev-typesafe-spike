@@ -1,11 +1,10 @@
 # Plan del orquestador de Zettel (v1)
 
 Fecha: 04-10-2026. Estado: **plan candidato**, para discutir con Frat antes de
-escribir el prompt o el código. **05-10-2026:** la mesa de dominio
-(`mvp/mesa-dominio-resultado.md`) se ejecutó; su cierre propone sustituir la
-exigencia de un índice de casos previo de §4.1 por alcance por dominio y
-reidentificación acreditada al consultar. La propuesta está a decisión de Frat:
-§4.1 sigue intacto (mesa §9). Integra la visión operativa
+escribir el prompt o el código. **05-10-2026:** por decisión de Frat, §4.1
+sustituye la exigencia de un índice de casos previo por alcance por dominio y
+reidentificación acreditada al consultar, según el cierre de la mesa de dominio
+(`mvp/mesa-dominio-resultado.md`). Integra la visión operativa
 (`zettel-vision-operativa.md`), lo acordado en la conversación del 04-10, la
 investigación de Cowork y las dos revisiones independientes:
 `orquestador-arquitectura-deepseek-2026-10-04.md` y
@@ -55,7 +54,7 @@ libertad: encarga investigaciones y conectores, y decide cómo cerrar la brecha.
 | **Programador** | LLM barato con ejecución aislada | escribe y prueba un conector a una API pública gratuita y sin registro | tocar repos, claves o la red fuera del sitio permitido |
 | **Biblioteca de cómputo** | funciones fijas en código, con versión | calendario, husos (`zoneinfo` + `tzdata`), aritmética, «cierre del X al Y» | nada fuera de su lista |
 | **Jev** | juez de TypeSafe (`jev-1.13.0`) | dice cuánto sostiene un juicio dado un expediente | responder preguntas, buscar datos |
-| **Corpus** | fichas de los documentos + datos derivados + índice de casos | se consulta por búsqueda | — |
+| **Corpus** | fichas de los documentos + datos derivados, con ids de caso locales a cada documento | se consulta por dominio y por unidades; las correspondencias entre documentos se acreditan al consultar | — |
 | **Caja de conectores** | conectores que ya funcionaron | se reutilizan | — |
 | **Registro de corrida** | traza append-only | cada llamada, argumentos, resultado, procedencia, tiempo, tokens | — |
 | **Usuario** | quien pregunta | fija R (en la MVP, el archivo de configuración); responde solo preguntas de contenido | resolver infraestructura |
@@ -73,16 +72,21 @@ E6 código        entregar y registrar
 ```
 
 **E0 · Preparar (código).** Lee la configuración (R, modelos por rol, topes),
-fija las **anclas** (fecha y hora del sistema), carga el inventario
-(herramientas instaladas y caja de conectores) y el estado del corpus. Abre el
-registro de corrida. Arma el prompt de E1.
+registra el **dominio de consulta** elegido por el usuario (`dominio_consulta`)
+con la lista de documentos admitidos, fija las **anclas** (fecha y hora del
+sistema), carga el inventario (herramientas instaladas y caja de conectores) y el
+estado del corpus. El alcance se fija aquí, antes de ofrecer herramientas. Abre
+el registro de corrida. Arma el prompt de E1.
 
 **E1 · Encuadrar y responder con el corpus (orquestador).** Herramientas
-ofrecidas: `buscar_en_corpus`, `leer_ficha`, `calcular`. Ninguna del mundo:
-así «corpus primero» es una propiedad del sistema, no un consejo. Produce:
+ofrecidas: `buscar_en_corpus`, `leer_ficha`, `calcular`; las dos primeras van
+ligadas al `dominio_consulta` de E0, y el código aplica la pertenencia y rechaza
+los ids fuera del alcance. Ninguna del mundo: así «corpus primero» es una
+propiedad del sistema, no un consejo. Produce:
 
-- **Encabezado de la pregunta:** caso (id del índice), aspecto, condiciones,
-  dominio (escala y regla). **Queda fijo** para toda la corrida: si cambia, es
+- **Encabezado de la pregunta:** caso (id local del documento), aspecto,
+  condiciones, `dominio_respuestas` (escala y regla) y `dominio_consulta`
+  (documentos admitidos). **Queda fijo** para toda la corrida: si cambia, es
   otra pregunta.
 - **Tabla inicial** (`resto` admisible).
 - **Tabla candidata** solo con lo que da el corpus, más reglas de lectura y
@@ -159,31 +163,49 @@ conectores nuevos en la caja, en estado candidato. Cierra el registro.
 
 **Ingesta (antes de cualquier pregunta; ya existe en parte):** oraciones
 numeradas (código) → ficha (`ficha_v1`, LLM) → verificación literal (código) →
-**índice de casos** (nuevo) → radicación.
+radicación. **Termina ahí:** no se exige una identidad global entre documentos
+como requisito de radicación (decisión de Frat, 05-10; mesa de dominio, §9.2).
 
-El índice de casos es el hueco que señalaron las dos revisiones: saber que
-«el refugio» de un documento y «el refugio» de otro son el mismo caso. Ese
-juicio se hace **una vez, al incorporar** (el LLM propone la reidentificación,
-el código la guarda y queda revisable, como la fusión de ítems en Wikidata).
-Después, al consultar, emparejar es mecánico. Sin índice no hay conflicto
-entre documentos ni promoción de dependencias.
+Los casos conservan sus **ids locales a cada documento** (`M1:C1`, `M2:C1`). Que
+varios documentos pertenezcan al mismo dominio no establece que sus menciones de
+«el refugio» sean el mismo caso.
+
+**Alcance, por consulta.** El usuario elige un `dominio_consulta`; el código
+registra la lista de documentos admitidos y liga a ella `buscar_en_corpus` y las
+herramientas de lectura. La pertenencia es comprobación mecánica: se rechazan los
+ids fuera del alcance y el modelo no puede ampliarlo cambiando un argumento de
+búsqueda.
+
+**Reidentificación, durante la consulta.** Cuando Q exige comparar
+determinaciones de documentos distintos, la correspondencia se acredita con la
+declaración documental que la establece (por ejemplo, `M2:S1`: «el mismo refugio
+y la misma noche que el parte M1») junto con la que identifica el caso. Se
+conservan los ids locales: **no hay fusión**. Si falta esa evidencia, la
+referencia queda abierta y así se entrega, sin atribuirle cambio de estado (mesa
+de dominio, T5). Sin una regla registrada de prioridad, dos recuentos del mismo
+caso son **conflicto** y se muestran; la radicación posterior no concede
+prioridad por sí sola.
 
 **Ids globales:** `documento:id` (`aviso:D6`); derivados `DD…`; mundo `M…` por
 corrida. La K de la ficha sigue siendo **capa**.
 
-**Consulta:** `buscar_en_corpus(caso, aspecto, texto)` devuelve
-**determinaciones** (la unidad del marco), no fragmentos: id, caso, aspecto,
-valor, condiciones, respaldo literal, documento, radicación y, si es derivado,
-su bloque de derivación. **En la MVP la implementación es trivial (devuelve
-todas las fichas)**; el contrato queda fijo y la implementación crece con el
-corpus. Los **datos derivados son corpus**: se recuperan igual, y si otra
-pregunta los reutiliza se aplica la promoción.
+**Consulta:** `buscar_en_corpus(dominio, caso, aspecto, texto)` —el `dominio` lo
+inyecta el código, no el modelo— devuelve **unidades** del dominio (núcleo,
+satélites y sus oraciones) y, con ellas, sus **determinaciones**: id, caso,
+aspecto, valor, condiciones, respaldo literal, documento, radicación y, si es
+derivado, su bloque de derivación. La unidad conserva el contexto que las
+determinaciones sueltas pierden; las mudas siguen siendo campo y no ruta. **En la
+MVP la implementación es trivial (devuelve todas las unidades del dominio)**; el
+contrato queda fijo y la implementación crece con el corpus. Los **datos
+derivados son corpus**: se recuperan igual, y si otra pregunta los reutiliza se
+aplica la promoción.
 
 ### 4.2 Con la pregunta
 
 La pregunta llega como texto. El orquestador la estructura en E1 (caso,
-aspecto, condiciones, dominio); el código congela ese encabezado. R viene de la
-configuración. Las anclas (fecha y hora) las inyecta el código: el orquestador
+aspecto, condiciones, `dominio_respuestas`); el código congela ese encabezado.
+El `dominio_consulta` lo fija el usuario en E0. R viene de la configuración. Las
+anclas (fecha y hora) las inyecta el código: el orquestador
 no las recuerda ni las supone.
 
 ### 4.3 Con las herramientas
@@ -238,7 +260,8 @@ después.
 
 Lo que el código hace, en una lista: conducir estaciones; ofrecer herramientas
 por estación y por R ∩ inventario; ejecutarlas y anotar procedencia y fecha;
-verificar forma (esquemas estrictos); verificar ids, encabezado, R por premisa;
+verificar forma (esquemas estrictos); verificar pertenencia por dominio, ids,
+encabezado, R por premisa;
 recalcular con la biblioteca; calcular el efecto; llamar a Jev; detectar ciclos y
 aplicar topes; guardar dato derivado, conectores y traza. Base existente:
 `mvp/pieza1/pieza1.py` (verificador de forma, comparador, guardar, mantener).
@@ -349,9 +372,11 @@ tokens, tiempo y encargos por estación, estancamientos.
 Cada fase tiene una conjetura; se corre solo si la hay. El prompt se muestra
 antes de correr.
 
-- **F0 · Código sin LLM.** Biblioteca de cómputo; verificador ampliado (R por
-  premisa, encabezado fijo, efecto); registro de corrida; contrato de
-  `buscar_en_corpus`. Base: `pieza1.py`.
+- **F0 · Código sin LLM.** Biblioteca de cómputo; verificador ampliado
+  (pertenencia por dominio, R por premisa, encabezado fijo con
+  `dominio_consulta`, efecto); registro de corrida con los documentos admitidos y
+  las unidades examinadas; contrato de `buscar_en_corpus` y de la lectura
+  completa de la unidad seleccionada. Base: `pieza1.py`.
 - **F1 · Solo corpus** (E0, E1, E2, E5, E6; sin Jev ni mundo). Conjetura: con el
   corpus, el orquestador cierra Q1, Q3, Q5 y Q6r, declara bien las brechas de Q2
   y Q4, y respeta R en la trampa.
@@ -360,7 +385,8 @@ antes de correr.
 - **F3 · Mundo.** E4 con investigador, programador, aislamiento y caja.
   Conjetura: encuentra lo gratis y sin registro cuando existe, y deja la brecha
   abierta cuando no.
-- **F4 · Varios documentos.** Índice de casos y conflicto real.
+- **F4 · Varios documentos.** Reidentificación acreditada al consultar y
+  conflicto real.
 
 ## 12. Decisiones para Frat
 
@@ -374,8 +400,8 @@ antes de correr.
    encargos. V4-Pro cuesta unas 4 veces más que Flash; los subagentes hacen el
    volumen.
 4. **Biblioteca fija de cómputo** (los tres coincidimos).
-5. **Contrato de búsqueda del corpus desde ya**, con implementación trivial en la
-   MVP.
+5. **Contrato de búsqueda del corpus desde ya**, ligado al dominio y por
+   unidades, con implementación trivial en la MVP.
 6. **Tras el juicio de Jev, el código ofrece jugadas y el orquestador elige.**
 
 ## 13. Qué se tomó de cada fuente
@@ -390,7 +416,7 @@ antes de correr.
 | Uno-Orchestra (2026) | no delegar cuando no hace falta | una política aprendida por RL |
 | Separación control/contenido (2026) | el control tipado en código | — |
 | Revisión de DeepSeek | estaciones; la tabla como único estado; R por premisa; origen asignado por el código; encabezado fijo; desenlace «agotada»; aislamiento explícito | preseleccionar datos por código en la consulta (es juicio: va en la ingesta) |
-| Revisión de Muse | juez y cierre impuestos por el código; detector de ciclos mecánico; una sola primitiva `encargar`; índice de casos en la ingesta; contrato de búsqueda; registro de corrida; orden sondear→esquema→plantilla del programador | — |
+| Revisión de Muse | juez y cierre impuestos por el código; detector de ciclos mecánico; una sola primitiva `encargar`; la relación entre documentos como hueco (revisada el 05-10: se resuelve al consultar, sin índice previo); contrato de búsqueda; registro de corrida; orden sondear→esquema→plantilla del programador | — |
 
 Fuentes: las URL están en las dos revisiones y en la conversación del 04-10.
 Modelos y API de DeepSeek: api-docs.deepseek.com (precios, herramientas en

@@ -70,7 +70,8 @@ en el README, PLAN y tareas de cada carpeta).
   tabla de A(Q), a mano), pieza 1 (conflicto y dato derivado, con
   `pieza1.py`; registro en `mvp/pieza1/registro.md`), plan del orquestador
   (candidato, con dos revisiones) y mesa de dominio (T1–T6, ejecutada en
-  comprobación guiada; registro en `mvp/mesa-dominio-resultado.md`) (`mvp/`)
+  comprobación guiada; registro en `mvp/mesa-dominio-resultado.md`), que
+  actualizó §4.1 del plan del orquestador (`mvp/`)
 
 ## Frentes cerrados: lecciones e ideas rescatables
 
