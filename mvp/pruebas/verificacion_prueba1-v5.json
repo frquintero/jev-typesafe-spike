@@ -2,6 +2,7 @@
   "parseo": true,
   "venia_con_cerca": false,
   "error_parseo": null,
+  "doc": "/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/pruebas/doc1.md",
   "verificacion": {
     "oraciones_del_texto": 7,
     "huecos": [],

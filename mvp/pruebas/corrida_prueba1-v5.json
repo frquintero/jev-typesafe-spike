@@ -1,0 +1,7 @@
+{
+  "etiqueta": "prueba1-v5",
+  "doc": "/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/pruebas/doc1.md",
+  "prompt": "/home/fratquintero/Documentos/Claude/jev-typesafe-spike/unidades/prompts/unidades_v5.md",
+  "marcador": "{{TEXTO_NUMERADO}}",
+  "oraciones": 7
+}

@@ -111,10 +111,24 @@ desarrollo por consecuencia —la petición del maestro sigue a la filtración�
 Tres de los cinco subtemas son de una sola oración: con siete oraciones, el eje
 asunto corta fino.
 
-Y ahí se ve el eje: **con v5 salen cinco subtemas; con el eje de v1 saldrían dos
-unidades** —el molino con su satélite «su eje» (1, 2, 3) y la escuela con «su
-techo» (4, 5, 6)—. Contraste pendiente de correr; el mensaje ya está preparado en
-`mensaje_contraste-v1.md`.
+**El hallazgo de esta prueba es la referencia que queda fuera de su grupo.** El
+subtema `[5, 6]` empieza con «Su techo…», pero la oración que dice de quién es el
+techo —«La escuela de la vereda tiene 34 alumnos»— quedó en `[4]`, otro subtema.
+Con `[2]`, «Su eje», no pasa: su referente está en `[1]` y quedaron juntos. No es
+un descuido del modelo: v5 **no tiene campo** para anotar la referencia —su
+salida solo trae `subtema` y `oraciones`—, mientras que v1 trae `anaforas`
+justamente para eso. Agrupar por asuntos puede partir el contexto que Zettel
+necesita conservar; agrupar por caso y sus relaciones lo mantiene, a costa de
+unidades más gruesas.
+
+**El contraste con v1 está preparado y sin correr** (`mensaje_contraste-v1.md`).
+Y la expectativa que escribí antes estaba incompleta: dije que v1 daría dos
+unidades —molino (1, 2, 3) y escuela (4, 5, 6)— y **dejé sin ubicar la oración
+7**, la de la tormenta y la alcaldía. Bajo v1 la 7 tiene que caer en alguna parte
+—una unidad, como satélite de uno de los dos núcleos, o en `oraciones_sin_unidad`—
+y además v1 tiene un campo `procedencias` para «la alcaldía». Cuál de las dos
+unidades se queda con la tormenta hay que verlo corriéndolo: **es una
+expectativa, no un resultado.**
 
 ---
 
@@ -125,15 +139,17 @@ techo» (4, 5, 6)—. Contraste pendiente de correr; el mensaje ya está prepara
 ```bash
 ./mvp/pruebas/correr_muse.sh seco    <doc> <prompt> <etiqueta>            # arma el mensaje y no lanza nada
 ./mvp/pruebas/correr_muse.sh correr  <doc> <prompt> <etiqueta> [esfuerzo] # arma, deja el mensaje fuera del repo y lanza
-./mvp/pruebas/correr_muse.sh recoger <etiqueta>                          # trae la salida a esta carpeta y la verifica
+./mvp/pruebas/correr_muse.sh recoger <etiqueta> [<doc>]                  # trae la salida, la verifica y reconstruye
 ```
 
 `<doc>` acepta una ruta o un nombre suelto de `unidades/docs`; `<prompt>` es el
 nombre sin `.md` de `unidades/prompts`. Detecta sola si el prompt usa
 `{{TEXTO_NUMERADO}}` o `{{TEXTO}}`, así que sirve igual para v5 y para el eje de
-v1. El encabezado de instrucciones que genera no es byte a byte el que se envió
-en la prueba 1 —se conserva el enviado como registro—, pero el prompt y el texto
-sí son idénticos.
+v1. Cada corrida deja `corrida_<etiqueta>.json` con el documento y el prompt
+usados, y `recoger` verifica contra **ese** documento; el `<doc>` solo hace falta
+si el archivo de la corrida no está. El encabezado de instrucciones que genera no
+es byte a byte el que se envió en la prueba 1 —se conserva el enviado como
+registro—, pero el prompt y el texto sí son idénticos.
 
 ## Archivos
 
@@ -141,6 +157,7 @@ sí son idénticos.
 |---|---|
 | `doc1.md` | Documento sintético de la prueba 1. |
 | `correr_muse.sh` | Herramienta: armar, lanzar y recoger la corrida. |
+| `corrida_prueba1-v5.json` | Documento y prompt de la corrida, para que `recoger` verifique contra el correcto. |
 | `mensaje_prueba1-v5.md` | Mensaje generado con v5 (instrucciones + prompt con el texto numerado). |
 | `mensaje_prueba1-v5_enviado.md` | Copia del `.msg` que Muse recibió de verdad en la prueba 1. |
 | `mensaje_contraste-v1.md` | Mensaje preparado con `unidades_v1` para el contraste pendiente. |
@@ -210,9 +227,11 @@ el documento de política, que vive fuera del repo, no se modificó.
 
 ## Pendiente
 
-- **Commit** de la carpeta (y, por ser carpeta nueva, la sincronía de los tres
-  sitios que pide `AGENTS.md`: README, «Mapa del repo» y memoria).
-- Si quieres ver la diferencia de eje, el mensaje para v1 ya está preparado
-  (`mensaje_contraste-v1.md`) y `correr_muse.sh correr doc1.md unidades_v1 …` lo
-  lanza. No es un pendiente de método: es una comparación disponible.
-- **Aparcado:** el límite de la oración (punto 3).
+- **Contraste con v1**, el único resultado que falta para cerrar la lectura de
+  esta prueba:
+  `./mvp/pruebas/correr_muse.sh correr doc1.md unidades_v1 contraste-v1` y después
+  `./mvp/pruebas/correr_muse.sh recoger contraste-v1`. Requiere autorización de
+  Frat para ese uso de Muse, como cada uso.
+- **Aparcado:** el límite de la oración (punto 3 de la revisión de fricciones).
+
+Commit de la carpeta y de la sincronía de los tres sitios: `0a4e76f`.

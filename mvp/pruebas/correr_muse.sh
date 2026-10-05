@@ -5,7 +5,7 @@
 #
 #   ./mvp/pruebas/correr_muse.sh correr  <doc> <prompt> <etiqueta> [esfuerzo]
 #   ./mvp/pruebas/correr_muse.sh seco    <doc> <prompt> <etiqueta>
-#   ./mvp/pruebas/correr_muse.sh recoger <etiqueta>
+#   ./mvp/pruebas/correr_muse.sh recoger <etiqueta> [<doc>]
 #
 #   <doc>     ruta al documento, o nombre suelto de unidades/docs (p. ej. tec1)
 #   <prompt>  nombre de unidades/prompts sin .md (p. ej. unidades_v5)
@@ -28,7 +28,7 @@ MODO="${1:?uso: correr_muse.sh correr|seco|recoger ...}"
 construir() {
   local doc="$1" prompt="$2" etiqueta="$3"
   RAIZ="$RAIZ" DOC="$doc" PROMPT="$prompt" ETIQUETA="$etiqueta" PRUEBAS="$PRUEBAS" python3 - <<'PY'
-import os, pathlib, sys
+import json, os, pathlib, sys
 raiz, pruebas = pathlib.Path(os.environ["RAIZ"]), pathlib.Path(os.environ["PRUEBAS"])
 doc_arg, prompt_arg, etiq = os.environ["DOC"], os.environ["PROMPT"], os.environ["ETIQUETA"]
 sys.path.insert(0, str(raiz / "unidades"))
@@ -81,15 +81,21 @@ esto es exactamente lo que recibe el modelo cuando corre
 mensaje = cabecera + plantilla.replace(marcador, enviado)
 destino = pruebas / f"mensaje_{etiq}.md"
 destino.write_text(mensaje, encoding="utf-8")
+n_oraciones = len(registros) if registros else len(eu.oraciones(texto))
+meta = {"etiqueta": etiq, "doc": str(doc), "prompt": str(p),
+        "marcador": marcador, "oraciones": n_oraciones}
+(pruebas / f"corrida_{etiq}.json").write_text(
+    json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
 print(f"mensaje: {destino.relative_to(raiz)} ({len(mensaje)} bytes)")
-print(f"oraciones: {len(registros) if registros else len(eu.oraciones(texto))}")
+print(f"meta: mvp/pruebas/corrida_{etiq}.json")
+print(f"oraciones: {n_oraciones}")
 print(f"texto enviado:\n{enviado}")
 PY
 }
 
 # --- trae la salida y verifica ----------------------------------------------
 recoger() {
-  local etiq="$1"
+  local etiq="$1" doc_arg="${2:-}"
   local base="$SALIDA_MUSE/$etiq"
   for ext in out json jsonl err; do
     [ -f "$base.$ext" ] || { echo "falta $base.$ext" >&2; exit 2; }
@@ -99,7 +105,7 @@ recoger() {
   cp "$base.err"  "$PRUEBAS/salida_$etiq.err"
   cp "$base.json" "$PRUEBAS/salida_${etiq}_meta.json"
   [ -f "$MSGS/$etiq.md" ] && cp "$MSGS/$etiq.md" "$PRUEBAS/mensaje_${etiq}_enviado.md"
-  RAIZ="$RAIZ" PRUEBAS="$PRUEBAS" ETIQUETA="$etiq" python3 - <<'PY'
+  RAIZ="$RAIZ" PRUEBAS="$PRUEBAS" ETIQUETA="$etiq" DOC="$doc_arg" python3 - <<'PY'
 import json, os, pathlib, sys
 raiz, pruebas = pathlib.Path(os.environ["RAIZ"]), pathlib.Path(os.environ["PRUEBAS"])
 etiq = os.environ["ETIQUETA"]
@@ -111,7 +117,22 @@ parsed, cerca, error = eu.extract_json(salida)
 print(f"parseo: {'ok' if parsed else 'FALLO'} | venia_con_cerca: {cerca} | error: {error}")
 informe = {"parseo": bool(parsed), "venia_con_cerca": cerca, "error_parseo": error}
 if parsed:
-    doc = (pruebas / "doc1.md").read_text(encoding="utf-8")
+    doc_arg = os.environ.get("DOC") or ""
+    meta_path = pruebas / f"corrida_{etiq}.json"
+    if doc_arg:
+        doc_path = pathlib.Path(doc_arg)
+        if not doc_path.exists():
+            doc_path = pruebas / doc_arg
+    elif meta_path.exists():
+        doc_path = pathlib.Path(json.loads(meta_path.read_text(encoding="utf-8"))["doc"])
+    else:
+        raise SystemExit(
+            f"falta mvp/pruebas/corrida_{etiq}.json: pasa el documento "
+            f"(recoger {etiq} <doc>)")
+    if not doc_path.exists():
+        raise SystemExit(f"no encuentro el documento de la corrida: {doc_path}")
+    doc = doc_path.read_text(encoding="utf-8")
+    informe["doc"] = str(doc_path)
     _, registros = eu.numerar_oraciones(doc)
     if eu.es_caso_subtemas(parsed):
         informe["verificacion"] = eu.verificar_subtemas(parsed, registros)
@@ -146,7 +167,7 @@ case "$MODO" in
     echo "cuando termine: ./mvp/pruebas/correr_muse.sh recoger $ETIQUETA"
     ;;
   recoger)
-    recoger "${2:?falta <etiqueta>}"
+    recoger "${2:?falta <etiqueta>}" "${3:-}"
     ;;
   *)
     echo "modo desconocido: $MODO (correr|seco|recoger)" >&2
