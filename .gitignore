@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 *.Rhistory
+# Salida de la sonda del bucle de agente: se borra y regenera en cada corrida
+# (probes/bucle_agente.py); el resultado queda en probes/evidencia/.
+probes/insumos/total.txt

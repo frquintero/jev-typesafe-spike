@@ -1,7 +1,11 @@
 # Plan del orquestador de Zettel (v1)
 
 Fecha: 04-10-2026. Estado: **plan candidato**, para discutir con Frat antes de
-escribir el prompt o el código. Integra la visión operativa
+escribir el prompt o el código. **05-10-2026:** la mesa de dominio
+(`mvp/mesa-dominio-resultado.md`) se ejecutó; su cierre propone sustituir la
+exigencia de un índice de casos previo de §4.1 por alcance por dominio y
+reidentificación acreditada al consultar. La propuesta está a decisión de Frat:
+§4.1 sigue intacto (mesa §9). Integra la visión operativa
 (`zettel-vision-operativa.md`), lo acordado en la conversación del 04-10, la
 investigación de Cowork y las dos revisiones independientes:
 `orquestador-arquitectura-deepseek-2026-10-04.md` y

@@ -66,9 +66,11 @@ en el README, PLAN y tareas de cada carpeta).
   complementario (`notebooklm-spike/`)
 - Fecha: 2026-10-03 · Proyecto: pruebas NotebookLM — grafo semántico
   (paso 2 en NotebookLM sobre unidades de DeepSeek) (`nblm-grafo-semantico/`)
-- Fecha: 2026-10-04 · Proyecto: MVP de Zettel — mesas 1 y 1b (forma de la
-  tabla de A(Q), a mano) y pieza 1 (conflicto y dato derivado, con
-  `pieza1.py`; registro en `mvp/pieza1/registro.md`) (`mvp/`)
+- Fecha: 2026-10-05 · Proyecto: MVP de Zettel — mesas 1 y 1b (forma de la
+  tabla de A(Q), a mano), pieza 1 (conflicto y dato derivado, con
+  `pieza1.py`; registro en `mvp/pieza1/registro.md`), plan del orquestador
+  (candidato, con dos revisiones) y mesa de dominio (T1–T6, ejecutada en
+  comprobación guiada; registro en `mvp/mesa-dominio-resultado.md`) (`mvp/`)
 
 ## Frentes cerrados: lecciones e ideas rescatables
 
