@@ -1,0 +1,16 @@
+REGISTRO DE MEDIDAS — PLANTA NORTE
+La planta Norte registra los siguientes valores.
+
+Sección A
+A1. El caudalímetro principal marcó 1.482 litros por segundo.
+A2. El tanque de contacto tenía 3.970 litros.
+A3. La temperatura del agua fue 21,4 °C.
+
+Sección B
+B1. El sedimentador retiró 265,5 kilogramos de lodo.
+B2. La bomba 3 consumió 1.200 kilovatios hora.
+B3. La eficiencia del proceso alcanzó 94 por ciento.
+
+Sección C
+C1. El operador de turno dejó la novedad por escrito.
+C2. La planta opera desde 1998.

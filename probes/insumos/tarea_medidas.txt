@@ -1,0 +1,17 @@
+TAREA
+Lee el archivo probes/insumos/registro_medidas.txt y haz esto, en este orden.
+
+1. Identifica los cuatro valores que cumplen estas dos condiciones a la vez:
+   - están en la Sección A o en la Sección B (nada de la Sección C);
+   - su unidad es un número con decimales (lleva coma decimal).
+   Hay exactamente cuatro.
+2. Suma esos cuatro valores y redondea a un decimal.
+3. Escribe el total en un archivo nuevo `probes/insumos/total.txt` con el formato
+   EXACTO: una sola línea, `TOTAL: <total>` y nada más.
+4. Lee de vuelta `probes/insumos/total.txt` para confirmar, y verifica que
+   probes/insumos/registro_medidas.txt no haya cambiado.
+
+En tu respuesta final reporta solo tres líneas:
+ARCHIVOS: <rutas que tocaste>
+TOTAL: <el total>
+FUENTES: <los cuatro valores separados por comas>
