@@ -337,10 +337,10 @@ evidencia sobre la claridad del contrato, no sobre la verdad de los recorridos.
   respuestas y no unidades; derivación con condiciones, entradas y operación;
   pertenencia por dominio como propiedad del código.
 - **Qué parte queda pendiente y por qué:** las cuatro obligaciones de
-  trazabilidad y las precisiones de la revisión posterior, y la decisión de Frat
-  sobre la cláusula del índice global previo. La lectura independiente no es
-  condición: aportaría evidencia sobre la claridad del contrato (véase la
-  salvedad del cotejo).
+  trazabilidad y las precisiones de la revisión posterior. La decisión sobre el
+  índice global previo ya se tomó (véase «Decisión», arriba). La lectura
+  independiente no es condición: aportaría evidencia sobre la claridad del
+  contrato (véase la salvedad del cotejo).
 - **Propuesta de adopción o modificación concreta para Frat:** adoptar §9 como
   base del plan candidato del orquestador con las cuatro obligaciones de
   trazabilidad (E2, E3, E6, E9) y las precisiones de E1, E4 y E7; y sustituir la
