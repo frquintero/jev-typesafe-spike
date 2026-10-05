@@ -1,0 +1,63 @@
+{
+  "parseo": true,
+  "venia_con_cerca": false,
+  "error_parseo": null,
+  "verificacion": {
+    "oraciones_del_texto": 7,
+    "huecos": [],
+    "solapes": [],
+    "fuera_de_rango": [],
+    "no_enteros": []
+  },
+  "unidades_reconstruidas": [
+    {
+      "subtema": "la detención del molino y su causa",
+      "oraciones_n": [
+        1,
+        2
+      ],
+      "oraciones": [
+        "El molino de viento de la vereda La Esperanza dejó de girar el martes.",
+        "Su eje se agarrotó después de la tormenta."
+      ]
+    },
+    {
+      "subtema": "las familias que abastece el molino",
+      "oraciones_n": [
+        3
+      ],
+      "oraciones": [
+        "El molino abastece de agua a doce familias."
+      ]
+    },
+    {
+      "subtema": "el número de alumnos de la escuela",
+      "oraciones_n": [
+        4
+      ],
+      "oraciones": [
+        "La escuela de la vereda tiene 34 alumnos."
+      ]
+    },
+    {
+      "subtema": "la filtración del techo y la petición de materiales",
+      "oraciones_n": [
+        5,
+        6
+      ],
+      "oraciones": [
+        "Su techo se filtró en la misma tormenta.",
+        "El maestro recogió firmas para pedir materiales."
+      ]
+    },
+    {
+      "subtema": "la intensidad de la tormenta según la alcaldía",
+      "oraciones_n": [
+        7
+      ],
+      "oraciones": [
+        "Según la alcaldía, la tormenta fue la más fuerte del año."
+      ]
+    }
+  ]
+}

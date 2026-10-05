@@ -69,9 +69,10 @@ en el README, PLAN y tareas de cada carpeta).
 - Fecha: 2026-10-05 · Proyecto: MVP de Zettel — mesas 1 y 1b (forma de la
   tabla de A(Q), a mano), pieza 1 (conflicto y dato derivado, con
   `pieza1.py`; registro en `mvp/pieza1/registro.md`), plan del orquestador
-  (candidato, con dos revisiones) y mesa de dominio (T1–T6, ejecutada en
+  (candidato, con dos revisiones), mesa de dominio (T1–T6, ejecutada en
   comprobación guiada; registro en `mvp/mesa-dominio-resultado.md`), que
-  actualizó §4.1 del plan del orquestador (`mvp/`)
+  actualizó §4.1 del plan, y pruebas del paso 1 con Muse (`mvp/pruebas/`)
+  (`mvp/`)
 
 ## Frentes cerrados: lecciones e ideas rescatables
 

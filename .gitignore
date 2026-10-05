@@ -4,3 +4,5 @@ __pycache__/
 # Salida de la sonda del bucle de agente: se borra y regenera en cada corrida
 # (probes/bucle_agente.py); el resultado queda en probes/evidencia/.
 probes/insumos/total.txt
+# Copia que deja la herramienta de tarjetas del Harness; no es contenido del repo.
+viz/
