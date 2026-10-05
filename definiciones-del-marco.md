@@ -219,8 +219,8 @@ que A dice (decisión de Frat, 03-10).
 | **Caso** | Lo que acaece (A.2). | En los prompts: caso de estudio (B). |
 | **Valor** | La determinación completa (A.4). | Campo de la ficha: solo la posición (B). |
 | **Variable** | Aspecto en una serie comparable con variación (A.3). | Rondas antiguas (DU/ENC): campo del extractor, hoy fuera de uso. |
-| **Mundo** | Solo en «modelo-mundo»: la articulación presente entera, observador y registros incluidos (l. 45, 51). | K: lo que entra como marco fuera del corpus (mundo del orquestador, del código y de las fuentes consultadas). Es parte del modelo-mundo, no el modelo-mundo. |
-| **R (reglas)** | Las reglas presentes conforme a las cuales se consideran los datos, en sentido amplio: incluye las de inferencia (l. 281, 287). | Solo las reglas de la consulta (fuentes admitidas, agentes, tope, anclas). Las de inferencia viven en K. |
+| **Mundo** | Solo en «modelo-mundo»: la articulación presente entera, observador y registros incluidos (l. 45, 51). | K: lo que entra como marco fuera del corpus (mundo del orquestador, del código y de las fuentes consultadas). Es parte del modelo-mundo, no el modelo-mundo. No se configura: es el mundo que efectivamente entró, registrado en las rutas; lo disponible es inventario del sistema (04-10). |
+| **R (reglas)** | Las reglas presentes conforme a las cuales se consideran los datos, en sentido amplio: incluye las de inferencia (l. 281, 287). | Solo las reglas de la consulta (fuentes admitidas, agentes, tope, anclas). Las de inferencia viven en K. Es lo único que se configura en una consulta (04-10). |
 | **A₀(Q), A₁(Q)** (notación) | El conjunto inicial y el resultante de la operación A₀(Q) —D,R→ A₁(Q) (l. 283). | Se escribe A(Q \| K) y A(Q \| K, D; R): los subíndices se leen como elementos, y la implementación necesita mostrar de dónde viene cada cosa. Misma operación. |
 
 Al escribir prompts, planes o reportes, usar el sentido del ensayo y marcar

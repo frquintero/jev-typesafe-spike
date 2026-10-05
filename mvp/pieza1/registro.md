@@ -36,7 +36,11 @@ juzga si una ruta sostiene su posición.
 
 ## Siguiente
 
-Orquestador mínimo sobre el aviso: recibe ficha, pregunta y R; estructura la
-pregunta, declara la brecha y de dónde saca cada cosa (su saber, el código o
-una fuente simulada); escribe la tabla final; el código hace las cuentas,
-verifica la forma y calcula el efecto. Batería: Q1–Q5 y Q6r, tres réplicas.
+Orquestador mínimo sobre el aviso, sin nada simulado. Primer paso: el código
+que arma su prompt desde un archivo de configuración que solo lleva R (rol y
+tarea; pregunta, corpus y R; herramientas que R admite y el sistema tiene;
+salida y formato; reglas de la tabla). K no se da: es lo que el orquestador
+trae (su saber, el código, la web real) y queda en las rutas. Por decidir:
+el conflicto de la Q5 vendría de un segundo documento del corpus (el
+inventario), porque ninguna fuente real habla de esas mantas. Batería: Q1–Q5
+y Q6r, tres réplicas.

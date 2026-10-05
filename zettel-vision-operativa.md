@@ -102,6 +102,12 @@ enmarca y trae escalas y reglas de inferencia.
 - **Qué mundo entra:** el que R señale y esté disponible. Si R no dice
   nada, el orquestador usa los mundos suficientes y necesarios para
   enmarcar bien la pregunta.
+- **K en operación (04-10).** K no se configura. Lo disponible es
+  **inventario** del sistema (herramientas instaladas y sus claves), no una
+  regla; el código lo conoce. La configuración de una consulta solo lleva R.
+  El código cruza R con el inventario y le ofrece al orquestador solo lo que
+  cumple ambas cosas. K es el mundo que **efectivamente entró**: lo que quedó
+  en las rutas, con su procedencia.
 - **Cuándo un mundo consultado es necesario:** si cierra algo que faltaba,
   si valida un dato o parte de él, o si abre una distinción pertinente.
 - **Mundo como competencia y mundo como premisa.** Leer y calcular exigen
@@ -122,6 +128,14 @@ consulta, y las de inferencia viven en K. Entre ellas:
 - **Tope de costo o tiempo:** uno por defecto.
 - **Anclas:** la hora del sistema, para «hoy» o «mañana» cuando nada más lo
   resuelve.
+
+**El prompt del orquestador (04-10).** Lo arma el código con la entrada del
+usuario y un archivo de configuración (en la MVP, solo el archivo): rol y
+tarea; pregunta, corpus (fichas con ids) y R; herramientas ofrecidas (qué
+hace cada una, cuándo usarla, cómo pedirla); salida y formato; reglas de la
+tabla. El orquestador **pide** herramientas (*function calling*); el código
+las ejecuta y anota procedencia y fecha de consulta, para que la ruta
+registre lo que de verdad se consultó.
 
 Estas reglas son de Zettel en marcha. En nuestro taller de desarrollo
 siguen rigiendo las de `Claude-memoria/memoria/agentes-delegados.md`.
