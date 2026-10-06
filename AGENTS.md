@@ -45,78 +45,28 @@ mover un archivo o de tocar el estado del repo.
 
 ## Mapa del repo
 
-- `unidades/`: **hilo activo**. Extracción de datos en dos pasos.
-  - Paso 1, unidades temáticas: `extraer_unidades.py` (guarda el crudo y
-    verifica; solo reporta). Con `{{TEXTO_NUMERADO}}` en el prompt (v3) numera
-    las oraciones, reconstruye las unidades y verifica huecos, solapes y orden.
-  - Paso 2, datos por unidad: `extraer_datos_u.py` (una unidad suelta; solo
-    orquesta).
-  - Cadena completa: `extraer_datos_doc.py` (paso 1, pegamento en código,
-    paso 2 una llamada por unidad, crudos por unidad y consolidado
-    `cache/doc-…json`).
-  - `docs/` (sintéticos), `prompts/` (se leen de archivo; `{{TEXTO}}` o
-    `{{TEXTO_NUMERADO}}` con `str.replace`, nunca `str.format`), `gold/` (esperado, escrito antes de
-    correr; el de ut1-ut5 está en la sección DU5 de `PLAN.md`), `cache/`
-    (crudos), `PLAN.md` (una sección por ronda), `mensaje_<RONDA>.txt` (mensaje
-    de cada ronda para el ejecutor).
-- `prototipos/`: banco de prueba del paso 2 (ejemplos prototípicos).
-  `base.md` + `ejemplos/<letra>.md`; `bateria.json` (textos cortos con su
-  respuesta); `correr.py <modelo> <rN> [configs]` (crudos en `cache/`,
-  idempotente) y `evaluar.py <modelo> <rN>` (sin API). Rondas en
-  `prototipos/PLAN.md`; los prompts candidatos armados van a
-  `unidades/prompts/datos_p<letras>.md`.
-- `niveles/`: antecedente sin trabajo activo. Su `run_niveles.py` tiene
-  `call_model` (streaming) y los alias de modelos que usan los scripts de
-  `unidades/`.
-- `probes/` + `cache/`: spike Jev original. Casi todos los scripts son
-  autocontenidos; las baterías exponen `run` (idempotente) y `analyze` (sin
-  API).
-- `cutoff-spike/`: `run_cutoff.py smoke|coarse|coarse2|all`,
-  `analyze.py v1|v2|delta|all`. No editar sus JSON de sondas sin releer su PLAN.
-- `notebooklm-spike/`: exploración independiente de NotebookLM como
-  extractor alternativo o complementario a DeepSeek. Vía vigente: cliente
-  `notebooklm-py` (sesión web de la cuenta principal de Frat, perfil
-  `nblm-spike`; sin gcloud, ADC ni clave de API). La vía Cloud Enterprise
-  quedó **detenida por costo** — no retomarla sin autorización expresa de
-  Frat. Sesión/cookies/tokens siempre fuera del repo. **Solo ejecución
-  local (Muse):** la sesión no se transfiere a la nube.
-  Detalle en su propio `README.md`/`PLAN.md`/
-  `tareas.md`.
-- `nblm-grafo-semantico/`: arquitectura mixta, paso 1 (subtemas) con
-  DeepSeek y paso 2 (datos por unidad) con NotebookLM, cada unidad como
-  fuente aparte en un cuaderno. Calibración del paso 1 en NotebookLM,
-  opcional. Mismas
-  reglas que `notebooklm-spike/` (solo local, bajo volumen).
-  Estado en su `README.md` y `tareas.md`.
-- `mvp/`: proyecto del MVP de Zettel (desde el 04-10). `mesa1/` y `mesa1b/`: pruebas de mesa
-  de la forma de la tabla de A(Q), sin API (resultados en sus `resultado.md`).
-  `pieza1/`: Q5 (conflicto) y Q6r (dato derivado) con el esquema 2 candidato
-  (mundo = M; K solo capas de la ficha) y `pieza1.py` (verificador de forma,
-  comparador, guardar, mantener); estado en `mvp/pieza1/registro.md`. `tensiones-vision-operativa-2026-10-04.md`
-  recoge lo acordado y lo propuesto sobre la representación de A(Q), las
-  premisas de K, el sostén frente al grado de Jev y el vocabulario operativo.
-  Borrador cerrado el 04-10 (lo acordado está en `zettel-vision-operativa.md`
-  y `definiciones-del-marco.md`); se conserva como antecedente.
-  `orquestador-plan.md`: plan candidato del orquestador, con dos revisiones
-  independientes (`orquestador-arquitectura-deepseek-2026-10-04.md`,
-  `orquestador-arquitectura-muse-2026-10-04.md`). `mesa-dominio-plan.md`,
-  `-materiales.md`, `-referencia.md` y `-resultado.md`: mesa de dominio del MVP
-  (T1–T6, ejecutada el 05-10 en comprobación guiada); su cierre sustituyó
-  (decisión de Frat, 05-10) el índice de casos previo de §4.1 del plan del
-  orquestador por alcance por dominio y reidentificación acreditada al consultar.
-  `pruebas/`: pruebas del paso 1 sobre documentos sintéticos; cinco documentos y
-  nueve corridas con Muse Code, con entradas, mensajes, salidas y verificaciones.
-  Candidato **v9 congelado** como base de trabajo del paso 1.
-  `paso2/`: extracción de datos por unidad; comparación de tres entradas (unidad
-  sola, unidad con las referencias de v9, unidad con el documento completo) con
-  Muse Code y `deepseek-flash`; **entrada elegida y base de trabajo: la unidad más
-  las referencias** (100 % de recuperación y 100 % de fidelidad en la reserva, donde
-  se aplican las medidas; 85,1 % y 98,2 % en desarrollo, que solo elige la entrada).
-  Candidato `prompt_ficha_contexto.md`, corredores y crudos ahí; informe en
-  `mvp/paso2/informe_paso2.md`.
-- `langextract-spike/`: frente **cerrado** el 03-10 (LangExtract de Google,
-  evaluado y no adoptado); lección en su `README.md`, ideas rescatables en
-  el `README.md` de la raíz.
+- `unidades/`: **hilo activo**. Extracción de datos en dos pasos (unidades temáticas →
+  datos por unidad). Prompts en `prompts/` (se leen de archivo; `{{TEXTO}}` o
+  `{{TEXTO_NUMERADO}}` con `str.replace`, nunca `str.format`), textos en `docs/`,
+  esperado en `gold/`, crudos en `cache/`; comandos y rondas en `PLAN.md`.
+- `prototipos/`: banco de prueba del paso 2 (ejemplos prototípicos). Rondas y
+  comandos en su `PLAN.md`.
+- `niveles/`: sin trabajo activo. `run_niveles.py` tiene `call_model` (streaming) y los
+  alias de modelos que usan los guiones de `unidades/`.
+- `probes/` + `cache/`: spike Jev original.
+- `cutoff-spike/`: sondas de ventana y recorte. No editar sus JSON de sondas sin releer
+  su `PLAN.md`.
+- `notebooklm-spike/`: NotebookLM como extractor alternativo o complementario (cliente
+  `notebooklm-py`, sesión de Frat; **solo local**, nunca en la nube). La vía Cloud quedó
+  detenida por costo: no retomarla sin autorización. Detalle en su `README`/`PLAN`.
+- `nblm-grafo-semantico/`: mixto: subtemas con DeepSeek y datos por unidad con
+  NotebookLM, cada unidad como fuente aparte. Mismas reglas que `notebooklm-spike/`.
+- `mvp/`: MVP de Zettel. Mesas de la forma de A(Q), pieza 1 (conflicto y dato
+  derivado), plan del orquestador, mesa de dominio, pruebas del paso 1 (`pruebas/`) y
+  paso 2 (`paso2/`). **Su estado vive en la memoria**; el detalle, en el `README` o
+  `PLAN` de cada subcarpeta.
+- `marco filosófico/`: el ensayo «¿Qué es un dato?» y su marco.
+- `langextract-spike/`: cerrado el 03-10 (LangExtract, evaluado y no adoptado).
 - `utiliarios/`: los guiones que se invocan desde la raíz. `muse_tarea.sh` y
   `dsh_tarea.sh` delegan tareas a Muse y a DeepSeek Harness (ver «Agentes
   delegados»); `configurar_clave_xai.sh` pide la clave de xAI; `proxy_local.py`
@@ -131,20 +81,17 @@ mover un archivo o de tocar el estado del repo.
   `definiciones-del-marco.md`, `zettel-vision-operativa.md`) y, en
   `otros documentos/`, `diccionario.md` y `jev_typesafe_guia_pedagogica_v2.md`.
 
-## Comandos
+## Reglas de corrida
 
-- `python3 unidades/extraer_unidades.py <doc> <modelo> <prompt> <rN>`
-- `python3 unidades/extraer_datos_u.py <doc> <modelo> <prompt> <rN>`
-- `python3 unidades/extraer_datos_doc.py <doc> <modelo> <prompt_unidades> <prompt_datos> <rN>`
-- `python3 prototipos/correr.py <modelo> <rN> [configs]` · `python3 prototipos/evaluar.py <modelo> <rN>`
-- `python3 probes/<x>.py` · `python3 probes/<bateria>.py run|analyze`
-- `python3 -m py_compile <archivo>` tras tocar código (no hay tests ni lint).
-- Todos los scripts son idempotentes: si el crudo existe, no vuelven a llamar.
-  **Nunca borrar, mover ni sobrescribir un crudo** para forzar una corrida:
-  una réplica nueva lleva un `rN` nuevo (`r2`, `r3`…). Si el mensaje pide un
-  `rN` que ya existe, detenerse y reportar.
-- Al terminar una corrida: commit y push de los crudos (y del script si
-  cambió) a `main`.
+Los comandos de cada proyecto están en su `PLAN.md` o `README.md` (los de `unidades/`,
+en `unidades/PLAN.md`).
+
+- Los guiones son idempotentes: si el crudo existe, no vuelven a llamar.
+- **Nunca borrar, mover ni sobrescribir un crudo** para forzar una corrida: una réplica
+  nueva lleva un `rN` nuevo (`r2`, `r3`…). Si el mensaje pide un `rN` que ya existe,
+  detenerse y reportar.
+- Tras tocar código: `python3 -m py_compile <archivo>` (no hay tests ni lint).
+- Al terminar una corrida: commit y push de los crudos (y del guion si cambió).
 
 ## Git y remoto
 

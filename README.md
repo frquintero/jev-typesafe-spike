@@ -233,7 +233,7 @@ evaluación. Cómo se arrancan, se delegan tareas y se recibe el aviso al
 terminar, con sus reglas (autorización previa de Frat; exclusivo de Claude
 y ChatGPT): `/home/fratquintero/Claude-memoria/memoria/agentes-delegados.md`.
 
-**Qué lee Muse.** Muse carga solo `AGENTS.md` en cada sesión, interactiva o no. Ahí están sus reglas de red, claves, comandos y reportes. `CLAUDE.md` es una sola línea (`@AGENTS.md`): si se usa Claude Code, lee las mismas reglas. Hay una sola fuente.
+**Qué lee Muse.** Muse carga solo `AGENTS.md` en cada sesión, interactiva o no. Ahí están sus reglas de red, claves, corrida y reportes (los comandos de cada proyecto, en el `PLAN.md` de su carpeta). `CLAUDE.md` es una sola línea (`@AGENTS.md`): si se usa Claude Code, lee las mismas reglas. Hay una sola fuente.
 
 ## Contexto
 
