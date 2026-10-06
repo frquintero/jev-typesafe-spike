@@ -2,7 +2,8 @@
 
 Fecha: 06-10-2026. **Estado: borrador de diseño; nada implementado.** Este
 documento es la superficie de trabajo: se afina aquí antes de escribir código y
-antes de llamar a un modelo.
+antes de llamar a un modelo. **Revisión tras la primera ronda de discusión**
+(D1 cerrada; corpus reconfigurado, §3).
 
 **Para qué.** Construir el **primer recorrido completo** de Zettel sobre el
 corpus: recibir una pregunta y entregar una respuesta respaldada, un conflicto o
@@ -38,18 +39,11 @@ interpreta, selecciona y propone.
 | Propone | — | encabezado, tablas, brechas, respuesta, derivado |
 | Juzga | no juzga contenido | no ejecuta acciones ni calcula por su cuenta |
 
-**Decisión abierta D1 (vocabulario).** El plan y los documentos vivos llaman
-«orquestador» al LLM ([orquestador-plan.md](orquestador-plan.md) §2,
-[zettel-vision-operativa.md](../zettel-vision-operativa.md),
-[definiciones-del-marco.md](../definiciones-del-marco.md) parte B); este diseño
-llama orquestador al código. En el encargo que originó este documento conviven
-las dos cosas («el código toma el archivo de preguntas y pasa una a una al
-orquestador (LLM)» y «el código es el ORQUESTADOR y el LLM es el AGENTE
-ENCARGADO»). Opciones: (i) adoptar estos nombres y actualizar los tres
-documentos vivos; (ii) dejar «orquestador» al LLM y llamar «conductor» al
-código; (iii) registrar el homónimo en la parte C de las definiciones.
-**Recomendación: (i)**, con el cambio de nombres hecho en el mismo tramo en que
-se escriba el código, para que no haya dos sentidos vivos.
+**D1 cerrada (Frat, 06-10).** Queda como está dicho: **código = ORQUESTADOR,
+LLM = AGENTE ENCARGADO**. La coherencia con los documentos vivos se hace en el
+mismo tramo en que se escriba el código; las ediciones exactas están en §15. El
+encargo que originó este documento mezclaba los dos sentidos («pasa una a una al
+orquestador (LLM)»); queda resuelto por D1.
 
 ---
 
@@ -84,12 +78,30 @@ mismo refugio y la misma noche), cuyos datos son a mano. **Decisión abierta D2.
 
 ---
 
-## 3. El corpus consultable: dos tablas
+## 3. El corpus consultable: una configuración mínima
 
-| Tabla | Columnas |
-|---|---|
-| **unidades** | `id` (`doc5:U1`), `documento`, `dominio`, `subtema`, `oraciones`, `texto` numerado, `radicacion`, `esquema`, `referencias` (JSON), `dudas` (JSON), `ficha` (JSON con capas, relaciones, acciones, marcas, casos) |
-| **datos** | `id` (`doc5:U1:D1`), `unidad`, `caso`, `aspecto`, `valor`, `unidad_valor`, `condiciones` (JSON), `respaldo` (JSON), `inferido`, `dentro_de` (capa), `cambio` |
+El encargo admitía «dos tablas»; tras revisarlo, la recomendación es **elegir por
+forma de acceso** en vez de meter todo en un mismo molde. La discusión clásica en
+torno a SQLite lo dice bien: el problema no es el formato de serialización, sino
+**qué forma tienen los datos y qué operaciones se hacen con ellos**; hay tablas
+de consulta, flujos que solo se agregan y relaciones que piden cruces, y cada uno
+tiene su formato natural ([SQLite: flat files vs SQLite](https://sqlite.org/forum/forumpost/c43b208884?t=h),
+[hilo sobre JSON y SQLite](https://github.com/kody-w/rappterbook/discussions/3742)).
+
+### 3.1. La forma: tres artefactos de corpus, dos logs y una vista
+
+| Artefacto | Forma | Qué guarda |
+|---|---|---|
+| `documentos.json` | objeto JSON | una fila por documento: `id`, ruta, dominio, `radicacion`, fecha propia si el texto la trae, y la **declaración del esquema** (partición, prompt + hash, modelo) |
+| `unidades.jsonl` | log de líneas | una fila por unidad: `id`, documento, dominio, `subtema`, `oraciones`, `texto` numerado, **`referencias`** y **`dudas`** (JSON) |
+| `inscripciones.jsonl` | log de líneas | una fila por **lo que el documento establece**: `tipo` (determinación · relación · acción · capa · marca · duda), columnas comunes (`id`, `unidad`, `condiciones`, `respaldo`, `inferido`, `dentro_de`) y `cuerpo` JSON por tipo |
+| `traza.jsonl` | log append-only | el recorrido de cada consulta; **no es corpus** |
+| `corpus.jsonl` | log append-only | los datos derivados, en la forma de [pieza1/esquema2.md](pieza1/esquema2.md) §5 |
+
+La tabla **`datos`** que ve el agente es una **vista** sobre `inscripciones`
+(`tipo = "determinación"`). Así se conservan tus dos tablas —unidades y datos—
+sin siete tablas, y sin perder capas, relaciones, casos ni dudas: `leer_unidad`
+devuelve la unidad con sus inscripciones agrupadas por tipo.
 
 **Identificadores.** `documento` (`doc5`) · `unidad` (`doc5:U1`) · `caso`
 (`doc5:U1:C1`) · `dato` (`doc5:U1:D1`) · `oración` (`doc5:S2`) · derivado
@@ -97,14 +109,81 @@ mismo refugio y la misma noche), cuyos datos son a mano. **Decisión abierta D2.
 unidades; dos menciones son el mismo caso solo por declaración del documento o
 criterio explícito. Sin fusión.
 
-**Formato en disco.** JSON/JSONL por documento (diffeable, reproducible), no
-SQLite; el código lo carga en memoria. Capas, relaciones, casos y dudas viajan
-en la columna `ficha`/columnas JSON y se exponen solo en `leer_unidad`: no hacen
-falta como tablas propias para estas preguntas, pero sin ellas no se puede
-responder «según», «atribuyó» ni conservar una duda.
+**El corpus es un derivado regenerable.** `documentos`, `unidades` e
+`inscripciones` se **generan** con un cargador idempotente a partir de los
+documentos, la partición de v9 y las fichas del paso 2 (con el hash del esquema);
+si cambia el cargador, se regeneran. Lo único append-only es `traza.jsonl` y
+`corpus.jsonl`. Esto evita migraciones, copias de seguridad y versionado de la
+base: **la fuente de verdad son los documentos y los crudos, no el almacén.**
 
 **Módulo.** El cargador/registro vive en `mvp/consulta/` (nombre por confirmar);
 es el subpaso 1 y no llama a ningún modelo.
+
+### 3.2. Por qué esta forma y no otra
+
+- **Una fila por inscripción, con su respaldo y su radicación**, es la forma del
+  dato en el marco (un valor que queda, recuperable) y también la de las
+  *nanopublicaciones*: aserción + procedencia + información de publicación en una
+  unidad pequeña y autocontenida ([guía](https://nanopub.net/guidelines/working_draft/),
+  [modelo unificado](https://arxiv.org/html/2006.06348v1)). Tomamos **la forma,
+  no la pila**: nada de RDF ni SPARQL.
+- **Reificación selectiva.** Cuando el respaldo cabe en la fila, va en la fila; se
+  crea una entidad aparte («claim») solo si el hecho está en disputa, acotado en
+  el tiempo o reemplazado ([Evidence Model](https://cdn.jsdelivr.net/npm/@a5c-ai/atlas@5.0.1-staging.f17326334/graph/schema/evidence-model.md)).
+  Traducido: el dato lleva su respaldo; el **conflicto no se almacena**, se
+  calcula (dos filas admisibles con las mismas condiciones) y se registra en la
+  traza.
+- **Bitemporalidad barata.** La lección del log de aserciones bitemporal es
+  guardar *cuándo es verdad en el mundo* y *cuándo el sistema lo supo*, con un
+  log append-only como fuente de verdad, y **no optimizar hasta que haya un
+  cuello de botella medido** ([knk](https://github.com/cs0lar/knk)). Aquí son dos
+  columnas, `radicacion` y la fecha propia del documento; ni motor temporal ni
+  índices versionados.
+- **Sin resolución de entidades.** La resolución de entidades es la parte que
+  convierte un grafo en un elefante, y las fusiones hay que hacerlas
+  **no destructivas** (nodo canónico + fuentes conservadas, poder deshacer)
+  ([Entity Resolution](https://archtin.com/blog/entity-resolution-in-knowledge-graphs),
+  [guía de grafos](https://www.dataaihub.co/learn/knowledge-graphs)). Zettel ya
+  decidió lo contrario: ids locales y **reidentificación acreditada al consultar**
+  (mesa de dominio, cierre). Eso elimina el subsistema entero.
+- **Formato por operación:** la consulta puntual pide un objeto JSON; el flujo de
+  inscripciones y la traza piden un log de líneas; los cruces relacionales
+  pedirían SQL solo si el corpus creciera. Un formato único para todo es una
+  falsa economía (mismo hilo de arriba).
+
+### 3.3. Alineación con la visión
+
+| En la visión | Qué lo cumple aquí |
+|---|---|
+| **Dato** = valor que queda, recuperable | cada fila de `inscripciones` lleva `respaldo` (oración + fragmento literal), `condiciones` y `radicacion` |
+| **La unidad temática** da el contexto que el dato suelto pierde | `unidades` (subtema, oraciones, texto) y `leer_unidad` |
+| **Información = cambio en A(Q)** | no se almacena: la calcula el código por consulta; el almacén no contiene respuestas ni tablas de A(Q) |
+| **K = lo que efectivamente entró**, en las rutas | no es una tabla; cada entrada queda en `traza.jsonl` (aquí, solo el mundo del código con su versión) |
+| **Bitemporalidad** | `radicacion` (cuándo entró) frente a la fecha propia del documento (tiempo de validez) |
+| **Dependencias y promoción** | el derivado guarda su bloque `derivacion` con valores y procedencia; la promoción queda diferida hasta que otra pregunta lo reutilice |
+| **No fusión de casos** | ids calificados; la correspondencia se acredita con la declaración documental y se registra, no se persiste |
+| **Revisión que conserva** | el almacén se regenera; la traza y los derivados son append-only y no se sobrescriben |
+
+### 3.4. Lo que **no** se construye (la lista del elefante)
+
+- **Ningún gestor de base de datos** para 5 unidades: JSON/JSONL en memoria.
+- **Ni RDF, ni SPARQL, ni ontología, ni razonador.** «Ship minimal schema, expand
+  on demand» ([guía de grafos](https://www.dataaihub.co/learn/knowledge-graphs)).
+- **Ni resolución de entidades global**, ni `SAME_AS`, ni cola de revisión de
+  fusiones.
+- **Ni tablas de A(Q), ni respuestas, ni conflictos almacenados.** Se calculan y
+  se registran.
+- **Ni motor temporal**: dos columnas de fecha.
+- **Ni búsqueda vectorial ni embeddings** (el plan ya la difiere).
+- **Ni motor de grafos** para 9 relaciones: son filas.
+
+### 3.5. Cuándo cambiaría
+
+Dos disparadores, y ninguno antes de que ocurran: (a) el corpus no entra en
+memoria o los cruces se vuelven consultas reales → el mismo esquema lógico en
+SQLite, sin cambiar la API de la tool; (b) una pregunta exige caminos de varios
+saltos → entonces se discute un grafo. Mientras tanto, cualquier sofisticación es
+deuda.
 
 ---
 
@@ -298,16 +377,19 @@ A(Q) se espera.
 
 ---
 
-## 13. Decisiones abiertas
+## 13. Estado de las decisiones
 
-| # | Decisión | Recomendación |
+| # | Decisión | Estado |
 |---|---|---|
-| **D1** | Nombres: código = orquestador y LLM = agente | adoptarlos y actualizar los tres documentos vivos en el mismo tramo |
-| **D2** | Corpus: solo `doc5`, o `doc5` + la mesa de dominio para tener conflicto | solo `doc5` en la primera pasada; el conflicto, después |
-| **D3** | Protocolo: bucle con lectura en lote, o todo inyectado en una llamada | bucle con lectura en lote (la selección queda visible) |
-| **D4** | P2 con derivado (1929) o sin él («dos años») | con derivado: estrena `guardar`/`mantener` |
-| **D5** | R: `solo el documento`, mundo del código registrado, anclas fuera como premisa | sí |
-| **D6** | Nombre y sitio de los archivos (`mvp/consulta/`) | confirmarlo antes de crear código |
+| **D1** | Nombres: código = ORQUESTADOR, LLM = AGENTE ENCARGADO | **cerrada (Frat, 06-10)**; coherencia pendiente, §15 |
+| **D2** | Corpus: solo `doc5`, o `doc5` + la mesa de dominio para tener conflicto | abierta — recomendación: solo `doc5` en la primera pasada |
+| **D3** | Protocolo: bucle con lectura en lote, o todo inyectado en una llamada | abierta — recomendación: bucle con lectura en lote |
+| **D4** | P2 con derivado (1929) o sin él («dos años») | abierta — recomendación: con derivado |
+| **D5** | R: `solo el documento`, mundo del código registrado, anclas fuera como premisa | abierta — recomendación: sí |
+| **D6** | Nombre y sitio de los archivos (`mvp/consulta/`) | abierta — confirmar antes de crear código |
+| **D7** | Almacén: tres artefactos JSON/JSONL con `datos` como vista, o tablas normalizadas de verdad | **recomendación nueva, §3**: la configuración mínima; normalizar solo si aparece un cuello de botella |
+| **D8** | Derivados: en `corpus.jsonl` (forma de pieza 1) o dentro de `inscripciones` | abierta — recomendación: `corpus.jsonl`, para no tocar `guardar`/`mantener` |
+| **D9** | Idioma de las inscripciones: `tipo` en español (`determinación`) o en inglés (`determination`) | abierta — recomendación: español, como el resto del repo |
 
 ---
 
@@ -322,3 +404,69 @@ A(Q) se espera.
 - `mvp/paso2/comparacion.py`: la re-verificación offline de crudos.
 - Las extracciones cerradas del paso 2 (fichas por unidad con referencias,
   respaldos y dudas).
+
+---
+
+## 15. Coherencia de vocabulario (D1) · ediciones pendientes
+
+Se hacen en el mismo tramo en que se escriba el código, no antes. Son
+sustituciones de etiqueta, no de concepto: el papel se parte igual que en §1.
+
+**[zettel-vision-operativa.md](../zettel-vision-operativa.md)** (documento vivo):
+
+1. En «Notación y vocabulario», añadir dos entradas:
+   **Orquestador (en la implementación)** = el código que conduce las estaciones,
+   admite el material, ejecuta las herramientas, verifica, calcula y registra;
+   **Agente encargado** = el LLM que interpreta la pregunta, selecciona y propone.
+2. «un orquestador trae el mundo que la pregunta necesita» → «un agente,
+   conducido por el código, trae el mundo que la pregunta necesita».
+3. «El orquestador propone las filas; el código llena lo que es cómputo» →
+   «El agente propone las filas; el código llena lo que es cómputo».
+4. «El prompt del orquestador (04-10)» → «El prompt del agente encargado».
+5. «El orquestador puede lanzar varias instancias de un LLM con funciones
+   distintas» → «El código puede lanzar varias instancias del agente».
+6. El paso 4 del ejemplo, titulado «El orquestador» → «El agente encargado
+   (conducido por el código)».
+
+**[definiciones-del-marco.md](../definiciones-del-marco.md)**, parte B (documento vivo):
+
+7. La fila **Orquestador** pasa a **Orquestador (código)**: componente que
+   conduce, ejecuta, comprueba y registra; no juzga contenido.
+8. Añadir la fila **Agente encargado (LLM)**: interpreta la pregunta, selecciona
+   unidades y datos y propone; es contenido, no control.
+9. Ajustar «Relación con el marco» y «Origen» de las dos filas con la fecha.
+
+**[orquestador-plan.md](orquestador-plan.md)** (plan candidato):
+
+10. §1.2: «El orquestador propone; el código dispone» → «El agente propone; el
+    orquestador (código) dispone».
+11. §2: la fila «Código (plano de control)» pasa a **Orquestador (código)**; la
+    fila «Orquestador» pasa a **Agente encargado**.
+12. §3: en las estaciones, E1, E4 y E5 dicen «orquestador» → «agente».
+13. §7: «El prompt del orquestador» → «El prompt del agente encargado».
+14. Repasar las menciones sueltas de §10, §12 y §13.
+
+El archivo sigue llamándose `orquestador-plan.md`: es el plan del que conduce.
+
+---
+
+## 16. Fuentes consultadas (ronda 1)
+
+- *Nanopublication Guidelines* — aserción + procedencia + info de publicación en
+  una unidad pequeña y autocontenida: <https://nanopub.net/guidelines/working_draft/>
+- *A Unified Nanopublication Model…* (arXiv 2006.06348) — el mismo modelo en un
+  conjunto real: <https://arxiv.org/html/2006.06348v1>
+- *Evidence Model* (esquema con evidencias) — reificar solo si el hecho está en
+  disputa, acotado o reemplazado: <https://cdn.jsdelivr.net/npm/@a5c-ai/atlas@5.0.1-staging.f17326334/graph/schema/evidence-model.md>
+- `cs0lar/knk` — log de aserciones bitemporal, append-only, y optimización atada
+  a un cuello de botella medido: <https://github.com/cs0lar/knk>
+- *Flat files vs SQLite* (foro de SQLite) — cuándo cada formato falla:
+  <https://sqlite.org/forum/forumpost/c43b208884?t=h>
+- Hilo «Flat JSON files vs SQLite for agent state» — elegir por forma de acceso,
+  no un formato para todo: <https://github.com/kody-w/rappterbook/discussions/3742>
+- *Entity Resolution: The Hardest Part of Any Knowledge Graph* — fusiones no
+  destructivas y por qué la resolución global es el elefante:
+  <https://archtin.com/blog/entity-resolution-in-knowledge-graphs>
+- *Knowledge Graphs · Complete Guide* — «over-engineering the ontology» como
+  antipatrón; esquema mínimo y crecer a demanda:
+  <https://www.dataaihub.co/learn/knowledge-graphs>
