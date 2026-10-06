@@ -34,14 +34,12 @@ mover un archivo o de tocar el estado del repo.
 ## Arranque de cada sesión
 
 1. `git status --short` + `git log --oneline -5` (rama de trabajo: `main`).
-2. Leer `memoria de trabajo y pendientes.md`: fuente única del estado. No
+2. Leer `README.md`.
+3. Leer `política.md`.
+4. Leer `memoria de trabajo y pendientes.md`: fuente única del estado. No
    duplicarlo en ningún otro archivo.
-3. Leer la sección de la ronda indicada en `unidades/PLAN.md` (o en el
-   `PLAN.md` que indique el mensaje).
-4. `otros documentos/diccionario.md` y
-   `otros documentos/jev_typesafe_guia_pedagogica_v2.md` son el vocabulario
-   de Jev; releer solo si la ronda cita una sección.
-5. `definiciones-del-marco.md` es el vocabulario del marco (ensayo «¿Qué es un
+5. Leer `zettel-vision-operativa.md`.
+6. `definiciones-del-marco.md` es el vocabulario del marco (ensayo «¿Qué es un
    dato?») y las definiciones operativas del spike; ningún prompt redefine sus
    términos.
 
