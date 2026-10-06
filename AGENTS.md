@@ -67,8 +67,7 @@ mover un archivo o de tocar el estado del repo.
   provisional, con `README.md` para la vía y la verificación sin API). **Su estado vive
   en la memoria**; el detalle, en el `README` o `PLAN` de cada subcarpeta. Sigue: la
   conexión mecánica pregunta–dominio–corpus, con el diseño de la primera consulta en
-  `mvp/consulta-diseno.md` (**borrador**, revisión de Claude y Astra). El plan del
-  orquestador es antecedente (`historico/orquestador-plan.md`).
+  `mvp/consulta-diseno.md` (**borrador**, revisión de Claude y Astra).
 - `marco filosófico/`: el ensayo «¿Qué es un dato?» y su marco.
 - `langextract-spike/`: cerrado (LangExtract, evaluado y no adoptado).
 - `utiliarios/`: los guiones que se invocan desde la raíz. `muse_tarea.sh` y
