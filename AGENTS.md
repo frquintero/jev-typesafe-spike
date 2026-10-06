@@ -69,9 +69,9 @@ mover un archivo o de tocar el estado del repo.
 - `langextract-spike/`: cerrado (LangExtract, evaluado y no adoptado).
 - `utiliarios/`: los guiones que se invocan desde la raíz. `muse_tarea.sh` y
   `dsh_tarea.sh` delegan tareas a Muse y a DeepSeek Harness (ver «Agentes
-  delegados»); `configurar_clave_xai.sh` pide la clave de xAI; `proxy_local.py`
-  (retirado) se conserva como antecedente. El repo se resuelve como el
-  padre de esta carpeta.
+  delegados»); `configurar_clave_xai.sh` pide la clave de xAI; `jev.py` arma y envía
+  el protocolo de Jev (`seco` no llama a la API); `proxy_local.py` (retirado) se
+  conserva como antecedente. El repo se resuelve como el padre de esta carpeta.
 - `otros documentos/`: documentos de referencia que no son de navegación: el
   vocabulario de Jev (`diccionario.md`, `jev_typesafe_guia_pedagogica_v2.md`) y los
   informes sueltos (p. ej. `mistral-large-4-verificacion-2026-10-06.md`).
@@ -143,46 +143,6 @@ previa de Frat** en cada uso; **exclusivo de Claude y ChatGPT**.
   razonamiento va dentro de `completion_tokens`. Puede dejar el stream
   colgado: si pasa un minuto sin datos, reportarlo.
 - `flash` = `glm-5.3-flash`; Z.ai tarda ~50 s aun en llamadas mínimas.
-- Jev: `jev-1.13.0` fijo (ver abajo).
+- Jev: `jev-1.13.0` fijo; el protocolo está en `utiliarios/jev.py`.
 - Comparar siempre el modelo efectivo de la respuesta con el esperado y avisar
   si difiere.
-
-## Protocolo Jev (para cuando se use)
-
-`POST https://api.typesafe.ai/v1/systemone`, sin SDK (`urllib` + dicts):
-
-```python
-body = {
-    "model": "jev-1.13.0",   # fijo; avisar si usage.model no coincide
-    "state": ...,            # el expediente: string, dict o array
-    "questions": {
-        "q1": {              # claves neutras; el modelo no las usa
-            "type": "noul" | "choice" | "score",
-            "instructions": "...",       # el juicio (Noul) o el marco (Choice/Score)
-            "criteria": {...} | [...],   # solo Choice/Score
-        },
-    },
-}
-```
-
-- **Noul:** un juicio → grado 0–1, leído por bandas; la franja 0,30–0,65 es
-  señal de diseño.
-- **Choice:** juicios alternativos sin orden; siempre con opción de salida.
-- **Score:** juicios como niveles ordenados; `score` = posición media.
-- Varias preguntas en una llamada se resuelven en paralelo (fan-out): no cambia
-  el resultado, solo la latencia. Sin `temperature`: la estabilidad se mide con
-  réplicas (`r1`/`r2`/`r3`; respiran ±0,01–0,02).
-
-## Reportes
-
-- Prompts y campos enviados, verbatim (regla 22). El JSON `parsed` tal como
-  llegó, el crudo detrás de cada afirmación.
-- Sin veredicto (regla 15); sin mecanismos inventados para un grado concreto
-  (regla 26); solo documentos sintéticos (regla 20).
-
-## Lecciones operativas
-
-- El costo dominante es la deliberación del ejecutor, no la API (salvo modelos
-  con razonamiento largo): pasos grandes y en paralelo; no re-verificar lo que
-  la salida ya mostró.
-- `pgrep -af` vuelca entornos completos: usar `pgrep -x` o sondas de puerto.

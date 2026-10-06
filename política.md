@@ -72,7 +72,14 @@ en `otros documentos/`, `diccionario.md` y `jev_typesafe_guia_pedagogica_v2.md`.
 - El push va en el mismo commit que el trabajo: crudos, resultados y la
   actualización de estado de los tres sitios.
 
-## 4. Cuando algo se mueve
+## 4. Reportes
+
+- Prompts y campos enviados, **verbatim** (regla 22); el JSON `parsed` tal como llegó
+  y el crudo detrás de cada afirmación.
+- **Sin veredicto** (regla 15); sin mecanismos inventados para un grado concreto
+  (regla 26); solo documentos sintéticos (regla 20).
+
+## 5. Cuando algo se mueve
 
 1. `git mv` (conserva la historia), nunca copiar y dejar el original.
 2. **Buscar y actualizar todas las referencias** antes de commitear:
