@@ -42,7 +42,7 @@ resuelve, aplica, ejecuta, comprueba, calcula y registra, todo determinista— y
 **D1 (decidida).** **Código = ORQUESTADOR, LLM = AGENTE ENCARGADO.** El agente es
 **stateless**: cada llamada es una interacción nueva y solo sabe lo que va en el
 prompt; el orquestador es quien lleva la memoria y compone cada prompt (§6). La
-coherencia de esta etiqueta con los documentos vivos está en §16.
+coherencia de esta etiqueta con los documentos vivos está en §17.
 
 ---
 
@@ -195,7 +195,7 @@ agente lee y el orquestador aplica).
 
 `mvp/consulta/preguntas.md`: **solo el texto de las cinco preguntas, limpias** —sin
 condiciones, sin expectativas, sin pistas—. Es lo único que aporta el usuario,
-junto con el dominio elegido. Las cinco están en §11.
+junto con el dominio elegido. Las cinco están en §12.
 
 ### 4.2. Documento R
 
@@ -213,7 +213,7 @@ pasa en el prompt. Si se separan, manda el esbozo y se corrige la prosa.
 
 Es un **esbozo**, no un contrato cerrado: lo que importa es que las condiciones
 queden escritas y que el código pueda aplicarlas sin interpretarlas. **Los topes
-de turnos y de llamadas no son R**: son guardias del orquestador (§10).
+de turnos y de llamadas no son R**: son guardias del orquestador (§11).
 
 Prosa para el agente (las condiciones de la consulta): sin internet; sin otras
 herramientas ni agentes; el saber del agente no es premisa; no hay interacción con
@@ -385,7 +385,7 @@ herramienta es contrato: es lo que el agente lee para decidir.
 **Reglas comunes** (valen para A y B): lista blanca de herramientas —las del
 diseño—; `calcular` con **tabla fija** de funciones, nunca `eval`; ids validados
 contra los documentos admitidos; toda salida del agente en JSON, y `entregar` en el
-esquema de `pieza1`; y las guardias de §10.
+esquema de `pieza1`; y las guardias de §11.
 
 **Lo que no cambia con ninguna:** la memoria sigue siendo del orquestador (§6) y
 el agente sigue siendo stateless; el dominio lo inyecta el código; R se aplica y
@@ -394,6 +394,9 @@ se comunica.
 ---
 
 ## 8. El prompt del agente (secciones)
+
+Cómo se reparten estas secciones entre el system y los mensajes, con qué etiquetas
+y cómo se ve la petición en la API: §9.
 
 1. **Rol y tarea.** Qué se le pide: interpretar la pregunta, leer, proponer.
 2. **Qué recibe, en cada llamada.** Los bloques de §6 —instrucciones, R,
@@ -436,7 +439,148 @@ se comunica.
 
 ---
 
-## 9. Salidas
+## 9. El system prompt y la petición real (boilerplate)
+
+Cómo se arma el system y cómo se ve la petición en la API. El JSON es
+**boilerplate verificado** contra la referencia
+([Chat Completions](https://api-docs.deepseek.com/api/create-chat-completion/)),
+no una especificación nuestra.
+
+### 9.1. Qué va en el system y qué en los mensajes
+
+Lo que **no cambia entre turnos** va al system; lo que cambia, a los mensajes.
+
+| En el **system** (fijo durante toda la consulta) | En los **mensajes** |
+|---|---|
+| ROL · **TAREA** · ALCANCE (dominio, documentos admitidos, inventario) · R · HERRAMIENTAS (cuándo usar cada una) · SELECCIÓN · INFERENCIA · FORMATO · **ANCLAS (día y hora)** · un ejemplo inventado | la **pregunta** (turno `user`) y el bucle `assistant`/`tool` (lecturas, cálculos, estado) |
+
+El **esquema** de las herramientas viaja en el campo `tools` del mismo request: el
+agente lo lee como lee el system. En el texto del system van solo las reglas de
+uso; el esquema no se repite ahí (gastaría tokens y se desincronizaría).
+
+### 9.2. La estructura del system, en bloques etiquetados
+
+```
+ROL          quién es y para qué
+TAREA        la tarea: qué tiene que producir, en una frase
+ALCANCE      dominio, documentos admitidos, inventario de unidades
+R            fuentes admitidas, prohibiciones, reglas de entrega
+HERRAMIENTAS qué hace cada una y cuándo usarla (el esquema va en tools)
+SELECCIÓN    qué leer y qué cuenta como campo
+INFERENCIA   cómo se pasa de los datos a la tabla y al desenlace
+FORMATO      el JSON de entrega (esquema del objeto)
+ANCLAS       día y hora del sistema
+EJEMPLO      uno, inventado (nunca de los documentos de prueba)
+```
+
+Reglas de armado, de la investigación de esta ronda:
+
+- **Lo estable primero.** El system va delante y no se toca entre turnos: el caché
+  de DeepSeek es por **prefijo desde el token 0** y cambiar el system lo reinicia
+  ([Context Caching](https://api-docs.deepseek.com/guides/kv_cache)).
+- **Etiquetas, no prosa.** Bloques etiquetados se malinterpretan menos y se
+  versionan mejor ([Anthropic](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices),
+  [llmbestpractices](https://llmbestpractices.com/ai-agents/system-prompts)).
+- **Restricciones verificables.** «No salgas del dominio; si el dato no está,
+  entrega *no establecido*» rinde más que «sé cuidadoso»; sin «DEBES» ni
+  mayúsculas, que sobreactúan, y sin instrucciones que se contradigan
+  ([llmbestpractices](https://llmbestpractices.com/ai-agents/system-prompts)).
+- **Sin duplicar el esquema de las herramientas** en el texto
+  ([ai-agent-course](https://github.com/kshvakov/ai-agent-course/blob/main/book/02-prompt-engineering/README.md)).
+- **El ejemplo, al final y de forma**: enseña exactamente lo que muestra.
+
+### 9.3. Las anclas: día y hora
+
+Van en el bloque `ANCLAS`, con la fecha y la hora del sistema tomadas en el
+arranque de la consulta: **congeladas** para toda la consulta (no cambian entre
+turnos, no rompen el prefijo del caché) y **registradas en la traza**. Con R
+«solo el documento» el ancla **no es premisa**: el propio prompt lo dice, para que
+no se use como dato del documento.
+
+### 9.4. La petición, en la API real
+
+```json
+{
+  "model": "deepseek-flash",
+  "messages": [
+    {"role": "system", "content": "ROL …\nTAREA …\nALCANCE …\nR …\nHERRAMIENTAS …\nSELECCIÓN …\nINFERENCIA …\nFORMATO …\nANCLAS …\nEJEMPLO …"},
+    {"role": "user", "content": "¿En qué año se restableció el servicio del tranvía tras el incendio de 1927?"}
+  ],
+  "tools": [
+    {"type": "function",
+     "function": {
+       "name": "leer_unidad",
+       "description": "Devuelve una unidad del dominio con su texto, sus datos (con condiciones y respaldo), sus referencias y sus dudas.",
+       "parameters": {
+         "type": "object",
+         "properties": {"id": {"type": "string", "description": "id de la unidad, p. ej. doc5:U2"}},
+         "required": ["id"]
+       }}}
+  ],
+  "tool_choice": "auto",
+  "thinking": {"type": "enabled"},
+  "reasoning_effort": "high",
+  "stream": true,
+  "stream_options": {"include_usage": true}
+}
+```
+
+El bucle, con los mensajes que se agregan (formas de la referencia y del
+[guide de tool calls](https://api-docs.deepseek.com/guides/tool_calls/)):
+
+```json
+{"role": "assistant", "content": null, "reasoning_content": "…",
+ "tool_calls": [{"id": "call_…", "type": "function",
+                 "function": {"name": "leer_unidad", "arguments": "{\"id\": \"doc5:U2\"}"}}]}
+
+{"role": "tool", "tool_call_id": "call_…", "content": "{…la lectura…}"}
+```
+
+Y el cierre, con la herramienta de entrega:
+
+```json
+{"role": "assistant", "content": null,
+ "tool_calls": [{"id": "call_…", "type": "function",
+                 "function": {"name": "entregar", "arguments": "{…el objeto…}"}}]}
+```
+
+Datos exactos que hay que respetar (misma fuente):
+
+- **`model`**: `deepseek-flash` o `deepseek-v4-pro`.
+- **`messages`** (≥1): roles `system`, `user`, `assistant`, `tool`. El `assistant`
+  puede llevar `content`, `reasoning_content` y `tool_calls`; el mensaje `tool`
+  lleva `tool_call_id` y `content`.
+- **`function.arguments` es un *string*** con JSON: hay que parsearlo y validarlo
+  antes de ejecutar (la referencia avisa que el modelo puede inventar parámetros).
+- **`tools[]`**: `type: "function"` y `function{name, description, parameters,
+  strict}`. El nombre, hasta 128 caracteres de `a-zA-Z0-9_-`; si se omite
+  `parameters`, la función no recibe argumentos; `strict` es Beta y valida el JSON
+  schema.
+- **`tool_choice`**: `none` (por defecto sin `tools`), `auto` (por defecto con
+  `tools`), `required` o una función nombrada. **`required` y la nombrada no se
+  admiten en modo razonamiento: la API devuelve 400.**
+- **`thinking`**: `{"type": "enabled" | "disabled"}`, por defecto `enabled`.
+  **`reasoning_effort`**: `none | low | high | max`, por defecto `high`
+  (`minimal`→`low`, `medium`/`xhigh`→`high`).
+- **`max_tokens`**: 1–393216; por defecto 8K sin razonamiento y 64K con
+  razonamiento (128K con `max`).
+- **`response_format`**: `{"type": "text" | "json_object"}`; `json_object`
+  garantiza JSON válido, pero **hay que pedirlo también en el prompt**.
+- **`temperature`** no tiene efecto en modo razonamiento; **`top_p`** solo actúa
+  ahí y se recorta a 0.95–1.0. `frequency_penalty` y `presence_penalty` están
+  retirados.
+- **Lo que leemos de la respuesta**: `finish_reason` (`stop`, `length`,
+  `content_filter`, `tool_calls`, `insufficient_system_resource`, `aborted`),
+  `message.content` (puede venir `null`), `message.reasoning_content` y
+  `message.tool_calls[]`.
+- **El consumo**: `usage.prompt_tokens` = `prompt_cache_hit_tokens` +
+  `prompt_cache_miss_tokens` (también en `prompt_tokens_details.cached_tokens`), y
+  `completion_tokens_details.reasoning_tokens`. Con eso se mide el acierto de
+  caché del §11.
+
+---
+
+## 10. Salidas
 
 - **`mvp/consulta/salida.md`** (el usuario lee esto): por pregunta, la respuesta
   en lenguaje natural con su ruta en palabras (documento y oración), el desenlace
@@ -449,7 +593,7 @@ se comunica.
 
 ---
 
-## 10. Guardias y presupuesto (se fijan antes de llamar)
+## 11. Guardias y presupuesto (se fijan antes de llamar)
 
 Las guardias **no son R**: R dice qué se puede usar; esto solo corta si el bucle se
 enreda.
@@ -471,7 +615,7 @@ enreda.
 
 ---
 
-## 11. Las cinco preguntas (texto limpio, es el archivo del usuario)
+## 12. Las cinco preguntas (texto limpio, es el archivo del usuario)
 
 `mvp/consulta/preguntas.md` contiene **solo esto**:
 
@@ -486,7 +630,7 @@ agente ve la pregunta tal cual.
 
 ---
 
-## 12. Cómo se evalúa
+## 13. Cómo se evalúa
 
 Se juzga **lo que la corrida entrega y su respaldo**, leyendo el documento:
 
@@ -504,7 +648,7 @@ por dominio, admisión por R, efecto calculado.
 
 ---
 
-## 13. Riesgos y límites
+## 14. Riesgos y límites
 
 - La calidad de la extracción acota la respuesta (es el hallazgo del paso 2, no
   un defecto del puente).
@@ -527,11 +671,11 @@ por dominio, admisión por R, efecto calculado.
 
 ---
 
-## 14. Decisiones
+## 15. Decisiones
 
 | # | Decisión | Estado |
 |---|---|---|
-| **D1** | Nombres: código = ORQUESTADOR, LLM = AGENTE ENCARGADO | **decidida**; coherencia de los documentos vivos, §16 |
+| **D1** | Nombres: código = ORQUESTADOR, LLM = AGENTE ENCARGADO | **decidida**; coherencia de los documentos vivos, §17 |
 | **D2** | Corpus: solo `doc5`, o `doc5` + la mesa de dominio para tener conflicto | por definir — recomendación: solo `doc5` |
 | **D3** | Bucle de la consulta: lectura en lote por turnos, o todo inyectado en una llamada | por definir — recomendación: bucle con lectura en lote |
 | **D4** | P2 con derivado (1929) o sin él («dos años») | por definir — recomendación: con derivado |
@@ -547,7 +691,7 @@ por dominio, admisión por R, efecto calculado.
 
 ---
 
-## 15. Qué se reutiliza
+## 16. Qué se reutiliza
 
 - `mvp/pieza1/pieza1.py`: `verificar`, `comparar`, `guardar`, `mantener` (y hay
   que ampliarlo con el **efecto** y con la **admisión por dominio**, que hoy no
@@ -562,7 +706,7 @@ por dominio, admisión por R, efecto calculado.
 
 ---
 
-## 16. Vocabulario (D1)
+## 17. Vocabulario (D1)
 
 Los tres documentos vivos usan esta convención:
 
@@ -586,7 +730,7 @@ tocan `pieza1.py` ni sus tablas de referencia.
 
 ---
 
-## 17. Fuentes consultadas
+## 18. Fuentes consultadas
 
 - *Nanopublication Guidelines* — aserción + procedencia + info de publicación en
   una unidad pequeña y autocontenida: <https://nanopub.net/guidelines/working_draft/>
