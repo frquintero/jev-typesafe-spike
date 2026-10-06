@@ -207,7 +207,7 @@ pasa en el prompt. Si se separan, manda el esbozo y se corrige la prosa.
 
 ```json
 { "fuentes_admitidas": ["solo el documento"],
-  "herramientas": ["listar_unidades", "leer_unidad", "calcular", "entregar"],
+  "herramientas": ["leer_unidad", "calcular", "entregar"],
   "operaciones": ["sumar", "restar", "dias_entre", "dia_siguiente", "parsear_fecha"] }
 ```
 
@@ -347,8 +347,37 @@ que se use (A), donde sí puede nombrar cualquier acción:
 
 En los dos, la denegación queda en la traza y insistir corta por ciclo.
 
-**Reglas comunes** (valen para A y B): lista blanca de herramientas —las cuatro
-del diseño—; `calcular` con **tabla fija** de funciones, nunca `eval`; ids
+**Quién arma las herramientas.** Las escribe **el orquestador, en código**, no el
+agente: cada una es una función con nombre, descripción y esquema JSON
+(`mvp/consulta/herramientas.py`), y el agente solo produce los argumentos. Son la
+**única puerta al corpus de §3**: el agente nunca ve el almacén; `leer_unidad` le
+devuelve la unidad con sus inscripciones —datos con condiciones y respaldo, capas,
+relaciones, referencias y dudas— y su procedencia. La descripción de cada
+herramienta es contrato: es lo que el agente lee para decidir.
+
+- **El dominio va cerrado por el código, no por argumento.** `leer_unidad(id)` no
+  acepta `dominio`: el orquestador lo cierra sobre los documentos admitidos y
+  valida cada id contra ellos. El agente no puede ampliar el alcance cambiando un
+  argumento.
+- **Por llamada, el orquestador decide qué se ofrece:** (1) qué herramientas van
+  en `tools` (= R ∩ inventario), (2) el `tool_choice` y (3) qué entra en el prompt
+  (inventario, estado). Todo lo demás es fijo.
+- **El inventario va en el prompt, no en una herramienta** (en la MVP): son cinco
+  unidades con id, subtema y oraciones; tenerlo delante hace visible la selección
+  (§8) y ahorra un turno. Cuando el dominio crezca, entra
+  `buscar_unidades(consulta)` con el contrato del plan y el inventario se pide.
+- **Tres herramientas y no una con `metodo`:** cada una con su esquema, su
+  descripción (qué hace, cuándo usarla, qué devuelve) y su validación; así la
+  lista ofrecida es también la aplicación de R.
+- **La ejecución es del código:** valida los argumentos contra el esquema (con
+  `strict` si hace falta), comprueba la pertenencia al dominio, ejecuta, recorta la
+  respuesta a lo necesario y la devuelve como mensaje `role: "tool"`, anotando todo
+  en la traza.
+- **Manda el inventario del sistema:** se ofrece lo que cumple R **y** existe; si
+  el sistema no tiene la herramienta, no se ofrece aunque R la admita.
+
+**Reglas comunes** (valen para A y B): lista blanca de herramientas —las del
+diseño—; `calcular` con **tabla fija** de funciones, nunca `eval`; ids
 validados contra los documentos admitidos; `entregar` en el esquema de `pieza1`,
 con **una** vuelta de reparación si no verifica; y las guardias de §10.
 
@@ -364,9 +393,10 @@ se comunica.
 2. **Qué recibe, en cada llamada.** Los bloques de §6 —instrucciones, R,
    pregunta y dominio, inventario, estado y cola—. Nada más: **lo que no va en el
    prompt, el agente no lo sabe.**
-3. **Herramientas.** Las cuatro, con su descripción y su esquema de argumentos;
-   con nativas (§7B) van en `tools`, y con el protocolo textual (§7A) son las
-   cuatro acciones, una por turno.
+3. **Herramientas.** Las tres —`leer_unidad`, `calcular`, `entregar`—, con su
+   descripción y su esquema de argumentos; con nativas (§7B) van en `tools`, y con
+   el protocolo textual (§7A) son tres acciones, una por turno. El inventario ya
+   viene en el prompt; `buscar_unidades` entra cuando el dominio crezca.
 4. **R y K.** Solo el documento; el cálculo lo hace el código; su propio saber no
    es premisa.
 5. **SELECCIÓN** (regla propuesta, todavía no escrita en ninguna parte). Propuesta:
@@ -418,9 +448,9 @@ enreda.
 
 - **Modelo:** `deepseek-flash` (alias `deepseek`), el del paso 2; esfuerzo `low`
   (que DeepSeek trata como `high`).
-- **Llamadas:** inventario 1 + lectura en lote 1 + cálculo ≤2 + entrega 1 +
-  reparación 1 ⇒ **≤6 por pregunta**; **tope 20** para las cinco, con parada y
-  desenlace «agotada».
+- **Llamadas:** el inventario va en el prompt, así que lectura en lote 1 +
+  cálculo ≤2 + entrega 1 + reparación 1 ⇒ **≤5 por pregunta**; **tope 20** para
+  las cinco, con parada y desenlace «agotada».
 - **Ciclo:** misma acción con los mismos argumentos dos veces → se corta.
 - **Estimación:** 3–12 k tokens de entrada por llamada (el historial crece) y
   3–12 k de salida (≈91 % razonamiento, medido); total aproximado **40–90 k de
