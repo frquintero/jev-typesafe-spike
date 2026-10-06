@@ -368,7 +368,7 @@ esta corrida se conserva como se registró.
   cómo llega el contexto externo de la unidad a la extracción de datos. La
   extracción ya corre por unidad (`unidades/extraer_datos_doc.py`); lo que no
   entra en esa entrada es el campo `referencias`. Después, la pieza mecánica del
-  orquestador (memoria, §5).
+  orquestador (memoria, «Pendientes vigentes»).
 - **Reabrir v9** solo por un problema recurrente que afecte las respuestas, o por
   una mejora concreta de rendimiento. Las réplicas y la referencia hacia adelante
   quedan como huecos conocidos, no como tareas de pulido.

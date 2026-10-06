@@ -137,7 +137,7 @@ Es la capa de datos del grafo datos → argumentos → tesis de **Zettel**.
    estanque, que por eso queda fuera de la prueba.
 
 **Pruebas del núcleo conceptual en textos cortos** (DeepSeek; vara de Frat:
-cerca del 90 % correcto y ejecución ágil; detalle en la memoria, §3).
+cerca del 90 % correcto y ejecución ágil; detalle en `unidades/PLAN.md`).
 
 | Ronda | Prompt | Textos | Resultado |
 |---|---|---|---|

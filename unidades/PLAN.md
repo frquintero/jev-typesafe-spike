@@ -752,7 +752,7 @@ primero se mira la salida. Pregunta: ¿aparece en DeepSeek la fuga que ChatGPT
 diagnosticó en su simulación (variables fabricadas a partir de una expresión:
 «XXI», «el más grande», «absoluta»; clases tratadas como casos; límites que
 definen una zona tomados como valores)? Referencia: la pregunta de prueba de la
-constante de la definición (memoria, §4).
+constante de la definición (memoria, «Lecciones vigentes»).
 
 ```
 python3 unidades/extraer_datos_doc.py biomar1 deepseek unidades_v5 datos_pABQ5 r1
@@ -868,7 +868,7 @@ python3 unidades/extraer_datos_doc.py banrep1 deepseek unidades_v5 datos_pABQ6B 
 **Reporte:** por comando, si terminó sin error y el modelo efectivo. Sin
 veredicto. Cowork evalúa.
 
-**Resultado ENC12–ENC14 (evaluó Cowork; detalle en la memoria, §4):** B
+**Resultado ENC12–ENC14 (evaluó Cowork; detalle en la memoria, «Lecciones vigentes»):** B
 (`datos_pABQ6B`) dejó 0 filas de más en gen1 en r1–r3 (pABQ5: 2·1·2) y bajó
 las no-dato de biomar1 de media 10 a 6, sin perder datos firmes; banrep1 sin
 diferencia (ruido). Ninguna versión resolvió las constantes de la definición
@@ -877,7 +877,7 @@ marco del ensayo cambió y se empieza desde cero en otra sesión).
 
 ## Ronda F1: ficha v0 sobre los textos de desarrollo (nuevo enfoque, 01-10)
 
-Nuevo enfoque (memoria de trabajo, «Dónde quedamos» y §5): el paso 2 ya no
+Nuevo enfoque (memoria de trabajo, «Dónde quedamos» y «Pendientes vigentes»): el paso 2 ya no
 decide qué es dato; reconstruye todo lo que el texto establece, organizado
 desde el caso de estudio, en una **ficha** con siete listas (casos,
 relaciones, capas, determinaciones, acciones, marcas, dudas). Prompt:
@@ -907,7 +907,7 @@ python3 unidades/ficha_doc.py represa1 deepseek ficha_v0 r3
 **Reporte:** por comando, si terminó sin error, el modelo efectivo, los
 segundos y la verificación que imprime el script. Sin veredicto. Cowork
 evalúa en dos dimensiones (qué recupera; qué agrega o deforma) con los 11
-errores de la memoria §5.4 como guía.
+errores de `historico/memoria-hasta-2026-10-01.md` §5.4 como guía.
 
 ## Ronda F2: ficha v0 sobre la reserva (textos de ChatGPT)
 
@@ -1022,7 +1022,7 @@ divulgación 21/21, ensayo 16,5/18 (se pierde el orden «durante un tiempo…
 después» de las capas), opinión 22,5/24 (r2 sin capa para «debería» / «habría
 que»). Fuera del contrato 7/9. Formato estable, fragmentos literales. Costo:
 76–127 s y 14,7–25 mil tokens de razonamiento por texto de ~220 palabras;
-22–34 casos por texto. Detalle y huecos en la memoria, §3.
+22–34 casos por texto. Detalle y huecos en la memoria, «Dónde quedamos».
 
 ## Ronda F6: condiciones del acto de sostener algo (`ficha_v2`, candidato)
 

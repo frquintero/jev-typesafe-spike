@@ -121,8 +121,8 @@ Hechos mecánicos (ver anexo para el JSON completo):
   or. 3: U1-D6 con modalidad «suele alcanzar»; or. 4: U2-D1 con condición;
   or. 9: U3 «majestuosas»; or. 10: U5-D1 con condición y cambio).
 
-Diferencias de registro que se ven en el anexo (guía: los 11 errores de la
-memoria §2.4):
+Diferencias de registro que se ven en el anexo (guía: los 11 errores de
+`historico/memoria-hasta-2026-10-01.md` §5.4):
 
 - U1: NotebookLM agrega U1-D1 (caso C1, aspecto «clasificación», valor
   «volcán», respaldo «es un volcán») y normaliza el valor a dígitos en
