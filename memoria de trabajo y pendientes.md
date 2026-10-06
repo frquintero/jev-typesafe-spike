@@ -31,7 +31,7 @@ Estado al 06-10-2026. **Solo lo vigente:** lo que estamos haciendo y nos guía. 
 4. El ejecutor (Muse, Luna o Claude Code) corre sin modificar nada, reporta sin veredicto y hace commit y push de los crudos.
 5. Cowork lee los crudos (`unidades/cache/`) y los evalúa contra la conjetura. Frat decide.
 
-**Aviso de fin de ronda (decisión de Frat):** cuando Cowork lanza a Muse (`nohup bash -ic 'command muse exec --disable-sandbox --prompt-file …' &` por Desktop Commander), arma un Monitor que consulta `git ls-remote` del repo en GitHub cada 30 s y avisa cuando aparece el commit nuevo; entonces Cowork le manda a Frat una notificación de escritorio (PushNotification) con el resultado en una línea.
+**Aviso de fin de tarea (ntfy, obligatorio):** los envoltorios (`utiliarios/muse_tarea.sh`, `utiliarios/dsh_tarea.sh`) publican en el tema de `~/.config/dsh_tarea/ntfy_topic` cuando la tarea termina (`muse:<etiqueta> exit=<código> <segundos>s`); el ORQUESTADOR escucha ese tema —o arma el Monitor de Claude— y con cada aviso lee el `.out` en el iMac, verifica y resume. **Nada de `sleep` ni de sondear el repo.** Procedimiento y la excepción de Codex (que no se puede despertar): `otros documentos/agentes-delegados.md` §3.
 
 **Configuración** (detalle en el README, «Muse Code» y «Correr las pruebas en local»):
 - Sin proxy ni `muse.sh` desde el 04-10: `muse` es alias de `command muse --disable-sandbox`; Muse usa la suscripción Everyday y `META_API_KEY` ya no se carga en las terminales.
