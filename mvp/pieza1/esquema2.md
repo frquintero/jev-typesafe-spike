@@ -10,6 +10,10 @@ de Frat). Hasta entonces convive con lo vigente, como `ficha_v2` con `ficha_v1`.
   R consulta». Aquí el mundo se nombra **M**.
 - `mvp/mesa1/resultado.md`, decisión 7 («K = mundo»): sustituida por la misma
   razón.
+- `definiciones-del-marco.md`, parte C (mundo): los documentos vivos llaman
+  **mundo del agente** al saber general del LLM. Aquí sigue rotulado
+  `orquestador` —`mundo: orquestador` en §2 y en la lista de R de §3— por
+  compatibilidad con la pieza 1 en prueba; se renombra al adoptar el esquema.
 
 ## 1. Letras: notación e ids
 

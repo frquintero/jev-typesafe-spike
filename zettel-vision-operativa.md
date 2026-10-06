@@ -14,8 +14,8 @@ Lo que Zettel entrega es **información**: el cambio en el conjunto de
 respuestas admisibles a una pregunta, cuando se consideran los datos del
 corpus y del **mundo** conforme a unas reglas. El inventario de datos es
 útil como inventario; lo útil de verdad sale de **pregunta + datos + mundo**.
-Por eso la pregunta es el punto de partida, y un orquestador trae el mundo
-que la pregunta necesita.
+Por eso la pregunta es el punto de partida, y un agente encargado, conducido
+por el orquestador, trae el mundo que la pregunta necesita.
 
 ## Notación y vocabulario
 
@@ -24,6 +24,14 @@ Zettel usa **A(Q | K, D; R)**: los subíndices se leen como elementos y no
 como conjuntos, y la implementación necesita mostrar de dónde viene cada
 cosa. Es la misma operación con otra escritura (registrada en
 `definiciones-del-marco.md`, parte C).
+
+**Orquestador y agente encargado.** En la implementación, el **orquestador** es
+el código: resuelve la consulta por estaciones, aplica la pertenencia por dominio
+y R, ejecuta las herramientas, calcula, comprueba y registra. El **agente
+encargado** es el LLM: interpreta la pregunta, selecciona y propone. El agente es
+*stateless* (solo sabe lo que va en el prompt) y el orquestador le lleva la
+memoria y le compone cada prompt. El **mundo del agente** es su saber general y
+sus convenciones de lectura: entra como premisa solo si R lo admite.
 
 **La pregunta.**
 
@@ -65,8 +73,8 @@ autorreporte del modelo. Reglas probadas en la mesa 1 (`mvp/mesa1/`):
   datos considerados pertinentes (los mudos son el campo menos las rutas).
 - **Ids:** D = dato del corpus; K = mundo (dato o regla); R = regla de la
   consulta.
-- **Quién la escribe:** el orquestador propone las filas; el código llena
-  lo que es cómputo (fechas, husos, aritmética).
+- **Quién la escribe:** el agente encargado propone las filas; el orquestador
+  llena lo que es cómputo (fechas, husos, aritmética).
 - **El efecto informativo** es la diferencia entre la tabla de antes y la de
   después, calculada por el código, en cuatro clases: cambian de estado (en
   los dos sentidos); ganan o pierden sostén (fila admisible que cambia de
@@ -91,7 +99,7 @@ de transacción y tiempo de validez).
 **El mundo (K).** Entra como marco del caso y del aspecto: completa,
 enmarca y trae escalas y reglas de inferencia.
 
-- **Qué mundos hay:** el del **orquestador** (el único mundo LLM que cuenta
+- **Qué mundos hay:** el del **agente** (el único mundo LLM que cuenta
   como tal), el del **código** (aritmética, calendarios, zonas horarias) y
   el de las **fuentes consultadas** (APIs, web, Wikidata). Los demás LLM y
   Jev son **herramientas**: lo que devuelven entra como resultado de una
@@ -100,12 +108,12 @@ enmarca y trae escalas y reglas de inferencia.
   dato, con procedencia «mundo». Si sostiene una respuesta, se registra como
   **dependencia** del dato derivado, con su valor.
 - **Qué mundo entra:** el que R señale y esté disponible. Si R no dice
-  nada, el orquestador usa los mundos suficientes y necesarios para
+  nada, el agente encargado usa los mundos suficientes y necesarios para
   enmarcar bien la pregunta.
 - **K en operación (04-10).** K no se configura. Lo disponible es
   **inventario** del sistema (herramientas instaladas y sus claves), no una
   regla; el código lo conoce. La configuración de una consulta solo lleva R.
-  El código cruza R con el inventario y le ofrece al orquestador solo lo que
+  El orquestador cruza R con el inventario y le ofrece al agente solo lo que
   cumple ambas cosas. K es el mundo que **efectivamente entró**: lo que quedó
   en las rutas, con su procedencia.
 - **Cuándo un mundo consultado es necesario:** si cierra algo que faltaba,
@@ -121,19 +129,19 @@ amplio, incluidas las de inferencia; en Zettel, R son solo las de la
 consulta, y las de inferencia viven en K. Entre ellas:
 
 - **Fuentes admitidas como premisa:** «solo el documento» (ninguna premisa
-  externa); «sin fuentes externas, con el mundo del orquestador»; libre (por
+  externa); «sin fuentes externas, con el mundo del agente»; libre (por
   defecto). En el modo «solo el documento», R dice también si Jev puede
   usarse.
-- **Autorización de agentes:** por defecto, libertad para el orquestador.
+- **Autorización de agentes:** por defecto, libertad para el agente encargado.
 - **Tope de costo o tiempo:** uno por defecto.
 - **Anclas:** la hora del sistema, para «hoy» o «mañana» cuando nada más lo
   resuelve.
 
-**El prompt del orquestador (04-10).** Lo arma el código con la entrada del
+**El prompt del agente encargado (04-10).** Lo arma el orquestador con la entrada del
 usuario y un archivo de configuración (en la MVP, solo el archivo): rol y
 tarea; pregunta, corpus (fichas con ids) y R; herramientas ofrecidas (qué
 hace cada una, cuándo usarla, cómo pedirla); salida y formato; reglas de la
-tabla. El orquestador **pide** herramientas (*function calling*); el código
+tabla. El agente encargado **pide** herramientas; el orquestador
 las ejecuta y anota procedencia y fecha de consulta, para que la ruta
 registre lo que de verdad se consultó.
 
@@ -142,7 +150,7 @@ siguen rigiendo las de `otros documentos/agentes-delegados.md` (copia en el repo
 del original que vive en `~/Claude-memoria/memoria/`).
 
 **El usuario.** Tiene su propio mundo, que decide si hubo efecto para él.
-Es fuente de **último recurso**: si el orquestador no alcanza a dar el
+Es fuente de **último recurso**: si el agente encargado no alcanza a dar el
 marco, le pregunta.
 
 **Sostén y juicio.** Dos cosas distintas que no se mezclan:
@@ -201,10 +209,10 @@ D2 · AV-569 · pasajeros · 280
 
 ### 3. La consulta
 
-«¿A qué hora local llega el AV-569 a París?». R no dice nada: el
-orquestador tiene libertad.
+«¿A qué hora local llega el AV-569 a París?». R no dice nada: el agente
+encargado tiene libertad.
 
-### 4. El orquestador
+### 4. El agente encargado (conducido por el orquestador)
 
 1. **Estructura la pregunta.** Caso de estudio: el vuelo AV-569. Aspecto:
    hora local de llegada. Condición: París. Dominio: x:yy, de 0:00 a 23:59.
@@ -214,7 +222,7 @@ orquestador tiene libertad.
 4. **Mide la brecha:** faltan la fecha de «el lunes», la duración, los husos
    y una validación del horario.
 5. **Trae el mundo necesario (K).**
-   - K3, mundo del orquestador: «el lunes» en un texto fechado es el
+   - K3, mundo del agente: «el lunes» en un texto fechado es el
      próximo lunes desde su fecha. Con D0 (jueves 24-9), da el 28-9-2026.
    - K2, mundo del código (tzdata): Bogotá UTC−5; París UTC+2 el 28-9.
    - K1, una herramienta consulta la API de la aerolínea: el AV-569 del
@@ -237,7 +245,7 @@ orquestador tiene libertad.
    ids). Supuesto: grado 0,88, banda «muy
    seguramente cierto».
 
-El orquestador puede lanzar varias instancias de un LLM con funciones
+El orquestador puede lanzar varias instancias del agente, con funciones
 distintas; no les pide «dime lo que sabes». Verifica de forma selectiva: lo
 que sostiene la respuesta, o cuando la banda es baja, o cuando hay
 conflicto. Cada tarea la orienta la brecha, no una búsqueda a ciegas.
@@ -271,7 +279,7 @@ dependencias: D0 (boletín, fecha de emisión 24-9-2026, radicado 2-10)
               D1 (boletín, despegue 8:15, radicado 2-10)
               K1 (API de la aerolínea, duración 10 h 35, consultada 4-10)
               K2 (tzdata, versión usada por el código)
-              K3 (mundo del orquestador: regla del lunes)
+              K3 (mundo del agente: regla del lunes)
               R vigente (libre)
 rutas: 1
 juicio: noul · grado 0,88 · banda «muy seguramente cierto» · modelo jev-1.13.0
@@ -294,6 +302,6 @@ suscribirse a la fuente (fuera de la MVP).
 - **Boletín sin fecha propia.** Falta D0 y «el lunes» no se resuelve (la
   radicación no sirve). La tabla final muestra la distinción: 1:50 admisible
   con `si` «horario de verano», 0:50 admisible con `si` «horario de
-  invierno». Es un desenlace no cerrable, con información parcial. Como último recurso, el orquestador pregunta: «¿de qué lunes se
+  invierno». Es un desenlace no cerrable, con información parcial. Como último recurso, el agente encargado pregunta: «¿de qué lunes se
   trata?».
 

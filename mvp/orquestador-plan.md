@@ -13,22 +13,23 @@ filosófico; todo lo demás se valida al andar.
 
 ## 0. La idea en un párrafo
 
-El orquestador es un LLM que recibe una pregunta y propone cómo cambia lo
-admisible al considerar los datos. **No trabaja solo ni suelto**: el código lo
-conduce por estaciones fijas, le ofrece en cada una solo las herramientas que
-corresponden, verifica lo que propone, hace las cuentas, llama al juez (Jev) y
-registra todo. **La respuesta se espera en el corpus**: el orquestador intenta
-primero con los datos; el mundo entra solo si falta algo o si el juez dice que
-lo hallado no alcanza. Dentro de la estación del mundo, el orquestador sí tiene
-libertad: encarga investigaciones y conectores, y decide cómo cerrar la brecha.
+El agente encargado es un LLM que recibe una pregunta y propone cómo cambia lo
+admisible al considerar los datos. **No trabaja solo ni suelto**: el orquestador
+(el código) lo conduce por estaciones fijas, le ofrece en cada una solo las
+herramientas que corresponden, comprueba lo que propone, hace las cuentas, llama
+al juez (Jev) y registra todo. **La respuesta se espera en el corpus**: el agente
+intenta primero con los datos; el mundo entra solo si falta algo o si el juez
+dice que lo hallado no alcanza. Dentro de la estación del mundo, el agente sí
+tiene libertad: encarga investigaciones y conectores, y decide cómo cerrar la
+brecha.
 
 ## 1. Principios
 
 1. **Corpus primero.** Los datos se le dan porque ahí se espera la respuesta.
-2. **El orquestador propone; el código dispone.** Lo que es control (orden de
+2. **El agente propone; el orquestador dispone.** Lo que es control (orden de
    estaciones, cuándo se juzga, si se acepta un cierre, topes, R) lo hace el
-   código. Lo que es contenido (estructurar la pregunta, leer, proponer filas,
-   escribir encargos, redactar la respuesta) lo hace el LLM. (Separación
+   orquestador. Lo que es contenido (estructurar la pregunta, leer, proponer
+   filas, escribir encargos, redactar la respuesta) lo hace el agente. (Separación
    control/contenido, arXiv 2609.00621.)
 3. **Al código: formato, sintaxis, cálculos y consistencia.** No juzga si una
    ruta sostiene ni si una lectura es correcta.
@@ -38,18 +39,18 @@ libertad: encarga investigaciones y conectores, y decide cómo cerrar la brecha.
    es inventario. Cada cosa del mundo que entra queda en la ruta con su
    procedencia, y **la procedencia la anota el código**, no el agente.
 6. **Nada simulado.** Mundo real: web real, APIs reales.
-7. **Gratis y sin registro.** El orquestador solo usa lo que puede usar ya, por
-   su cuenta. El usuario nunca entra al ciclo por infraestructura; es fuente de
+7. **Gratis y sin registro.** El agente solo cuenta con lo que el sistema puede
+   usar ya, por su cuenta. El usuario nunca entra al ciclo por infraestructura; es fuente de
    último recurso solo sobre el **contenido** de la pregunta.
-8. **Simple primero.** Un solo orquestador, subagentes solo de lectura o
+8. **Simple primero.** Un solo agente, subagentes solo de lectura o
    aislados, sin enjambres.
 
 ## 2. Las piezas y quién hace qué
 
 | pieza | qué es | qué hace | qué no hace |
 |---|---|---|---|
-| **Código** (plano de control) | Python de Zettel | lee la configuración, arma los prompts, conduce las estaciones, ejecuta herramientas, anota procedencia y fecha, verifica forma, calcula, llama a Jev, aplica topes, guarda | juzgar contenido |
-| **Orquestador** | LLM capaz (`deepseek-v4-pro`, por verificar) | estructura la pregunta, lee el corpus, propone tablas y rutas, declara la brecha, escribe encargos, redacta la respuesta | ejecutar acciones en el mundo; juzgarse |
+| **Orquestador** (el código) | Python de Zettel | lee la configuración, arma los prompts, conduce las estaciones, ejecuta herramientas, anota procedencia y fecha, verifica forma, calcula, llama a Jev, aplica topes, guarda | juzgar contenido |
+| **Agente encargado** | LLM capaz (`deepseek-v4-pro`, por verificar) | estructura la pregunta, lee el corpus, propone tablas y rutas, declara la brecha, escribe encargos, redacta la respuesta | ejecutar acciones en el mundo; juzgarse |
 | **Investigador** | LLM barato (`deepseek-flash`) con búsqueda y lectura web | cumple un encargo de búsqueda y devuelve lo hallado con artefactos recuperables | escribir en ningún lado |
 | **Programador** | LLM barato con ejecución aislada | escribe y prueba un conector a una API pública gratuita y sin registro | tocar repos, claves o la red fuera del sitio permitido |
 | **Biblioteca de cómputo** | funciones fijas en código, con versión | calendario, husos (`zoneinfo` + `tzdata`), aritmética, «cierre del X al Y» | nada fuera de su lista |
@@ -63,11 +64,11 @@ libertad: encarga investigaciones y conectores, y decide cómo cerrar la brecha.
 
 ```
 E0 código        preparar
-E1 orquestador   encuadrar y responder con el corpus     (herramientas: corpus, calcular)
+E1 agente        encuadrar y responder con el corpus     (herramientas: corpus, calcular)
 E2 código        verificar y clasificar
 E3 Jev           ¿alcanza lo hallado?                    (solo si hay respuesta candidata)
-E4 orquestador   traer mundo (ciclo acotado)             (herramientas según R ∩ inventario)
-E5 orq. + código cerrar: propone el orquestador, dispone el código
+E4 agente        traer mundo (ciclo acotado)             (herramientas según R ∩ inventario)
+E5 agente + orquestador cerrar: propone el agente, dispone el orquestador
 E6 código        entregar y registrar
 ```
 
@@ -78,7 +79,7 @@ sistema), carga el inventario (herramientas instaladas y caja de conectores) y e
 estado del corpus. El alcance se fija aquí, antes de ofrecer herramientas. Abre
 el registro de corrida. Arma el prompt de E1.
 
-**E1 · Encuadrar y responder con el corpus (orquestador).** Herramientas
+**E1 · Encuadrar y responder con el corpus (agente).** Herramientas
 ofrecidas: `buscar_en_corpus`, `leer_ficha`, `calcular`; las dos primeras van
 ligadas al `dominio_consulta` de E0, y el código aplica la pertenencia y rechaza
 los ids fuera del alcance. Ninguna del mundo: así «corpus primero» es una
@@ -93,12 +94,12 @@ propiedad del sistema, no un consejo. Produce:
   cálculos si R los admite.
 - **Brechas**, cada una con: qué falta; de qué tipo es (dato, regla de lectura,
   cálculo, validación); dónde está la autoridad sobre eso (el corpus, el saber
-  del orquestador, el código, una fuente externa nombrada).
+  del agente, el código, una fuente externa nombrada).
 
 Esto es la «encuesta previa» de Magentic-One (hechos dados, a buscar y dónde, a
 derivar, conjeturas) puesta en el vocabulario de Zettel: dados = D; a buscar =
 brecha con fuente; a derivar = biblioteca de cómputo; conjeturas = saber del
-orquestador, que entra como premisa solo si R lo admite.
+agente, que entra como premisa solo si R lo admite.
 
 **E2 · Verificar y clasificar (código).** Verifica forma, que cada id de ruta
 exista, que el encabezado no cambió, que **cada id de cada ruta esté admitido
@@ -115,8 +116,8 @@ Clasifica:
 **E3 · ¿Alcanza lo hallado? (código llama a Jev).** Un juicio por fila
 admisible, anclado al material («Según `aviso`, …»), con un expediente que
 contiene solo lo pertinente: los respaldos literales y los valores de la ruta,
-nombrados por su papel. El código lee la banda y **ofrece al orquestador las
-jugadas permitidas**; el orquestador elige una y la justifica:
+nombrados por su papel. El código lee la banda y **ofrece al agente las
+jugadas permitidas**; el agente elige una y la justifica:
 
 | banda de Jev | lectura (guía §3.1) | jugadas que ofrece el código |
 |---|---|---|
@@ -129,14 +130,14 @@ Los bordes son el punto de partida de la guía; se calibran con datos (patrón
 oficial *confidence routing*). La forma exacta de los juicios se fija con una
 sonda pequeña antes de usarla (fase F2).
 
-**E4 · Traer mundo (orquestador, ciclo acotado).** Herramientas ofrecidas:
+**E4 · Traer mundo (agente, ciclo acotado).** Herramientas ofrecidas:
 las que R admite **y** el inventario tiene: `encargar`, `usar_conector`,
 `calcular`, `buscar_en_corpus`, `preguntar_usuario` (solo contenido). Aquí el
-orquestador tiene libertad: decide qué encargar, a quién y en qué orden. Cada
+agente tiene libertad: decide qué encargar, a quién y en qué orden. Cada
 resultado vuelve por el código, que lo **verifica** (por ejemplo, vuelve a
 llamar a la API o a abrir la URL) y le asigna el origen: si hay artefacto
 recuperable, es fuente consultada con fecha; si no, queda marcado como saber de
-una herramienta sin respaldo. El orquestador actualiza la tabla; el código la
+una herramienta sin respaldo. El agente actualiza la tabla; el orquestador la
 reverifica (como en E2) y Jev juzga **solo lo que cambió**.
 
 Guardias del código en E4: un **detector de ciclos** (si la misma herramienta,
@@ -144,7 +145,7 @@ con los mismos argumentos, devuelve lo mismo 2 o 3 veces, se corta o se
 replanifica), contador de estancamiento (sin cambio en la tabla), y topes de
 encargos y de tiempo. Si se agota un tope, el desenlace es **agotada**.
 
-**E5 · Cerrar (propone el orquestador, dispone el código).** El orquestador
+**E5 · Cerrar (propone el agente, dispone el orquestador).** El agente
 propone: tabla final, desenlace, respuesta al usuario y, si hay, dato derivado.
 El código acepta o devuelve lo que falta (con un número máximo de vueltas):
 forma; encabezado intacto; toda ruta resuelve; R por premisa; efecto calculado;
@@ -202,11 +203,11 @@ aplica la promoción.
 
 ### 4.2 Con la pregunta
 
-La pregunta llega como texto. El orquestador la estructura en E1 (caso,
+El agente la estructura en E1 (caso,
 aspecto, condiciones, `dominio_respuestas`); el código congela ese encabezado.
 El `dominio_consulta` lo fija el usuario en E0. R viene de la configuración. Las
-anclas (fecha y hora) las inyecta el código: el orquestador
-no las recuerda ni las supone.
+anclas (fecha y hora) las inyecta el orquestador:
+el agente no las recuerda ni las supone.
 
 ### 4.3 Con las herramientas
 
@@ -218,7 +219,7 @@ no las recuerda ni las supone.
 | `usar_conector(id, args)` | E4 | reutilizar un conector de la caja | código (aislado) |
 | `preguntar_usuario(pregunta)` | E4 | último recurso, solo contenido; termina la corrida con la pregunta | código |
 
-El juez y el cierre **no** son herramientas del orquestador: son estaciones que
+El juez y el cierre **no** son herramientas del agente: son estaciones que
 impone el código.
 
 **El encargo tiene forma fija** (AOrchestra: instrucción, contexto, herramientas,
@@ -258,7 +259,7 @@ después.
 
 ### 4.4 Con el código
 
-Lo que el código hace, en una lista: conducir estaciones; ofrecer herramientas
+Lo que el orquestador hace, en una lista: conducir estaciones; ofrecer herramientas
 por estación y por R ∩ inventario; ejecutarlas y anotar procedencia y fecha;
 verificar forma (esquemas estrictos); verificar pertenencia por dominio, ids,
 encabezado, R por premisa;
@@ -268,7 +269,7 @@ aplicar topes; guardar dato derivado, conectores y traza. Base existente:
 
 ### 4.5 Con Jev
 
-- **Lo llama el código**, en dos lugares: E3 (¿alcanza lo hallado?) y E5
+- **Lo llama el orquestador**, en dos lugares: E3 (¿alcanza lo hallado?) y E5
   (sostén del cierre, si entró mundo después de E3).
 - **Jev no responde preguntas: sopesa juicios.** Se le pasa la respuesta escrita
   como juicio anclado al material, con un expediente curado.
@@ -288,7 +289,7 @@ aplicar topes; guardar dato derivado, conectores y traza. Base existente:
   inicial más las brechas es el registro de la tarea; la diferencia entre la
   tabla vigente y la anterior es el registro del progreso. De las cinco preguntas
   de progreso de Magentic-One, cuatro las responde el código (¿resuelto?, ¿ciclo?,
-  ¿avance?, ¿qué estación sigue?); solo «¿qué hago ahora?» es del orquestador.
+  ¿avance?, ¿qué estación sigue?); solo «¿qué hago ahora?» es del agente.
 - **Traza = registro de corrida** (append-only): cada llamada a modelo o
   herramienta, con argumentos, resultado, procedencia, tiempo y tokens. Sirve
   para auditar K, depurar y medir costo por estación.
@@ -303,9 +304,9 @@ aplicar topes; guardar dato derivado, conectores y traza. Base existente:
   cerrable. **Desenlace de la corrida:** agotada (se cortó por un tope; se
   entrega la tabla parcial y la brecha pendiente). No se mezclan.
 
-## 7. El prompt del orquestador (qué partes tiene; no está escrito)
+## 7. El prompt del agente encargado (qué partes tiene; no está escrito)
 
-Lo arma el código, **uno por estación** (E1, E4, E5), desde el archivo de
+Lo arma el orquestador, **uno por estación** (E1, E4, E5), desde el archivo de
 configuración. Partes:
 
 1. Rol y tarea de la estación.
@@ -321,11 +322,11 @@ configuración. Partes:
 
 ```yaml
 R:
-  fuentes_admitidas: libre        # solo el documento | sin externas, con el mundo del orquestador | libre
+  fuentes_admitidas: libre        # solo el documento | sin externas, con el mundo del agente | libre
   autorizacion_agentes: si
   anclas: hora_del_sistema
 modelos:
-  orquestador: deepseek-v4-pro    # por verificar con la clave
+  agente: deepseek-v4-pro          # por verificar con la clave
   investigador: deepseek-flash
   programador: deepseek-flash
   juez: jev-1.13.0
@@ -378,7 +379,7 @@ antes de correr.
   las unidades examinadas; contrato de `buscar_en_corpus` y de la lectura
   completa de la unidad seleccionada. Base: `pieza1.py`.
 - **F1 · Solo corpus** (E0, E1, E2, E5, E6; sin Jev ni mundo). Conjetura: con el
-  corpus, el orquestador cierra Q1, Q3, Q5 y Q6r, declara bien las brechas de Q2
+  corpus, el agente cierra Q1, Q3, Q5 y Q6r, declara bien las brechas de Q2
   y Q4, y respeta R en la trampa.
 - **F2 · Jev.** Sonda chica sobre la redacción de los juicios; después, E3 y E5.
   Conjetura: la banda separa lo que el corpus sostiene de lo que no.
@@ -390,7 +391,7 @@ antes de correr.
 
 ## 12. Decisiones para Frat
 
-1. **Estaciones fijadas por el código, con libertad del orquestador en E4.**
+1. **Estaciones fijadas por el orquestador, con libertad del agente en E4.**
    Lo proponen las dos revisiones; Cowork coincide.
 2. **Guardias de seguridad en la configuración** (encargos, vueltas, tiempo).
    No son R ni limitan qué herramientas usa: solo cortan si se enreda. Las dos
@@ -402,7 +403,7 @@ antes de correr.
 4. **Biblioteca fija de cómputo** (los tres coincidimos).
 5. **Contrato de búsqueda del corpus desde ya**, ligado al dominio y por
    unidades, con implementación trivial en la MVP.
-6. **Tras el juicio de Jev, el código ofrece jugadas y el orquestador elige.**
+6. **Tras el juicio de Jev, el orquestador ofrece jugadas y el agente elige.**
 
 ## 13. Qué se tomó de cada fuente
 

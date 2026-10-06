@@ -25,16 +25,16 @@ no se reabre ni se adopta). Sin Jev y sin búsqueda externa.
 ## 1. Reparto de papeles
 
 En esta versión, **el código es el ORQUESTADOR y el LLM es el AGENTE ENCARGADO**.
-Es la separación «control/contenido» del plan, con los nombres cambiados: el
-código conduce, admite, ejecuta, verifica, calcula y registra; el agente
-interpreta, selecciona y propone.
+Es la separación «control/contenido» del plan: **el orquestador no piensa** —
+resuelve, aplica, ejecuta, comprueba, calcula y registra, todo determinista— y
+**el agente es el que piensa** —interpreta, selecciona y propone—.
 
-| | Código (orquestador) | Agente encargado (LLM) |
+| | Orquestador (el código) | Agente encargado (el LLM) |
 |---|---|---|
 | Prepara | configuración, dominio, documentos admitidos, anclas | — |
 | Entrega | inventario y lectura de unidades por la tool | — |
-| Hace | ejecuta las acciones de la tool, calcula fechas y aritmética, verifica, registra | — |
-| Decide | qué material está admitido; cuándo se cierra | qué unidades leer; qué datos son campo; qué sostiene una respuesta |
+| Hace | ejecuta las acciones, calcula fechas y aritmética, comprueba, registra | — |
+| Piensa | **nada**: aplica la pertenencia por dominio, R y las guardias | qué unidades leer; qué datos son campo; qué sostiene una respuesta |
 | **Memoria** | lleva el estado y arma el prompt de cada llamada | **ninguna**: es stateless, solo sabe lo que va en el prompt |
 | Propone | — | encabezado, tablas, brechas, respuesta, derivado |
 | Juzga | no juzga contenido | no ejecuta acciones ni calcula por su cuenta |
@@ -188,9 +188,8 @@ deuda.
 
 ## 4. Entradas: el usuario y las reglas
 
-Son tres cosas distintas, y no se mezclan: **las preguntas** (el usuario), **R**
-(lo que el agente lee y el orquestador hace valer) y **las expectativas** (nuestras,
-para evaluar).
+Dos cosas, y no se mezclan: **las preguntas** (el usuario) y **R** (lo que el
+agente lee y el orquestador aplica).
 
 ### 4.1. Archivo de preguntas (es el usuario)
 
@@ -200,31 +199,33 @@ junto con el dominio elegido. Las cinco están en §11.
 
 ### 4.2. Documento R
 
-`mvp/consulta/R.md`: un documento con dos partes que dicen lo mismo. La primera,
-un bloque que el código lee para **hacer valer** R; la segunda, la prosa que **lee
-el agente**, porque el orquestador se la pasa en el prompt. Si se separan, manda
-el bloque y se corrige la prosa.
+`mvp/consulta/R.md` es **un documento, no un programa**: se fija antes de empezar
+cada prueba y puede cambiar entre pruebas; con cada corrida queda registrado cuál
+estuvo vigente. Tiene dos partes que dicen lo mismo: un esbozo que el código lee
+para **aplicar R** y la prosa que **lee el agente**, porque el orquestador se la
+pasa en el prompt. Si se separan, manda el esbozo y se corrige la prosa.
 
 ```json
-{ "fuentes_admitidas": "solo el documento",
-  "k_admitida": ["mundo/codigo"],
+{ "fuentes_admitidas": ["solo el documento"],
   "herramientas": ["listar_unidades", "leer_unidad", "calcular", "entregar"],
-  "calcular": ["sumar", "restar", "dias_entre", "dia_siguiente", "parsear_fecha"],
-  "prohibido": ["internet", "otros_agentes", "mundo_del_agente", "usuario"],
-  "limites": { "turnos_por_pregunta": 6, "llamadas_totales": 20 } }
+  "operaciones": ["sumar", "restar", "dias_entre", "dia_siguiente", "parsear_fecha"] }
 ```
 
+Es un **esbozo**, no un contrato cerrado: lo que importa es que las condiciones
+queden escritas y que el código pueda aplicarlas sin interpretarlas. **Los topes
+de turnos y de llamadas no son R**: son guardias del orquestador (§10).
+
 Prosa para el agente (las condiciones de la consulta): sin internet; sin otras
-herramientas ni agentes; el saber del agente no es premisa; no hay interacción
-con el usuario; la aritmética y las fechas las hace el código; solo se entrega si
-hubo efecto; los conflictos se muestran y no se eligen; «no establecido» y «no
+herramientas ni agentes; el saber del agente no es premisa; no hay interacción con
+el usuario; la aritmética y las fechas las hace el código; solo se entrega si hubo
+efecto; los conflictos se muestran y no se eligen; «no establecido» y «no
 cerrable» se entregan explícitos, con la brecha.
 
-**R la hace valer el orquestador.** El agente la recibe en el prompt, y además el
-código la aplica: si pide una herramienta, una función o una fuente que R no
-admite, el orquestador **no la ejecuta y se lo comunica por el protocolo** (§7),
-citando la regla que la excluye, para que el agente busque otra vía. Cada
-denegación queda en la traza; si insiste, corta la guardia de ciclo.
+**R se aplica mecánicamente.** El agente la recibe en el prompt, y además el
+orquestador la aplica: si pide una herramienta, una función o una fuente fuera de
+lo admitido, **no la ejecuta y se lo comunica por el protocolo** (§7), citando la
+regla que la excluye, para que el agente busque otra vía. Cada denegación queda en
+la traza; si insiste, corta la guardia de ciclo.
 
 **K se deduce de R.** Precisión: R fija **qué clases de premisa pueden entrar**;
 con esta R, la única K admitida es el **mundo del código**, que se registra con su
@@ -233,13 +234,6 @@ que se deduce de R es qué K puede entrar. El **dominio** es entrada aparte de R
 (no es un modo de R). Las **anclas** (fecha del sistema) no son premisa con esta
 R: si se inyectan, se declaran y no abren puerta al mundo.
 
-### 4.3. Expectativas preinscritas (nuestras, no del agente)
-
-Antes de correr escribimos en `mvp/consulta/evaluacion.md`, por pregunta, **qué
-establece el documento, qué lo sostiene, qué no autoriza y qué cambio en A(Q) se
-espera** (§12). **No se le pasa al agente**: si las viera, dejaría de medir su
-inferencia.
-
 ---
 
 ## 5. El recorrido
@@ -247,7 +241,7 @@ inferencia.
 | # | Subpaso | Quién | Qué pasa | Termina cuando |
 |---|---|---|---|---|
 | 1 | Incorporar las extracciones | código | carga documento, dominio, unidades, fichas, referencias y respaldos; asigna ids; registra el esquema | un dato resuelve a su oración y dos unidades no comparten ids |
-| 2 | Abrir la consulta | código | recibe pregunta, dominio y R; fija documentos admitidos; anclas; abre el expediente y **arma el prompt de cada interacción** | la corrida anota dominio, R y documentos admitidos |
+| 2 | Abrir la consulta | código | recibe pregunta, dominio y R; **resuelve el dominio a sus documentos** (pertenencia de la tabla, sin juicio); anclas; abre el expediente y **arma el prompt de cada interacción** | la corrida anota dominio, R y documentos admitidos |
 | 3 | Encuadrar y consultar | código + agente | el orquestador le da el inventario del dominio y el estado; el agente pide leer unidades; el código entrega la lectura completa | las unidades leídas quedan registradas como **examinadas** |
 | 4 | Proponer la respuesta | agente | con los datos leídos, propone encabezado, tabla inicial y final, campo, conflicto, brechas, respuesta y derivado; pide los cálculos al código | la propuesta llega en el formato de entrega |
 | 5 | Comprobar y entregar | código | verifica forma, alcance por dominio, admisión por R, encabezado y cálculos; calcula el efecto; entrega y registra | hay respuesta con respaldo o falta explícita, con el recorrido |
@@ -395,11 +389,15 @@ Reglas:
 
 ## 10. Guardias y presupuesto (se fijan antes de llamar)
 
+Las guardias **no son R**: R dice qué se puede usar; esto solo corta si el bucle se
+enreda.
+
 - **Modelo:** `deepseek-flash` (alias `deepseek`), el del paso 2; esfuerzo `low`
   (que DeepSeek trata como `high`).
 - **Llamadas:** inventario 1 + lectura en lote 1 + cálculo ≤2 + entrega 1 +
   reparación 1 ⇒ **≤6 por pregunta**; **tope 20** para las cinco, con parada y
   desenlace «agotada».
+- **Ciclo:** misma acción con los mismos argumentos dos veces → se corta.
 - **Estimación:** 3–12 k tokens de entrada por llamada (el historial crece) y
   3–12 k de salida (≈91 % razonamiento, medido); total aproximado **40–90 k de
   entrada y 50–120 k de salida**. El importe se calcula con la tarifa publicada
@@ -418,34 +416,26 @@ Reglas:
 4. ¿Cuánto costó la compra de la red en 1948?
 5. ¿Quién encontró el plano de 1911, la historiadora o la archivista?
 
-Ni condiciones ni expectativas: las condiciones van en el documento R (§4.2) y las
-expectativas son nuestras, para evaluar (§12). El agente ve la pregunta tal cual.
+Ni condiciones ni expectativas: las condiciones van en el documento R (§4.2). El
+agente ve la pregunta tal cual.
 
 ---
 
 ## 12. Cómo se evalúa
 
-**Expectativas preinscritas** (`mvp/consulta/evaluacion.md`, escritas antes de
-correr; **no se le pasan al agente**):
+Se juzga **lo que la corrida entrega y su respaldo**, leyendo el documento:
 
-| # | Desenlace esperado | Qué debe sostenerlo | Qué no autoriza |
-|---|---|---|---|
-| P1 | cerrada | 1893 y la compañía inglesa con capital privado, con respaldo `[1]`–`[2]` | el nombre de la compañía (no está) ni que fuera la única operadora |
-| P2 | cerrada con **derivado** | 1927 y «dos años» de `U2`; el cálculo (1929) lo hace el código y el derivado se guarda | fechas que el documento no da |
-| P3 | cerrada con **capa** | veintiocho kilómetros, con la atribución «según los planos» en la ruta | afirmarlo como voz del documento; la longitud actual |
-| P4 | **no establecido** | campo vacío; **inventario examinado** de las cinco unidades | inventar un precio o traerlo de fuera |
-| P5 | **no cerrable** | las dos lecturas abiertas de `U5` («Ella» = historiadora o archivista) | elegir una; declarar que son distintas |
+- la respuesta se sostiene en lo que el documento establece, con la ruta a la
+  oración (documento, unidad, dato);
+- lo que no se puede establecer se dice con precisión: qué falta, por qué y qué
+  quedó abierto;
+- **no cuenta** acertar por casualidad ni citar texto que no sostiene la respuesta;
+- se respetaron las condiciones de R y, si hay conflicto, se muestra sin elegir;
+- las unidades **examinadas** quedan registradas, y se distinguen del campo;
+- **no interviene Jev**: el juicio es nuestro y se registra.
 
-Criterios:
-
-- **Contra lo escrito antes**, no contra lo que salga: respuesta, sostén, límites y
-  cambio en A(Q).
-- **No cuenta** acertar por casualidad ni citar texto que no sostiene.
-- Las cerradas se juzgan por su ruta y su fidelidad; las no cerradas, por la
-  precisión de lo que no se puede establecer y por el inventario examinado.
-- **No interviene Jev**: el juicio es nuestro y se registra.
-- Comprobaciones mecánicas aparte: 0 errores del verificador de forma, alcance por
-  dominio, admisión por R, efecto calculado.
+Comprobaciones mecánicas aparte: 0 errores del verificador de forma, pertenencia
+por dominio, admisión por R, efecto calculado.
 
 ---
 
@@ -455,7 +445,7 @@ Criterios:
   un defecto del puente).
 - La partición de `U4`/`U5` corta `[12,13,17]` y `[14,15,16]`: la identidad
   «la historiadora que revisó» vs «Elvira Sanmiguel» cruza unidades y **no está
-  declarada**; por eso P5 va por la duda explícita y no por esa identidad.
+  declarada**: el agente tiene que dejarla abierta.
 - El **texto de la respuesta no se verifica**: el código valida rutas y forma;
   que diga solo lo que la tabla establece lo juzgamos nosotros.
 - **El prompt es el único canal.** Si el orquestador omite un dato o no le avisa
@@ -477,13 +467,14 @@ Criterios:
 | **D2** | Corpus: solo `doc5`, o `doc5` + la mesa de dominio para tener conflicto | por definir — recomendación: solo `doc5` |
 | **D3** | Protocolo: bucle con lectura en lote, o todo inyectado en una llamada | por definir — recomendación: bucle con lectura en lote |
 | **D4** | P2 con derivado (1929) o sin él («dos años») | por definir — recomendación: con derivado |
-| **D5** | R: `solo el documento`, mundo del código registrado, anclas fuera como premisa | por definir — recomendación: sí |
+| **D5** | R: `solo el documento`, con el mundo del código para fechas y aritmética, y las anclas fuera como premisa | por definir — recomendación: sí |
 | **D6** | Nombre y sitio de los archivos (`mvp/consulta/`) | por definir — confirmar antes de crear código |
 | **D7** | Almacén: tres artefactos JSON/JSONL con `datos` como vista | recomendación: la configuración mínima (§3); normalizar solo ante un cuello de botella medido |
 | **D8** | Derivados: en `corpus.jsonl` (forma de pieza 1) o dentro de `inscripciones` | por definir — recomendación: `corpus.jsonl`, sin tocar `guardar`/`mantener` |
 | **D9** | Idioma de los `tipo` (`determinación` o `determination`) | por definir — recomendación: español |
-| **D10** | Documento R: bloque JSON para el código + prosa para el agente | recomendación: sí (§4.2) |
+| **D10** | Documento R: esbozo para el código + prosa para el agente; se fija por prueba | recomendación: sí (§4.2); **los topes no van en R** |
 | **D11** | Compactación: cuántas acciones enteras se conservan y qué se resume | por definir — recomendación: las últimas 5, el resto por referencia + resumen |
+| **D12** | El mundo del LLM: pasa a llamarse «mundo del agente» en los documentos vivos; en el esquema candidato de la pieza 1 sigue rotulado `orquestador` | recomendación: renombrar en los vivos y declarar la divergencia en `pieza1/esquema2.md` hasta adoptarlo |
 
 ---
 
@@ -501,46 +492,27 @@ Criterios:
 
 ---
 
-## 16. Coherencia de vocabulario (D1)
+## 16. Vocabulario (D1)
 
-Se hacen en el mismo tramo en que se escriba el código, no antes. Son
-sustituciones de etiqueta, no de concepto: el papel se parte igual que en §1.
+Los tres documentos vivos usan esta convención:
 
-**[zettel-vision-operativa.md](../zettel-vision-operativa.md)** (documento vivo):
+- **orquestador** = el código: resuelve, aplica, ejecuta, comprueba, calcula y
+  registra. No piensa.
+- **agente encargado** = el LLM: interpreta, selecciona y propone. Stateless.
+- **mundo del agente** = su saber general y sus convenciones de lectura, que
+  antes se llamaba «mundo del orquestador».
 
-1. En «Notación y vocabulario», añadir dos entradas:
-   **Orquestador (en la implementación)** = el código que conduce las estaciones,
-   admite el material, ejecuta las herramientas, verifica, calcula y registra;
-   **Agente encargado** = el LLM que interpreta la pregunta, selecciona y propone.
-2. «un orquestador trae el mundo que la pregunta necesita» → «un agente,
-   conducido por el código, trae el mundo que la pregunta necesita».
-3. «El orquestador propone las filas; el código llena lo que es cómputo» →
-   «El agente propone las filas; el código llena lo que es cómputo».
-4. «El prompt del orquestador (04-10)» → «El prompt del agente encargado».
-5. «El orquestador puede lanzar varias instancias de un LLM con funciones
-   distintas» → «El código puede lanzar varias instancias del agente».
-6. El paso 4 del ejemplo, titulado «El orquestador» → «El agente encargado
-   (conducido por el código)».
+Dónde vive: [zettel-vision-operativa.md](../zettel-vision-operativa.md) define los
+dos nombres en «Notación y vocabulario» y renombra el mundo;
+[definiciones-del-marco.md](../definiciones-del-marco.md) parte B tiene las dos
+filas y la parte C dice «mundo del agente»; [orquestador-plan.md](orquestador-plan.md)
+renombra el componente en §0–§2, sus estaciones y el prompt. El archivo sigue
+llamándose `orquestador-plan.md`: es el plan del que conduce.
 
-**[definiciones-del-marco.md](../definiciones-del-marco.md)**, parte B (documento vivo):
-
-7. La fila **Orquestador** pasa a **Orquestador (código)**: componente que
-   conduce, ejecuta, comprueba y registra; no juzga contenido.
-8. Añadir la fila **Agente encargado (LLM)**: interpreta la pregunta, selecciona
-   unidades y datos y propone; es contenido, no control.
-9. Ajustar «Relación con el marco» y «Origen» de las dos filas con la fecha.
-
-**[orquestador-plan.md](orquestador-plan.md)** (plan candidato):
-
-10. §1.2: «El orquestador propone; el código dispone» → «El agente propone; el
-    orquestador (código) dispone».
-11. §2: la fila «Código (plano de control)» pasa a **Orquestador (código)**; la
-    fila «Orquestador» pasa a **Agente encargado**.
-12. §3: en las estaciones, E1, E4 y E5 dicen «orquestador» → «agente».
-13. §7: «El prompt del orquestador» → «El prompt del agente encargado».
-14. Repasar las menciones sueltas de §10, §12 y §13.
-
-El archivo sigue llamándose `orquestador-plan.md`: es el plan del que conduce.
+**Divergencia declarada:** [pieza1/esquema2.md](pieza1/esquema2.md) sigue
+rotulando `mundo: orquestador` en su lista de R, por compatibilidad con la pieza 1
+en prueba; se renombra al adoptar el esquema. Por un cambio de etiqueta no se
+tocan `pieza1.py` ni sus tablas de referencia.
 
 ---
 
