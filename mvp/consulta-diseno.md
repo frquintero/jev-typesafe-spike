@@ -36,7 +36,7 @@ resuelve, aplica, ejecuta, comprueba, calcula y registra, todo determinista— y
 | Hace | ejecuta las acciones, calcula fechas y aritmética, comprueba, registra | — |
 | Piensa | **nada**: aplica la pertenencia por dominio, R y las guardias | qué unidades leer; qué datos son campo; qué sostiene una respuesta |
 | **Memoria** | lleva el estado y arma el prompt de cada llamada | **ninguna**: es stateless, solo sabe lo que va en el prompt |
-| Propone | — | encabezado, tablas, brechas, respuesta, derivado |
+| Propone | — | encabezado, tablas, brechas y respuesta |
 | Juzga | no juzga contenido | no ejecuta acciones ni calcula por su cuenta |
 
 **D1 (decidida).** **Código = ORQUESTADOR, LLM = AGENTE ENCARGADO.** El agente es
@@ -95,7 +95,7 @@ tiene su formato natural ([SQLite: flat files vs SQLite](https://sqlite.org/foru
 | `unidades.jsonl` | log de líneas | una fila por unidad: `id`, documento, dominio, `subtema`, `oraciones`, `texto` numerado, **`referencias`** y **`dudas`** (JSON) |
 | `inscripciones.jsonl` | log de líneas | una fila por **lo que el documento establece**: `tipo` (determinación · relación · acción · capa · marca · duda), columnas comunes (`id`, `unidad`, `condiciones`, `respaldo`, `inferido`, `dentro_de`) y `cuerpo` JSON por tipo |
 | `traza.jsonl` | log append-only | el recorrido de cada consulta; **no es corpus** |
-| `corpus.jsonl` | log append-only | los datos derivados, en la forma de [pieza1/esquema2.md](pieza1/esquema2.md) §5 |
+| `corpus.jsonl` | log append-only | los datos derivados, en la forma de [pieza1/esquema2.md](pieza1/esquema2.md) §5 — **no se usa en esta versión** |
 
 La tabla **`datos`** que ve el agente es una **vista** sobre `inscripciones`
 (`tipo = "determinación"`). Así se conservan tus dos tablas —unidades y datos—
@@ -111,8 +111,8 @@ criterio explícito. Sin fusión.
 **El corpus es un derivado regenerable.** `documentos`, `unidades` e
 `inscripciones` se **generan** con un cargador idempotente a partir de los
 documentos, la partición de v9 y las fichas del paso 2 (con el hash del esquema);
-si cambia el cargador, se regeneran. Lo único append-only es `traza.jsonl` y
-`corpus.jsonl`. Esto evita migraciones, copias de seguridad y versionado de la
+si cambia el cargador, se regeneran. Lo único append-only es `traza.jsonl`
+(`corpus.jsonl` entra cuando haya derivados, y por ahora no los hay). Esto evita migraciones, copias de seguridad y versionado de la
 base: **la fuente de verdad son los documentos y los crudos, no el almacén.**
 
 **Módulo.** El cargador/registro vive en `mvp/consulta/` (nombre por confirmar);
@@ -159,9 +159,9 @@ es el subpaso 1 y no llama a ningún modelo.
 | **Información = cambio en A(Q)** | no se almacena: la calcula el código por consulta; el almacén no contiene respuestas ni tablas de A(Q) |
 | **K = lo que efectivamente entró**, en las rutas | no es una tabla; cada entrada queda en `traza.jsonl` (aquí, solo el mundo del código con su versión) |
 | **Bitemporalidad** | `radicacion` (cuándo entró) frente a la fecha propia del documento (tiempo de validez) |
-| **Dependencias y promoción** | el derivado guarda su bloque `derivacion` con valores y procedencia; la promoción queda diferida hasta que otra pregunta lo reutilice |
+| **Dependencias y promoción** | el derivado guardaría su bloque `derivacion` con valores y procedencia, y la promoción queda diferida: **en esta versión no hay derivados** |
 | **No fusión de casos** | ids calificados; la correspondencia se acredita con la declaración documental y se registra, no se persiste |
-| **Revisión que conserva** | el almacén se regenera; la traza y los derivados son append-only y no se sobrescriben |
+| **Revisión que conserva** | el almacén se regenera; la traza (y los derivados, cuando los haya) es append-only y no se sobrescribe |
 
 ### 3.4. Lo que **no** se construye (la lista del elefante)
 
@@ -245,7 +245,7 @@ R: si se inyectan, se declaran y no abren puerta al mundo.
 | 1 | Incorporar las extracciones | código | carga documento, dominio, unidades, fichas, referencias y respaldos; asigna ids; registra el esquema | un dato resuelve a su oración y dos unidades no comparten ids |
 | 2 | Abrir la consulta | código | recibe pregunta, dominio y R; **resuelve el dominio a sus documentos** (pertenencia de la tabla, sin juicio); anclas; abre el expediente y **arma el prompt de cada interacción** | la corrida anota dominio, R y documentos admitidos |
 | 3 | Encuadrar y consultar | código + agente | el orquestador le da el inventario del dominio y el estado; el agente pide leer unidades; el código entrega la lectura completa | las unidades leídas quedan registradas como **examinadas** |
-| 4 | Proponer la respuesta | agente | con los datos leídos, propone encabezado, tabla inicial y final, campo, conflicto, brechas, respuesta y derivado; pide los cálculos al código | la propuesta llega en el formato de entrega |
+| 4 | Proponer la respuesta | agente | con los datos leídos **del corpus**, propone encabezado, tabla inicial y final, campo, conflicto, brechas y respuesta | la propuesta llega en el formato de entrega |
 | 5 | Comprobar y entregar | código | verifica forma, alcance por dominio, admisión por R, encabezado y cálculos; calcula el efecto; entrega y registra | hay respuesta con respaldo o falta explícita, con el recorrido |
 
 **Estaciones del plan que se usan:** E0, E1, E2, E5, E6. **No** E3 (Jev) ni E4
@@ -429,7 +429,8 @@ y cómo se ve la petición en la API: §9.
      si falta un dato concreto, con la brecha nombrada.
 7. **Formato de entrega.** Objeto estricto del esquema 2 (`encabezado`,
    `dependencias`, `tablas_esperadas`, `tabla_inicial`, `tabla_final`, `campo`,
-   `conflicto`, `desenlace`, `respuesta`, `brechas`, `dato_derivado` si lo hay).
+   `conflicto`, `desenlace`, `respuesta`, `brechas`). **Sin `dato_derivado`** en esta
+   versión.
    Restricción de `pieza1`: `dependencias` es exactamente lo que aparece en las
    rutas, y `campo` solo datos. **Toda salida es JSON**: `tool_calls` o el objeto
    de entrega; el texto libre no se lee.
@@ -589,7 +590,10 @@ Datos exactos que hay que respetar (misma fuente):
 - **`mvp/consulta/traza.jsonl`**: expediente del recorrido (dominio, documentos
   admitidos, unidades examinadas, acciones de la tool, campo, ruta, efecto,
   desenlace, llamadas y consumo).
-- **`corpus.jsonl`** (el de `pieza1.guardar`): el dato derivado, si lo hay.
+- **Nada de datos derivados en esta versión:** el agente solo mira el corpus, así
+  que no se usa `corpus.jsonl` ni el camino de `guardar`/`mantener`. Cuando el
+  corpus no alcance para cerrar la pregunta, el desenlace se entrega explícito
+  («no establecido» o «no cerrable»), sin inventar el dato que falta.
 
 ---
 
@@ -600,9 +604,11 @@ enreda.
 
 - **Modelo:** `deepseek-flash` (alias `deepseek`), el del paso 2; esfuerzo `low`
   (que DeepSeek trata como `high`).
+- **De a una:** se manda una pregunta y la siguiente se manda cuando el agente
+  entrega su JSON con la respuesta (o cuando una guardia corta la corrida).
 - **Llamadas:** el inventario va en el prompt, así que lectura en lote 1 +
-  cálculo ≤2 + entrega 1 + reparación 1 ⇒ **≤5 por pregunta**; **tope 20** para
-  las cinco, con parada y desenlace «agotada».
+  cálculo ≤2 (en estas cinco no hace falta) + entrega 1 + reparación 1 ⇒ **≤5 por
+  pregunta**; **tope 20** para las cinco, con parada y desenlace «agotada».
 - **Ciclo:** misma acción con los mismos argumentos dos veces → se corta.
 - **Salida inválida:** respuesta que no sea JSON, o `entregar` que no verifique →
   **error de formato**; se registra y se permite **una** vuelta de reparación con
@@ -611,7 +617,8 @@ enreda.
   3–12 k de salida (≈91 % razonamiento, medido); total aproximado **40–90 k de
   entrada y 50–120 k de salida**. El importe se calcula con la tarifa publicada
   de DeepSeek el día de la corrida y se registra; **no se estima a ojo**.
-- El prompt se muestra antes de correr.
+- **El prompt no se muestra antes de correr:** se guarda con la corrida y se
+  muestra cuando Frat lo pida.
 
 ---
 
@@ -620,13 +627,15 @@ enreda.
 `mvp/consulta/preguntas.md` contiene **solo esto**:
 
 1. ¿En qué año empezó a rodar el primer tranvía de la ciudad y qué compañía lo operaba?
-2. ¿En qué año se restableció el servicio del tranvía tras el incendio de 1927?
+2. ¿Cuánto tardó la ciudad en restablecer el servicio del tranvía tras el incendio de 1927?
 3. ¿Cuántos kilómetros de vías llegó a tener la red, y según qué?
 4. ¿Cuánto costó la compra de la red en 1948?
 5. ¿Quién encontró el plano de 1911, la historiadora o la archivista?
 
 Ni condiciones ni expectativas: las condiciones van en el documento R (§4.2). El
-agente ve la pregunta tal cual.
+agente ve la pregunta tal cual. Las cinco se responden con **lo que el corpus
+establece**: ninguna exige calcular ni traer nada de fuera, y se mandan de a una
+(§11).
 
 ---
 
@@ -678,11 +687,11 @@ por dominio, admisión por R, efecto calculado.
 | **D1** | Nombres: código = ORQUESTADOR, LLM = AGENTE ENCARGADO | **decidida**; coherencia de los documentos vivos, §17 |
 | **D2** | Corpus: solo `doc5`, o `doc5` + la mesa de dominio para tener conflicto | por definir — recomendación: solo `doc5` |
 | **D3** | Bucle de la consulta: lectura en lote por turnos, o todo inyectado en una llamada | por definir — recomendación: bucle con lectura en lote |
-| **D4** | P2 con derivado (1929) o sin él («dos años») | por definir — recomendación: con derivado |
+| **D4** | P2 con derivado (1929) o sin él («dos años») | **decidida: sin derivado**; la pregunta se responde con lo que el corpus establece |
 | **D5** | R: `solo el documento`, con el mundo del código para fechas y aritmética, y las anclas fuera como premisa | por definir — recomendación: sí |
 | **D6** | Nombre y sitio de los archivos (`mvp/consulta/`) | por definir — confirmar antes de crear código |
 | **D7** | Almacén: tres artefactos JSON/JSONL con `datos` como vista | recomendación: la configuración mínima (§3); normalizar solo ante un cuello de botella medido |
-| **D8** | Derivados: en `corpus.jsonl` (forma de pieza 1) o dentro de `inscripciones` | por definir — recomendación: `corpus.jsonl`, sin tocar `guardar`/`mantener` |
+| **D8** | Derivados en `corpus.jsonl` | **fuera de esta versión:** el agente solo mira el corpus; `guardar` y `mantener` quedan sin uso |
 | **D9** | Idioma de los `tipo` (`determinación` o `determination`) | por definir — recomendación: español |
 | **D10** | Documento R: esbozo para el código + prosa para el agente; se fija por prueba | recomendación: sí (§4.2); **los topes no van en R** |
 | **D11** | Compactación: cuántas acciones enteras se conservan y qué se resume | por definir — recomendación: las últimas 5, el resto por referencia + resumen |
@@ -693,9 +702,9 @@ por dominio, admisión por R, efecto calculado.
 
 ## 16. Qué se reutiliza
 
-- `mvp/pieza1/pieza1.py`: `verificar`, `comparar`, `guardar`, `mantener` (y hay
-  que ampliarlo con el **efecto** y con la **admisión por dominio**, que hoy no
-  tiene).
+- `mvp/pieza1/pieza1.py`: `verificar` y `comparar` (y hay que ampliarlo con el
+  **efecto** y con la **admisión por dominio**, que hoy no tiene). `guardar` y
+  `mantener` quedan sin uso mientras no haya datos derivados.
 - `unidades/ficha_doc.py`: `verificar` y `fragmentos` para el respaldo literal.
 - `unidades/extraer_unidades.py`: `numerar_oraciones`.
 - `niveles/run_niveles.py`: `call_model` (a extender de forma aditiva si se elige
