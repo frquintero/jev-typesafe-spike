@@ -297,22 +297,3 @@ suscribirse a la fuente (fuera de la MVP).
   invierno». Es un desenlace no cerrable, con información parcial. Como último recurso, el orquestador pregunta: «¿de qué lunes se
   trata?».
 
-## Lo probado y lo por probar
-
-- **Probado en el spike:** la etapa 2 (oraciones numeradas por código,
-  unidades con `unidades_v5`, ficha con `ficha_v1`, verificación literal),
-  solo en textos sintéticos cortos (unas 220 palabras); F6 sigue sin
-  evaluar.
-- **Lo que separa de la MVP:** las etapas 4 (orquestador, tabla, brecha,
-  tareas al mundo), 5 (condiciones de entrega) y 6 (dato derivado con
-  dependencias y juicio). Al 04-10: la forma de la tabla se probó a mano
-  (mesas 1 y 1b) y el registro del dato derivado con su prueba de
-  mantenimiento funciona sobre tablas escritas a mano (`mvp/pieza1/`, pasos
-  1 y 2 del orden de abajo). Ningún modelo ha hecho todavía de orquestador:
-  falta el paso 3.
-- **Orden de prueba propuesto:**
-  1. Prueba de mesa, a mano: la tabla de A(Q) para el vuelo (con y sin D0) y
-     para una pregunta sobre la represa.
-  2. El esquema del dato derivado, probado con la pregunta: si cambia K1,
-     ¿la tabla y el registro bastan para saber qué se cae?
-  3. Un orquestador mínimo sobre un solo documento.
