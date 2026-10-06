@@ -182,9 +182,9 @@ Jev. **Arquitectura propuesta para después (no decidida):** oraciones
 - Reglas del ejecutor (red, claves, comandos, reportes): `AGENTS.md`.
 - Píldoras (precisiones de vocabulario y conceptos que surgen en la
   planeación): viven fuera del repo, en `~/Claude-memoria/pildoras.md`.
-- Vocabulario de Jev: `jev_typesafe_guia_pedagogica_v2.md` y
-  `diccionario.md` (no se editan sin aprobación; la guía no cambia mientras
-  estemos en pruebas de extracción).
+- Vocabulario de Jev: `otros documentos/jev_typesafe_guia_pedagogica_v2.md` y
+  `otros documentos/diccionario.md` (no se editan sin aprobación; la guía no
+  cambia mientras estemos en pruebas de extracción).
 
 **Cómo se trabaja.** Frat y Cowork planean (piensan, discuten, conjeturan);
 solo hay corrida cuando hay una conjetura nueva, y el prompt se muestra antes
@@ -280,8 +280,8 @@ palabra del juicio o del marco del expediente puede mover el grado), y
 es una caja negra: no se buscan mecanismos. Las bandas y los umbrales
 son heurísticos, y el diseño de los juicios sigue líneas generales que
 se afinan en cada caso de uso, con casos de referencia y réplicas.
-Detalle en `jev_typesafe_guia_pedagogica_v2.md` §1, §3.1 y §4.6, y en
-`diccionario.md`.
+Detalle en `otros documentos/jev_typesafe_guia_pedagogica_v2.md` §1, §3.1 y §4.6,
+y en `otros documentos/diccionario.md`.
 Los nombres de campo del protocolo no cambian (regla 3).
 
 Las secciones fechadas más abajo (evidencia, plan, cierres) son

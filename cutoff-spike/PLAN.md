@@ -151,7 +151,7 @@ Cache en `spike-jev/cache/cutoff-*.json` y `spike-jev/cache/exa-*.json`.
 - `model`: pin `jev-1.13.0` (no alias) para que la ventana quede ligada a una versión.
 - Todo request/response crudo a cache con `{request, response}`.
 - Idioma código/comentarios: el del repo (castellano en README/docs, identifiers en inglés como el resto del spike).
-- No editar `README.md` raíz, `diccionario.md` ni la guía sin aprobación.
+- No editar `README.md` raíz, `otros documentos/diccionario.md` ni `otros documentos/jev_typesafe_guia_pedagogica_v2.md` sin aprobación.
 
 ## README final — secciones obligatorias
 

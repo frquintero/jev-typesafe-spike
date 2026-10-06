@@ -32,10 +32,23 @@ trabajan («Fecha: AAAA-MM-DD · Proyecto: … (carpeta)»), solo como
 referencia, no como bitácora. Si infieres o detectas que se está trabajando
 un proyecto nuevo (carpeta nueva, línea de trabajo nueva en un mensaje o en
 `memoria de trabajo y pendientes.md`), agrégalo a esa lista en el mismo
-commit; si un proyecto se cierra o se suspende, quítalo. En el mismo
-commit, actualiza también el «Mapa del repo» de este archivo y «Dónde
-quedamos» en `memoria de trabajo y pendientes.md`: el mismo hecho vive en
-los tres sitios.
+commit; si un proyecto se cierra o se suspende, quítalo.
+
+**El mismo hecho vive en los tres sitios, en el mismo commit:** la lista de
+`README.md`, el «Mapa del repo» de este archivo y «Dónde quedamos» en
+`memoria de trabajo y pendientes.md`. Al tocar «Dónde quedamos», actualiza también
+la fecha del encabezado de la memoria. Los «siguiente» de los tres sitios tienen
+que decir lo mismo: si uno cambia de paso, se corrigen los tres (el desajuste
+entre ellos ya obligó a corregir dos veces). El detalle de cada ronda vive en el
+`PLAN.md` o `README.md` del proyecto, no en los tres sitios.
+
+**Casa del root.** En la raíz viven solo los documentos de navegación y
+vocabulario: `README.md`, `AGENTS.md`, `CLAUDE.md`,
+`memoria de trabajo y pendientes.md`, `definiciones-del-marco.md` y
+`zettel-vision-operativa.md`. Cualquier otro documento va a `otros documentos/`
+(ahí están el vocabulario de Jev y los informes sueltos). Los guiones que se
+invocan desde la raíz (`dsh_tarea.sh`, `muse_tarea.sh`, `proxy_local.py`) se
+quedan en la raíz.
 
 ## Arranque de cada sesión
 
@@ -44,7 +57,8 @@ los tres sitios.
    duplicarlo en ningún otro archivo.
 3. Leer la sección de la ronda indicada en `unidades/PLAN.md` (o en el
    `PLAN.md` que indique el mensaje).
-4. `diccionario.md` y `jev_typesafe_guia_pedagogica_v2.md` son el vocabulario
+4. `otros documentos/diccionario.md` y
+   `otros documentos/jev_typesafe_guia_pedagogica_v2.md` son el vocabulario
    de Jev; releer solo si la ronda cita una sección.
 5. `definiciones-del-marco.md` es el vocabulario del marco (ensayo «¿Qué es un
    dato?») y las definiciones operativas del spike; ningún prompt redefine sus
@@ -128,9 +142,14 @@ los tres sitios.
   antecedente; ya no se usa).
 - `dsh_tarea.sh`, `muse_tarea.sh`: delegan tareas a DeepSeek Harness y a Muse
   (ver «Agentes delegados»).
+- `otros documentos/`: documentos de referencia que no son de navegación: el
+  vocabulario de Jev (`diccionario.md`, `jev_typesafe_guia_pedagogica_v2.md`) y los
+  informes sueltos (p. ej. `mistral-large-4-verificacion-2026-10-06.md`).
 - `deleted/`: snapshots históricos; no es fuente.
-- Documentos vivos (no editar sin aprobación): `README.md`, `definiciones-del-marco.md`,
-  `zettel-vision-operativa.md`, `diccionario.md`, `jev_typesafe_guia_pedagogica_v2.md`.
+- Documentos vivos (no editar sin aprobación): los seis de la raíz (`README.md`,
+  `AGENTS.md`, `CLAUDE.md`, `memoria de trabajo y pendientes.md`,
+  `definiciones-del-marco.md`, `zettel-vision-operativa.md`) y, en
+  `otros documentos/`, `diccionario.md` y `jev_typesafe_guia_pedagogica_v2.md`.
 
 ## Comandos
 
