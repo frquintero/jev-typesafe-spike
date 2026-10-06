@@ -111,9 +111,11 @@ los tres sitios.
   (T1–T6, ejecutada el 05-10 en comprobación guiada); su cierre sustituyó
   (decisión de Frat, 05-10) el índice de casos previo de §4.1 del plan del
   orquestador por alcance por dominio y reidentificación acreditada al consultar.
-  `pruebas/`: pruebas cortas del paso 1 sobre documentos sintéticos; la primera
-  corre `unidades_v5` con Muse Code y deja entrada, mensaje, salida y
-  verificación (`correr_muse.sh`, `README.md`).
+  `pruebas/`: pruebas del paso 1 sobre documentos sintéticos; cinco documentos y
+  nueve corridas con Muse Code, con entradas, mensajes, salidas y verificaciones.
+  Candidato **v9 congelado** como base de trabajo del paso 1; lo siguiente es usar
+  sus unidades y referencias en la extracción de datos (`correr_muse.sh`,
+  `README.md`).
 - `langextract-spike/`: frente **cerrado** el 03-10 (LangExtract de Google,
   evaluado y no adoptado); lección en su `README.md`, ideas rescatables en
   el `README.md` de la raíz.

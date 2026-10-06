@@ -222,10 +222,24 @@ agente. Nada de esto dice cómo se comporta con otros textos ni si repite el
 resultado. Que el resumen de razonamiento describa la secuencia del prompt
 tampoco lo prueba.
 
-**Siguiente paso:** repetir **el mismo** v9 sobre los mismos textos —hoy hay una
-réplica por texto, y una sola corrida no separa efecto de ruido— y ejercitar la
-referencia hacia adelante, que sigue sin probarse. Después, decidir si v9 se
-adopta como prompt del paso 1.
+**Decisión (5-10-2026): v9 queda congelado como base de trabajo del paso 1.** Sin
+v10 y sin más corridas dedicadas a pulirlo. El prompt se reabre solo si aparece un
+problema recurrente que afecte las respuestas, o una mejora concreta de rendimiento
+que merezca probarse.
+
+**No se reclama ningún porcentaje de acierto.** El umbral de ~90 % es el de las
+rondas de extracción; aquí no hay denominador consistente: en `doc5` se cumplieron
+los cuatro criterios fijados, y en `doc4` hubo un fallo y tres casos no evaluables.
+Eso es un conteo con un hueco, no una medición.
+
+**Huecos conocidos, no bloqueantes:** la referencia hacia adelante quedó sin
+ejercitar, la partición varía entre documentos con el mismo prompt, y quedó una
+referencia externa sin registrar. Congelar es dejar de iterar, no dar por resuelto.
+
+**Siguiente paso:** usar estas unidades y sus referencias en la extracción de
+datos. Lo primero ahí no es extraer, sino decidir **cómo llega el contexto externo
+de la unidad a la ficha**, que es por documento y no tiene dónde llevar las
+`referencias`.
 
 **Si se adopta** como prompt del paso 1, le correspondería `unidades/prompts/`
 con el número siguiente a `unidades_v5`; hoy vive en esta carpeta de pruebas y esa
@@ -339,10 +353,11 @@ el documento de política, que vive fuera del repo, no se modificó.
 
 ## Pendiente
 
-- **Réplicas del mismo v9** sobre `doc4` y `doc5`, para medir estabilidad; y
-  ejercitar la referencia hacia adelante, que quedó sin probar.
-- **Decidir** si v9 se adopta como prompt del paso 1 y con qué nombre en
-  `unidades/prompts/`.
+- **Paso 2 con estas unidades y referencias:** decidir cómo llega el contexto
+  externo de la unidad a la extracción de datos.
+- **Reabrir v9** solo por un problema recurrente que afecte las respuestas, o por
+  una mejora concreta de rendimiento. Las réplicas y la referencia hacia adelante
+  quedan como huecos conocidos, no como tareas de pulido.
 - **Aparcado:** el límite de la oración (punto 3 de la revisión de fricciones).
 
 Historial de la carpeta: `git log -- mvp/pruebas/`.
