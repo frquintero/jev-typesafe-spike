@@ -1,13 +1,13 @@
 # Agentes delegados: DeepSeek Harness, Muse Code, NotebookLM y Jev
 
-> **Copia dentro del repo**, traída el 06-10-2026 del original que vive en
-> `~/Claude-memoria/memoria/agentes-delegados.md`. Para Claude y ChatGPT manda el
-> original; aquí solo se ajustó §1 a la regla que dictó Frat el 06-10 (delega el
-> ORQUESTADOR, no «Claude y ChatGPT»). El resto del texto es el del original.
+> **Copia del original** que vive en `~/Claude-memoria/memoria/agentes-delegados.md`
+> (traída el 06-10-2026). Para Claude y ChatGPT manda el original; el §1 es el mismo en
+> los dos (delega el ORQUESTADOR que designe Frat, actualizado el 06-10-2026). Si
+> cambia el original, se vuelve a copiar aquí.
 
 Documento único sobre los agentes a los que **el modelo de LLM que Frat denomine
-ORQUESTADOR** les delega trabajo en el iMac de Frat. Los `README.md` y `AGENTS.md` de
-los repos apuntan aquí. Creado 2026-10-04.
+ORQUESTADOR** les delega trabajo en el iMac de Frat. Los `README.md` y `AGENTS.md` del
+repo apuntan a la copia. Creado 2026-10-04.
 
 ## 1. Regla de uso (vale para todos)
 
