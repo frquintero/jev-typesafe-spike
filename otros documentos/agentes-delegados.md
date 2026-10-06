@@ -150,7 +150,7 @@ ESFUERZO=off|low|high|max ./dsh_tarea.sh <etiqueta> /tmp/mensaje.txt [<session-i
 - Esfuerzo de razonamiento por tarea: ver §8.
 
 - Sin tercer argumento usa la sesión vigente, guardada en
-  `~/.config/dsh_tarea/sesion`: hoy `session-c19a1631-6349-46f8-9b9a-84dd5d7e7ab3`
+  `~/.config/dsh_tarea/sesion`: hoy una `session-<uuid>`
   (creada el 03-10 en jev-typesafe-spike, con el contexto del proyecto
   cargado). `nueva` crea otra; su id queda en el `.json`.
 - Resultado en `~/.cache/dsh_tareas/<etiqueta>.{out,err,json,msg}`: `.out`
@@ -205,7 +205,7 @@ ESFUERZO=off|low|high|max ./muse_tarea.sh <etiqueta> /tmp/mensaje.txt [<uuid>|nu
   04-10: sin terminal no hay quién apruebe).
 - **Una sola tarea de Muse a la vez** (candado; la segunda sale con código 3).
 - Sesión vigente en `~/.config/muse_tarea/sesion`: hoy
-  `7e5a253d-068c-4713-9fe5-e76bf5c5f196` (creada el 04-10 solo con pruebas:
+  `<uuid>` (creada el 04-10 solo con pruebas:
   **sin contexto del proyecto**; el primer trabajo real debe pedirle leer
   `AGENTS.md` y la memoria). `nueva` crea una con uuid propio (Muse acepta
   el id que le damos).
