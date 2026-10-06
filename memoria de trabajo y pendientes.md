@@ -13,14 +13,20 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   reglas. Recuperar no es responder. Detalle en `README.md`, «Visión», y en
   `definiciones-del-marco.md`.
 - **Hilo activo: `unidades/`.** Paso 1 (unidades temáticas) con **v9 congelado**; paso 2
-  (datos por unidad) con la entrada elegida y en uso: **la unidad más las referencias de v9
-  con sus respaldos**, que aclara sin ampliar y conserva las dudas. En la reserva dio 100 %
-  de recuperación y de fidelidad; en desarrollo, 85,1 % y 98,2 %. Informe en
-  `mvp/paso2/informe_paso2.md`; números, huecos y lo que enseña, en
-  `mvp/paso2/hallazgos.md`.
+  (datos por unidad) con la entrada elegida y **base provisional de trabajo: la unidad más
+  las referencias de v9 con sus respaldos**, que aclara sin ampliar y conserva las dudas.
+  La ronda quedó **cerrada el 06-10** con el conteo rehecho por ítem sobre las expectativas
+  registradas: recuperación estricta **95,4 % en desarrollo** (agregado DeepSeek + Muse) y
+  **100 % en la reserva** (29/29); fidelidad **98,2 %** en desarrollo y **100 %** en la
+  reserva. **La aceptación no se declara demostrada** (un juez, sin réplicas, reserva no
+  independiente). Informe en `mvp/paso2/informe_paso2.md`; evaluación por ítem en
+  `mvp/paso2/evaluacion_items.md`; crudos, tareas y costos en
+  `mvp/paso2/inventario_y_costos.md`; la vía utilizable (entrada b, verificación sin API) en
+  `mvp/paso2/README.md`; qué enseña, en `mvp/paso2/hallazgos.md`.
 - **Hilo del MVP: `mvp/`.** Plan candidato del orquestador —sin índice de casos previo:
   alcance por dominio y reidentificación acreditada al consultar (decisión del 05-10)— y su
-  **pieza mecánica**, que es lo siguiente ejecutable. Las mesas de la forma de A(Q) y la
+  **pieza mecánica** (la conexión mecánica pregunta–dominio–corpus), que es lo siguiente
+  ejecutable y aún no está iniciada. Las mesas de la forma de A(Q) y la
   pieza 1 están cerradas y registradas en sus carpetas.
 - **La ficha.** `ficha_v1` está congelada y es la base del paso 2; en F5 midió 60/63 dentro
   de su contrato. F6 se ejecutó y sigue sin evaluar. Detalle en `unidades/PLAN.md`.
@@ -74,11 +80,39 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
 - **Jev es posterior:** subtemas, inventario global y Jev siguen fuera de las pruebas del núcleo. La detección o recuperación posterior de omisiones no se ha probado aquí.
 - **Operativo:** DeepSeek solo tiene razonamiento `high` y `max` (nuestro `low` se vuelve `high`); puede dejar el stream colgado (si pasa un minuto sin bytes, relanzar).
 
+**Verificadas en el cierre del paso 2 (06-10).**
+
+- **Una lista de ítems que no se registra no se puede auditar después:** el conteo se rehace
+  solo sobre las expectativas escritas y guardadas antes de llamar; la lista fina que no se
+  registró hubo que retirarla.
+- **El conteo por ítem necesita tres estados:** cumple · parcial · no, y las expectativas
+  defectuosas aparte; los parciales no suman a la recuperación.
+- **Tiempo de tarea ≠ tiempo del modelo:** el envoltorio de Muse incluye arranque y reintentos
+  (una tarea de 2 646 s traía un timeout de transporte de 47 s); esa duración no se atribuye al
+  razonamiento, y si no es reconstruible se dice.
+- **`reasoning_tokens` viene dentro de `completion_tokens`:** no se suma dos veces.
+- **Los crudos tienen que permitir re-verificar sin API:** con el material enviado guardado, la
+  verificación de literales se recompone (`mvp/paso2/comparacion.py verificar-todos`; 69/69 sin
+  diferencias al 06-10).
+
 ## 3. Pendientes vigentes
 
-**Orden (06-10):** el paso 2 quedó medido y aceptado (la reserva alcanzó las dos medidas; ver «Dónde quedamos»). Lo siguiente ejecutable es el punto 0, la pieza mecánica del orquestador: sin la extracción no hay qué leer.
+**Orden (06-10):** el paso 2 quedó **cerrado** (entrada (b) como base provisional; ver «Dónde
+quedamos»). **Lo siguiente es la conexión mecánica pregunta–dominio–corpus:** fijar el alcance
+documental, recuperar unidades completas con sus datos y referencias y preparar la entrada del
+orquestador; su primera comprobación es local, sin LLM, con los materiales existentes, y **antes
+de implementarla hay que cotejar ese alcance con el plan vigente** (`mvp/orquestador-plan.md`,
+F0). No está iniciada.
 
-0. **Pieza mecánica del orquestador (05-10) — trabajo de ahora:** consulta ligada a un dominio, rechazo de ids fuera de alcance, lectura completa de la unidad seleccionada (texto, datos, condiciones, respaldo, documento y radicación) y registro de los documentos admitidos. Sin LLM y sin Jev. Termina cuando, sobre las entradas de la mesa, un id de RIBERA en una consulta de MONTAÑA se rechaza por fuera de alcance, `M1:U1` devuelve `M1:S1–S4` y `M1:D1–M1:D3` completos, y la corrida anota `dominio_consulta: MONTAÑA` con su lista de documentos. Después: conectar el cálculo y ampliar el registro del derivado. Detalle en `mvp/mesa-dominio-resultado.md`, cierre.
+0. **Conexión mecánica pregunta–dominio–corpus (trabajo de ahora):** fijar el `dominio_consulta`
+   de una pregunta, rechazar los ids fuera de alcance, recuperar la unidad completa (texto,
+   datos, condiciones, respaldo, documento y radicación) y registrar los documentos admitidos;
+   sin LLM y sin Jev, reutilizando `mvp/pieza1/pieza1.py` y las entradas de la mesa de dominio.
+   Termina cuando, sobre las entradas de la mesa, un id de RIBERA en una consulta de MONTAÑA se
+   rechaza por fuera de alcance, `M1:U1` devuelve `M1:S1–S4` y `M1:D1–M1:D3` completos, y la
+   corrida anota `dominio_consulta: MONTAÑA` con su lista de documentos. **Antes de escribir
+   código: cotejar este alcance con el plan vigente y mostrar el plan.** Detalle en
+   `mvp/mesa-dominio-resultado.md`, cierre; el plan del orquestador, en `mvp/orquestador-plan.md`.
 1. **F6 ejecutada, pendiente de evaluación:** evaluar recuperación y ubicación de condiciones, orden temporal, regresiones, formato y costo, según `unidades/PLAN.md`, sección F6. Hasta entonces no se adopta `ficha_v2`.
 2. **Agilidad:** comparar hipótesis de arquitectura, división y modelo/configuración. Vara de Frat: ≈90 % de contenido correcto y ejecución ágil. Falta demostrar el efecto sobre costo total.
 3. **Generalización:** medir cualquier candidato prometedor con una reserva nueva e independiente; las observaciones de las rondas no autorizan cambios adicionales por sí solas.

@@ -4,9 +4,12 @@
 partición congelada de v9, sin volver a correr el paso 1.
 
 Uso:
-  python3 mvp/paso2/comparacion.py seco    <doc> <salida_v9> <unidad_n>
-  python3 mvp/paso2/comparacion.py correr  <doc> <salida_v9> <modelo> <rN> <entrada>
-  python3 mvp/paso2/comparacion.py resumen <doc> <salida_v9> <modelo> <rN>
+  python3 mvp/paso2/comparacion.py seco     <doc> <salida_v9> <unidad_n>
+  python3 mvp/paso2/comparacion.py correr   <doc> <salida_v9> <modelo> <rN> <entrada>
+  python3 mvp/paso2/comparacion.py resumen  <doc> <salida_v9> <modelo> <rN>
+  python3 mvp/paso2/comparacion.py comparar <doc> <salida_v9> <rN> [<unidad_n>]
+  python3 mvp/paso2/comparacion.py verificar <crudo.json> [...]
+  python3 mvp/paso2/comparacion.py verificar-todos [<patrón glob>]
 
   <doc>       documento sintético (p. ej. mvp/pruebas/doc4.md)
   <salida_v9> salida cruda de v9 (p. ej. mvp/pruebas/salida_prueba8-v9-doc4.md)
@@ -17,9 +20,17 @@ El crudo guarda el prompt entero enviado, el contenido y el razonamiento de la
 respuesta, el modelo efectivo, el `usage` y el informe de verificación, para poder
 auditar cada cita. Los frames SSE no se guardan (son transporte): se guarda su
 número. Idempotente: si el crudo existe no vuelve a llamar y nunca lo sobrescribe.
+
+`verificar` y `verificar-todos` **no llaman a ningún modelo**: releen un crudo
+guardado, reconstruyen la entrada a partir de `texto_enviado` y `contexto_enviado`,
+vuelven a comprobar los literales contra ese material y comparan el informe con el
+que se guardó. Sirven para auditar una salida de v9 ya procesada sin re-correr nada.
 """
+import glob as globmod
+import hashlib
 import json
 import pathlib
+import re
 import sys
 import time
 
@@ -148,6 +159,95 @@ def seco(doc_path, salida_path, unidad_n):
         print(f"corpus de verificación: {inf['oraciones_enviadas']}")
         print(caso["contexto_enviado"] or "(sin contexto)")
         print("(modo seco: no se llama al modelo)\n")
+
+
+MARCA_ORACION = re.compile(r"\[(\d+)\]\s*")
+CABECERA_DOCUMENTO = "DOCUMENTO COMPLETO NUMERADO"
+
+
+def registros_desde_texto(texto):
+    """Reconstruye [{"n","oracion"}] de un material numerado ya guardado."""
+    partes = MARCA_ORACION.split(texto)
+    if len(partes) % 2 != 1:
+        raise SystemExit("material numerado mal formado")
+    return [{"n": int(partes[i]), "oracion": partes[i + 1].strip()}
+            for i in range(1, len(partes), 2)]
+
+
+def unidad_desde_crudo(crudo):
+    """La unidad tal como se envió, sin el documento ni la salida de v9 a mano."""
+    return {"id": crudo.get("unidad", "?"), "oraciones": crudo["oraciones"],
+            "referencias": crudo.get("referencias") or [],
+            "registros": registros_desde_texto(crudo["texto_enviado"]),
+            "texto": crudo["texto_enviado"]}
+
+
+def registros_documento(crudo):
+    """El documento numerado de (c), tal como se envió en el contexto."""
+    cabecera, _, cuerpo = (crudo.get("contexto_enviado") or "").partition("\n")
+    if CABECERA_DOCUMENTO not in cabecera:
+        raise SystemExit("la entrada (c) no trae el documento numerado en el contexto")
+    return registros_desde_texto(cuerpo)
+
+
+def revisar_crudo(ruta):
+    """Re-verifica un crudo guardado sin llamar a ningún modelo."""
+    ruta = pathlib.Path(ruta)
+    crudo = json.loads(ruta.read_text(encoding="utf-8"))
+    unidad = unidad_desde_crudo(crudo)
+    entrada = crudo.get("entrada")
+    registros = registros_documento(crudo) if entrada == "c" else unidad["registros"]
+    problemas = []
+    cuenta_texto = crudo["prompt_enviado"].count(crudo["texto_enviado"])
+    if entrada in ("a", "b") and cuenta_texto != 1:
+        problemas.append("el texto enviado no aparece exactamente una vez en el prompt")
+    if entrada == "c":
+        if cuenta_texto < 1:
+            problemas.append("el texto enviado no aparece en el prompt")
+        en_documento = {r["n"] for r in registros_documento(crudo)}
+        faltan = [n for n in crudo["oraciones"] if n not in en_documento]
+        if faltan:
+            problemas.append(f"el documento del contexto no trae las oraciones {faltan}")
+    if crudo.get("contexto_enviado") and crudo["prompt_enviado"].count(crudo["contexto_enviado"]) != 1:
+        problemas.append("el contexto enviado no aparece exactamente una vez en el prompt")
+    if [r["n"] for r in unidad["registros"]] != list(crudo["oraciones"]):
+        problemas.append("las oraciones guardadas no coinciden con el texto enviado")
+    guardado = crudo.get("informe") or {}
+    nuevo = informe(crudo.get("parsed"), unidad, registros, entrada)
+    return {
+        "archivo": ruta.name, "entrada": entrada, "unidad": unidad["id"],
+        "modelo": crudo.get("modelo"), "rep": crudo.get("rep"),
+        "modelo_efectivo": crudo.get("modelo_efectivo"),
+        "sha256_prompt": hashlib.sha256(crudo["prompt_enviado"].encode("utf-8")).hexdigest(),
+        "problemas": problemas, "informe_igual": nuevo == guardado,
+        "nuevo": nuevo, "guardado": guardado,
+    }
+
+
+def verificar_lista(rutas):
+    malos = 0
+    for ruta in rutas:
+        v = revisar_crudo(ruta)
+        inf = v["nuevo"]
+        ok = not v["problemas"] and v["informe_igual"]
+        if not ok:
+            malos += 1
+        print(f"{'ok' if ok else 'REVISAR'} {v['archivo']} | entrada ({v['entrada']}) "
+              f"{v['unidad']} | modelo {v['modelo']} ({v['modelo_efectivo']}) | "
+              f"prompt {v['sha256_prompt'][:12]} | "
+              f"literales {len(inf.get('respaldos_no_verificables') or [])} | "
+              f"fuera_unidad {len(inf.get('citas_fuera_de_la_unidad') or [])} | "
+              f"informe {'igual' if v['informe_igual'] else 'DISTINTO'}")
+        for problema in v["problemas"]:
+            print("    - " + problema)
+        if not v["informe_igual"]:
+            for clave in sorted(set(inf) | set(v["guardado"])):
+                if inf.get(clave) != v["guardado"].get(clave):
+                    print(f"    - informe[{clave}]: guardado="
+                          f"{str(v['guardado'].get(clave))[:120]} | nuevo="
+                          f"{str(inf.get(clave))[:120]}")
+    print(f"\n{len(rutas)} crudo(s) revisado(s); {malos} con diferencias o incoherencias.")
+    return malos
 
 
 def correr(doc_path, salida_path, modelo, rep, entrada):
@@ -288,9 +388,24 @@ def comparar(doc_path, salida_path, rep, unidad_n=None):
 
 
 def main(argv):
-    if len(argv) < 5:
+    if len(argv) < 2:
         raise SystemExit(__doc__)
     modo = argv[1]
+    if modo in ("verificar", "verificar-todos"):
+        if modo == "verificar":
+            if len(argv) < 3:
+                raise SystemExit("uso: verificar <crudo.json> [...]")
+            rutas = argv[2:]
+        else:
+            patron = argv[2] if len(argv) > 2 else str(CACHE / "comp-*.json")
+            rutas = sorted(globmod.glob(patron))
+            if not rutas:
+                raise SystemExit(f"sin crudos para {patron}")
+        if verificar_lista(rutas):
+            raise SystemExit("hay crudos con diferencias o incoherencias")
+        return
+    if len(argv) < 5:
+        raise SystemExit(__doc__)
     doc_path, salida_path = pathlib.Path(argv[2]), pathlib.Path(argv[3])
     for p in (doc_path, salida_path):
         if not p.exists():

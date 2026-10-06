@@ -74,8 +74,11 @@ en el README, PLAN y tareas de cada carpeta).
   actualizó §4.1 del plan, y pruebas del paso 1 con Muse (`mvp/pruebas/`;
   candidato v9 congelado) (`mvp/`)
 - Fecha: 2026-10-06 · Proyecto: paso 2 de las unidades temáticas — extracción
-  de datos por unidad con las referencias y respaldos de v9; entrada elegida y
-  base de trabajo: la unidad más sus referencias (`mvp/paso2/`)
+  de datos por unidad; ronda **cerrada**: la unidad más las referencias de v9
+  con sus respaldos queda como **base provisional** (recuperación estricta
+  95,4 % en desarrollo y 100 % en la reserva; **aceptación no demostrada**).
+  Sigue: la conexión mecánica pregunta–dominio–corpus, **a cotejar con el plan
+  vigente antes de implementarla** (`mvp/paso2/`)
 
 ## Frentes cerrados: lecciones e ideas rescatables
 
