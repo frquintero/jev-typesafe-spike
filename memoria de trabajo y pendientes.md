@@ -27,7 +27,9 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   alcance por dominio y reidentificación acreditada al consultar (decisión del 05-10)— y su
   **pieza mecánica** (la conexión mecánica pregunta–dominio–corpus), que es lo siguiente
   ejecutable y aún no está iniciada. Las mesas de la forma de A(Q) y la
-  pieza 1 están cerradas y registradas en sus carpetas.
+  pieza 1 están cerradas y registradas en sus carpetas. El diseño de esa primera consulta
+  está escrito en `mvp/consulta-diseno.md` (**borrador**) y queda **pendiente de revisión
+  por Claude y Astra**; no está implementado.
 - **La ficha.** `ficha_v1` está congelada y es la base del paso 2; en F5 midió 60/63 dentro
   de su contrato. F6 se ejecutó y sigue sin evaluar. Detalle en `unidades/PLAN.md`.
 
@@ -102,7 +104,8 @@ quedamos»). **Lo siguiente es la conexión mecánica pregunta–dominio–corpu
 documental, recuperar unidades completas con sus datos y referencias y preparar la entrada del
 orquestador; su primera comprobación es local, sin LLM, con los materiales existentes, y **antes
 de implementarla hay que cotejar ese alcance con el plan vigente** (`mvp/orquestador-plan.md`,
-F0). No está iniciada.
+F0). No está iniciada. **El diseño de esa primera consulta está en `mvp/consulta-diseno.md`;
+lo revisan Claude y Astra antes de implementar.**
 
 0. **Conexión mecánica pregunta–dominio–corpus (trabajo de ahora):** fijar el `dominio_consulta`
    de una pregunta, rechazar los ids fuera de alcance, recuperar la unidad completa (texto,
@@ -111,8 +114,9 @@ F0). No está iniciada.
    Termina cuando, sobre las entradas de la mesa, un id de RIBERA en una consulta de MONTAÑA se
    rechaza por fuera de alcance, `M1:U1` devuelve `M1:S1–S4` y `M1:D1–M1:D3` completos, y la
    corrida anota `dominio_consulta: MONTAÑA` con su lista de documentos. **Antes de escribir
-   código: cotejar este alcance con el plan vigente y mostrar el plan.** Detalle en
-   `mvp/mesa-dominio-resultado.md`, cierre; el plan del orquestador, en `mvp/orquestador-plan.md`.
+   código: revisión del diseño (`mvp/consulta-diseno.md`) por Claude y Astra, cotejo con el
+   plan vigente y mostrar el plan.** Detalle en `mvp/mesa-dominio-resultado.md`, cierre; el
+   plan del orquestador, en `mvp/orquestador-plan.md`.
 1. **F6 ejecutada, pendiente de evaluación:** evaluar recuperación y ubicación de condiciones, orden temporal, regresiones, formato y costo, según `unidades/PLAN.md`, sección F6. Hasta entonces no se adopta `ficha_v2`.
 2. **Agilidad:** comparar hipótesis de arquitectura, división y modelo/configuración. Vara de Frat: ≈90 % de contenido correcto y ejecución ágil. Falta demostrar el efecto sobre costo total.
 3. **Generalización:** medir cualquier candidato prometedor con una reserva nueva e independiente; las observaciones de las rondas no autorizan cambios adicionales por sí solas.

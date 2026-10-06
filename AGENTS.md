@@ -66,8 +66,9 @@ mover un archivo o de tocar el estado del repo.
   paso 2 (`paso2/`: ronda cerrada; entrada «unidad + referencias» como base
   provisional, con `README.md` para la vía y la verificación sin API). **Su estado vive
   en la memoria**; el detalle, en el `README` o `PLAN` de cada subcarpeta. Sigue: la
-  conexión mecánica pregunta–dominio–corpus, a cotejar con el plan vigente antes de
-  implementarla.
+  conexión mecánica pregunta–dominio–corpus, con el diseño de la primera consulta en
+  `mvp/consulta-diseno.md` (**borrador**, revisión de Claude y Astra), a cotejar con el
+  plan vigente antes de implementarla.
 - `marco filosófico/`: el ensayo «¿Qué es un dato?» y su marco.
 - `langextract-spike/`: cerrado (LangExtract, evaluado y no adoptado).
 - `utiliarios/`: los guiones que se invocan desde la raíz. `muse_tarea.sh` y

@@ -104,9 +104,9 @@ devuelve la unidad con sus inscripciones agrupadas por tipo.
 
 **Identificadores.** `documento` (`doc5`) · `unidad` (`doc5:U1`) · `caso`
 (`doc5:U1:C1`) · `dato` (`doc5:U1:D1`) · `oración` (`doc5:S2`) · derivado
-(`DD1`, global). Los ids locales de cada ficha **nunca** se comparan entre
-unidades; dos menciones son el mismo caso solo por declaración del documento o
-criterio explícito. Sin fusión.
+(`DD1`, global, diferido en esta versión). Los ids locales de cada ficha **nunca**
+se comparan entre unidades; dos menciones son el mismo caso solo por declaración
+del documento o criterio explícito. Sin fusión.
 
 **El corpus es un derivado regenerable.** `documentos`, `unidades` e
 `inscripciones` se **generan** con un cargador idempotente a partir de los
@@ -505,7 +505,7 @@ no se use como dato del documento.
   "model": "deepseek-flash",
   "messages": [
     {"role": "system", "content": "ROL …\nTAREA …\nALCANCE …\nR …\nHERRAMIENTAS …\nSELECCIÓN …\nINFERENCIA …\nFORMATO …\nANCLAS …\nEJEMPLO …"},
-    {"role": "user", "content": "¿En qué año se restableció el servicio del tranvía tras el incendio de 1927?"}
+    {"role": "user", "content": "¿Cuánto tardó la ciudad en restablecer el servicio del tranvía tras el incendio de 1927?"}
   ],
   "tools": [
     {"type": "function",

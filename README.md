@@ -76,9 +76,11 @@ en el README, PLAN y tareas de cada carpeta).
 - Fecha: 2026-10-06 · Proyecto: paso 2 de las unidades temáticas — extracción
   de datos por unidad; ronda **cerrada**: la unidad más las referencias de v9
   con sus respaldos queda como **base provisional** (recuperación estricta
-  95,4 % en desarrollo y 100 % en la reserva; **aceptación no demostrada**).
-  Sigue: la conexión mecánica pregunta–dominio–corpus, **a cotejar con el plan
-  vigente antes de implementarla** (`mvp/paso2/`)
+  95,4 % en desarrollo y 100 % en la reserva; **aceptación no demostrada**)
+  (`mvp/paso2/`). Sigue: la conexión mecánica pregunta–dominio–corpus, **a
+  cotejar con el plan vigente antes de implementarla**; el diseño de esa primera
+  consulta está en `mvp/consulta-diseno.md` (**borrador**, revisión de Claude y
+  Astra).
 
 ## Frentes cerrados: lecciones e ideas rescatables
 

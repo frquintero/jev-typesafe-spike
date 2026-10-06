@@ -371,7 +371,15 @@ tokens, tiempo y encargos por estación, estancamientos.
 ## 11. Fases de construcción
 
 Cada fase tiene una conjetura; se corre solo si la hay. El prompt se muestra
-antes de correr.
+antes de correr, salvo la excepción declarada abajo.
+
+**Diseño vigente de la primera consulta:** `mvp/consulta-diseno.md`. Diferencias
+declaradas con este plan, a cotejar antes de implementar: (1) el diseño trabaja con un
+solo documento (`doc5`) y cinco preguntas propias, no con la batería Q1–Q6r; (2) las
+herramientas del corpus son `leer_unidad`, `calcular` y `entregar`, con el inventario en
+el prompt (`buscar_unidades` cuando el dominio crezca); (3) **el prompt no se muestra
+antes de correr**: se guarda con la corrida y se muestra cuando Frat lo pida; (4) sin
+datos derivados por ahora.
 
 - **F0 · Código sin LLM.** Biblioteca de cómputo; verificador ampliado
   (pertenencia por dominio, R por premisa, encabezado fijo con
