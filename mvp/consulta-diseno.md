@@ -223,7 +223,8 @@ cerrable» se entregan explícitos, con la brecha.
 
 **R se aplica mecánicamente.** El agente la recibe en el prompt, y además el
 orquestador la aplica: si pide una herramienta, una función o una fuente fuera de
-lo admitido, **no la ejecuta y se lo comunica por el protocolo** (§7), citando la
+lo admitido, **no la ejecuta y se lo comunica como error de la herramienta** (§7),
+citando la
 regla que la excluye, para que el agente busque otra vía. Cada denegación queda en
 la traza; si insiste, corta la guardia de ciclo.
 
@@ -275,6 +276,11 @@ y el prompt se arma a mano desde archivos, sin esconderlo en un framework
 | Estado | encabezado propuesto, unidades leídas (ids), campo, brechas, desenlace en curso | sí |
 | Cola | las últimas acciones del agente y sus resultados | sí |
 
+Con **herramientas nativas** (§7), esa «cola» es el array `messages` real
+(`assistant` con `tool_calls` → `role: "tool"` con `tool_call_id`), y con `tools`
+en la petición hay que devolver además el `reasoning_content` intermedio en todos
+los turnos siguientes.
+
 **Cómo se mantiene liviano** (context engineering: el menor conjunto de tokens de
 alta señal, [Anthropic](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)):
 
@@ -297,42 +303,56 @@ acción y argumentos dos veces), tope de llamadas; al agotarse, desenlace
 
 ---
 
-## 7. Protocolo de comunicación (la tool)
+## 7. Las herramientas: nativas o simuladas
 
-`call_model` **no soporta `tools` ni multi-turno**: manda un solo mensaje `user`
-([run_niveles.py:110](../niveles/run_niveles.py#L110)). El protocolo es
-**textual y simulado por el código**: en cada turno el agente responde con **un
-único objeto JSON con una acción**; el código la ejecuta, acumula el resultado y
-vuelve a llamar con el historial serializado en ese mensaje.
+**Lo que hay hoy en el repo.** `call_model`
+([run_niveles.py:110](../niveles/run_niveles.py#L110)) manda **un solo mensaje
+`user`** —`messages: [{"role": "user", "content": content}]`—, no manda `tools` y,
+al ensamblar el stream, **solo concatena `delta.content` y
+`delta.reasoning_content`: los `tool_calls` se pierden**. Es además el único sitio
+que arma la petición y pone la clave.
+
+**Lo que la API sí soporta** (api-docs.deepseek.com): `tools` con funciones y
+`tool_choice` (`none | auto | required | una función`), **conversación multi-turno
+real** (`assistant` con `tool_calls` → mensaje `role: "tool"` con `tool_call_id`),
+`delta.tool_calls` en streaming y **herramientas en modo razonamiento** (desde
+V3.2). Dos trampas: con `tools` en la petición, el `reasoning_content` intermedio
+**tiene que volver en todos los turnos siguientes** o la API responde 400
+([thinking mode](https://api-docs.deepseek.com/guides/thinking_mode/)); y con
+thinking encendido algunos `tool_choice` forzados dan error
+([tool calls](https://api-docs.deepseek.com/guides/tool_calls/)). El modo `strict`
+—endpoint `beta`— valida los argumentos contra el JSON schema
+([function calling](https://api-docs.deepseek.com/guides/function_calling)).
+
+**Entonces hay dos caminos, no una obligación:**
+
+| | (A) Protocolo textual | (B) Herramientas nativas |
+|---|---|---|
+| Qué cambia | nada: `call_model` tal cual | extender `call_model` de forma **aditiva**: `messages` opcional, `tools` opcional, acumular `tool_calls` en la respuesta |
+| Cómo vuelve el agente | un objeto JSON con `accion`, que el código parsea | `tool_calls` estructurados |
+| Coste por turno | el historial se re-serializa como texto | el historial es el array `messages` nativo |
+| Riesgo | el parseo del JSON; el formato ocupa prompt | tocar la capa compartida; devolver `reasoning_content`; `tool_choice` + thinking |
+| Cuándo | si no se quiere tocar `call_model` | **recomendado**: es el camino estándar y no inventa protocolo |
+
+**R en los dos caminos.** Con (B) las herramientas restringidas **no se ofrecen**
+(no van en `tools`), así que el agente no puede pedirlas; si igual pide algo fuera
+de R, el orquestador responde con un error de herramienta que cita la regla. Con
+(A) el agente puede pedir cualquier cosa y el orquestador la deniega:
 
 ```json
-{"accion": "listar_unidades"}
-{"accion": "leer_unidad", "ids": ["doc5:U1", "doc5:U2"]}
-{"accion": "calcular", "funcion": "sumar", "args": [1927, 2]}
-{"accion": "entregar", "propuesta": { … esquema 2 … }}
+{"ok": false, "error": "R no admite fuentes externas", "regla_r": "fuentes_admitidas"}
 ```
 
-Reglas:
+En los dos, la denegación queda en la traza y insistir corta por ciclo.
 
-- **Lista blanca**; cualquier otra acción devuelve error y consume turno.
-- **R se hace valer aquí.** Si la acción pide algo que R no admite —una función
-  fuera de la lista, una fuente externa, otro agente—, el orquestador **no la
-  ejecuta** y contesta con la regla que la excluye, para que el agente busque otra
-  vía:
-  ```json
-  {"ok": false, "error": "R no admite fuentes externas", "regla_r": "fuentes_admitidas"}
-  ```
-  La denegación queda en la traza; insistir corta por ciclo.
-- **`calcular` no es `eval`**: tabla fija de funciones (`sumar`, `restar`,
-  `dia_siguiente`, `dias_entre`, `parsear_fecha`, …). El código no ejecuta nada
-  que el agente escriba.
-- **El dominio lo inyecta el código**: no hay acción para ampliarlo; todo id
-  fuera de los documentos admitidos se rechaza.
-- **Guardias:** máximo de turnos por pregunta, corte por ciclo (misma acción y
-  argumentos dos veces), tope total de llamadas; al agotarse, desenlace
-  «agotada».
-- **`entregar`** trae la propuesta en el esquema de `pieza1`; si no verifica, se
-  permite **una** vuelta de reparación.
+**Reglas comunes** (valen para A y B): lista blanca de herramientas —las cuatro
+del diseño—; `calcular` con **tabla fija** de funciones, nunca `eval`; ids
+validados contra los documentos admitidos; `entregar` en el esquema de `pieza1`,
+con **una** vuelta de reparación si no verifica; y las guardias de §10.
+
+**Lo que no cambia con ninguna:** la memoria sigue siendo del orquestador (§6) y
+el agente sigue siendo stateless; el dominio lo inyecta el código; R se aplica y
+se comunica.
 
 ---
 
@@ -342,10 +362,12 @@ Reglas:
 2. **Qué recibe, en cada llamada.** Los bloques de §6 —instrucciones, R,
    pregunta y dominio, inventario, estado y cola—. Nada más: **lo que no va en el
    prompt, el agente no lo sabe.**
-3. **Protocolo.** Las cuatro acciones, con ejemplos; una acción por turno.
+3. **Herramientas.** Las cuatro, con su descripción y su esquema de argumentos;
+   con nativas (§7B) van en `tools`, y con el protocolo textual (§7A) son las
+   cuatro acciones, una por turno.
 4. **R y K.** Solo el documento; el cálculo lo hace el código; su propio saber no
    es premisa.
-5. **SELECCIÓN** (hoy sin escribir en ninguna parte). Propuesta:
+5. **SELECCIÓN** (regla propuesta, todavía no escrita en ninguna parte). Propuesta:
    - ve el inventario (id, subtema, oraciones) y pide leer las unidades que puedan
      tocar el aspecto, la identidad del caso o sus condiciones; mejor sobreleer;
    - **campo** = determinaciones cuyo caso es el de la pregunta (o uno que haga
@@ -454,7 +476,10 @@ por dominio, admisión por R, efecto calculado.
 - **La compactación puede perder señal.** Si se resume de más, se cae un matiz que
   solo se nota después; por eso lo descargado se conserva recuperable y se empieza
   por máxima retención ([guía de contexto](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)).
-- El historial crece por turno: de ahí el tope y el corte por ciclo.
+- **El historial crece por turno**: de ahí el tope y el corte por ciclo.
+- **Con herramientas nativas (§7B), devolver el `reasoning_content`**: si no vuelve
+  en todos los turnos con `tools`, la API responde 400; y algunos `tool_choice`
+  forzados chocan con el modo razonamiento.
 - Un solo documento ⇒ sin conflicto (ver D2).
 
 ---
@@ -465,7 +490,7 @@ por dominio, admisión por R, efecto calculado.
 |---|---|---|
 | **D1** | Nombres: código = ORQUESTADOR, LLM = AGENTE ENCARGADO | **decidida**; coherencia de los documentos vivos, §16 |
 | **D2** | Corpus: solo `doc5`, o `doc5` + la mesa de dominio para tener conflicto | por definir — recomendación: solo `doc5` |
-| **D3** | Protocolo: bucle con lectura en lote, o todo inyectado en una llamada | por definir — recomendación: bucle con lectura en lote |
+| **D3** | Bucle de la consulta: lectura en lote por turnos, o todo inyectado en una llamada | por definir — recomendación: bucle con lectura en lote |
 | **D4** | P2 con derivado (1929) o sin él («dos años») | por definir — recomendación: con derivado |
 | **D5** | R: `solo el documento`, con el mundo del código para fechas y aritmética, y las anclas fuera como premisa | por definir — recomendación: sí |
 | **D6** | Nombre y sitio de los archivos (`mvp/consulta/`) | por definir — confirmar antes de crear código |
@@ -475,6 +500,7 @@ por dominio, admisión por R, efecto calculado.
 | **D10** | Documento R: esbozo para el código + prosa para el agente; se fija por prueba | recomendación: sí (§4.2); **los topes no van en R** |
 | **D11** | Compactación: cuántas acciones enteras se conservan y qué se resume | por definir — recomendación: las últimas 5, el resto por referencia + resumen |
 | **D12** | El mundo del LLM: pasa a llamarse «mundo del agente» en los documentos vivos; en el esquema candidato de la pieza 1 sigue rotulado `orquestador` | recomendación: renombrar en los vivos y declarar la divergencia en `pieza1/esquema2.md` hasta adoptarlo |
+| **D13** | Herramientas: (A) protocolo textual sobre `call_model` tal cual, o (B) extender `call_model` con `messages` + `tools` nativos | recomendación: **(B)**, aditivo; (A) queda como respaldo |
 
 ---
 
@@ -485,7 +511,8 @@ por dominio, admisión por R, efecto calculado.
   tiene).
 - `unidades/ficha_doc.py`: `verificar` y `fragmentos` para el respaldo literal.
 - `unidades/extraer_unidades.py`: `numerar_oraciones`.
-- `niveles/run_niveles.py`: `call_model` y `extract_json`.
+- `niveles/run_niveles.py`: `call_model` (a extender de forma aditiva si se elige
+  §7B, herramientas nativas) y `extract_json`.
 - `mvp/paso2/comparacion.py`: la re-verificación offline de crudos.
 - Las extracciones cerradas del paso 2 (fichas por unidad con referencias,
   respaldos y dudas).
@@ -549,3 +576,13 @@ tocan `pieza1.py` ni sus tablas de referencia.
 - *Context compression strategies* — descargar antes de resumir; lo descargado
   tiene que seguir siendo recuperable; conservar objetivo, estado y siguiente paso:
   <https://www.agentpatterns.ai/context-engineering/context-compression-strategies/>
+- *DeepSeek · Tool Calls* — herramientas en modo razonamiento desde V3.2:
+  <https://api-docs.deepseek.com/guides/tool_calls/>
+- *DeepSeek · Function Calling* — `tools`, `tool_choice` y modo `strict` (beta)
+  que valida los argumentos contra el JSON schema:
+  <https://api-docs.deepseek.com/guides/function_calling>
+- *DeepSeek · Thinking Mode* — con `tools`, el `reasoning_content` intermedio
+  tiene que volver en todos los turnos siguientes (si no, 400):
+  <https://api-docs.deepseek.com/guides/thinking_mode/>
+- *DeepSeek · Chat Completions* — `tools`, `tool_choice` y `finish_reason:
+  tool_calls`: <https://api-docs.deepseek.com/api/create-chat-completion/>
