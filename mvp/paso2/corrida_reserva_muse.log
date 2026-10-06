@@ -21,3 +21,7 @@ U5 (b): 160 s | parseo ok | exit 0 | no verificables 0 | fuera de la unidad 0 | 
 === p2r-reserva_a-b-u6-r1 (2026-10-06T14:07:52-05:00) ===
 mensaje: mvp/paso2/muse/mensaje_p2r-reserva_a-b-u6-r1.md (10078 bytes) | U6 (b)
 lanzada: p2r-reserva_a-b-u6-r1 (sesión Muse: 77b28bff-acef-486f-bdbb-855cc6857717, esfuerzo: high); resultado en /home/fratquintero/.cache/muse_tareas/p2r-reserva_a-b-u6-r1.out
+U6 (b): 209 s | parseo ok | exit 0 | no verificables 0 | fuera de la unidad 3 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-reserva_a-b-u6-muse-r1.json
+=== p2r-reserva_a-b-u7-r1 (2026-10-06T14:11:23-05:00) ===
+mensaje: mvp/paso2/muse/mensaje_p2r-reserva_a-b-u7-r1.md (10845 bytes) | U7 (b)
+lanzada: p2r-reserva_a-b-u7-r1 (sesión Muse: 936cffae-f91d-4c9d-88db-4bda1d1c275d, esfuerzo: high); resultado en /home/fratquintero/.cache/muse_tareas/p2r-reserva_a-b-u7-r1.out

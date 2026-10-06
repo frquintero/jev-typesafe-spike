@@ -1,0 +1,26 @@
+{
+ "casos": [
+  {"id":"C1","nombre":"brote parecido de dos años antes","menciones":[{"o":10,"f":"un brote parecido"},{"o":11,"f":"Aquel episodio"}]},
+  {"id":"C2","nombre":"nueve colmenas del lote sur","menciones":[{"o":10,"f":"nueve colmenas del lote sur"}]},
+  {"id":"C3","nombre":"ataque del hongo a las colmenas del lote norte en marzo","menciones":[{"o":4,"f":"un hongo atacó las colmenas del lote norte"}]}
+ ],
+ "relaciones": [
+  {"id":"R1","tipo":"parecido a","de":"C1","a":"C3","dentro_de":null,"condiciones":[],"inferido":false,"respaldo":[{"o":10,"f":"un brote parecido"},{"o":4,"f":"En marzo, un hongo atacó las colmenas del lote norte."}]}
+ ],
+ "capas": [],
+ "determinaciones": [
+  {"id":"D1","dentro_de":null,"caso":"C1","aspecto":"duración","valor":"cuatro","unidad":"meses","cambio":null,"condiciones":[],"modalidad":null,"inferido":false,"respaldo":[{"o":11,"f":"duró cuatro meses"}]}
+ ],
+ "acciones": [
+  {"id":"A1","agente":"C1","accion":"había obligado","objeto":null,"negada":false,"dentro_de":null,"condiciones":[{"texto":"Dos años antes","ref":null,"respaldo":[{"o":10,"f":"Dos años antes"}]}],"respaldo":[{"o":10,"f":"había obligado a quemar nueve colmenas del lote sur"}]},
+  {"id":"A2","agente":null,"accion":"quemar","objeto":"C2","negada":false,"dentro_de":null,"condiciones":[{"texto":"Dos años antes","ref":null,"respaldo":[{"o":10,"f":"Dos años antes"}]}],"respaldo":[{"o":10,"f":"a quemar nueve colmenas del lote sur"}]}
+ ],
+ "marcas": [
+  {"marca":"Dos años antes","o":10,"funciones":[{"funcion":"posición","refs":["A1","A2"]}]},
+  {"marca":"nueve","o":10,"funciones":[{"funcion":"identifica","refs":["C2"]}]},
+  {"marca":"cuatro meses","o":11,"funciones":[{"funcion":"posición","refs":["D1"]}]}
+ ],
+ "dudas": [
+  {"id":"Q1","texto":"«Dos años antes» (o10): ¿antes de qué momento? Quedan abiertas, entre otras, dos lecturas: dos años antes del ataque del hongo a las colmenas del lote norte en marzo, o dos años antes del momento de enunciación u otro momento del documento.","respaldo":[{"o":10,"f":"Dos años antes"},{"o":4,"f":"En marzo, un hongo atacó las colmenas del lote norte."}]}
+ ]
+}

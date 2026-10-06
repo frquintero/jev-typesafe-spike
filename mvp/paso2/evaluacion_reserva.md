@@ -68,5 +68,21 @@ antigua», «obra anterior · orden = anterior»).
 | Recuperación fiel del contenido esperado | 30/30 = **100 %** | ≥ 90 % |
 | Contenido producido fiel y del foco | 70/70 = **100 %** | ≥ 90 % |
 
-Las dos se alcanzan. Con la verificación mecánica sin problemas (0 respaldos no
-verificables), la entrada (b) queda como base de trabajo del paso 2.
+Las dos se alcanzan, y se mantienen al rehacer la cuenta con ítems atómicos (abajo).
+Con la verificación mecánica sin problemas (0 respaldos no verificables), la entrada
+(b) queda como **base de trabajo provisional** del paso 2.
+
+## Segunda cuenta (06-10): verificación con la regla atómica
+
+Después de la revisión de Astra se rehízo la cuenta de desarrollo separando contenido
+de identidad externa. Los 30 ítems de esta reserva **ya estaban escritos así**, uno
+por afirmación, y se revisaron uno a uno contra los crudos: siguen **30/30**, y los
+**70 ítems producidos** siguen fieles y del foco.
+
+Dos cosas que conviene no confundir:
+
+- El 100 % de aquí **no contradice** el 85,1 % de desarrollo: es un conjunto más
+  pequeño, con las referencias completas —todas las identidades externas venían
+  dadas— y escrito por quien diseñó el candidato.
+- Lo que sí se sostiene es que, **con las referencias completas, la entrada (b)
+  recupera todo lo esperado en estos dos documentos sin importar nada ajeno**.
