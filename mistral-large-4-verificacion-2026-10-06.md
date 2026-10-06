@@ -229,8 +229,8 @@ la disciplina de réplicas del repo sigue haciendo falta, y `temperature: 0` no 
 
 ## 6. Preguntas abiertas (no me toca decidirlas)
 
-1. **Contradicción 512K/1M** en ML4: ¿se resuelve con una prueba empírica (~US$0,41 de
-   entrada), con soporte, o se deja como `[?]`?
+1. **Contradicción 512K/1M** en ML4: la API, Vals, AA y Vercel apuntan a 512K (§9.3); solo la
+   ficha de Mistral dice 1M. ¿Basta eso, o se pide a Mistral que corrija la ficha?
 2. **La cuenta está en plan Free y no da cuota a Small 4 ni a Medium 3.5** (§4.7, §4.7 bis).
    ¿Se pide habilitación/pago a Mistral antes de seguir, o se prueba con lo que sí corre
    (ML4 50 req/min, Ministral 3)? Conviene mirar **Admin › Limits** para distinguir «tier»
@@ -337,7 +337,78 @@ POST con {"model":"mistral-large-4","temperature":0,"reasoning_effort":"high", .
 
 ---
 
-## 9. Nota de estado del árbol
+## 9. Los benchmarks de la noticia y la tarjeta «Deep Financial Research» (06-10)
+
+Frat mostró la tarjeta del demo **Deep Financial Research** («Quickest path from Q to A»):
+ML4 16 turnos / 67 fuentes, DeepSeek 4 38/121, GLM-5.3 28/77, con un mapa semántico y un
+botón «Replay». Es lo que se puede leer de la imagen.
+
+### 9.1 Qué es esa tarjeta (y qué no)
+
+- La propia noticia la llama **demo**, no benchmark: «In this demo, ML4 compared to other
+  top OSS models take on the same multistep corporate finance challenge, searching through
+  public company filings…». La versión anterior de la página (12:00:27 UTC) decía «ML4 and
+  Mistral Medium 3.5»; la actual (13:25:50 UTC) dice «other top OSS models». La página se
+  editó en vivo en menos de hora y media `[?]`.
+- Mide **esfuerzo de la trayectoria**: turnos y fuentes. No hay columna de acierto, ni
+  juez, ni esperado, ni barras de error, ni réplicas. Es **una sola pregunta** («the same
+  financial question», en singular) `[A sobre la imagen]`.
+- Su propio marco es de eficiencia: «Quickest path from Q to A». Leer eso como calidad
+  exige cuatro supuestos que la tarjeta no muestra: (i) los tres acertaron, (ii) mismo
+  arnés, mismas herramientas y mismo tope de pasos, (iii) una corrida basta, (iv) menos
+  fuentes es mejor.
+- La lectura contraria es igual de compatible con los números: 121 fuentes pueden ser más
+  evidencia y 67 puede ser haber parado antes. La propia animación dice que cada trazo
+  refleja «the evidence gathered, the results of calculations, and the questions that
+  remain unresolved»: hay preguntas sin resolver en el mapa, y no se ven en la tabla.
+- Contra el estándar del taller: el repo exige esperado escrito antes, réplica y reserva
+  independiente (`memoria`, §4), y su faro dice que **recuperar no es responder**. Contar
+  turnos y fuentes cuenta el camino, no el cambio en A(Q). No es comparable con F5/F6
+  (llamadas sueltas, 76–127 s, ~74 % de los tokens en razonamiento, sin gold).
+
+### 9.2 Las cifras de la noticia, contra quien las midió después
+
+| Afirmación de la noticia | Quién la midió | Estado hoy |
+|---|---|---|
+| Índice de Inteligencia de Artificial Analysis **38** | **AA** (independiente) | Publicado: **#64/225**, mediana 26 → por encima de la media, no frontera. La frase «modelo más inteligente fuera de EE. UU. y China» es **geográfica**, no absoluta |
+| **Cyber Index 50**; 82 % en reproducir-y-parchear; 93 % en Cybench | AA (índice) / Mistral (82 % y 93 %) | AA: 50, igual que GLM-5.3-Flash y por debajo de MiMo-V2.6-Pro (56). El «casi cero» de los modelos cerrados es en parte **rechazo** de la tarea y la metodología de AA puntúa los rechazos con cero: la cifra mezcla capacidad y política. Además, TNW: Mistral «has not shared figures to back» su ventaja en ciber, y hay una versión **menos restringida** para socios de ciberseguridad: no es el modelo del API público |
+| Harvey Legal **15 %** | **Vals** (independiente) | **15,83 % ±2,96, puesto 6/75** → el dato que mejor resiste el cruce, como resultado de **especialista**. La tabla de Harvey tiene arriba a Muse Spark 1.2 con 25,42 % |
+| Finance: FinWorkBench/Finch **67 %** | Mistral (su gráfica) | Empata con DeepSeek V4 Pro (67 %) y GLM-5.3 (65 %): es un empate, no una ventaja. En la medición independiente (Vals Finance Agent v2): ML4 **54,68 %**, por detrás de Gemini 4 Argon (65,40 %), Claude Opus 5.5 (58,59 %) y GLM 5.3 (55,84 %) |
+| Coding: DeepSWE v1.1 **61,7 %** y «Coding Agent Index **49,8 %**» | AA, citado por Mistral | 49,8 % es la **media aritmética** de 61,7 / 59,4 / **28,3** (comprobado: 149,4/3 = 49,8) → el compuesto esconde el componente flojo. En el tablero vivo de DeepSWE, eligiendo la mejor configuración publicada, GLM-5.3 y Kimi K3 rondan 69 % y los cerrados 74 %; ML4 **no está** en el tablero. En Terminal-Bench 4 medido aparte por **Vals**: ML4 **22,73 % ±0,88** frente a GLM 5.3 38,89 % |
+| Vals Index (índice amplio) | **Vals** | **48,05 % ±1,11, puesto 32/44**; coste **$13,78 por test** y latencia **105 min 50 s**. Por debajo de GPT-6.1 Sol (61,15 %), GLM 5.3 (53,51 %), Kimi K3 (50,30 %) y DeepSeek V4.1 Flash (51,32 % a $0,33/test) |
+| Visión: Dense200 **42 %** vs Astra 41 %; DIOR-RSVG 73 % | Mistral (su gráfica) | Un punto de diferencia en un test, sin incertidumbre. VentureBeat no encontró las cifras de los competidores en fuentes públicas |
+
+Notas de método de terceros `[D]`: VentureBeat verifica que las cifras de los rivales son
+rastreables a fuentes públicas, pero **no reproduce las de ML4**; el tablero vivo de DeepSWE
+y el índice público de AA no tenían a ML4 al momento de la nota; la propia noticia dice que
+el *reinforcement learning* del preview sigue en marcha y que publicará más resultados antes
+de los pesos. Y el preview admite **actualizaciones silenciosas** (§4.9): cualquier número
+de hoy describe un modelo que puede cambiar mañana.
+
+### 9.3 Lo que esto resuelve de mis preguntas abiertas
+
+1. **Contexto (fila 3 de §3, pregunta 1 de §6):** mi lectura de la API (524.288) coincide con Vals (512k), AA
+   (524k) y Vercel (524k / salida 262k). Solo la ficha de Mistral dice 1M. La evidencia
+   pesa del lado de **512K**; la ficha parece desactualizada o referida a otra ruta.
+2. **Descuento (fila 5 de §3):** AA lo fecha: «**50 % off for the first two weeks**»; el
+   `billing_model_name` dice `launch-discount`. Las dos señales apuntan a que **termina
+   hacia el 20-10** y que los independientes midieron con la tarifa sin descuento
+   ($1,36/$4,18): por eso Vals y AA listan esas tarifas.
+3. **Verbosity (nuevo):** AA mide **200 M tokens de salida** en su índice frente a una
+   mediana de 81 M → «very verbose». En bucles de agente eso se paga: el costo por test de
+   Vals ($13,78) es 4× el de GPT-6.1 Sol ($3,24) pese a tener tarifas de token más bajas.
+4. **Pesos:** HF da **31-10-2026**; TNW dice **27-10**; licencia aún no publicada `[?]`.
+
+### 9.4 Lo que no se puede concluir
+
+No reproduje ningún benchmark: no hay arnés, ni gold escrito antes, ni reserva, ni
+autorización de gasto para eso. Lo verificado por mí hoy sigue siendo la forma del API
+(§4), no la calidad del modelo. La afirmación del repo —«el spike no concluye»— aplica
+entera: estas cifras entran como **afirmaciones de terceros y de la casa**, no como
+mediciones nuestras. Cualquier comprobación seria exigiría gold previo y reserva
+independiente, y eso lo deciden Frat y Cowork.
+
+## 10. Nota de estado del árbol
 
 Al abrir la sesión, `git status --short` mostraba `?? mvp/paso2/` (sin seguimiento, de las
 06:25 de hoy) con `comparacion.py`, `especificacion_comparacion.md`, `prompt_ficha_contexto.md`
