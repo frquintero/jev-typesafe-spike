@@ -14,7 +14,7 @@ dominio y unas preguntas fijadas antes, evaluada contra lo que se dejó escrito:
 si la respuesta es fiel y está justificada, y si lo que no se puede establecer se
 dice con precisión.
 
-**Base.** [orquestador-plan.md](orquestador-plan.md) §3 (estaciones) y §11 (F0,
+**Base.** [orquestador-plan.md](../historico/orquestador-plan.md) §3 (estaciones) y §11 (F0,
 F1); el contrato de [mesa-dominio-plan.md](mesa-dominio-plan.md) §9 y su cierre;
 la extracción cerrada del paso 2 ([paso2/informe_paso2.md](paso2/informe_paso2.md)).
 **Se mantienen congelados el paso 1 (v9) y el paso 2** (candidato provisional:
@@ -728,7 +728,7 @@ Los tres documentos vivos usan esta convención:
 Dónde vive: [zettel-vision-operativa.md](../zettel-vision-operativa.md) define los
 dos nombres en «Notación y vocabulario» y renombra el mundo;
 [definiciones-del-marco.md](../definiciones-del-marco.md) parte B tiene las dos
-filas y la parte C dice «mundo del agente»; [orquestador-plan.md](orquestador-plan.md)
+filas y la parte C dice «mundo del agente»; [orquestador-plan.md](../historico/orquestador-plan.md)
 renombra el componente en §0–§2, sus estaciones y el prompt. El archivo sigue
 llamándose `orquestador-plan.md`: es el plan del que conduce.
 

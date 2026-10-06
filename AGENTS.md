@@ -62,13 +62,13 @@ mover un archivo o de tocar el estado del repo.
 - `nblm-grafo-semantico/`: mixto: subtemas con DeepSeek y datos por unidad con
   NotebookLM, cada unidad como fuente aparte. Mismas reglas que `notebooklm-spike/`.
 - `mvp/`: MVP de Zettel. Mesas de la forma de A(Q), pieza 1 (conflicto y dato
-  derivado), plan del orquestador, mesa de dominio, pruebas del paso 1 (`pruebas/`) y
+  derivado), mesa de dominio, pruebas del paso 1 (`pruebas/`) y
   paso 2 (`paso2/`: ronda cerrada; entrada «unidad + referencias» como base
   provisional, con `README.md` para la vía y la verificación sin API). **Su estado vive
   en la memoria**; el detalle, en el `README` o `PLAN` de cada subcarpeta. Sigue: la
   conexión mecánica pregunta–dominio–corpus, con el diseño de la primera consulta en
-  `mvp/consulta-diseno.md` (**borrador**, revisión de Claude y Astra), a cotejar con el
-  plan vigente antes de implementarla.
+  `mvp/consulta-diseno.md` (**borrador**, revisión de Claude y Astra). El plan del
+  orquestador es antecedente (`historico/orquestador-plan.md`).
 - `marco filosófico/`: el ensayo «¿Qué es un dato?» y su marco.
 - `langextract-spike/`: cerrado (LangExtract, evaluado y no adoptado).
 - `utiliarios/`: los guiones que se invocan desde la raíz. `muse_tarea.sh` y

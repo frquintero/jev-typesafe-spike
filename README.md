@@ -69,7 +69,8 @@ en el README, PLAN y tareas de cada carpeta).
 - Fecha: 2026-10-05 · Proyecto: MVP de Zettel — mesas 1 y 1b (forma de la
   tabla de A(Q), a mano), pieza 1 (conflicto y dato derivado, con
   `pieza1.py`; registro en `mvp/pieza1/registro.md`), plan del orquestador
-  (candidato, con dos revisiones), mesa de dominio (T1–T6, ejecutada en
+  (candidato, con dos revisiones; antecedente en `historico/` desde el
+  06-10), mesa de dominio (T1–T6, ejecutada en
   comprobación guiada; registro en `mvp/mesa-dominio-resultado.md`), que
   actualizó §4.1 del plan, y pruebas del paso 1 con Muse (`mvp/pruebas/`;
   candidato v9 congelado) (`mvp/`)
@@ -77,8 +78,7 @@ en el README, PLAN y tareas de cada carpeta).
   de datos por unidad; ronda **cerrada**: la unidad más las referencias de v9
   con sus respaldos queda como **base provisional** (recuperación estricta
   95,4 % en desarrollo y 100 % en la reserva; **aceptación no demostrada**)
-  (`mvp/paso2/`). Sigue: la conexión mecánica pregunta–dominio–corpus, **a
-  cotejar con el plan vigente antes de implementarla**; el diseño de esa primera
+  (`mvp/paso2/`). Sigue: la conexión mecánica pregunta–dominio–corpus; el diseño de esa primera
   consulta está en `mvp/consulta-diseno.md` (**borrador**, revisión de Claude y
   Astra).
 

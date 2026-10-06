@@ -23,8 +23,9 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   `mvp/paso2/evaluacion_items.md`; crudos, tareas y costos en
   `mvp/paso2/inventario_y_costos.md`; la vía utilizable (entrada b, verificación sin API) en
   `mvp/paso2/README.md`; qué enseña, en `mvp/paso2/hallazgos.md`.
-- **Hilo del MVP: `mvp/`.** Plan candidato del orquestador —sin índice de casos previo:
-  alcance por dominio y reidentificación acreditada al consultar (decisión del 05-10)— y su
+- **Hilo del MVP: `mvp/`.** El plan candidato del orquestador pasó a antecedente
+  (`historico/orquestador-plan.md`, 06-10); de él queda la decisión del 05-10 —sin índice de
+  casos previo: alcance por dominio y reidentificación acreditada al consultar— y la
   **pieza mecánica** (la conexión mecánica pregunta–dominio–corpus), que es lo siguiente
   ejecutable y aún no está iniciada. Las mesas de la forma de A(Q) y la
   pieza 1 están cerradas y registradas en sus carpetas. El diseño de esa primera consulta
@@ -102,10 +103,10 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
 **Orden (06-10):** el paso 2 quedó **cerrado** (entrada (b) como base provisional; ver «Dónde
 quedamos»). **Lo siguiente es la conexión mecánica pregunta–dominio–corpus:** fijar el alcance
 documental, recuperar unidades completas con sus datos y referencias y preparar la entrada del
-orquestador; su primera comprobación es local, sin LLM, con los materiales existentes, y **antes
-de implementarla hay que cotejar ese alcance con el plan vigente** (`mvp/orquestador-plan.md`,
-F0). No está iniciada. **El diseño de esa primera consulta está en `mvp/consulta-diseno.md`;
-lo revisan Claude y Astra antes de implementar.**
+orquestador; su primera comprobación es local, sin LLM, con los materiales existentes. No está
+iniciada. El plan del orquestador pasó a antecedente (`historico/orquestador-plan.md`, 06-10).
+**El diseño de esa primera consulta está en `mvp/consulta-diseno.md`; lo revisan Claude y Astra
+antes de implementar.**
 
 0. **Conexión mecánica pregunta–dominio–corpus (trabajo de ahora):** fijar el `dominio_consulta`
    de una pregunta, rechazar los ids fuera de alcance, recuperar la unidad completa (texto,
@@ -114,9 +115,9 @@ lo revisan Claude y Astra antes de implementar.**
    Termina cuando, sobre las entradas de la mesa, un id de RIBERA en una consulta de MONTAÑA se
    rechaza por fuera de alcance, `M1:U1` devuelve `M1:S1–S4` y `M1:D1–M1:D3` completos, y la
    corrida anota `dominio_consulta: MONTAÑA` con su lista de documentos. **Antes de escribir
-   código: revisión del diseño (`mvp/consulta-diseno.md`) por Claude y Astra, cotejo con el
-   plan vigente y mostrar el plan.** Detalle en `mvp/mesa-dominio-resultado.md`, cierre; el
-   plan del orquestador, en `mvp/orquestador-plan.md`.
+   código: revisión del diseño (`mvp/consulta-diseno.md`) por Claude y Astra y mostrar el
+   plan.** Detalle en `mvp/mesa-dominio-resultado.md`, cierre; el plan del orquestador, como
+   antecedente, en `historico/orquestador-plan.md`.
 1. **F6 ejecutada, pendiente de evaluación:** evaluar recuperación y ubicación de condiciones, orden temporal, regresiones, formato y costo, según `unidades/PLAN.md`, sección F6. Hasta entonces no se adopta `ficha_v2`.
 2. **Agilidad:** comparar hipótesis de arquitectura, división y modelo/configuración. Vara de Frat: ≈90 % de contenido correcto y ejecución ágil. Falta demostrar el efecto sobre costo total.
 3. **Generalización:** medir cualquier candidato prometedor con una reserva nueva e independiente; las observaciones de las rondas no autorizan cambios adicionales por sí solas.
