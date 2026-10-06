@@ -154,6 +154,28 @@ y batch a mitad de precio, junto a Grok 4.7 y DeepSeek») **no corre en esta cue
 Small 4 devuelve 429 de cuota 0 en tres intentos seguidos y también con y sin esquema.
 Lo barato que sí corre en esta cuenta es la familia **Ministral 3** (3B/8B/14B) y Codestral.
 
+### 4.7 bis Plan real de la cuenta (captura de Frat, `admin.mistral.ai/subscription`, 06-10) `[A][D]`
+
+La captura muestra: plan **Free**, «Included API usage» **$0,01 / $10** (reinicia en 25 días),
+«Included Vibe Code usage» **$0 / $10**, y «API pay-as-you-go» **apagado** (botón «Enable»).
+
+- Un solo plan y **una sola bolsa mensual compartida** entre Studio, API y Vibe Code; la
+  página la desglosa por producto `[D]`.
+- Los $0,01 cuadran con el gasto medido en §2 (≈US$0,005 en mis sondas más las dos llamadas
+  previas del informe de Claude).
+- Consecuencia para §4.7: los 429/403 **no son agotamiento de la bolsa** (queda casi entera),
+  sino límites por modelo o de tier (`x-ratelimit-limit-req-minute: 0`, `tier_not_allowed`).
+  El sitio para verlos es **Admin › Limits**.
+- Con pay-as-you-go apagado, al agotarse la bolsa el uso **se detiene** hasta el reinicio
+  mensual (o hasta que un admin lo active) `[D]`.
+- Orden de magnitud con la bolsa entera (estimación, no medición): ML4 a $0,68/$2,09 por
+  millón → una ficha del tamaño de las de DeepSeek (~20K tokens de salida, más razonamiento)
+  ronda **US$0,04–0,05**, o sea ~200–250 fichas por mes con los $10 completos.
+- En esta máquina Vibe Code **no se ha usado nunca**: no existe `~/.vibe/` y la clave vive
+  solo en `~/.config/mistral.env`. La huella corta del valor es
+  `sha256[:16]=005446e681f85e92` (no se imprime la clave); con eso se puede comprobar más
+  adelante si la clave cambia sin volver a exponerla.
+
 ### 4.8 Réplicas y estabilidad (sonda, no medición) `[A]`
 
 Mismo texto de dos oraciones, mismo esquema estricto, mismas instrucciones:
@@ -209,8 +231,10 @@ la disciplina de réplicas del repo sigue haciendo falta, y `temperature: 0` no 
 
 1. **Contradicción 512K/1M** en ML4: ¿se resuelve con una prueba empírica (~US$0,41 de
    entrada), con soporte, o se deja como `[?]`?
-2. **La cuenta no da cuota a Small 4 ni a Medium 3.5** (§4.7). ¿Se pide habilitación/pago
-   a Mistral antes de seguir, o se prueba con lo que sí corre (ML4 50 req/min, Ministral 3)?
+2. **La cuenta está en plan Free y no da cuota a Small 4 ni a Medium 3.5** (§4.7, §4.7 bis).
+   ¿Se pide habilitación/pago a Mistral antes de seguir, o se prueba con lo que sí corre
+   (ML4 50 req/min, Ministral 3)? Conviene mirar **Admin › Limits** para distinguir «tier»
+   de «límite por modelo».
 3. **`MISTRAL_API_KEY` no está en el protocolo del repo.** ¿Se autoriza y se añade a
    `AGENTS.md` (l. 153–156) y a `call_model`, o se mantiene fuera?
 4. **¿Esto es un frente de trabajo?** Si sí, falta el mismo commit en los tres sitios
