@@ -221,12 +221,13 @@ el usuario; la aritmética y las fechas las hace el código; solo se entrega si 
 efecto; los conflictos se muestran y no se eligen; «no establecido» y «no
 cerrable» se entregan explícitos, con la brecha.
 
-**R se aplica mecánicamente.** El agente la recibe en el prompt, y además el
-orquestador la aplica: si pide una herramienta, una función o una fuente fuera de
-lo admitido, **no la ejecuta y se lo comunica como error de la herramienta** (§7),
-citando la
-regla que la excluye, para que el agente busque otra vía. Cada denegación queda en
-la traza; si insiste, corta la guardia de ciclo.
+**R se aplica ofreciendo.** El agente la recibe en el prompt, y el orquestador la
+aplica al armar cada llamada: **cruza R con el inventario y solo le ofrece lo que
+cumple ambas cosas** (la visión ya lo dice así). Si una herramienta está
+restringida, **no se le da**: no hay nada que denegar. Solo si el agente la pide en
+prosa —o si se usa el camino (A) de §7, donde puede nombrar cualquier cosa— el
+orquestador responde con la regla que la excluye, sin ejecutarla. En los dos casos
+queda en la traza, y si insiste, corta la guardia de ciclo.
 
 **K se deduce de R.** Precisión: R fija **qué clases de premisa pueden entrar**;
 con esta R, la única K admitida es el **mundo del código**, que se registra con su
@@ -332,12 +333,13 @@ thinking encendido algunos `tool_choice` forzados dan error
 | Cómo vuelve el agente | un objeto JSON con `accion`, que el código parsea | `tool_calls` estructurados |
 | Coste por turno | el historial se re-serializa como texto | el historial es el array `messages` nativo |
 | Riesgo | el parseo del JSON; el formato ocupa prompt | tocar la capa compartida; devolver `reasoning_content`; `tool_choice` + thinking |
-| Cuándo | si no se quiere tocar `call_model` | **recomendado**: es el camino estándar y no inventa protocolo |
+| Cuándo | respaldo, si no se quiere tocar `call_model` | **elegido (D13)**: es el camino estándar y no inventa protocolo |
 
-**R en los dos caminos.** Con (B) las herramientas restringidas **no se ofrecen**
-(no van en `tools`), así que el agente no puede pedirlas; si igual pide algo fuera
-de R, el orquestador responde con un error de herramienta que cita la regla. Con
-(A) el agente puede pedir cualquier cosa y el orquestador la deniega:
+**R se aplica al ofrecer.** Con (B), la lista de `tools` de cada llamada es
+**R ∩ inventario**: lo restringido **no se da**, así que el agente no puede
+pedirlo y la denegación deja de ser un caso normal. Queda como guardia para dos
+casos: que lo pida **en prosa** (se le contesta con la regla, sin ejecutar nada) o
+que se use (A), donde sí puede nombrar cualquier acción:
 
 ```json
 {"ok": false, "error": "R no admite fuentes externas", "regla_r": "fuentes_admitidas"}
@@ -500,7 +502,7 @@ por dominio, admisión por R, efecto calculado.
 | **D10** | Documento R: esbozo para el código + prosa para el agente; se fija por prueba | recomendación: sí (§4.2); **los topes no van en R** |
 | **D11** | Compactación: cuántas acciones enteras se conservan y qué se resume | por definir — recomendación: las últimas 5, el resto por referencia + resumen |
 | **D12** | El mundo del LLM: pasa a llamarse «mundo del agente» en los documentos vivos; en el esquema candidato de la pieza 1 sigue rotulado `orquestador` | recomendación: renombrar en los vivos y declarar la divergencia en `pieza1/esquema2.md` hasta adoptarlo |
-| **D13** | Herramientas: (A) protocolo textual sobre `call_model` tal cual, o (B) extender `call_model` con `messages` + `tools` nativos | recomendación: **(B)**, aditivo; (A) queda como respaldo |
+| **D13** | Herramientas: (A) protocolo textual sobre `call_model` tal cual, o (B) extender `call_model` con `messages` + `tools` nativos | **decidida: (B)**, aditivo. Con (B), R se aplica **no dando** la herramienta: la lista de `tools` de cada llamada es R ∩ inventario, y la denegación por mensaje queda solo como guardia (§7) |
 
 ---
 
