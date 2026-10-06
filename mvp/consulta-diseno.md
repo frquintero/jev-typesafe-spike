@@ -224,10 +224,10 @@ cerrable» se entregan explícitos, con la brecha.
 **R se aplica ofreciendo.** El agente la recibe en el prompt, y el orquestador la
 aplica al armar cada llamada: **cruza R con el inventario y solo le ofrece lo que
 cumple ambas cosas** (la visión ya lo dice así). Si una herramienta está
-restringida, **no se le da**: no hay nada que denegar. Solo si el agente la pide en
-prosa —o si se usa el camino (A) de §7, donde puede nombrar cualquier cosa— el
-orquestador responde con la regla que la excluye, sin ejecutarla. En los dos casos
-queda en la traza, y si insiste, corta la guardia de ciclo.
+restringida, **no se le da**: no hay nada que denegar. Solo en el camino (A) de §7
+—donde el agente puede nombrar cualquier acción en su JSON— el orquestador responde
+con la regla que la excluye, sin ejecutarla. En los dos casos queda en la traza, y
+si insiste, corta la guardia de ciclo.
 
 **K se deduce de R.** Precisión: R fija **qué clases de premisa pueden entrar**;
 con esta R, la única K admitida es el **mundo del código**, que se registra con su
@@ -335,17 +335,23 @@ thinking encendido algunos `tool_choice` forzados dan error
 | Riesgo | el parseo del JSON; el formato ocupa prompt | tocar la capa compartida; devolver `reasoning_content`; `tool_choice` + thinking |
 | Cuándo | respaldo, si no se quiere tocar `call_model` | **elegido (D13)**: es el camino estándar y no inventa protocolo |
 
+**El canal de vuelta es JSON, siempre.** El agente contesta con `tool_calls` o con
+el objeto de `entregar`; no hay rama de «responder en texto». Una respuesta que no
+sea JSON, o un `entregar` que no verifique, es un **error de formato**: se registra
+como error y **no se interpreta** —el orquestador no lee prosa—; se permite **una**
+vuelta indicando el formato esperado y, si reincide, se corta con el error
+registrado.
+
 **R se aplica al ofrecer.** Con (B), la lista de `tools` de cada llamada es
 **R ∩ inventario**: lo restringido **no se da**, así que el agente no puede
-pedirlo y la denegación deja de ser un caso normal. Queda como guardia para dos
-casos: que lo pida **en prosa** (se le contesta con la regla, sin ejecutar nada) o
-que se use (A), donde sí puede nombrar cualquier acción:
+pedirlo y la denegación deja de ser un caso normal. Queda como guardia solo en el
+camino (A), donde el agente puede nombrar cualquier acción en su JSON:
 
 ```json
 {"ok": false, "error": "R no admite fuentes externas", "regla_r": "fuentes_admitidas"}
 ```
 
-En los dos, la denegación queda en la traza y insistir corta por ciclo.
+La denegación queda en la traza y insistir corta por ciclo.
 
 **Quién arma las herramientas.** Las escribe **el orquestador, en código**, no el
 agente: cada una es una función con nombre, descripción y esquema JSON
@@ -377,9 +383,9 @@ herramienta es contrato: es lo que el agente lee para decidir.
   el sistema no tiene la herramienta, no se ofrece aunque R la admita.
 
 **Reglas comunes** (valen para A y B): lista blanca de herramientas —las del
-diseño—; `calcular` con **tabla fija** de funciones, nunca `eval`; ids
-validados contra los documentos admitidos; `entregar` en el esquema de `pieza1`,
-con **una** vuelta de reparación si no verifica; y las guardias de §10.
+diseño—; `calcular` con **tabla fija** de funciones, nunca `eval`; ids validados
+contra los documentos admitidos; toda salida del agente en JSON, y `entregar` en el
+esquema de `pieza1`; y las guardias de §10.
 
 **Lo que no cambia con ninguna:** la memoria sigue siendo del orquestador (§6) y
 el agente sigue siendo stateless; el dominio lo inyecta el código; R se aplica y
@@ -422,9 +428,11 @@ se comunica.
    `dependencias`, `tablas_esperadas`, `tabla_inicial`, `tabla_final`, `campo`,
    `conflicto`, `desenlace`, `respuesta`, `brechas`, `dato_derivado` si lo hay).
    Restricción de `pieza1`: `dependencias` es exactamente lo que aparece en las
-   rutas, y `campo` solo datos.
+   rutas, y `campo` solo datos. **Toda salida es JSON**: `tool_calls` o el objeto
+   de entrega; el texto libre no se lee.
 8. **Prohibiciones.** No inventar identidades ni valores; no elegir en un
-   conflicto; no calcular por su cuenta; no salir del dominio.
+   conflicto; no calcular por su cuenta; no salir del dominio; no responder fuera
+   del JSON pedido.
 
 ---
 
@@ -452,6 +460,9 @@ enreda.
   cálculo ≤2 + entrega 1 + reparación 1 ⇒ **≤5 por pregunta**; **tope 20** para
   las cinco, con parada y desenlace «agotada».
 - **Ciclo:** misma acción con los mismos argumentos dos veces → se corta.
+- **Salida inválida:** respuesta que no sea JSON, o `entregar` que no verifique →
+  **error de formato**; se registra y se permite **una** vuelta de reparación con
+  la forma esperada; si reincide, se corta. Nunca se interpreta el texto.
 - **Estimación:** 3–12 k tokens de entrada por llamada (el historial crece) y
   3–12 k de salida (≈91 % razonamiento, medido); total aproximado **40–90 k de
   entrada y 50–120 k de salida**. El importe se calcula con la tarifa publicada
