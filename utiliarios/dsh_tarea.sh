@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Envoltorio para delegar una tarea a DeepSeek Harness por terminal
-# (dsh headless) y recibir un aviso cuando termina. Uso exclusivo de Claude y
-# ChatGPT, con autorización expresa y previa de Frat (ver AGENTS.md,
-# «DeepSeek Harness por terminal»).
+# (dsh headless) y recibir un aviso cuando termina. Delega solo el ORQUESTADOR
+# que designe Frat, con su autorización previa (ver AGENTS.md y
+# otros documentos/agentes-delegados.md).
 #
 # Uso (desde cualquier carpeta; trabaja siempre en la raíz del repo):
 #   ./utiliarios/dsh_tarea.sh <etiqueta> <archivo_mensaje> [<session-id>|nueva]
@@ -25,7 +25,7 @@
 # OBLIGATORIA (sin valor por defecto: se elige en cada corrida según la
 # tarea). Se aplica por llamada con --patch
 # (~/.config/dsh_tarea/esfuerzo/<nivel>.yml), también al continuar una sesión.
-# Política de uso: Claude-memoria/memoria/agentes-delegados.md, §8.
+# Política de uso: otros documentos/agentes-delegados.md, §8.
 
 set -euo pipefail
 
@@ -44,7 +44,7 @@ TOPIC="$(tr -d '[:space:]' < "$CONF/ntfy_topic")"
 if [ -z "$SES" ] && [ -f "$CONF/sesion" ]; then SES="$(tr -d '[:space:]' < "$CONF/sesion")"; fi
 [ "$SES" = "nueva" ] && SES=""
 ESF="${ESFUERZO:-}"
-[ -n "$ESF" ] || { echo "falta ESFUERZO (off|low|high|max): elígelo según la tarea (agentes-delegados.md, §8)" >&2; exit 2; }
+[ -n "$ESF" ] || { echo "falta ESFUERZO (off|low|high|max): elígelo según la tarea (otros documentos/agentes-delegados.md, §8)" >&2; exit 2; }
 [[ "$ESF" =~ ^(off|low|high|max)$ ]] || { echo "ESFUERZO inválido: $ESF (off|low|high|max)" >&2; exit 2; }
 PATCH="$CONF/esfuerzo/$ESF.yml"
 [ -f "$PATCH" ] || { echo "falta $PATCH" >&2; exit 2; }

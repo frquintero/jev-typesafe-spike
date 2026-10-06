@@ -39,9 +39,16 @@ Cualquier otro documento va a `otros documentos/`. Las carpetas de proyecto
 `marco filosófico/`, `historico/`, `deleted/`) se quedan donde están.
 
 **`otros documentos/`.** Documentos de referencia que no son de navegación:
-vocabulario de Jev (`diccionario.md`, `jev_typesafe_guia_pedagogica_v2.md`) e
-informes sueltos (una verificación, un análisis de un proveedor). Si uno pasa a ser
-un frente de trabajo, se le da carpeta propia y entra en los tres sitios.
+vocabulario de Jev (`diccionario.md`, `jev_typesafe_guia_pedagogica_v2.md`),
+la política de agentes delegados (`agentes-delegados.md`) e informes sueltos (una
+verificación, un análisis de un proveedor). Si uno pasa a ser un frente de trabajo, se
+le da carpeta propia y entra en los tres sitios.
+
+- **`agentes-delegados.md` es una copia**, traída el 06-10-2026 del original que vive
+  en `~/Claude-memoria/memoria/agentes-delegados.md`; para Claude y ChatGPT manda el
+  original. La copia lleva al principio la nota de qué se ajustó aquí (§1: delega el
+  ORQUESTADOR que designe Frat). Si cambia el original, se vuelve a copiar y se
+  reaplica ese ajuste.
 
 **`utiliarios/`.** Los guiones que se invocan desde la raíz: `dsh_tarea.sh`,
 `muse_tarea.sh`, `proxy_local.py` (retirado, se conserva como antecedente) y

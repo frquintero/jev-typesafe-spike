@@ -63,8 +63,8 @@ reimplementarla, de modo que lo enviado es idéntico a lo que manda
 ### 4. Quién lo corrió y cómo
 
 - **Agente:** Muse Code **1.4.2** (`1.4.2-R4684.1`), vía `./muse_tarea.sh`.
-- **Esfuerzo:** `high` (escala de `agentes-delegados.md` §8: hay que decidir
-  fronteras entre asuntos, no es mecánico).
+- **Esfuerzo:** `high` (escala de `otros documentos/agentes-delegados.md` §8: hay que
+  decidir fronteras entre asuntos, no es mecánico).
 - **Comando:** el envoltorio exige el mensaje **fuera del repo** y etiqueta nueva.
   El mensaje se dejó en `$HOME/.cache/muse_tarea_msgs/` porque `/tmp` no persiste
   entre llamadas del sandbox del Harness:
@@ -357,6 +357,10 @@ Frat autorizó expresamente esta prueba. La política de
 lanzar a Muse a **Claude y ChatGPT** («ningún otro agente lanza a otro agente»),
 de modo que esta corrida es una excepción autorizada por el dueño de la política;
 el documento de política, que vive fuera del repo, no se modificó.
+
+**Nota (06-10-2026):** esa regla cambió. Ahora delega **el ORQUESTADOR que designe
+Frat**; la copia vigente está en `otros documentos/agentes-delegados.md` (su §1), y
+esta corrida se conserva como se registró.
 
 ## Pendiente
 

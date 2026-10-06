@@ -230,8 +230,8 @@ bash -ic 'python3 unidades/ficha_doc.py puente1 deepseek ficha_v0 r1'
 Muse Code (Meta Muse Spark) es el implementador; DeepSeek Harness, el
 agente de investigación y verificación; NotebookLM, una herramienta en
 evaluación. Cómo se arrancan, se delegan tareas y se recibe el aviso al
-terminar, con sus reglas (autorización previa de Frat; exclusivo de Claude
-y ChatGPT): `/home/fratquintero/Claude-memoria/memoria/agentes-delegados.md`.
+terminar, con sus reglas (delega el **ORQUESTADOR** que designe Frat, con su
+autorización previa): `otros documentos/agentes-delegados.md`.
 
 **Qué lee Muse.** Muse carga solo `AGENTS.md` en cada sesión, interactiva o no. Ahí están sus reglas de red, claves, corrida y reportes (los comandos de cada proyecto, en el `PLAN.md` de su carpeta). `CLAUDE.md` es una sola línea (`@AGENTS.md`): si se usa Claude Code, lee las mismas reglas. Hay una sola fuente.
 

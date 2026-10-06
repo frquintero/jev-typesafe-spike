@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Envoltorio para delegar una tarea a Muse Code sin terminal y recibir un
-# aviso cuando termina (análogo a dsh_tarea.sh). Uso exclusivo de Claude y
-# ChatGPT, con autorización expresa y previa de Frat (ver AGENTS.md).
+# aviso cuando termina (análogo a dsh_tarea.sh). Delega solo el ORQUESTADOR que
+# designe Frat, con su autorización previa (ver AGENTS.md y
+# otros documentos/agentes-delegados.md).
 #
 # Uso (trabaja siempre en la raíz del repo):
 #   ./utiliarios/muse_tarea.sh <etiqueta> <archivo_mensaje> [<uuid>|nueva]
@@ -23,8 +24,8 @@
 # Esfuerzo de razonamiento: variable ESFUERZO = off | low | high | max,
 # OBLIGATORIA (sin valor por defecto), la misma escala que dsh_tarea.sh. Muse no tiene «sin
 # razonar» con la suscripción (none: «not supported with --provider meta»):
-# off se traduce a minimal. Política de uso: Claude-memoria/memoria/
-# agentes-delegados.md, §8.
+# off se traduce a minimal. Política de uso:
+# otros documentos/agentes-delegados.md, §8.
 
 set -euo pipefail
 
@@ -44,7 +45,7 @@ TOPIC="$(tr -d '[:space:]' < "$HOME/.config/dsh_tarea/ntfy_topic")"
 if [ -z "$SES" ] && [ -f "$CONF/sesion" ]; then SES="$(tr -d '[:space:]' < "$CONF/sesion")"; fi
 if [ -z "$SES" ] || [ "$SES" = "nueva" ]; then SES="$(python3 -c 'import uuid;print(uuid.uuid4())')"; fi
 ESF="${ESFUERZO:-}"
-[ -n "$ESF" ] || { echo "falta ESFUERZO (off|low|high|max): elígelo según la tarea (agentes-delegados.md, §8)" >&2; exit 2; }
+[ -n "$ESF" ] || { echo "falta ESFUERZO (off|low|high|max): elígelo según la tarea (otros documentos/agentes-delegados.md, §8)" >&2; exit 2; }
 case "$ESF" in off) EFM=minimal ;; low|high|max) EFM="$ESF" ;; *) echo "ESFUERZO inválido: $ESF (off|low|high|max)" >&2; exit 2 ;; esac
 mkdir -p "$SALIDA"
 for ext in out err json jsonl; do

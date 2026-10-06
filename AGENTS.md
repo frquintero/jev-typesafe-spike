@@ -73,13 +73,16 @@ mover un archivo o de tocar el estado del repo.
   el protocolo de Jev (`seco` no llama a la API); `proxy_local.py` (retirado) se
   conserva como antecedente. El repo se resuelve como el padre de esta carpeta.
 - `otros documentos/`: documentos de referencia que no son de navegación: el
-  vocabulario de Jev (`diccionario.md`, `jev_typesafe_guia_pedagogica_v2.md`) y los
-  informes sueltos (p. ej. `mistral-large-4-verificacion-2026-10-06.md`).
+  vocabulario de Jev (`diccionario.md`, `jev_typesafe_guia_pedagogica_v2.md`), la
+  política de agentes delegados (`agentes-delegados.md`, copia del original que vive
+  en `~/Claude-memoria/memoria/`) y los informes sueltos (p. ej.
+  `mistral-large-4-verificacion-2026-10-06.md`).
 - `deleted/`: snapshots históricos; no es fuente.
 - Documentos vivos (no editar sin aprobación): los siete de la raíz (`README.md`,
   `AGENTS.md`, `CLAUDE.md`, `memoria de trabajo y pendientes.md`, `política.md`,
   `definiciones-del-marco.md`, `zettel-vision-operativa.md`) y, en
-  `otros documentos/`, `diccionario.md` y `jev_typesafe_guia_pedagogica_v2.md`.
+  `otros documentos/`, `diccionario.md`, `jev_typesafe_guia_pedagogica_v2.md` y
+  `agentes-delegados.md`.
 
 ## Reglas de corrida
 
@@ -120,17 +123,17 @@ en `unidades/PLAN.md`).
   `bash -ic 'for v in TYPESAFE_API_KEY ZAI_API_KEY DEEPSEEK_API_KEY XAI_API_KEY; do
   [ -n "${!v}" ] && echo "$v: SET" || echo "$v: MISSING"; done'`
 - **Muse usa la suscripción Muse Code Everyday, nunca pago por uso:** no
-  cargar ni pasarle `META_API_KEY`. Cómo se arranca y se delega: `/home/fratquintero/Claude-memoria/memoria/agentes-delegados.md`.
+  cargar ni pasarle `META_API_KEY`. Cómo se arranca y se delega:
+  `otros documentos/agentes-delegados.md`.
 - Las sondas de `probes/` y `cutoff-spike/` arman sus propias
   cabeceras sin clave: si se reanudan, se pasan por `call_model` o se les agrega
   la clave del mismo modo.
 - Si una llamada falla por autenticación, **detenerse y reportar**; no buscar
   la clave por otros medios.
 
-## Agentes delegados (DeepSeek Harness, Muse, NotebookLM)
+## Agentes delegados
 
-Todo lo de los agentes a los que Claude y ChatGPT delegan trabajo
-(`utiliarios/dsh_tarea.sh`, `utiliarios/muse_tarea.sh`, NotebookLM: cómo se lanzan, avisos,
-sesiones, ubicaciones y reglas) está en un solo documento, fuera del repo:
-`/home/fratquintero/Claude-memoria/memoria/agentes-delegados.md`. Leerlo antes de usarlos. Regla dura: **autorización expresa y
-previa de Frat** en cada uso; **exclusivo de Claude y ChatGPT**.
+El modelo de LLM que sea denominado **ORQUESTADOR** por Frat delega trabajo
+(`utiliarios/dsh_tarea.sh`, `utiliarios/muse_tarea.sh`, NotebookLM: cómo se lanzan,
+avisos, sesiones, ubicaciones y reglas). El documento único, con la regla de uso y el
+detalle, está en `otros documentos/agentes-delegados.md`.
