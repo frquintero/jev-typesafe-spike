@@ -70,7 +70,7 @@ antigua», «obra anterior · orden = anterior»).
 
 Las dos se alcanzan, y se mantienen al rehacer la cuenta con ítems atómicos (abajo).
 Con la verificación mecánica sin problemas (0 respaldos no verificables), la entrada
-(b) queda como **base de trabajo provisional** del paso 2.
+(b) queda como **base de trabajo** del paso 2.
 
 ## Segunda cuenta (06-10): verificación con la regla atómica
 

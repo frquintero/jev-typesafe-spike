@@ -19,9 +19,12 @@ aunque faltara la identidad que el propio ítem pedía: eso infló los porcentaj
 | **(b) unidad + referencias** | sus oraciones y las referencias de v9 con sus respaldos | **74/87 = 85,1 %** | 111/113 = **98,2 %** | **616,3 s** | **145 171** |
 | (c) unidad + documento | sus oraciones y el documento entero | 71/87 = 81,6 % | 100 % | 650,7 s | 148 630 |
 
-Casillas = ítem esperado × corrida. **Ninguna entrada llega al 90 % de recuperación en
-desarrollo.** En la reserva, (b) alcanzó 30/30 ítems y 70/70 producidos, con
-referencias completas y sin importar nada ajeno.
+Casillas = ítem esperado × corrida. En desarrollo —donde la comparación **solo elige la
+entrada**— ninguna llega al 90 % de recuperación: la mejor es (b), con 85,1 %. Las dos
+medidas se aplican en la reserva, y allí (b) alcanzó **30/30 ítems y 70/70 producidos**,
+con referencias completas y sin importar nada ajeno. Varios de los ítems que (b) no
+recupera en desarrollo son **inalcanzables** con lo que v9 registró: miden lo que el
+paso 1 entrega al paso 2, no un defecto de la entrada.
 
 ## 2. Ocho hallazgos
 
@@ -92,7 +95,7 @@ evaluables por escribir expectativas sin fijar el corte).
 ## 4. Lo que sigue sin saberse
 
 - **Un solo juez**, sin segunda lectura de las casillas.
-- **Sin réplicas por unidad y entrada:** una pasada permite una decisión provisional,
+- **Sin réplicas por unidad y entrada:** una pasada permite decidir entre alternativas,
   no medir estabilidad. (Hay un indicio: tres unidades sin referencias, donde (a) y (b)
   son la misma entrada, dieron fichas distintas.)
 - `doc5` sin Muse; la reserva no es independiente.

@@ -27,8 +27,11 @@ rebajaron cinco afirmaciones que excedían lo observado. Ninguna llamada nueva.
 | **(b) + referencias** | **74/87 = 85,1 %** | 111/113 = **98,2 %** | **616,3 s** | **145 171** |
 | (c) + documento | 71/87 = 81,6 % | 103/103 = 100 % | 650,7 s | 148 630 |
 
-**Ninguna entrada alcanza el 90 % de recuperación en desarrollo.** (b) es la mejor: le
-faltan 5 puntos para el umbral, y saca 3,5 puntos a (c) y 17 a (a).
+**Ninguna entrada alcanza el 90 % de recuperación en desarrollo**, y eso no cierra
+nada: en desarrollo la comparación **solo elige la entrada**, y las dos medidas se
+aplican en la reserva. (b) es la mejor: saca 3,5 puntos a (c) y 17 a (a). Varios de
+los ítems que no recupera son **inalcanzables** con lo que v9 registró (miden lo que
+el paso 1 entrega al paso 2, no un defecto de la entrada).
 
 Lo que decide, mirando las casillas: en (a) las identidades externas no se resuelven
 («la empresa» sin «de acueducto», «la red» sin «del tranvía», y la condición «la noche
@@ -78,20 +81,22 @@ referencias venían completas).
 - **Sin réplicas por unidad y entrada:** la estabilidad no está medida.
 - `doc5` no tiene corridas de Muse; el reparto entre modelos no es idéntico.
 - Varios ítems de identidad que fallan en (b) son **inalcanzables** con lo que v9
-  registró: miden el techo del paso 1.
+  registró: miden lo que el paso 1 entrega al paso 2.
 - Todos los textos son cortos (14–17 oraciones) y la referencia hacia adelante sigue
   sin ejercitarse.
 
 ## Disposición final
 
-- **Base de trabajo provisional del paso 2: entrada (b)** —la unidad extraída de sus
-  oraciones más las referencias de v9 con sus respaldos, como contexto que aclara y no
-  amplía—. Provisional porque el 90 % no se alcanza en desarrollo; el candidato queda
-  como base sin abrir otra cadena de versiones.
+- **Base de trabajo del paso 2: la entrada (b)** —la unidad extraída de sus oraciones
+  más las referencias de v9 con sus respaldos, como contexto que aclara y no amplía—.
+  Aceptada por la regla acordada: en desarrollo la comparación solo elige la entrada, y
+  las dos medidas se aplican en la reserva, donde alcanzó 100 % y 100 %.
 - **v9 y `ficha_v1` siguen congelados.** `ficha_v2` no se toca.
-- **Antes de dar el paso 2 por cerrado** hay que decidir qué hacer con el techo del
-  paso 1 (las referencias que v9 no registra) y con la cuenta: hoy la medida depende de
-  un solo juez.
+- **Limitaciones anotadas, que no bloquean:** el paso 2 solo usa el contexto que el
+  paso 1 le entrega —lo que v9 no registra no llega, y así quedaron fuera del alcance
+  de (b) «la causa del corte» en `doc4 U2` y la lectura de `[8]` para «la solicitud»—;
+  la cuenta la hizo un solo juez; no hay réplicas por unidad y entrada; `doc5` no tiene
+  Muse; y la reserva no es independiente.
 - **Después:** la pieza mecánica del orquestador (orden del 06-10).
 
 ## Archivos

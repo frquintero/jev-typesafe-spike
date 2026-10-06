@@ -85,12 +85,11 @@ completó y, con Muse, las tres de `doc4 U3` por el JSON inválido.
 
 ## Consecuencia para la selección
 
-Con la cuenta auditable **no se puede cerrar la integración**: la entrada (b) es la
-mejor de las tres y se conserva como **base de trabajo provisional**, pero el 90 % de
-recuperación no está alcanzado en los textos de desarrollo. En la reserva sí se
-alcanza (véase `evaluacion_reserva.md`), y esa diferencia hay que leerla como lo que
-es: un conjunto más pequeño, con referencias completas, y escrito por quien diseñó el
-candidato.
+Con la cuenta auditable, **(b) es la mejor de las tres** y queda como **base de trabajo
+del paso 2**. En desarrollo ninguna entrada alcanza el 90 %, pero eso no cierra nada:
+en desarrollo la comparación **solo elige la entrada**, y las dos medidas se aplican en
+la reserva, donde (b) alcanzó 30/30 ítems y 70/70 producidos (véase
+`evaluacion_reserva.md`).
 
 ## Defectos que quedan dichos
 
@@ -98,5 +97,5 @@ candidato.
 - No hay réplicas por unidad y entrada: la estabilidad no está medida.
 - `doc5` no tiene corridas de Muse.
 - Los ítems de identidad externa que fallan en (b) son, en varios casos,
-  *inalcanzables* con lo que v9 registró (U2 no tiene ninguna referencia): miden el
-  techo del paso 1, no un defecto de la entrada.
+  *inalcanzables* con lo que v9 registró (U2 no tiene ninguna referencia): miden lo que
+  el paso 1 entrega al paso 2, no un defecto de la entrada.

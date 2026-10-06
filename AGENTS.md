@@ -116,9 +116,9 @@ los tres sitios.
   Candidato **v9 congelado** como base de trabajo del paso 1.
   `paso2/`: extracción de datos por unidad; comparación de tres entradas (unidad
   sola, unidad con las referencias de v9, unidad con el documento completo) con
-  Muse Code y `deepseek-flash`; **entrada elegida como base de trabajo
-  provisional: la unidad más las referencias** (85,1 % de recuperación y 98,2 % de
-  fidelidad en desarrollo, por debajo del 90 %; 100 % y 100 % en la reserva).
+  Muse Code y `deepseek-flash`; **entrada elegida y base de trabajo: la unidad más
+  las referencias** (100 % de recuperación y 100 % de fidelidad en la reserva, donde
+  se aplican las medidas; 85,1 % y 98,2 % en desarrollo, que solo elige la entrada).
   Candidato `prompt_ficha_contexto.md`, corredores y crudos ahí; informe en
   `mvp/paso2/informe_paso2.md`.
 - `langextract-spike/`: frente **cerrado** el 03-10 (LangExtract de Google,
