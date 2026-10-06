@@ -55,7 +55,24 @@ un frente de trabajo, se le da carpeta propia y entra en los tres sitios.
 **Documentos vivos (no se editan sin aprobación de Frat):** los siete de la raíz y,
 en `otros documentos/`, `diccionario.md` y `jev_typesafe_guia_pedagogica_v2.md`.
 
-## 3. Cuando algo se mueve
+## 3. Cada commit local se sube
+
+- **Todo commit local se lleva al upstream en el mismo tramo de trabajo:** `main`
+  sigue a `origin/main` (`https://github.com/frquintero/jev-typesafe-spike.git`) y no
+  se deja el repo local adelantado. Terminar con commits sin subir es dejar la tarea
+  a medias.
+- La copia de GitHub es de donde se recupera el trabajo desde otro sitio (ChatGPT
+  Work lee `main` sin el PC): **un commit que solo existe en el PC no está
+  publicado.**
+- **Si el push falla** (red, credenciales): detenerse y reportar. No se busca otra
+  vía para publicar, y no se reescribe la historia publicada (`push --force` sobre
+  `main` no se usa).
+- **Si `origin/main` va por delante:** traerlo antes de seguir y decir en el reporte
+  qué traía. El trabajo se hace sobre `main`, no sobre ramas sueltas.
+- El push va en el mismo commit que el trabajo: crudos, resultados y la
+  actualización de estado de los tres sitios.
+
+## 4. Cuando algo se mueve
 
 1. `git mv` (conserva la historia), nunca copiar y dejar el original.
 2. **Buscar y actualizar todas las referencias** antes de commitear:

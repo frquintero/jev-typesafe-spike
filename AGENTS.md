@@ -146,6 +146,19 @@ mover un archivo o de tocar el estado del repo.
 - Al terminar una corrida: commit y push de los crudos (y del script si
   cambió) a `main`.
 
+## Git y remoto
+
+- **Upstream:** `origin` = `https://github.com/frquintero/jev-typesafe-spike.git`.
+  Es la copia pública desde la que se recupera el trabajo (ChatGPT Work consulta
+  `main` sin el PC). No hay otro remoto.
+- **`main` sigue a `origin/main`** (`branch.main.remote = origin`): `git status -sb`
+  lo muestra como `## main...origin/main` con los commits por delante o por detrás.
+- El trabajo se hace en `main`. Hay ramas sueltas de otras herramientas
+  (`claude/intelligent-brown-7rqlvi`; `cline/bdd13` vive en un worktree aparte) que
+  **no** son la rama de trabajo.
+- `git push origin main` al terminar cada tramo: la obligación y sus excepciones
+  están en `política.md` §3.
+
 ## Red y claves (regla dura)
 
 Desde el 04-10 no hay proxy de claves (decisión de Frat: el código no
