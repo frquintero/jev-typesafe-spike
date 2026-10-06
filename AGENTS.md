@@ -66,11 +66,11 @@ mover un archivo o de tocar el estado del repo.
   paso 2 (`paso2/`). **Su estado vive en la memoria**; el detalle, en el `README` o
   `PLAN` de cada subcarpeta.
 - `marco filosófico/`: el ensayo «¿Qué es un dato?» y su marco.
-- `langextract-spike/`: cerrado el 03-10 (LangExtract, evaluado y no adoptado).
+- `langextract-spike/`: cerrado (LangExtract, evaluado y no adoptado).
 - `utiliarios/`: los guiones que se invocan desde la raíz. `muse_tarea.sh` y
   `dsh_tarea.sh` delegan tareas a Muse y a DeepSeek Harness (ver «Agentes
   delegados»); `configurar_clave_xai.sh` pide la clave de xAI; `proxy_local.py`
-  (retirado el 04-10) se conserva como antecedente. El repo se resuelve como el
+  (retirado) se conserva como antecedente. El repo se resuelve como el
   padre de esta carpeta.
 - `otros documentos/`: documentos de referencia que no son de navegación: el
   vocabulario de Jev (`diccionario.md`, `jev_typesafe_guia_pedagogica_v2.md`) y los
@@ -100,16 +100,12 @@ en `unidades/PLAN.md`).
   `main` sin el PC). No hay otro remoto.
 - **`main` sigue a `origin/main`** (`branch.main.remote = origin`): `git status -sb`
   lo muestra como `## main...origin/main` con los commits por delante o por detrás.
-- El trabajo se hace en `main`. Hay ramas sueltas de otras herramientas
-  (`claude/intelligent-brown-7rqlvi`; `cline/bdd13` vive en un worktree aparte) que
-  **no** son la rama de trabajo.
+- El trabajo se hace en `main`. Hay ramas sueltas de otras herramientas que no son la
+  rama de trabajo: no se trabaja en ellas.
 - `git push origin main` al terminar cada tramo: la obligación y sus excepciones
   están en `política.md` §3.
 
 ## Red y claves (regla dura)
-
-Desde el 04-10 no hay proxy de claves (decisión de Frat: el código no
-necesita correr igual en la nube y en el PC).
 
 - Las llamadas a modelos pasan por `call_model` (`niveles/run_niveles.py`),
   que lee la clave del entorno según el host y la pone en `Authorization`;
@@ -125,9 +121,9 @@ necesita correr igual en la nube y en el PC).
   [ -n "${!v}" ] && echo "$v: SET" || echo "$v: MISSING"; done'`
 - **Muse usa la suscripción Muse Code Everyday, nunca pago por uso:** no
   cargar ni pasarle `META_API_KEY`. Cómo se arranca y se delega: `/home/fratquintero/Claude-memoria/memoria/agentes-delegados.md`.
-- Las sondas viejas de `probes/` y `cutoff-spike/` arman sus propias
-  cabeceras sin clave (pensadas para el proxy retirado); si se reanudan, se
-  pasan por `call_model` o se les agrega la clave del mismo modo.
+- Las sondas de `probes/` y `cutoff-spike/` arman sus propias
+  cabeceras sin clave: si se reanudan, se pasan por `call_model` o se les agrega
+  la clave del mismo modo.
 - Si una llamada falla por autenticación, **detenerse y reportar**; no buscar
   la clave por otros medios.
 
