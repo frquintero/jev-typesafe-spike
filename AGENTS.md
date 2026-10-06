@@ -134,15 +134,3 @@ Todo lo de los agentes a los que Claude y ChatGPT delegan trabajo
 sesiones, ubicaciones y reglas) está en un solo documento, fuera del repo:
 `/home/fratquintero/Claude-memoria/memoria/agentes-delegados.md`. Leerlo antes de usarlos. Regla dura: **autorización expresa y
 previa de Frat** en cada uso; **exclusivo de Claude y ChatGPT**.
-
-## Modelos
-
-- `grok` = `grok-4.7` (`reasoning_effort: "low"`, `stream_options` con
-  `include_usage`). En xAI `completion_tokens` no incluye `reasoning_tokens`.
-- `deepseek` = `deepseek-flash` (thinking, `reasoning_effort: "low"`). Su
-  razonamiento va dentro de `completion_tokens`. Puede dejar el stream
-  colgado: si pasa un minuto sin datos, reportarlo.
-- `flash` = `glm-5.3-flash`; Z.ai tarda ~50 s aun en llamadas mínimas.
-- Jev: `jev-1.13.0` fijo; el protocolo está en `utiliarios/jev.py`.
-- Comparar siempre el modelo efectivo de la respuesta con el esperado y avisar
-  si difiere.
