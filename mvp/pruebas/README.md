@@ -208,18 +208,24 @@ prompt: es lo que el modelo cuenta de sí mismo.
 **Resultado favorable, no estabilidad demostrada.** v7 consiguió en este
 documento lo que se buscaba: conservar la partición de v5 y llevar dentro de cada
 subtema el respaldo de sus referencias externas, con menos tiempo y menos
-razonamiento que v6. Queda **como candidato**, en `mvp/pruebas/prompt_v7.md`.
+razonamiento que v6.
+
+**El candidato vigente es `prompt_v9.md`**, congelado el 5-10-2026. La cadena: v7
+sobre `doc1`, `doc2` y `doc3`; v8 con la regla de identificación mínima; v9 con
+las tres correcciones de la revisión —el ejemplo del archivo sin la referencia
+interna, la fidelidad por delante de la brevedad, y la duda que conserva las
+interpretaciones abiertas—. Con v9 se corrieron `doc4` y `doc5`, con los criterios
+fijados antes; la evaluación está en `evaluacion_doc4-doc5.md`.
 
 **Límites de lo probado:** un solo documento, una réplica por variante, un solo
 agente. Nada de esto dice cómo se comporta con otros textos ni si repite el
 resultado. Que el resumen de razonamiento describa la secuencia del prompt
 tampoco lo prueba.
 
-**Siguiente paso:** probarlo en dos o tres **textos nuevos**, con los criterios
-escritos **antes** de correr —referencias resueltas, partición conservada, nada
-inventado— y con réplicas. Ese gold tiene para qué aquí: lo que se pide es medir
-estabilidad, no montar la tubería. Seguir ajustando sobre el molino y la escuela
-enseñaría cada vez menos.
+**Siguiente paso:** repetir **el mismo** v9 sobre los mismos textos —hoy hay una
+réplica por texto, y una sola corrida no separa efecto de ruido— y ejercitar la
+referencia hacia adelante, que sigue sin probarse. Después, decidir si v9 se
+adopta como prompt del paso 1.
 
 **Si se adopta** como prompt del paso 1, le correspondería `unidades/prompts/`
 con el número siguiente a `unidades_v5`; hoy vive en esta carpeta de pruebas y esa
@@ -249,15 +255,21 @@ conserva el enviado como registro—, pero el prompt y el texto sí son idéntic
 ## Archivos
 
 Todo lo que deja una corrida lleva la etiqueta en el nombre
-(`<tipo>_<etiqueta>`); las etiquetas son `prueba1-v5`, `prueba2-v6`, `prueba3-v7`
-y `consulta1` (el turno en que se le preguntó a Muse por su propia salida).
+(`<tipo>_<etiqueta>`). Etiquetas: `prueba1-v5`, `prueba2-v6` y `prueba3-v7` (doc1);
+`consulta1` (la pregunta a Muse por su propia salida); `prueba4-doc2` y
+`prueba5-doc3` (con v7); `prueba6-v8-doc2` y `prueba7-v8-doc3` (con v8);
+`prueba8-v9-doc4` y `prueba9-v9-doc5` (con v9).
 
 | Archivo | Qué es |
 |---|---|
-| `doc1.md` | El documento sintético. El mismo en las tres corridas. |
+| `doc1.md` … `doc5.md` | Los cinco documentos sintéticos. |
 | `correr_muse.sh` | Herramienta: armar, lanzar y recoger en un comando. |
 | `prompt_v6.md` | Variante A: agrupar y resolver a la vez. |
 | `prompt_v7.md` | Variante B: v5 íntegro más el bloque de referencias externas. |
+| `prompt_v8.md` | v7 con la regla de identificación mínima y el ejemplo del archivo. |
+| `prompt_v9.md` | **Candidato congelado**: ejemplo corregido, fidelidad por delante de la brevedad, duda que conserva las interpretaciones abiertas. |
+| `criterios_doc4-doc5.md` | Criterios fijados **antes** de correr doc4 y doc5. |
+| `evaluacion_doc4-doc5.md` | Evaluación de v9 en esos dos textos, por fidelidad y economía. |
 | `mensaje_<etiqueta>.md` | Mensaje preparado (instrucciones + prompt con el texto numerado). |
 | `mensaje_<etiqueta>_enviado.md` | Copia del `.msg` que Muse recibió de verdad. |
 | `corrida_<etiqueta>.json` | Documento y prompt de la corrida, para que `recoger` verifique contra el correcto. |
@@ -327,9 +339,9 @@ el documento de política, que vive fuera del repo, no se modificó.
 
 ## Pendiente
 
-- **Probar v7 en textos nuevos**, con los criterios escritos antes y con
-  réplicas. Es el siguiente paso definido en el cierre.
-- **Decidir** si v7 se adopta como prompt del paso 1 y con qué nombre en
+- **Réplicas del mismo v9** sobre `doc4` y `doc5`, para medir estabilidad; y
+  ejercitar la referencia hacia adelante, que quedó sin probar.
+- **Decidir** si v9 se adopta como prompt del paso 1 y con qué nombre en
   `unidades/prompts/`.
 - **Aparcado:** el límite de la oración (punto 3 de la revisión de fricciones).
 

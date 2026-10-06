@@ -1,0 +1,98 @@
+{
+  "parseo": true,
+  "venia_con_cerca": false,
+  "error_parseo": null,
+  "doc": "/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/pruebas/doc2.md",
+  "verificacion": {
+    "oraciones_del_texto": 17,
+    "huecos": [],
+    "solapes": [],
+    "fuera_de_rango": [],
+    "no_enteros": []
+  },
+  "unidades_reconstruidas": [
+    {
+      "subtema": "la instalación del banco de semillas del bosque nublado de La Cuchilla",
+      "oraciones_n": [
+        1
+      ],
+      "oraciones": [
+        "El banco de semillas del bosque nublado de La Cuchilla se instaló en 2019 en una caseta junto al sendero."
+      ]
+    },
+    {
+      "subtema": "las muestras del banco de semillas del bosque nublado de La Cuchilla y el etiquetado de los sobres",
+      "oraciones_n": [
+        2,
+        3
+      ],
+      "oraciones": [
+        "Conserva muestras de cuarenta y dos especies nativas en sobres sellados.",
+        "Cada sobre lleva la fecha de recolección y el nombre de quien recolectó."
+      ]
+    },
+    {
+      "subtema": "la siembra y germinación de las semillas de roble blanco y su comparación con el ensayo anterior",
+      "oraciones_n": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "oraciones": [
+        "En marzo, el equipo sembró doscientas semillas de roble blanco en bandejas de vivero.",
+        "Germinaron ciento treinta y ocho.",
+        "El porcentaje fue menor que el del ensayo anterior, hecho con semillas del mismo árbol.",
+        "La bióloga Marta Olaya atribuye la diferencia a la humedad de la caseta."
+      ]
+    },
+    {
+      "subtema": "la expansión del helecho espinoso y su efecto sobre las plántulas nativas",
+      "oraciones_n": [
+        8,
+        9
+      ],
+      "oraciones": [
+        "El helecho espinoso, introducido en los años ochenta, cubre hoy la ladera sur.",
+        "Sus rizomas impiden que las plántulas nativas alcancen la luz."
+      ]
+    },
+    {
+      "subtema": "el plan de erradicación propuesto por la corporación ambiental",
+      "oraciones_n": [
+        10,
+        11,
+        12
+      ],
+      "oraciones": [
+        "La corporación ambiental propuso un plan de erradicación en abril.",
+        "El plan contempla tres jornadas de roza manual al año.",
+        "La corporación no mencionó el costo de disponer del material cortado."
+      ]
+    },
+    {
+      "subtema": "la procedencia de las doscientas semillas de roble blanco según el informe interno del banco",
+      "oraciones_n": [
+        13
+      ],
+      "oraciones": [
+        "Según el informe interno del banco, ninguna de las doscientas semillas procedía de árboles caídos."
+      ]
+    },
+    {
+      "subtema": "la revisión de los sobres del banco y la recomendación de repetir el ensayo",
+      "oraciones_n": [
+        14,
+        15,
+        16,
+        17
+      ],
+      "oraciones": [
+        "Marta Olaya y la ingeniera forestal Ana Perdomo revisaron juntas los sobres.",
+        "Cuando ella terminó, quedaron tres etiquetas marcadas como ilegibles.",
+        "Su director firmó la recomendación de repetir el ensayo en septiembre.",
+        "El director del vivero, Hernán Pardo, pidió además revisar la humedad de la caseta."
+      ]
+    }
+  ]
+}

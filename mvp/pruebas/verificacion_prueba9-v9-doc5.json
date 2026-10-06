@@ -1,0 +1,84 @@
+{
+  "parseo": true,
+  "venia_con_cerca": false,
+  "error_parseo": null,
+  "doc": "/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/pruebas/doc5.md",
+  "verificacion": {
+    "oraciones_del_texto": 17,
+    "huecos": [],
+    "solapes": [],
+    "fuera_de_rango": [],
+    "no_enteros": []
+  },
+  "unidades_reconstruidas": [
+    {
+      "subtema": "el inicio del tranvía y la extensión de la red",
+      "oraciones_n": [
+        1,
+        2,
+        3
+      ],
+      "oraciones": [
+        "El primer tranvía de la ciudad empezó a rodar en 1893.",
+        "Lo operaba una compañía inglesa con capital privado.",
+        "La red llegó a tener veintiocho kilómetros de vías, según los planos de la época."
+      ]
+    },
+    {
+      "subtema": "el incendio de 1927 y el restablecimiento del servicio",
+      "oraciones_n": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "oraciones": [
+        "En 1927, un incendio destruyó las caballerizas de la compañía.",
+        "El fuego se originó en un depósito de forraje.",
+        "La compañía no repuso los animales.",
+        "La ciudad tardó dos años en restablecer el servicio."
+      ]
+    },
+    {
+      "subtema": "la compra municipal de la red y la promesa incumplida de modernización",
+      "oraciones_n": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "oraciones": [
+        "En 1948, la municipalidad compró la red.",
+        "La compra incluyó los talleres y los vehículos que aún servían.",
+        "El municipio prometió modernizar las líneas.",
+        "Nunca ejecutó esa promesa."
+      ]
+    },
+    {
+      "subtema": "el retiro de los tranvías y la atribución de su cierre",
+      "oraciones_n": [
+        12,
+        13,
+        17
+      ],
+      "oraciones": [
+        "Los últimos tranvías circularon hasta 1965.",
+        "Su retiro coincidió con la ampliación de la avenida central.",
+        "La historiadora, Elvira Sanmiguel, atribuyó el cierre a la presión de los transportadores."
+      ]
+    },
+    {
+      "subtema": "la revisión de los planos del taller y la publicación del hallazgo",
+      "oraciones_n": [
+        14,
+        15,
+        16
+      ],
+      "oraciones": [
+        "La historiadora y la archivista revisaron los planos del taller.",
+        "Ella encontró un plano fechado en 1911.",
+        "Su hallazgo se publicó en la revista municipal."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "parseo": true,
+  "venia_con_cerca": false,
+  "error_parseo": null,
+  "doc": "/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/pruebas/doc4.md",
+  "verificacion": {
+    "oraciones_del_texto": 17,
+    "huecos": [],
+    "solapes": [],
+    "fuera_de_rango": [],
+    "no_enteros": []
+  },
+  "unidades_reconstruidas": [
+    {
+      "subtema": "el corte de agua anunciado en el barrio San Jorge, su duración y sus afectados",
+      "oraciones_n": [
+        1,
+        2,
+        3
+      ],
+      "oraciones": [
+        "La empresa de acueducto anunció un corte de agua en el barrio San Jorge para el jueves.",
+        "El corte durará catorce horas, desde las seis de la mañana.",
+        "Afectará a unos tres mil usuarios, según la empresa."
+      ]
+    },
+    {
+      "subtema": "la causa del corte: la reparación de la tubería matriz y el trabajo de la cuadrilla",
+      "oraciones_n": [
+        4,
+        5,
+        6
+      ],
+      "oraciones": [
+        "La causa es la reparación de una tubería matriz en la carrera séptima.",
+        "Esa tubería tiene cuarenta años y ya presentó fugas en 2021.",
+        "La cuadrilla trabajará con dos bombas de achique."
+      ]
+    },
+    {
+      "subtema": "la petición de la empresa de acueducto a los vecinos de almacenar agua",
+      "oraciones_n": [
+        7
+      ],
+      "oraciones": [
+        "La empresa pidió a los vecinos almacenar agua la noche anterior."
+      ]
+    },
+    {
+      "subtema": "la petición de la junta de no cortar en semana de exámenes y la respuesta de la empresa",
+      "oraciones_n": [
+        8,
+        9,
+        10
+      ],
+      "oraciones": [
+        "La junta de acción comunal pidió que el corte no se hiciera en semana de exámenes.",
+        "La empresa respondió que la fecha ya estaba contratada.",
+        "La junta insistirá en la próxima reunión."
+      ]
+    },
+    {
+      "subtema": "el corte similar del año pasado y su duración",
+      "oraciones_n": [
+        11,
+        12
+      ],
+      "oraciones": [
+        "El año pasado, un corte similar dejó sin servicio a dos colegios del sector.",
+        "Aquel episodio duró diecinueve horas."
+      ]
+    },
+    {
+      "subtema": "la revisión de la respuesta de la empresa y la evaluación de la solicitud por el gerente",
+      "oraciones_n": [
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "oraciones": [
+        "La personera y la secretaria de la junta revisaron la respuesta de la empresa.",
+        "Ella pidió que se publicara el cronograma.",
+        "Su reclamo quedó registrado en el acta.",
+        "Su decisión se conocerá el miércoles.",
+        "El gerente de la empresa, Iván Cifuentes, dijo que evaluará la solicitud."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "parseo": true,
+  "venia_con_cerca": false,
+  "error_parseo": null,
+  "doc": "/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/pruebas/doc2.md",
+  "verificacion": {
+    "oraciones_del_texto": 17,
+    "huecos": [],
+    "solapes": [],
+    "fuera_de_rango": [],
+    "no_enteros": []
+  },
+  "unidades_reconstruidas": [
+    {
+      "subtema": "la instalación del banco de semillas del bosque nublado de La Cuchilla",
+      "oraciones_n": [
+        1
+      ],
+      "oraciones": [
+        "El banco de semillas del bosque nublado de La Cuchilla se instaló en 2019 en una caseta junto al sendero."
+      ]
+    },
+    {
+      "subtema": "la conservación de muestras del banco en sobres sellados y su revisión",
+      "oraciones_n": [
+        2,
+        3,
+        14,
+        15
+      ],
+      "oraciones": [
+        "Conserva muestras de cuarenta y dos especies nativas en sobres sellados.",
+        "Cada sobre lleva la fecha de recolección y el nombre de quien recolectó.",
+        "Marta Olaya y la ingeniera forestal Ana Perdomo revisaron juntas los sobres.",
+        "Cuando ella terminó, quedaron tres etiquetas marcadas como ilegibles."
+      ]
+    },
+    {
+      "subtema": "la siembra de las semillas de roble blanco y su germinación",
+      "oraciones_n": [
+        4,
+        5,
+        6,
+        7,
+        13,
+        16,
+        17
+      ],
+      "oraciones": [
+        "En marzo, el equipo sembró doscientas semillas de roble blanco en bandejas de vivero.",
+        "Germinaron ciento treinta y ocho.",
+        "El porcentaje fue menor que el del ensayo anterior, hecho con semillas del mismo árbol.",
+        "La bióloga Marta Olaya atribuye la diferencia a la humedad de la caseta.",
+        "Según el informe interno del banco, ninguna de las doscientas semillas procedía de árboles caídos.",
+        "Su director firmó la recomendación de repetir el ensayo en septiembre.",
+        "El director del vivero, Hernán Pardo, pidió además revisar la humedad de la caseta."
+      ]
+    },
+    {
+      "subtema": "la invasión del helecho espinoso y el plan de erradicación",
+      "oraciones_n": [
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "oraciones": [
+        "El helecho espinoso, introducido en los años ochenta, cubre hoy la ladera sur.",
+        "Sus rizomas impiden que las plántulas nativas alcancen la luz.",
+        "La corporación ambiental propuso un plan de erradicación en abril.",
+        "El plan contempla tres jornadas de roza manual al año.",
+        "La corporación no mencionó el costo de disponer del material cortado."
+      ]
+    }
+  ]
+}
