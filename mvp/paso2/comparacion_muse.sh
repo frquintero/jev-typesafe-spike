@@ -28,7 +28,7 @@ for fila in "${DOCS[@]}"; do
       cp "$PASO2/muse/mensaje_$etiq.md" "$MSGS/"
       lanzada=0
       for intento in 1 2 3 4 5; do
-        if ESFUERZO="$ESF" "$RAIZ/muse_tarea.sh" "$etiq" "$MSGS/mensaje_$etiq.md" nueva; then
+        if ESFUERZO="$ESF" "$RAIZ/utiliarios/muse_tarea.sh" "$etiq" "$MSGS/mensaje_$etiq.md" nueva; then
           lanzada=1; break
         fi
         echo "reintento de lanzamiento $intento ($etiq)"; sleep 20

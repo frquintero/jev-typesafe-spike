@@ -1,0 +1,69 @@
+# Política del repo
+
+Reglas de casa: **qué se actualiza y cuándo**, y **dónde vive cada archivo**. Lo
+operativo (comandos, claves, modelos, reportes) está en `AGENTS.md`.
+
+## 1. Política de actualización
+
+**El mismo hecho vive en tres sitios, en el mismo commit:**
+
+| Sitio | Qué lleva |
+|---|---|
+| `README.md`, «Proyectos en curso» | la lista de proyectos que se trabajan, una línea por proyecto («Fecha: AAAA-MM-DD · Proyecto: … (carpeta)»). Solo referencia, no bitácora. |
+| `AGENTS.md`, «Mapa del repo» | qué hay en cada carpeta y en qué estado. |
+| `memoria de trabajo y pendientes.md`, «Dónde quedamos» | el estado vigente y lo que sigue. Fuente única del estado. |
+
+- **Cuándo:** al abrir un proyecto o una línea de trabajo, al cerrarlo o
+  suspenderlo, y cada vez que cambia el paso que se está dando.
+- **La fecha del encabezado de la memoria** se actualiza con «Dónde quedamos».
+- **Los «siguiente» de los tres sitios tienen que decir lo mismo.** Si uno cambia
+  de paso, se corrigen los tres; el desajuste entre ellos ya obligó a corregir dos
+  veces.
+- **El detalle de cada ronda no va a los tres sitios:** vive en el `PLAN.md` o
+  `README.md` del proyecto, y los tres sitios solo lo apuntan.
+- **Proyecto cerrado o suspendido:** sale de la lista del `README.md`; su carpeta y
+  su `PLAN.md` se conservan como antecedente.
+- **Nada de duplicar el estado** en otros archivos: si un dato de estado aparece en
+  otro sitio, es una copia que hay que quitar.
+
+## 2. Política de ubicación
+
+**Raíz.** Solo los documentos de navegación, estado y vocabulario:
+
+`README.md` · `AGENTS.md` · `CLAUDE.md` · `memoria de trabajo y pendientes.md` ·
+`política.md` · `definiciones-del-marco.md` · `zettel-vision-operativa.md`
+
+Cualquier otro documento va a `otros documentos/`. Las carpetas de proyecto
+(`unidades/`, `mvp/`, `prototipos/`, `niveles/`, `probes/`, `cutoff-spike/`,
+`notebooklm-spike/`, `nblm-grafo-semantico/`, `langextract-spike/`,
+`marco filosófico/`, `historico/`, `deleted/`) se quedan donde están.
+
+**`otros documentos/`.** Documentos de referencia que no son de navegación:
+vocabulario de Jev (`diccionario.md`, `jev_typesafe_guia_pedagogica_v2.md`) e
+informes sueltos (una verificación, un análisis de un proveedor). Si uno pasa a ser
+un frente de trabajo, se le da carpeta propia y entra en los tres sitios.
+
+**`utiliarios/`.** Los guiones que se invocan desde la raíz: `dsh_tarea.sh`,
+`muse_tarea.sh`, `proxy_local.py` (retirado, se conserva como antecedente) y
+`configurar_clave_xai.sh`. Se invocan como `./utiliarios/<guion>` desde la raíz.
+
+- **Regla para un guion que viva ahí:** el repo se resuelve como
+  `"$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"` (el padre de `utiliarios/`),
+  nunca como el directorio del propio guion.
+- Los guiones de un proyecto se quedan en su carpeta (`mvp/pruebas/correr_muse.sh`).
+
+**Documentos vivos (no se editan sin aprobación de Frat):** los siete de la raíz y,
+en `otros documentos/`, `diccionario.md` y `jev_typesafe_guia_pedagogica_v2.md`.
+
+## 3. Cuando algo se mueve
+
+1. `git mv` (conserva la historia), nunca copiar y dejar el original.
+2. **Buscar y actualizar todas las referencias** antes de commitear:
+   `git grep -n -F "<nombre viejo>" -- '*.md' '*.sh' '*.py'`.
+3. Si el archivo movido es un guion, revisar los supuestos de ruta que traía.
+4. Lo que **no** se reescribe: los registros históricos (`historico/`, `deleted/`,
+   los `PLAN.md` de líneas inactivas y las narraciones de corridas pasadas)
+   conservan la redacción de su momento. Las instrucciones vigentes sí se
+   actualizan.
+5. Verificar al final: en la raíz solo los siete documentos; ningún enlace roto; el
+   guion movido arranca (`bash -n` y una invocación sin argumentos).

@@ -164,7 +164,7 @@ case "$MODO" in
     mkdir -p "$MSGS"
     cp "$PRUEBAS/mensaje_$ETIQUETA.md" "$MSGS/$ETIQUETA.md"
     cd "$RAIZ"
-    ESFUERZO="$ESF" ./muse_tarea.sh "$ETIQUETA" "$MSGS/$ETIQUETA.md" nueva
+    ESFUERZO="$ESF" ./utiliarios/muse_tarea.sh "$ETIQUETA" "$MSGS/$ETIQUETA.md" nueva
     echo "cuando termine: ./mvp/pruebas/correr_muse.sh recoger $ETIQUETA"
     ;;
   recoger)

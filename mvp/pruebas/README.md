@@ -75,6 +75,10 @@ ESFUERZO=high ./muse_tarea.sh prueba1-v5 \
   "$HOME/.cache/muse_tarea_msgs/prueba1-v5.md" nueva
 ```
 
+(Registro de la corrida tal como se hizo. Hoy el envoltorio vive en
+`utiliarios/muse_tarea.sh`; el comando vigente es
+`./utiliarios/muse_tarea.sh <etiqueta> <mensaje> nueva`.)
+
 - **Resultado:** `exit 0`, **18 s**, sesión `f48099c5-a97a-4866-a002-468215c721e6`
   (`salida_prueba1-v5_meta.json`). Una sola tarea de Muse a la vez (candado del
   envoltorio).

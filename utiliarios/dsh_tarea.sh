@@ -5,7 +5,7 @@
 # «DeepSeek Harness por terminal»).
 #
 # Uso (desde cualquier carpeta; trabaja siempre en la raíz del repo):
-#   ./dsh_tarea.sh <etiqueta> <archivo_mensaje> [<session-id>|nueva]
+#   ./utiliarios/dsh_tarea.sh <etiqueta> <archivo_mensaje> [<session-id>|nueva]
 #
 #   etiqueta         nombre corto de la tarea (letras, números, - y _)
 #   archivo_mensaje  el mensaje para DeepSeek (fuera del repo, p. ej. /tmp/…)
@@ -29,7 +29,7 @@
 
 set -euo pipefail
 
-REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CONF="$HOME/.config/dsh_tarea"
 SALIDA="$HOME/.cache/dsh_tareas"
 DSH="${DSH:-$HOME/.npm/_npx/1e7f6d9597241db0/node_modules/.bin/dsh}"

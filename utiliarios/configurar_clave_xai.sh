@@ -3,7 +3,7 @@
 # (export XAI_API_KEY=...), igual que TYPESAFE_API_KEY, ZAI_API_KEY y DEEPSEEK_API_KEY.
 # La clave no se muestra al escribirla ni queda en el historial.
 #
-# Uso:  bash configurar_clave_xai.sh
+# Uso:  bash utiliarios/configurar_clave_xai.sh
 # Después: source ~/.bashrc  y reiniciar el proxy local (lee las claves al arrancar).
 
 set -euo pipefail

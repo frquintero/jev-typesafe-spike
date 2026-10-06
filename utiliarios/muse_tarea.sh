@@ -4,7 +4,7 @@
 # ChatGPT, con autorización expresa y previa de Frat (ver AGENTS.md).
 #
 # Uso (trabaja siempre en la raíz del repo):
-#   ./muse_tarea.sh <etiqueta> <archivo_mensaje> [<uuid>|nueva]
+#   ./utiliarios/muse_tarea.sh <etiqueta> <archivo_mensaje> [<uuid>|nueva]
 #
 #   etiqueta         nombre corto de la tarea (letras, números, - y _)
 #   archivo_mensaje  el mensaje para Muse (fuera del repo, p. ej. /tmp/…)
@@ -28,7 +28,7 @@
 
 set -euo pipefail
 
-REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CONF="$HOME/.config/muse_tarea"
 SALIDA="$HOME/.cache/muse_tareas"
 MUSE="${MUSE_BIN:-$HOME/.local/bin/muse}"

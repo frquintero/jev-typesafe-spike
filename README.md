@@ -180,6 +180,7 @@ Jev. **Arquitectura propuesta para después (no decidida):** oraciones
 - Enfoque anterior: `unidades/extraer_datos_doc.py` (cadena subtemas → datos)
   y `prototipos/` (batería de ejemplos prototípicos, `prototipos/PLAN.md`).
 - Reglas del ejecutor (red, claves, comandos, reportes): `AGENTS.md`.
+- Casa y actualización (qué se actualiza, dónde vive cada archivo): `política.md`.
 - Píldoras (precisiones de vocabulario y conceptos que surgen en la
   planeación): viven fuera del repo, en `~/Claude-memoria/pildoras.md`.
 - Vocabulario de Jev: `otros documentos/jev_typesafe_guia_pedagogica_v2.md` y
@@ -200,7 +201,7 @@ abandonado. Las reglas 1–26 y el marco conceptual de Jev siguen vigentes.
 
 ## Correr las pruebas en local (claves)
 
-**Sin proxy desde el 04-10.** Antes, un proxy local (`proxy_local.py`) ponía
+**Sin proxy desde el 04-10.** Antes, un proxy local (`utiliarios/proxy_local.py`) ponía
 la clave en cada llamada para que el código fuera idéntico en la nube y en
 el PC. Frat decidió que eso no hace falta (la nube la cubre Claude Code), y
 se retiró: más simple. Ahora `call_model` (`niveles/run_niveles.py`), por
@@ -216,7 +217,7 @@ el proveedor. Las claves nunca se imprimen ni quedan en archivos del repo.
 | DeepSeek | `api.deepseek.com` | `DEEPSEEK_API_KEY` |
 | xAI (Grok) | `api.x.ai` | `XAI_API_KEY` |
 
-`ZAI_API_KEY` no está escrita en `~/.bashrc`: la carga desde `~/.config/zai/api_key.env`. Para agregar o cambiar una clave, pon una línea `export NOMBRE=clave` en `~/.bashrc` y corre `source ~/.bashrc` (para xAI hay un asistente: `bash configurar_clave_xai.sh`, que la pide sin mostrarla).
+`ZAI_API_KEY` no está escrita en `~/.bashrc`: la carga desde `~/.config/zai/api_key.env`. Para agregar o cambiar una clave, pon una línea `export NOMBRE=clave` en `~/.bashrc` y corre `source ~/.bashrc` (para xAI hay un asistente: `bash utiliarios/configurar_clave_xai.sh`, que la pide sin mostrarla).
 
 **Correr un script** (desde un shell no interactivo, como Desktop Commander, con `bash -ic` para que cargue `~/.bashrc`):
 

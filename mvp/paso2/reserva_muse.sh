@@ -70,7 +70,7 @@ lanzar() {
   mkdir -p "$MSGS"
   cp "$PASO2/mensaje_$etiq.md" "$MSGS/$etiq.md"
   cd "$RAIZ"
-  ESFUERZO="$esf" ./muse_tarea.sh "$etiq" "$MSGS/$etiq.md" nueva
+  ESFUERZO="$esf" ./utiliarios/muse_tarea.sh "$etiq" "$MSGS/$etiq.md" nueva
   echo "cuando termine: ./mvp/paso2/reserva_muse.sh recoger $etiq"
 }
 

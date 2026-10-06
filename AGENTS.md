@@ -34,21 +34,9 @@ un proyecto nuevo (carpeta nueva, línea de trabajo nueva en un mensaje o en
 `memoria de trabajo y pendientes.md`), agrégalo a esa lista en el mismo
 commit; si un proyecto se cierra o se suspende, quítalo.
 
-**El mismo hecho vive en los tres sitios, en el mismo commit:** la lista de
-`README.md`, el «Mapa del repo» de este archivo y «Dónde quedamos» en
-`memoria de trabajo y pendientes.md`. Al tocar «Dónde quedamos», actualiza también
-la fecha del encabezado de la memoria. Los «siguiente» de los tres sitios tienen
-que decir lo mismo: si uno cambia de paso, se corrigen los tres (el desajuste
-entre ellos ya obligó a corregir dos veces). El detalle de cada ronda vive en el
-`PLAN.md` o `README.md` del proyecto, no en los tres sitios.
-
-**Casa del root.** En la raíz viven solo los documentos de navegación y
-vocabulario: `README.md`, `AGENTS.md`, `CLAUDE.md`,
-`memoria de trabajo y pendientes.md`, `definiciones-del-marco.md` y
-`zettel-vision-operativa.md`. Cualquier otro documento va a `otros documentos/`
-(ahí están el vocabulario de Jev y los informes sueltos). Los guiones que se
-invocan desde la raíz (`dsh_tarea.sh`, `muse_tarea.sh`, `proxy_local.py`) se
-quedan en la raíz.
+**Casa y actualización.** Qué se actualiza, cuándo, y dónde vive cada archivo
+(raíz, `otros documentos/`, `utiliarios/`) está en `política.md`. Se lee antes de
+mover un archivo o de tocar el estado del repo.
 
 ## Arranque de cada sesión
 
@@ -138,16 +126,17 @@ quedan en la raíz.
 - `langextract-spike/`: frente **cerrado** el 03-10 (LangExtract de Google,
   evaluado y no adoptado); lección en su `README.md`, ideas rescatables en
   el `README.md` de la raíz.
-- `proxy_local.py`: proxy de claves retirado el 04-10 (se conserva como
-  antecedente; ya no se usa).
-- `dsh_tarea.sh`, `muse_tarea.sh`: delegan tareas a DeepSeek Harness y a Muse
-  (ver «Agentes delegados»).
+- `utiliarios/`: los guiones que se invocan desde la raíz. `muse_tarea.sh` y
+  `dsh_tarea.sh` delegan tareas a Muse y a DeepSeek Harness (ver «Agentes
+  delegados»); `configurar_clave_xai.sh` pide la clave de xAI; `proxy_local.py`
+  (retirado el 04-10) se conserva como antecedente. El repo se resuelve como el
+  padre de esta carpeta.
 - `otros documentos/`: documentos de referencia que no son de navegación: el
   vocabulario de Jev (`diccionario.md`, `jev_typesafe_guia_pedagogica_v2.md`) y los
   informes sueltos (p. ej. `mistral-large-4-verificacion-2026-10-06.md`).
 - `deleted/`: snapshots históricos; no es fuente.
-- Documentos vivos (no editar sin aprobación): los seis de la raíz (`README.md`,
-  `AGENTS.md`, `CLAUDE.md`, `memoria de trabajo y pendientes.md`,
+- Documentos vivos (no editar sin aprobación): los siete de la raíz (`README.md`,
+  `AGENTS.md`, `CLAUDE.md`, `memoria de trabajo y pendientes.md`, `política.md`,
   `definiciones-del-marco.md`, `zettel-vision-operativa.md`) y, en
   `otros documentos/`, `diccionario.md` y `jev_typesafe_guia_pedagogica_v2.md`.
 
@@ -194,7 +183,7 @@ necesita correr igual en la nube y en el PC).
 ## Agentes delegados (DeepSeek Harness, Muse, NotebookLM)
 
 Todo lo de los agentes a los que Claude y ChatGPT delegan trabajo
-(`dsh_tarea.sh`, `muse_tarea.sh`, NotebookLM: cómo se lanzan, avisos,
+(`utiliarios/dsh_tarea.sh`, `utiliarios/muse_tarea.sh`, NotebookLM: cómo se lanzan, avisos,
 sesiones, ubicaciones y reglas) está en un solo documento, fuera del repo:
 `/home/fratquintero/Claude-memoria/memoria/agentes-delegados.md`. Leerlo antes de usarlos. Regla dura: **autorización expresa y
 previa de Frat** en cada uso; **exclusivo de Claude y ChatGPT**.
