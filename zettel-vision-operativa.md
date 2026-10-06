@@ -138,7 +138,8 @@ las ejecuta y anota procedencia y fecha de consulta, para que la ruta
 registre lo que de verdad se consultó.
 
 Estas reglas son de Zettel en marcha. En nuestro taller de desarrollo
-siguen rigiendo las de `Claude-memoria/memoria/agentes-delegados.md`.
+siguen rigiendo las de `otros documentos/agentes-delegados.md` (copia en el repo
+del original que vive en `~/Claude-memoria/memoria/`).
 
 **El usuario.** Tiene su propio mundo, que decide si hubo efecto para él.
 Es fuente de **último recurso**: si el orquestador no alcanza a dar el
