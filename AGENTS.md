@@ -137,3 +137,12 @@ El modelo de LLM que sea denominado **ORQUESTADOR** por Frat delega trabajo
 (`utiliarios/dsh_tarea.sh`, `utiliarios/muse_tarea.sh`, NotebookLM: cómo se lanzan,
 avisos, sesiones, ubicaciones y reglas). El documento único, con la regla de uso y el
 detalle, está en `otros documentos/agentes-delegados.md`.
+
+**Avisos por ntfy: obligatorio.** El ORQUESTADOR **no espera a un agente con `sleep` ni
+sondeando**: lanza la tarea y espera el aviso. El envoltorio publica al terminar en el
+tema de `~/.config/dsh_tarea/ntfy_topic` (0600; el tema nunca se escribe en el repo) y
+el ORQUESTADOR escucha ese tema (`https://ntfy.sh/<tema>/raw`, o el Monitor de Claude;
+procedimiento en `otros documentos/agentes-delegados.md` §3). **Si el agente que va a
+usar no publica aviso, el ORQUESTADOR lo implementa —o manda a un agente a
+implementarlo— antes de usarlo.** El aviso lleva solo etiqueta, `exit` y segundos; el
+resultado se lee donde quedó.
