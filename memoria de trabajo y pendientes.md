@@ -12,8 +12,8 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   preguntas y se obtenga información: el cambio en A(Q) al considerar datos conforme a
   reglas. Recuperar no es responder. Detalle en `README.md`, «Visión», y en
   `definiciones-del-marco.md`.
-- **Hilo activo: `unidades/`.** Paso 1 (unidades temáticas) con **v9 congelado**; paso 2
-  (datos por unidad) con la entrada elegida y **base provisional de trabajo: la unidad más
+- **Hilo activo: `unidades/`.** Paso 1 (unidades temáticas): el prompt vigente es **v9,
+  congelado** (`mvp/pruebas/prompt_v9.md`); paso 2 (datos por unidad) con la entrada elegida y **base provisional de trabajo: la unidad más
   las referencias de v9 con sus respaldos**, que aclara sin ampliar y conserva las dudas.
   La ronda quedó **cerrada el 06-10** con el conteo rehecho por ítem sobre las expectativas
   registradas: recuperación estricta **95,4 % en desarrollo** (agregado DeepSeek + Muse) y
@@ -23,11 +23,9 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   `mvp/paso2/evaluacion_items.md`; crudos, tareas y costos en
   `mvp/paso2/inventario_y_costos.md`; la vía utilizable (entrada b, verificación sin API) en
   `mvp/paso2/README.md`; qué enseña, en `mvp/paso2/hallazgos.md`.
-- **Hilo del MVP: `mvp/`.** El plan candidato del orquestador pasó a antecedente
-  (`historico/orquestador-plan.md`, 06-10); de él queda la decisión del 05-10 —sin índice de
-  casos previo: alcance por dominio y reidentificación acreditada al consultar— y la
-  **pieza mecánica** (la conexión mecánica pregunta–dominio–corpus), que es lo siguiente
-  ejecutable y aún no está iniciada. Las mesas de la forma de A(Q) y la
+- **Hilo del MVP: `mvp/`.** Sin índice de casos previo: alcance por dominio y
+  reidentificación acreditada al consultar (decisión del 05-10). Lo siguiente ejecutable es
+  la **pieza mecánica** (la conexión pregunta–dominio–corpus), aún no iniciada. Las mesas de la forma de A(Q) y la
   pieza 1 están cerradas y registradas en sus carpetas. El diseño de esa primera consulta
   está escrito en `mvp/consulta-diseno.md` (**borrador**) y queda **pendiente de revisión
   por Claude y Astra**; no está implementado.
@@ -104,9 +102,8 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
 quedamos»). **Lo siguiente es la conexión mecánica pregunta–dominio–corpus:** fijar el alcance
 documental, recuperar unidades completas con sus datos y referencias y preparar la entrada del
 orquestador; su primera comprobación es local, sin LLM, con los materiales existentes. No está
-iniciada. El plan del orquestador pasó a antecedente (`historico/orquestador-plan.md`, 06-10).
-**El diseño de esa primera consulta está en `mvp/consulta-diseno.md`; lo revisan Claude y Astra
-antes de implementar.**
+iniciada. **El diseño de esa primera consulta está en `mvp/consulta-diseno.md`; lo revisan
+Claude y Astra antes de implementar.**
 
 0. **Conexión mecánica pregunta–dominio–corpus (trabajo de ahora):** fijar el `dominio_consulta`
    de una pregunta, rechazar los ids fuera de alcance, recuperar la unidad completa (texto,
@@ -116,13 +113,12 @@ antes de implementar.**
    rechaza por fuera de alcance, `M1:U1` devuelve `M1:S1–S4` y `M1:D1–M1:D3` completos, y la
    corrida anota `dominio_consulta: MONTAÑA` con su lista de documentos. **Antes de escribir
    código: revisión del diseño (`mvp/consulta-diseno.md`) por Claude y Astra y mostrar el
-   plan.** Detalle en `mvp/mesa-dominio-resultado.md`, cierre; el plan del orquestador, como
-   antecedente, en `historico/orquestador-plan.md`.
+   plan.** Detalle en `mvp/mesa-dominio-resultado.md`, cierre.
 1. **F6 ejecutada, pendiente de evaluación:** evaluar recuperación y ubicación de condiciones, orden temporal, regresiones, formato y costo, según `unidades/PLAN.md`, sección F6. Hasta entonces no se adopta `ficha_v2`.
 2. **Agilidad:** comparar hipótesis de arquitectura, división y modelo/configuración. Vara de Frat: ≈90 % de contenido correcto y ejecución ágil. Falta demostrar el efecto sobre costo total.
 3. **Generalización:** medir cualquier candidato prometedor con una reserva nueva e independiente; las observaciones de las rondas no autorizan cambios adicionales por sí solas.
 4. **Vínculos de razón entre afirmaciones** («por esa razón», «porque»): niveles 1–2 del grafo de Zettel; fuera de la ficha de datos.
 5. **Jev:** identidad de lo registrado, correferencias, omisiones; componente posterior.
 6. Grok sin créditos de xAI: recargar si se quiere compararlo.
-7. **Unidad temática con el eje de `v1`** (decisión de Frat, 02-10; registrada en `definiciones-del-marco.md`, parte B). El prompt vigente de `unidades/extraer_unidades.py` sigue siendo `unidades_v5`, con eje en el asunto; en pruebas está **v9**, que no cambia el eje sino la resolución de referencias externas. Falta un prompt que combine el eje de `v1` (núcleo, satélites y todas las oraciones que se refieren a ellos; el caso se reidentifica aunque se lo nombre de varias maneras) con la mecánica de `v5` (el código numera las oraciones). Discutirlo antes de escribirlo.
+7. **Unidad temática con el eje de `v1`** (decisión de Frat, 02-10; registrada en `definiciones-del-marco.md`, parte B). El prompt vigente, **v9**, conserva el eje en el asunto (su cambio fue la resolución de referencias externas) y ya usa la mecánica de `v5` (el código numera las oraciones). Falta llevarle el eje de `v1`: núcleo, satélites y todas las oraciones que se refieren a ellos; el caso se reidentifica aunque se lo nombre de varias maneras. Discutirlo antes de escribirlo.
 8. **Adoptar el candidato del paso 2:** `mvp/paso2/prompt_ficha_contexto.md` vive hoy en la carpeta de trabajo; si se adopta, le toca su sitio en `unidades/prompts/` con nombre propio, sin mezclarlo con `ficha_v2`.
