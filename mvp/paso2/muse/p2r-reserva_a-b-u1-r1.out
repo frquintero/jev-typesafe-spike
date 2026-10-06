@@ -1,0 +1,31 @@
+{
+ "casos": [
+  {"id":"C1","nombre":"cooperativa apícola de la vereda El Retiro",
+   "menciones":[{"o":1,"f":"La cooperativa apícola de la vereda El Retiro"}]},
+  {"id":"C2","nombre":"familias",
+   "menciones":[{"o":1,"f":"once familias"}]},
+  {"id":"C3","nombre":"colmenas",
+   "menciones":[{"o":1,"f":"las primeras colmenas"}]}
+ ],
+ "relaciones": [],
+ "capas": [],
+ "determinaciones": [
+  {"id":"D1","dentro_de":null,"caso":"C1","aspecto":"año de nacimiento","valor":"1998","unidad":null,
+   "cambio":null,"condiciones":[],"modalidad":null,"inferido":false,"respaldo":[{"o":1,"f":"nació en 1998"}]},
+  {"id":"D2","dentro_de":null,"caso":"C2","aspecto":"cantidad","valor":"once","unidad":null,
+   "cambio":null,"condiciones":[],"modalidad":null,"inferido":false,"respaldo":[{"o":1,"f":"once familias"}]},
+  {"id":"D3","dentro_de":null,"caso":"C3","aspecto":"orden","valor":"primeras","unidad":null,
+   "cambio":null,"condiciones":[],"modalidad":null,"inferido":false,"respaldo":[{"o":1,"f":"las primeras colmenas"}]}
+ ],
+ "acciones": [
+  {"id":"A1","agente":"C2","accion":"se repartieron","objeto":"C3","negada":false,
+   "dentro_de":null,"condiciones":[],"respaldo":[{"o":1,"f":"once familias se repartieron las primeras colmenas"}]}
+ ],
+ "marcas": [
+  {"marca":"1998","o":1,"funciones":[{"funcion":"posición","refs":["D1"]}]},
+  {"marca":"once","o":1,"funciones":[{"funcion":"posición","refs":["D2"]}]},
+  {"marca":"primeras","o":1,"funciones":[{"funcion":"posición","refs":["D3"]}]}
+ ],
+ "dudas": []
+}
+

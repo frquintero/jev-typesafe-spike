@@ -1,0 +1,111 @@
+{
+  "casos": [
+    {
+      "id": "C1",
+      "nombre": "empresa de acueducto",
+      "menciones": [
+        {"o": 1, "f": "La empresa de acueducto"},
+        {"o": 3, "f": "la empresa"}
+      ]
+    },
+    {
+      "id": "C2",
+      "nombre": "corte de agua en el barrio San Jorge para el jueves",
+      "menciones": [
+        {"o": 1, "f": "un corte de agua en el barrio San Jorge para el jueves"},
+        {"o": 2, "f": "El corte"},
+        {"o": 3, "f": "Afectará"}
+      ]
+    },
+    {
+      "id": "C3",
+      "nombre": "usuarios",
+      "menciones": [
+        {"o": 3, "f": "unos tres mil usuarios"}
+      ]
+    }
+  ],
+  "relaciones": [],
+  "capas": [
+    {
+      "id": "K1",
+      "expresion": "según",
+      "quien": "C1",
+      "dentro_de": null,
+      "respaldo": [{"o": 3, "f": "según la empresa"}]
+    }
+  ],
+  "determinaciones": [
+    {
+      "id": "D1",
+      "dentro_de": null,
+      "caso": "C2",
+      "aspecto": "duración",
+      "valor": "catorce",
+      "unidad": "horas",
+      "cambio": null,
+      "condiciones": [
+        {"texto": "desde las seis de la mañana", "ref": null, "respaldo": [{"o": 2, "f": "desde las seis de la mañana"}]}
+      ],
+      "modalidad": null,
+      "inferido": false,
+      "respaldo": [{"o": 2, "f": "durará catorce horas"}]
+    },
+    {
+      "id": "D2",
+      "dentro_de": null,
+      "caso": "C2",
+      "aspecto": "hora de inicio",
+      "valor": "las seis de la mañana",
+      "unidad": null,
+      "cambio": null,
+      "condiciones": [],
+      "modalidad": null,
+      "inferido": false,
+      "respaldo": [{"o": 2, "f": "desde las seis de la mañana"}]
+    },
+    {
+      "id": "D3",
+      "dentro_de": "K1",
+      "caso": "C3",
+      "aspecto": "cantidad",
+      "valor": "tres mil",
+      "unidad": "usuarios",
+      "cambio": null,
+      "condiciones": [],
+      "modalidad": "unos",
+      "inferido": false,
+      "respaldo": [{"o": 3, "f": "unos tres mil usuarios"}]
+    }
+  ],
+  "acciones": [
+    {
+      "id": "A1",
+      "agente": "C1",
+      "accion": "anunciar",
+      "objeto": "C2",
+      "negada": false,
+      "dentro_de": null,
+      "condiciones": [],
+      "respaldo": [{"o": 1, "f": "anunció un corte de agua en el barrio San Jorge para el jueves"}]
+    },
+    {
+      "id": "A2",
+      "agente": "C2",
+      "accion": "afectar",
+      "objeto": "C3",
+      "negada": false,
+      "dentro_de": "K1",
+      "condiciones": [],
+      "respaldo": [{"o": 3, "f": "Afectará a unos tres mil usuarios"}]
+    }
+  ],
+  "marcas": [
+    {"marca": "el jueves", "o": 1, "funciones": [{"funcion": "identifica", "refs": ["C2"]}]},
+    {"marca": "catorce horas", "o": 2, "funciones": [{"funcion": "posición", "refs": ["D1"]}]},
+    {"marca": "las seis de la mañana", "o": 2, "funciones": [{"funcion": "posición", "refs": ["D2"]}]},
+    {"marca": "unos tres mil usuarios", "o": 3, "funciones": [{"funcion": "posición", "refs": ["D3"]}]}
+  ],
+  "dudas": []
+}
+

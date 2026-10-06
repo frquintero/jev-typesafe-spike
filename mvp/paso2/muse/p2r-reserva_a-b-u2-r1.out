@@ -1,0 +1,20 @@
+{
+ "casos": [
+  {"id":"C1","nombre":"La cooperativa apícola de la vereda El Retiro","menciones":[{"o":2,"f":"Su"}]},
+  {"id":"C2","nombre":"miel","menciones":[{"o":2,"f":"Su miel"}]},
+  {"id":"C3","nombre":"tres ferias regionales","menciones":[{"o":2,"f":"tres ferias regionales"}]}
+ ],
+ "relaciones": [
+  {"id":"R1","tipo":"es de","de":"C2","a":"C1","dentro_de":null,"condiciones":[],"inferido":true,"respaldo":[{"o":2,"f":"Su miel"},{"o":1,"f":"La cooperativa apícola de la vereda El Retiro"}]}
+ ],
+ "capas": [],
+ "determinaciones": [],
+ "acciones": [
+  {"id":"A1","agente":null,"accion":"se vende","objeto":"C2","negada":false,"dentro_de":null,"condiciones":[{"texto":"hoy","ref":null,"respaldo":[{"o":2,"f":"hoy"}]},{"texto":"en tres ferias regionales","ref":"C3","respaldo":[{"o":2,"f":"en tres ferias regionales"}]}],"respaldo":[{"o":2,"f":"Su miel se vende hoy en tres ferias regionales"}]}
+ ],
+ "marcas": [
+  {"marca":"tres","o":2,"funciones":[{"funcion":"posición","refs":["A1"]}]}
+ ],
+ "dudas": []
+}
+

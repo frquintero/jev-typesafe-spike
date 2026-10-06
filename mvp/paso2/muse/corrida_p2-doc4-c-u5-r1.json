@@ -1,0 +1,14 @@
+{
+  "etiqueta": "p2-doc4-c-u5-r1",
+  "doc": "/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/pruebas/doc4.md",
+  "salida_v9": "/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/pruebas/salida_prueba8-v9-doc4.md",
+  "unidad": "U5",
+  "entrada": "c",
+  "subtema": "el corte similar del año pasado y su duración",
+  "oraciones": [
+    11,
+    12
+  ],
+  "referencias": 2,
+  "bytes_mensaje": 10859
+}

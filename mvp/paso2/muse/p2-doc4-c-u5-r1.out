@@ -1,0 +1,25 @@
+{
+ "casos": [
+  {"id":"C1","nombre":"corte similar","menciones":[{"o":11,"f":"un corte similar"},{"o":12,"f":"Aquel episodio"}]},
+  {"id":"C2","nombre":"colegios del sector","menciones":[{"o":11,"f":"dos colegios del sector"}]},
+  {"id":"C3","nombre":"corte de agua en el barrio San Jorge para el jueves","menciones":[{"o":1,"f":"un corte de agua en el barrio San Jorge para el jueves"}]}
+ ],
+ "relaciones": [
+  {"id":"R1","tipo":"similar a","de":"C1","a":"C3","dentro_de":null,"condiciones":[],"inferido":true,"respaldo":[{"o":11,"f":"un corte similar"},{"o":1,"f":"un corte de agua en el barrio San Jorge para el jueves"}]}
+ ],
+ "capas": [],
+ "determinaciones": [
+  {"id":"D1","dentro_de":null,"caso":"C1","aspecto":"duración","valor":"diecinueve","unidad":"horas","cambio":null,"condiciones":[],"modalidad":null,"inferido":false,"respaldo":[{"o":12,"f":"duró diecinueve horas"}]},
+  {"id":"D2","dentro_de":null,"caso":"C2","aspecto":"cantidad","valor":"dos","unidad":null,"cambio":null,"condiciones":[],"modalidad":null,"inferido":false,"respaldo":[{"o":11,"f":"dos colegios del sector"}]}
+ ],
+ "acciones": [
+  {"id":"A1","agente":"C1","accion":"dejó sin servicio","objeto":"C2","negada":false,"dentro_de":null,"condiciones":[{"texto":"el año pasado","ref":null,"respaldo":[{"o":11,"f":"El año pasado"}]}],"respaldo":[{"o":11,"f":"dejó sin servicio a dos colegios del sector"}]}
+ ],
+ "marcas": [
+  {"marca":"El año pasado","o":11,"funciones":[{"funcion":"posición","refs":["A1"]}]},
+  {"marca":"dos","o":11,"funciones":[{"funcion":"posición","refs":["D2"]}]},
+  {"marca":"diecinueve horas","o":12,"funciones":[{"funcion":"posición","refs":["D1"]}]}
+ ],
+ "dudas": []
+}
+

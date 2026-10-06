@@ -1,0 +1,42 @@
+{
+  "casos": [
+    {"id": "C1", "nombre": "la personera", "menciones": [{"o": 13, "f": "La personera"}]},
+    {"id": "C2", "nombre": "la secretaria de la junta", "menciones": [{"o": 13, "f": "la secretaria de la junta"}]},
+    {"id": "C3", "nombre": "la respuesta de la empresa", "menciones": [{"o": 13, "f": "la respuesta de la empresa"}]},
+    {"id": "C4", "nombre": "persona referida como Ella", "menciones": [{"o": 14, "f": "Ella"}]},
+    {"id": "C5", "nombre": "el cronograma", "menciones": [{"o": 14, "f": "el cronograma"}]},
+    {"id": "C6", "nombre": "reclamo referido como Su reclamo", "menciones": [{"o": 15, "f": "Su reclamo"}]},
+    {"id": "C7", "nombre": "el acta", "menciones": [{"o": 15, "f": "el acta"}]},
+    {"id": "C8", "nombre": "decisión referida como Su decisión", "menciones": [{"o": 16, "f": "Su decisión"}]},
+    {"id": "C9", "nombre": "Iván Cifuentes", "menciones": [{"o": 17, "f": "El gerente de la empresa, Iván Cifuentes"}]},
+    {"id": "C10", "nombre": "la solicitud", "menciones": [{"o": 17, "f": "la solicitud"}]}
+  ],
+  "relaciones": [
+    {"id": "R1", "tipo": "registrado en", "de": "C6", "a": "C7", "dentro_de": null, "condiciones": [], "inferido": false, "respaldo": [{"o": 15, "f": "quedó registrado en el acta"}]}
+  ],
+  "capas": [
+    {"id": "K1", "expresion": "pidió", "quien": "C4", "dentro_de": null, "respaldo": [{"o": 14, "f": "Ella pidió"}]},
+    {"id": "K2", "expresion": "dijo", "quien": "C9", "dentro_de": null, "respaldo": [{"o": 17, "f": "dijo"}]}
+  ],
+  "determinaciones": [
+    {"id": "D1", "dentro_de": null, "caso": "C9", "aspecto": "presentado como", "valor": "gerente de la empresa", "unidad": null, "cambio": null, "condiciones": [], "modalidad": null, "inferido": false, "respaldo": [{"o": 17, "f": "El gerente de la empresa, Iván Cifuentes"}]},
+    {"id": "D2", "dentro_de": null, "caso": "C8", "aspecto": "momento en que se conocerá", "valor": "el miércoles", "unidad": null, "cambio": null, "condiciones": [], "modalidad": null, "inferido": false, "respaldo": [{"o": 16, "f": "se conocerá el miércoles"}]}
+  ],
+  "acciones": [
+    {"id": "A1", "agente": ["C1", "C2"], "accion": "revisaron", "objeto": "C3", "negada": false, "dentro_de": null, "condiciones": [], "respaldo": [{"o": 13, "f": "revisaron la respuesta de la empresa"}]},
+    {"id": "A2", "agente": "C4", "accion": "pidió que se publicara el cronograma", "objeto": "C5", "negada": false, "dentro_de": "K1", "condiciones": [], "respaldo": [{"o": 14, "f": "pidió que se publicara el cronograma"}]},
+    {"id": "A3", "agente": null, "accion": "publicar", "objeto": "C5", "negada": false, "dentro_de": "K1", "condiciones": [], "respaldo": [{"o": 14, "f": "que se publicara el cronograma"}]},
+    {"id": "A4", "agente": "C9", "accion": "evaluará", "objeto": "C10", "negada": false, "dentro_de": "K2", "condiciones": [], "respaldo": [{"o": 17, "f": "evaluará la solicitud"}]}
+  ],
+  "marcas": [
+    {"marca": "gerente de la empresa", "o": 17, "funciones": [{"funcion": "posición", "refs": ["D1"]}]},
+    {"marca": "el miércoles", "o": 16, "funciones": [{"funcion": "posición", "refs": ["D2"]}]}
+  ],
+  "dudas": [
+    {"id": "Q1", "texto": "«Ella» en [14] puede referirse a C1 o a C2; la unidad no lo resuelve.", "respaldo": [{"o": 14, "f": "Ella"}, {"o": 13, "f": "La personera y la secretaria de la junta"}]},
+    {"id": "Q2", "texto": "«Su» en «Su reclamo» en [15] puede referirse a C1 o a C2; la unidad no lo resuelve.", "respaldo": [{"o": 15, "f": "Su reclamo"}, {"o": 13, "f": "La personera y la secretaria de la junta"}]},
+    {"id": "Q3", "texto": "«Su» en «Su decisión» en [16] puede referirse a C1 o a C2; la unidad no lo resuelve.", "respaldo": [{"o": 16, "f": "Su decisión"}, {"o": 13, "f": "La personera y la secretaria de la junta"}]},
+    {"id": "Q4", "texto": "«la solicitud» en [17] puede retomar el pedido de [14], el reclamo de [15] u otra solicitud; la unidad no lo establece.", "respaldo": [{"o": 17, "f": "evaluará la solicitud"}, {"o": 14, "f": "pidió que se publicara el cronograma"}, {"o": 15, "f": "Su reclamo"}]}
+  ]
+}
+

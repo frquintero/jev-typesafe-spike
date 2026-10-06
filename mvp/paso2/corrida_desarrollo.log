@@ -1,0 +1,30 @@
+bash: cannot set terminal process group (24927): Inappropriate ioctl for device
+bash: no job control in this shell
+=== doc4 · entrada (a) · r1 ===
+U1 (a): 55.8 s | deepseek-flash | tokens {'entrada': 2749, 'salida': 12739, 'razonamiento': 11490} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-a-u1-deepseek-r1.json
+U2 (a): 57.7 s | deepseek-flash | tokens {'entrada': 2746, 'salida': 13785, 'razonamiento': 12588} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-a-u2-deepseek-r1.json
+U3 (a): 31.4 s | deepseek-flash | tokens {'entrada': 2705, 'salida': 6769, 'razonamiento': 6269} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-a-u3-deepseek-r1.json
+U4 (a): 65.4 s | deepseek-flash | tokens {'entrada': 2743, 'salida': 14751, 'razonamiento': 13816} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-a-u4-deepseek-r1.json
+U5 (a): 49.9 s | deepseek-flash | tokens {'entrada': 2723, 'salida': 10834, 'razonamiento': 9841} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-a-u5-deepseek-r1.json
+U6 (a): 84.2 s | deepseek-flash | tokens {'entrada': 2777, 'salida': 20633, 'razonamiento': 18664} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-a-u6-deepseek-r1.json
+=== doc4 · entrada (b) · r1 ===
+U1 (b): 42.9 s | deepseek-flash | tokens {'entrada': 2749, 'salida': 9884, 'razonamiento': 8616} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-b-u1-deepseek-r1.json
+U2 (b): 48.7 s | deepseek-flash | tokens {'entrada': 2746, 'salida': 11319, 'razonamiento': 10091} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-b-u2-deepseek-r1.json
+U3 (b): 29.0 s | deepseek-flash | tokens {'entrada': 2890, 'salida': 6197, 'razonamiento': 5768} | no verificables 0 | fuera de la unidad 1 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-b-u3-deepseek-r1.json
+U4 (b): 58.9 s | deepseek-flash | tokens {'entrada': 2938, 'salida': 14009, 'razonamiento': 13034} | no verificables 0 | fuera de la unidad 1 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-b-u4-deepseek-r1.json
+U5 (b): 52.7 s | deepseek-flash | tokens {'entrada': 2858, 'salida': 12363, 'razonamiento': 11117} | no verificables 0 | fuera de la unidad 2 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-b-u5-deepseek-r1.json
+U6 (b): 73.6 s | deepseek-flash | tokens {'entrada': 2988, 'salida': 18338, 'razonamiento': 16154} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-b-u6-deepseek-r1.json
+=== doc4 · entrada (c) · r1 ===
+U1 (c): 46.2 s | deepseek-flash | tokens {'entrada': 3096, 'salida': 10466, 'razonamiento': 9441} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-c-u1-deepseek-r1.json
+U2 (c): 55.2 s | deepseek-flash | tokens {'entrada': 3093, 'salida': 13207, 'razonamiento': 11855} | no verificables 0 | fuera de la unidad 2 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-c-u2-deepseek-r1.json
+U3 (c): 38.5 s | deepseek-flash | tokens {'entrada': 3052, 'salida': 8464, 'razonamiento': 7992} | no verificables 0 | fuera de la unidad 1 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-c-u3-deepseek-r1.json
+U4 (c): 73.8 s | deepseek-flash | tokens {'entrada': 3090, 'salida': 16649, 'razonamiento': 15800} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-c-u4-deepseek-r1.json
+U5 (c): 61.5 s | deepseek-flash | tokens {'entrada': 3070, 'salida': 13296, 'razonamiento': 12498} | no verificables 0 | fuera de la unidad 2 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-c-u5-deepseek-r1.json
+U6 (c): 68.5 s | deepseek-flash | tokens {'entrada': 3124, 'salida': 17016, 'razonamiento': 14764} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc4-c-u6-deepseek-r1.json
+=== doc5 · entrada (a) · r1 ===
+U1 (a): 47.3 s | deepseek-flash | tokens {'entrada': 2751, 'salida': 11179, 'razonamiento': 10139} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc5-a-u1-deepseek-r1.json
+U2 (a): 42.5 s | deepseek-flash | tokens {'entrada': 2756, 'salida': 9640, 'razonamiento': 8501} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc5-a-u2-deepseek-r1.json
+U3 (a): 76.1 s | deepseek-flash | tokens {'entrada': 2751, 'salida': 17891, 'razonamiento': 16446} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc5-a-u3-deepseek-r1.json
+U4 (a): 69.8 s | deepseek-flash | tokens {'entrada': 2752, 'salida': 16148, 'razonamiento': 15254} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc5-a-u4-deepseek-r1.json
+U5 (a): 56.8 s | deepseek-flash | tokens {'entrada': 2736, 'salida': 13598, 'razonamiento': 12017} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc5-a-u5-deepseek-r1.json
+=== doc5 · entrada (b) · r1 ===

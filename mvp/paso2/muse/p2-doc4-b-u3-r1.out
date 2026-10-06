@@ -1,0 +1,19 @@
+{
+  "casos": [
+    {"id": "C1", "nombre": "La empresa de acueducto", "menciones": [{"o": 7, "f": "La empresa"}]},
+    {"id": "C2", "nombre": "los vecinos del barrio San Jorge", "menciones": [{"o": 7, "f": "los vecinos"}]},
+    {"id": "C3", "nombre": "agua", "menciones": [{"o": 7, "f": "agua"}]}
+  ],
+  "relaciones": [],
+  "capas": [
+    {"id": "K1", "expresion": "pidió", "quien": "C1", "dentro_de": null, "respaldo": [{"o": 7, "f": "La empresa pidió a los vecinos"}]}
+  ],
+  "determinaciones": [],
+  "acciones": [
+    {"id": "A1", "agente": "C1", "accion": "pedir", "objeto": "C2", "negada": false, "dentro_de": null, "condiciones": [], "respaldo": [{"o": 7, "f": "La empresa pidió a los vecinos"}]},
+    {"id": "A2", "agente": "C2", "accion": "almacenar", "objeto": "C3", "negada": false, "dentro_de": "K1", "condiciones": [{"texto": "la noche anterior al jueves del corte", "ref": null, "respaldo": [{"o": 7, "f": "la noche anterior"}, {"o": 1, "f": "para el jueves"}]}], "respaldo": [{"o": 7, "f": "almacenar agua"}]}
+  ],
+  "marcas": [],
+  "dudas": []
+}
+

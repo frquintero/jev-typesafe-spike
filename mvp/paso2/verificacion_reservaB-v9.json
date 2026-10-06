@@ -1,0 +1,80 @@
+{
+  "parseo": true,
+  "venia_con_cerca": false,
+  "error_parseo": null,
+  "doc": "mvp/paso2/reserva_b.md",
+  "verificacion": {
+    "oraciones_del_texto": 15,
+    "huecos": [],
+    "solapes": [],
+    "fuera_de_rango": [],
+    "no_enteros": []
+  },
+  "unidades_reconstruidas": [
+    {
+      "subtema": "la creación y el tamaño del mural del mercado viejo",
+      "oraciones_n": [
+        1,
+        2,
+        3
+      ],
+      "oraciones": [
+        "El mural del mercado viejo se pintó en 1962.",
+        "Lo encargó la asociación de comerciantes.",
+        "La obra mide dieciocho metros, según el acta de la época."
+      ]
+    },
+    {
+      "subtema": "el daño de 1998 en la pintura y la decisión de la asociación de comerciantes de no intervenir",
+      "oraciones_n": [
+        4,
+        5,
+        6
+      ],
+      "oraciones": [
+        "En 1998, la humedad levantó la pintura de la esquina norte.",
+        "La restauradora Inés Vargas atribuyó el daño a una filtración antigua.",
+        "La asociación decidió no intervenir en ese momento."
+      ]
+    },
+    {
+      "subtema": "la campaña vecinal de 2020 para la restauración y su solicitud de apoyo al distrito",
+      "oraciones_n": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "oraciones": [
+        "En 2020, una campaña vecinal reunió fondos para la restauración.",
+        "La campaña alcanzó la mitad de lo previsto.",
+        "Los organizadores pidieron apoyo al distrito.",
+        "El distrito respondió que evaluaría la solicitud en marzo."
+      ]
+    },
+    {
+      "subtema": "la pérdida de una obra anterior del autor del mural en el incendio de 1975",
+      "oraciones_n": [
+        11,
+        12
+      ],
+      "oraciones": [
+        "Una obra anterior del mismo autor se había perdido en un incendio en 1975.",
+        "Aquella pérdida duró décadas sin registro."
+      ]
+    },
+    {
+      "subtema": "la revisión de las fotografías del mural del mercado viejo y la identificación de un boceto de 1961",
+      "oraciones_n": [
+        13,
+        14,
+        15
+      ],
+      "oraciones": [
+        "La curadora y la historiadora revisaron las fotografías del mural.",
+        "Ella identificó un boceto fechado en 1961.",
+        "Su identificación se publicó en el catálogo de la muestra."
+      ]
+    }
+  ]
+}

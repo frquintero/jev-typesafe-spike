@@ -1,0 +1,27 @@
+{
+ "casos": [
+  {"id": "C1", "nombre": "la causa", "menciones": [{"o": 4, "f": "La causa"}]},
+  {"id": "C2", "nombre": "tubería matriz en la carrera séptima", "menciones": [{"o": 4, "f": "una tubería matriz en la carrera séptima"}, {"o": 5, "f": "Esa tubería"}]},
+  {"id": "C3", "nombre": "fugas", "menciones": [{"o": 5, "f": "fugas"}]},
+  {"id": "C4", "nombre": "cuadrilla", "menciones": [{"o": 6, "f": "La cuadrilla"}]},
+  {"id": "C5", "nombre": "bombas de achique", "menciones": [{"o": 6, "f": "dos bombas de achique"}]}
+ ],
+ "relaciones": [],
+ "capas": [],
+ "determinaciones": [
+  {"id": "D1", "dentro_de": null, "caso": "C1", "aspecto": "qué es", "valor": "la reparación de una tubería matriz en la carrera séptima", "unidad": null, "cambio": null, "condiciones": [], "modalidad": null, "inferido": false, "respaldo": [{"o": 4, "f": "es la reparación de una tubería matriz en la carrera séptima"}]},
+  {"id": "D2", "dentro_de": null, "caso": "C2", "aspecto": "edad", "valor": "cuarenta", "unidad": "años", "cambio": null, "condiciones": [], "modalidad": null, "inferido": false, "respaldo": [{"o": 5, "f": "tiene cuarenta años"}]},
+  {"id": "D3", "dentro_de": null, "caso": "C5", "aspecto": "cantidad", "valor": "dos", "unidad": null, "cambio": null, "condiciones": [], "modalidad": null, "inferido": false, "respaldo": [{"o": 6, "f": "dos bombas de achique"}]}
+ ],
+ "acciones": [
+  {"id": "A1", "agente": "C2", "accion": "presentó", "objeto": "C3", "negada": false, "dentro_de": null, "condiciones": [{"texto": "en 2021", "ref": null, "respaldo": [{"o": 5, "f": "en 2021"}]}], "respaldo": [{"o": 5, "f": "Esa tubería"}, {"o": 5, "f": "presentó fugas en 2021"}]},
+  {"id": "A2", "agente": "C4", "accion": "trabajará", "objeto": null, "negada": false, "dentro_de": null, "condiciones": [{"texto": "con dos bombas de achique", "ref": "C5", "respaldo": [{"o": 6, "f": "con dos bombas de achique"}]}], "respaldo": [{"o": 6, "f": "La cuadrilla"}, {"o": 6, "f": "trabajará con dos bombas de achique"}]}
+ ],
+ "marcas": [
+  {"marca": "séptima", "o": 4, "funciones": [{"funcion": "identifica", "refs": ["C2"]}]},
+  {"marca": "cuarenta años", "o": 5, "funciones": [{"funcion": "posición", "refs": ["D2"]}]},
+  {"marca": "2021", "o": 5, "funciones": [{"funcion": "posición", "refs": ["A1"]}]},
+  {"marca": "dos", "o": 6, "funciones": [{"funcion": "posición", "refs": ["D3"]}]}
+ ],
+ "dudas": []
+}

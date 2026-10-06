@@ -1,0 +1,25 @@
+{
+ "casos": [
+  {"id":"C1","nombre":"corte similar","menciones":[{"o":11,"f":"un corte similar"},{"o":12,"f":"Aquel episodio"}]},
+  {"id":"C2","nombre":"dos colegios del sector","menciones":[{"o":11,"f":"dos colegios del sector"}]}
+ ],
+ "relaciones": [],
+ "capas": [],
+ "determinaciones": [
+  {"id":"D1","dentro_de":null,"caso":"C1","aspecto":"semejanza","valor":"similar","unidad":null,"cambio":null,"condiciones":[],"modalidad":null,"inferido":false,"respaldo":[{"o":11,"f":"un corte similar"}]},
+  {"id":"D2","dentro_de":null,"caso":"C1","aspecto":"duración","valor":"diecinueve","unidad":"horas","cambio":null,"condiciones":[],"modalidad":null,"inferido":true,"respaldo":[{"o":12,"f":"duró diecinueve horas"},{"o":12,"f":"Aquel episodio"},{"o":11,"f":"un corte similar"}]}
+ ],
+ "acciones": [
+  {"id":"A1","agente":"C1","accion":"dejó sin servicio","objeto":"C2","negada":false,"dentro_de":null,"condiciones":[{"texto":"El año pasado","ref":null,"respaldo":[{"o":11,"f":"El año pasado"}]}],"respaldo":[{"o":11,"f":"un corte similar dejó sin servicio a dos colegios del sector"}]}
+ ],
+ "marcas": [
+  {"marca":"El año pasado","o":11,"funciones":[{"funcion":"posición","refs":["A1"]}]},
+  {"marca":"similar","o":11,"funciones":[{"funcion":"posición","refs":["D1"]}]},
+  {"marca":"dos","o":11,"funciones":[{"funcion":"identifica","refs":["C2"]}]},
+  {"marca":"sin servicio","o":11,"funciones":[{"funcion":"posición","refs":["A1"]}]},
+  {"marca":"diecinueve horas","o":12,"funciones":[{"funcion":"posición","refs":["D2"]}]}
+ ],
+ "dudas": [
+  {"id":"Q1","texto":"«similar» no indica respecto a qué corte es similar; en la unidad no hay otro corte mencionado.","respaldo":[{"o":11,"f":"un corte similar"}]}
+ ]
+}

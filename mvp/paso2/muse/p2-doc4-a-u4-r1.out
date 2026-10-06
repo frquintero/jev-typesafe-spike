@@ -1,0 +1,134 @@
+{
+  "casos": [
+    {
+      "id": "C1",
+      "nombre": "la junta de acción comunal",
+      "menciones": [
+        {"o": 8, "f": "La junta de acción comunal"},
+        {"o": 10, "f": "La junta"}
+      ]
+    },
+    {
+      "id": "C2",
+      "nombre": "la empresa",
+      "menciones": [
+        {"o": 9, "f": "La empresa"}
+      ]
+    },
+    {
+      "id": "C3",
+      "nombre": "el corte",
+      "menciones": [
+        {"o": 8, "f": "el corte"}
+      ]
+    },
+    {
+      "id": "C4",
+      "nombre": "la fecha",
+      "menciones": [
+        {"o": 9, "f": "la fecha"}
+      ]
+    },
+    {
+      "id": "C5",
+      "nombre": "la próxima reunión",
+      "menciones": [
+        {"o": 10, "f": "la próxima reunión"}
+      ]
+    }
+  ],
+  "relaciones": [
+    {
+      "id": "R1",
+      "tipo": "fecha de",
+      "de": "C4",
+      "a": "C3",
+      "dentro_de": "K2",
+      "condiciones": [],
+      "inferido": true,
+      "respaldo": [
+        {"o": 8, "f": "el corte"},
+        {"o": 9, "f": "la fecha"}
+      ]
+    }
+  ],
+  "capas": [
+    {
+      "id": "K1",
+      "expresion": "pidió que",
+      "quien": "C1",
+      "dentro_de": null,
+      "respaldo": [{"o": 8, "f": "pidió"}]
+    },
+    {
+      "id": "K2",
+      "expresion": "respondió que",
+      "quien": "C2",
+      "dentro_de": null,
+      "respaldo": [{"o": 9, "f": "respondió"}]
+    }
+  ],
+  "determinaciones": [
+    {
+      "id": "D1",
+      "dentro_de": "K2",
+      "caso": "C4",
+      "aspecto": "estado de contratación",
+      "valor": "contratada",
+      "unidad": null,
+      "cambio": null,
+      "condiciones": [],
+      "modalidad": null,
+      "inferido": false,
+      "respaldo": [{"o": 9, "f": "la fecha ya estaba contratada"}]
+    }
+  ],
+  "acciones": [
+    {
+      "id": "A1",
+      "agente": null,
+      "accion": "hacerse",
+      "objeto": "C3",
+      "negada": true,
+      "dentro_de": "K1",
+      "condiciones": [
+        {
+          "texto": "en semana de exámenes",
+          "ref": null,
+          "respaldo": [{"o": 8, "f": "en semana de exámenes"}]
+        }
+      ],
+      "respaldo": [{"o": 8, "f": "que el corte no se hiciera en semana de exámenes"}]
+    },
+    {
+      "id": "A2",
+      "agente": "C1",
+      "accion": "insistir",
+      "objeto": null,
+      "negada": false,
+      "dentro_de": null,
+      "condiciones": [
+        {
+          "texto": "en la próxima reunión",
+          "ref": "C5",
+          "respaldo": [{"o": 10, "f": "en la próxima reunión"}]
+        }
+      ],
+      "respaldo": [{"o": 10, "f": "La junta insistirá en la próxima reunión"}]
+    }
+  ],
+  "marcas": [
+    {
+      "marca": "contratada",
+      "o": 9,
+      "funciones": [{"funcion": "posición", "refs": ["D1"]}]
+    },
+    {
+      "marca": "próxima",
+      "o": 10,
+      "funciones": [{"funcion": "identifica", "refs": ["C5"]}]
+    }
+  ],
+  "dudas": []
+}
+

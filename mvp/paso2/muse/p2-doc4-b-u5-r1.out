@@ -1,0 +1,25 @@
+{
+  "casos": [
+    {"id": "C1", "nombre": "corte del año pasado", "menciones": [{"o": 11, "f": "un corte similar"}, {"o": 12, "f": "Aquel episodio"}]},
+    {"id": "C2", "nombre": "corte de agua en el barrio San Jorge", "menciones": [{"o": 1, "f": "un corte de agua en el barrio San Jorge"}]},
+    {"id": "C3", "nombre": "dos colegios del sector", "menciones": [{"o": 11, "f": "dos colegios del sector"}]},
+    {"id": "C4", "nombre": "barrio San Jorge", "menciones": [{"o": 11, "f": "del sector"}, {"o": 1, "f": "en el barrio San Jorge"}]}
+  ],
+  "relaciones": [
+    {"id": "R1", "tipo": "similar a", "de": "C1", "a": "C2", "dentro_de": null, "condiciones": [], "inferido": true, "respaldo": [{"o": 11, "f": "un corte similar"}, {"o": 1, "f": "un corte de agua en el barrio San Jorge"}]},
+    {"id": "R2", "tipo": "ubicado en", "de": "C3", "a": "C4", "dentro_de": null, "condiciones": [], "inferido": true, "respaldo": [{"o": 11, "f": "dos colegios del sector"}, {"o": 1, "f": "en el barrio San Jorge"}]}
+  ],
+  "capas": [],
+  "determinaciones": [
+    {"id": "D1", "dentro_de": null, "caso": "C1", "aspecto": "duración", "valor": "diecinueve", "unidad": "horas", "cambio": null, "condiciones": [], "modalidad": null, "inferido": true, "respaldo": [{"o": 12, "f": "Aquel episodio duró diecinueve horas"}]}
+  ],
+  "acciones": [
+    {"id": "A1", "agente": "C1", "accion": "dejar sin servicio", "objeto": "C3", "negada": false, "dentro_de": null, "condiciones": [{"texto": "el año pasado", "ref": null, "respaldo": [{"o": 11, "f": "El año pasado"}]}], "respaldo": [{"o": 11, "f": "dejó sin servicio a dos colegios del sector"}]}
+  ],
+  "marcas": [
+    {"marca": "dos", "o": 11, "funciones": [{"funcion": "identifica", "refs": ["C3"]}]},
+    {"marca": "diecinueve horas", "o": 12, "funciones": [{"funcion": "posición", "refs": ["D1"]}]},
+    {"marca": "El año pasado", "o": 11, "funciones": [{"funcion": "posición", "refs": ["A1"]}]}
+  ],
+  "dudas": []
+}

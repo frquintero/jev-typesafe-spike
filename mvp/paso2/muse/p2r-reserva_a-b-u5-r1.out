@@ -1,0 +1,29 @@
+{
+ "casos": [
+  {"id": "C1", "nombre": "la junta", "menciones": [{"o": 7, "f": "La junta"}, {"o": 9, "f": "La junta"}]},
+  {"id": "C2", "nombre": "la alcaldía", "menciones": [{"o": 7, "f": "a la alcaldía"}, {"o": 8, "f": "La alcaldía"}]},
+  {"id": "C3", "nombre": "apoyo", "menciones": [{"o": 7, "f": "apoyo para comprar tratamiento"}, {"o": 8, "f": "el apoyo"}]},
+  {"id": "C4", "nombre": "tratamiento", "menciones": [{"o": 7, "f": "tratamiento"}]},
+  {"id": "C5", "nombre": "presupuesto de julio", "menciones": [{"o": 8, "f": "presupuesto de julio"}]},
+  {"id": "C6", "nombre": "reunión de agosto", "menciones": [{"o": 9, "f": "la reunión de agosto"}]}
+ ],
+ "relaciones": [
+  {"id": "R1", "tipo": "para comprar", "de": "C3", "a": "C4", "dentro_de": null, "condiciones": [], "inferido": false, "respaldo": [{"o": 7, "f": "para comprar tratamiento"}]},
+  {"id": "R2", "tipo": "depende de", "de": "C3", "a": "C5", "dentro_de": "K1", "condiciones": [], "inferido": false, "respaldo": [{"o": 8, "f": "el apoyo dependía del presupuesto de julio"}]}
+ ],
+ "capas": [
+  {"id": "K1", "expresion": "respondió que", "quien": "C2", "dentro_de": null, "respaldo": [{"o": 8, "f": "respondió que"}]}
+ ],
+ "determinaciones": [],
+ "acciones": [
+  {"id": "A1", "agente": "C1", "accion": "pidió", "objeto": "C3", "negada": false, "dentro_de": null, "condiciones": [{"texto": "a la alcaldía", "ref": "C2", "respaldo": [{"o": 7, "f": "a la alcaldía"}]}], "respaldo": [{"o": 7, "f": "pidió a la alcaldía apoyo para comprar tratamiento"}]},
+  {"id": "A2", "agente": "C2", "accion": "respondió", "objeto": null, "negada": false, "dentro_de": null, "condiciones": [], "respaldo": [{"o": 8, "f": "respondió"}]},
+  {"id": "A3", "agente": "C1", "accion": "insistirá", "objeto": null, "negada": false, "dentro_de": null, "condiciones": [{"texto": "en la reunión de agosto", "ref": "C6", "respaldo": [{"o": 9, "f": "en la reunión de agosto"}]}], "respaldo": [{"o": 9, "f": "insistirá en la reunión de agosto"}]}
+ ],
+ "marcas": [
+  {"marca": "julio", "o": 8, "funciones": [{"funcion": "identifica", "refs": ["C5"]}]},
+  {"marca": "agosto", "o": 9, "funciones": [{"funcion": "identifica", "refs": ["C6"]}]}
+ ],
+ "dudas": []
+}
+

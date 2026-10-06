@@ -1,0 +1,92 @@
+{
+  "parseo": true,
+  "venia_con_cerca": false,
+  "error_parseo": null,
+  "doc": "mvp/paso2/reserva_a.md",
+  "verificacion": {
+    "oraciones_del_texto": 14,
+    "huecos": [],
+    "solapes": [],
+    "fuera_de_rango": [],
+    "no_enteros": []
+  },
+  "unidades_reconstruidas": [
+    {
+      "subtema": "el nacimiento de la cooperativa apícola de la vereda El Retiro en 1998",
+      "oraciones_n": [
+        1
+      ],
+      "oraciones": [
+        "La cooperativa apícola de la vereda El Retiro nació en 1998, cuando once familias se repartieron las primeras colmenas."
+      ]
+    },
+    {
+      "subtema": "la venta de la miel de la cooperativa apícola de la vereda El Retiro",
+      "oraciones_n": [
+        2
+      ],
+      "oraciones": [
+        "Su miel se vende hoy en tres ferias regionales."
+      ]
+    },
+    {
+      "subtema": "el número de colmenas de la cooperativa apícola de la vereda El Retiro",
+      "oraciones_n": [
+        3
+      ],
+      "oraciones": [
+        "La cooperativa reúne ciento cuarenta colmenas, según el censo del año pasado."
+      ]
+    },
+    {
+      "subtema": "el ataque del hongo a las colmenas del lote norte y la pérdida de producción de la cooperativa apícola de la vereda El Retiro",
+      "oraciones_n": [
+        4,
+        5,
+        6
+      ],
+      "oraciones": [
+        "En marzo, un hongo atacó las colmenas del lote norte.",
+        "El técnico de la cooperativa, Hernán Duque, atribuyó la infección a la humedad de las últimas semanas.",
+        "La cooperativa perdió el quince por ciento de la producción."
+      ]
+    },
+    {
+      "subtema": "la solicitud de apoyo de la junta a la alcaldía para comprar tratamiento",
+      "oraciones_n": [
+        7,
+        8,
+        9
+      ],
+      "oraciones": [
+        "La junta pidió a la alcaldía apoyo para comprar tratamiento.",
+        "La alcaldía respondió que el apoyo dependía del presupuesto de julio.",
+        "La junta insistirá en la reunión de agosto."
+      ]
+    },
+    {
+      "subtema": "el brote parecido al ataque de marzo a las colmenas del lote norte y su duración",
+      "oraciones_n": [
+        10,
+        11
+      ],
+      "oraciones": [
+        "Dos años antes, un brote parecido había obligado a quemar nueve colmenas del lote sur.",
+        "Aquel episodio duró cuatro meses."
+      ]
+    },
+    {
+      "subtema": "la revisión del informe del técnico Hernán Duque y la propuesta de repetir el muestreo",
+      "oraciones_n": [
+        12,
+        13,
+        14
+      ],
+      "oraciones": [
+        "La presidenta y la secretaria revisaron el informe del técnico.",
+        "Ella propuso repetir el muestreo.",
+        "Su propuesta quedó en el acta."
+      ]
+    }
+  ]
+}

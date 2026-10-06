@@ -1,0 +1,45 @@
+{
+ "casos": [
+  {"id": "C1", "nombre": "la personera", "menciones": [{"o": 13, "f": "La personera"}]},
+  {"id": "C2", "nombre": "la secretaria de la junta de acción comunal", "menciones": [{"o": 13, "f": "la secretaria de la junta"}]},
+  {"id": "C3", "nombre": "la empresa de acueducto", "menciones": [{"o": 13, "f": "de la empresa"}, {"o": 17, "f": "de la empresa"}, {"o": 1, "f": "La empresa de acueducto"}]},
+  {"id": "C4", "nombre": "la respuesta de la empresa de acueducto de que la fecha ya estaba contratada", "menciones": [{"o": 13, "f": "la respuesta de la empresa"}, {"o": 9, "f": "La empresa respondió que la fecha ya estaba contratada"}]},
+  {"id": "C5", "nombre": "el cronograma", "menciones": [{"o": 14, "f": "el cronograma"}]},
+  {"id": "C6", "nombre": "su reclamo", "menciones": [{"o": 15, "f": "Su reclamo"}]},
+  {"id": "C7", "nombre": "el acta", "menciones": [{"o": 15, "f": "el acta"}]},
+  {"id": "C8", "nombre": "su decisión", "menciones": [{"o": 16, "f": "Su decisión"}]},
+  {"id": "C9", "nombre": "Iván Cifuentes, gerente de la empresa de acueducto", "menciones": [{"o": 17, "f": "El gerente de la empresa, Iván Cifuentes"}]},
+  {"id": "C10", "nombre": "la solicitud", "menciones": [{"o": 17, "f": "la solicitud"}]}
+ ],
+ "relaciones": [
+  {"id": "R1", "tipo": "respuesta de", "de": "C4", "a": "C3", "dentro_de": null, "condiciones": [], "inferido": false, "respaldo": [{"o": 13, "f": "la respuesta de la empresa"}, {"o": 9, "f": "La empresa respondió que la fecha ya estaba contratada"}]},
+  {"id": "R2", "tipo": "gerente de", "de": "C9", "a": "C3", "dentro_de": null, "condiciones": [], "inferido": false, "respaldo": [{"o": 17, "f": "El gerente de la empresa, Iván Cifuentes"}, {"o": 1, "f": "La empresa de acueducto"}]},
+  {"id": "R3", "tipo": "registrado en", "de": "C6", "a": "C7", "dentro_de": null, "condiciones": [], "inferido": false, "respaldo": [{"o": 15, "f": "quedó registrado en el acta"}]}
+ ],
+ "capas": [
+  {"id": "K1", "expresion": "respuesta", "quien": "C3", "dentro_de": null, "respaldo": [{"o": 13, "f": "la respuesta de la empresa"}, {"o": 9, "f": "La empresa respondió que la fecha ya estaba contratada"}]},
+  {"id": "K2", "expresion": "pidió", "quien": null, "dentro_de": null, "respaldo": [{"o": 14, "f": "Ella pidió"}]},
+  {"id": "K3", "expresion": "dijo", "quien": "C9", "dentro_de": null, "respaldo": [{"o": 17, "f": "dijo"}]}
+ ],
+ "determinaciones": [
+  {"id": "D1", "dentro_de": null, "caso": "C1", "aspecto": "presentada como", "valor": "personera", "unidad": null, "cambio": null, "condiciones": [], "modalidad": null, "inferido": false, "respaldo": [{"o": 13, "f": "La personera"}]},
+  {"id": "D2", "dentro_de": null, "caso": "C2", "aspecto": "presentada como", "valor": "secretaria", "unidad": null, "cambio": null, "condiciones": [], "modalidad": null, "inferido": false, "respaldo": [{"o": 13, "f": "la secretaria de la junta"}]},
+  {"id": "D3", "dentro_de": null, "caso": "C9", "aspecto": "presentado como", "valor": "gerente", "unidad": null, "cambio": null, "condiciones": [], "modalidad": null, "inferido": false, "respaldo": [{"o": 17, "f": "El gerente de la empresa, Iván Cifuentes"}]}
+ ],
+ "acciones": [
+  {"id": "A1", "agente": ["C1", "C2"], "accion": "revisaron", "objeto": "C4", "negada": false, "dentro_de": null, "condiciones": [], "respaldo": [{"o": 13, "f": "revisaron la respuesta de la empresa"}]},
+  {"id": "A2", "agente": null, "accion": "se publicara", "objeto": "C5", "negada": false, "dentro_de": "K2", "condiciones": [], "respaldo": [{"o": 14, "f": "que se publicara el cronograma"}]},
+  {"id": "A3", "agente": null, "accion": "se conocerá", "objeto": "C8", "negada": false, "dentro_de": null, "condiciones": [{"texto": "el miércoles", "ref": null, "respaldo": [{"o": 16, "f": "el miércoles"}]}], "respaldo": [{"o": 16, "f": "Su decisión se conocerá el miércoles"}]},
+  {"id": "A4", "agente": "C9", "accion": "evaluará", "objeto": "C10", "negada": false, "dentro_de": "K3", "condiciones": [], "respaldo": [{"o": 17, "f": "evaluará la solicitud"}]}
+ ],
+ "marcas": [
+  {"marca": "el miércoles", "o": 16, "funciones": [{"funcion": "posición", "refs": ["A3"]}]}
+ ],
+ "dudas": [
+  {"id": "Q1", "texto": "«Ella» en [14] puede referirse a la personera (C1) o a la secretaria de la junta de acción comunal (C2); el quién de K2 y el agente de la petición quedan sin resolver.", "respaldo": [{"o": 14, "f": "Ella pidió"}]},
+  {"id": "Q2", "texto": "«Su» en [15] («Su reclamo»): puede ser el reclamo de la personera (C1) o de la secretaria (C2).", "respaldo": [{"o": 15, "f": "Su reclamo"}]},
+  {"id": "Q3", "texto": "«Su» en [16] («Su decisión»): puede ser la decisión de la personera (C1), de la secretaria (C2) o de la empresa de acueducto (C3).", "respaldo": [{"o": 16, "f": "Su decisión"}]},
+  {"id": "Q4", "texto": "«la solicitud» en [17]: puede ser el pedido de publicar el cronograma [14], el reclamo registrado en el acta [15] u otra solicitud no especificada en la unidad.", "respaldo": [{"o": 17, "f": "evaluará la solicitud"}, {"o": 14, "f": "que se publicara el cronograma"}, {"o": 15, "f": "Su reclamo"}]}
+ ]
+}
+

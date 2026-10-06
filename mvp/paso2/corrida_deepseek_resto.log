@@ -1,0 +1,12 @@
+bash: cannot set terminal process group (31770): Inappropriate ioctl for device
+bash: no job control in this shell
+crudo ya existe, salto (/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc5-b-u1-deepseek-r1.json)
+crudo ya existe, salto (/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc5-b-u2-deepseek-r1.json)
+crudo ya existe, salto (/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc5-b-u3-deepseek-r1.json)
+crudo ya existe, salto (/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc5-b-u4-deepseek-r1.json)
+U5 (b): 48.5 s | deepseek-flash | tokens {'entrada': 3021, 'salida': 11631, 'razonamiento': 9966} | no verificables 0 | fuera de la unidad 1 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc5-b-u5-deepseek-r1.json
+U1 (c): 52.5 s | deepseek-flash | tokens {'entrada': 3087, 'salida': 11923, 'razonamiento': 10676} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc5-c-u1-deepseek-r1.json
+U2 (c): 54.5 s | deepseek-flash | tokens {'entrada': 3092, 'salida': 12692, 'razonamiento': 11436} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc5-c-u2-deepseek-r1.json
+U3 (c): 65.4 s | deepseek-flash | tokens {'entrada': 3087, 'salida': 14711, 'razonamiento': 13577} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc5-c-u3-deepseek-r1.json
+U4 (c): 59.3 s | deepseek-flash | tokens {'entrada': 3088, 'salida': 13706, 'razonamiento': 12757} | no verificables 0 | fuera de la unidad 0 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc5-c-u4-deepseek-r1.json
+U5 (c): 75.3 s | deepseek-flash | tokens {'entrada': 3072, 'salida': 16500, 'razonamiento': 15062} | no verificables 0 | fuera de la unidad 1 | → /home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/paso2/cache/comp-doc5-c-u5-deepseek-r1.json

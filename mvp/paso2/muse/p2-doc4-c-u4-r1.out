@@ -1,0 +1,24 @@
+{
+  "casos": [
+    {"id": "C1", "nombre": "la junta de acción comunal", "menciones": [{"o": 8, "f": "La junta de acción comunal"}, {"o": 10, "f": "La junta"}]},
+    {"id": "C2", "nombre": "el corte de agua en el barrio San Jorge para el jueves", "menciones": [{"o": 8, "f": "el corte"}, {"o": 1, "f": "un corte de agua en el barrio San Jorge para el jueves"}]},
+    {"id": "C3", "nombre": "la empresa de acueducto", "menciones": [{"o": 9, "f": "La empresa"}, {"o": 1, "f": "La empresa de acueducto"}]},
+    {"id": "C4", "nombre": "el jueves, la fecha del corte", "menciones": [{"o": 9, "f": "la fecha"}, {"o": 1, "f": "para el jueves"}]}
+  ],
+  "relaciones": [],
+  "capas": [
+    {"id": "K1", "expresion": "pidió que", "quien": "C1", "dentro_de": null, "respaldo": [{"o": 8, "f": "pidió que"}]},
+    {"id": "K2", "expresion": "respondió que", "quien": "C3", "dentro_de": null, "respaldo": [{"o": 9, "f": "respondió que"}]}
+  ],
+  "determinaciones": [
+    {"id": "D1", "dentro_de": "K2", "caso": "C4", "aspecto": "estado de contratación", "valor": "contratada", "unidad": null, "cambio": null, "condiciones": [], "modalidad": null, "inferido": false, "respaldo": [{"o": 9, "f": "la fecha ya estaba contratada"}]}
+  ],
+  "acciones": [
+    {"id": "A1", "agente": null, "accion": "hacerse", "objeto": "C2", "negada": true, "dentro_de": "K1", "condiciones": [{"texto": "en semana de exámenes", "ref": null, "respaldo": [{"o": 8, "f": "en semana de exámenes"}]}], "respaldo": [{"o": 8, "f": "que el corte no se hiciera en semana de exámenes"}]},
+    {"id": "A2", "agente": "C1", "accion": "insistir", "objeto": null, "negada": false, "dentro_de": null, "condiciones": [{"texto": "en la próxima reunión", "ref": null, "respaldo": [{"o": 10, "f": "en la próxima reunión"}]}], "respaldo": [{"o": 10, "f": "La junta insistirá en la próxima reunión"}]}
+  ],
+  "marcas": [
+    {"marca": "contratada", "o": 9, "funciones": [{"funcion": "posición", "refs": ["D1"]}]}
+  ],
+  "dudas": []
+}

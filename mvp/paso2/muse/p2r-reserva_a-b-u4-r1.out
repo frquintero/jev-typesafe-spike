@@ -1,0 +1,32 @@
+{
+ "casos": [
+  {"id":"C1","nombre":"hongo","menciones":[{"o":4,"f":"un hongo"}]},
+  {"id":"C2","nombre":"colmenas del lote norte","menciones":[{"o":4,"f":"las colmenas del lote norte"}]},
+  {"id":"C3","nombre":"Hernán Duque","menciones":[{"o":5,"f":"El técnico de la cooperativa, Hernán Duque"}]},
+  {"id":"C4","nombre":"cooperativa apícola de la vereda El Retiro","menciones":[{"o":1,"f":"La cooperativa apícola de la vereda El Retiro"},{"o":5,"f":"de la cooperativa"},{"o":6,"f":"La cooperativa"}]},
+  {"id":"C5","nombre":"infección","menciones":[{"o":5,"f":"la infección"}]},
+  {"id":"C6","nombre":"humedad de las últimas semanas","menciones":[{"o":5,"f":"la humedad de las últimas semanas"}]},
+  {"id":"C7","nombre":"producción","menciones":[{"o":6,"f":"la producción"}]}
+ ],
+ "relaciones": [
+  {"id":"R1","tipo":"causada por","de":"C5","a":"C6","dentro_de":"K1","condiciones":[],"inferido":false,"respaldo":[{"o":5,"f":"atribuyó la infección a la humedad de las últimas semanas"}]},
+  {"id":"R2","tipo":"en","de":"C5","a":"C2","dentro_de":null,"condiciones":[],"inferido":true,"respaldo":[{"o":4,"f":"un hongo atacó las colmenas del lote norte"},{"o":5,"f":"la infección"}]}
+ ],
+ "capas": [
+  {"id":"K1","expresion":"atribuyó","quien":"C3","dentro_de":null,"respaldo":[{"o":5,"f":"atribuyó"}]}
+ ],
+ "determinaciones": [
+  {"id":"D1","dentro_de":null,"caso":"C3","aspecto":"presentado como","valor":"técnico de la cooperativa","unidad":null,"cambio":null,"condiciones":[],"modalidad":null,"inferido":false,"respaldo":[{"o":5,"f":"El técnico de la cooperativa, Hernán Duque"}]},
+  {"id":"D2","dentro_de":null,"caso":"C7","aspecto":"parte perdida","valor":"quince","unidad":"por ciento","cambio":null,"condiciones":[],"modalidad":null,"inferido":false,"respaldo":[{"o":6,"f":"el quince por ciento de la producción"}]}
+ ],
+ "acciones": [
+  {"id":"A1","agente":"C1","accion":"atacó","objeto":"C2","negada":false,"dentro_de":null,"condiciones":[{"texto":"En marzo","ref":null,"respaldo":[{"o":4,"f":"En marzo"}]}],"respaldo":[{"o":4,"f":"un hongo atacó las colmenas del lote norte"}]},
+  {"id":"A2","agente":"C4","accion":"perdió el quince por ciento de","objeto":"C7","negada":false,"dentro_de":null,"condiciones":[],"respaldo":[{"o":6,"f":"La cooperativa perdió el quince por ciento de la producción"}]}
+ ],
+ "marcas": [
+  {"marca":"marzo","o":4,"funciones":[{"funcion":"posición","refs":["A1"]}]},
+  {"marca":"quince por ciento","o":6,"funciones":[{"funcion":"posición","refs":["D2"]}]}
+ ],
+ "dudas": []
+}
+

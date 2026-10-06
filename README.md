@@ -73,6 +73,9 @@ en el README, PLAN y tareas de cada carpeta).
   comprobación guiada; registro en `mvp/mesa-dominio-resultado.md`), que
   actualizó §4.1 del plan, y pruebas del paso 1 con Muse (`mvp/pruebas/`;
   candidato v9 congelado) (`mvp/`)
+- Fecha: 2026-10-06 · Proyecto: paso 2 de las unidades temáticas — extracción
+  de datos por unidad con las referencias y respaldos de v9; entrada elegida y
+  base de trabajo: la unidad más sus referencias (`mvp/paso2/`)
 
 ## Frentes cerrados: lecciones e ideas rescatables
 

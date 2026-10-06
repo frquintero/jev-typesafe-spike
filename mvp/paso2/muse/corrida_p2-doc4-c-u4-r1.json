@@ -1,0 +1,15 @@
+{
+  "etiqueta": "p2-doc4-c-u4-r1",
+  "doc": "/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/pruebas/doc4.md",
+  "salida_v9": "/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/pruebas/salida_prueba8-v9-doc4.md",
+  "unidad": "U4",
+  "entrada": "c",
+  "subtema": "la petición de la junta de no cortar en semana de exámenes y la respuesta de la empresa",
+  "oraciones": [
+    8,
+    9,
+    10
+  ],
+  "referencias": 3,
+  "bytes_mensaje": 10928
+}

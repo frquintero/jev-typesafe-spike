@@ -1,0 +1,7 @@
+{
+  "etiqueta": "reservaA-v9",
+  "doc": "mvp/paso2/reserva_a.md",
+  "prompt": "/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/pruebas/prompt_v9.md",
+  "marcador": "{{TEXTO_NUMERADO}}",
+  "oraciones": 14
+}

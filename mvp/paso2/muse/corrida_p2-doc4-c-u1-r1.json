@@ -1,0 +1,15 @@
+{
+  "etiqueta": "p2-doc4-c-u1-r1",
+  "doc": "/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/pruebas/doc4.md",
+  "salida_v9": "/home/fratquintero/Documentos/Claude/jev-typesafe-spike/mvp/pruebas/salida_prueba8-v9-doc4.md",
+  "unidad": "U1",
+  "entrada": "c",
+  "subtema": "el corte de agua anunciado en el barrio San Jorge, su duración y sus afectados",
+  "oraciones": [
+    1,
+    2,
+    3
+  ],
+  "referencias": 0,
+  "bytes_mensaje": 10947
+}

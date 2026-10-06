@@ -1,0 +1,19 @@
+{
+ "casos": [
+  {"id": "C1", "nombre": "La cooperativa apícola de la vereda El Retiro", "menciones": [{"o": 3, "f": "La cooperativa"}]},
+  {"id": "C2", "nombre": "censo del año pasado", "menciones": [{"o": 3, "f": "el censo del año pasado"}]}
+ ],
+ "relaciones": [],
+ "capas": [
+  {"id": "K1", "expresion": "según", "quien": "C2", "dentro_de": null, "respaldo": [{"o": 3, "f": "según el censo del año pasado"}]}
+ ],
+ "determinaciones": [
+  {"id": "D1", "dentro_de": "K1", "caso": "C1", "aspecto": "colmenas que reúne", "valor": "ciento cuarenta", "unidad": "colmenas", "cambio": null, "condiciones": [], "modalidad": null, "inferido": false, "respaldo": [{"o": 3, "f": "reúne ciento cuarenta colmenas"}]}
+ ],
+ "acciones": [],
+ "marcas": [
+  {"marca": "ciento cuarenta colmenas", "o": 3, "funciones": [{"funcion": "posición", "refs": ["D1"]}]}
+ ],
+ "dudas": []
+}
+

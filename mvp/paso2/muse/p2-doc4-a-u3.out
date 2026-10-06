@@ -1,0 +1,23 @@
+{
+ "casos": [
+  {"id": "C1", "nombre": "la empresa", "menciones": [{"o": 7, "f": "La empresa"}]},
+  {"id": "C2", "nombre": "los vecinos", "menciones": [{"o": 7, "f": "a los vecinos"}]},
+  {"id": "C3", "nombre": "agua", "menciones": [{"o": 7, "f": "agua"}]}
+ ],
+ "relaciones": [],
+ "capas": [
+  {"id": "K1", "expresion": "pidió", "quien": "C1", "dentro_de": null, "respaldo": [{"o": 7, "f": "pidió"}]}
+ ],
+ "determinaciones": [],
+ "acciones": [
+  {"id": "A1", "agente": "C1", "accion": "pidió", "objeto": "C2", "negada": false, "dentro_de": "K1", "condiciones": [], "respaldo": [{"o": 7, "f": "pidió a los vecinos almacenar agua"}]},
+  {"id": "A2", "agente": "C2", "accion": "almacenar", "objeto": "C3", "negada": false, "dentro_de": "K1", "condiciones": [{"texto": "la noche anterior", "ref": null, "respaldo": [{"o": 7, "f": "la noche anterior"}]}], "respaldo": [{"o": 7, "f": "almacenar agua"}]}
+ ],
+ "marcas": [
+  {"marca": "la noche anterior", "o": 7, "funciones": [{"funcion": "posición", "refs": ["A2"]}]}
+ ],
+ "dudas": [
+  {"id": "Q1", "texto": "«la noche anterior»: anterior a qué momento; sin referencia en la unidad y contexto vacío", "respaldo": [{"o": 7, "f": "la noche anterior"}]},
+  {"id": "Q2", "texto": "«la noche anterior» puede modificar a «pidió» (cuándo se pidió) o a «almacenar» (cuándo almacenar); se registra en A2 sin resolver", "respaldo": [{"o": 7, "f": "pidió a los vecinos almacenar agua la noche anterior"}]}
+ ]
+}

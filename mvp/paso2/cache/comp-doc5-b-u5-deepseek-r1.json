@@ -1,0 +1,427 @@
+{
+  "doc": "mvp/pruebas/doc5.md",
+  "salida_v9": "mvp/pruebas/salida_prueba9-v9-doc5.md",
+  "modelo": "deepseek",
+  "rep": "r1",
+  "entrada": "b",
+  "segundos": 48.5,
+  "unidad": "U5",
+  "subtema": "la revisión de los planos del taller y la publicación del hallazgo",
+  "oraciones": [
+    14,
+    15,
+    16
+  ],
+  "referencias": [
+    {
+      "oracion": 14,
+      "expresion": "del taller",
+      "referente": "uno de los talleres incluidos en la compra, sin establecer cuál",
+      "respaldo": [
+        {
+          "oracion": 9,
+          "texto": "La compra incluyó los talleres y los vehículos que aún servían"
+        },
+        {
+          "oracion": 14,
+          "texto": "los planos del taller"
+        }
+      ]
+    },
+    {
+      "oracion": 15,
+      "expresion": "Ella",
+      "referente": null,
+      "respaldo": [
+        {
+          "oracion": 14,
+          "texto": "La historiadora y la archivista revisaron los planos del taller"
+        },
+        {
+          "oracion": 15,
+          "texto": "Ella encontró un plano fechado en 1911"
+        }
+      ],
+      "duda": "No se establece si fue la historiadora o la archivista."
+    },
+    {
+      "oracion": 16,
+      "expresion": "Su",
+      "referente": null,
+      "respaldo": [
+        {
+          "oracion": 14,
+          "texto": "La historiadora y la archivista revisaron los planos del taller"
+        },
+        {
+          "oracion": 15,
+          "texto": "Ella encontró un plano fechado en 1911"
+        },
+        {
+          "oracion": 16,
+          "texto": "Su hallazgo se publicó en la revista municipal"
+        }
+      ],
+      "duda": "No se establece de quién fue el hallazgo, pues depende de Ella en [15]: la historiadora o la archivista."
+    }
+  ],
+  "texto_enviado": "[14] La historiadora y la archivista revisaron los planos del taller. [15] Ella encontró un plano fechado en 1911. [16] Su hallazgo se publicó en la revista municipal.",
+  "contexto_enviado": "REFERENCIAS EXTERNAS DE LA UNIDAD (su respaldo son fragmentos literales del documento, con su número de oración)\n- oración 14 de la unidad · «del taller» → uno de los talleres incluidos en la compra, sin establecer cuál\n  respaldo: [9] «La compra incluyó los talleres y los vehículos que aún servían» · [14] «los planos del taller»\n- oración 15 de la unidad · «Ella» → SIN RESOLVER (No se establece si fue la historiadora o la archivista.)\n  respaldo: [14] «La historiadora y la archivista revisaron los planos del taller» · [15] «Ella encontró un plano fechado en 1911»\n- oración 16 de la unidad · «Su» → SIN RESOLVER (No se establece de quién fue el hallazgo, pues depende de Ella en [15]: la historiadora o la archivista.)\n  respaldo: [14] «La historiadora y la archivista revisaron los planos del taller» · [15] «Ella encontró un plano fechado en 1911» · [16] «Su hallazgo se publicó en la revista municipal»",
+  "prompt_enviado": "TAREA\nLees un texto con sus oraciones numeradas. Reconstruye en una ficha JSON todo lo\nque el texto establece, organizado por casos de estudio. No decides qué es\nimportante: registras lo dicho, sin agregar ni perder nada.\n\nDEFINICIONES\n- Caso de estudio: aquello de lo que el texto dice algo (una cosa, persona, lugar,\n  hecho, estado, o incluso otra determinación). Se reconoce por sus menciones:\n  nombre, pronombre, sujeto implícito.\n- Aspecto: aquello bajo lo cual el texto considera el caso de estudio\n  (temperatura, color, año de construcción).\n- Determinación: lo que queda establecido acerca de un caso de estudio bajo un\n  aspecto: «la temperatura del agua es 18 °C». El campo \"valor\" guarda solo la\n  posición («18»); la fila entera es la determinación.\n- Condición: lo que, si cambiara, cambiaría la pregunta respondida («en la\n  superficie»: la temperatura en el fondo es otra pregunta). Si al cambiarlo\n  cambia la cosa de la que se habla, es parte del caso de estudio.\n- Capa: el texto atribuye algo a alguien (cree, dice, recomienda, según, supone).\n  El texto afirma la capa; lo que va dentro lo sostiene quien la tiene, aunque\n  sea el propio autor.\n- Marca de posición: número, fecha, cantidad o categoría que señala una posición\n  entre otras posibles.\n\nPRINCIPIOS\n1. Registra todo lo que el texto establece, incluidas generalizaciones,\n   valoraciones y lo dicho al pasar («el técnico Pablo Ríos»).\n2. No inventes. El aspecto debe tener respaldo en el texto. Si registras algo que\n   el texto no dice, marca \"inferido\": true y da los fragmentos que te llevaron\n   a ello.\n3. Lo que está dentro de una creencia, recomendación o cita lleva \"dentro_de\"\n   con el id de su capa. Una capa puede estar dentro de otra.\n4. La negación va donde opera: «no cree» va en la capa; «cree que no» va en el\n   valor.\n5. Resuelve las referencias implícitas (pronombres, sujetos omitidos, términos\n   de comparación como «otro», «igual», «el mismo») cuando el contexto da un\n   solo antecedente: regístralas con \"inferido\": true y su respaldo. Mencionar\n   algo para compararlo no lo vuelve lo comparado: lo comparado y el término de\n   comparación son casos distintos, unidos por una relación. Si hay más de un\n   antecedente posible, va a \"dudas\".\n6. Los cambios se conservan en \"cambio\" («bajó a», «subió de… a…»).\n7. Una recomendación u orden contiene una acción (lista \"acciones\"). No le\n   atribuyas propiedades al objeto de la acción.\n8. Explica en \"marcas\" cada marca de posición y cada número: qué hace (posición,\n   identifica, remite). Un número que identifica o remite no es un valor:\n   forma parte del nombre del caso que identifica.\n9. Lo ambiguo (más de una lectura posible) va a \"dudas\". No lo resuelvas.\n10. Copia los fragmentos de \"respaldo\" literales de la oración indicada. Un\n    fragmento puede respaldar varias cosas.\n11. Usa ids (C1, K1, D1, A1) para referirte a lo ya registrado.\n\nFORMATO\nUn solo objeto JSON con siete listas. Cada lista tiene una función y una forma\nfija: usa exactamente estos campos, en cualquier texto. Una lista sin elementos\nva vacía: [].\n- casos: aquello de lo que el texto dice algo.\n  {\"id\":\"C1\",\"nombre\":\"…\",\"menciones\":[{\"o\":1,\"f\":\"…\"}]}\n  Los nombres, números o códigos que identifican un caso van en su nombre y sus\n  menciones («pintura n.º 27 del inventario»), no como determinación.\n- relaciones: un vínculo que el texto establece entre dos casos (parte de,\n  muestra de, procede de, guardado en).\n  {\"id\":\"R1\",\"tipo\":\"…\",\"de\":\"C1\",\"a\":\"C2\",\"dentro_de\":null,\"condiciones\":[],\n   \"inferido\":false,\"respaldo\":[{\"o\":1,\"f\":\"…\"}]}\n- capas: el texto atribuye algo a alguien.\n  {\"id\":\"K1\",\"expresion\":\"…\",\"quien\":\"C2\",\"dentro_de\":null,\"respaldo\":[…]}\n- determinaciones: lo establecido acerca de un caso bajo un aspecto (forma en\n  el ejemplo).\n- acciones: lo que alguien hace, hizo, o se recomienda u ordena hacer. Una\n  recomendación u orden es una acción dentro de su capa.\n  {\"id\":\"A1\",\"agente\":\"C1\",\"accion\":\"…\",\"objeto\":\"C2\",\"negada\":false,\n   \"dentro_de\":null,\"condiciones\":[],\"respaldo\":[…]}\n  \"agente\" u \"objeto\" van null si el texto no los dice.\n- marcas: cada marca de posición y cada número.\n  {\"marca\":\"…\",\"o\":1,\"funciones\":[{\"funcion\":\"posición | identifica | remite\",\n   \"refs\":[\"D1\"]}]}\n- dudas: lo ambiguo, sin resolverlo.\n  {\"id\":\"Q1\",\"texto\":\"…\",\"respaldo\":[…]}\nToda referencia a otro registro es un id (\"C2\") o una lista de ids\n([\"C2\",\"C5\"]), nunca texto libre. Una condición es\n{\"texto\":\"…\",\"ref\":id o null,\"respaldo\":[…]}.\n\nEJEMPLO\nTexto:\n[1] En la superficie, el agua del estanque norte de la finca El Roble está a 18 °C. [2] Además tiene un color verdoso, algo preocupante según la bióloga Ana Ruiz.\n\nFicha:\n{\n \"casos\": [\n  {\"id\":\"C1\",\"nombre\":\"agua del estanque norte de la finca El Roble\",\n   \"menciones\":[{\"o\":1,\"f\":\"el agua del estanque norte de la finca El Roble\"},{\"o\":2,\"f\":\"tiene\"}]},\n  {\"id\":\"C2\",\"nombre\":\"Ana Ruiz\",\"menciones\":[{\"o\":2,\"f\":\"la bióloga Ana Ruiz\"}]}\n ],\n \"relaciones\": [],\n \"capas\": [\n  {\"id\":\"K1\",\"expresion\":\"según\",\"quien\":\"C2\",\"dentro_de\":null,\n   \"respaldo\":[{\"o\":2,\"f\":\"según la bióloga Ana Ruiz\"}]}\n ],\n \"determinaciones\": [\n  {\"id\":\"D1\",\"dentro_de\":null,\"caso\":\"C1\",\"aspecto\":\"temperatura\",\"valor\":\"18\",\"unidad\":\"°C\",\n   \"cambio\":null,\"condiciones\":[{\"texto\":\"en la superficie\",\"ref\":null,\"respaldo\":[{\"o\":1,\"f\":\"En la superficie\"}]}],\n   \"modalidad\":null,\"inferido\":false,\"respaldo\":[{\"o\":1,\"f\":\"está a 18 °C\"}]},\n  {\"id\":\"D2\",\"dentro_de\":null,\"caso\":\"C1\",\"aspecto\":\"color\",\"valor\":\"verdoso\",\"unidad\":null,\n   \"cambio\":null,\"condiciones\":[],\"modalidad\":null,\"inferido\":false,\n   \"respaldo\":[{\"o\":2,\"f\":\"tiene un color verdoso\"}]},\n  {\"id\":\"D3\",\"dentro_de\":null,\"caso\":\"C2\",\"aspecto\":\"presentada como\",\"valor\":\"bióloga\",\"unidad\":null,\n   \"cambio\":null,\"condiciones\":[],\"modalidad\":null,\"inferido\":false,\n   \"respaldo\":[{\"o\":2,\"f\":\"la bióloga Ana Ruiz\"}]},\n  {\"id\":\"D4\",\"dentro_de\":\"K1\",\"caso\":\"D2\",\"aspecto\":\"carácter\",\"valor\":\"algo preocupante\",\"unidad\":null,\n   \"cambio\":null,\"condiciones\":[],\"modalidad\":null,\"inferido\":false,\n   \"respaldo\":[{\"o\":2,\"f\":\"algo preocupante\"}]}\n ],\n \"acciones\": [],\n \"marcas\": [\n  {\"marca\":\"18 °C\",\"o\":1,\"funciones\":[{\"funcion\":\"posición\",\"refs\":[\"D1\"]}]},\n  {\"marca\":\"verdoso\",\"o\":2,\"funciones\":[{\"funcion\":\"posición\",\"refs\":[\"D2\"]}]},\n  {\"marca\":\"algo preocupante\",\"o\":2,\"funciones\":[{\"funcion\":\"posición\",\"refs\":[\"D4\"]}]}\n ],\n \"dudas\": []\n}\n\nUNIDAD Y CONTEXTO\nLa UNIDAD son las oraciones numeradas que van bajo TEXTO: es lo único de donde se\nextrae. El CONTEXTO, cuando lo hay, trae material de apoyo del mismo documento,\nde oraciones que quedaron fuera de la unidad: referencias externas ya resueltas\ncon sus respaldos, o el documento completo numerado. Si CONTEXTO viene vacío,\nextrae solo de la unidad.\n\nCuando el CONTEXTO trae referencias, cada entrada indica la oración de la unidad\nque trae la expresión, la expresión, el referente ya resuelto (o null) y los\nfragmentos literales del documento que lo sostienen, con su número de oración.\nCuando trae el documento completo, las oraciones de la unidad van repetidas.\n\nEl contexto sirve para interpretar lo que la unidad dice, no para ampliarlo:\n- Donde arriba dice «el texto», el texto del que se extrae es la unidad; el\n  contexto no se extrae: solo aclara.\n- La unidad manda: lo que registres tiene respaldo en una oración de la unidad.\n- El contexto puede completar lo que la unidad deja incompleto: de quién o de qué\n  se habla (un pronombre, un sujeto omitido, «la solicitud») y la condición o el\n  punto de referencia que una oración de la unidad necesita para quedar\n  representada («la noche anterior» → «la noche anterior al jueves del corte»).\n- El contexto también puede aportar el contenido de una capa que la unidad\n  establece («cuestionó esa conclusión»: la conclusión está en el respaldo).\n- El contexto no abre asuntos. No registres determinaciones, acciones ni marcas\n  que la unidad no establezca, aunque el respaldo las traiga: el número de\n  habitantes que identifica al municipio no es un dato del subtema de su plaza.\n- Un caso que el contexto identifica se registra una sola vez, con el nombre o la\n  relación que su respaldo sostiene.\n- Los fragmentos de \"respaldo\" pueden venir del contexto: copia su número de\n  oración original tal como aparece.\n- Si una referencia viene sin resolver (referente null), no elijas: registra la\n  duda con las interpretaciones que su respaldo deja abiertas.\n- \"inferido\": true marca lo que reconstruiste, y va en el registro donde ocurrió,\n  no en todo lo que tocó el contexto. Resolver de quién se habla puede ser\n  inferido si el vínculo no está dicho en la unidad; una determinación que la\n  unidad establece no se vuelve inferida por usar el contexto.\n\nTEXTO\n[14] La historiadora y la archivista revisaron los planos del taller. [15] Ella encontró un plano fechado en 1911. [16] Su hallazgo se publicó en la revista municipal.\n\nCONTEXTO\nREFERENCIAS EXTERNAS DE LA UNIDAD (su respaldo son fragmentos literales del documento, con su número de oración)\n- oración 14 de la unidad · «del taller» → uno de los talleres incluidos en la compra, sin establecer cuál\n  respaldo: [9] «La compra incluyó los talleres y los vehículos que aún servían» · [14] «los planos del taller»\n- oración 15 de la unidad · «Ella» → SIN RESOLVER (No se establece si fue la historiadora o la archivista.)\n  respaldo: [14] «La historiadora y la archivista revisaron los planos del taller» · [15] «Ella encontró un plano fechado en 1911»\n- oración 16 de la unidad · «Su» → SIN RESOLVER (No se establece de quién fue el hallazgo, pues depende de Ella en [15]: la historiadora o la archivista.)\n  respaldo: [14] «La historiadora y la archivista revisaron los planos del taller» · [15] «Ella encontró un plano fechado en 1911» · [16] «Su hallazgo se publicó en la revista municipal»\n",
+  "request": {
+    "model": "deepseek-flash",
+    "messages": [
+      {
+        "role": "user",
+        "content": "TAREA\nLees un texto con sus oraciones numeradas. Reconstruye en una ficha JSON todo lo\nque el texto establece, organizado por casos de estudio. No decides qué es\nimportante: registras lo dicho, sin agregar ni perder nada.\n\nDEFINICIONES\n- Caso de estudio: aquello de lo que el texto dice algo (una cosa, persona, lugar,\n  hecho, estado, o incluso otra determinación). Se reconoce por sus menciones:\n  nombre, pronombre, sujeto implícito.\n- Aspecto: aquello bajo lo cual el texto considera el caso de estudio\n  (temperatura, color, año de construcción).\n- Determinación: lo que queda establecido acerca de un caso de estudio bajo un\n  aspecto: «la temperatura del agua es 18 °C». El campo \"valor\" guarda solo la\n  posición («18»); la fila entera es la determinación.\n- Condición: lo que, si cambiara, cambiaría la pregunta respondida («en la\n  superficie»: la temperatura en el fondo es otra pregunta). Si al cambiarlo\n  cambia la cosa de la que se habla, es parte del caso de estudio.\n- Capa: el texto atribuye algo a alguien (cree, dice, recomienda, según, supone).\n  El texto afirma la capa; lo que va dentro lo sostiene quien la tiene, aunque\n  sea el propio autor.\n- Marca de posición: número, fecha, cantidad o categoría que señala una posición\n  entre otras posibles.\n\nPRINCIPIOS\n1. Registra todo lo que el texto establece, incluidas generalizaciones,\n   valoraciones y lo dicho al pasar («el técnico Pablo Ríos»).\n2. No inventes. El aspecto debe tener respaldo en el texto. Si registras algo que\n   el texto no dice, marca \"inferido\": true y da los fragmentos que te llevaron\n   a ello.\n3. Lo que está dentro de una creencia, recomendación o cita lleva \"dentro_de\"\n   con el id de su capa. Una capa puede estar dentro de otra.\n4. La negación va donde opera: «no cree» va en la capa; «cree que no» va en el\n   valor.\n5. Resuelve las referencias implícitas (pronombres, sujetos omitidos, términos\n   de comparación como «otro», «igual», «el mismo») cuando el contexto da un\n   solo antecedente: regístralas con \"inferido\": true y su respaldo. Mencionar\n   algo para compararlo no lo vuelve lo comparado: lo comparado y el término de\n   comparación son casos distintos, unidos por una relación. Si hay más de un\n   antecedente posible, va a \"dudas\".\n6. Los cambios se conservan en \"cambio\" («bajó a», «subió de… a…»).\n7. Una recomendación u orden contiene una acción (lista \"acciones\"). No le\n   atribuyas propiedades al objeto de la acción.\n8. Explica en \"marcas\" cada marca de posición y cada número: qué hace (posición,\n   identifica, remite). Un número que identifica o remite no es un valor:\n   forma parte del nombre del caso que identifica.\n9. Lo ambiguo (más de una lectura posible) va a \"dudas\". No lo resuelvas.\n10. Copia los fragmentos de \"respaldo\" literales de la oración indicada. Un\n    fragmento puede respaldar varias cosas.\n11. Usa ids (C1, K1, D1, A1) para referirte a lo ya registrado.\n\nFORMATO\nUn solo objeto JSON con siete listas. Cada lista tiene una función y una forma\nfija: usa exactamente estos campos, en cualquier texto. Una lista sin elementos\nva vacía: [].\n- casos: aquello de lo que el texto dice algo.\n  {\"id\":\"C1\",\"nombre\":\"…\",\"menciones\":[{\"o\":1,\"f\":\"…\"}]}\n  Los nombres, números o códigos que identifican un caso van en su nombre y sus\n  menciones («pintura n.º 27 del inventario»), no como determinación.\n- relaciones: un vínculo que el texto establece entre dos casos (parte de,\n  muestra de, procede de, guardado en).\n  {\"id\":\"R1\",\"tipo\":\"…\",\"de\":\"C1\",\"a\":\"C2\",\"dentro_de\":null,\"condiciones\":[],\n   \"inferido\":false,\"respaldo\":[{\"o\":1,\"f\":\"…\"}]}\n- capas: el texto atribuye algo a alguien.\n  {\"id\":\"K1\",\"expresion\":\"…\",\"quien\":\"C2\",\"dentro_de\":null,\"respaldo\":[…]}\n- determinaciones: lo establecido acerca de un caso bajo un aspecto (forma en\n  el ejemplo).\n- acciones: lo que alguien hace, hizo, o se recomienda u ordena hacer. Una\n  recomendación u orden es una acción dentro de su capa.\n  {\"id\":\"A1\",\"agente\":\"C1\",\"accion\":\"…\",\"objeto\":\"C2\",\"negada\":false,\n   \"dentro_de\":null,\"condiciones\":[],\"respaldo\":[…]}\n  \"agente\" u \"objeto\" van null si el texto no los dice.\n- marcas: cada marca de posición y cada número.\n  {\"marca\":\"…\",\"o\":1,\"funciones\":[{\"funcion\":\"posición | identifica | remite\",\n   \"refs\":[\"D1\"]}]}\n- dudas: lo ambiguo, sin resolverlo.\n  {\"id\":\"Q1\",\"texto\":\"…\",\"respaldo\":[…]}\nToda referencia a otro registro es un id (\"C2\") o una lista de ids\n([\"C2\",\"C5\"]), nunca texto libre. Una condición es\n{\"texto\":\"…\",\"ref\":id o null,\"respaldo\":[…]}.\n\nEJEMPLO\nTexto:\n[1] En la superficie, el agua del estanque norte de la finca El Roble está a 18 °C. [2] Además tiene un color verdoso, algo preocupante según la bióloga Ana Ruiz.\n\nFicha:\n{\n \"casos\": [\n  {\"id\":\"C1\",\"nombre\":\"agua del estanque norte de la finca El Roble\",\n   \"menciones\":[{\"o\":1,\"f\":\"el agua del estanque norte de la finca El Roble\"},{\"o\":2,\"f\":\"tiene\"}]},\n  {\"id\":\"C2\",\"nombre\":\"Ana Ruiz\",\"menciones\":[{\"o\":2,\"f\":\"la bióloga Ana Ruiz\"}]}\n ],\n \"relaciones\": [],\n \"capas\": [\n  {\"id\":\"K1\",\"expresion\":\"según\",\"quien\":\"C2\",\"dentro_de\":null,\n   \"respaldo\":[{\"o\":2,\"f\":\"según la bióloga Ana Ruiz\"}]}\n ],\n \"determinaciones\": [\n  {\"id\":\"D1\",\"dentro_de\":null,\"caso\":\"C1\",\"aspecto\":\"temperatura\",\"valor\":\"18\",\"unidad\":\"°C\",\n   \"cambio\":null,\"condiciones\":[{\"texto\":\"en la superficie\",\"ref\":null,\"respaldo\":[{\"o\":1,\"f\":\"En la superficie\"}]}],\n   \"modalidad\":null,\"inferido\":false,\"respaldo\":[{\"o\":1,\"f\":\"está a 18 °C\"}]},\n  {\"id\":\"D2\",\"dentro_de\":null,\"caso\":\"C1\",\"aspecto\":\"color\",\"valor\":\"verdoso\",\"unidad\":null,\n   \"cambio\":null,\"condiciones\":[],\"modalidad\":null,\"inferido\":false,\n   \"respaldo\":[{\"o\":2,\"f\":\"tiene un color verdoso\"}]},\n  {\"id\":\"D3\",\"dentro_de\":null,\"caso\":\"C2\",\"aspecto\":\"presentada como\",\"valor\":\"bióloga\",\"unidad\":null,\n   \"cambio\":null,\"condiciones\":[],\"modalidad\":null,\"inferido\":false,\n   \"respaldo\":[{\"o\":2,\"f\":\"la bióloga Ana Ruiz\"}]},\n  {\"id\":\"D4\",\"dentro_de\":\"K1\",\"caso\":\"D2\",\"aspecto\":\"carácter\",\"valor\":\"algo preocupante\",\"unidad\":null,\n   \"cambio\":null,\"condiciones\":[],\"modalidad\":null,\"inferido\":false,\n   \"respaldo\":[{\"o\":2,\"f\":\"algo preocupante\"}]}\n ],\n \"acciones\": [],\n \"marcas\": [\n  {\"marca\":\"18 °C\",\"o\":1,\"funciones\":[{\"funcion\":\"posición\",\"refs\":[\"D1\"]}]},\n  {\"marca\":\"verdoso\",\"o\":2,\"funciones\":[{\"funcion\":\"posición\",\"refs\":[\"D2\"]}]},\n  {\"marca\":\"algo preocupante\",\"o\":2,\"funciones\":[{\"funcion\":\"posición\",\"refs\":[\"D4\"]}]}\n ],\n \"dudas\": []\n}\n\nUNIDAD Y CONTEXTO\nLa UNIDAD son las oraciones numeradas que van bajo TEXTO: es lo único de donde se\nextrae. El CONTEXTO, cuando lo hay, trae material de apoyo del mismo documento,\nde oraciones que quedaron fuera de la unidad: referencias externas ya resueltas\ncon sus respaldos, o el documento completo numerado. Si CONTEXTO viene vacío,\nextrae solo de la unidad.\n\nCuando el CONTEXTO trae referencias, cada entrada indica la oración de la unidad\nque trae la expresión, la expresión, el referente ya resuelto (o null) y los\nfragmentos literales del documento que lo sostienen, con su número de oración.\nCuando trae el documento completo, las oraciones de la unidad van repetidas.\n\nEl contexto sirve para interpretar lo que la unidad dice, no para ampliarlo:\n- Donde arriba dice «el texto», el texto del que se extrae es la unidad; el\n  contexto no se extrae: solo aclara.\n- La unidad manda: lo que registres tiene respaldo en una oración de la unidad.\n- El contexto puede completar lo que la unidad deja incompleto: de quién o de qué\n  se habla (un pronombre, un sujeto omitido, «la solicitud») y la condición o el\n  punto de referencia que una oración de la unidad necesita para quedar\n  representada («la noche anterior» → «la noche anterior al jueves del corte»).\n- El contexto también puede aportar el contenido de una capa que la unidad\n  establece («cuestionó esa conclusión»: la conclusión está en el respaldo).\n- El contexto no abre asuntos. No registres determinaciones, acciones ni marcas\n  que la unidad no establezca, aunque el respaldo las traiga: el número de\n  habitantes que identifica al municipio no es un dato del subtema de su plaza.\n- Un caso que el contexto identifica se registra una sola vez, con el nombre o la\n  relación que su respaldo sostiene.\n- Los fragmentos de \"respaldo\" pueden venir del contexto: copia su número de\n  oración original tal como aparece.\n- Si una referencia viene sin resolver (referente null), no elijas: registra la\n  duda con las interpretaciones que su respaldo deja abiertas.\n- \"inferido\": true marca lo que reconstruiste, y va en el registro donde ocurrió,\n  no en todo lo que tocó el contexto. Resolver de quién se habla puede ser\n  inferido si el vínculo no está dicho en la unidad; una determinación que la\n  unidad establece no se vuelve inferida por usar el contexto.\n\nTEXTO\n[14] La historiadora y la archivista revisaron los planos del taller. [15] Ella encontró un plano fechado en 1911. [16] Su hallazgo se publicó en la revista municipal.\n\nCONTEXTO\nREFERENCIAS EXTERNAS DE LA UNIDAD (su respaldo son fragmentos literales del documento, con su número de oración)\n- oración 14 de la unidad · «del taller» → uno de los talleres incluidos en la compra, sin establecer cuál\n  respaldo: [9] «La compra incluyó los talleres y los vehículos que aún servían» · [14] «los planos del taller»\n- oración 15 de la unidad · «Ella» → SIN RESOLVER (No se establece si fue la historiadora o la archivista.)\n  respaldo: [14] «La historiadora y la archivista revisaron los planos del taller» · [15] «Ella encontró un plano fechado en 1911»\n- oración 16 de la unidad · «Su» → SIN RESOLVER (No se establece de quién fue el hallazgo, pues depende de Ella en [15]: la historiadora o la archivista.)\n  respaldo: [14] «La historiadora y la archivista revisaron los planos del taller» · [15] «Ella encontró un plano fechado en 1911» · [16] «Su hallazgo se publicó en la revista municipal»\n"
+      }
+    ],
+    "stream": true,
+    "thinking": {
+      "type": "enabled"
+    },
+    "reasoning_effort": "low"
+  },
+  "response": {
+    "model": "deepseek-flash",
+    "choices": [
+      {
+        "message": {
+          "role": "assistant",
+          "content": "{\n  \"casos\": [\n    {\n      \"id\": \"C1\",\n      \"nombre\": \"historiadora\",\n      \"menciones\": [\n        {\n          \"o\": 14,\n          \"f\": \"La historiadora\"\n        }\n      ]\n    },\n    {\n      \"id\": \"C2\",\n      \"nombre\": \"archivista\",\n      \"menciones\": [\n        {\n          \"o\": 14,\n          \"f\": \"la archivista\"\n        }\n      ]\n    },\n    {\n      \"id\": \"C3\",\n      \"nombre\": \"planos\",\n      \"menciones\": [\n        {\n          \"o\": 14,\n          \"f\": \"los planos del taller\"\n        }\n      ]\n    },\n    {\n      \"id\": \"C4\",\n      \"nombre\": \"taller\",\n      \"menciones\": [\n        {\n          \"o\": 14,\n          \"f\": \"del taller\"\n        }\n      ]\n    },\n    {\n      \"id\": \"C5\",\n      \"nombre\": \"plano\",\n      \"menciones\": [\n        {\n          \"o\": 15,\n          \"f\": \"un plano fechado en 1911\"\n        }\n      ]\n    },\n    {\n      \"id\": \"C6\",\n      \"nombre\": \"hallazgo\",\n      \"menciones\": [\n        {\n          \"o\": 16,\n          \"f\": \"Su hallazgo\"\n        }\n      ]\n    },\n    {\n      \"id\": \"C7\",\n      \"nombre\": \"revista municipal\",\n      \"menciones\": [\n        {\n          \"o\": 16,\n          \"f\": \"la revista municipal\"\n        }\n      ]\n    }\n  ],\n  \"relaciones\": [\n    {\n      \"id\": \"R1\",\n      \"tipo\": \"de\",\n      \"de\": \"C3\",\n      \"a\": \"C4\",\n      \"dentro_de\": null,\n      \"condiciones\": [],\n      \"inferido\": false,\n      \"respaldo\": [\n        {\n          \"o\": 14,\n          \"f\": \"los planos del taller\"\n        }\n      ]\n    },\n    {\n      \"id\": \"R2\",\n      \"tipo\": \"publicado en\",\n      \"de\": \"C6\",\n      \"a\": \"C7\",\n      \"dentro_de\": null,\n      \"condiciones\": [],\n      \"inferido\": false,\n      \"respaldo\": [\n        {\n          \"o\": 16,\n          \"f\": \"Su hallazgo se publicó en la revista municipal\"\n        }\n      ]\n    }\n  ],\n  \"capas\": [],\n  \"determinaciones\": [\n    {\n      \"id\": \"D1\",\n      \"dentro_de\": null,\n      \"caso\": \"C1\",\n      \"aspecto\": \"presentada como\",\n      \"valor\": \"historiadora\",\n      \"unidad\": null,\n      \"cambio\": null,\n      \"condiciones\": [],\n      \"modalidad\": null,\n      \"inferido\": false,\n      \"respaldo\": [\n        {\n          \"o\": 14,\n          \"f\": \"La historiadora\"\n        }\n      ]\n    },\n    {\n      \"id\": \"D2\",\n      \"dentro_de\": null,\n      \"caso\": \"C2\",\n      \"aspecto\": \"presentada como\",\n      \"valor\": \"archivista\",\n      \"unidad\": null,\n      \"cambio\": null,\n      \"condiciones\": [],\n      \"modalidad\": null,\n      \"inferido\": false,\n      \"respaldo\": [\n        {\n          \"o\": 14,\n          \"f\": \"la archivista\"\n        }\n      ]\n    },\n    {\n      \"id\": \"D3\",\n      \"dentro_de\": null,\n      \"caso\": \"C5\",\n      \"aspecto\": \"fecha\",\n      \"valor\": \"1911\",\n      \"unidad\": null,\n      \"cambio\": null,\n      \"condiciones\": [],\n      \"modalidad\": null,\n      \"inferido\": false,\n      \"respaldo\": [\n        {\n          \"o\": 15,\n          \"f\": \"fechado en 1911\"\n        }\n      ]\n    }\n  ],\n  \"acciones\": [\n    {\n      \"id\": \"A1\",\n      \"agente\": [\"C1\", \"C2\"],\n      \"accion\": \"revisaron\",\n      \"objeto\": \"C3\",\n      \"negada\": false,\n      \"dentro_de\": null,\n      \"condiciones\": [],\n      \"respaldo\": [\n        {\n          \"o\": 14,\n          \"f\": \"La historiadora y la archivista revisaron los planos del taller\"\n        }\n      ]\n    },\n    {\n      \"id\": \"A2\",\n      \"agente\": null,\n      \"accion\": \"encontró\",\n      \"objeto\": \"C5\",\n      \"negada\": false,\n      \"dentro_de\": null,\n      \"condiciones\": [],\n      \"respaldo\": [\n        {\n          \"o\": 15,\n          \"f\": \"Ella encontró un plano fechado en 1911\"\n        }\n      ]\n    },\n    {\n      \"id\": \"A3\",\n      \"agente\": null,\n      \"accion\": \"se publicó\",\n      \"objeto\": \"C6\",\n      \"negada\": false,\n      \"dentro_de\": null,\n      \"condiciones\": [],\n      \"respaldo\": [\n        {\n          \"o\": 16,\n          \"f\": \"Su hallazgo se publicó en la revista municipal\"\n        }\n      ]\n    }\n  ],\n  \"marcas\": [\n    {\n      \"marca\": \"1911\",\n      \"o\": 15,\n      \"funciones\": [\n        {\n          \"funcion\": \"posición\",\n          \"refs\": [\"D3\"]\n        }\n      ]\n    }\n  ],\n  \"dudas\": [\n    {\n      \"id\": \"Q1\",\n      \"texto\": \"No se establece si «Ella» en [15] es la historiadora o la archivista.\",\n      \"respaldo\": [\n        {\n          \"o\": 14,\n          \"f\": \"La historiadora y la archivista revisaron los planos del taller\"\n        },\n        {\n          \"o\": 15,\n          \"f\": \"Ella encontró un plano fechado en 1911\"\n        }\n      ]\n    },\n    {\n      \"id\": \"Q2\",\n      \"texto\": \"No se establece de quién fue el hallazgo, pues «Su» depende de «Ella» en [15]: la historiadora o la archivista.\",\n      \"respaldo\": [\n        {\n          \"o\": 14,\n          \"f\": \"La historiadora y la archivista revisaron los planos del taller\"\n        },\n        {\n          \"o\": 15,\n          \"f\": \"Ella encontró un plano fechado en 1911\"\n        },\n        {\n          \"o\": 16,\n          \"f\": \"Su hallazgo se publicó en la revista municipal\"\n        }\n      ]\n    },\n    {\n      \"id\": \"Q3\",\n      \"texto\": \"No se establece cuál de los talleres incluidos en la compra es el taller cuyos planos se revisaron.\",\n      \"respaldo\": [\n        {\n          \"o\": 14,\n          \"f\": \"los planos del taller\"\n        },\n        {\n          \"o\": 9,\n          \"f\": \"La compra incluyó los talleres y los vehículos que aún servían\"\n        }\n      ]\n    }\n  ]\n}",
+          "reasoning_content": "We need answer with JSON per instructions. Need parse text and context. Need reconstruct ficha. Need be careful. Need produce only JSON likely. We need analyze.\n\nWe have TEXTO:\n[14] La historiadora y la archivista revisaron los planos del taller.\n[15] Ella encontró un plano fechado en 1911.\n[16] Su hallazgo se publicó en la revista municipal.\n\nCONTEXTO refs:\n- oración 14 \"del taller\" → uno de los talleres incluidos en la compra, sin establecer cuál. respaldo [9] \"La compra incluyó los talleres y los vehículos que aún servían\" · [14] \"los planos del taller\"\n- oración 15 \"Ella\" → SIN RESOLVER (No se establece si fue la historiadora o la archivista.) respaldo [14], [15]\n- oración 16 \"Su\" → SIN RESOLVER (No se establece de quién fue el hallazgo, pues depende de Ella en [15]: la historiadora o la archivista.) respaldo [14], [15], [16].\n\nNeed create casos, relaciones, capas, determinaciones, acciones, marcas, dudas. Need only unit sentences. Use ids C1 etc.\n\nNeed identify cases: historiadora, archivista, planos del taller? taller? plano fechado en 1911? hallazgo? revista municipal? Maybe cases are entities about which text says something. \"La historiadora y la archivista\" are two persons? They revised los planos. Ella ambiguous but no resolve -> dudas. \"Su hallazgo\" ambiguous -> dudas. Need register as cases? The text says \"Ella encontró un plano fechado en 1911.\" The \"plano\" is a case? It has determination: fechado en 1911. \"Su hallazgo\" is maybe event/finding. \"revista municipal\" is location/publication? \"se publicó en la revista municipal\" relation/determination? Need follow schema.\n\nWe need \"casos\": aquello de lo que el texto dice algo. We can have:\nC1 = historiadora (from [14] \"La historiadora\"). Mention \"La historiadora\"\nC2 = archivista. Mention \"la archivista\"\nC3 = planos del taller? \"los planos del taller\" mention [14]. But \"taller\" unresolved: uno de los talleres incluidos en la compra, sin establecer cuál. Need maybe C3 = planos del taller (definite) and C4 = taller? Since \"del taller\" is complement of planos. It says one of talleres included in compra, no cuál. Should register taller as case? The text mentions \"del taller\" in unit. It identifies one of talleres but not which. Context says one of talleres included in compra. Need maybe C3 \"planos del taller\" (objects reviewed). C4 \"taller\" (mentioned as origin/part? relation? \"planos del taller\" relation \"de\" C3 -> C4?). But if taller not established which, maybe dudas? The context says SIN? Actually \"uno de los talleres incluidos en la compra, sin establecer cuál\" — that's ambiguity? More than one possible referent. Should go dudas? The instruction: Si una referencia viene sin resolver (referente null), no elijas: registra la duda con las interpretaciones que su respaldo deja abiertas. For \"del taller\" context says one of talleres included in compra, sin establecer cuál. So \"taller\" referent unresolved but not null? It gives category but no specific. Could register C4 = taller? Name \"taller\" with mention \"del taller\", maybe relation to planos: planos son del taller. But which taller is ambiguous; maybe dudas. Need not choose. But the case \"taller\" can be described as \"uno de los talleres incluidos en la compra\" maybe that's a determination? It is from context? Wait context can complete what unit leaves incomplete, but not open asuntos. The unit says \"del taller\"; context says one of talleres included in compra. But can we register that taller is included in compra? The context is external reference, not unit. The principles: context can complete what unit leaves incomplete: de quién o de qué se habla. It says \"del taller → uno de los talleres incluidos en la compra, sin establecer cuál\". That identifies it as one of talleres included in compra. But context not extracted; however to interpret \"del taller\", we can register case \"taller\" maybe with mention and relation to compra? But \"compra\" not in unit, and context doesn't open asuntos. It says context doesn't open asuntos. The fact it was included in compra is in context [9], not unit. Do not register as determination? Maybe just use for dudas? Hm.\n\nNeed extract from unit only. The unit mentions \"los planos del taller\": cases \"planos\" and \"taller\". It does not say taller included in compra. But context reference says referent is one of talleres included in compra, sin establecer cuál. This is to resolve \"del taller\"? But since not establishing which, it's ambiguous. Should put dudas? The \"taller\" is not resolved to a specific taller; but it is a case \"taller\" (unspecified). We can name \"taller (uno de los talleres incluidos en la compra, sin establecer cuál)\"? But context not extracted? The name can use context to identify? \"Un caso que el contexto identifica se registra una sola vez, con el nombre o la relación que su respaldo sostiene.\" Here context identifies it as one of talleres included in compra but not cuál. So maybe name \"taller (no especificado, uno de los incluidos en la compra)\"? But the unidad only says \"taller\". Hmm.\n\nAlso \"revista municipal\" is a case? Text says \"Su hallazgo se publicó en la revista municipal.\" It establishes publication in revista municipal. The revista municipal is a case (publication). Relation? Maybe \"hallazgo se publicó en revista municipal\" = determinación? Aspect \"publicación\" or relation \"publicado en\" between hallazgo and revista. The schema has relaciones: vínculo entre dos casos (parte de, muestra de, procede de, guardado en). \"publicado en\" could be relation. Or determination: caso hallazgo, aspecto \"publicado en\", valor \"revista municipal\". But \"revista municipal\" is another case. Better as relation? The example didn't include \"publicado en\". The list relaciones includes \"guardado en\" etc. \"publicado en\" is a vínculo. But determinaciones can have valor text? The schema says valor stores only position; row is determination. It could be aspect \"publicación\" valor \"revista municipal\", unidad null. But \"revista municipal\" is entity. I think relation type \"publicado en\" de C_hallazgo a C_revista. Need decide.\n\n\"Su hallazgo\": pronoun \"Su\" unresolved. So the hallazgo is a case? The text says \"Su hallazgo se publicó en la revista municipal.\" It establishes hallazgo was published. The possessor ambiguous. Need duda. The hallazgo itself is case. Mention \"Su hallazgo\". Maybe C? \"hallazgo (de Ella; poseedor no resuelto)\"? But ambiguity: whose finding? Since \"Su\" unresolved. We should not resolve; create duda with interpretations? The context says depend on Ella: historiadora or archivista. So possible possessors: historiadora or archivista. The \"hallazgo\" case can be registered, but possessor relation unresolved? Maybe relation \"hallazgo de X\" with duda? Or determinación? Need handle.\n\nAlso \"Ella encontró un plano fechado en 1911.\" \"Ella\" unresolved. So the agent of action \"encontró\" is ambiguous between historiadora and archivista. Should not choose. In acciones, agente? If unresolved, maybe null? But schema says agente u objeto van null si el texto no los dice. Here text says \"Ella\", context says unresolved. We can set agente null? Or maybe create acción with agente null and duda? Better: acción \"encontró\" with agente null (unresolved) and objeto C_plano, plus dudas for \"Ella\" possible refs. But if agente null, misses that it's one of two. We can add dudas Q1 with possible C1/C2. Maybe also in acción, agente null and conditions? The instructions: Si una referencia viene sin resolver, no elijas: registra la duda con las interpretaciones que su respaldo deja abiertas. So for \"Ella\", create duda Q1. For acción, agente could be null because no resolved. But maybe \"agente\" can reference duda? No, refs must be id or list? It says toda referencia a otro registro es un id o lista de ids. Could set agente null. That's acceptable. But \"Ella\" is subject, so the action agent is unresolved. Maybe set \"agente\": null. But should we include a relation? Hmm.\n\nFor \"Su hallazgo\" unresolved possessor: create duda Q2. The hallazgo is object of publication. Relation \"publicado en\" de C_hallazgo a C_revista. The possession relation \"hallazgo de Ella\" maybe relation? Could set relation type \"hallazgo de\" de C_hallazgo a ? with dentro_de? But unresolved. Maybe duda.\n\nNeed enumerate cases:\n- C1 \"historiadora\" mention [14] \"La historiadora\"\n- C2 \"archivista\" mention [14] \"la archivista\"\n- C3 \"planos del taller\" mention [14] \"los planos del taller\". It is object of revisar. Also maybe has relation \"del taller\" to C4.\n- C4 \"taller\" mention [14] \"del taller\". But context says one of talleres included in compra, sin establecer cuál. Could be case. Relation R1 tipo \"planos de\" de C3 a C4? Actually \"planos del taller\" means planos belong to/are of taller. Relation type \"de\" maybe. Could be \"procede de\"? Use \"pertenecen a\"? The schema examples: parte de, muestra de, procede de, guardado en. We can use \"planos de\" or \"de\". Need not overcomplicate.\n- C5 \"plano fechado en 1911\" or \"plano\" mention [15] \"un plano fechado en 1911\". It is found. It has determination fecha 1911.\n- C6 \"hallazgo\" mention [16] \"Su hallazgo\". It is published. Possessor unresolved.\n- C7 \"revista municipal\" mention [16] \"la revista municipal\". It is publication venue.\n\nMaybe also \"revista municipal\" is a case. \"Su hallazgo se publicó en la revista municipal\" relation R2 tipo \"publicado en\" de C6 a C7.\n\nCould there be case \"Ella\" as separate? No, pronoun refers to one of C1/C2. Duda.\n\n\"Su\" refers to Ella or possessor. Duda.\n\n\"plano fechado en 1911\": \"1911\" is marca. It identifies/date? It is a date. It is a position? The schema says marks: number, date, quantity or category that signals position among possible. \"1911\" functions: position? For determination fecha, value 1911. In example, \"18 °C\" marca funciones posición refs D1. \"verdoso\" position. So \"1911\" is a mark, function posición refs D_fecha. Also date identifies? It is date. It could be \"posición\" in timeline. We'll put marca \"1911\", o 15, funciones posición refs D?.\n\n\"revista municipal\" maybe not a mark. No number.\n\nNeed \"acciones\":\n[14] La historiadora y la archivista revisaron los planos del taller. Action: agent? There are two agents. Schema has agente (singular?) but can be list? It says agente u objeto van null si no. It says references id or list of ids. So agente could be [\"C1\",\"C2\"]. Action \"revisaron\", objeto C3. negada false. Conditions none. Respaldo [14] \"revisaron los planos del taller\". Need maybe two actions? Since both reviewed together. One action with agente list.\n[15] Ella encontró un plano fechado en 1911. Action: agent null (unresolved), action \"encontró\", objeto C5. negada false. But maybe within? No capa. Respaldo [15] \"Ella encontró un plano fechado en 1911\".\n[16] Su hallazgo se publicó en la revista municipal. This is passive: action \"se publicó\" with agente? The hallazgo is object? Actually the finding was published. Action \"publicar\" maybe object C6, agente null. But relation R \"publicado en\" maybe. Should we register as acción? \"se publicó\" is an event. The schema acciones: lo que alguien hace, hizo, o se recomienda. It can have agente null. Should we list action \"se publicó\" with agente null, objeto C6, conditions? It is not someone doing? It's passive. Could be action with agente null and objeto C6. Also relation to C7. Maybe both. The example didn't have actions for \"tiene\". We need decide. The instructions: acciones: lo que alguien hace, hizo, o se recomienda u ordena hacer. \"se publicó\" is not necessarily someone's action, but publication is an action. It could be action by revista? But text doesn't say who published. Maybe register relation \"publicado en\" is enough; no action? But \"se publicó\" is a change/event. The list acciones may include events? It says lo que alguien hace, hizo. The finding was published: no explicit agent. We can register action with agente null, accion \"se publicó\", objeto C6, conditions none. But if we already have relation, okay. Need avoid overproducing? We need register all text establishes. Publication is established. Relation likely captures. Action maybe also. The schema allows actions with agente null. I'll include action A3: agente null, accion \"se publicó\", objeto C6? But object of publication is \"Su hallazgo\". Actually \"Su hallazgo\" is subject. In passive, object is hallazgo. So A3: agente null, accion \"publicarse\", objeto C6, dentro_de null, condiciones [], respaldo [16] \"Su hallazgo se publicó en la revista municipal\". But relation R2: de C6 a C7 tipo \"publicado en\". That may be redundant but okay? The ficha likely can have both. Need maybe \"publicado en\" as relation not action. But actions list is for actions. \"se publicó\" is action/event. I'll include.\n\n\"revisaron\": action A1. \"encontró\": A2. \"publicó\": A3.\n\nNeed \"capas\": Are there any attributions? None. \"según\" no. So capas empty.\n\nNeed \"determinaciones\":\n- D? C1 aspect? \"historiadora\" is presented as historiadora. In example, \"la bióloga Ana Ruiz\" produced D3: caso C2, aspecto \"presentada como\", valor \"bióloga\". So for \"La historiadora\" and \"la archivista\" we need determinations? The text mentions them with roles. Yes, \"La historiadora\" -> C1 aspect \"presentada como\" valor \"historiadora\". \"la archivista\" -> C2 aspect \"presentada como\" valor \"archivista\". These are roles. Need include.\n- D for C5: aspect \"fecha\", valor \"1911\", unidad null? The text says \"fechado en 1911\". It's a date. Could aspect \"fecha\", valor \"1911\", unidad null. Respaldo [15] \"fechado en 1911\". Conditions none. Cambio null.\n- D for C6? \"Su hallazgo se publicó en la revista municipal.\" Maybe determination aspect \"publicación\", valor \"revista municipal\"? Or relation. If relation, no D. But maybe also \"se publicó\" as aspect? We can have relation.\n- D for C4? \"del taller\" maybe relation. Not determination.\n- D for C3? \"planos del taller\" relation to C4. Not determination.\n- D for C5? \"encontrado\" maybe action.\n- D for C1/C2? \"revisaron\" action.\n- D for C6: possessor? \"Su\" unresolved. Could be relation \"hallazgo de\" but duda. Not D.\n- D for C7? \"municipal\" is property of revista. \"revista municipal\" could be case name, not determination. The name includes municipal. In example, \"estanque norte de la finca El Roble\" name includes. So no D for municipal.\n- D for C5: plano fechado en 1911: aspect \"fecha\", valor \"1911\". Also maybe \"plano\" is a type? The case name \"plano fechado en 1911\" includes. Could have D aspect \"tipo\" valor \"plano\"? But name \"plano\" identifies. In example, \"agua del estanque...\" not type. We can set case name \"plano fechado en 1911\" mention \"un plano fechado en 1911\". No separate type.\n\n- D for C6: \"hallazgo\" maybe aspect \"carácter\"? no.\n- D for C4? Context says one of talleres included in compra, sin establecer cuál. Is that a determination? The unit doesn't say. Maybe not.\n\nNeed \"marcas\":\n- \"1911\" o=15 funciones posición refs D_fecha. Maybe also \"fecha\" identifies? The schema: each number/date. It signals position among possible dates. Function \"posición\". Refs [D?].\n- \"14\", \"15\", \"16\" are sentence numbers? No, marks are within text? The example did not include sentence numbers. So no.\n- \"revista municipal\" no number.\n- \"La historiadora y la archivista\" no number.\n- \"un plano\" no number? \"un\" is article, not quantity? Maybe no.\n- \"1911\" only mark.\n\nNeed \"dudas\":\n- Q1: \"Ella\" en [15] puede referirse a la historiadora o a la archivista; no se establece cuál. Respaldo [14] \"La historiadora y la archivista...\" [15] \"Ella encontró...\"\n- Q2: \"Su\" en [16] no se establece de quién fue el hallazgo, depende de Ella; posibles historiadora o archivista. Respaldo [14], [15], [16].\n- Maybe Q3: \"del taller\" en [14] puede referirse a uno de los talleres incluidos en la compra, sin establecer cuál. Context says one of talleres included in compra, sin establecer cuál. Should go dudas? The reference is unresolved in sense not which taller. But we can register case C4 \"taller\" as unspecified. Is it ambiguous? The text says \"del taller\" singular definite. Context says one of talleres included in compra, sin establecer cuál. There are multiple possible talleres. This is exactly more than one antecedente possible? It says \"uno de los talleres incluidos en la compra, sin establecer cuál\". Should we put duda Q3? The instructions: \"Si hay más de un antecedente posible, va a dudas.\" For \"del taller\", there are multiple talleres included in compra, not specified. So yes, Q3. But we still need case for \"taller\"? Maybe if unresolved, we can register case as \"taller (uno de los talleres incluidos en la compra, sin establecer cuál)\"? But if in dudas, maybe no C4? Hmm. The text mentions \"del taller\" as case. We can have C4 \"taller\" with mention [14] \"del taller\". The ambiguity is which taller; but the case itself is \"taller\" (unspecified). The duda can note no se establece cuál. That seems okay. But if context says one of talleres included in compra, can we mention that in case name? The name should be what text says? The case is \"taller\". The context can complete that it is one of talleres included in compra. But \"sin establecer cuál\" means not a specific case? Actually \"taller\" is a role/type, not an individual. The text says \"los planos del taller\" definite; context says one of the talleres included in compra. There is a specific taller but not identified. So case could be \"taller (no identificado; uno de los talleres incluidos en la compra)\"? But the unidad only says \"taller\". The context reference gives that. The instruction: \"Un caso que el contexto identifica se registra una sola vez, con el nombre o la relación que su respaldo sostiene.\" Here context doesn't identify which, but says it's one of talleres included in compra. Could name \"taller (uno de los talleres incluidos en la compra, sin establecer cuál)\"? Might be too much. Maybe safer: C4 nombre \"taller\" menciones \"del taller\". Duda Q3: \"No se establece cuál de los talleres incluidos en la compra es el taller cuyos planos se revisaron.\" Respaldo [14] \"los planos del taller\"; context [9]? But respaldo should be from unit? It says context fragments can come from context: copia su número de oración original. For dudas, respaldo puede incluir [9]? It says context may be used; fragments of respaldo can come from context. So Q3 respaldo [14] \"los planos del taller\"; [9] \"La compra incluyó los talleres y los vehículos que aún servían\". But [9] not in unit. Is that allowed? Yes, context fragments can come from context. But \"contexto no se extrae\"; however for duda about referent, context gives possible. It's okay.\n\nBut do we need Q3? The context explicitly says \"sin establecer cuál\". It's ambiguous. Yes.\n\nNeed maybe Q4: \"Su hallazgo\" whose? Q2. \"Ella\" Q1. \"del taller\" Q3.\n\nNeed relations:\n- R1: C3 planos del taller -> C4 taller. tipo \"de\" or \"pertenece a\"? The text says \"planos del taller\". Relation \"de\" C3 a C4. Conditions? none. dentro_de null. inferido false? It's directly \"del taller\". Respaldo [14] \"los planos del taller\".\n- R2: C6 hallazgo -> C7 revista municipal. tipo \"publicado en\". de C6 a C7? The schema: de C1 a C2. For \"hallazgo se publicó en la revista\", de C6 a C7. Respaldo [16] \"Su hallazgo se publicó en la revista municipal\".\n- Maybe R3: C6 hallazgo -> C5 plano? \"hallazgo\" is of a plano? The finding is that a plano fechado en 1911 was found. Does text establish relation between hallazgo and plano? \"Su hallazgo\" refers to the finding of the plano. It might be relation \"hallazgo de\" de C6 a C5? The text: [15] Ella encontró un plano... [16] Su hallazgo... The finding is the result of finding the plano. It is not explicitly \"hallazgo del plano\" but \"Su hallazgo\" refers to the event/action of finding the plano. Should we relation? Maybe action A2 already links finding to plano. The hallazgo is the event, not necessarily the plano. Could be \"hallazgo\" as object? Hmm. \"Su hallazgo se publicó\" means the finding (the fact that she found it) was published. The object of finding is the plano. The relation between hallazgo and plano is not directly stated except via context. We can avoid.\n- Maybe R4: C5 plano -> C4 taller? \"plano del taller\"? Wait [15] \"un plano fechado en 1911\" is found. Is it one of the planos del taller? The text doesn't explicitly say this found plano is from taller. It says \"un plano\" not \"el plano\". Could be a plano among those planos? Ambiguous. The context? \"Ella encontró un plano fechado en 1911.\" It might be one of the planos del taller they reviewed. But not stated. Do not infer. So no relation.\n- Maybe R5: C3 planos -> C5 plano? \"un plano\" could be one of \"los planos\"? The text [15] \"un plano\" after [14] \"los planos del taller\". It could be one of those planos. But not explicit. Is it ambiguous? The context doesn't resolve. Should we record duda? The instructions: resolve implicit references when context gives single antecedent; if more than one, dudas. \"un plano\" is indefinite, not necessarily referring. It introduces a new case. We shouldn't infer it's one of the planos. No relation.\n- C6 \"Su hallazgo\" refers to finding in [15]. The possessor is Ella. Could relation \"hallazgo de\" de C6 a ? unresolved. Maybe duda Q2 covers.\n\nNeed \"capas\": none.\n\nNeed \"determinaciones\" details with fields exactly:\n{\"id\":\"D1\",\"dentro_de\":null,\"caso\":\"C1\",\"aspecto\":\"presentada como\",\"valor\":\"historiadora\",\"unidad\":null,\"cambio\":null,\"condiciones\":[],\"modalidad\":null,\"inferido\":false,\"respaldo\":[{\"o\":14,\"f\":\"La historiadora\"}]}\nSimilarly archivista.\nD3 for plano fecha:\n{\"id\":\"D3\",\"dentro_de\":null,\"caso\":\"C5\",\"aspecto\":\"fecha\",\"valor\":\"1911\",\"unidad\":null,\"cambio\":null,\"condiciones\":[],\"modalidad\":null,\"inferido\":false,\"respaldo\":[{\"o\":15,\"f\":\"fechado en 1911\"}]}\nMaybe unit \"año\"? Text says \"fechado en 1911\"; aspect \"fecha\" or \"año\". Use \"fecha\". Value \"1911\". Fine.\n\nCould there be D for C6: \"publicación\" value \"revista municipal\"? If relation R2, no. But maybe also D \"estado\" \"publicado\". Hmm. The relation R2 captures. Action A3 captures event. No D.\n\nCould there be D for C3: \"revisado\" by C1/C2? That's action.\n\nNeed \"acciones\":\nA1: agente [\"C1\",\"C2\"], accion \"revisaron\", objeto \"C3\", negada false, dentro_de null, condiciones [], respaldo [14] \"revisaron los planos del taller\". Note \"La historiadora y la archivista revisaron...\" The action is plural. agent list.\nA2: agente null, accion \"encontró\", objeto \"C5\", negada false, dentro_de null, condiciones [], respaldo [15] \"Ella encontró un plano fechado en 1911\". But agente unresolved; maybe we could set agente null and add duda Q1. Good.\nA3: agente null, accion \"se publicó\", objeto \"C6\", negada false, dentro_de null, condiciones [], respaldo [16] \"Su hallazgo se publicó en la revista municipal\". But \"se publicó\" is passive, object? In Spanish \"Su hallazgo se publicó\" = hallazgo was published. So objeto C6. Maybe accion \"publicar\" not \"se publicó\". Use \"se publicó\" literal. Or \"publicarse\". The schema says accion \"…\". We can use \"se publicó\". Good.\nMaybe action for \"encontró\" agent unresolved but \"Ella\" is subject. Should we set agente null or maybe \"Q1\"? No. Null.\n\nNeed \"marcas\":\nM1: marca \"1911\", o 15, funciones [{\"funcion\":\"posición\",\"refs\":[\"D3\"]}]. Maybe also \"fecha\" identifies? It is date. It is a position in time. Use posición.\nM2? \"14\", \"15\", \"16\" not in text? No.\nMaybe \"un\" is quantity? \"un plano\" = one. Is that a mark? It indicates quantity one. The schema says number, date, quantity. \"un\" is a number word. Should we register \"un\"? In example, \"18 °C\" and \"verdoso\" etc. They didn't include article \"un\". \"un plano\" means one plano, but indefinite article, not a mark of position? It could be quantity. But likely not. The text says \"un plano fechado en 1911\" — \"un\" could be number 1. But it doesn't signal position among other planos? It introduces existence. Not a position. I'd omit.\n\"revista municipal\" no number.\n\"La historiadora y la archivista\" no number.\n\nNeed \"dudas\":\nQ1 \"Ella\" unresolved. Text: \"No se establece si 'Ella' en [15] es la historiadora o la archivista.\" Respaldo [14] \"La historiadora y la archivista revisaron los planos del taller\"; [15] \"Ella encontró un plano fechado en 1911\". Could include context note? The respaldo fragments literal.\nQ2 \"Su\" unresolved. \"No se establece de quién fue el hallazgo, pues depende de 'Ella' en [15].\" Respaldo [14], [15], [16]. \nQ3 \"del taller\" unresolved. \"No se establece cuál de los talleres incluidos en la compra es el taller cuyos planos se revisaron.\" Respaldo [14] \"los planos del taller\"; [9] \"La compra incluyó los talleres y los vehículos que aún servían\". Is [9] allowed? The context says respaldo of reference is [9] and [14]. Yes.\n\nBut wait: The context says \"oración 14 de la unidad · «del taller» → uno de los talleres incluidos en la compra, sin establecer cuál\". This is not exactly \"más de un antecedente\"; it says referent is one of talleres included in compra, not which. So Q3.\n\nNeed maybe \"duda\" for \"Su hallazgo\" could also be whose hallazgo, but the hallazgo itself is from Ella. The context says \"No se establece de quién fue el hallazgo, pues depende de Ella en [15]: la historiadora o la archivista.\" So Q2.\n\nNeed ensure all ids referenced exist.\n\nLet's construct JSON.\n\nPotential issue: \"casos\" names and menciones. For C1 \"historiadora\" mention \"La historiadora\". C2 \"archivista\" mention \"la archivista\". C3 \"planos del taller\" mention \"los planos del taller\". C4 \"taller\" mention \"del taller\". C5 \"plano fechado en 1911\" mention \"un plano fechado en 1911\". C6 \"hallazgo\" mention \"Su hallazgo\". C7 \"revista municipal\" mention \"la revista municipal\".\n\nBut \"planos del taller\" includes taller; if we have C3 and C4, mention for C3 \"los planos del taller\" and C4 \"del taller\". That's okay.\n\nMaybe \"plano fechado en 1911\" name includes date. The date also D3. The case name might be \"plano\" instead of \"plano fechado en 1911\". The example: \"agua del estanque norte...\" name includes location. \"plano fechado en 1911\" is fine. Mention \"un plano fechado en 1911\". D3 aspect fecha.\n\nCould \"1911\" be in name and as determination? It's okay? The example \"pintura n.º 27 del inventario\" numbers that identify go in name, not determination. But date here is not identifying; it's a property. So D3 is right. Name could be \"plano\" to avoid duplicate. But the text says \"un plano fechado en 1911\"; the case is the plano. The date is determination. So name \"plano\" maybe better. However if multiple planos, \"plano fechado en 1911\" identifies it? It is indefinite. The date is a property, not an identifier. So name \"plano\" and D3 fecha. But mention includes full phrase. Let's set C5 nombre \"plano\" menciones [{\"o\":15,\"f\":\"un plano fechado en 1911\"}]. Then D3 caso C5 aspect fecha. That seems consistent. But then the mention contains the date. Fine.\n\nSimilarly C3 name \"planos del taller\" maybe relation. Could name \"planos\" and relation to taller. But \"planos del taller\" is the object. Set C3 nombre \"planos del taller\" or \"planos\". The relation \"del taller\" is explicit. If name includes, relation redundant. In example, \"agua del estanque norte de la finca El Roble\" name includes location; they didn't create relation to finca. But here \"taller\" is a case due context? The instructions say \"Mencionar algo para compararlo no lo vuelve lo comparado...\" Not relevant. \"planos del taller\" has part relation. Should we register taller as case? It is mentioned. The example didn't register \"estanque\" or \"finca\" as separate cases because they are part of name. But here \"taller\" is a noun in complement. Is it a case? It could be part of name of planos. The context specifically gives reference for \"del taller\" as unresolved. So yes, it's a case. Then C3 name could be \"planos\" not \"planos del taller\" to allow relation. But the text says \"los planos del taller\". If C3 name \"planos del taller\" includes taller, then relation to C4 is redundant. Maybe better C3 nombre \"planos\" menciones \"los planos del taller\"; C4 nombre \"taller\" mencion \"del taller\"; R1 tipo \"de\" de C3 a C4. That seems more structured.\n\nSimilarly C6 \"hallazgo\" mention \"Su hallazgo\". C7 \"revista municipal\".\n\nC1 \"historiadora\" mention \"La historiadora\". C2 \"archivista\" mention \"la archivista\".\n\nD1/D2 roles. For C1, aspect \"presentada como\", valor \"historiadora\". For C2, aspect \"presentada como\", valor \"archivista\". Respaldo [14] \"La historiadora\" and \"la archivista\". The fragment \"La historiadora\" for C1, \"la archivista\" for C2. Good.\n\nD3 for C5 fecha. D4 maybe for C7? \"revista municipal\" is name. No.\n\nCould there be D for C6: \"publicación\" maybe relation. No.\n\nNow R1:\n{\"id\":\"R1\",\"tipo\":\"de\",\"de\":\"C3\",\"a\":\"C4\",\"dentro_de\":null,\"condiciones\":[],\"inferido\":false,\"respaldo\":[{\"o\":14,\"f\":\"los planos del taller\"}]}\nTipo \"de\" is vague. Maybe \"planos del taller\" means planos pertenecen al taller. Use tipo \"de\" or \"pertenencia\". The schema says tipo \"…\" any. Use \"de\" okay? Maybe \"planos de\" is not a relation type. I'll use \"de\" or \"pertenece a\". \"de\" might be too generic. Use \"pertenece a\"? The text says \"del taller\" = of the taller. Relation type \"de\" de C3 a C4. Fine.\n\nR2:\n{\"id\":\"R2\",\"tipo\":\"publicado en\",\"de\":\"C6\",\"a\":\"C7\",\"dentro_de\":null,\"condiciones\":[],\"inferido\":false,\"respaldo\":[{\"o\":16,\"f\":\"Su hallazgo se publicó en la revista municipal\"}]}\n\nMaybe R3: \"hallazgo de\" de C6 a ? unresolved. Should we include? If we don't, the possessor ambiguity is only in dudas. But the text says \"Su hallazgo\" establishes a relation between hallazgo and someone. Since unresolved, can't set \"a\". Could set \"a\": null? Schema says references id or list, maybe null allowed? It says toda referencia a otro registro es id o lista, nunca texto libre. It doesn't explicitly allow null except fields agente/objeto. For relaciones, \"de\" and \"a\" likely ids. So don't create unresolved relation. Q2 covers.\n\nNow acciones:\nA1 agent list [\"C1\",\"C2\"]. Is list allowed for agente? \"agente u objeto van null si...\" It says references can be list. Yes.\nA2 agente null. But maybe we can set agente [\"C1\",\"C2\"]? No, unresolved. Q1. Set null. But then action \"Ella encontró\" has no agent. Good.\nA3 agente null. object C6.\n\nNeed \"condiciones\": For A1 none. A2 none. A3 none.\n\nNeed \"marcas\": M1 \"1911\". Also maybe \"revista municipal\" no. \"14\" \"15\" \"16\" not marks. \"un\" no.\n\nNeed \"dudas\": Q1, Q2, Q3. Need include respaldo fragments. For Q3, include [9]? The format for dudas respaldo maybe list with o and f. It can include [9] from context. The context says \"respaldo: [9] ... [14] ...\" So use o 9 and 14. But TEXTO only 14-16. Is it okay to have o 9? Yes, context fragments can come from context. But maybe the ficha should only use unit? It says fragments may come from context: copy original sentence number. So yes.\n\nFor Q1/Q2, include context? The context says respaldo [14] etc. We can just use those.\n\nNeed ensure JSON valid. No comments.\n\nLet's double-check principles.\n\nPrinciple 7: \"Una recomendación u orden contiene una acción (lista 'acciones'). No le atribuyas propiedades al objeto de la acción.\" Not relevant.\n\nPrinciple 8: \"Explica en 'marcas' cada marca de posición y cada número: qué hace (posición, identifica, remite). Un número que identifica o remite no es un valor: forma parte del nombre del caso que identifica.\" We have 1911 as date, mark. Good.\n\nPrinciple 4: negation none.\n\nPrinciple 5: references resolved when single antecedent. Here \"Ella\" and \"Su\" unresolved multiple -> dudas. \"del taller\" unresolved. Good.\n\nPotential missing: \"La historiadora y la archivista revisaron los planos del taller.\" The action has two agents. The text also establishes that they reviewed the planos. Should there be a determination for C3 \"revisado por\" C1/C2? Action covers.\n\nPotential missing: \"Su hallazgo se publicó en la revista municipal.\" The \"revista municipal\" is a case. Does it have aspect \"municipal\"? It's part of name. No.\n\nPotential missing: \"La historiadora y la archivista\" are two separate cases. The phrase \"La historiadora y la archivista\" might also be a coordinated subject. We have C1 and C2. Good.\n\nPotential missing: \"Ella encontró un plano fechado en 1911.\" The plano is objeto. The finding is action. The plano has date. The \"hallazgo\" in [16] is an event. Should C6 be \"hallazgo\" case. It is published. Good.\n\nPotential missing: \"Su hallazgo\" possessor unresolved. The possession relation not registered. Q2.\n\nPotential missing: \"revista municipal\" maybe relation \"publicado en\" with C6. Good.\n\nPotential missing: \"La compra incluyó los talleres...\" Not in unit, so not registered. Only used in Q3. Good.\n\nPotential issue: \"del taller\" context says \"uno de los talleres incluidos en la compra, sin establecer cuál\". If we create Q3, do we also need C4? Yes. But if Q3 says not which taller, C4 is generic. Good.\n\nPotential issue: \"planos del taller\" is plural. C3 name \"planos\". C4 \"taller\". R1 de C3 a C4. Good.\n\nPotential issue: \"C1\" and \"C2\" roles as determinaciones. In example, \"la bióloga Ana Ruiz\" was a case C2 and D3 aspect presentada como valor bióloga. Here \"La historiadora\" and \"la archivista\" are not names but roles. So yes.\n\nPotential issue: \"Su hallazgo\" could be a determination of C6 \"posesión\" value unresolved? But no.\n\nPotential issue: \"se publicó en la revista municipal\" — the action A3 has objeto C6. The relation R2 has de C6 a C7. Is A3's agente null okay? The text doesn't say who published. The action is passive. It might be better to set agente null, object C6. The \"revista municipal\" is location, not object. The relation captures location. Good.\n\nPotential issue: In action A3, \"objeto\" might be null because \"Su hallazgo\" is subject, not object. In Spanish \"se publicó\" is passive/impersonal. The thing published is subject. In schema, \"objeto\" is what action is done to. For \"publicar\", the thing published is object. So C6 is object. Good.\n\nPotential issue: A2 \"Ella encontró un plano...\" The object is C5. Agent unresolved. Good.\n\nPotential issue: A1 \"La historiadora y la archivista revisaron...\" The object is C3. Agent list. Good.\n\nPotential issue: The action \"revisaron\" could have agents C1 and C2, but \"La historiadora y la archivista\" are not named. Good.\n\nNow JSON.\n\nNeed ensure all lists have ids. Let's assign:\nC1 historiadora\nC2 archivista\nC3 planos\nC4 taller\nC5 plano\nC6 hallazgo\nC7 revista municipal\n\nD1 C1 presentada como historiadora\nD2 C2 presentada como archivista\nD3 C5 fecha 1911\n\nR1 de C3 a C4\nR2 publicado en de C6 a C7\n\nA1 revisaron\nA2 encontró\nA3 se publicó\n\nM1 1911\n\nQ1 Ella\nQ2 Su\nQ3 del taller\n\nCheck D3 respaldo: [15] \"fechado en 1911\". The value \"1911\". Unidad null. Aspect \"fecha\". Good.\n\nM1 refs D3.\n\nQ3 respaldo: [14] \"los planos del taller\"; [9] \"La compra incluyó los talleres y los vehículos que aún servían\". The context says [9] not in unit. That's okay. But the format of dudas: {\"id\":\"Q3\",\"texto\":\"…\",\"respaldo\":[…]}. The texto can be \"No se establece cuál de los talleres incluidos en la compra es el taller cuyos planos se revisaron.\" Good.\n\nQ1 texto: \"No se establece si «Ella» en [15] es la historiadora o la archivista.\" Respaldo [14] \"La historiadora y la archivista revisaron los planos del taller\"; [15] \"Ella encontró un plano fechado en 1911\".\nQ2 texto: \"No se establece de quién fue el hallazgo, pues «Su» depende de «Ella» en [15]: la historiadora o la archivista.\" Respaldo [14], [15], [16].\n\nShould Q2 include [16] \"Su hallazgo se publicó en la revista municipal\". Yes.\n\nNow final JSON. Ensure no trailing commas. Use exact fields. For determinaciones fields order as example. For acciones fields order. For relaciones fields. For capas empty. For marcas fields. For dudas.\n\nLet's write."
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 3021,
+      "completion_tokens": 11631,
+      "total_tokens": 14652,
+      "prompt_tokens_details": {
+        "cached_tokens": 2816
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 9966
+      },
+      "prompt_cache_hit_tokens": 2816,
+      "prompt_cache_miss_tokens": 205
+    }
+  },
+  "modelo_efectivo": "deepseek-flash",
+  "tokens": {
+    "entrada": 3021,
+    "salida": 11631,
+    "razonamiento": 9966
+  },
+  "frames_sse": 11633,
+  "nota_frames": "los frames SSE no se guardan: son transporte",
+  "parsed": {
+    "casos": [
+      {
+        "id": "C1",
+        "nombre": "historiadora",
+        "menciones": [
+          {
+            "o": 14,
+            "f": "La historiadora"
+          }
+        ]
+      },
+      {
+        "id": "C2",
+        "nombre": "archivista",
+        "menciones": [
+          {
+            "o": 14,
+            "f": "la archivista"
+          }
+        ]
+      },
+      {
+        "id": "C3",
+        "nombre": "planos",
+        "menciones": [
+          {
+            "o": 14,
+            "f": "los planos del taller"
+          }
+        ]
+      },
+      {
+        "id": "C4",
+        "nombre": "taller",
+        "menciones": [
+          {
+            "o": 14,
+            "f": "del taller"
+          }
+        ]
+      },
+      {
+        "id": "C5",
+        "nombre": "plano",
+        "menciones": [
+          {
+            "o": 15,
+            "f": "un plano fechado en 1911"
+          }
+        ]
+      },
+      {
+        "id": "C6",
+        "nombre": "hallazgo",
+        "menciones": [
+          {
+            "o": 16,
+            "f": "Su hallazgo"
+          }
+        ]
+      },
+      {
+        "id": "C7",
+        "nombre": "revista municipal",
+        "menciones": [
+          {
+            "o": 16,
+            "f": "la revista municipal"
+          }
+        ]
+      }
+    ],
+    "relaciones": [
+      {
+        "id": "R1",
+        "tipo": "de",
+        "de": "C3",
+        "a": "C4",
+        "dentro_de": null,
+        "condiciones": [],
+        "inferido": false,
+        "respaldo": [
+          {
+            "o": 14,
+            "f": "los planos del taller"
+          }
+        ]
+      },
+      {
+        "id": "R2",
+        "tipo": "publicado en",
+        "de": "C6",
+        "a": "C7",
+        "dentro_de": null,
+        "condiciones": [],
+        "inferido": false,
+        "respaldo": [
+          {
+            "o": 16,
+            "f": "Su hallazgo se publicó en la revista municipal"
+          }
+        ]
+      }
+    ],
+    "capas": [],
+    "determinaciones": [
+      {
+        "id": "D1",
+        "dentro_de": null,
+        "caso": "C1",
+        "aspecto": "presentada como",
+        "valor": "historiadora",
+        "unidad": null,
+        "cambio": null,
+        "condiciones": [],
+        "modalidad": null,
+        "inferido": false,
+        "respaldo": [
+          {
+            "o": 14,
+            "f": "La historiadora"
+          }
+        ]
+      },
+      {
+        "id": "D2",
+        "dentro_de": null,
+        "caso": "C2",
+        "aspecto": "presentada como",
+        "valor": "archivista",
+        "unidad": null,
+        "cambio": null,
+        "condiciones": [],
+        "modalidad": null,
+        "inferido": false,
+        "respaldo": [
+          {
+            "o": 14,
+            "f": "la archivista"
+          }
+        ]
+      },
+      {
+        "id": "D3",
+        "dentro_de": null,
+        "caso": "C5",
+        "aspecto": "fecha",
+        "valor": "1911",
+        "unidad": null,
+        "cambio": null,
+        "condiciones": [],
+        "modalidad": null,
+        "inferido": false,
+        "respaldo": [
+          {
+            "o": 15,
+            "f": "fechado en 1911"
+          }
+        ]
+      }
+    ],
+    "acciones": [
+      {
+        "id": "A1",
+        "agente": [
+          "C1",
+          "C2"
+        ],
+        "accion": "revisaron",
+        "objeto": "C3",
+        "negada": false,
+        "dentro_de": null,
+        "condiciones": [],
+        "respaldo": [
+          {
+            "o": 14,
+            "f": "La historiadora y la archivista revisaron los planos del taller"
+          }
+        ]
+      },
+      {
+        "id": "A2",
+        "agente": null,
+        "accion": "encontró",
+        "objeto": "C5",
+        "negada": false,
+        "dentro_de": null,
+        "condiciones": [],
+        "respaldo": [
+          {
+            "o": 15,
+            "f": "Ella encontró un plano fechado en 1911"
+          }
+        ]
+      },
+      {
+        "id": "A3",
+        "agente": null,
+        "accion": "se publicó",
+        "objeto": "C6",
+        "negada": false,
+        "dentro_de": null,
+        "condiciones": [],
+        "respaldo": [
+          {
+            "o": 16,
+            "f": "Su hallazgo se publicó en la revista municipal"
+          }
+        ]
+      }
+    ],
+    "marcas": [
+      {
+        "marca": "1911",
+        "o": 15,
+        "funciones": [
+          {
+            "funcion": "posición",
+            "refs": [
+              "D3"
+            ]
+          }
+        ]
+      }
+    ],
+    "dudas": [
+      {
+        "id": "Q1",
+        "texto": "No se establece si «Ella» en [15] es la historiadora o la archivista.",
+        "respaldo": [
+          {
+            "o": 14,
+            "f": "La historiadora y la archivista revisaron los planos del taller"
+          },
+          {
+            "o": 15,
+            "f": "Ella encontró un plano fechado en 1911"
+          }
+        ]
+      },
+      {
+        "id": "Q2",
+        "texto": "No se establece de quién fue el hallazgo, pues «Su» depende de «Ella» en [15]: la historiadora o la archivista.",
+        "respaldo": [
+          {
+            "o": 14,
+            "f": "La historiadora y la archivista revisaron los planos del taller"
+          },
+          {
+            "o": 15,
+            "f": "Ella encontró un plano fechado en 1911"
+          },
+          {
+            "o": 16,
+            "f": "Su hallazgo se publicó en la revista municipal"
+          }
+        ]
+      },
+      {
+        "id": "Q3",
+        "texto": "No se establece cuál de los talleres incluidos en la compra es el taller cuyos planos se revisaron.",
+        "respaldo": [
+          {
+            "o": 14,
+            "f": "los planos del taller"
+          },
+          {
+            "o": 9,
+            "f": "La compra incluyó los talleres y los vehículos que aún servían"
+          }
+        ]
+      }
+    ]
+  },
+  "venia_con_cerca": false,
+  "error_parseo": null,
+  "informe": {
+    "entrada": "b",
+    "oraciones_enviadas": [
+      9,
+      14,
+      15,
+      16
+    ],
+    "verificacion": {
+      "fragmentos": 23,
+      "no_literales": [],
+      "listas_faltantes": [],
+      "conteo": {
+        "casos": 7,
+        "relaciones": 2,
+        "capas": 0,
+        "determinaciones": 3,
+        "acciones": 3,
+        "marcas": 1,
+        "dudas": 3
+      }
+    },
+    "respaldos_no_verificables": [],
+    "citas_fuera_de_la_unidad": [
+      {
+        "ruta": ".dudas[2].respaldo[1]",
+        "o": 9,
+        "f": "La compra incluyó los talleres y los vehículos que aún servían"
+      }
+    ],
+    "citas_de_oraciones_no_recibidas": []
+  }
+}

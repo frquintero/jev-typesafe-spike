@@ -1,0 +1,44 @@
+{
+ "casos": [
+  {"id":"C1","nombre":"la personera","menciones":[{"o":13,"f":"La personera"}]},
+  {"id":"C2","nombre":"la secretaria de la junta","menciones":[{"o":13,"f":"la secretaria de la junta"}]},
+  {"id":"C3","nombre":"la junta de acción comunal","menciones":[{"o":13,"f":"de la junta"},{"o":8,"f":"La junta de acción comunal"}]},
+  {"id":"C4","nombre":"la empresa de acueducto","menciones":[{"o":13,"f":"de la empresa"},{"o":1,"f":"La empresa de acueducto"},{"o":17,"f":"de la empresa"}]},
+  {"id":"C5","nombre":"la respuesta de la empresa","menciones":[{"o":13,"f":"la respuesta de la empresa"}]},
+  {"id":"C6","nombre":"el cronograma","menciones":[{"o":14,"f":"el cronograma"}]},
+  {"id":"C7","nombre":"el reclamo","menciones":[{"o":15,"f":"Su reclamo"}]},
+  {"id":"C8","nombre":"el acta","menciones":[{"o":15,"f":"el acta"}]},
+  {"id":"C9","nombre":"la decisión","menciones":[{"o":16,"f":"Su decisión"}]},
+  {"id":"C10","nombre":"Iván Cifuentes","menciones":[{"o":17,"f":"El gerente de la empresa, Iván Cifuentes"}]},
+  {"id":"C11","nombre":"la solicitud","menciones":[{"o":17,"f":"la solicitud"}]}
+ ],
+ "relaciones": [
+  {"id":"R1","tipo":"parte de","de":"C2","a":"C3","dentro_de":null,"condiciones":[],"inferido":false,"respaldo":[{"o":13,"f":"la secretaria de la junta"}]},
+  {"id":"R2","tipo":"procede de","de":"C5","a":"C4","dentro_de":null,"condiciones":[],"inferido":false,"respaldo":[{"o":13,"f":"la respuesta de la empresa"},{"o":9,"f":"La empresa respondió que la fecha ya estaba contratada"}]},
+  {"id":"R3","tipo":"parte de","de":"C10","a":"C4","dentro_de":null,"condiciones":[],"inferido":false,"respaldo":[{"o":17,"f":"El gerente de la empresa, Iván Cifuentes"}]}
+ ],
+ "capas": [
+  {"id":"K1","expresion":"pidió","quien":null,"dentro_de":null,"respaldo":[{"o":14,"f":"Ella pidió"}]},
+  {"id":"K2","expresion":"dijo","quien":"C10","dentro_de":null,"respaldo":[{"o":17,"f":"dijo"}]}
+ ],
+ "determinaciones": [
+  {"id":"D1","dentro_de":null,"caso":"C7","aspecto":"registro","valor":"registrado","unidad":null,"cambio":null,"condiciones":[{"texto":"en el acta","ref":"C8","respaldo":[{"o":15,"f":"en el acta"}]}],"modalidad":null,"inferido":false,"respaldo":[{"o":15,"f":"quedó registrado"}]},
+  {"id":"D2","dentro_de":null,"caso":"C9","aspecto":"conocimiento","valor":"se conocerá","unidad":null,"cambio":null,"condiciones":[{"texto":"el miércoles","ref":null,"respaldo":[{"o":16,"f":"el miércoles"}]}],"modalidad":null,"inferido":false,"respaldo":[{"o":16,"f":"se conocerá el miércoles"}]},
+  {"id":"D3","dentro_de":null,"caso":"C10","aspecto":"presentado como","valor":"gerente de la empresa","unidad":null,"cambio":null,"condiciones":[],"modalidad":null,"inferido":false,"respaldo":[{"o":17,"f":"El gerente de la empresa, Iván Cifuentes"}]}
+ ],
+ "acciones": [
+  {"id":"A1","agente":["C1","C2"],"accion":"revisaron","objeto":"C5","negada":false,"dentro_de":null,"condiciones":[],"respaldo":[{"o":13,"f":"revisaron la respuesta de la empresa"}]},
+  {"id":"A2","agente":null,"accion":"pidió que se publicara","objeto":"C6","negada":false,"dentro_de":"K1","condiciones":[],"respaldo":[{"o":14,"f":"pidió que se publicara el cronograma"}]},
+  {"id":"A3","agente":"C10","accion":"evaluará","objeto":"C11","negada":false,"dentro_de":"K2","condiciones":[],"respaldo":[{"o":17,"f":"evaluará la solicitud"}]}
+ ],
+ "marcas": [
+  {"marca":"registrado","o":15,"funciones":[{"funcion":"posición","refs":["D1"]}]},
+  {"marca":"el miércoles","o":16,"funciones":[{"funcion":"posición","refs":["D2"]}]}
+ ],
+ "dudas": [
+  {"id":"Q1","texto":"«Ella» ([14]): la personera (C1) o la secretaria de la junta (C2); la oración [13] deja dos antecedentes posibles.","respaldo":[{"o":14,"f":"Ella pidió"},{"o":13,"f":"La personera y la secretaria de la junta revisaron la respuesta de la empresa"}]},
+  {"id":"Q2","texto":"«Su» en «Su reclamo» ([15]): reclamo de la personera o de la secretaria de la junta (según quién sea «Ella» en [14]).","respaldo":[{"o":15,"f":"Su reclamo"},{"o":14,"f":"Ella pidió que se publicara el cronograma"}]},
+  {"id":"Q3","texto":"«Su» en «Su decisión» ([16]): decisión de quién (la personera, la secretaria de la junta u otro participante); no hay antecedente único.","respaldo":[{"o":16,"f":"Su decisión se conocerá el miércoles"},{"o":13,"f":"La personera y la secretaria de la junta revisaron la respuesta de la empresa"}]},
+  {"id":"Q4","texto":"«la solicitud» ([17]): a qué solicitud se refiere (lo pedido por la junta en [8], lo pedido en [14], el reclamo de [15] u otra).","respaldo":[{"o":17,"f":"evaluará la solicitud"},{"o":8,"f":"La junta de acción comunal pidió que el corte no se hiciera en semana de exámenes"},{"o":14,"f":"Ella pidió que se publicara el cronograma"},{"o":15,"f":"Su reclamo quedó registrado en el acta"}]}
+ ]
+}
