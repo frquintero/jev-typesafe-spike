@@ -145,8 +145,8 @@ referencia ambigua.
 - La cláusula «citar una oración como respaldo no cambia su pertenencia» valió
   para los enlaces —la tormenta entre [2], [5] y [7]— y no valió para el dueño
   del techo: el camino barato era absorber.
-- Lo mecánico quedó limpio (cobertura, literalidad, `null`/`duda`), así que el
-  fallo era semántico.
+- Lo mecánico quedó limpio —cobertura y reconstrucción por el verificador del
+  repo; literalidad y `null`/`duda`, a mano—, así que el fallo era semántico.
 
 ### Variante B · `prompt_v7.md` — v5 íntegro más una tarea acotada después
 
@@ -162,8 +162,9 @@ insertado entre el ejemplo 5 y `texto`.
 - «Su» de [5] → «La escuela de la vereda La Esperanza», con respaldo que cita
   **[1], [4] y [5]**: el antecedente viaja y [4] no se mueve.
 - «la alcaldía» no se registró, como pedía el ALCANCE.
-- Cero problemas mecánicos: cobertura, literalidad de `expresion` y `respaldo`,
-  pertenencia al propio subtema, `null`/`duda` coherentes.
+- Sin problemas mecánicos: cobertura y reconstrucción por el verificador del repo;
+  y comprobados a mano, literalidad de `expresion` y `respaldo`, pertenencia al
+  propio subtema y `null`/`duda` coherentes.
 
 ### Las tres corridas
 
@@ -217,24 +218,26 @@ interna, la fidelidad por delante de la brevedad, y la duda que conserva las
 interpretaciones abiertas—. Con v9 se corrieron `doc4` y `doc5`, con los criterios
 fijados antes; la evaluación está en `evaluacion_doc4-doc5.md`.
 
-**Límites de lo probado:** un solo documento, una réplica por variante, un solo
-agente. Nada de esto dice cómo se comporta con otros textos ni si repite el
-resultado. Que el resumen de razonamiento describa la secuencia del prompt
-tampoco lo prueba.
+**Límites de lo probado:** cinco documentos y nueve corridas, una por documento y
+versión de prompt, y un solo agente. Nada de esto dice cómo se comporta con otros
+textos ni si repite el resultado: sin réplicas por documento, la estabilidad no se
+midió. Que el resumen de razonamiento describa la secuencia del prompt tampoco lo
+prueba.
 
 **Decisión (5-10-2026): v9 queda congelado como base de trabajo del paso 1.** Sin
 v10 y sin más corridas dedicadas a pulirlo. El prompt se reabre solo si aparece un
 problema recurrente que afecte las respuestas, o una mejora concreta de rendimiento
 que merezca probarse.
 
-**No se reclama ningún porcentaje de acierto.** El umbral de ~90 % es el de las
-rondas de extracción; aquí no hay denominador consistente: en `doc5` se cumplieron
-los cuatro criterios fijados, y en `doc4` hubo un fallo y tres casos no evaluables.
-Eso es un conteo con un hueco, no una medición.
+**Criterio de aceptación: la vara de Frat, ≈90 % de contenido correcto.** Aquí
+**no se mide**: no hay esperado fijado antes ni denominador consistente —en `doc5`
+se cumplieron los cuatro criterios fijados, y en `doc4` hubo un fallo y tres casos
+no evaluables—. Eso es un conteo con un hueco, no una medición. El esperado y las
+réplicas se piden cuando lo que se busca es medir (fricción 4).
 
 **Huecos conocidos, no bloqueantes:** la referencia hacia adelante quedó sin
-ejercitar, la partición varía entre documentos con el mismo prompt, y quedó una
-referencia externa sin registrar. Congelar es dejar de iterar, no dar por resuelto.
+ejercitar, y quedó una referencia externa sin registrar. Congelar es dejar de
+iterar, no dar por resuelto.
 
 **Siguiente paso:** usar estas unidades y sus referencias en la extracción de
 datos. Lo primero ahí no es extraer, sino decidir **cómo llega el contexto externo
@@ -353,8 +356,11 @@ el documento de política, que vive fuera del repo, no se modificó.
 
 ## Pendiente
 
-- **Paso 2 con estas unidades y referencias:** decidir cómo llega el contexto
-  externo de la unidad a la extracción de datos.
+- **Paso 2 con estas unidades y referencias — es el trabajo de ahora:** decidir
+  cómo llega el contexto externo de la unidad a la extracción de datos. La
+  extracción ya corre por unidad (`unidades/extraer_datos_doc.py`); lo que no
+  entra en esa entrada es el campo `referencias`. Después, la pieza mecánica del
+  orquestador (memoria, §5).
 - **Reabrir v9** solo por un problema recurrente que afecte las respuestas, o por
   una mejora concreta de rendimiento. Las réplicas y la referencia hacia adelante
   quedan como huecos conocidos, no como tareas de pulido.

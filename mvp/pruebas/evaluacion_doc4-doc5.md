@@ -14,8 +14,10 @@ Textos nuevos, ninguno usado antes: `doc4.md` (nota de servicio) y `doc5.md`
 | Tokens: entrada / salida / razonamiento | 32 245 / 14 296 / 12 807 | 32 232 / 17 537 / 16 251 |
 | Unidades | 6 | 5 |
 | Referencias registradas | 11 | 8 |
-| Verificación mecánica | sin problemas | sin problemas |
-| Cobertura | 17/17, sin huecos ni solapes | 17/17, sin huecos ni solapes |
+| Verificación del repo (asignación) | 17/17, sin huecos ni solapes | 17/17, sin huecos ni solapes |
+
+La verificación del repo cubre solo la asignación de oraciones; la literalidad y
+la pertenencia de las `referencias` se revisaron a mano.
 
 ## Fidelidad (requisito)
 
