@@ -2,8 +2,7 @@
 
 Fecha: 06-10-2026. **Estado: borrador de diseño; nada implementado.** Este
 documento es la superficie de trabajo: se afina aquí antes de escribir código y
-antes de llamar a un modelo. **Revisión tras la primera ronda de discusión**
-(D1 cerrada; corpus reconfigurado, §3).
+antes de llamar a un modelo.
 
 **Para qué.** Construir el **primer recorrido completo** de Zettel sobre el
 corpus: recibir una pregunta y entregar una respuesta respaldada, un conflicto o
@@ -36,14 +35,14 @@ interpreta, selecciona y propone.
 | Entrega | inventario y lectura de unidades por la tool | — |
 | Hace | ejecuta las acciones de la tool, calcula fechas y aritmética, verifica, registra | — |
 | Decide | qué material está admitido; cuándo se cierra | qué unidades leer; qué datos son campo; qué sostiene una respuesta |
+| **Memoria** | lleva el estado y arma el prompt de cada llamada | **ninguna**: es stateless, solo sabe lo que va en el prompt |
 | Propone | — | encabezado, tablas, brechas, respuesta, derivado |
 | Juzga | no juzga contenido | no ejecuta acciones ni calcula por su cuenta |
 
-**D1 cerrada (Frat, 06-10).** Queda como está dicho: **código = ORQUESTADOR,
-LLM = AGENTE ENCARGADO**. La coherencia con los documentos vivos se hace en el
-mismo tramo en que se escriba el código; las ediciones exactas están en §15. El
-encargo que originó este documento mezclaba los dos sentidos («pasa una a una al
-orquestador (LLM)»); queda resuelto por D1.
+**D1 (decidida).** **Código = ORQUESTADOR, LLM = AGENTE ENCARGADO.** El agente es
+**stateless**: cada llamada es una interacción nueva y solo sabe lo que va en el
+prompt; el orquestador es quien lleva la memoria y compone cada prompt (§6). La
+coherencia de esta etiqueta con los documentos vivos está en §16.
 
 ---
 
@@ -74,14 +73,14 @@ candidato es **provisional**: el corpus no lo presenta como extracción adoptada
 **Conflictos.** Con un solo documento no hay conflicto entre fuentes. Si se
 quiere ejercitar ese desenlace en esta simulación, hace falta un segundo corpus
 (la mesa de dominio: `M1` 42 plazas frente a `M2` 47, con `M2:S1` acreditando el
-mismo refugio y la misma noche), cuyos datos son a mano. **Decisión abierta D2.**
+mismo refugio y la misma noche), cuyos datos son a mano. **D2.**
 
 ---
 
 ## 3. El corpus consultable: una configuración mínima
 
-El encargo admitía «dos tablas»; tras revisarlo, la recomendación es **elegir por
-forma de acceso** en vez de meter todo en un mismo molde. La discusión clásica en
+La recomendación es **elegir por forma de acceso** en vez de meter todo en un
+mismo molde. La discusión clásica en
 torno a SQLite lo dice bien: el problema no es el formato de serialización, sino
 **qué forma tienen los datos y qué operaciones se hacen con ellos**; hay tablas
 de consulta, flujos que solo se agregan y relaciones que piden cruces, y cada uno
@@ -189,36 +188,57 @@ deuda.
 
 ## 4. Entradas: el usuario y las reglas
 
+Son tres cosas distintas, y no se mezclan: **las preguntas** (el usuario), **R**
+(lo que el agente lee y el orquestador hace valer) y **las expectativas** (nuestras,
+para evaluar).
+
 ### 4.1. Archivo de preguntas (es el usuario)
 
-`mvp/consulta/preguntas.md` (o `.json`): 5 preguntas fijadas antes de correr,
-con su texto y su expectativa escrita (qué establece el documento, qué la
-sostiene, qué no autoriza, qué cambio en A(Q) se espera). Las cinco, en §10.
+`mvp/consulta/preguntas.md`: **solo el texto de las cinco preguntas, limpias** —sin
+condiciones, sin expectativas, sin pistas—. Es lo único que aporta el usuario,
+junto con el dominio elegido. Las cinco están en §11.
 
-### 4.2. Archivo de R
+### 4.2. Documento R
 
-`mvp/consulta/R.md`. Contenido propuesto:
+`mvp/consulta/R.md`: un documento con dos partes que dicen lo mismo. La primera,
+un bloque que el código lee para **hacer valer** R; la segunda, la prosa que **lee
+el agente**, porque el orquestador se la pasa en el prompt. Si se separan, manda
+el bloque y se corrige la prosa.
 
+```json
+{ "fuentes_admitidas": "solo el documento",
+  "k_admitida": ["mundo/codigo"],
+  "herramientas": ["listar_unidades", "leer_unidad", "calcular", "entregar"],
+  "calcular": ["sumar", "restar", "dias_entre", "dia_siguiente", "parsear_fecha"],
+  "prohibido": ["internet", "otros_agentes", "mundo_del_agente", "usuario"],
+  "limites": { "turnos_por_pregunta": 6, "llamadas_totales": 20 } }
 ```
-fuentes admitidas: solo el documento
-  - premisas admitidas: los datos de los documentos del dominio elegido
-  - K admitida: solo el mundo del código (calendario, aritmética), con su versión
-  - no admitidas: internet; otras tools o agentes; el saber del agente; el usuario
-operaciones admitidas: aritmética y fechas por la biblioteca del código,
-  cada una registrada (id, función, entradas, resultado)
-entrega:
-  - solo si la tabla final difiere de la inicial (hubo efecto)
-  - los conflictos se muestran; no se elige
-  - «no establecido» y «no cerrable» se entregan explícitos, con la brecha
-guardias: máximo de turnos por pregunta; tope de llamadas; corte por ciclo
-```
+
+Prosa para el agente (las condiciones de la consulta): sin internet; sin otras
+herramientas ni agentes; el saber del agente no es premisa; no hay interacción
+con el usuario; la aritmética y las fechas las hace el código; solo se entrega si
+hubo efecto; los conflictos se muestran y no se eligen; «no establecido» y «no
+cerrable» se entregan explícitos, con la brecha.
+
+**R la hace valer el orquestador.** El agente la recibe en el prompt, y además el
+código la aplica: si pide una herramienta, una función o una fuente que R no
+admite, el orquestador **no la ejecuta y se lo comunica por el protocolo** (§7),
+citando la regla que la excluye, para que el agente busque otra vía. Cada
+denegación queda en la traza; si insiste, corta la guardia de ciclo.
 
 **K se deduce de R.** Precisión: R fija **qué clases de premisa pueden entrar**;
-con esta R, la única K admitida es el **mundo del código**, que se registra con
-su versión. Estrictamente, K es lo que efectivamente entró y queda en las rutas;
-lo que se deduce de R es qué K puede entrar. El **dominio** es entrada aparte de
-R (no es un modo de R). Las **anclas** (fecha del sistema) no son premisa con
-esta R: si se inyectan, se declaran y no abren puerta al mundo.
+con esta R, la única K admitida es el **mundo del código**, que se registra con su
+versión. Estrictamente, K es lo que efectivamente entró y queda en las rutas; lo
+que se deduce de R es qué K puede entrar. El **dominio** es entrada aparte de R
+(no es un modo de R). Las **anclas** (fecha del sistema) no son premisa con esta
+R: si se inyectan, se declaran y no abren puerta al mundo.
+
+### 4.3. Expectativas preinscritas (nuestras, no del agente)
+
+Antes de correr escribimos en `mvp/consulta/evaluacion.md`, por pregunta, **qué
+establece el documento, qué lo sostiene, qué no autoriza y qué cambio en A(Q) se
+espera** (§12). **No se le pasa al agente**: si las viera, dejaría de medir su
+inferencia.
 
 ---
 
@@ -227,8 +247,8 @@ esta R: si se inyectan, se declaran y no abren puerta al mundo.
 | # | Subpaso | Quién | Qué pasa | Termina cuando |
 |---|---|---|---|---|
 | 1 | Incorporar las extracciones | código | carga documento, dominio, unidades, fichas, referencias y respaldos; asigna ids; registra el esquema | un dato resuelve a su oración y dos unidades no comparten ids |
-| 2 | Abrir la consulta | código | recibe pregunta, dominio y R; fija documentos admitidos; anclas; abre el expediente | la corrida anota dominio, R y documentos admitidos |
-| 3 | Encuadrar y consultar | código + agente | el agente interpreta la pregunta, ve el inventario del dominio y pide leer unidades; el código entrega la lectura completa | las unidades leídas quedan registradas como **examinadas** |
+| 2 | Abrir la consulta | código | recibe pregunta, dominio y R; fija documentos admitidos; anclas; abre el expediente y **arma el prompt de cada interacción** | la corrida anota dominio, R y documentos admitidos |
+| 3 | Encuadrar y consultar | código + agente | el orquestador le da el inventario del dominio y el estado; el agente pide leer unidades; el código entrega la lectura completa | las unidades leídas quedan registradas como **examinadas** |
 | 4 | Proponer la respuesta | agente | con los datos leídos, propone encabezado, tabla inicial y final, campo, conflicto, brechas, respuesta y derivado; pide los cálculos al código | la propuesta llega en el formato de entrega |
 | 5 | Comprobar y entregar | código | verifica forma, alcance por dominio, admisión por R, encabezado y cálculos; calcula el efecto; entrega y registra | hay respuesta con respaldo o falta explícita, con el recorrido |
 
@@ -237,7 +257,53 @@ esta R: si se inyectan, se declaran y no abren puerta al mundo.
 
 ---
 
-## 6. Protocolo de comunicación (la tool)
+## 6. La memoria es del orquestador (el agente es stateless)
+
+El agente **no recuerda nada entre llamadas**: cada llamada es una interacción
+nueva y solo sabe lo que va en el prompt. Lo que no se le ponga, no lo puede
+saber. El orquestador lleva el estado y compone cada prompt; la traza es ese
+estado.
+
+**El agente es una función pura:** `agente(prompt) -> acción`. El estado va y
+vuelve por el orquestador (el patrón «stateless reducer», factor 12 de
+[12-Factor Agents](https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-12-stateless-reducer.md)),
+y el prompt se arma a mano desde archivos, sin esconderlo en un framework
+(factor 2, «own your prompts»).
+
+**Qué lleva cada llamada** (bloques fijos + estado + cola):
+
+| Bloque | Contenido | Cambia entre turnos |
+|---|---|---|
+| Instrucciones | rol, tarea, protocolo, formato de entrega, prohibiciones | no |
+| R | el documento R (§4.2), tal como lo lee el agente | no |
+| Pregunta | texto limpio y dominio elegido | no |
+| Inventario | unidades del dominio: id, subtema, oraciones | no dentro de la consulta |
+| Estado | encabezado propuesto, unidades leídas (ids), campo, brechas, desenlace en curso | sí |
+| Cola | las últimas acciones del agente y sus resultados | sí |
+
+**Cómo se mantiene liviano** (context engineering: el menor conjunto de tokens de
+alta señal, [Anthropic](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)):
+
+- **Just in time:** no se manda el corpus; se mandan **ids** y el agente pide lo
+  que necesita. El inventario es liviano; la lectura completa llega cuando la pide.
+- **Divulgación progresiva:** inventario → unidad elegida → datos de la unidad.
+- **Compactación:** los resultados viejos se reemplazan por su referencia (los
+  ids) y un resumen; el texto completo **no se borra nunca**: queda en la traza y
+  se puede volver a pedir. Las últimas acciones se conservan enteras. La guía de
+  compresión coincide: descargar antes de resumir, y lo descargado tiene que
+  seguir siendo recuperable ([context compression](https://www.agentpatterns.ai/context-engineering/context-compression-strategies/)).
+- **Errores compactos:** una denegación de R o un JSON inválido vuelven como un
+  mensaje corto con la regla y la forma esperada (factor 9).
+- **El estado manda:** lo que se compactó y hace falta se vuelve a pedir; el
+  orquestador no adivina lo que el agente necesita.
+
+**Guardias del bucle:** máximo de turnos por pregunta, corte por ciclo (misma
+acción y argumentos dos veces), tope de llamadas; al agotarse, desenlace
+«agotada». Cada llamada y cada resultado van a la traza.
+
+---
+
+## 7. Protocolo de comunicación (la tool)
 
 `call_model` **no soporta `tools` ni multi-turno**: manda un solo mensaje `user`
 ([run_niveles.py:110](../niveles/run_niveles.py#L110)). El protocolo es
@@ -255,6 +321,14 @@ vuelve a llamar con el historial serializado en ese mensaje.
 Reglas:
 
 - **Lista blanca**; cualquier otra acción devuelve error y consume turno.
+- **R se hace valer aquí.** Si la acción pide algo que R no admite —una función
+  fuera de la lista, una fuente externa, otro agente—, el orquestador **no la
+  ejecuta** y contesta con la regla que la excluye, para que el agente busque otra
+  vía:
+  ```json
+  {"ok": false, "error": "R no admite fuentes externas", "regla_r": "fuentes_admitidas"}
+  ```
+  La denegación queda en la traza; insistir corta por ciclo.
 - **`calcular` no es `eval`**: tabla fija de funciones (`sumar`, `restar`,
   `dia_siguiente`, `dias_entre`, `parsear_fecha`, …). El código no ejecuta nada
   que el agente escriba.
@@ -268,11 +342,12 @@ Reglas:
 
 ---
 
-## 7. El prompt del agente (secciones)
+## 8. El prompt del agente (secciones)
 
 1. **Rol y tarea.** Qué se le pide: interpretar la pregunta, leer, proponer.
-2. **Qué recibe.** Pregunta, dominio, documentos admitidos, R, anclas, y la vía
-   de la tool.
+2. **Qué recibe, en cada llamada.** Los bloques de §6 —instrucciones, R,
+   pregunta y dominio, inventario, estado y cola—. Nada más: **lo que no va en el
+   prompt, el agente no lo sabe.**
 3. **Protocolo.** Las cuatro acciones, con ejemplos; una acción por turno.
 4. **R y K.** Solo el documento; el cálculo lo hace el código; su propio saber no
    es premisa.
@@ -305,7 +380,7 @@ Reglas:
 
 ---
 
-## 8. Salidas
+## 9. Salidas
 
 - **`mvp/consulta/salida.md`** (el usuario lee esto): por pregunta, la respuesta
   en lenguaje natural con su ruta en palabras (documento y oración), el desenlace
@@ -318,7 +393,7 @@ Reglas:
 
 ---
 
-## 9. Guardias y presupuesto (se fijan antes de llamar)
+## 10. Guardias y presupuesto (se fijan antes de llamar)
 
 - **Modelo:** `deepseek-flash` (alias `deepseek`), el del paso 2; esfuerzo `low`
   (que DeepSeek trata como `high`).
@@ -333,37 +408,48 @@ Reglas:
 
 ---
 
-## 10. Las cinco preguntas (fijadas antes de correr)
+## 11. Las cinco preguntas (texto limpio, es el archivo del usuario)
 
-| # | Pregunta | Desenlace esperado | Qué prueba |
+`mvp/consulta/preguntas.md` contiene **solo esto**:
+
+1. ¿En qué año empezó a rodar el primer tranvía de la ciudad y qué compañía lo operaba?
+2. ¿En qué año se restableció el servicio del tranvía tras el incendio de 1927?
+3. ¿Cuántos kilómetros de vías llegó a tener la red, y según qué?
+4. ¿Cuánto costó la compra de la red en 1948?
+5. ¿Quién encontró el plano de 1911, la historiadora o la archivista?
+
+Ni condiciones ni expectativas: las condiciones van en el documento R (§4.2) y las
+expectativas son nuestras, para evaluar (§12). El agente ve la pregunta tal cual.
+
+---
+
+## 12. Cómo se evalúa
+
+**Expectativas preinscritas** (`mvp/consulta/evaluacion.md`, escritas antes de
+correr; **no se le pasan al agente**):
+
+| # | Desenlace esperado | Qué debe sostenerlo | Qué no autoriza |
 |---|---|---|---|
-| P1 | ¿En qué año empezó a rodar el primer tranvía y qué compañía lo operaba? | cerrada | dos datos con respaldo `[1]`–`[2]` |
-| P2 | ¿En qué año se restableció el servicio del tranvía tras el incendio de 1927? | cerrada con **derivado** | obliga a la tool de cálculo (1927 + 2 = 1929); estrena `guardar` y `mantener` |
-| P3 | ¿Cuántos kilómetros de vías llegó a tener la red, y según qué? | cerrada con **capa** | el dato está atribuido («según los planos»): no autoriza afirmarlo como voz del documento |
-| P4 | ¿Cuánto costó la compra de la red en 1948? | **no establecido** | campo vacío y **inventario examinado** de las 5 unidades |
-| P5 | ¿Quién encontró el plano de 1911, la historiadora o la archivista? | **no cerrable** | dos lecturas abiertas (dudas de `U5`): conservarlas, no elegir |
+| P1 | cerrada | 1893 y la compañía inglesa con capital privado, con respaldo `[1]`–`[2]` | el nombre de la compañía (no está) ni que fuera la única operadora |
+| P2 | cerrada con **derivado** | 1927 y «dos años» de `U2`; el cálculo (1929) lo hace el código y el derivado se guarda | fechas que el documento no da |
+| P3 | cerrada con **capa** | veintiocho kilómetros, con la atribución «según los planos» en la ruta | afirmarlo como voz del documento; la longitud actual |
+| P4 | **no establecido** | campo vacío; **inventario examinado** de las cinco unidades | inventar un precio o traerlo de fuera |
+| P5 | **no cerrable** | las dos lecturas abiertas de `U5` («Ella» = historiadora o archivista) | elegir una; declarar que son distintas |
 
-Para cada una se deja escrito, antes de correr: qué establece el documento, qué
-datos la sostienen (ids esperados), qué no autoriza a afirmar y qué cambio en
-A(Q) se espera.
+Criterios:
 
----
-
-## 11. Cómo se evalúa
-
-- **Contra lo escrito antes**, no contra lo que salga: respuesta, sostén,
-  límites y cambio en A(Q).
+- **Contra lo escrito antes**, no contra lo que salga: respuesta, sostén, límites y
+  cambio en A(Q).
 - **No cuenta** acertar por casualidad ni citar texto que no sostiene.
-- Se evalúan las cinco: las cerradas por su ruta y su fidelidad; las no cerradas
-  por la precisión de lo que no se puede establecer y por el inventario
-  examinado.
-- **No interviene Jev**: el juicio es nuestro, y se registra en la evaluación.
-- Comprobaciones mecánicas aparte: 0 errores del verificador de forma, alcance
-  por dominio, admisión por R, efecto calculado.
+- Las cerradas se juzgan por su ruta y su fidelidad; las no cerradas, por la
+  precisión de lo que no se puede establecer y por el inventario examinado.
+- **No interviene Jev**: el juicio es nuestro y se registra.
+- Comprobaciones mecánicas aparte: 0 errores del verificador de forma, alcance por
+  dominio, admisión por R, efecto calculado.
 
 ---
 
-## 12. Riesgos y límites
+## 13. Riesgos y límites
 
 - La calidad de la extracción acota la respuesta (es el hallazgo del paso 2, no
   un defecto del puente).
@@ -372,28 +458,36 @@ A(Q) se espera.
   declarada**; por eso P5 va por la duda explícita y no por esa identidad.
 - El **texto de la respuesta no se verifica**: el código valida rutas y forma;
   que diga solo lo que la tabla establece lo juzgamos nosotros.
+- **El prompt es el único canal.** Si el orquestador omite un dato o no le avisa
+  de lo que ya hizo, el agente no lo puede saber: repetirá lecturas o propondrá
+  sobre material que no vio. La memoria es responsabilidad del código.
+- **La compactación puede perder señal.** Si se resume de más, se cae un matiz que
+  solo se nota después; por eso lo descargado se conserva recuperable y se empieza
+  por máxima retención ([guía de contexto](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)).
 - El historial crece por turno: de ahí el tope y el corte por ciclo.
 - Un solo documento ⇒ sin conflicto (ver D2).
 
 ---
 
-## 13. Estado de las decisiones
+## 14. Decisiones
 
 | # | Decisión | Estado |
 |---|---|---|
-| **D1** | Nombres: código = ORQUESTADOR, LLM = AGENTE ENCARGADO | **cerrada (Frat, 06-10)**; coherencia pendiente, §15 |
-| **D2** | Corpus: solo `doc5`, o `doc5` + la mesa de dominio para tener conflicto | abierta — recomendación: solo `doc5` en la primera pasada |
-| **D3** | Protocolo: bucle con lectura en lote, o todo inyectado en una llamada | abierta — recomendación: bucle con lectura en lote |
-| **D4** | P2 con derivado (1929) o sin él («dos años») | abierta — recomendación: con derivado |
-| **D5** | R: `solo el documento`, mundo del código registrado, anclas fuera como premisa | abierta — recomendación: sí |
-| **D6** | Nombre y sitio de los archivos (`mvp/consulta/`) | abierta — confirmar antes de crear código |
-| **D7** | Almacén: tres artefactos JSON/JSONL con `datos` como vista, o tablas normalizadas de verdad | **recomendación nueva, §3**: la configuración mínima; normalizar solo si aparece un cuello de botella |
-| **D8** | Derivados: en `corpus.jsonl` (forma de pieza 1) o dentro de `inscripciones` | abierta — recomendación: `corpus.jsonl`, para no tocar `guardar`/`mantener` |
-| **D9** | Idioma de las inscripciones: `tipo` en español (`determinación`) o en inglés (`determination`) | abierta — recomendación: español, como el resto del repo |
+| **D1** | Nombres: código = ORQUESTADOR, LLM = AGENTE ENCARGADO | **decidida**; coherencia de los documentos vivos, §16 |
+| **D2** | Corpus: solo `doc5`, o `doc5` + la mesa de dominio para tener conflicto | por definir — recomendación: solo `doc5` |
+| **D3** | Protocolo: bucle con lectura en lote, o todo inyectado en una llamada | por definir — recomendación: bucle con lectura en lote |
+| **D4** | P2 con derivado (1929) o sin él («dos años») | por definir — recomendación: con derivado |
+| **D5** | R: `solo el documento`, mundo del código registrado, anclas fuera como premisa | por definir — recomendación: sí |
+| **D6** | Nombre y sitio de los archivos (`mvp/consulta/`) | por definir — confirmar antes de crear código |
+| **D7** | Almacén: tres artefactos JSON/JSONL con `datos` como vista | recomendación: la configuración mínima (§3); normalizar solo ante un cuello de botella medido |
+| **D8** | Derivados: en `corpus.jsonl` (forma de pieza 1) o dentro de `inscripciones` | por definir — recomendación: `corpus.jsonl`, sin tocar `guardar`/`mantener` |
+| **D9** | Idioma de los `tipo` (`determinación` o `determination`) | por definir — recomendación: español |
+| **D10** | Documento R: bloque JSON para el código + prosa para el agente | recomendación: sí (§4.2) |
+| **D11** | Compactación: cuántas acciones enteras se conservan y qué se resume | por definir — recomendación: las últimas 5, el resto por referencia + resumen |
 
 ---
 
-## 14. Qué se reutiliza
+## 15. Qué se reutiliza
 
 - `mvp/pieza1/pieza1.py`: `verificar`, `comparar`, `guardar`, `mantener` (y hay
   que ampliarlo con el **efecto** y con la **admisión por dominio**, que hoy no
@@ -407,7 +501,7 @@ A(Q) se espera.
 
 ---
 
-## 15. Coherencia de vocabulario (D1) · ediciones pendientes
+## 16. Coherencia de vocabulario (D1)
 
 Se hacen en el mismo tramo en que se escriba el código, no antes. Son
 sustituciones de etiqueta, no de concepto: el papel se parte igual que en §1.
@@ -450,7 +544,7 @@ El archivo sigue llamándose `orquestador-plan.md`: es el plan del que conduce.
 
 ---
 
-## 16. Fuentes consultadas (ronda 1)
+## 17. Fuentes consultadas
 
 - *Nanopublication Guidelines* — aserción + procedencia + info de publicación en
   una unidad pequeña y autocontenida: <https://nanopub.net/guidelines/working_draft/>
@@ -470,3 +564,16 @@ El archivo sigue llamándose `orquestador-plan.md`: es el plan del que conduce.
 - *Knowledge Graphs · Complete Guide* — «over-engineering the ontology» como
   antipatrón; esquema mínimo y crecer a demanda:
   <https://www.dataaihub.co/learn/knowledge-graphs>
+- *12-Factor Agents* — factor 2 «own your prompts», factor 3 «own your context
+  window», factor 9 «compact errors», factor 12 «stateless reducer»:
+  <https://github.com/humanlayer/12-factor-agents> y
+  <https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-12-stateless-reducer.md>
+- *Effective context engineering for AI agents* (Anthropic) — el menor conjunto de
+  tokens de alta señal; just-in-time, divulgación progresiva, compactación:
+  <https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents>
+- *Building effective agents* (Anthropic) — el bucle «LLM + herramientas +
+  retroalimentación del entorno», con condiciones de parada y buenos contratos de
+  herramienta: <https://www.anthropic.com/engineering/building-effective-agents>
+- *Context compression strategies* — descargar antes de resumir; lo descargado
+  tiene que seguir siendo recuperable; conservar objetivo, estado y siguiente paso:
+  <https://www.agentpatterns.ai/context-engineering/context-compression-strategies/>
