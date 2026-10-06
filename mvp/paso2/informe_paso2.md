@@ -57,7 +57,8 @@ referencias venían completas).
 - **Reserva:** 12 llamadas, **646,2 s**.
 - **Muse Code:** 18 tareas de desarrollo (4 303 s; de 65 s a 2 646 s, con una tarea de
   44 minutos), 2 tareas de v9 sobre la reserva (72 s y 65 s) y 12 tareas de la reserva
-  con la entrada (b), interrumpidas a la mitad (5 recolectadas, sin uso).
+  con la entrada (b), interrumpidas a la mitad: **6 crudos recolectados, sin uso** (no
+  entran en los 63 del análisis).
 - **Tiempo comparado:** en DeepSeek, (b) saca 20–34 s a las otras dos (3–5 %). La
   diferencia grande que aparecía en la primera versión (1 171 s frente a 3 792 s) venía
   de la tarea de Muse de 44 minutos, no de la entrada.
