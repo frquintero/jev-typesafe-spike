@@ -107,23 +107,32 @@ def prompt_version(prompt_name):
     )
 
 
-def call_model(version, alias, content, conv_id=None):
+def call_model(version, alias, content, conv_id=None, messages=None, tools=None):
     """Llama con stream=true (excepcion autorizada: stream es transporte, no
     cambia la salida) mas los parametros extra de MODEL_PARAMS[version][alias]
     (solo los de la tabla del PLAN, nunca temperature). Ensambla los deltas
     SSE. Devuelve (body_enviado, response_ensamblada) donde
     response_ensamblada imita la forma no-streaming (choices[0].message.
-    content / .reasoning_content, model, usage) y ademas guarda los chunks
-    crudos verbatim en "_stream_chunks_crudos". Cualquier rechazo del
-    proveedor (parametro no soportado, autenticacion, lo que sea) detiene la
-    ejecucion y reporta; no se reintenta ni se busca la clave por otros medios.
+    content / .reasoning_content / .tool_calls, finish_reason, model, usage) y
+    ademas guarda los chunks crudos verbatim en "_stream_chunks_crudos".
+    Cualquier rechazo del proveedor (parametro no soportado, autenticacion, lo
+    que sea) detiene la ejecucion y reporta; no se reintenta ni se busca la
+    clave por otros medios.
+
+    Extension aditiva (D13, decidida el 06-10): `messages` reemplaza la lista
+    armada a partir de `content` —para el bucle de herramientas— y `tools`
+    viaja en la peticion cuando se pasa. Sin esos argumentos el comportamiento
+    es el de siempre: un solo mensaje `user` y sin herramientas.
     """
     cfg = MODEL_PARAMS[version][alias]
     body = {
         "model": cfg["id"],
-        "messages": [{"role": "user", "content": content}],
+        "messages": (messages if messages is not None
+                     else [{"role": "user", "content": content}]),
         "stream": True,
     }
+    if tools is not None:
+        body["tools"] = tools
     body.update(cfg["extra"])
     data = json.dumps(body).encode("utf-8")
     headers = {
@@ -146,6 +155,9 @@ def call_model(version, alias, content, conv_id=None):
     reasoning_parts = []
     model_efectivo = None
     usage = None
+    finish_reason = None
+    # Llamadas a herramientas: llegan troceadas por delta; se acumulan por indice.
+    tool_calls = {}
     try:
         # 600 s entre bytes: los modelos de razonamiento pueden pensar largo
         # antes de emitir (xAI recomienda timeouts largos). Solo actua si falla.
@@ -165,11 +177,27 @@ def call_model(version, alias, content, conv_id=None):
                     usage = chunk["usage"]
                 choices = chunk.get("choices") or []
                 if choices:
+                    if choices[0].get("finish_reason"):
+                        finish_reason = choices[0]["finish_reason"]
                     delta = choices[0].get("delta", {})
                     if delta.get("content"):
                         content_parts.append(delta["content"])
                     if delta.get("reasoning_content"):
                         reasoning_parts.append(delta["reasoning_content"])
+                    for trozo in delta.get("tool_calls") or []:
+                        indice = trozo.get("index", 0)
+                        acc = tool_calls.setdefault(
+                            indice,
+                            {"id": None, "type": "function",
+                             "function": {"name": None, "arguments": ""}},
+                        )
+                        if trozo.get("id"):
+                            acc["id"] = trozo["id"]
+                        funcion = trozo.get("function") or {}
+                        if funcion.get("name"):
+                            acc["function"]["name"] = funcion["name"]
+                        if funcion.get("arguments"):
+                            acc["function"]["arguments"] += funcion["arguments"]
     except urllib.error.HTTPError as e:
         error_body = e.read().decode(errors="replace")[:500]
         raise SystemExit(
@@ -181,10 +209,12 @@ def call_model(version, alias, content, conv_id=None):
         "model": model_efectivo,
         "choices": [
             {
+                "finish_reason": finish_reason,
                 "message": {
                     "role": "assistant",
                     "content": "".join(content_parts),
                     "reasoning_content": "".join(reasoning_parts),
+                    "tool_calls": [tool_calls[i] for i in sorted(tool_calls)],
                 }
             }
         ],

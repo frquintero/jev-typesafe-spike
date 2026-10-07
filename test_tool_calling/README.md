@@ -42,3 +42,9 @@ Fuente de lo que sigue: [Tool Calls](https://api-docs.deepseek.com/guides/tool_c
 - Con razonamiento activado y `tools` en la petición: que el `reasoning_content` vuelva en los
   turnos siguientes y no dé 400.
 - `strict`: qué esquemas acepta el servidor y qué rechaza.
+
+## Archivos
+
+- `system_prompt.md` — el system prompt del LLM (se lee de archivo).
+- `tool_calling.py` — las tres herramientas, sus definiciones y el bucle; pide por consola la operación y los números.
+- `cache/` — el crudo de cada corrida (cuerpos enviados y respuestas, sin cabeceras).
