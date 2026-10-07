@@ -12,3 +12,18 @@
 
 **Casos leídos:** doc4:U1 (de 5)
 
+## Pregunta 1
+
+¿Qué empresa anunció el corte de agua y en qué barrio?
+
+**Respuesta:** El corte de agua lo anunció la empresa de acueducto, en el barrio San Jorge.
+
+**Datos que la sostienen:**
+
+- `doc4:U1:D1` · anunciante del corte: la empresa de acueducto
+- `doc4:U1:D2` · lugar del corte: el barrio San Jorge
+
+**Recorrido:** Leí doc4:U1 (el corte de agua anunciado en el barrio San Jorge). Encontré que el anunciante del corte es «la empresa de acueducto» (doc4:U1:D1) y el lugar del corte es «el barrio San Jorge» (doc4:U1:D2). El documento no da un nombre propio de la empresa; solo la identifica genéricamente como «la empresa de acueducto».
+
+**Casos leídos:** doc4:U1 (de 5)
+

@@ -24,5 +24,5 @@
   "entrega": {
     "forma": "sobre_minimo"
   },
-  "etiqueta": "consulta-doc4-q2"
+  "etiqueta": "consulta-doc4-q{numero}"
 }

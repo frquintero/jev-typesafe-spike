@@ -13,11 +13,13 @@ def guardar_crudo(config, corrida):
     """Escribe el crudo y devuelve su ruta."""
     carpeta = config["rutas"]["crudos"]
     carpeta.mkdir(parents=True, exist_ok=True)
+    # La etiqueta es una plantilla con el número de pregunta: cada pregunta tiene su crudo.
+    etiqueta = config["etiqueta"].format(numero=corrida["numero"])
     numero = 1
-    destino = carpeta / f"{config['etiqueta']}-r{numero}.json"
+    destino = carpeta / f"{etiqueta}-r{numero}.json"
     while destino.exists():
         numero += 1
-        destino = carpeta / f"{config['etiqueta']}-r{numero}.json"
+        destino = carpeta / f"{etiqueta}-r{numero}.json"
 
     estado = corrida["estado"]
     crudo = {
