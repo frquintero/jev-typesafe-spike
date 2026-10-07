@@ -1,0 +1,5 @@
+{
+  "fuentes_admitidas": ["solo el documento"],
+  "herramientas": ["leer_caso", "entregar"],
+  "operaciones": []
+}
