@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Prueba de configuración y operación de tools (DeepSeek v4.1, `deepseek-flash`).
 
-Tres herramientas aritméticas —sumar, restar y multiplicar—, cada una con
-cualquier cantidad de números. El system prompt vive en `system_prompt.md`; las
-definiciones de las herramientas van en el campo `tools` de la petición (ahí las
-recibe la API, no en el texto del system). El usuario dice por consola la
-operación y los números.
+El prompt es **uno**: `prompt.json` trae el **system** y las **definiciones de las
+tools**. El system viaja en el mensaje `system` y las definiciones en el campo
+`tools` de la misma petición; el modelo lee las dos cosas. Las tres herramientas
+son aritméticas —sumar, restar y multiplicar— y cada una acepta cualquier
+cantidad de números. El usuario dice por consola la operación y los números.
 
 El bucle lo lleva este guion: llama, ejecuta la herramienta, devuelve el
 resultado con su `tool_call_id` y vuelve a llamar hasta que el modelo conteste
@@ -35,65 +35,9 @@ CACHE = AQUI / "cache"
 VERSION, ALIAS = "v2", "deepseek"  # v2/deepseek = deepseek-flash, con razonamiento
 MAX_TURNOS = 6
 
-TOOLS = [
-    {
-        "type": "function",
-        "function": {
-            "name": "sumar",
-            "description": "Suma todos los números que recibe. Acepta cualquier cantidad.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "numeros": {
-                        "type": "array",
-                        "items": {"type": "number"},
-                        "description": "Los números a sumar, en el orden en que aparecen.",
-                    }
-                },
-                "required": ["numeros"],
-                "additionalProperties": False,
-            },
-        },
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "restar",
-            "description": "Resta al primer número todos los demás, en orden. Acepta cualquier cantidad.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "numeros": {
-                        "type": "array",
-                        "items": {"type": "number"},
-                        "description": "El minuendo primero y después los sustraendos, en orden.",
-                    }
-                },
-                "required": ["numeros"],
-                "additionalProperties": False,
-            },
-        },
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "multiplicar",
-            "description": "Multiplica entre sí todos los números que recibe. Acepta cualquier cantidad.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "numeros": {
-                        "type": "array",
-                        "items": {"type": "number"},
-                        "description": "Los factores, en el orden en que aparecen.",
-                    }
-                },
-                "required": ["numeros"],
-                "additionalProperties": False,
-            },
-        },
-    },
-]
+PROMPT = json.loads((AQUI / "prompt.json").read_text(encoding="utf-8"))
+SYSTEM = PROMPT["system"]
+TOOLS = PROMPT["tools"]
 
 
 def sumar(numeros):
@@ -157,8 +101,8 @@ def guardar_crudo(pregunta, cuerpos, respuestas):
         "etiqueta": f"corrida-{marca}",
         "version": VERSION,
         "alias": ALIAS,
+        "prompt": PROMPT,
         "pregunta": pregunta,
-        "tools": TOOLS,
         "requests": cuerpos,
         "responses": [
             {
@@ -176,13 +120,12 @@ def guardar_crudo(pregunta, cuerpos, respuestas):
 
 
 def main():
-    system = (AQUI / "system_prompt.md").read_text(encoding="utf-8").strip()
     operacion, numeros = leer_entrada()
     if not operacion or not numeros:
         raise SystemExit("faltan la operación o los números")
     pregunta = f"Operación: {operacion}. Números: {', '.join(numeros)}."
     messages = [
-        {"role": "system", "content": system},
+        {"role": "system", "content": SYSTEM},
         {"role": "user", "content": pregunta},
     ]
     print(f"\nUsuario> {pregunta}")

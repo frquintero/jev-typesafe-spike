@@ -45,6 +45,6 @@ Fuente de lo que sigue: [Tool Calls](https://api-docs.deepseek.com/guides/tool_c
 
 ## Archivos
 
-- `system_prompt.md` — el system prompt del LLM (se lee de archivo).
-- `tool_calling.py` — las tres herramientas, sus definiciones y el bucle; pide por consola la operación y los números.
+- `prompt.json` — **el prompt**: el `system` y las definiciones de las `tools`, en un solo artefacto.
+- `tool_calling.py` — implementa las tres herramientas y lleva el bucle; pide por consola la operación y los números.
 - `cache/` — el crudo de cada corrida (cuerpos enviados y respuestas, sin cabeceras).

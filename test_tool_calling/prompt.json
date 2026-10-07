@@ -1,0 +1,74 @@
+{
+  "system": "Eres un asistente de aritmética.\n\nTienes tres herramientas —sumar, restar y multiplicar— y cada una acepta cualquier cantidad de números.\n- sumar: la suma de todos los números.\n- restar: el primero menos todos los demás.\n- multiplicar: el producto de todos.\n\nReglas:\n1. Usa la herramienta que corresponda; no calcules por tu cuenta.\n2. Si falta la operación o los números, pídelos.\n3. Cuando tengas el resultado, respóndelo en una frase, con la operación y el resultado.",
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "sumar",
+        "description": "Suma todos los números que recibe. Acepta cualquier cantidad.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "numeros": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "description": "Los números a sumar, en el orden en que aparecen."
+            }
+          },
+          "required": [
+            "numeros"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "restar",
+        "description": "Resta al primer número todos los demás, en orden. Acepta cualquier cantidad.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "numeros": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "description": "El minuendo primero y después los sustraendos, en orden."
+            }
+          },
+          "required": [
+            "numeros"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "multiplicar",
+        "description": "Multiplica entre sí todos los números que recibe. Acepta cualquier cantidad.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "numeros": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "description": "Los factores, en el orden en que aparecen."
+            }
+          },
+          "required": [
+            "numeros"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  ]
+}
