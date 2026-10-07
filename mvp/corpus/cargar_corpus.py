@@ -41,7 +41,7 @@ DOCUMENTOS = [
             "https://github.com/frquintero/jev-typesafe-spike/blob/main/"
             "mvp/corpus/documentos/doc4.md"
         ),
-        "commit": None,  # se llena con el commit que publica el documento
+        "commit": "7125733",  # el commit que publica el documento
         "unidades": "extraccion/doc4/p1-doc4-v10-muse-r1.out",
         "datos": "extraccion/doc4/p2-doc4-u{n}-r2.out",
     },
