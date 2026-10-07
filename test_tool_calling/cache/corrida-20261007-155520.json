@@ -1,0 +1,394 @@
+{
+ "etiqueta": "corrida-20261007-155520",
+ "version": "v2",
+ "alias": "deepseek",
+ "prompt": {
+  "system": "Eres un asistente de aritmética.\n\nTienes tres herramientas —sumar, restar y multiplicar— y cada una acepta cualquier cantidad de números.\n- sumar: la suma de todos los números.\n- restar: el primero menos todos los demás.\n- multiplicar: el producto de todos.\n\nReglas:\n1. Usa la herramienta que corresponda; no calcules por tu cuenta.\n2. Si falta la operación o los números, pídelos.\n3. Cuando tengas el resultado, respóndelo en una frase, con la operación y el resultado.",
+  "tools": [
+   {
+    "type": "function",
+    "function": {
+     "name": "sumar",
+     "description": "Suma todos los números que recibe. Acepta cualquier cantidad.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "numeros": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "Los números a sumar, en el orden en que aparecen."
+       }
+      },
+      "required": [
+       "numeros"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "restar",
+     "description": "Resta al primer número todos los demás, en orden. Acepta cualquier cantidad.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "numeros": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "El minuendo primero y después los sustraendos, en orden."
+       }
+      },
+      "required": [
+       "numeros"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "multiplicar",
+     "description": "Multiplica entre sí todos los números que recibe. Acepta cualquier cantidad.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "numeros": {
+        "type": "array",
+        "items": {
+         "type": "number"
+        },
+        "description": "Los factores, en el orden en que aparecen."
+       }
+      },
+      "required": [
+       "numeros"
+      ],
+      "additionalProperties": false
+     }
+    }
+   }
+  ]
+ },
+ "pregunta": "¿cuánto es 10 menos 3 menos 2?",
+ "requests": [
+  {
+   "model": "deepseek-flash",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres un asistente de aritmética.\n\nTienes tres herramientas —sumar, restar y multiplicar— y cada una acepta cualquier cantidad de números.\n- sumar: la suma de todos los números.\n- restar: el primero menos todos los demás.\n- multiplicar: el producto de todos.\n\nReglas:\n1. Usa la herramienta que corresponda; no calcules por tu cuenta.\n2. Si falta la operación o los números, pídelos.\n3. Cuando tengas el resultado, respóndelo en una frase, con la operación y el resultado."
+    },
+    {
+     "role": "user",
+     "content": "¿cuánto es 10 menos 3 menos 2?"
+    }
+   ],
+   "stream": true,
+   "tools": [
+    {
+     "type": "function",
+     "function": {
+      "name": "sumar",
+      "description": "Suma todos los números que recibe. Acepta cualquier cantidad.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "numeros": {
+         "type": "array",
+         "items": {
+          "type": "number"
+         },
+         "description": "Los números a sumar, en el orden en que aparecen."
+        }
+       },
+       "required": [
+        "numeros"
+       ],
+       "additionalProperties": false
+      }
+     }
+    },
+    {
+     "type": "function",
+     "function": {
+      "name": "restar",
+      "description": "Resta al primer número todos los demás, en orden. Acepta cualquier cantidad.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "numeros": {
+         "type": "array",
+         "items": {
+          "type": "number"
+         },
+         "description": "El minuendo primero y después los sustraendos, en orden."
+        }
+       },
+       "required": [
+        "numeros"
+       ],
+       "additionalProperties": false
+      }
+     }
+    },
+    {
+     "type": "function",
+     "function": {
+      "name": "multiplicar",
+      "description": "Multiplica entre sí todos los números que recibe. Acepta cualquier cantidad.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "numeros": {
+         "type": "array",
+         "items": {
+          "type": "number"
+         },
+         "description": "Los factores, en el orden en que aparecen."
+        }
+       },
+       "required": [
+        "numeros"
+       ],
+       "additionalProperties": false
+      }
+     }
+    }
+   ],
+   "thinking": {
+    "type": "enabled"
+   },
+   "reasoning_effort": "low"
+  },
+  {
+   "model": "deepseek-flash",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres un asistente de aritmética.\n\nTienes tres herramientas —sumar, restar y multiplicar— y cada una acepta cualquier cantidad de números.\n- sumar: la suma de todos los números.\n- restar: el primero menos todos los demás.\n- multiplicar: el producto de todos.\n\nReglas:\n1. Usa la herramienta que corresponda; no calcules por tu cuenta.\n2. Si falta la operación o los números, pídelos.\n3. Cuando tengas el resultado, respóndelo en una frase, con la operación y el resultado."
+    },
+    {
+     "role": "user",
+     "content": "¿cuánto es 10 menos 3 menos 2?"
+    },
+    {
+     "role": "assistant",
+     "content": null,
+     "tool_calls": [
+      {
+       "id": "call_00_yEX5q3fJ6ZmH5rAAMBrL8281",
+       "type": "function",
+       "function": {
+        "name": "restar",
+        "arguments": "{\"numeros\": [10, 3, 2]}"
+       }
+      }
+     ],
+     "reasoning_content": "We need to use restar with numbers 10, 3, 2."
+    },
+    {
+     "role": "tool",
+     "tool_call_id": "call_00_yEX5q3fJ6ZmH5rAAMBrL8281",
+     "content": "{\"resultado\": 5}"
+    }
+   ],
+   "stream": true,
+   "tools": [
+    {
+     "type": "function",
+     "function": {
+      "name": "sumar",
+      "description": "Suma todos los números que recibe. Acepta cualquier cantidad.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "numeros": {
+         "type": "array",
+         "items": {
+          "type": "number"
+         },
+         "description": "Los números a sumar, en el orden en que aparecen."
+        }
+       },
+       "required": [
+        "numeros"
+       ],
+       "additionalProperties": false
+      }
+     }
+    },
+    {
+     "type": "function",
+     "function": {
+      "name": "restar",
+      "description": "Resta al primer número todos los demás, en orden. Acepta cualquier cantidad.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "numeros": {
+         "type": "array",
+         "items": {
+          "type": "number"
+         },
+         "description": "El minuendo primero y después los sustraendos, en orden."
+        }
+       },
+       "required": [
+        "numeros"
+       ],
+       "additionalProperties": false
+      }
+     }
+    },
+    {
+     "type": "function",
+     "function": {
+      "name": "multiplicar",
+      "description": "Multiplica entre sí todos los números que recibe. Acepta cualquier cantidad.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "numeros": {
+         "type": "array",
+         "items": {
+          "type": "number"
+         },
+         "description": "Los factores, en el orden en que aparecen."
+        }
+       },
+       "required": [
+        "numeros"
+       ],
+       "additionalProperties": false
+      }
+     }
+    }
+   ],
+   "thinking": {
+    "type": "enabled"
+   },
+   "reasoning_effort": "low"
+  }
+ ],
+ "responses": [
+  {
+   "model": "deepseek-flash",
+   "finish_reason": "tool_calls",
+   "message": {
+    "role": "assistant",
+    "content": "",
+    "reasoning_content": "We need to use restar with numbers 10, 3, 2.",
+    "tool_calls": [
+     {
+      "id": "call_00_yEX5q3fJ6ZmH5rAAMBrL8281",
+      "type": "function",
+      "function": {
+       "name": "restar",
+       "arguments": "{\"numeros\": [10, 3, 2]}"
+      }
+     }
+    ]
+   },
+   "usage": {
+    "prompt_tokens": 655,
+    "completion_tokens": 64,
+    "total_tokens": 719,
+    "prompt_tokens_details": {
+     "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 17
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 271
+   },
+   "stream_chunks_crudos": [
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"role\":\"assistant\",\"content\":null,\"reasoning_content\":\"\"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\"We\"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\" need\"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\" to\"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\" use\"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\" rest\"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\"ar\"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\" with\"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\" numbers\"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\" \"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\"10\"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\",\"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\" \"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\"3\"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\",\"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\" \"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\"2\"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null,\"reasoning_content\":\".\"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"id\":\"call_00_yEX5q3fJ6ZmH5rAAMBrL8281\",\"type\":\"function\",\"function\":{\"name\":\"restar\",\"arguments\":\"\"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"{\"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"\\\"\"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"numer\"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"os\"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"\\\"\"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\": \"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"[\"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"10\"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\",\"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\" \"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"3\"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\",\"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\" \"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"2\"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"]\"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"}\"}}]},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"64dd3874-7562-4049-8207-0430e95f3087\",\"object\":\"chat.completion.chunk\",\"created\":1791406518,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\",\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":\"tool_calls\"}],\"usage\":{\"prompt_tokens\":655,\"completion_tokens\":64,\"total_tokens\":719,\"prompt_tokens_details\":{\"cached_tokens\":384},\"completion_tokens_details\":{\"reasoning_tokens\":17},\"prompt_cache_hit_tokens\":384,\"prompt_cache_miss_tokens\":271}}",
+    "[DONE]"
+   ]
+  },
+  {
+   "model": "deepseek-flash",
+   "finish_reason": "stop",
+   "message": {
+    "role": "assistant",
+    "content": "10 menos 3 menos 2 es igual a 5.",
+    "reasoning_content": "",
+    "tool_calls": []
+   },
+   "usage": {
+    "prompt_tokens": 737,
+    "completion_tokens": 14,
+    "total_tokens": 751,
+    "prompt_tokens_details": {
+     "cached_tokens": 512
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0
+    },
+    "prompt_cache_hit_tokens": 512,
+    "prompt_cache_miss_tokens": 225
+   },
+   "stream_chunks_crudos": [
+    "{\"id\":\"0cf034c7-7e0b-48bc-8ce7-2266c5363bb5\",\"object\":\"chat.completion.chunk\",\"created\":1791406519,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"role\":\"assistant\",\"content\":null,\"reasoning_content\":\"\"},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"0cf034c7-7e0b-48bc-8ce7-2266c5363bb5\",\"object\":\"chat.completion.chunk\",\"created\":1791406519,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"10\",\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"0cf034c7-7e0b-48bc-8ce7-2266c5363bb5\",\"object\":\"chat.completion.chunk\",\"created\":1791406519,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" menos\",\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"0cf034c7-7e0b-48bc-8ce7-2266c5363bb5\",\"object\":\"chat.completion.chunk\",\"created\":1791406519,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \",\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"0cf034c7-7e0b-48bc-8ce7-2266c5363bb5\",\"object\":\"chat.completion.chunk\",\"created\":1791406519,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"3\",\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"0cf034c7-7e0b-48bc-8ce7-2266c5363bb5\",\"object\":\"chat.completion.chunk\",\"created\":1791406519,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" menos\",\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"0cf034c7-7e0b-48bc-8ce7-2266c5363bb5\",\"object\":\"chat.completion.chunk\",\"created\":1791406519,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \",\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"0cf034c7-7e0b-48bc-8ce7-2266c5363bb5\",\"object\":\"chat.completion.chunk\",\"created\":1791406519,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"2\",\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"0cf034c7-7e0b-48bc-8ce7-2266c5363bb5\",\"object\":\"chat.completion.chunk\",\"created\":1791406519,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" es\",\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"0cf034c7-7e0b-48bc-8ce7-2266c5363bb5\",\"object\":\"chat.completion.chunk\",\"created\":1791406519,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" igual\",\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"0cf034c7-7e0b-48bc-8ce7-2266c5363bb5\",\"object\":\"chat.completion.chunk\",\"created\":1791406519,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" a\",\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"0cf034c7-7e0b-48bc-8ce7-2266c5363bb5\",\"object\":\"chat.completion.chunk\",\"created\":1791406519,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\" \",\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"0cf034c7-7e0b-48bc-8ce7-2266c5363bb5\",\"object\":\"chat.completion.chunk\",\"created\":1791406519,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"5\",\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"0cf034c7-7e0b-48bc-8ce7-2266c5363bb5\",\"object\":\"chat.completion.chunk\",\"created\":1791406519,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\".\",\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":null}]}",
+    "{\"id\":\"0cf034c7-7e0b-48bc-8ce7-2266c5363bb5\",\"object\":\"chat.completion.chunk\",\"created\":1791406519,\"model\":\"deepseek-flash\",\"system_fingerprint\":\"aeb56401ca74e127821c4f9126dcb669\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\",\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":737,\"completion_tokens\":14,\"total_tokens\":751,\"prompt_tokens_details\":{\"cached_tokens\":512},\"completion_tokens_details\":{\"reasoning_tokens\":0},\"prompt_cache_hit_tokens\":512,\"prompt_cache_miss_tokens\":225}}",
+    "[DONE]"
+   ]
+  }
+ ]
+}

@@ -22,6 +22,7 @@ Uso (la clave vive en el `~/.bashrc` y los shells no interactivos no la cargan):
     bash -ic 'python3 test_tool_calling/tool_calling.py'
 """
 
+import copy
 import json
 import pathlib
 import sys
@@ -130,7 +131,7 @@ def main():
     cuerpos, respuestas = [], []
     for turno in range(1, MAX_TURNOS + 1):
         body, resp = call_model(VERSION, ALIAS, None, messages=messages, tools=TOOLS)
-        cuerpos.append(body)
+        cuerpos.append(copy.deepcopy(body))  # copia: `messages` se sigue mutando
         respuestas.append(resp)
         mensaje = resp["choices"][0]["message"]
         llamadas = mensaje.get("tool_calls") or []
