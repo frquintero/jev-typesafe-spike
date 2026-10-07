@@ -100,5 +100,5 @@ leen en las otras dos guías.
 ## Archivos
 
 - `prompt.json` — **el prompt**: el `system` y las definiciones de las `tools`, en un solo artefacto.
-- `tool_calling.py` — implementa las tres herramientas y lleva el bucle; pide por consola la operación y los números.
+- `tool_calling.py` — implementa las tres herramientas y lleva el bucle; pide por consola, **en texto libre**, la operación y los números.
 - `cache/` — el crudo de cada corrida (cuerpos enviados y respuestas, sin cabeceras).

@@ -5,7 +5,8 @@ El prompt es **uno**: `prompt.json` trae el **system** y las **definiciones de l
 tools**. El system viaja en el mensaje `system` y las definiciones en el campo
 `tools` de la misma petición; el modelo lee las dos cosas. Las tres herramientas
 son aritméticas —sumar, restar y multiplicar— y cada una acepta cualquier
-cantidad de números. El usuario dice por consola la operación y los números.
+cantidad de números. El usuario escribe por consola, **en texto libre**, la
+operación que quiere y con qué números.
 
 El bucle lo lleva este guion: llama, ejecuta la herramienta, devuelve el
 resultado con su `tool_call_id` y vuelve a llamar hasta que el modelo conteste
@@ -82,12 +83,9 @@ def ejecutar(nombre, argumentos_crudos):
 
 
 def leer_entrada():
-    print("Operación (sumar | restar | multiplicar): ", end="")
-    operacion = input().strip()
-    print("Números (separados por espacio o coma): ", end="")
-    crudo = input().strip()
-    numeros = [t for t in crudo.replace(",", " ").split() if t]
-    return operacion, numeros
+    """La entrada del usuario es texto no estructurado: una frase, sin campos."""
+    print("Decime qué operación querés y con qué números: ", end="")
+    return input().strip()
 
 
 def guardar_crudo(pregunta, cuerpos, respuestas):
@@ -120,10 +118,9 @@ def guardar_crudo(pregunta, cuerpos, respuestas):
 
 
 def main():
-    operacion, numeros = leer_entrada()
-    if not operacion or not numeros:
-        raise SystemExit("faltan la operación o los números")
-    pregunta = f"Operación: {operacion}. Números: {', '.join(numeros)}."
+    pregunta = leer_entrada()
+    if not pregunta:
+        raise SystemExit("no escribiste nada")
     messages = [
         {"role": "system", "content": SYSTEM},
         {"role": "user", "content": pregunta},
