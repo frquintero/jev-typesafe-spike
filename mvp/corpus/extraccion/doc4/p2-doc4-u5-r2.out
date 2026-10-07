@@ -1,0 +1,12 @@
+{"caso": "el corte similar al anunciado ocurrido el año pasado, que dejó sin servicio a dos colegios del sector y duró diecinueve horas",
+ "datos": [
+   {"aspecto": "fecha del corte",
+    "valor": "el año pasado",
+    "unidad_valor": null},
+   {"aspecto": "afectados por el corte",
+    "valor": "dos colegios del sector",
+    "unidad_valor": null},
+   {"aspecto": "duración del corte",
+    "valor": "diecinueve",
+    "unidad_valor": "horas"}],
+ "dudas": []}

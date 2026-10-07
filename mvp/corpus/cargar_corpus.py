@@ -1,0 +1,138 @@
+#!/usr/bin/env python3
+"""Construye la base del corpus (SQLite) desde los documentos radicados y los crudos de la extracción.
+
+Qué hay en esta carpeta:
+
+    documentos/         los documentos radicados — la única fuente de verdad de su texto
+    extraccion/doc4/    los crudos de los que sale la extracción de doc4:
+                        las unidades temáticas (paso 1) y los datos por unidad (paso 2)
+    corpus.db           la base: documentos · unidades · datos · dudas
+
+Qué guarda la base: las **referencias** al documento (dominio, fecha de radicación, ubicación local y en el
+repo, commit, sello) y **lo que la extracción produjo** (unidades, datos, dudas). No guarda el texto del
+documento ni los números de oración: el texto vive en el documento radicado, y los números son la vara con la
+que evaluamos el paso 1.
+
+La base es derivada: se puede borrar y reconstruir con
+
+    python3 mvp/corpus/cargar_corpus.py
+
+Si un documento no está donde dice su `ubicacion_local`, el cargador se detiene y reporta: una mudanza es una
+actualización de la base, con autorización.
+"""
+
+import hashlib
+import json
+import pathlib
+import sqlite3
+
+RAIZ = pathlib.Path(__file__).resolve().parent.parent.parent  # la raíz del repo
+AQUI = pathlib.Path(__file__).resolve().parent
+DB = AQUI / "corpus.db"
+
+# Un registro por documento radicado.
+DOCUMENTOS = [
+    {
+        "id": "doc4",
+        "dominio": "MVP",  # el único dominio del MVP (nombre provisional)
+        "fecha_radicacion": "2026-10-07",
+        "ubicacion_local": "mvp/corpus/documentos/doc4.md",
+        "ubicacion_upstream": (
+            "https://github.com/frquintero/jev-typesafe-spike/blob/main/"
+            "mvp/corpus/documentos/doc4.md"
+        ),
+        "commit": None,  # se llena con el commit que publica el documento
+        "unidades": "extraccion/doc4/p1-doc4-v10-muse-r1.out",
+        "datos": "extraccion/doc4/p2-doc4-u{n}-r2.out",
+    },
+]
+
+ESQUEMA = """
+CREATE TABLE documentos (
+  id                 TEXT PRIMARY KEY,
+  dominio            TEXT NOT NULL,
+  fecha_radicacion   TEXT NOT NULL,
+  ubicacion_local    TEXT NOT NULL,
+  ubicacion_upstream TEXT NOT NULL,
+  commit_publicacion TEXT,
+  sello              TEXT NOT NULL
+);
+CREATE TABLE unidades (
+  id           TEXT PRIMARY KEY,
+  documento_id TEXT NOT NULL REFERENCES documentos(id),
+  caso         TEXT NOT NULL
+);
+CREATE TABLE datos (
+  id           TEXT PRIMARY KEY,
+  unidad_id    TEXT NOT NULL REFERENCES unidades(id),
+  aspecto      TEXT NOT NULL,
+  valor        TEXT NOT NULL,
+  unidad_valor TEXT
+);
+CREATE TABLE dudas (
+  id        TEXT PRIMARY KEY,
+  unidad_id TEXT NOT NULL REFERENCES unidades(id),
+  texto     TEXT NOT NULL
+);
+CREATE INDEX idx_unidades_documento ON unidades(documento_id);
+CREATE INDEX idx_datos_unidad       ON datos(unidad_id);
+CREATE INDEX idx_dudas_unidad       ON dudas(unidad_id);
+"""
+
+
+def cargar_documento(db, doc):
+    ruta = RAIZ / doc["ubicacion_local"]
+    if not ruta.exists():
+        raise SystemExit(
+            f"el documento radicado no está en '{doc['ubicacion_local']}': una mudanza se "
+            f"actualiza en la base, con autorización — no se sigue a ciegas"
+        )
+    db.execute(
+        "INSERT INTO documentos VALUES (?,?,?,?,?,?,?)",
+        (doc["id"], doc["dominio"], doc["fecha_radicacion"], doc["ubicacion_local"],
+         doc["ubicacion_upstream"], doc["commit"],
+         hashlib.sha256(ruta.read_bytes()).hexdigest()),
+    )
+    unidades = json.loads((AQUI / doc["unidades"]).read_text(encoding="utf-8"))["subtemas"]
+    for n, unidad in enumerate(unidades, 1):
+        uid = f"{doc['id']}:U{n}"
+        db.execute("INSERT INTO unidades VALUES (?,?,?)", (uid, doc["id"], unidad["subtema"]))
+        datos = json.loads((AQUI / doc["datos"].format(n=n)).read_text(encoding="utf-8"))
+        for j, dato in enumerate(datos.get("datos") or [], 1):
+            db.execute("INSERT INTO datos VALUES (?,?,?,?,?)",
+                       (f"{uid}:D{j}", uid, dato["aspecto"], dato["valor"],
+                        dato.get("unidad_valor")))
+        for k, duda in enumerate(datos.get("dudas") or [], 1):
+            db.execute("INSERT INTO dudas VALUES (?,?,?)", (f"{uid}:Q{k}", uid, duda["texto"]))
+
+
+def main():
+    if DB.exists():
+        DB.unlink()  # derivada: se reconstruye entera
+    db = sqlite3.connect(DB)
+    db.execute("PRAGMA foreign_keys = ON")
+    db.executescript(ESQUEMA)
+    for doc in DOCUMENTOS:
+        cargar_documento(db, doc)
+    db.commit()
+
+    print(f"base: {DB.relative_to(RAIZ)}")
+    for tabla in ("documentos", "unidades", "datos", "dudas"):
+        print(f"  {tabla}: {db.execute(f'SELECT count(*) FROM {tabla}').fetchone()[0]} filas")
+    for d in db.execute("SELECT id, dominio, fecha_radicacion, ubicacion_local, sello FROM documentos"):
+        print(f"  documento: {d[0]} · {d[1]} · radicado {d[2]} · {d[3]} · sello {d[4][:12]}…")
+    print("\nel mapa del dominio (caso · aspectos):")
+    for uid, caso, aspectos in db.execute(
+        "SELECT u.id, u.caso, group_concat(d.aspecto, ' · ') FROM unidades u "
+        "LEFT JOIN datos d ON d.unidad_id = u.id GROUP BY u.id ORDER BY u.id"
+    ):
+        print(f"  {uid} · {caso}")
+        print(f"      {aspectos or '—'}")
+    print("\nlas dudas:")
+    for qid, texto in db.execute("SELECT id, texto FROM dudas ORDER BY id"):
+        print(f"  {qid} · {texto}")
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
