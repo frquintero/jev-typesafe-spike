@@ -6,12 +6,12 @@ Qué hay en esta carpeta:
     documentos/         los documentos radicados — la única fuente de verdad de su texto
     extraccion/doc4/    los crudos de los que sale la extracción de doc4:
                         las unidades temáticas (paso 1) y los datos por unidad (paso 2)
-    corpus.db           la base: documentos · unidades · datos
+    corpus.db           la base: documentos · datos
 
 Qué guarda la base: las **referencias** al documento (dominio, fecha de radicación, ubicación local y en el
-repo, commit, sello) y **lo que la extracción produjo** (unidades y datos). No guarda el texto del
-documento ni los números de oración: el texto vive en el documento radicado, y los números son la vara con la
-que evaluamos el paso 1. Cada fila de `datos` lleva su `caso` para poder leerse sola.
+repo, commit, sello) y **lo que la extracción produjo** (los datos). No guarda el texto del documento ni los
+números de oración: el texto vive en el documento radicado, y los números son la vara con la que evaluamos el
+paso 1. Cada fila de `datos` lleva su `caso` y su `unidad_id`, para poder leerse sola.
 
 La base es derivada: se puede borrar y reconstruir con
 
@@ -57,21 +57,15 @@ CREATE TABLE documentos (
   commit_publicacion TEXT,
   sello              TEXT NOT NULL
 );
-CREATE TABLE unidades (
-  id           TEXT PRIMARY KEY,
-  documento_id TEXT NOT NULL REFERENCES documentos(id),
-  caso         TEXT NOT NULL
-);
 CREATE TABLE datos (
   id           TEXT PRIMARY KEY,
-  unidad_id    TEXT NOT NULL REFERENCES unidades(id),
+  unidad_id    TEXT NOT NULL,
   caso         TEXT NOT NULL,
   aspecto      TEXT NOT NULL,
   valor        TEXT NOT NULL,
   unidad_valor TEXT
 );
-CREATE INDEX idx_unidades_documento ON unidades(documento_id);
-CREATE INDEX idx_datos_unidad       ON datos(unidad_id);
+CREATE INDEX idx_datos_unidad ON datos(unidad_id);
 """
 
 
@@ -91,7 +85,6 @@ def cargar_documento(db, doc):
     unidades = json.loads((AQUI / doc["unidades"]).read_text(encoding="utf-8"))["subtemas"]
     for n, unidad in enumerate(unidades, 1):
         uid = f"{doc['id']}:U{n}"
-        db.execute("INSERT INTO unidades VALUES (?,?,?)", (uid, doc["id"], unidad["subtema"]))
         datos = json.loads((AQUI / doc["datos"].format(n=n)).read_text(encoding="utf-8"))
         for j, dato in enumerate(datos.get("datos") or [], 1):
             db.execute("INSERT INTO datos VALUES (?,?,?,?,?,?)",
@@ -110,14 +103,14 @@ def main():
     db.commit()
 
     print(f"base: {DB.relative_to(RAIZ)}")
-    for tabla in ("documentos", "unidades", "datos"):
+    for tabla in ("documentos", "datos"):
         print(f"  {tabla}: {db.execute(f'SELECT count(*) FROM {tabla}').fetchone()[0]} filas")
     for d in db.execute("SELECT id, dominio, fecha_radicacion, ubicacion_local, sello FROM documentos"):
         print(f"  documento: {d[0]} · {d[1]} · radicado {d[2]} · {d[3]} · sello {d[4][:12]}…")
     print("\nel mapa del dominio (caso · aspectos):")
     for uid, caso, aspectos in db.execute(
-        "SELECT u.id, u.caso, group_concat(d.aspecto, ' · ') FROM unidades u "
-        "LEFT JOIN datos d ON d.unidad_id = u.id GROUP BY u.id ORDER BY u.id"
+        "SELECT unidad_id, caso, group_concat(aspecto, ' · ') FROM datos "
+        "GROUP BY unidad_id, caso ORDER BY unidad_id"
     ):
         print(f"  {uid} · {caso}")
         print(f"      {aspectos or '—'}")
