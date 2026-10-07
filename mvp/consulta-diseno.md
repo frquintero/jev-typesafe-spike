@@ -2,7 +2,8 @@
 
 Fecha: 06-10-2026. **Estado: borrador de diseño; nada implementado.** Este
 documento es la superficie de trabajo: se afina aquí antes de escribir código y
-antes de llamar a un modelo.
+antes de llamar a un modelo. **Lo que sigue (07-10): revisar el prompt del
+AGENTE ENCARGADO** (§8–§9), con la extracción ya fijada.
 
 **Para qué.** Construir el **primer recorrido completo** de Zettel sobre el
 corpus: recibir una pregunta y entregar una respuesta respaldada, un conflicto o
@@ -17,8 +18,11 @@ dice con precisión.
 **Base.** [orquestador-plan.md](../historico/orquestador-plan.md) §3 (estaciones) y §11 (F0,
 F1); el contrato de [mesa-dominio-plan.md](mesa-dominio-plan.md) §9 y su cierre;
 la extracción cerrada del paso 2 ([paso2/informe_paso2.md](paso2/informe_paso2.md)).
-**Se mantienen congelados el paso 1 (v9) y el paso 2** (candidato provisional:
-no se reabre ni se adopta). Sin Jev y sin búsqueda externa.
+**Prompts de trabajo (07-10):** paso 1, `mvp/pruebas/prompt_v10.md`; paso 2,
+`mvp/pruebas/prompt_datos_v1.md` —una unidad por turno: devuelve `caso`, `datos`
+(`aspecto · valor · unidad_valor`) y `dudas`—. El paso 1 de la ronda cerrada (v9) y el
+candidato `prompt_ficha_contexto.md` quedan **congelados**: no se reabren ni se adoptan.
+Sin Jev y sin búsqueda externa.
 
 ---
 
@@ -92,25 +96,34 @@ tiene su formato natural ([SQLite: flat files vs SQLite](https://sqlite.org/foru
 | Artefacto | Forma | Qué guarda |
 |---|---|---|
 | `documentos.json` | objeto JSON | una fila por documento: `id`, ruta, dominio, `radicacion`, fecha propia si el texto la trae, y la **declaración del esquema** (partición, prompt + hash, modelo) |
-| `unidades.jsonl` | log de líneas | una fila por unidad: `id`, documento, dominio, `subtema`, `oraciones`, `texto` numerado, **`referencias`** y **`dudas`** (JSON) |
-| `inscripciones.jsonl` | log de líneas | una fila por **lo que el documento establece**: `tipo` (determinación · relación · acción · capa · marca · duda), columnas comunes (`id`, `unidad`, `condiciones`, `respaldo`, `inferido`, `dentro_de`) y `cuerpo` JSON por tipo |
+| `unidades.jsonl` | log de líneas | una fila por unidad: `id`, documento, dominio, **`caso`** (lo que nombra su núcleo), **`contenido`** (el texto de sus oraciones, en un párrafo y sin numeración) y `oraciones` (los números de la partición) |
+| `inscripciones.jsonl` | log de líneas | una fila por **lo que la unidad establece**: `tipo` (**dato** · **duda**), con `id`, `unidad` y `cuerpo` (`caso`, `aspecto`, `valor`, `unidad_valor` en el dato; `texto` en la duda). Las otras listas de la ficha —relación, acción, capa, marca— y las columnas `condiciones`, `respaldo`, `inferido` y `dentro_de` quedan **fuera de esta versión** |
 | `traza.jsonl` | log append-only | el recorrido de cada consulta; **no es corpus** |
 | `corpus.jsonl` | log append-only | los datos derivados, en la forma de [pieza1/esquema2.md](pieza1/esquema2.md) §5 — **no se usa en esta versión** |
 
 La tabla **`datos`** que ve el agente es una **vista** sobre `inscripciones`
-(`tipo = "determinación"`). Así se conservan tus dos tablas —unidades y datos—
-sin siete tablas, y sin perder capas, relaciones, casos ni dudas: `leer_unidad`
-devuelve la unidad con sus inscripciones agrupadas por tipo.
+(`tipo = "dato"`). Así se conservan tus dos tablas —unidades y datos— sin siete
+tablas: `leer_unidad` devuelve la unidad con sus datos y sus dudas.
 
-**Identificadores.** `documento` (`doc5`) · `unidad` (`doc5:U1`) · `caso`
-(`doc5:U1:C1`) · `dato` (`doc5:U1:D1`) · `oración` (`doc5:S2`) · derivado
-(`DD1`, global, diferido en esta versión). Los ids locales de cada ficha **nunca**
-se comparan entre unidades; dos menciones son el mismo caso solo por declaración
-del documento o criterio explícito. Sin fusión.
+**De dónde salen (07-10).** `unidades` se genera con la partición del paso 1
+(`mvp/pruebas/prompt_v10.md`): el `caso` de cada unidad lo nombra el `subtema` que
+devolvió, el `contenido` es el texto de sus oraciones —en un párrafo y sin
+numeración— y los ids los pone el código (`doc5:U1`). `inscripciones` se genera con el
+paso 2 (`mvp/pruebas/prompt_datos_v1.md`), que corre **una unidad por turno**: devuelve
+`caso`, `datos` (`aspecto · valor · unidad_valor`) y `dudas` de esa unidad. La partición
+del paso 1 **no garantiza contigüidad** —una unidad puede tener oraciones posteriores a
+las de la siguiente (`doc4`: `[8, 9, 10, 13–17]` antes de `[11, 12]`)— y los ids van por
+el orden del arreglo: el orden de lectura se resuelve por la primera oración, no por el id.
+
+**Identificadores.** `documento` (`doc5`) · `unidad` (`doc5:U1`) · `dato`
+(`doc5:U1:D1`) · `oración` (`doc5:S2`) · derivado (`DD1`, global, diferido en esta
+versión). El `caso` de los datos es el de su unidad: no hay ids de caso en esta versión,
+y las menciones de dos unidades **nunca** se comparan; dos menciones son el mismo caso
+solo por declaración del documento o criterio explícito. Sin fusión.
 
 **El corpus es un derivado regenerable.** `documentos`, `unidades` e
 `inscripciones` se **generan** con un cargador idempotente a partir de los
-documentos, la partición de v9 y las fichas del paso 2 (con el hash del esquema);
+documentos, la partición del paso 1 y los datos del paso 2 (con el hash del esquema);
 si cambia el cargador, se regeneran. Lo único append-only es `traza.jsonl`
 (`corpus.jsonl` entra cuando haya derivados, y por ahora no los hay). Esto evita migraciones, copias de seguridad y versionado de la
 base: **la fuente de verdad son los documentos y los crudos, no el almacén.**
@@ -394,6 +407,9 @@ se comunica.
 ---
 
 ## 8. El prompt del agente (secciones)
+
+**Pendiente de revisión (07-10):** esta sección y el §9 son lo que sigue; los prompts de
+la extracción ya están fijados (§3).
 
 Cómo se reparten estas secciones entre el system y los mensajes, con qué etiquetas
 y cómo se ve la petición en la API: §9.
@@ -697,6 +713,9 @@ por dominio, admisión por R, efecto calculado.
 | **D11** | Compactación: cuántas acciones enteras se conservan y qué se resume | por definir — recomendación: las últimas 5, el resto por referencia + resumen |
 | **D12** | El mundo del LLM: pasa a llamarse «mundo del agente» en los documentos vivos; en el esquema candidato de la pieza 1 sigue rotulado `orquestador` | recomendación: renombrar en los vivos y declarar la divergencia en `pieza1/esquema2.md` hasta adoptarlo |
 | **D13** | Herramientas: (A) protocolo textual sobre `call_model` tal cual, o (B) extender `call_model` con `messages` + `tools` nativos | **decidida: (B)**, aditivo. Con (B), R se aplica **no dando** la herramienta: la lista de `tools` de cada llamada es R ∩ inventario, y la denegación por mensaje queda solo como guardia (§7) |
+| **D14** | Prompts de la extracción: paso 1 `mvp/pruebas/prompt_v10.md` (agrupa por asunto, sin referencias) y paso 2 `mvp/pruebas/prompt_datos_v1.md` | **decidida (07-10):** son las versiones de trabajo; no se siguen afinando |
+| **D15** | Salida del paso 2: `caso`, `datos` (`aspecto · valor · unidad_valor`) y `dudas`, **una unidad por turno** | **decidida (07-10).** Quedan fuera `sostiene`, `inferido`, `respaldo`, `cambio`, `condiciones` y las listas de la ficha (relación, acción, capa, marca). Pendiente: si vuelven el sostén (quién sostiene el dato) y el respaldo (la ruta al fragmento) |
+| **D16** | `unidad_valor`: campo propio o la unidad dentro del `valor` | por definir — el campo se usa poco (3 de 26 datos en `doc4`; 2 de 14 en `doc5`) |
 
 ---
 

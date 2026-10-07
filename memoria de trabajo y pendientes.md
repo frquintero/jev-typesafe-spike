@@ -12,17 +12,26 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   preguntas y se obtenga información: el cambio en A(Q) al considerar datos conforme a
   reglas. Recuperar no es responder. Detalle en `README.md`, «Visión», y en
   `definiciones-del-marco.md`.
-- **Hilo activo: `unidades/`.** Paso 1 (unidades temáticas): el prompt vigente es **v9,
-  congelado** (`mvp/pruebas/prompt_v9.md`); paso 2 (datos por unidad) con la entrada elegida y **base provisional de trabajo: la unidad más
-  las referencias de v9 con sus respaldos**, que aclara sin ampliar y conserva las dudas.
-  La ronda quedó **cerrada el 06-10** con el conteo rehecho por ítem sobre las expectativas
-  registradas: recuperación estricta **95,4 % en desarrollo** (agregado DeepSeek + Muse) y
-  **100 % en la reserva** (29/29); fidelidad **98,2 %** en desarrollo y **100 %** en la
-  reserva. **La aceptación no se declara demostrada** (un juez, sin réplicas, reserva no
-  independiente). Informe en `mvp/paso2/informe_paso2.md`; evaluación por ítem en
-  `mvp/paso2/evaluacion_items.md`; crudos, tareas y costos en
+- **Hilo activo: `unidades/`.** La ronda del paso 2 quedó **cerrada el 06-10** con la entrada
+  elegida —**la unidad más las referencias de v9 con sus respaldos**, que aclara sin ampliar y
+  conserva las dudas— y con **v9 congelado** (`mvp/pruebas/prompt_v9.md`). El conteo, rehecho por
+  ítem sobre las expectativas registradas: recuperación estricta **95,4 % en desarrollo**
+  (agregado DeepSeek + Muse) y **100 % en la reserva** (29/29); fidelidad **98,2 %** en
+  desarrollo y **100 %** en la reserva. **La aceptación no se declara demostrada** (un juez, sin
+  réplicas, reserva no independiente). Informe en `mvp/paso2/informe_paso2.md`; evaluación por
+  ítem en `mvp/paso2/evaluacion_items.md`; crudos, tareas y costos en
   `mvp/paso2/inventario_y_costos.md`; la vía utilizable (entrada b, verificación sin API) en
   `mvp/paso2/README.md`; qué enseña, en `mvp/paso2/hallazgos.md`.
+- **Los prompts de trabajo (07-10).** **Paso 1:** `mvp/pruebas/prompt_v10.md` —agrupa por
+  asunto, sin referencias, con los ejemplos homogéneos y el boilerplate al final—; devuelve
+  `subtemas` con `subtema` y `oraciones` (sin ids: los pone el código). **Paso 2:**
+  `mvp/pruebas/prompt_datos_v1.md` —recibe **una unidad por turno** y devuelve los datos de esa
+  unidad: `caso`, `datos` (`aspecto · valor · unidad_valor`) y `dudas`. El código arma la unidad
+  que recibe el paso 2: `caso` = el `subtema` que devolvió el paso 1, `contenido` = sus oraciones
+  unidas en un párrafo y sin numeración. Corridos con Muse: paso 1 sobre `doc5` (v10), `doc4`
+  (v10) y `doc2` (v10); paso 2 sobre las cinco unidades de `doc4`, dos réplicas (`r1`, `r2`).
+  Los dos prompts quedan **como versiones de trabajo**: no se siguen afinando. Lo que sigue es
+  **revisar el prompt del AGENTE ENCARGADO** (`mvp/consulta-diseno.md`, §8–§9).
 - **Hilo del MVP: `mvp/`.** Sin índice de casos previo: alcance por dominio y
   reidentificación acreditada al consultar (decisión del 05-10). Lo siguiente ejecutable es
   la **pieza mecánica** (la conexión pregunta–dominio–corpus), aún no iniciada. Las mesas de la forma de A(Q) y la
@@ -96,14 +105,37 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   verificación de literales se recompone (`mvp/paso2/comparacion.py verificar-todos`; 69/69 sin
   diferencias al 06-10).
 
+**Verificadas con los prompts de trabajo (07-10).**
+
+- **Manda el ejemplo, no la regla.** Los aspectos salían como preguntas —«quién anunció el
+  corte», «qué pidió», «cuándo será el corte»— porque los ejemplos del prompt los mostraban así;
+  corregidos los ejemplos a nombres («anunciante del corte», «fecha del corte»), salieron nombres.
+- **El corte del paso 1 no es contiguo.** Una unidad puede contener oraciones posteriores a las
+  de la unidad siguiente (`doc4`: `[8, 9, 10, 13–17]` antes de `[11, 12]`; `doc2`:
+  `[4–7, 13–17]` antes de `[8–12]`). El código numera por el orden del arreglo, así que el id no
+  indica orden de lectura: no suponer contigüidad ni «U4 antes que U5 en el texto».
+- **El paso 1 agrupa más grueso que antes:** con el mismo texto, 4 unidades contra 7 de `v8` en
+  `doc2`, y 5 contra 6 en `doc4`, con una unidad de ocho oraciones. Los nombres se vuelven
+  enumeraciones largas cuando la unidad crece.
+- **Un ejemplo tomado de una unidad contamina esa unidad:** `doc4:U5` salió idéntico al ejemplo
+  del paso 2, en las dos réplicas. La regla «sin ejemplos de los documentos de prueba» es, en
+  rigor, **por unidad**: si el ejemplo sale del mismo texto, esa unidad queda fuera del juicio.
+- **`unidad_valor` se usa poco:** solo hay magnitud medida en 2 de los 14 datos de `doc5` y en 9
+  de los 26 de `doc4`; en el resto el valor es un nombre, una fecha, un carácter o un conteo.
+- **La atribución no tiene dónde ir:** la versión de trabajo del paso 2 no registra quién
+  sostiene un dato, y el modelo lo resolvió solo —partiéndolo en «quién dijo» y «qué dijo», o
+  metiendo la fuente en el aspecto («afectados por el corte» con el «según la empresa» perdido)—.
+
 ## 3. Pendientes vigentes
 
-**Orden (06-10):** el paso 2 quedó **cerrado** (entrada (b) como base provisional; ver «Dónde
-quedamos»). **Lo siguiente es la conexión mecánica pregunta–dominio–corpus:** fijar el alcance
-documental, recuperar unidades completas con sus datos y referencias y preparar la entrada del
-orquestador; su primera comprobación es local, sin LLM, con los materiales existentes. No está
-iniciada. **El diseño de esa primera consulta está en `mvp/consulta-diseno.md`; lo revisan
-Claude y Astra antes de implementar.**
+**Orden (07-10):** el paso 2 quedó **cerrado** (entrada (b) como base provisional; ver «Dónde
+quedamos») y los **prompts de trabajo del paso 1 y del paso 2 están fijados** (`prompt_v10` y
+`prompt_datos_v1`). **Lo que sigue es revisar el prompt del AGENTE ENCARGADO**
+(`mvp/consulta-diseno.md`, §8–§9), con la extracción ya fijada. Después, la **conexión mecánica
+pregunta–dominio–corpus:** fijar el alcance documental, recuperar unidades completas con sus
+datos y preparar la entrada del orquestador; su primera comprobación es local, sin LLM, con los
+materiales existentes. No está iniciada. **El diseño de esa primera consulta está en
+`mvp/consulta-diseno.md`; lo revisan Claude y Astra antes de implementar.**
 
 0. **Conexión mecánica pregunta–dominio–corpus (trabajo de ahora):** fijar el `dominio_consulta`
    de una pregunta, rechazar los ids fuera de alcance, recuperar la unidad completa (texto,
@@ -120,5 +152,6 @@ Claude y Astra antes de implementar.**
 4. **Vínculos de razón entre afirmaciones** («por esa razón», «porque»): niveles 1–2 del grafo de Zettel; fuera de la ficha de datos.
 5. **Jev:** identidad de lo registrado, correferencias, omisiones; componente posterior.
 6. Grok sin créditos de xAI: recargar si se quiere compararlo.
-7. **Unidad temática con el eje de `v1`** (decisión de Frat, 02-10; registrada en `definiciones-del-marco.md`, parte B). El prompt vigente, **v9**, conserva el eje en el asunto (su cambio fue la resolución de referencias externas) y ya usa la mecánica de `v5` (el código numera las oraciones). Falta llevarle el eje de `v1`: núcleo, satélites y todas las oraciones que se refieren a ellos; el caso se reidentifica aunque se lo nombre de varias maneras. Discutirlo antes de escribirlo.
+7. **Unidad temática con el eje de `v1`** (decisión de Frat, 02-10; registrada en `definiciones-del-marco.md`, parte B). Los prompts de trabajo (`prompt_v10` y `prompt_datos_v1`) producen la unidad con el eje en el asunto: el `subtema` **nombra el núcleo** —el caso de la unidad— y las oraciones que lo desarrollan van juntas. Falta **declarar los satélites**, los casos de los que el texto habla por su relación con el núcleo, que hoy se leen de las relaciones y acciones. Discutirlo antes de escribirlo.
 8. **Adoptar el candidato del paso 2:** `mvp/paso2/prompt_ficha_contexto.md` vive hoy en la carpeta de trabajo; si se adopta, le toca su sitio en `unidades/prompts/` con nombre propio, sin mezclarlo con `ficha_v2`.
+9. **Cerrar la forma del dato del paso 2:** si vuelven el `sostiene` (quién lo sostiene) y el `respaldo` (la ruta al fragmento), y si `unidad_valor` se queda como campo propio o la unidad va dentro del valor. Hoy el dato viaja sin fuente ni ruta.
