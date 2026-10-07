@@ -8,6 +8,70 @@ Fuentes, leídas el 07-10-2026:
 [Tool Calls](https://api-docs.deepseek.com/guides/tool_calls/) y
 [Chat Completions API](https://api-docs.deepseek.com/api/create-chat-completion/).
 
+## Lecciones de esta ronda de pruebas (07-10)
+
+Lo aprendido corriendo pruebas reales con `deepseek-flash`, razonamiento encendido y tres
+herramientas aritméticas (`sumar`, `restar`, `multiplicar`). Es memoria para cuando el AGENTE
+ENCARGADO tenga que llamar las herramientas del corpus.
+
+**La mecánica**
+
+- El bucle es un **ida y vuelta por el mismo canal**: el agente pide (`tool_calls` con nombre y
+  argumentos), el orquestador ejecuta y devuelve el resultado como mensaje `role: "tool"` con su
+  `tool_call_id`. No hay otra vía: lo que no viaje ahí, el agente no lo sabe.
+- **El LLM no calcula: pide.** El número de la respuesta final salió del código. En todas las
+  corridas el modelo **usó la herramienta** en vez de resolver por su cuenta (podría hacerlo: por
+  eso el system prompt se lo prohíbe).
+- **El orquestador no tiene estado entre turnos.** El mensaje del asistente vuelve tal cual —con
+  sus `tool_calls` y su `reasoning_content`, que la API exige devolver cuando hay `tools`— y el
+  resultado de la herramienta entra como un mensaje más. Nada más se recuerda.
+- **Los errores vuelven por el mismo canal**: argumentos que no son JSON, `numeros` vacío o una
+  herramienta inexistente devuelven `{"error": …}` como contenido del mensaje `tool`, y el agente
+  puede corregirse. El código **valida antes de ejecutar**.
+
+**Lo encadenado**
+
+- **El encadenado lo lleva el agente, no el código.** Con «sumar 3+4+5 y al resultado restarle
+  3»: turno 1 `sumar([3,4,5])` → 12; turno 2 `restar([12,3])` → 9; turno 3 responde. El 12 no lo
+  guarda el orquestador: lo lee el modelo del mensaje `tool` y lo pasa como argumento. Si se le
+  pierde, el código no puede recordárselo.
+- **Cada paso cuesta un turno**: dos herramientas, tres llamadas al modelo. El tope del guion es
+  6 turnos, así que **una cadena larga se corta**; para probarla hay que subirlo.
+- **El código valida la forma, no la intención**: `restar([13, 3])` se computa tan tranquilo. Que
+  los argumentos correspondan a lo que el usuario quiso sigue siendo juicio del agente.
+
+**Configuración que no se puede olvidar**
+
+- **`tool_choice`**: `auto` es el único valor viable con razonamiento encendido (`required` y la
+  función nombrada devuelven 400). No mandarlo alcanza: es el defecto cuando hay `tools`.
+- **`arguments` es un string JSON** y el modelo puede inventar parámetros fuera del esquema:
+  parsear y validar siempre.
+- **El stream**: los `tool_calls` llegan troceados y hay que acumularlos por índice; el
+  `finish_reason` (`tool_calls` / `stop`) y el `usage` vienen en el **último chunk**. `call_model`
+  ya lo hace.
+
+**Costo y caché (lo que se paga)**
+
+- **La API es stateless**: cada turno reenvía todo (system + historial + `tools`). En DeepSeek no
+  hay `previous_response_id`: «no reenviar» es no **recomponer** el prefijo, no una opción del
+  protocolo.
+- **El prefijo pega en caché; lo nuevo no.** En las corridas: turno 1 todo `miss` (653–656);
+  turnos siguientes `hit 512` fijo y `miss` igual a lo agregado (217–261). El system, las
+  herramientas y la pregunta salen baratos después del primer turno; **lo que se paga es cada
+  resultado de herramienta**, que engorda el historial.
+- Consecuencia práctica: **prefijo byte a byte igual** (system y `tools` no se tocan) y **leer
+  poco y bueno**: cada lectura nueva es `miss` en el turno siguiente.
+
+**De la casa**
+
+- Los crudos quedan en `cache/`, uno por corrida y **sin sobrescribir** (si el nombre existe,
+  agrega `-r`).
+- **El cuerpo que se guarda tiene que ser una copia**: `messages` es una lista que sigue
+  creciendo, y guardar la referencia hacía que todos los turnos del crudo mostraran el historial
+  final. Se arregló con `copy.deepcopy(body)`.
+- Las llamadas pasan por `call_model`; ningún otro código lee la clave. Para correrlo:
+  `bash -ic 'python3 test_tool_calling/tool_calling.py'`.
+
 ## Lo que dice la guía de tools
 
 - **El modelo no ejecuta nada.** Devuelve la llamada —nombre de la función y argumentos— y la
