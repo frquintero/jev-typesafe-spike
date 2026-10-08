@@ -43,3 +43,11 @@
 
 **Casos leídos:** doc4:U1 (de 5)
 
+## Pregunta 3
+
+¿Cuál es la causa del corte anunciado?
+
+**Respuesta:** La causa del corte anunciado es la reparación de una tubería matriz en la carrera séptima.
+
+**Casos leídos:** doc4:U2 (de 5)
+
