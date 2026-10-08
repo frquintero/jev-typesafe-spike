@@ -136,3 +136,20 @@ Los datos obtenidos indican que el diseño del puente incluye "rampas para silla
 
 **Casos leídos:** doc6:U12 (de 19)
 
+## Pregunta 2 · doc4, doc6 (consulta-doc6-q2-r2)
+
+¿Cuánto costará el puente y según qué?
+
+**Respuesta:** El puente peatonal sobre la avenida Los Nogales costará dos mil millones de pesos, según el caso doc6:U4, en el que además consta que el contrato se firmó con la empresa Construcciones del Sur.
+
+**Mensaje del agente:**
+
+El puente peatonal sobre la avenida Los Nogales costará **dos mil millones de pesos**, según el caso **doc6:U4** (que también registra que el contrato se firmó con la empresa Construcciones del Sur).
+
+Nota: el caso doc6:U11 menciona un costo de mil doscientos millones, pero corresponde a otro puente (el construido en 2019 sobre la carrera Octava), no al de la avenida Los Nogales.
+
+RESPUESTA_JSON:
+{"desenlace": "respondida", "respuesta": "El puente peatonal sobre la avenida Los Nogales costará dos mil millones de pesos, según el caso doc6:U4, en el que además consta que el contrato se firmó con la empresa Construcciones del Sur."}
+
+**Casos leídos:** doc6:U4, doc6:U11 (de 19)
+
