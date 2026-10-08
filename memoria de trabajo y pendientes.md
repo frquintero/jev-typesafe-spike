@@ -29,6 +29,13 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   hipótesis**: el `ROL`, el `ALCANCE` y el bloque `ESTRUCTURAS JSON DE SALIDA` que se discutieron
   quedaron fuera. **Para mirar:** `doc4` q5 (dos referentes → debe preguntar), `doc6` q4 (no está
   el dato → «no está en los datos») y `doc6` q1/q3/q5 (una respuesta → responde).
+- **doc7 (08-10).** Documento nuevo —divulgación, género distinto de `doc4` y `doc6`— con sus
+  cinco preguntas (`mvp/pruebas/doc7.md`, `mvp/corpus/consulta/preguntas-doc7.md`). **Paso 1
+  corrido con el corredor estandarizado** `mvp/corpus/paso1_unidades.py` (reusa la numeración y
+  la verificación de `unidades/extraer_unidades.py`; antes esto se hacía a mano por Muse):
+  13 oraciones → **6 unidades**, sin huecos ni solapes, **58,3 s** por llamada directa.
+  Los crudos quedan en `mvp/corpus/extraccion/doc7/`. **Pendiente:** paso 2, radicación y las
+  cinco preguntas.
 - **`unidades/`.** La ronda del paso 2 quedó **cerrada el 06-10** con la entrada
   elegida —**la unidad más las referencias de v9 con sus respaldos**, que aclara sin ampliar y
   conserva las dudas— y con **v9 congelado** (`mvp/pruebas/prompt_v9.md`). El conteo, rehecho por
