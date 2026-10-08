@@ -1,0 +1,9 @@
+{"caso": "el diseño del puente peatonal sobre la avenida Los Nogales con rampas para sillas de ruedas y alumbrado led",
+ "datos": [
+   {"aspecto": "rampas que incluye el diseño",
+    "valor": "para sillas de ruedas",
+    "unidad_valor": null},
+   {"aspecto": "alumbrado que incluye el diseño",
+    "valor": "led",
+    "unidad_valor": null}],
+ "dudas": []}

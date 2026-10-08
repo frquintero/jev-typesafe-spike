@@ -1,0 +1,1 @@
+{"caso": "el largo y el ancho del puente peatonal sobre la avenida Los Nogales", "datos": [{"aspecto": "largo del puente", "valor": "sesenta", "unidad_valor": "metros"}, {"aspecto": "ancho del puente", "valor": "cuatro", "unidad_valor": null}], "dudas": [{"texto": "la unidad del ancho no se explicita en el texto; por paralelismo podrían ser metros"}]}

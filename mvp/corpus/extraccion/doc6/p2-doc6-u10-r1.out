@@ -1,0 +1,9 @@
+{"caso": "la promesa de la empresa Construcciones del Sur de contratar a treinta trabajadores del sector",
+ "datos": [
+   {"aspecto": "empresa que promete contratar",
+    "valor": "Construcciones del Sur",
+    "unidad_valor": null},
+   {"aspecto": "trabajadores a contratar",
+    "valor": "treinta trabajadores del sector",
+    "unidad_valor": null}],
+ "dudas": []}
