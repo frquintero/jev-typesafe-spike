@@ -6,7 +6,7 @@ partición **congelada** de v9. **Base de trabajo provisional: la entrada (b)** 
 las oraciones de la unidad y, como contexto que aclara y no amplía, las
 referencias de v9 con sus respaldos.
 
-Esta carpeta es de trabajo: el candidato **no** se mueve a `unidades/prompts/`
+Esta carpeta es de trabajo: el candidato **no** se mueve a `mvp/prompts/`
 mientras no se adopte.
 
 ## Requisitos para procesar una salida de v9 (entrada b)

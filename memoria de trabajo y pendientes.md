@@ -13,8 +13,8 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   reglas. Recuperar no es responder. Detalle en `README.md`, «Visión», y en
   `definiciones-del-marco.md`.
 - **Hilo activo: `mvp/corpus/` (07-10).** La **consulta completa de Zettel** quedó construida
-  y corrida: `doc4` y `doc6` radicados con su sello, extracción con `prompt_v10` +
-  `prompt_datos_v1`, base SQLite (59 datos, 19 casos), orquestador por pasos
+  y corrida: `doc4` y `doc6` radicados con su sello, extracción con `prompt_UT` +
+  `prompt_DATOS`, base SQLite (59 datos, 19 casos), orquestador por pasos
   (`mvp/corpus/consulta/orq/`) y **13 corridas** (doc4 q1–q5 y réplicas de q1, q2 y q5;
   doc6 q1–q5). Ocho entregaron respuesta; cinco quedaron «sin JSON leído» (doc4 q4, q5 r1,
   q5 r2; doc6 q2, q4) porque el ORQ exigía que **todo** el mensaje fuera JSON. **Corregido el
@@ -46,17 +46,17 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   ítem en `mvp/paso2/evaluacion_items.md`; crudos, tareas y costos en
   `mvp/paso2/inventario_y_costos.md`; la vía utilizable (entrada b, verificación sin API) en
   `mvp/paso2/README.md`; qué enseña, en `mvp/paso2/hallazgos.md`.
-- **Los prompts de trabajo (07-10).** **Paso 1:** `mvp/pruebas/prompt_v10.md` —agrupa por
+- **Los prompts de trabajo (07-10).** **Paso 1:** `prompt_UT` (`mvp/prompts/prompt_UT.md`) —agrupa por
   asunto, sin referencias, con los ejemplos homogéneos y el boilerplate al final—; devuelve
   `subtemas` con `subtema` y `oraciones` (sin ids: los pone el código). **Paso 2:**
-  `mvp/pruebas/prompt_datos_v1.md` —recibe **una unidad por turno** y devuelve los datos de esa
+  `prompt_DATOS` (`mvp/prompts/prompt_DATOS.md`) —recibe **una unidad por turno** y devuelve los datos de esa
   unidad: `caso`, `datos` (`aspecto · valor · unidad_valor`) y `dudas`. El código arma la unidad
   que recibe el paso 2: `caso` = el `subtema` que devolvió el paso 1, `contenido` = sus oraciones
   unidas en un párrafo y sin numeración. Corridos con Muse: paso 1 sobre `doc5` (v10), `doc4`
   (v10) y `doc2` (v10); paso 2 sobre las cinco unidades de `doc4`, dos réplicas (`r1`, `r2`).
   Los dos prompts quedan **como versiones de trabajo**: no se siguen afinando. El prompt del
   AGENTE ENCARGADO quedó escrito e implementado
-  (`mvp/corpus/consulta/orq/prompt_agente.md`); lo que sigue es cómo se lee su entrega
+  (`mvp/prompts/prompt_ORQ.md`); lo que sigue es cómo se lee su entrega
   (`mvp/consulta-diseno.md`, §9).
 - **El MVP: `mvp/`.** Sin índice de casos previo: alcance por dominio y
   reidentificación acreditada al consultar (decisión del 05-10). Las mesas de la forma de
@@ -177,7 +177,7 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
 (ver «Dónde quedamos») y el **lector de la entrega se corrigió**: el ORQ se alineó a prompt 3
 (cierre, al final de esta sección). Lo que sigue: **correr prompt 4** (la sonda de la herramienta
 de pregunta) y **evaluar las respuestas de la consulta** (punto 0). La extracción está fijada
-(`prompt_v10`, `prompt_datos_v1`) y el diseño vigente, en `mvp/consulta-diseno.md`.
+(`prompt_UT`, `prompt_DATOS`) y el diseño vigente, en `mvp/consulta-diseno.md`.
 0. **Correr prompt 4 y evaluar las respuestas de la consulta:** primero la sonda de la
    herramienta —`doc4` q5 debería preguntar; `doc6` q4 debería decir «no está en los datos»—, y
    después juzgar las corridas contra lo que el documento establece, con la vara de los números
@@ -195,8 +195,8 @@ de pregunta) y **evaluar las respuestas de la consulta** (punto 0). La extracci�
 5. **Vínculos de razón entre afirmaciones** («por esa razón», «porque»): niveles 1–2 del grafo de Zettel; fuera de la ficha de datos.
 6. **Jev:** identidad de lo registrado, correferencias, omisiones; componente posterior.
 7. Grok sin créditos de xAI: recargar si se quiere compararlo.
-8. **Unidad temática con el eje de `v1`** (decisión de Frat, 02-10; registrada en `definiciones-del-marco.md`, parte B). Los prompts de trabajo (`prompt_v10` y `prompt_datos_v1`) producen la unidad con el eje en el asunto: el `subtema` **nombra el núcleo** —el caso de la unidad— y las oraciones que lo desarrollan van juntas. Falta **declarar los satélites**, los casos de los que el texto habla por su relación con el núcleo, que hoy se leen de las relaciones y acciones. Discutirlo antes de escribirlo.
-9. **Adoptar el candidato del paso 2:** `mvp/paso2/prompt_ficha_contexto.md` vive hoy en la carpeta de trabajo; si se adopta, le toca su sitio en `unidades/prompts/` con nombre propio, sin mezclarlo con `ficha_v2`.
+8. **Unidad temática con el eje de `v1`** (decisión de Frat, 02-10; registrada en `definiciones-del-marco.md`, parte B). Los prompts de trabajo (`prompt_UT` y `prompt_DATOS`) producen la unidad con el eje en el asunto: el `subtema` **nombra el núcleo** —el caso de la unidad— y las oraciones que lo desarrollan van juntas. Falta **declarar los satélites**, los casos de los que el texto habla por su relación con el núcleo, que hoy se leen de las relaciones y acciones. Discutirlo antes de escribirlo.
+9. **Adoptar el candidato del paso 2:** `mvp/paso2/prompt_ficha_contexto.md` vive hoy en la carpeta de trabajo; si se adopta, le toca su sitio en `mvp/prompts/` con nombre propio, sin mezclarlo con `ficha_v2`.
 10. **Cerrar la forma del dato del paso 2:** si vuelven el `sostiene` (quién lo sostiene) y el `respaldo` (la ruta al fragmento), y si `unidad_valor` se queda como campo propio o la unidad va dentro del valor. Hoy el dato viaja sin fuente ni ruta.
 
 **Cerrado el 08-10: alineación con prompt 3.** El ORQ ubica el JSON del mensaje final donde

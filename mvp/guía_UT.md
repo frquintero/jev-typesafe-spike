@@ -15,7 +15,7 @@ se dice** de las cosas, no solo cuáles son («el tamaño de la tripulación», 
 - Un cambio de párrafo **no** separa por sí solo.
 - **Cada oración va en una sola UT.**
 
-Manda la definición del prompt de trabajo (`mvp/pruebas/prompt_v10.md`), que es la que este
+Manda la definición del **prompt vigente** (`mvp/prompts/prompt_UT.md`), que es la que este
 procedimiento aplica. El marco (`definiciones-del-marco.md`) define la unidad temática como
 núcleo **más sus satélites**; los satélites todavía no se registran: es un pendiente declarado.
 
@@ -23,9 +23,9 @@ núcleo **más sus satélites**; los satélites todavía no se registran: es un 
 
 - **El texto**: `mvp/pruebas/<doc>.md`. Un documento sintético, de contenido general
   (divulgación, noticia, nota de servicio), escrito para la prueba.
-- **El prompt**: `mvp/pruebas/prompt_v10.md`. Se lee del archivo; su único hueco es
-  `{{TEXTO_NUMERADO}}`, que se sustituye con `str.replace` (nunca `str.format`: el texto trae
-  llaves). Es una versión de trabajo: no se afina en cada corrida.
+- **El prompt**: `prompt_UT`, el que esté **vigente en `mvp/prompts/`**. Se lee del archivo; su
+  único hueco es `{{TEXTO_NUMERADO}}`, que se sustituye con `str.replace` (nunca `str.format`:
+  el texto trae llaves). Es una versión de trabajo: no se afina en cada corrida.
 
 El título del documento (la línea que empieza con `#`) no es una oración y queda fuera.
 
@@ -45,7 +45,7 @@ Un comando, desde la raíz del repo:
 python3 mvp/corpus/paso1_unidades.py <doc> <prompt> <modelo> <rN>
 
 # por ejemplo
-python3 mvp/corpus/paso1_unidades.py doc7 v10 deepseek r1
+python3 mvp/corpus/paso1_unidades.py doc7 UT deepseek r1
 ```
 
 Lo que hace, en orden:
@@ -90,13 +90,14 @@ numerado, las oraciones numeradas, los **segundos** que tardó y la verificació
 volver a verificar sin llamar a la API.
 
 Un ejemplo real: `mvp/corpus/extraccion/doc7/p1-doc7-v10-deepseek-r1.{out,json}`
-—13 oraciones → 6 unidades, sin huecos ni solapes, 58,3 s—.
+—13 oraciones → 6 unidades, sin huecos ni solapes, 58,3 s—. El nombre lleva el prompt como se
+llamaba entonces (`v10`); los crudos no se renombran.
 
 ## 6. Cómo se entrega
 
 **Nombre y lugar.** `mvp/corpus/extraccion/<doc>/p1-<doc>-<prompt>-<modelo>-rN.{out,json}`.
-`<prompt>` es el nombre corto (`v10` para `prompt_v10.md`) y `<modelo>` la vía que se usó
-(`deepseek` hoy; `muse` en doc4 y doc6).
+`<prompt>` es el nombre corto del archivo en `mvp/prompts/` (`UT` para `prompt_UT.md`) y
+`<modelo>` la vía que se usó (`deepseek` hoy; `muse` en doc4 y doc6).
 
 **Qué pasa después con lo que se entrega.** Cada UT es una fila del corpus:
 

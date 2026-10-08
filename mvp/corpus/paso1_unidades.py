@@ -3,13 +3,14 @@
 
 Uso:
     python3 mvp/corpus/paso1_unidades.py <doc> <prompt> <modelo> <rN>
-    python3 mvp/corpus/paso1_unidades.py doc7 v10 deepseek r1
+    python3 mvp/corpus/paso1_unidades.py doc7 UT deepseek r1
 
 Hace lo que para `doc4` y `doc6` se hizo a mano delegando a Muse (pegar el prompt con el
-texto numerado en un mensaje): lee el documento de `mvp/pruebas/<doc>.md` y el prompt de
-`mvp/pruebas/prompt_<prompt>.md`, numera las oraciones y sustituye `{{TEXTO_NUMERADO}}`,
-llama al modelo por `call_model` y verifica cobertura y solapes. La numeración y la
-verificación son las de `unidades/extraer_unidades.py`: un solo lugar para las dos.
+texto numerado en un mensaje): lee el documento de `mvp/pruebas/<doc>.md` y el prompt vigente
+de `mvp/prompts/prompt_<prompt>.md` (`prompt_UT.md` hoy), numera las oraciones y sustituye
+`{{TEXTO_NUMERADO}}`, llama al modelo por `call_model` y verifica cobertura y solapes. La
+numeración y la verificación son las de `unidades/extraer_unidades.py`: un solo lugar para las
+dos.
 
 Escribe, en `mvp/corpus/extraccion/<doc>/`:
 
@@ -32,6 +33,7 @@ from run_niveles import call_model, extract_json  # noqa: E402
 from extraer_unidades import numerar_oraciones, verificar_subtemas  # noqa: E402
 
 PRUEBAS = RAIZ / "mvp" / "pruebas"
+PROMPTS = RAIZ / "mvp" / "prompts"
 EXTRACCION = RAIZ / "mvp" / "corpus" / "extraccion"
 VERSION = "v2"  # el mismo esquema de parámetros que usa el ORQ
 
@@ -43,7 +45,7 @@ def run(doc, prompt_name, modelo, rep):
         print(f"crudo ya existe, salto ({salida.relative_to(RAIZ)})")
         return
 
-    ruta_prompt = PRUEBAS / f"prompt_{prompt_name}.md"
+    ruta_prompt = PROMPTS / f"prompt_{prompt_name}.md"
     texto = (PRUEBAS / f"{doc}.md").read_text(encoding="utf-8")
     prompt = ruta_prompt.read_text(encoding="utf-8")
     if "{{TEXTO_NUMERADO}}" not in prompt:

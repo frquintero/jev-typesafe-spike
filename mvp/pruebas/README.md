@@ -5,6 +5,11 @@ oraciones y el prompt las agrupa. Cada prueba se corre sobre un documento
 sintético inventado aquí y se guarda con su entrada, el mensaje enviado, la
 salida cruda y la verificación.
 
+**Nota (08-10-2026):** este registro conserva los prompts de su momento (`prompt_v5` a
+`v9`, en esta carpeta). Los **prompts de trabajo vigentes** —paso 1, paso 2 y el agente de
+la consulta— viven ahora en `mvp/prompts/` (`prompt_UT.md`, `prompt_DATOS.md` y
+`prompt_ORQ.md`).
+
 ---
 
 ## Prueba 1 · `unidades_v5` sobre un documento sintético · 5-10-2026

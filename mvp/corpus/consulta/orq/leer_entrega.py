@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Lee la entrega: el JSON de RESPUESTA_JSON, donde el prompt del agente lo ponga.
 
-Prompt 3 (`prompt_agente.md`, congelado) pide, **en el mismo mensaje final**: la respuesta
-corta de la tarea 5 y, en la tarea 6, «diligencia el JSON en RESPUESTA_JSON». Así, el JSON
-puede venir de cuatro formas, todas legítimas:
+El prompt del agente (`mvp/prompts/prompt_ORQ.md`, congelado) pide, **en el mismo mensaje
+final**: la respuesta corta de la tarea 5 y, en la tarea 6, «diligencia el JSON en
+RESPUESTA_JSON». Así, el JSON puede venir de cuatro formas, todas legítimas:
 
     - solo, como todo el mensaje;
     - dentro de una cerca de código (```json … ```);

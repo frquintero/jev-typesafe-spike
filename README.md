@@ -187,6 +187,9 @@ Jev. **Arquitectura propuesta para después (no decidida):** oraciones
   `unidades/mensaje_<RONDA>.txt`. Prompts en `unidades/prompts/`, textos en
   `unidades/docs/`, golds y preguntas en `unidades/gold/`, crudos en
   `unidades/cache/`.
+- Prompts del trabajo activo (paso 1, paso 2 y el agente de la consulta):
+  `mvp/prompts/` —`prompt_UT.md`, `prompt_DATOS.md` y `prompt_ORQ.md`—; el
+  procedimiento del paso 1 está en `mvp/guía_UT.md`.
 - Enfoque anterior: `unidades/extraer_datos_doc.py` (cadena subtemas → datos)
   y `prototipos/` (batería de ejemplos prototípicos, `prototipos/PLAN.md`).
 - Reglas del ejecutor (red, claves, comandos, reportes): `AGENTS.md`.

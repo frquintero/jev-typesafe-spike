@@ -3,7 +3,7 @@
     "preguntas": "../preguntas-doc6.md",
     "r": "../R.json",
     "corpus": "../../corpus.db",
-    "prompt": "prompt_agente.md",
+    "prompt": "../../../prompts/prompt_ORQ.md",
     "salida": "../salida.md",
     "traza": "../traza.jsonl",
     "crudos": "../cache"

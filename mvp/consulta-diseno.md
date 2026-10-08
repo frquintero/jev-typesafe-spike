@@ -26,10 +26,11 @@ terminado; **la evaluación, pendiente**.
 **Base.** [orquestador-plan.md](../historico/orquestador-plan.md) §3 (estaciones) y
 §11 (F0, F1); el contrato de [mesa-dominio-plan.md](mesa-dominio-plan.md) §9 y su
 cierre; la extracción del paso 2
-([paso2/informe_paso2.md](paso2/informe_paso2.md)). **Prompts de la extracción:**
-paso 1, `mvp/pruebas/prompt_v10.md`; paso 2, `mvp/pruebas/prompt_datos_v1.md` —una
-unidad por turno: devuelve `caso`, `datos` (`aspecto · valor · unidad_valor`) y
-`dudas`—. El paso 1 de la ronda cerrada (v9) y el candidato
+([paso2/informe_paso2.md](paso2/informe_paso2.md)). **Los tres prompts de trabajo viven en
+`mvp/prompts/`:** `prompt_UT.md` (paso 1, unidades temáticas), `prompt_DATOS.md` (paso 2,
+los datos por unidad —una unidad por turno: devuelve `caso`, `datos`
+(`aspecto · valor · unidad_valor`) y `dudas`—) y `prompt_ORQ.md` (el agente de la consulta,
+§8). El paso 1 de la ronda cerrada (v9) y el candidato
 `prompt_ficha_contexto.md` quedan congelados: no se reabren ni se adoptan. Sin Jev y
 sin búsqueda externa.
 
@@ -66,14 +67,14 @@ su `sello`.
 - **`doc4`**: `mvp/corpus/documentos/doc4.md` (copia de `mvp/pruebas/doc4.md`)
   - paso 1 (v10, Muse): `extraccion/doc4/p1-doc4-v10-muse-r1.out` → 5 unidades;
     `[1–3]`, `[4–6]`, `[7]`, `[8,9,10,13–17]`, `[11,12]`
-  - paso 2 (`prompt_datos_v1`, r2): `extraccion/doc4/p2-doc4-u{1..5}-r2.out`
+  - paso 2 (`prompt_DATOS`, r2): `extraccion/doc4/p2-doc4-u{1..5}-r2.out`
   - lo que dio: **5 casos y 26 datos**. Las dos dudas de `U4` —el referente de «Su
     reclamo» y de «Su decisión»— quedan en el crudo del paso 2: la base no las guarda
     (§3).
 - **`doc6`**: `mvp/corpus/documentos/doc6.md` (copia de `mvp/pruebas/doc6.md`; el texto
   y su batería de preguntas entraron el 07-10)
   - paso 1 (v10, Muse): `extraccion/doc6/p1-doc6-v10-muse-r1.out` → **14 unidades**
-  - paso 2 (`prompt_datos_v1`, r1): `extraccion/doc6/p2-doc6-u{1..14}-r1.out`
+  - paso 2 (`prompt_DATOS`, r1): `extraccion/doc6/p2-doc6-u{1..14}-r1.out`
   - lo que dio: **14 casos y 33 datos**.
 
 Cada documento radicado trae su batería de preguntas: `doc4` la de `preguntas.md` y
@@ -261,7 +262,7 @@ son dato del documento**, y el prompt lo dice.
 | 5 | Resolver el dominio | `orq/resolver_dominio.py` | la etiqueta `GENERAL` → sus documentos (pertenencia, sin juicio) |
 | 6 | Listar los casos | `orq/listar_casos.py` | `unidad_id` y `caso`, sin aspectos ni valores |
 | 7 | Armar las herramientas | `orq/armar_herramientas.py` | R ∩ las que existen |
-| 8 | Armar los mensajes | `orq/armar_prompt.py` + `prompt_agente.md` | el `system` (anclas) y el `user` (casos, tarea, formato) |
+| 8 | Armar los mensajes | `orq/armar_prompt.py` + `prompt_ORQ.md` | el `system` (anclas) y el `user` (casos, tarea, formato) |
 | 9 | El bucle | `orq/llamar_modelo.py`, `orq/ejecutar_herramienta.py`, `orq/obtener_datos_del_caso.py`, `orq/bucle.py` | llama, ejecuta lo que el agente pide, apila, y termina con la respuesta |
 | 10 | Registrar y entregar | `orq/guardar_crudo.py`, `orq/registrar_traza.py`, `orq/escribir_salida.py` | el crudo, la traza y `salida.md` |
 
@@ -380,18 +381,18 @@ entrega, ni la cobertura, ni que un dato citado exista. El ORQ orquesta; no juzg
 
 ## 8. El prompt del agente
 
-Vive en `mvp/corpus/consulta/orq/prompt_agente.md`, **un solo archivo** con dos
+Vive en `mvp/prompts/prompt_ORQ.md`, **un solo archivo** con dos
 partes marcadas: `[SISTEMA]` (lo que se conserva entre turnos) y `[TAREA]` (lo que
 depende del dominio y de la pregunta). `armar_prompt.py` lo parte y devuelve los dos
 mensajes. Los huecos son `{{CASOS}}`, `{{PREGUNTA}}` y `{{ANCLAS}}`, rellenados con
 `str.replace` —nunca `str.format`—.
 
-**Prompt 3 y prompt 4.** El prompt de las 13 corridas es el que Frat llama **prompt 3**, y los
-crudos lo conservan: de él sale el lector de la entrega (§9). Lo que sigue es **prompt 4**, la
-sonda de `preguntar_al_usuario`: sobre prompt 3 cambian la pregunta —sale de la tarea 1 y va en
-su línea—, el nombre del bloque (`TAREAS` → `LÓGICA DEL AGENTE ENCARGADO`), la tarea 4 (la
-tríada: una respuesta → responder · dos o más → herramienta · ninguna → número 2) y el valor
-`no_esta_en_el_corpus` → `no_esta_en_los_datos`.
+**Prompt 3 y prompt 4.** El prompt de las 13 corridas es el que Frat llama **prompt 3** —hoy
+`prompt_ORQ.md`—, y los crudos lo conservan: de él sale el lector de la entrega (§9). Lo que
+sigue es **prompt 4**, la sonda de `preguntar_al_usuario`: sobre prompt 3 cambian la pregunta
+—sale de la tarea 1 y va en su línea—, el nombre del bloque (`TAREAS` → `LÓGICA DEL AGENTE
+ENCARGADO`), la tarea 4 (la tríada: una respuesta → responder · dos o más → herramienta ·
+ninguna → número 2) y el valor `no_esta_en_el_corpus` → `no_esta_en_los_datos`.
 
 ```
 [SISTEMA]
@@ -637,7 +638,7 @@ entregar» (07-10), la entrega es el **mensaje final**, y así corrieron `doc4` 
 | **D11** | Compactación del historial | no implementada: el historial crece y corta el tope de turnos |
 | **D12** | «Mundo del agente» en los documentos vivos | sigue como vocabulario; sin efecto en el código |
 | **D13** | Herramientas: (A) protocolo textual o (B) nativas | decidida: (B), aditivo sobre `call_model` |
-| **D14** | Prompts de la extracción | decidida: `prompt_v10` y `prompt_datos_v1` |
+| **D14** | Prompts de la extracción | decidida: `prompt_UT` y `prompt_DATOS`, hoy en `mvp/prompts/` |
 | **D15** | Salida del paso 2 | decidida: `caso`, `datos`, `dudas`, una unidad por turno |
 | **D16** | `unidad_valor`: campo propio o dentro del `valor` | abierta — se usa poco (3 de 26 datos en `doc4`; 4 de 33 en `doc6`) |
 | **D17** | El agente, ¿lee texto del documento o solo los datos extraídos? | decidida: solo los datos |

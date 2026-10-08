@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Arma los mensajes de la consulta: el `system` (lo que siempre va) y el `user` (la tarea).
 
-El prompt vive en `prompt_agente.md`, en dos partes marcadas:
+El prompt vigente es `mvp/prompts/prompt_ORQ.md` (lo apunta `config.json`), en dos partes
+marcadas:
 
     [SISTEMA]   lo que se conserva entre turnos: las anclas
     [TAREA]     los casos del dominio, la tarea y el formato de salida
