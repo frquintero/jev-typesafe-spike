@@ -133,8 +133,7 @@ CREATE TABLE documentos (
   fecha_radicacion   TEXT NOT NULL DEFAULT (datetime('now','localtime')),  -- fecha y hora: las pone la base, al radicar
   ubicacion_local    TEXT NOT NULL,      -- …/documentos/doc7.md
   ubicacion_upstream TEXT NOT NULL,      -- …/blob/main/…/doc7.md
-  commit_publicacion TEXT,               -- el commit que publica el documento
-  sello              TEXT NOT NULL       -- sha256 de lo radicado
+  sello              TEXT NOT NULL       -- sha256 de lo radicado: es su identidad
 );
 
 CREATE TABLE datos (

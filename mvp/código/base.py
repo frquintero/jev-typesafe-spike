@@ -26,8 +26,7 @@ CREATE TABLE IF NOT EXISTS documentos (
   fecha_radicacion   TEXT NOT NULL DEFAULT (datetime('now','localtime')),  -- la pone la base, al radicar
   ubicacion_local    TEXT NOT NULL,      -- dónde vive en esta máquina
   ubicacion_upstream TEXT NOT NULL,      -- dónde vive en el repo
-  commit_publicacion TEXT,               -- el commit que lo publica, si ya está publicado
-  sello              TEXT NOT NULL       -- sha256 del texto radicado
+  sello              TEXT NOT NULL       -- sha256 del texto radicado: es su identidad
 );
 CREATE TABLE IF NOT EXISTS datos (
   id           TEXT PRIMARY KEY,

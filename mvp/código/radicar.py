@@ -9,14 +9,14 @@ Uso:
 
     python3 mvp/código/radicar.py doc8                     radica el texto que ya está en mvp/documentos/doc8.md
     python3 mvp/código/radicar.py doc8 --desde <ruta>      lo graba antes, desde otro archivo
-    python3 mvp/código/radicar.py doc8 --dominio MONTAÑA --commit <hash>
+    python3 mvp/código/radicar.py doc8 --dominio MONTAÑA
     python3 mvp/código/radicar.py --estado                 qué hay radicado (solo lee)
     python3 mvp/código/radicar.py --rehacer doc8           ACTO DE PRUEBAS: saca su fila y sus datos
 
 Qué guarda la fila: el nombre; el dominio (GENERAL por defecto); la fecha y la hora, que pone la
-base; dónde vive el documento, en esta máquina y en el repo; su **sello** (sha256 del texto: si el
-archivo cambia después, la carga de los datos se detiene y lo reporta); y, si ya está publicado, el
-commit que lo publica.
+base; dónde vive el documento, en esta máquina y en el repo; y su **sello** (sha256 del texto: es la
+identidad de lo radicado, y si el archivo cambia después la carga de los datos se detiene y lo
+reporta). De la vida del repo —commits incluidos— **no va nada**: el sello alcanza.
 
 **Un documento radicado no se mueve**: si su texto cambia, eso es otro documento.
 """
@@ -28,7 +28,7 @@ import sys
 from base import DOCUMENTOS, RAIZ, conectar, datos_de, borrar_datos
 
 
-def radicar(identificador, dominio, commit, origen):
+def radicar(identificador, dominio, origen):
     """El acto: el texto en `mvp/documentos/<doc>.md` y la fila con nombre, fecha y hora."""
     destino = DOCUMENTOS / f"{identificador}.md"
     db = conectar()
@@ -50,14 +50,13 @@ def radicar(identificador, dominio, commit, origen):
 
     sello = hashlib.sha256(destino.read_bytes()).hexdigest()
     db.execute("INSERT INTO documentos (id, dominio, ubicacion_local, ubicacion_upstream, "
-               "commit_publicacion, sello) VALUES (?,?,?,?,?,?)",
-               (identificador, dominio, str(destino), str(destino.relative_to(RAIZ)),
-                commit, sello))
+               "sello) VALUES (?,?,?,?,?)",
+               (identificador, dominio, str(destino), str(destino.relative_to(RAIZ)), sello))
     db.commit()
     fecha = db.execute("SELECT fecha_radicacion FROM documentos WHERE id = ?",
                        (identificador,)).fetchone()[0]
     print(f"  {identificador}: radicado {fecha} · {destino.relative_to(RAIZ)}")
-    print(f"    dominio {dominio} · sello {sello[:12]}…" + (f" · commit {commit}" if commit else ""))
+    print(f"    dominio {dominio} · sello {sello[:12]}…")
     print("    Sigue, en actos aparte: extraer (paso 1 y paso 2) y cargar los datos.")
 
 
@@ -89,8 +88,8 @@ def estado():
 
 def main(argumentos):
     if not argumentos:
-        raise SystemExit("uso: python3 mvp/código/radicar.py <doc> [--dominio D] [--commit hash] "
-                         "[--desde ruta] · --estado · --rehacer <doc>")
+        raise SystemExit("uso: python3 mvp/código/radicar.py <doc> [--dominio D] [--desde ruta] "
+                         "· --estado · --rehacer <doc>")
     if argumentos[0] == "--estado":
         estado()
         return
@@ -100,22 +99,20 @@ def main(argumentos):
         rehacer(argumentos[1])
         return
     identificador = argumentos[0]
-    dominio, commit, origen = "GENERAL", None, None
+    dominio, origen = "GENERAL", None
     resto = argumentos[1:]
     while resto:
         opcion = resto.pop(0)
-        if opcion in ("--dominio", "--commit", "--desde") and resto:
+        if opcion in ("--dominio", "--desde") and resto:
             valor = resto.pop(0)
             if opcion == "--dominio":
                 dominio = valor
-            elif opcion == "--commit":
-                commit = valor
             else:
                 origen = valor
         else:
             raise SystemExit(f"no entiendo '{opcion}'. Uso: radicar.py <doc> "
-                             f"[--dominio D] [--commit hash] [--desde ruta] · --estado · --rehacer <doc>")
-    radicar(identificador, dominio, commit, origen)
+                             f"[--dominio D] [--desde ruta] · --estado · --rehacer <doc>")
+    radicar(identificador, dominio, origen)
 
 
 if __name__ == "__main__":

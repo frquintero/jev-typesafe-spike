@@ -10,7 +10,7 @@ def resolver_dominio(db, dominio):
     """Devuelve las filas de `documentos` con ese dominio."""
     filas = db.execute(
         "SELECT id, dominio, fecha_radicacion, ubicacion_local, ubicacion_upstream, "
-        "commit_publicacion, sello FROM documentos WHERE dominio = ? ORDER BY id", (dominio,)
+        "sello FROM documentos WHERE dominio = ? ORDER BY id", (dominio,)
     ).fetchall()
     if not filas:
         raise SystemExit(f"el dominio '{dominio}' no tiene documentos en la base")
