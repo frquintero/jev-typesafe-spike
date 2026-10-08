@@ -1,0 +1,30 @@
+{
+  "caso": "el aumento del espejo de agua y el registro de aves migratorias",
+  "datos": [
+    {
+      "aspecto": "superficie inundada del humedal el año pasado",
+      "valor": "sesenta",
+      "unidad_valor": "hectáreas"
+    },
+    {
+      "aspecto": "superficie inundada del humedal este año",
+      "valor": "doscientas",
+      "unidad_valor": "hectáreas"
+    },
+    {
+      "aspecto": "entidad que registró aves migratorias",
+      "valor": "la secretaría de Ambiente",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "aves migratorias registradas en la última temporada",
+      "valor": "ciento treinta",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "aves migratorias más que en la temporada anterior",
+      "valor": "cuarenta",
+      "unidad_valor": null
+    }
+  ]
+}

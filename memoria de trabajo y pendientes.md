@@ -35,7 +35,10 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   la verificación de `unidades/extraer_unidades.py`; antes esto se hacía a mano por Muse):
   13 oraciones → **6 unidades**, sin huecos ni solapes, **58,3 s** por llamada directa.
   Los crudos quedan en `mvp/corpus/extraccion/doc7/`. El procedimiento quedó escrito en
-  `mvp/guía_UT.md`. **Pendiente:** paso 2, radicación y las cinco preguntas.
+  `mvp/guía_UT.md`. **Paso 2 (08-10):** `mvp/corpus/paso2_datos.py`, **una llamada por unidad por
+  la API** (como el paso 1; antes se delegaba a Muse a mano): **3 de 6 unidades corridas**
+  (U1 9,5 s · U2 12,8 s · U3 7,7 s). **Pendiente:** las otras tres, la radicación y las cinco
+  preguntas.
 - **`unidades/`.** La ronda del paso 2 quedó **cerrada el 06-10** con la entrada
   elegida —**la unidad más las referencias de v9 con sus respaldos**, que aclara sin ampliar y
   conserva las dudas— y con **v9 congelado** (`mvp/pruebas/prompt_v9.md`). El conteo, rehecho por
@@ -50,11 +53,13 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   asunto, sin referencias, con los ejemplos homogéneos y el boilerplate al final—; devuelve
   `subtemas` con `subtema` y `oraciones` (sin ids: los pone el código). **Paso 2:**
   `prompt_DATOS` (`mvp/prompts/prompt_DATOS.md`) —recibe **una unidad por turno** y devuelve los datos de esa
-  unidad: `caso`, `datos` (`aspecto · valor · unidad_valor`) y `dudas`. El código arma la unidad
+  unidad: `caso` y `datos` (`aspecto · valor · unidad_valor`). El código arma la unidad
   que recibe el paso 2: `caso` = el `subtema` que devolvió el paso 1, `contenido` = sus oraciones
   unidas en un párrafo y sin numeración. Corridos con Muse: paso 1 sobre `doc5` (v10), `doc4`
   (v10) y `doc2` (v10); paso 2 sobre las cinco unidades de `doc4`, dos réplicas (`r1`, `r2`).
-  Los dos prompts quedan **como versiones de trabajo**: no se siguen afinando. El prompt del
+  Los dos prompts quedan **como versiones de trabajo**: no se siguen afinando. **08-10: se quitó el
+  campo `dudas` de `prompt_DATOS`** —no lo leía nadie: no entra a la base ni lo ve el agente, y
+  aparecía en 2 de 21 unidades— y **el paso 2 pasó a correr por la API**. El prompt del
   AGENTE ENCARGADO quedó escrito e implementado
   (`mvp/prompts/prompt_ORQ.md`); lo que sigue es cómo se lee su entrega
   (`mvp/consulta-diseno.md`, §9).

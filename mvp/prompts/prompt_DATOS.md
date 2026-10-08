@@ -24,8 +24,7 @@ El json de salida con los datos es el siguiente:
     "unidad_valor": null},
    {"aspecto": "datos anotados en cada sobre",
     "valor": "la fecha de recolección y el nombre de quien recolectó",
-    "unidad_valor": null}],
- "dudas": []}
+    "unidad_valor": null}]}
 
 EJEMPLO 2.
 
@@ -44,8 +43,7 @@ El json de salida con los datos es el siguiente:
     "unidad_valor": null},
    {"aspecto": "duración del corte",
     "valor": "diecinueve",
-    "unidad_valor": "horas"}],
- "dudas": []}
+    "unidad_valor": "horas"}]}
 
 EJEMPLO 3.
 
@@ -67,8 +65,7 @@ El json de salida con los datos es el siguiente:
     "unidad_valor": null},
    {"aspecto": "estado de la firma de la petición",
     "valor": "pendiente hasta después de las elecciones de octubre",
-    "unidad_valor": null}],
- "dudas": []}
+    "unidad_valor": null}]}
 
 {{UNIDAD}}
 
@@ -79,5 +76,4 @@ FORMATO DE RESPUESTA
  "datos": [
    {"aspecto": "<bajo qué se considera>",
     "valor": "<lo que se establece>",
-    "unidad_valor": la unidad del valor («kilómetros», «°C»), o null.}],
- "dudas": [{texto con descripción corta si hay alguna duda sobre el valor o la unidad o vacio si no hay dudas}]}
+    "unidad_valor": la unidad del valor («kilómetros», «°C»), o null.}]}

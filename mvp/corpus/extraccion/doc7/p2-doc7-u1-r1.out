@@ -1,0 +1,51 @@
+{
+  "caso": "la recuperación del humedal tras el cierre del canal y los datos de la obra",
+  "datos": [
+    {
+      "aspecto": "nombre del humedal",
+      "valor": "La Ciénaga",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "ubicación del humedal",
+      "valor": "al oriente de la ciudad",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "superficie de espejo de agua recuperada",
+      "valor": "doscientas",
+      "unidad_valor": "hectáreas"
+    },
+    {
+      "aspecto": "causa de la recuperación",
+      "valor": "el cierre del canal de drenaje",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "responsable de la ejecución de la obra",
+      "valor": "el consorcio Agua Viva",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "costo de la obra",
+      "valor": "tres mil millones",
+      "unidad_valor": "pesos"
+    },
+    {
+      "aspecto": "entidad firmante del convenio",
+      "valor": "la alcaldía",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "fecha de firma del convenio",
+      "valor": "febrero",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "inicio de la desecación del humedal por el canal",
+      "valor": "1995",
+      "unidad_valor": null
+    }
+  ],
+  "dudas": []
+}

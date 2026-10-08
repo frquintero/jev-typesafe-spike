@@ -1,0 +1,26 @@
+{
+  "caso": "el plan de restauración presentado, su informe y su contenido",
+  "datos": [
+    {
+      "aspecto": "responsables de presentar el plan de restauración",
+      "valor": "La bióloga Marta Ruiz y la coordinadora del parque, Inés Palacio",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "fecha en que se conocerá el informe",
+      "valor": "mayo",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "especies nativas contempladas para sembrar",
+      "valor": "cuarenta y dos",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "acción contemplada sobre los escombros",
+      "valor": "retirar los escombros del borde sur",
+      "unidad_valor": null
+    }
+  ],
+  "dudas": []
+}

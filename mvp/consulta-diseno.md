@@ -28,8 +28,8 @@ terminado; **la evaluación, pendiente**.
 cierre; la extracción del paso 2
 ([paso2/informe_paso2.md](paso2/informe_paso2.md)). **Los tres prompts de trabajo viven en
 `mvp/prompts/`:** `prompt_UT.md` (paso 1, unidades temáticas), `prompt_DATOS.md` (paso 2,
-los datos por unidad —una unidad por turno: devuelve `caso`, `datos`
-(`aspecto · valor · unidad_valor`) y `dudas`—) y `prompt_ORQ.md` (el agente de la consulta,
+los datos por unidad —una unidad por turno: devuelve `caso` y `datos`
+(`aspecto · valor · unidad_valor`)—) y `prompt_ORQ.md` (el agente de la consulta,
 §8). El paso 1 de la ronda cerrada (v9) y el candidato
 `prompt_ficha_contexto.md` quedan congelados: no se reabren ni se adoptan. Sin Jev y
 sin búsqueda externa.
@@ -84,6 +84,16 @@ preguntas, su partición v9 y sus fichas quedan fuera.
 **Cómo se obtienen las unidades temáticas (el paso 1):** el procedimiento completo —qué
 entra, de dónde viene, cómo se procesa, qué se entrega y cómo se entrega— está en
 [guía_UT.md](guía_UT.md).
+
+**El paso 2 (los datos por unidad)** corre **por la API**, con `mvp/prompts/prompt_DATOS.md`:
+
+```bash
+python3 mvp/corpus/paso2_datos.py <doc> <archivo de unidades> <modelo> <rN>
+```
+
+Una llamada por unidad —sin agente de por medio—, que deja `p2-<doc>-u<n>-<rN>.out` y su crudo
+con los segundos; es idempotente **por unidad**. Los datos de `doc4` y `doc6` se hicieron antes
+delegando a Muse, a mano; `doc7` es el primero que corre así.
 
 **Radicar es fijar.** Un documento radicado no cambia: si su texto cambia, eso es
 **otro documento**, con su radicación y su fila propias. El `sello` (sha256 de lo
@@ -146,7 +156,6 @@ Contenido: **2 documentos** (`doc4` y `doc6`, ambos `GENERAL`), **59 datos**,
 - **La tabla de unidades**: la unidad existe como columna en cada dato —`unidad_id` y
   `caso`—, así que cada fila se lee sola y agrupar por caso es una consulta de una
   línea.
-- **La tabla de dudas**: las dudas quedan en el crudo del paso 2.
 - **`documento_id` en `datos`**: el documento de un dato se conoce por el prefijo de
   su `unidad_id` (`doc4:U1` → `doc4`). Es una convención sobre el texto del id, no un
   dato. **Abierto.**
@@ -639,7 +648,7 @@ entregar» (07-10), la entrega es el **mensaje final**, y así corrieron `doc4` 
 | **D12** | «Mundo del agente» en los documentos vivos | sigue como vocabulario; sin efecto en el código |
 | **D13** | Herramientas: (A) protocolo textual o (B) nativas | decidida: (B), aditivo sobre `call_model` |
 | **D14** | Prompts de la extracción | decidida: `prompt_UT` y `prompt_DATOS`, hoy en `mvp/prompts/` |
-| **D15** | Salida del paso 2 | decidida: `caso`, `datos`, `dudas`, una unidad por turno |
+| **D15** | Salida del paso 2 | decidida: `caso` y `datos`, una unidad por turno; **`dudas` se quitó el 08-10** —no lo leía nadie: no entra a la base ni lo ve el agente— |
 | **D16** | `unidad_valor`: campo propio o dentro del `valor` | abierta — se usa poco (3 de 26 datos en `doc4`; 4 de 33 en `doc6`) |
 | **D17** | El agente, ¿lee texto del documento o solo los datos extraídos? | decidida: solo los datos |
 | **D18** | El ORQ, ¿juzga la entrega? | decidida: no; el juicio vive en la evaluación (§12) |
