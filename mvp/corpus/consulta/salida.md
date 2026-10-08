@@ -96,3 +96,15 @@ RESPUESTA_JSON:
 
 **Casos leídos:** doc6:U1, doc6:U3 (de 19)
 
+## Pregunta 2 · doc4, doc6
+
+¿Cuánto costará el puente y según qué?
+
+**Respuesta del agente (sin JSON):**
+
+```json
+{"desenlace": "respondida", "respuesta": "El puente peatonal sobre la avenida Los Nogales costará dos mil millones de pesos, según el contrato firmado con la empresa Construcciones del Sur (obra financiada con recursos del presupuesto municipal y del área metropolitana)."}
+```
+
+**Casos leídos:** doc6:U4, doc6:U13, doc6:U1, doc6:U2, doc6:U4 (de 19)
+
