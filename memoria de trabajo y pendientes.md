@@ -1,6 +1,6 @@
 # Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 07-10-2026. **Fuente única del estado: solo lo que estamos trabajando y lo que
+Estado al 08-10-2026. **Fuente única del estado: solo lo que estamos trabajando y lo que
 hace falta para trabajarlo.** El detalle de cada ronda vive en el `PLAN.md` de su
 proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, en
 `otros documentos/`; la casa, la actualización de los tres sitios y los reportes, en
@@ -16,10 +16,12 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   y corrida: `doc4` y `doc6` radicados con su sello, extracción con `prompt_v10` +
   `prompt_datos_v1`, base SQLite (59 datos, 19 casos), orquestador por pasos
   (`mvp/corpus/consulta/orq/`) y **13 corridas** (doc4 q1–q5 y réplicas de q1, q2 y q5;
-  doc6 q1–q5). Ocho entregaron respuesta; **cinco quedaron «sin JSON leído»** (doc4 q4,
-  q5 r1, q5 r2; doc6 q2, q4). Lo construido, los huecos y lo abierto están en
-  `mvp/consulta-diseno.md`; **lo que sigue: leer el JSON de entrega (§9) y evaluar las
-  respuestas (§12).**
+  doc6 q1–q5). Ocho entregaron respuesta; cinco quedaron «sin JSON leído» (doc4 q4, q5 r1,
+  q5 r2; doc6 q2, q4) porque el ORQ exigía que **todo** el mensaje fuera JSON. **Corregido el
+  08-10:** el ORQ ubica el JSON donde prompt 3 lo ponga (prompt 3, congelado; el ORQ se alineó
+  a él) y la relectura de los crudos guardados deja **13 de 13** con desenlace, sin volver a
+  llamar al modelo. Lo construido, los huecos y lo abierto están en
+  `mvp/consulta-diseno.md`; **lo que sigue: evaluar las respuestas (§12).**
 - **`unidades/`.** La ronda del paso 2 quedó **cerrada el 06-10** con la entrada
   elegida —**la unidad más las referencias de v9 con sus respaldos**, que aclara sin ampliar y
   conserva las dudas— y con **v9 congelado** (`mvp/pruebas/prompt_v9.md`). El conteo, rehecho por
@@ -139,10 +141,11 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
 
 **Verificadas con la consulta (07-10).**
 
-- **La entrega se pierde si no empieza con `{`:** con la entrega por mensaje final, el
-  agente envolvió el JSON en una cerca o lo puso detrás de la prosa, y el ORQ lo registró
-  «sin entrega» aunque la respuesta esté ahí (doc4 q5 r1 y r2; doc6 q2 y q4). Las tres
-  respuestas que empiezan con `{` sí se leyeron.
+- **La entrega se pierde si el ORQ exige más de lo que el prompt pide:** el ORQ pedía que
+  **todo** el mensaje final fuera JSON, y prompt 3 pide la prosa (tarea 5) **y** el JSON
+  (tarea 6); el agente hizo lo que el prompt manda y el ORQ registró «sin entrega» aunque el
+  JSON estuviera a la vista (doc4 q5 r1 y r2; doc6 q2 y q4). **El prompt manda: el ORQ se
+  alinea a él**, no al revés.
 - **Corridas de una misma tabla pueden venir de versiones distintas del código:** las seis
   primeras de `doc4` entregaban con la herramienta `entregar` (su crudo trae `datos` y
   `reporte`); de esas seis, doc4 q4 —la única sin desenlace— escribió el JSON como texto y
@@ -156,36 +159,33 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
 
 ## 3. Pendientes vigentes
 
-**Orden (07-10).** La **conexión mecánica pregunta–dominio–corpus** quedó construida y corrida
-(ver «Dónde quedamos»): base, orquestador y dos baterías de preguntas. Lo que sigue, en este
-orden: **leer el JSON de entrega** (punto 0) y **evaluar las respuestas** (punto 1). La
-extracción está fijada (`prompt_v10`, `prompt_datos_v1`) y el diseño vigente, en
+**Orden (08-10).** La **conexión mecánica pregunta–dominio–corpus** quedó construida y corrida
+(ver «Dónde quedamos») y el **lector de la entrega se corrigió**: el ORQ se alineó a prompt 3
+(cierre, al final de esta sección). Lo que sigue: **evaluar las respuestas de la consulta**
+(punto 0). La extracción está fijada (`prompt_v10`, `prompt_datos_v1`) y el diseño vigente, en
 `mvp/consulta-diseno.md`.
-
-0. **Leer el JSON de entrega (trabajo de ahora):** hoy el ORQ exige que el mensaje final
-   empiece con `{`, y pierde la entrega cuando viene con prosa o cerca de código: cuatro
-   corridas con la entrega actual (doc4 q5 r1 y r2; doc6 q2 y q4) más doc4 q4, que escribió
-   el JSON como texto en vez de llamar la herramienta `entregar` del mecanismo viejo.
-   Termina cuando las cinco quedan con su desenlace leído **sin volver a llamar al modelo**
-   (los crudos ya traen la respuesta). Dos vías, sin decidir: extraer el primer `{…}` bien
-   formado en el ORQ, o exigir en el prompt que el mensaje final sea solo el JSON
-   (`mvp/consulta-diseno.md`, §9).
-1. **Evaluar las respuestas de la consulta (07-10):** juzgar las 13 corridas contra lo que el
+0. **Evaluar las respuestas de la consulta (07-10):** juzgar las 13 corridas contra lo que el
    documento establece, con la vara de los números de oración y distinguiendo «no está en los
    datos extraídos» de «el documento no lo dice» (`mvp/consulta-diseno.md`, §12). **No hay
    lista de expectativas por pregunta guardada antes de correr** (ni de doc4 ni de doc6): la
    evaluación tiene que decirlo así, o escribirla y marcarla como posterior.
-2. **El rechazo por dominio, sin ejercitar:** la consulta valida cada id contra los casos del
+1. **El rechazo por dominio, sin ejercitar:** la consulta valida cada id contra los casos del
    dominio y la traza anota el dominio con sus documentos, pero el caso de la mesa —un id de
    RIBERA en una consulta de MONTAÑA— no se ha corrido: el corpus radicado tiene un solo
-   dominio (`GENERAL`). Antes era el punto 0; el detalle, en `mvp/mesa-dominio-resultado.md`,
-   cierre.
-3. **F6 ejecutada, pendiente de evaluación:** evaluar recuperación y ubicación de condiciones, orden temporal, regresiones, formato y costo, según `unidades/PLAN.md`, sección F6. Hasta entonces no se adopta `ficha_v2`.
-4. **Agilidad:** comparar hipótesis de arquitectura, división y modelo/configuración. Vara de Frat: ≈90 % de contenido correcto y ejecución ágil. Falta demostrar el efecto sobre costo total.
-5. **Generalización:** medir cualquier candidato prometedor con una reserva nueva e independiente; las observaciones de las rondas no autorizan cambios adicionales por sí solas.
-6. **Vínculos de razón entre afirmaciones** («por esa razón», «porque»): niveles 1–2 del grafo de Zettel; fuera de la ficha de datos.
-7. **Jev:** identidad de lo registrado, correferencias, omisiones; componente posterior.
-8. Grok sin créditos de xAI: recargar si se quiere compararlo.
-9. **Unidad temática con el eje de `v1`** (decisión de Frat, 02-10; registrada en `definiciones-del-marco.md`, parte B). Los prompts de trabajo (`prompt_v10` y `prompt_datos_v1`) producen la unidad con el eje en el asunto: el `subtema` **nombra el núcleo** —el caso de la unidad— y las oraciones que lo desarrollan van juntas. Falta **declarar los satélites**, los casos de los que el texto habla por su relación con el núcleo, que hoy se leen de las relaciones y acciones. Discutirlo antes de escribirlo.
-10. **Adoptar el candidato del paso 2:** `mvp/paso2/prompt_ficha_contexto.md` vive hoy en la carpeta de trabajo; si se adopta, le toca su sitio en `unidades/prompts/` con nombre propio, sin mezclarlo con `ficha_v2`.
-11. **Cerrar la forma del dato del paso 2:** si vuelven el `sostiene` (quién lo sostiene) y el `respaldo` (la ruta al fragmento), y si `unidad_valor` se queda como campo propio o la unidad va dentro del valor. Hoy el dato viaja sin fuente ni ruta.
+   dominio (`GENERAL`). El detalle, en `mvp/mesa-dominio-resultado.md`, cierre.
+2. **F6 ejecutada, pendiente de evaluación:** evaluar recuperación y ubicación de condiciones, orden temporal, regresiones, formato y costo, según `unidades/PLAN.md`, sección F6. Hasta entonces no se adopta `ficha_v2`.
+3. **Agilidad:** comparar hipótesis de arquitectura, división y modelo/configuración. Vara de Frat: ≈90 % de contenido correcto y ejecución ágil. Falta demostrar el efecto sobre costo total.
+4. **Generalización:** medir cualquier candidato prometedor con una reserva nueva e independiente; las observaciones de las rondas no autorizan cambios adicionales por sí solas.
+5. **Vínculos de razón entre afirmaciones** («por esa razón», «porque»): niveles 1–2 del grafo de Zettel; fuera de la ficha de datos.
+6. **Jev:** identidad de lo registrado, correferencias, omisiones; componente posterior.
+7. Grok sin créditos de xAI: recargar si se quiere compararlo.
+8. **Unidad temática con el eje de `v1`** (decisión de Frat, 02-10; registrada en `definiciones-del-marco.md`, parte B). Los prompts de trabajo (`prompt_v10` y `prompt_datos_v1`) producen la unidad con el eje en el asunto: el `subtema` **nombra el núcleo** —el caso de la unidad— y las oraciones que lo desarrollan van juntas. Falta **declarar los satélites**, los casos de los que el texto habla por su relación con el núcleo, que hoy se leen de las relaciones y acciones. Discutirlo antes de escribirlo.
+9. **Adoptar el candidato del paso 2:** `mvp/paso2/prompt_ficha_contexto.md` vive hoy en la carpeta de trabajo; si se adopta, le toca su sitio en `unidades/prompts/` con nombre propio, sin mezclarlo con `ficha_v2`.
+10. **Cerrar la forma del dato del paso 2:** si vuelven el `sostiene` (quién lo sostiene) y el `respaldo` (la ruta al fragmento), y si `unidad_valor` se queda como campo propio o la unidad va dentro del valor. Hoy el dato viaja sin fuente ni ruta.
+
+**Cerrado el 08-10: alineación con prompt 3.** El ORQ ubica el JSON del mensaje final donde
+prompt 3 lo ponga (`orq/leer_entrega.py`; `entrega.forma` en `config.json`, que el ORQ valida) y
+la relectura de los crudos guardados deja los 13 con desenlace, sin volver a llamar al modelo.
+En el mismo tramo: el tope de herramientas se respeta de verdad, la causa del corte queda
+registrada, la traza ya no revienta con un JSON que no sea objeto y la salida no confunde «no
+hubo JSON» con «se cortó».

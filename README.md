@@ -77,8 +77,8 @@ en el README, PLAN y tareas de cada carpeta).
   de datos por unidad; ronda **cerrada**: la unidad más las referencias de v9
   con sus respaldos queda como **base provisional** (recuperación estricta
   95,4 % en desarrollo y 100 % en la reserva; **aceptación no demostrada**)
-  (`mvp/paso2/`). Sigue: la lectura del JSON de entrega y la evaluación de las
-  respuestas de la consulta; el diseño está en `mvp/consulta-diseno.md` (§9 y §12).
+  (`mvp/paso2/`). Sigue: la evaluación de las respuestas de la consulta; el diseño está en
+  `mvp/consulta-diseno.md` (§12).
 - Fecha: 2026-10-07 · Proyecto: la mecánica del bucle con herramientas de
   DeepSeek —`call_model` con `messages` y `tools`—, con sus corridas y lecciones
   (`test_tool_calling/`)

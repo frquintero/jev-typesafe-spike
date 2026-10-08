@@ -1,15 +1,13 @@
 # Consulta completa de Zettel (v1) · diseño
 
-Fecha: 07-10-2026.
+Fecha: 07-10-2026; el lector de la entrega, corregido el 08-10.
 
-El primer recorrido está construido: base, orquestador, prompt del agente y las
-cinco preguntas de `doc4` más las cinco de `doc6` corridas. Este documento describe
-**lo que hay**; donde algo está abierto, lo dice con esa palabra.
+El primer recorrido está construido: base, orquestador, **prompt 3** (congelado; el ORQ se
+alineó a él) y las cinco preguntas de `doc4` más las cinco de `doc6` corridas. Este
+documento describe **lo que hay**; donde algo está abierto, lo dice con esa palabra.
 
-**Lo que sigue.** (a) Cómo se lee el JSON de salida del agente, que no se lee cuando
-viene con prosa o envuelto (§9; 5 de las 13 corridas); (b) las condiciones de la
-consulta que el código no puede aplicar y no están escritas en ninguna parte (§4.2);
-(c) la evaluación de las respuestas (§12).
+**Lo que sigue.** (a) las condiciones de la consulta que el código no puede aplicar y no
+están escritas en ninguna parte (§4.2); (b) la evaluación de las respuestas (§12).
 
 **Para qué.** El **primer recorrido completo** de Zettel sobre el corpus: recibir
 una pregunta y entregar una respuesta con lo que el corpus establece —o decir con
@@ -361,6 +359,10 @@ depende del dominio y de la pregunta). `armar_prompt.py` lo parte y devuelve los
 mensajes. Los huecos son `{{CASOS}}`, `{{PREGUNTA}}` y `{{ANCLAS}}`, rellenados con
 `str.replace` —nunca `str.format`—.
 
+**Congelado.** Este prompt es el que Frat llama **prompt 3**, y no se toca: el ORQ se acomoda
+a lo que él establezca. De ahí sale el lector de la entrega (§9): el JSON se lee donde
+prompt 3 dice que va, no donde al ORQ le gustaría.
+
 ```
 [SISTEMA]
 ANCLAS: {{ANCLAS}} (día y hora del sistema; no es dato del documento)
@@ -408,15 +410,17 @@ El agente entrega un JSON con dos estados:
 ```
 
 **El JSON no tiene campo propio**: como no hay herramienta de entrega, vive **dentro**
-del mensaje final, junto a lo que el agente escriba alrededor. Eso tiene una
-consecuencia medida (§13): si el modelo envuelve el JSON en un bloque de código, o escribe prosa
-antes, el ORQ no lo lee y registra «respuesta del agente (sin JSON)». Dos formas de
-resolverlo, sin decidir:
+del mensaje final, junto a lo que el agente escriba alrededor. Prompt 3 lo pide así —la
+respuesta corta de la tarea 5 y, en la 6, «diligencia el JSON en `RESPUESTA_JSON`»—, de modo
+que el JSON llega de cuatro formas: solo, dentro de una cerca de código, detrás de la
+etiqueta `RESPUESTA_JSON:` o al final, después de la prosa. **El ORQ lo ubica**
+(`orq/leer_entrega.py`: recorre los tramos `{…}` balanceados y se queda con el que sigue a la
+etiqueta, o con el último que traiga un `desenlace` de los dos estados). No es juzgar: es
+leer. La forma de lectura está declarada en `config.json` (`entrega.forma`) y el ORQ se
+detiene si no la conoce.
 
-1. **En el ORQ**: extraer del contenido el primer bloque `{…}` bien formado, en vez
-   de exigir que todo el mensaje sea JSON. No es juzgar: es leer.
-2. **En el prompt**: que la tarea 5 diga que la respuesta corta va **en el campo
-   `respuesta`** y que el mensaje final sea **solo** el JSON.
+Si el mensaje no trae ningún JSON, la salida escribe el mensaje tal cual y dice que no hubo
+JSON; si la corrida la cortó una guardia, dice cuál —no que «el agente no contestó».
 
 **El ORQ no juzga la entrega**: la registra tal como vino y la escribe en la salida.
 Si el agente no contesta, la salida dice que no contestó.
@@ -430,12 +434,15 @@ lo pida**.
 
 ## 10. Salidas
 
-- **`mvp/corpus/consulta/salida.md`** (lo que lee el usuario): por pregunta, la
-  respuesta tal como vino, y los casos leídos. Se **agrega**, no se reescribe.
+- **`mvp/corpus/consulta/salida.md`** (lo que lee el usuario): por pregunta —con la
+  etiqueta del crudo, que distingue las dos baterías—, la respuesta tal como vino, el
+  **mensaje del agente** cuando el JSON venía dentro de uno más largo (el caso de
+  `no_esta_en_el_corpus`, donde la explicación vive solo ahí) y los casos leídos. Se
+  **agrega**, no se reescribe.
 - **`mvp/corpus/consulta/traza.jsonl`** (append-only): una línea por corrida con las
   anclas, la pregunta, el dominio y los documentos, los casos, los casos leídos, las
-  herramientas ofrecidas, los turnos, las llamadas, el desenlace, si cerró y el
-  consumo por turno, más la ruta del crudo.
+  herramientas ofrecidas, los turnos, las llamadas, el desenlace, **la forma en que se leyó
+  el JSON y la causa del corte**, si cerró y el consumo por turno, más la ruta del crudo.
 - **`mvp/corpus/consulta/cache/consulta-<documento>-q{n}-r{k}.json`** (`doc4` y `doc6`):
   el crudo de la corrida —los cuerpos enviados y las respuestas, con los trozos SSE
   verbatim y sin cabeceras—. No se sobrescribe: una réplica nueva lleva un `k` nuevo.
@@ -453,9 +460,12 @@ enreda.
   ensambla los deltas: `content`, `reasoning_content`, `tool_calls` y
   `finish_reason`.
 - **De a una:** se manda una pregunta; la siguiente, cuando termina la corrida.
-- **Guardias implementadas:** `max_turnos: 8` y `max_herramientas: 20`. **No hay
-  corte por ciclo** (misma acción con los mismos argumentos dos veces): `doc4` q5 y
-  `doc6` q2 pidieron dos veces el mismo caso. **Abierto.**
+- **Guardias implementadas:** `max_turnos: 8` y `max_herramientas: 20`, y **el tope de
+  herramientas se respeta de verdad**: el bucle mira el tope antes de ejecutar y corta la
+  corrida (antes ejecutaba una herramienta más por turno). La causa del corte queda en el
+  crudo y en la traza (`corte`: `max_turnos`, `max_herramientas`, o `null` si el agente
+  cerró). **No hay corte por ciclo** (misma acción con los mismos argumentos dos veces):
+  `doc4` q5 y `doc6` q2 pidieron dos veces el mismo caso. **Abierto.**
 - **El consumo de las corridas** (`prompt_tokens = hit + miss`):
 
 | Corrida | Turnos | Turno 1 | Turnos siguientes |
@@ -543,10 +553,13 @@ entregar» (07-10), la entrega es el **mensaje final**, y así corrieron `doc4` 
    JSON en su mensaje final y no llamó `entregar`, así que la entrega quedó ausente
    (`cerrado: false`, `contenido_final` vacío). Con la entrega por mensaje final (§7), ese
    JSON se lee.
-2. **El JSON envuelto** (doc4 Q5, las dos réplicas; doc6 Q2): el agente escribe,
-   además del JSON, la prosa que le pide la tarea 5 y la cerca de código; el ORQ exige
-   que el contenido empiece con `{`, así que no lo lee (§9). Son las cuatro corridas que
-   ya usaban la entrega por mensaje final y quedaron sin leer.
+2. **El JSON envuelto** (doc4 Q5, las dos réplicas; doc6 Q2; doc6 Q4): el agente escribe,
+   además del JSON, la prosa que le pide la tarea 5 y/o la cerca de código. El ORQ de
+   entonces exigía que **todo** el mensaje fuera JSON, así que no lo leía aunque el JSON
+   estuviera a la vista. **Corregido el 08-10** (§9): el ORQ lo ubica donde prompt 3 lo
+   ponga. La relectura de los crudos guardados —sin volver a llamar al modelo— recupera las
+   cinco que quedaron en `None` (doc4 q4, del mecanismo viejo; doc4 q5 r1 y r2; doc6 q2 y
+   q4) y deja como estaban las cinco del mecanismo viejo que ya traían su entrega.
 3. **El referente abierto** (doc4 Q5): la corrida entregó `respondida`, con el reclamo
    atribuido a la junta de acción comunal. Los datos leídos de `U4` no incluyen el
    referente del reclamo; la extracción del paso 2 declaró dos dudas sobre los
@@ -557,13 +570,15 @@ entregar» (07-10), la entrega es el **mensaje final**, y así corrieron `doc4` 
 ## 14. Riesgos y límites
 
 - **La extracción acota la respuesta** (hallazgo del paso 2, no defecto del puente).
-- **El JSON de salida no se lee** si viene con prosa o envuelto (§9).
+- **El JSON de salida se ubica** donde prompt 3 lo ponga (§9); un mensaje que no traiga
+  ningún JSON —o ninguna respuesta— sigue sin entrega, y la salida lo dice.
 - **El prompt es el único canal.** Lo que el ORQ no ponga, el agente no lo sabe: si
   no le pasa un caso, no existe para él.
 - **El historial crece por turno** (medido, §11): de ahí el tope de turnos.
 - **Devolver el `reasoning_content`**: con `tools` en la petición, si no vuelve en
   todos los turnos, la API responde 400.
-- **Un solo documento ⇒ sin conflicto** (§2).
+- **Dos documentos, sin conflicto entre fuentes** (§2): el desenlace de conflicto sigue sin
+  ejercitarse.
 - **Una extracción que falla detiene el proceso**: no produce un documento vacío ni
   una unidad vacía; produce una corrida cortada. Un documento **sin** unidades no es
   un estado válido (§3).
@@ -593,12 +608,12 @@ entregar» (07-10), la entrega es el **mensaje final**, y así corrieron `doc4` 
 | **D17** | El agente, ¿lee texto del documento o solo los datos extraídos? | decidida: solo los datos |
 | **D18** | El ORQ, ¿juzga la entrega? | decidida: no; el juicio vive en la evaluación (§12) |
 | **D19** | La entrega, ¿por herramienta o por mensaje final? | decidida: mensaje final |
-| **D20** | Cómo se lee el JSON de salida cuando viene con prosa o envuelto | abierta: 5 de 13 corridas quedaron sin entrega leída (§9) |
+| **D20** | Cómo se lee el JSON de salida cuando viene con prosa o envuelto | decidida (08-10): el ORQ ubica el JSON del mensaje final donde prompt 3 lo ponga (§9; `orq/leer_entrega.py`) |
 | **D21** | Las condiciones que el código no puede aplicar (premisa, conflictos, brecha) | abierta: no están escritas en ninguna parte (§4.2) |
 | **D22** | `documento_id` en `datos`, en vez del prefijo del id | abierta |
 | **D23** | La declaración del esquema (partición, prompt, hash, modelo) en la base | abierta |
 | **D24** | El sostén en la respuesta (datos citados, reporte) | diferida: cuando el usuario pida ver la fuente |
-| **D25** | Tope y corte por ciclo | abierta: hay tope de turnos y de llamadas; no hay corte por repetición |
+| **D25** | Tope y corte por ciclo | en parte: el tope de herramientas se respeta y la causa del corte se registra; **no hay corte por repetición** |
 
 ---
 
@@ -608,6 +623,8 @@ entregar» (07-10), la entrega es el **mensaje final**, y así corrieron `doc4` 
   acumulando `tool_calls` y `finish_reason`— y `extract_json`.
 - `mvp/corpus/cargar_corpus.py`: el cargador de la base (§3).
 - `mvp/corpus/consulta/orq/`: el orquestador, un archivo por paso (§5).
+- `mvp/corpus/consulta/orq/leer_entrega.py`: el lector de la entrega —el JSON de prompt 3,
+  donde venga (§9).
 - `test_tool_calling/`: las corridas que fijaron la mecánica del bucle y las
   lecciones del tool calling.
 - `unidades/extraer_unidades.py`: `numerar_oraciones` —para la evaluación, no para la
