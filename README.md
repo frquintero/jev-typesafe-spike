@@ -77,9 +77,15 @@ en el README, PLAN y tareas de cada carpeta).
   de datos por unidad; ronda **cerrada**: la unidad más las referencias de v9
   con sus respaldos queda como **base provisional** (recuperación estricta
   95,4 % en desarrollo y 100 % en la reserva; **aceptación no demostrada**)
-  (`mvp/paso2/`). Sigue: la conexión mecánica pregunta–dominio–corpus; el diseño de esa primera
-  consulta está en `mvp/consulta-diseno.md` (**borrador**, revisión de Claude y
-  Astra).
+  (`mvp/paso2/`). Sigue: la lectura del JSON de entrega y la evaluación de las
+  respuestas de la consulta; el diseño está en `mvp/consulta-diseno.md` (§9 y §12).
+- Fecha: 2026-10-07 · Proyecto: la mecánica del bucle con herramientas de
+  DeepSeek —`call_model` con `messages` y `tools`—, con sus corridas y lecciones
+  (`test_tool_calling/`)
+- Fecha: 2026-10-07 · Proyecto: consulta completa de Zettel —base del corpus con
+  `doc4` y `doc6` radicados, orquestador por pasos y dos baterías de preguntas
+  corridas— (`mvp/corpus/`); el diseño y los huecos, en
+  `mvp/consulta-diseno.md`
 
 ## Frentes cerrados: lecciones e ideas rescatables
 
@@ -108,7 +114,7 @@ Ideas que podrían servirnos:
    Al procesar una unidad temática, adjuntar un mapa breve del documento
    (subtemas y casos) para que la unidad no se lea aislada.
 
-## Estado actual (2026-10-04)
+## Estado al 2026-10-04 (registro; el estado vigente está en `memoria de trabajo y pendientes.md`)
 
 **04-10: visión operativa de Zettel** (`zettel-vision-operativa.md`): la
 pregunta como punto de partida, el mundo (K) junto al corpus (D), reglas de

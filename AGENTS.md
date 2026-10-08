@@ -45,10 +45,12 @@ mover un archivo o de tocar el estado del repo.
 
 ## Mapa del repo
 
-- `unidades/`: **hilo activo**. Extracción de datos en dos pasos (unidades temáticas →
+- `unidades/`: extracción de datos en dos pasos (unidades temáticas →
   datos por unidad). Prompts en `prompts/` (se leen de archivo; `{{TEXTO}}` o
   `{{TEXTO_NUMERADO}}` con `str.replace`, nunca `str.format`), textos en `docs/`,
-  esperado en `gold/`, crudos en `cache/`; comandos y rondas en `PLAN.md`.
+  esperado en `gold/`, crudos en `cache/`; comandos y rondas en `PLAN.md`. Rondas
+  F1–F5 evaluadas y F6 corrida sin evaluar; `ficha_v1`, congelada. Los prompts de
+  trabajo vigentes (`prompt_v10` y `prompt_datos_v1`) viven en `mvp/pruebas/`.
 - `prototipos/`: banco de prueba del paso 2 (ejemplos prototípicos). Rondas y
   comandos en su `PLAN.md`.
 - `niveles/`: sin trabajo activo. `run_niveles.py` tiene `call_model` (streaming) y los
@@ -64,10 +66,15 @@ mover un archivo o de tocar el estado del repo.
 - `mvp/`: MVP de Zettel. Mesas de la forma de A(Q), pieza 1 (conflicto y dato
   derivado), mesa de dominio, pruebas del paso 1 (`pruebas/`) y
   paso 2 (`paso2/`: ronda cerrada; entrada «unidad + referencias» como base
-  provisional, con `README.md` para la vía y la verificación sin API). **Su estado vive
-  en la memoria**; el detalle, en el `README` o `PLAN` de cada subcarpeta. Sigue: la
-  conexión mecánica pregunta–dominio–corpus, con el diseño de la primera consulta en
-  `mvp/consulta-diseno.md` (**borrador**, revisión de Claude y Astra).
+  provisional, con `README.md` para la vía y la verificación sin API). `corpus/` es la
+  **consulta completa**: documentos radicados (`doc4`, `doc6`), la base SQLite, los
+  crudos de la extracción y el orquestador (`corpus/consulta/orq/`); lo construido y
+  lo abierto está en `mvp/consulta-diseno.md`. **Su estado vive en la memoria**; el
+  detalle, en el `README`, `PLAN` o diseño de cada subcarpeta. Sigue: leer el JSON de
+  entrega (`mvp/consulta-diseno.md` §9) y evaluar las respuestas (§12).
+- `test_tool_calling/`: la mecánica del bucle con herramientas en DeepSeek
+  (`call_model` con `messages` y `tools`), corrida el 07-10; lecciones en su
+  `README.md` y crudos en `cache/`.
 - `marco filosófico/`: el ensayo «¿Qué es un dato?» y su marco.
 - `langextract-spike/`: cerrado (LangExtract, evaluado y no adoptado).
 - `utiliarios/`: los guiones que se invocan desde la raíz. `muse_tarea.sh` y

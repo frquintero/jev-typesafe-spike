@@ -4,8 +4,9 @@
 Qué hay en esta carpeta:
 
     documentos/         los documentos radicados — la única fuente de verdad de su texto
-    extraccion/doc4/    los crudos de los que sale la extracción de doc4:
-                        las unidades temáticas (paso 1) y los datos por unidad (paso 2)
+    extraccion/doc4/    los crudos de los que sale la extracción, por documento:
+    extraccion/doc6/    las unidades temáticas (paso 1) y los datos por unidad (paso 2)
+    consulta/           el orquestador, las preguntas, los crudos y las salidas
     corpus.db           la base: documentos · datos
 
 Qué guarda la base: las **referencias** al documento (dominio, fecha de radicación, ubicación local y en el

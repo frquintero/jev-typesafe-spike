@@ -1,6 +1,6 @@
 # Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 06-10-2026. **Fuente única del estado: solo lo que estamos trabajando y lo que
+Estado al 07-10-2026. **Fuente única del estado: solo lo que estamos trabajando y lo que
 hace falta para trabajarlo.** El detalle de cada ronda vive en el `PLAN.md` de su
 proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, en
 `otros documentos/`; la casa, la actualización de los tres sitios y los reportes, en
@@ -12,7 +12,15 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   preguntas y se obtenga información: el cambio en A(Q) al considerar datos conforme a
   reglas. Recuperar no es responder. Detalle en `README.md`, «Visión», y en
   `definiciones-del-marco.md`.
-- **Hilo activo: `unidades/`.** La ronda del paso 2 quedó **cerrada el 06-10** con la entrada
+- **Hilo activo: `mvp/corpus/` (07-10).** La **consulta completa de Zettel** quedó construida
+  y corrida: `doc4` y `doc6` radicados con su sello, extracción con `prompt_v10` +
+  `prompt_datos_v1`, base SQLite (59 datos, 19 casos), orquestador por pasos
+  (`mvp/corpus/consulta/orq/`) y **13 corridas** (doc4 q1–q5 y réplicas de q1, q2 y q5;
+  doc6 q1–q5). Ocho entregaron respuesta; **cinco quedaron «sin JSON leído»** (doc4 q4,
+  q5 r1, q5 r2; doc6 q2, q4). Lo construido, los huecos y lo abierto están en
+  `mvp/consulta-diseno.md`; **lo que sigue: leer el JSON de entrega (§9) y evaluar las
+  respuestas (§12).**
+- **`unidades/`.** La ronda del paso 2 quedó **cerrada el 06-10** con la entrada
   elegida —**la unidad más las referencias de v9 con sus respaldos**, que aclara sin ampliar y
   conserva las dudas— y con **v9 congelado** (`mvp/pruebas/prompt_v9.md`). El conteo, rehecho por
   ítem sobre las expectativas registradas: recuperación estricta **95,4 % en desarrollo**
@@ -30,14 +38,17 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   que recibe el paso 2: `caso` = el `subtema` que devolvió el paso 1, `contenido` = sus oraciones
   unidas en un párrafo y sin numeración. Corridos con Muse: paso 1 sobre `doc5` (v10), `doc4`
   (v10) y `doc2` (v10); paso 2 sobre las cinco unidades de `doc4`, dos réplicas (`r1`, `r2`).
-  Los dos prompts quedan **como versiones de trabajo**: no se siguen afinando. Lo que sigue es
-  **revisar el prompt del AGENTE ENCARGADO** (`mvp/consulta-diseno.md`, §8–§9).
-- **Hilo del MVP: `mvp/`.** Sin índice de casos previo: alcance por dominio y
-  reidentificación acreditada al consultar (decisión del 05-10). Lo siguiente ejecutable es
-  la **pieza mecánica** (la conexión pregunta–dominio–corpus), aún no iniciada. Las mesas de la forma de A(Q) y la
-  pieza 1 están cerradas y registradas en sus carpetas. El diseño de esa primera consulta
-  está escrito en `mvp/consulta-diseno.md` (**borrador**) y queda **pendiente de revisión
-  por Claude y Astra**; no está implementado.
+  Los dos prompts quedan **como versiones de trabajo**: no se siguen afinando. El prompt del
+  AGENTE ENCARGADO quedó escrito e implementado
+  (`mvp/corpus/consulta/orq/prompt_agente.md`); lo que sigue es cómo se lee su entrega
+  (`mvp/consulta-diseno.md`, §9).
+- **El MVP: `mvp/`.** Sin índice de casos previo: alcance por dominio y
+  reidentificación acreditada al consultar (decisión del 05-10). Las mesas de la forma de
+  A(Q) y la pieza 1 están cerradas y registradas en sus carpetas. La **pieza mecánica** (la
+  conexión pregunta–dominio–corpus) quedó construida y corrida el 07-10 (`mvp/corpus/`); su
+  diseño, reescrito a lo implementado, está en `mvp/consulta-diseno.md`. **Sin ejercitar:**
+  el rechazo de un id fuera del dominio (el caso de la mesa, un id de RIBERA en una consulta
+  de MONTAÑA).
 - **La ficha.** `ficha_v1` está congelada y es la base del paso 2; en F5 midió 60/63 dentro
   de su contrato. F6 se ejecutó y sigue sin evaluar. Detalle en `unidades/PLAN.md`.
 
@@ -126,32 +137,55 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   sostiene un dato, y el modelo lo resolvió solo —partiéndolo en «quién dijo» y «qué dijo», o
   metiendo la fuente en el aspecto («afectados por el corte» con el «según la empresa» perdido)—.
 
+**Verificadas con la consulta (07-10).**
+
+- **La entrega se pierde si no empieza con `{`:** con la entrega por mensaje final, el
+  agente envolvió el JSON en una cerca o lo puso detrás de la prosa, y el ORQ lo registró
+  «sin entrega» aunque la respuesta esté ahí (doc4 q5 r1 y r2; doc6 q2 y q4). Las tres
+  respuestas que empiezan con `{` sí se leyeron.
+- **Corridas de una misma tabla pueden venir de versiones distintas del código:** las seis
+  primeras de `doc4` entregaban con la herramienta `entregar` (su crudo trae `datos` y
+  `reporte`); de esas seis, doc4 q4 —la única sin desenlace— escribió el JSON como texto y
+  no llamó la herramienta. El campo `herramientas` del crudo dice con cuál se hizo cada una.
+- **El agente nunca pidió todos los casos:** filtra por el umbral del 80 % sobre el nombre
+  del caso (leyó de 1 a 4 de los 19); un aspecto que el nombre no anuncia no lo mira
+  (`consulta-diseno.md`, §8).
+- **Repite lecturas y no hay corte por ciclo:** `doc6` q2 pidió `doc6:U4` dos veces y gastó
+  6 turnos y 5 llamadas; la guardia corta por número de turnos y de llamadas, no por
+  repetición (`consulta-diseno.md`, §11, D25).
+
 ## 3. Pendientes vigentes
 
-**Orden (07-10):** el paso 2 quedó **cerrado** (entrada (b) como base provisional; ver «Dónde
-quedamos») y los **prompts de trabajo del paso 1 y del paso 2 están fijados** (`prompt_v10` y
-`prompt_datos_v1`). **Lo que sigue es revisar el prompt del AGENTE ENCARGADO**
-(`mvp/consulta-diseno.md`, §8–§9), con la extracción ya fijada. Después, la **conexión mecánica
-pregunta–dominio–corpus:** fijar el alcance documental, recuperar unidades completas con sus
-datos y preparar la entrada del orquestador; su primera comprobación es local, sin LLM, con los
-materiales existentes. No está iniciada. **El diseño de esa primera consulta está en
-`mvp/consulta-diseno.md`; lo revisan Claude y Astra antes de implementar.**
+**Orden (07-10).** La **conexión mecánica pregunta–dominio–corpus** quedó construida y corrida
+(ver «Dónde quedamos»): base, orquestador y dos baterías de preguntas. Lo que sigue, en este
+orden: **leer el JSON de entrega** (punto 0) y **evaluar las respuestas** (punto 1). La
+extracción está fijada (`prompt_v10`, `prompt_datos_v1`) y el diseño vigente, en
+`mvp/consulta-diseno.md`.
 
-0. **Conexión mecánica pregunta–dominio–corpus (trabajo de ahora):** fijar el `dominio_consulta`
-   de una pregunta, rechazar los ids fuera de alcance, recuperar la unidad completa (texto,
-   datos, condiciones, respaldo, documento y radicación) y registrar los documentos admitidos;
-   sin LLM y sin Jev, reutilizando `mvp/pieza1/pieza1.py` y las entradas de la mesa de dominio.
-   Termina cuando, sobre las entradas de la mesa, un id de RIBERA en una consulta de MONTAÑA se
-   rechaza por fuera de alcance, `M1:U1` devuelve `M1:S1–S4` y `M1:D1–M1:D3` completos, y la
-   corrida anota `dominio_consulta: MONTAÑA` con su lista de documentos. **Antes de escribir
-   código: revisión del diseño (`mvp/consulta-diseno.md`) por Claude y Astra y mostrar el
-   plan.** Detalle en `mvp/mesa-dominio-resultado.md`, cierre.
-1. **F6 ejecutada, pendiente de evaluación:** evaluar recuperación y ubicación de condiciones, orden temporal, regresiones, formato y costo, según `unidades/PLAN.md`, sección F6. Hasta entonces no se adopta `ficha_v2`.
-2. **Agilidad:** comparar hipótesis de arquitectura, división y modelo/configuración. Vara de Frat: ≈90 % de contenido correcto y ejecución ágil. Falta demostrar el efecto sobre costo total.
-3. **Generalización:** medir cualquier candidato prometedor con una reserva nueva e independiente; las observaciones de las rondas no autorizan cambios adicionales por sí solas.
-4. **Vínculos de razón entre afirmaciones** («por esa razón», «porque»): niveles 1–2 del grafo de Zettel; fuera de la ficha de datos.
-5. **Jev:** identidad de lo registrado, correferencias, omisiones; componente posterior.
-6. Grok sin créditos de xAI: recargar si se quiere compararlo.
-7. **Unidad temática con el eje de `v1`** (decisión de Frat, 02-10; registrada en `definiciones-del-marco.md`, parte B). Los prompts de trabajo (`prompt_v10` y `prompt_datos_v1`) producen la unidad con el eje en el asunto: el `subtema` **nombra el núcleo** —el caso de la unidad— y las oraciones que lo desarrollan van juntas. Falta **declarar los satélites**, los casos de los que el texto habla por su relación con el núcleo, que hoy se leen de las relaciones y acciones. Discutirlo antes de escribirlo.
-8. **Adoptar el candidato del paso 2:** `mvp/paso2/prompt_ficha_contexto.md` vive hoy en la carpeta de trabajo; si se adopta, le toca su sitio en `unidades/prompts/` con nombre propio, sin mezclarlo con `ficha_v2`.
-9. **Cerrar la forma del dato del paso 2:** si vuelven el `sostiene` (quién lo sostiene) y el `respaldo` (la ruta al fragmento), y si `unidad_valor` se queda como campo propio o la unidad va dentro del valor. Hoy el dato viaja sin fuente ni ruta.
+0. **Leer el JSON de entrega (trabajo de ahora):** hoy el ORQ exige que el mensaje final
+   empiece con `{`, y pierde la entrega cuando viene con prosa o cerca de código: cuatro
+   corridas con la entrega actual (doc4 q5 r1 y r2; doc6 q2 y q4) más doc4 q4, que escribió
+   el JSON como texto en vez de llamar la herramienta `entregar` del mecanismo viejo.
+   Termina cuando las cinco quedan con su desenlace leído **sin volver a llamar al modelo**
+   (los crudos ya traen la respuesta). Dos vías, sin decidir: extraer el primer `{…}` bien
+   formado en el ORQ, o exigir en el prompt que el mensaje final sea solo el JSON
+   (`mvp/consulta-diseno.md`, §9).
+1. **Evaluar las respuestas de la consulta (07-10):** juzgar las 13 corridas contra lo que el
+   documento establece, con la vara de los números de oración y distinguiendo «no está en los
+   datos extraídos» de «el documento no lo dice» (`mvp/consulta-diseno.md`, §12). **No hay
+   lista de expectativas por pregunta guardada antes de correr** (ni de doc4 ni de doc6): la
+   evaluación tiene que decirlo así, o escribirla y marcarla como posterior.
+2. **El rechazo por dominio, sin ejercitar:** la consulta valida cada id contra los casos del
+   dominio y la traza anota el dominio con sus documentos, pero el caso de la mesa —un id de
+   RIBERA en una consulta de MONTAÑA— no se ha corrido: el corpus radicado tiene un solo
+   dominio (`GENERAL`). Antes era el punto 0; el detalle, en `mvp/mesa-dominio-resultado.md`,
+   cierre.
+3. **F6 ejecutada, pendiente de evaluación:** evaluar recuperación y ubicación de condiciones, orden temporal, regresiones, formato y costo, según `unidades/PLAN.md`, sección F6. Hasta entonces no se adopta `ficha_v2`.
+4. **Agilidad:** comparar hipótesis de arquitectura, división y modelo/configuración. Vara de Frat: ≈90 % de contenido correcto y ejecución ágil. Falta demostrar el efecto sobre costo total.
+5. **Generalización:** medir cualquier candidato prometedor con una reserva nueva e independiente; las observaciones de las rondas no autorizan cambios adicionales por sí solas.
+6. **Vínculos de razón entre afirmaciones** («por esa razón», «porque»): niveles 1–2 del grafo de Zettel; fuera de la ficha de datos.
+7. **Jev:** identidad de lo registrado, correferencias, omisiones; componente posterior.
+8. Grok sin créditos de xAI: recargar si se quiere compararlo.
+9. **Unidad temática con el eje de `v1`** (decisión de Frat, 02-10; registrada en `definiciones-del-marco.md`, parte B). Los prompts de trabajo (`prompt_v10` y `prompt_datos_v1`) producen la unidad con el eje en el asunto: el `subtema` **nombra el núcleo** —el caso de la unidad— y las oraciones que lo desarrollan van juntas. Falta **declarar los satélites**, los casos de los que el texto habla por su relación con el núcleo, que hoy se leen de las relaciones y acciones. Discutirlo antes de escribirlo.
+10. **Adoptar el candidato del paso 2:** `mvp/paso2/prompt_ficha_contexto.md` vive hoy en la carpeta de trabajo; si se adopta, le toca su sitio en `unidades/prompts/` con nombre propio, sin mezclarlo con `ficha_v2`.
+11. **Cerrar la forma del dato del paso 2:** si vuelven el `sostiene` (quién lo sostiene) y el `respaldo` (la ruta al fragmento), y si `unidad_valor` se queda como campo propio o la unidad va dentro del valor. Hoy el dato viaja sin fuente ni ruta.
