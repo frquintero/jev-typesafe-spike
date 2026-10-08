@@ -108,3 +108,11 @@ RESPUESTA_JSON:
 
 **Casos leídos:** doc6:U4, doc6:U13, doc6:U1, doc6:U2, doc6:U4 (de 19)
 
+## Pregunta 3 · doc4, doc6
+
+¿Por qué los vecinos del barrio La Esperanza pidieron el puente?
+
+**Respuesta:** Los vecinos del barrio La Esperanza pidieron el puente peatonal sobre la avenida Los Nogales a raíz de la muerte de un estudiante atropellado en 2023.
+
+**Casos leídos:** doc6:U5 (de 19)
+
