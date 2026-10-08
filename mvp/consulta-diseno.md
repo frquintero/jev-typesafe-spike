@@ -189,7 +189,7 @@ migraciones, copias de seguridad y versionado de la base.
 **Invariantes que el cargador puede exigir:**
 
 - Un documento radicado tiene **una unidad o más**: un documento sin unidades no es
-  un estado válido, es una extracción que falló (§14). Una línea es una unidad
+  un estado válido, es una extracción que falló (§13). Una línea es una unidad
   temática: `doc4:U3` es una sola oración y produjo 4 datos.
 - Si el documento no está donde dice su `ubicacion_local`, el cargador **se detiene
   y reporta**.
@@ -526,28 +526,12 @@ enreda.
   crudo y en la traza (`corte`: `max_turnos`, `max_herramientas`, `pregunta_al_usuario`, o
   `null` si el agente cerró). **No hay corte por ciclo** (misma acción con los mismos
   argumentos dos veces): `doc4` q5 y `doc6` q2 pidieron dos veces el mismo caso. **Abierto.**
-- **El consumo de las corridas** (`prompt_tokens = hit + miss`):
-
-| Corrida | Turnos | Turno 1 | Turnos siguientes |
-|---|---|---|---|
-| doc4 Q1 r1 | 2 | 1501 = 0 + 1501 | 1887 = 1536 + 351 |
-| doc4 Q1 r2 | 2 | 1020 = 0 + 1020 | 2393 = 1280 + 1113 |
-| doc4 Q2 r1 | 2 | 1502 = 0 + 1502 | 1886 = 1536 + 350 |
-| doc4 Q2 r2 | 2 | 1021 = 0 + 1021 | 1432 = 1024 + 408 |
-| doc4 Q3 r1 | 2 | 1016 = 0 + 1016 | 1408 = 1024 + 384 |
-| doc4 Q4 r1 | 2 | 1030 = 0 + 1030 | 2155 = 1152 + 1003 |
-| doc4 Q5 r1 | 3 | 879 = 0 + 879 | 1604 = 1024 + 580 · 3023 = 2432 + 591 |
-| doc4 Q5 r2 | 2 | 879 = 0 + 879 | 1584 = 896 + 688 |
-| doc6 Q1 r1 | 2 | 1431 = 0 + 1431 | 2011 = 1664 + 347 |
-| doc6 Q2 r1 | 6 | 1421 = 0 + 1421 | 1704 = 1536 + 168 · 2105 = 1920 + 185 · 2445 = 2176 + 269 · 2717 = 2560 + 157 · 3001 = 2816 + 185 |
-| doc6 Q3 r1 | 2 | 1426 = 0 + 1426 | 1768 = 1536 + 232 |
-| doc6 Q4 r1 | 2 | 1420 = 0 + 1420 | 2221 = 1792 + 429 |
-| doc6 Q5 r1 | 2 | 1423 = 0 + 1423 | 1828 = 1536 + 292 |
-
-  Lectura: el **prefijo fijo se cachea** (el `hit` aparece desde el segundo turno) y
-  lo que se paga es lo nuevo —cada resultado de herramienta y cada mensaje del
-  asistente—. El precio se calcula con la tarifa publicada el día de la corrida y se
-  registra; no se estima a ojo.
+- **El consumo de las corridas** (`prompt_tokens = hit + miss`): el **prefijo fijo se cachea** (el
+  `hit` aparece desde el segundo turno) y lo que se paga es lo nuevo —cada resultado de herramienta
+  y cada mensaje del asistente—. El precio se calcula con la tarifa publicada el día de la corrida y
+  se registra; no se estima a ojo. **La medición de la primera ronda** —trece corridas, con su
+  consumo turno por turno y lo que entregó cada una— quedó como **registro aparte**, junto a sus
+  crudos: `mvp/temp/consulta/medicion-primera-ronda.md`.
 - **El prompt no se muestra antes de correr:** se guarda con la corrida y se muestra
   cuando se pide.
 
@@ -576,58 +560,7 @@ base (§3).
 
 ---
 
-## 13. Medición de las corridas
-
-Trece corridas: ocho con `doc4` (26 datos, 5 casos) —las cinco preguntas y una réplica
-de q1, q2 y q5— y cinco con `doc6` (33 datos, 14 casos), una por pregunta.
-
-| Corrida | Casos pedidos | Distintos | Turnos · llamadas | Qué entregó |
-|---|---|---|---|---|
-| doc4 Q1 `-r1` | `U1` | 1 | 2 · 2 | respondida: la empresa de acueducto, en el barrio San Jorge |
-| doc4 Q1 `-r2` | `U1`, `U3`, `U4` | 3 | 2 · 4 | respondida: la empresa de acueducto, en el barrio San Jorge |
-| doc4 Q2 `-r1` | `U1` | 1 | 2 · 2 | respondida: catorce horas |
-| doc4 Q2 `-r2` | `U1` | 1 | 2 · 2 | respondida: catorce horas (desde las seis de la mañana del jueves) |
-| doc4 Q3 `-r1` | `U2` | 1 | 2 · 2 | respondida: la reparación de una tubería matriz en la carrera séptima |
-| doc4 Q4 `-r1` | `U4`, `U1` | 2 | 2 · 2 | sin entrega: el JSON vino como texto |
-| doc4 Q5 `-r1` | `U4`, `U4` | 1 | 3 · 2 | sin JSON leído: vino envuelto en ```json |
-| doc4 Q5 `-r2` | `U4` | 1 | 2 · 1 | sin JSON leído: prosa + ```json |
-| doc6 Q1 `-r1` | `U1`, `U3` | 2 | 2 · 2 | respondida: la avenida Los Nogales, sesenta metros |
-| doc6 Q2 `-r1` | `U4`, `U13`, `U1`, `U2`, `U4` | 4 | 6 · 5 | sin JSON leído: el JSON vino envuelto en una cerca |
-| doc6 Q3 `-r1` | `U5` | 1 | 2 · 1 | respondida: la muerte de un estudiante atropellado en 2023 |
-| doc6 Q4 `-r1` | `U7`, `U12` | 2 | 2 · 2 | sin JSON leído: prosa, y el JSON decía `no_esta_en_el_corpus` |
-| doc6 Q5 `-r1` | `U12` | 1 | 2 · 1 | respondida: la secretaria de Infraestructura |
-
-Nunca pidió todos los casos —ni los 5 de `doc4` ni los 14 de `doc6`: filtra por el
-umbral del 80 % sobre los nombres. La más larga fue `doc6` Q2, que pidió `U4` dos veces
-y gastó 6 turnos y 5 llamadas.
-
-**Dos mecanismos de entrega, no comparables en ese detalle.** Las seis primeras corridas
-de `doc4` —q1, q2, q3 y sus réplicas— entregaban con la herramienta `entregar`: su crudo
-trae `datos` y `reporte`, y su `contenido_final` está vacío. Desde «fuera la herramienta
-entregar» (07-10), la entrega es el **mensaje final**, y así corrieron `doc4` q4–q5 y todo
-`doc6`. El campo `herramientas` del crudo dice con cuál se hizo cada corrida.
-
-**Lo que la medición deja a la vista:**
-
-1. **El JSON como texto** (doc4 Q4): con la entrega por herramienta, el agente escribió el
-   JSON en su mensaje final y no llamó `entregar`, así que la entrega quedó ausente
-   (`cerrado: false`, `contenido_final` vacío). Con la entrega por mensaje final (§7), ese
-   JSON se lee.
-2. **El JSON envuelto** (doc4 Q5, las dos réplicas; doc6 Q2; doc6 Q4): el agente escribe,
-   además del JSON, la prosa que le pide la tarea 5 y/o la cerca de código. El ORQ de
-   entonces exigía que **todo** el mensaje fuera JSON, así que no lo leía aunque el JSON
-   estuviera a la vista. **Corregido el 08-10** (§9): el ORQ lo ubica donde prompt 3 lo
-   ponga. La relectura de los crudos guardados —sin volver a llamar al modelo— recupera las
-   cinco que quedaron en `None` (doc4 q4, del mecanismo viejo; doc4 q5 r1 y r2; doc6 q2 y
-   q4) y deja como estaban las cinco del mecanismo viejo que ya traían su entrega.
-3. **El referente abierto** (doc4 Q5): la corrida entregó `respondida`, con el reclamo
-   atribuido a la junta de acción comunal. Los datos leídos de `U4` no incluyen el
-   referente del reclamo; la extracción del paso 2 declaró dos dudas sobre los
-   referentes («Su reclamo», «Su decisión»).
-
----
-
-## 14. Riesgos y límites
+## 13. Riesgos y límites
 
 - **La extracción acota la respuesta** (hallazgo del paso 2, no defecto del puente).
 - **El JSON de salida se ubica** donde prompt 3 lo ponga (§9); un mensaje que no traiga
@@ -645,11 +578,11 @@ entregar» (07-10), la entrega es el **mensaje final**, y así corrieron `doc4` 
 
 ---
 
-## 15. Decisiones
+## 14. Decisiones
 
 | # | Decisión | Estado |
 |---|---|---|
-| **D1** | Nombres: código = ORQUESTADOR, LLM = AGENTE ENCARGADO | decidida; vocabulario en §17 |
+| **D1** | Nombres: código = ORQUESTADOR, LLM = AGENTE ENCARGADO | decidida; vocabulario en §16 |
 | **D2** | Corpus: solo `doc4`, o `doc4` + otro documento para tener conflicto | decidida en parte: `doc4` y `doc6` radicados; el conflicto entre fuentes sigue sin ejercitarse (§2) |
 | **D3** | Bucle con herramienta, o todo inyectado en una llamada | decidida: bucle con herramienta |
 | **D4** | Sin datos derivados en esta versión | decidida |
@@ -679,7 +612,7 @@ entregar» (07-10), la entrega es el **mensaje final**, y así corrieron `doc4` 
 
 ---
 
-## 16. Qué se reutiliza
+## 15. Qué se reutiliza
 
 - `mvp/código/proveedores/`: **el transporte del MVP** —el registro de alias, `llamar` con `prompt`
   o `mensajes` y `tools`, y la única lectura de claves (`claves.py`)—, con la forma de OpenAI como
@@ -699,7 +632,7 @@ entregar» (07-10), la entrega es el **mensaje final**, y así corrieron `doc4` 
 
 ---
 
-## 17. Vocabulario (D1)
+## 16. Vocabulario (D1)
 
 - **orquestador** = el código: resuelve, aplica, ejecuta y registra. No piensa y no
   juzga.
@@ -722,7 +655,7 @@ ni sus tablas de referencia.
 
 ---
 
-## 18. Fuentes consultadas
+## 17. Fuentes consultadas
 
 **Del marco y del andar**
 

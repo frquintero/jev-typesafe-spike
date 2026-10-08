@@ -200,8 +200,9 @@ archivado en `mvp/temp/`.
    `mvp/consulta/preguntas_doc8.md` y correr la consulta; evaluarla con la vara de los números de
    oración, distinguiendo «no está en los datos extraídos» de «el documento no lo dice»
    (`mvp/consulta-diseno.md`, §12). Las baterías de `doc4`/`doc6` están archivadas y
-   **sin evaluar**: si se quiere evaluación, o se escribe la lista de expectativas antes de correr,
-   o se declara posterior.
+   **sin evaluar** —el registro de esa ronda, con su medición, en
+   `mvp/temp/consulta/medicion-primera-ronda.md`—: si se quiere evaluación, o se escribe la lista de
+   expectativas antes de correr, o se declara posterior.
 1. **El rechazo por dominio, sin ejercitar:** la consulta valida cada id contra los casos del
    dominio y la traza anota el dominio con sus documentos, pero el caso de la mesa —un id de
    RIBERA en una consulta de MONTAÑA— no se ha corrido: el corpus tiene un solo
