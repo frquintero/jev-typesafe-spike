@@ -1,10 +1,10 @@
 [SISTEMA]
-CASOS:
-{{CASOS}}
-
 ANCLAS: {{ANCLAS}} (día y hora del sistema; no es dato del documento)
 
 [TAREA]
+CASOS:
+{{CASOS}}
+
 TAREAS:
 1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la
    siguiente pregunta: {{PREGUNTA}}.
