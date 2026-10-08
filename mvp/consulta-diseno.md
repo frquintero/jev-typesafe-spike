@@ -80,6 +80,10 @@ Cada documento radicado trae su batería de preguntas: `doc4` la de `preguntas.m
 `doc6` la de `preguntas-doc6.md` (§4.1). `doc5` (los tranvías) no está radicado: sus
 preguntas, su partición v9 y sus fichas quedan fuera.
 
+**Cómo se obtienen las unidades temáticas (el paso 1):** el procedimiento completo —qué
+entra, de dónde viene, cómo se procesa, qué se entrega y cómo se entrega— está en
+[guía_UT.md](guía_UT.md).
+
 **Radicar es fijar.** Un documento radicado no cambia: si su texto cambia, eso es
 **otro documento**, con su radicación y su fila propias. El `sello` (sha256 de lo
 radicado) es el guardián: si el archivo ya no coincide, el cargador se detiene y

@@ -69,7 +69,8 @@ mover un archivo o de tocar el estado del repo.
   provisional, con `README.md` para la vía y la verificación sin API). `corpus/` es la
   **consulta completa**: documentos radicados (`doc4`, `doc6`), la base SQLite, los
   crudos de la extracción y el orquestador (`corpus/consulta/orq/`); lo construido y
-  lo abierto está en `mvp/consulta-diseno.md`. **Su estado vive en la memoria**; el
+  lo abierto está en `mvp/consulta-diseno.md`, y el procedimiento de las unidades temáticas
+  (paso 1), en `mvp/guía_UT.md`. **Su estado vive en la memoria**; el
   detalle, en el `README`, `PLAN` o diseño de cada subcarpeta. Sigue: correr prompt 4 (la sonda
   de la herramienta de pregunta) y evaluar las respuestas (`mvp/consulta-diseno.md` §12).
 - `test_tool_calling/`: la mecánica del bucle con herramientas en DeepSeek

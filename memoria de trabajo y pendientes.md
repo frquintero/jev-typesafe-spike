@@ -34,8 +34,8 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   corrido con el corredor estandarizado** `mvp/corpus/paso1_unidades.py` (reusa la numeración y
   la verificación de `unidades/extraer_unidades.py`; antes esto se hacía a mano por Muse):
   13 oraciones → **6 unidades**, sin huecos ni solapes, **58,3 s** por llamada directa.
-  Los crudos quedan en `mvp/corpus/extraccion/doc7/`. **Pendiente:** paso 2, radicación y las
-  cinco preguntas.
+  Los crudos quedan en `mvp/corpus/extraccion/doc7/`. El procedimiento quedó escrito en
+  `mvp/guía_UT.md`. **Pendiente:** paso 2, radicación y las cinco preguntas.
 - **`unidades/`.** La ronda del paso 2 quedó **cerrada el 06-10** con la entrada
   elegida —**la unidad más las referencias de v9 con sus respaldos**, que aclara sin ampliar y
   conserva las dudas— y con **v9 congelado** (`mvp/pruebas/prompt_v9.md`). El conteo, rehecho por
