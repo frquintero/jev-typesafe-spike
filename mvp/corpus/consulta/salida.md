@@ -128,3 +128,11 @@ Los datos obtenidos indican que el diseño del puente incluye "rampas para silla
 
 **Casos leídos:** doc6:U7, doc6:U12 (de 19)
 
+## Pregunta 5 · doc4, doc6
+
+¿De quién era la recomendación que se conocerá en abril?
+
+**Respuesta:** La recomendación que se conocerá en abril era de la secretaria de Infraestructura, quien revisaba el diseño de las rampas del puente peatonal sobre la avenida Los Nogales junto con la interventora.
+
+**Casos leídos:** doc6:U12 (de 19)
+
