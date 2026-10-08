@@ -5,8 +5,9 @@ El único canal de vuelta es el mensaje `role: "tool"`: **lo que no viaje ahí, 
 sabe**. Los errores —un id que no está en la lista, argumentos que no son JSON— vuelven por el
 mismo canal, para que el agente pueda corregirse en el turno siguiente.
 
-Devuelve (texto, ok, objeto): `objeto` es el caso leído, cuando la herramienta es
-`obtener_datos_del_caso`.
+Devuelve (texto, ok, objeto): `objeto` es el caso leído cuando la herramienta es
+`obtener_datos_del_caso`, y la pregunta cuando es `preguntar_al_usuario` (que no ejecuta nada:
+solo se registra, y el ciclo termina).
 """
 
 import json
@@ -33,6 +34,18 @@ def ejecutar_herramienta(nombre, argumentos_crudos, db, casos):
         if error:
             return json.dumps({"error": error}, ensure_ascii=False), False, None
         return json.dumps(caso, ensure_ascii=False), True, caso
+
+    if nombre == "preguntar_al_usuario":
+        pregunta = argumentos.get("pregunta")
+        if not isinstance(pregunta, str) or not pregunta.strip():
+            return json.dumps({"error": "falta 'pregunta'"}, ensure_ascii=False), False, None
+        opciones = argumentos.get("opciones")
+        objeto = {
+            "pregunta": pregunta.strip(),
+            "opciones": [o.strip() for o in opciones
+                         if isinstance(o, str) and o.strip()] if isinstance(opciones, list) else [],
+        }
+        return json.dumps(objeto, ensure_ascii=False), True, objeto
 
     return json.dumps({"error": f"herramienta desconocida: {nombre}"},
                       ensure_ascii=False), False, None

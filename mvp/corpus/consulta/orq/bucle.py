@@ -13,8 +13,10 @@ El estado es la lista de mensajes. En cada turno:
        (`leer_entrega.extraer_entrega`)—. El ORQ no la juzga: la registra tal como vino.
 
 Se corta por `guardias.max_turnos` o `guardias.max_herramientas` (topes del orquestador, no
-de R), y la causa queda en `corte`: `None` si el agente cerró; `"max_turnos"` o
-`"max_herramientas"` si lo cortó una guardia.
+de R), y la causa queda en `corte`: `None` si el agente cerró; `"max_turnos"`,
+`"max_herramientas"` o `"pregunta_al_usuario"` si lo cortó una guardia o la pregunta al
+usuario. Cuando el agente usa `preguntar_al_usuario`, **el ciclo termina ahí**: el ORQ
+registra la pregunta y no la responde (D26).
 """
 
 import copy
@@ -31,6 +33,7 @@ def bucle(config, mensajes, herramientas, db, casos):
     json_entrega = None
     forma_entrega = None
     contenido_final = None
+    pregunta_usuario = None
     cerrado = False
     corte = None
     turnos = 0
@@ -69,6 +72,11 @@ def bucle(config, mensajes, herramientas, db, casos):
                                                      db, casos)
             if nombre == "obtener_datos_del_caso" and ok:
                 casos_leidos.append(objeto["unidad_id"])
+            if nombre == "preguntar_al_usuario" and ok:
+                # El ciclo termina acá: se registra la pregunta y no se le contesta al agente.
+                pregunta_usuario = dict(objeto, tool_call_id=llamada["id"])
+                corte = "pregunta_al_usuario"
+                break
             mensajes.append({"role": "tool", "tool_call_id": llamada["id"], "content": texto})
         if corte:
             break
@@ -76,6 +84,7 @@ def bucle(config, mensajes, herramientas, db, casos):
         corte = "max_turnos"
 
     return {"entrega": entrega, "json_entrega": json_entrega, "forma_entrega": forma_entrega,
-            "contenido_final": contenido_final, "cuerpos": cuerpos,
+            "contenido_final": contenido_final, "pregunta_usuario": pregunta_usuario,
+            "cuerpos": cuerpos,
             "respuestas": respuestas, "casos_leidos": casos_leidos, "turnos": turnos,
             "llamadas": llamadas, "cerrado": cerrado, "corte": corte, "mensajes": mensajes}

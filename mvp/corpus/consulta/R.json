@@ -1,5 +1,5 @@
 {
   "fuentes_admitidas": ["solo el documento"],
-  "herramientas": ["obtener_datos_del_caso"],
+  "herramientas": ["obtener_datos_del_caso", "preguntar_al_usuario"],
   "operaciones": []
 }

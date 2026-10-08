@@ -1,13 +1,17 @@
 # Consulta completa de Zettel (v1) · diseño
 
-Fecha: 07-10-2026; el lector de la entrega, corregido el 08-10.
+Fecha: 07-10-2026; el lector de la entrega, corregido el 08-10, y prompt 4 —la sonda de
+`preguntar_al_usuario`— escrito el 08-10.
 
-El primer recorrido está construido: base, orquestador, **prompt 3** (congelado; el ORQ se
-alineó a él) y las cinco preguntas de `doc4` más las cinco de `doc6` corridas. Este
-documento describe **lo que hay**; donde algo está abierto, lo dice con esa palabra.
+El primer recorrido está construido: base, orquestador, el prompt del agente y las cinco
+preguntas de `doc4` más las cinco de `doc6` corridas con **prompt 3**; **prompt 4** (la sonda de
+la herramienta de pregunta) está escrito y sin correr. Este documento describe **lo que hay**;
+donde algo está abierto, lo dice con esa palabra.
 
-**Lo que sigue.** (a) las condiciones de la consulta que el código no puede aplicar y no
-están escritas en ninguna parte (§4.2); (b) la evaluación de las respuestas (§12).
+**Lo que sigue.** (a) correr prompt 4 y mirar la conducta de la herramienta —`doc4` q5 debería
+preguntar, `doc6` q4 debería decir «no está»—; (b) las condiciones de la consulta que el código
+no puede aplicar y no están escritas en ninguna parte (§4.2); (c) la evaluación de las respuestas
+(§12).
 
 **Para qué.** El **primer recorrido completo** de Zettel sobre el corpus: recibir
 una pregunta y entregar una respuesta con lo que el corpus establece —o decir con
@@ -315,7 +319,7 @@ que se paga es **cada resultado nuevo**.
 
 ---
 
-## 7. La herramienta: una sola
+## 7. Las herramientas: dos
 
 ```json
 {"type": "function",
@@ -336,6 +340,25 @@ no filtra por aspecto antes de leer.
 
 **No hay herramienta de entrega.** La respuesta es el **mensaje final** del agente, y
 el ORQ la lee de ahí (§9).
+
+La segunda herramienta es la pregunta al usuario:
+
+```json
+{"type": "function",
+ "function": {
+   "name": "preguntar_al_usuario",
+   "description": "Pregunta al usuario cuando la pregunta admite dos o más respuestas plausibles. Poné la situación y las respuestas posibles.",
+   "parameters": {
+     "type": "object",
+     "properties": {"pregunta": {"type": "string"},
+                    "opciones": {"type": "array", "items": {"type": "string"}}},
+     "required": ["pregunta", "opciones"],
+     "additionalProperties": false}}}
+```
+
+El agente la usa cuando la pregunta **admite dos o más respuestas plausibles** (prompt 4, §8).
+El ORQ la registra y **el ciclo termina ahí**: no la responde (D26). No ejecuta nada ni toca la
+base — la respuesta del usuario sería K de la consulta, no un dato del corpus.
 
 **R se aplica al ofrecer.** La lista de `tools` es R ∩ lo que existe: lo restringido
 no se da, así que el agente no puede pedirlo. Y el sistema decide qué puede: si la
@@ -359,9 +382,12 @@ depende del dominio y de la pregunta). `armar_prompt.py` lo parte y devuelve los
 mensajes. Los huecos son `{{CASOS}}`, `{{PREGUNTA}}` y `{{ANCLAS}}`, rellenados con
 `str.replace` —nunca `str.format`—.
 
-**Congelado.** Este prompt es el que Frat llama **prompt 3**, y no se toca: el ORQ se acomoda
-a lo que él establezca. De ahí sale el lector de la entrega (§9): el JSON se lee donde
-prompt 3 dice que va, no donde al ORQ le gustaría.
+**Prompt 3 y prompt 4.** El prompt de las 13 corridas es el que Frat llama **prompt 3**, y los
+crudos lo conservan: de él sale el lector de la entrega (§9). Lo que sigue es **prompt 4**, la
+sonda de `preguntar_al_usuario`: sobre prompt 3 cambian la pregunta —sale de la tarea 1 y va en
+su línea—, el nombre del bloque (`TAREAS` → `LÓGICA DEL AGENTE ENCARGADO`), la tarea 4 (la
+tríada: una respuesta → responder · dos o más → herramienta · ninguna → número 2) y el valor
+`no_esta_en_el_corpus` → `no_esta_en_los_datos`.
 
 ```
 [SISTEMA]
@@ -371,25 +397,26 @@ ANCLAS: {{ANCLAS}} (día y hora del sistema; no es dato del documento)
 CASOS:
 {{CASOS}}
 
-TAREAS:
-1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la
-   siguiente pregunta: {{PREGUNTA}}.
-2. Si no hay casos que cumplan la condición anterior, pasa al punto 6 de TAREAS.
-3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos
-   seleccionados. Podés pedir varios casos en un mismo turno.
-4. Si con los datos obtenidos no se puede dar respuesta a la pregunta, pasa al punto 6 de TAREAS.
-5. Con los datos obtenidos arma una respuesta corta y autocontenida.
-6. Diligencia el JSON en RESPUESTA_JSON.
+Pregunta: {{PREGUNTA}}
+
+LÓGICA DEL AGENTE ENCARGADO:
+1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.
+2. Si no hay casos que cumplan la condición anterior, pasa al punto 5.
+3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.
+4. Analiza los datos: si hay una respuesta plausible, armá la respuesta; si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 5.
+5. Diligencia el JSON en RESPUESTA_JSON.
 
 RESPUESTA_JSON:
 {"desenlace": "respondida", "respuesta": "…"}
-{"desenlace": "no_esta_en_el_corpus", "respuesta": ""}
+{"desenlace": "no_esta_en_los_datos", "respuesta": ""}
 ```
 
 **Lo que el prompt no lleva, a propósito:** no hay bloques `ROL`, `REGLAS` ni
 `ALCANCE`; no lleva R (la aplica el ORQ); no lleva el esquema de las herramientas
 (viaja en `tools`); no dice el dominio ni los documentos —los casos son lo que el
-agente necesita para elegir—.
+agente necesita para elegir—. La reestructuración que se discutió —`ROL` con el nombre del
+modelo, `ALCANCE`, y un bloque `ESTRUCTURAS JSON DE SALIDA` con las estructuras numeradas—
+**quedó fuera de esta sonda**: es producto, y la sonda prueba una sola cosa.
 
 **El umbral del 80%** es el criterio de selección: el agente mira los nombres de los
 casos y pide los que podrían contener la respuesta. Los nombres son resúmenes: hay
@@ -406,8 +433,12 @@ El agente entrega un JSON con dos estados:
 
 ```json
 {"desenlace": "respondida", "respuesta": "…"}
-{"desenlace": "no_esta_en_el_corpus", "respuesta": ""}
+{"desenlace": "no_esta_en_los_datos", "respuesta": ""}
 ```
+
+El segundo valor se llama `no_esta_en_los_datos` desde prompt 4; **el lector acepta también el
+viejo** (`no_esta_en_el_corpus`), que es el que traen los 13 crudos de prompt 3
+(`orq/leer_entrega.py`, `ESTADOS`).
 
 **El JSON no tiene campo propio**: como no hay herramienta de entrega, vive **dentro**
 del mensaje final, junto a lo que el agente escriba alrededor. Prompt 3 lo pide así —la
@@ -463,9 +494,9 @@ enreda.
 - **Guardias implementadas:** `max_turnos: 8` y `max_herramientas: 20`, y **el tope de
   herramientas se respeta de verdad**: el bucle mira el tope antes de ejecutar y corta la
   corrida (antes ejecutaba una herramienta más por turno). La causa del corte queda en el
-  crudo y en la traza (`corte`: `max_turnos`, `max_herramientas`, o `null` si el agente
-  cerró). **No hay corte por ciclo** (misma acción con los mismos argumentos dos veces):
-  `doc4` q5 y `doc6` q2 pidieron dos veces el mismo caso. **Abierto.**
+  crudo y en la traza (`corte`: `max_turnos`, `max_herramientas`, `pregunta_al_usuario`, o
+  `null` si el agente cerró). **No hay corte por ciclo** (misma acción con los mismos
+  argumentos dos veces): `doc4` q5 y `doc6` q2 pidieron dos veces el mismo caso. **Abierto.**
 - **El consumo de las corridas** (`prompt_tokens = hit + miss`):
 
 | Corrida | Turnos | Turno 1 | Turnos siguientes |
@@ -614,6 +645,7 @@ entregar» (07-10), la entrega es el **mensaje final**, y así corrieron `doc4` 
 | **D23** | La declaración del esquema (partición, prompt, hash, modelo) en la base | abierta |
 | **D24** | El sostén en la respuesta (datos citados, reporte) | diferida: cuando el usuario pida ver la fuente |
 | **D25** | Tope y corte por ciclo | en parte: el tope de herramientas se respeta y la causa del corte se registra; **no hay corte por repetición** |
+| **D26** | Al usar `preguntar_al_usuario`, ¿se reanuda la corrida? | decidida (08-10): no en este MVP; el ciclo termina y la pregunta queda en la salida y en el crudo (§7) |
 
 ---
 

@@ -49,6 +49,7 @@ def guardar_crudo(config, corrida):
         "cerrado": estado["cerrado"],
         "corte": estado.get("corte"),
         "contenido_final": estado.get("contenido_final"),
+        "pregunta_usuario": estado.get("pregunta_usuario"),
         "forma_entrega": estado.get("forma_entrega"),
         "json_entrega": estado.get("json_entrega"),
         "entrega": estado["entrega"],

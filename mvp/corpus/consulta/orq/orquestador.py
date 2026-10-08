@@ -74,6 +74,11 @@ def main():
         print(f"desenlace: {estado['entrega'].get('desenlace')} "
               f"({estado['forma_entrega']})")
         print(f"respuesta: {estado['entrega'].get('respuesta') or '(sin respuesta)'}")
+    elif estado.get("pregunta_usuario"):
+        pregunta = estado["pregunta_usuario"]
+        print(f"pregunta al usuario: {pregunta.get('pregunta')}")
+        for opcion in pregunta.get("opciones") or []:
+            print(f"  - {opcion}")
     elif estado.get("contenido_final"):
         print(f"respuesta (sin JSON): {estado['contenido_final']}")
     elif estado.get("corte"):

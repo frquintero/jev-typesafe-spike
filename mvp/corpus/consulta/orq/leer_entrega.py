@@ -20,7 +20,8 @@ sea un objeto JSON.
 import json
 
 ETIQUETA = "RESPUESTA_JSON"
-ESTADOS = ("respondida", "no_esta_en_el_corpus")
+# El valor viejo (`no_esta_en_el_corpus`) se sigue aceptando: los crudos de prompt 3 lo traen.
+ESTADOS = ("respondida", "no_esta_en_los_datos", "no_esta_en_el_corpus")
 
 
 def _tramos(texto):

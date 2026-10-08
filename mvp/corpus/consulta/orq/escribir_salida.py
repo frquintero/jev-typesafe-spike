@@ -5,10 +5,11 @@ Es el único artefacto que no es para nosotros. Va la pregunta, la respuesta —
 juzgarla—, lo que el agente escribió además del JSON y los casos que se leyeron. Se **agrega** al
 archivo, una sección por pregunta, así una corrida no borra la anterior.
 
-Tres desenlaces posibles:
+Cuatro desenlaces posibles:
 
     - el JSON de `RESPUESTA_JSON` se leyó: van el desenlace y la respuesta;
-    - no se leyó: se escribe el mensaje final tal cual, diciendo que no hubo JSON;
+    - el agente preguntó al usuario: van la pregunta y sus opciones, y **el ciclo termina ahí**;
+    - no se leyó el JSON: se escribe el mensaje final tal cual, diciendo que no hubo JSON;
     - no hubo mensaje final: se dice si lo cortó una guardia o si el agente no contestó.
 
 El ORQ no corrige ni completa: registra.
@@ -25,12 +26,20 @@ def escribir_salida(config, corrida, ruta_crudo):
               corrida["pregunta"], ""]
 
     if isinstance(entrega, dict):
-        if entrega.get("desenlace") == "no_esta_en_el_corpus":
-            lineas += ["**No está en los datos del corpus.**", ""]
+        if entrega.get("desenlace") in ("no_esta_en_los_datos", "no_esta_en_el_corpus"):
+            lineas += ["**No está en los datos.**", ""]
         respuesta = (entrega.get("respuesta") or "").strip()
         lineas += [f"**Respuesta:** {respuesta or '(vacía)'}", ""]
         if estado.get("forma_entrega") == "dentro_del_mensaje" and estado.get("contenido_final"):
             lineas += ["**Mensaje del agente:**", "", estado["contenido_final"], ""]
+    elif estado.get("pregunta_usuario"):
+        pregunta = estado["pregunta_usuario"]
+        lineas += ["**Pregunta al usuario:**", "", pregunta.get("pregunta", ""), ""]
+        if pregunta.get("opciones"):
+            lineas += ["**Opciones:**", ""]
+            lineas += [f"- {opcion}" for opcion in pregunta["opciones"]]
+            lineas += [""]
+        lineas += ["El ciclo termina acá: el ORQ no responde la pregunta.", ""]
     elif estado.get("contenido_final"):
         lineas += ["**Sin entrega:** el agente no escribió el JSON de RESPUESTA_JSON. "
                    "Su mensaje final decía:", "", estado["contenido_final"], ""]

@@ -70,8 +70,8 @@ mover un archivo o de tocar el estado del repo.
   **consulta completa**: documentos radicados (`doc4`, `doc6`), la base SQLite, los
   crudos de la extracción y el orquestador (`corpus/consulta/orq/`); lo construido y
   lo abierto está en `mvp/consulta-diseno.md`. **Su estado vive en la memoria**; el
-  detalle, en el `README`, `PLAN` o diseño de cada subcarpeta. Sigue: evaluar las respuestas
-  de la consulta (`mvp/consulta-diseno.md` §12).
+  detalle, en el `README`, `PLAN` o diseño de cada subcarpeta. Sigue: correr prompt 4 (la sonda
+  de la herramienta de pregunta) y evaluar las respuestas (`mvp/consulta-diseno.md` §12).
 - `test_tool_calling/`: la mecánica del bucle con herramientas en DeepSeek
   (`call_model` con `messages` y `tools`), corrida el 07-10; lecciones en su
   `README.md` y crudos en `cache/`.

@@ -21,7 +21,14 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   08-10:** el ORQ ubica el JSON donde prompt 3 lo ponga (prompt 3, congelado; el ORQ se alineó
   a él) y la relectura de los crudos guardados deja **13 de 13** con desenlace, sin volver a
   llamar al modelo. Lo construido, los huecos y lo abierto están en
-  `mvp/consulta-diseno.md`; **lo que sigue: evaluar las respuestas (§12).**
+  `mvp/consulta-diseno.md`; **lo que sigue: correr prompt 4 y evaluar las respuestas (§12).**
+- **Prompt 4 (08-10): la sonda de la herramienta de pregunta.** El prompt del agente suma
+  `preguntar_al_usuario`: cuando la pregunta **admite dos o más respuestas plausibles**, el
+  agente pregunta en vez de inventar. En este MVP **el ciclo termina ahí** (D26): el ORQ registra
+  la pregunta en la salida y en el crudo, y no la responde. Es una sonda de **una sola
+  hipótesis**: el `ROL`, el `ALCANCE` y el bloque `ESTRUCTURAS JSON DE SALIDA` que se discutieron
+  quedaron fuera. **Para mirar:** `doc4` q5 (dos referentes → debe preguntar), `doc6` q4 (no está
+  el dato → «no está en los datos») y `doc6` q1/q3/q5 (una respuesta → responde).
 - **`unidades/`.** La ronda del paso 2 quedó **cerrada el 06-10** con la entrada
   elegida —**la unidad más las referencias de v9 con sus respaldos**, que aclara sin ampliar y
   conserva las dudas— y con **v9 congelado** (`mvp/pruebas/prompt_v9.md`). El conteo, rehecho por
@@ -161,14 +168,16 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
 
 **Orden (08-10).** La **conexión mecánica pregunta–dominio–corpus** quedó construida y corrida
 (ver «Dónde quedamos») y el **lector de la entrega se corrigió**: el ORQ se alineó a prompt 3
-(cierre, al final de esta sección). Lo que sigue: **evaluar las respuestas de la consulta**
-(punto 0). La extracción está fijada (`prompt_v10`, `prompt_datos_v1`) y el diseño vigente, en
-`mvp/consulta-diseno.md`.
-0. **Evaluar las respuestas de la consulta (07-10):** juzgar las 13 corridas contra lo que el
-   documento establece, con la vara de los números de oración y distinguiendo «no está en los
-   datos extraídos» de «el documento no lo dice» (`mvp/consulta-diseno.md`, §12). **No hay
-   lista de expectativas por pregunta guardada antes de correr** (ni de doc4 ni de doc6): la
-   evaluación tiene que decirlo así, o escribirla y marcarla como posterior.
+(cierre, al final de esta sección). Lo que sigue: **correr prompt 4** (la sonda de la herramienta
+de pregunta) y **evaluar las respuestas de la consulta** (punto 0). La extracción está fijada
+(`prompt_v10`, `prompt_datos_v1`) y el diseño vigente, en `mvp/consulta-diseno.md`.
+0. **Correr prompt 4 y evaluar las respuestas de la consulta:** primero la sonda de la
+   herramienta —`doc4` q5 debería preguntar; `doc6` q4 debería decir «no está en los datos»—, y
+   después juzgar las corridas contra lo que el documento establece, con la vara de los números
+   de oración y distinguiendo «no está en los datos extraídos» de «el documento no lo dice»
+   (`mvp/consulta-diseno.md`, §12). **No hay lista de expectativas por pregunta guardada antes
+   de correr** (ni de doc4 ni de doc6): la evaluación tiene que decirlo así, o escribirla y
+   marcarla como posterior.
 1. **El rechazo por dominio, sin ejercitar:** la consulta valida cada id contra los casos del
    dominio y la traza anota el dominio con sus documentos, pero el caso de la mesa —un id de
    RIBERA en una consulta de MONTAÑA— no se ha corrido: el corpus radicado tiene un solo
