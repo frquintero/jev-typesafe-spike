@@ -58,34 +58,18 @@ con lo que se está haciendo.
 
 ## Proyectos en curso
 
-Solo referencia al proyecto que se trabaja; no es bitácora (el detalle vive
-en el README, PLAN y tareas de cada carpeta).
+Solo los proyectos que se trabajan, una línea cada uno; el detalle vive en el
+README y el `PLAN.md` de su carpeta. No es bitácora.
 
-- Fecha: 2026-10-01 · Proyecto: ficha de datos con DeepSeek (`unidades/`)
-- Fecha: 2026-10-02 · Proyecto: NotebookLM como extractor alternativo o
-  complementario (`notebooklm-spike/`)
-- Fecha: 2026-10-03 · Proyecto: pruebas NotebookLM — grafo semántico
-  (paso 2 en NotebookLM sobre unidades de DeepSeek) (`nblm-grafo-semantico/`)
-- Fecha: 2026-10-05 · Proyecto: MVP de Zettel — mesas 1 y 1b (forma de la
-  tabla de A(Q), a mano), pieza 1 (conflicto y dato derivado, con
-  `pieza1.py`; registro en `mvp/pieza1/registro.md`), plan del orquestador
-  (candidato, con dos revisiones), mesa de dominio (T1–T6, ejecutada en
-  comprobación guiada; registro en `mvp/mesa-dominio-resultado.md`), que
-  actualizó §4.1 del plan, y pruebas del paso 1 con Muse (`mvp/pruebas/`;
-  candidato v9 congelado) (`mvp/`)
-- Fecha: 2026-10-06 · Proyecto: paso 2 de las unidades temáticas — extracción
-  de datos por unidad; ronda **cerrada**: la unidad más las referencias de v9
-  con sus respaldos queda como **base provisional** (recuperación estricta
-  95,4 % en desarrollo y 100 % en la reserva; **aceptación no demostrada**)
-  (`mvp/paso2/`). Sigue: correr prompt 4 (la sonda de la herramienta de pregunta) y evaluar
-  las respuestas de la consulta; el diseño está en `mvp/consulta-diseno.md` (§12).
-- Fecha: 2026-10-07 · Proyecto: la mecánica del bucle con herramientas de
-  DeepSeek —`call_model` con `messages` y `tools`—, con sus corridas y lecciones
-  (`test_tool_calling/`)
-- Fecha: 2026-10-07 · Proyecto: consulta completa de Zettel —base del corpus con
-  `doc4` y `doc6` radicados, orquestador por pasos y dos baterías de preguntas
-  corridas— (`mvp/corpus/`); el diseño y los huecos, en
-  `mvp/consulta-diseno.md`
+- Fecha: 2026-10-01 · Proyecto: ficha de datos con DeepSeek (`unidades/`); la
+  ronda del paso 2 quedó **cerrada** el 06-10 y quedan pendientes su evaluación
+  (F6) y la adopción del candidato.
+- Fecha: 2026-10-08 · Proyecto: MVP de Zettel (`mvp/`): la **consulta completa**
+  —código, prompts y base— quedó **desde cero**: los corredores de la extracción,
+  la inscripción de la base y el orquestador en `mvp/código/`, los tres prompts en
+  `mvp/prompts/`, y `mvp/documentos/`, `mvp/consulta/` y la base **vacíos**; el
+  material anterior, archivado en `mvp/temp/`. Sigue: **radicar el primer
+  documento** y correr la consulta; el diseño está en `mvp/consulta-diseno.md`.
 
 ## Frentes cerrados: lecciones e ideas rescatables
 
@@ -114,7 +98,7 @@ Ideas que podrían servirnos:
    Al procesar una unidad temática, adjuntar un mapa breve del documento
    (subtemas y casos) para que la unidad no se lea aislada.
 
-## Estado al 2026-10-04 (registro; el estado vigente está en `memoria de trabajo y pendientes.md`)
+## Estado al 2026-10-04 (registro; el estado vigente está en `mvp/memoria de trabajo y pendientes.md`)
 
 **04-10: visión operativa de Zettel** (`zettel-vision-operativa.md`): la
 pregunta como punto de partida, el mundo (K) junto al corpus (D), reglas de
@@ -123,7 +107,7 @@ probar.
 
 **Nuevo enfoque del paso 2; rondas F1–F5 hechas y F6 corrida, sin evaluar; prompt vigente `ficha_v1`, congelado.** El marco
 queda fijo: ensayo de Frat «¿Qué es un dato?», versión del 30-09 (resumen
-operativo en `memoria de trabajo y pendientes.md`, §2). Las pruebas del
+operativo en `mvp/memoria de trabajo y pendientes.md`, §2). Las pruebas del
 enfoque anterior (`datos_pABQ5`, `datos_pABQ6B`) se suspendieron el 30-09;
 lo aprendido con ellas queda en `historico/memoria-hasta-2026-10-01.md`.
 
@@ -175,7 +159,7 @@ Jev. **Arquitectura propuesta para después (no decidida):** oraciones
 **Dónde está cada cosa.**
 
 - Estado vigente, marco, decisiones, errores, lecciones y pendientes:
-  `memoria de trabajo y pendientes.md` (fuente única del estado; §2 manda
+  `mvp/memoria de trabajo y pendientes.md` (fuente única del estado; §2 manda
   sobre lo anterior).
 - Definiciones del marco (filosóficas con líneas del ensayo, operativas y
   homónimos): `definiciones-del-marco.md` (documento vivo).
@@ -217,9 +201,10 @@ abandonado. Las reglas 1–26 y el marco conceptual de Jev siguen vigentes.
 **Sin proxy desde el 04-10.** Antes, un proxy local (`utiliarios/proxy_local.py`) ponía
 la clave en cada llamada para que el código fuera idéntico en la nube y en
 el PC. Frat decidió que eso no hace falta (la nube la cubre Claude Code), y
-se retiró: más simple. Ahora `call_model` (`niveles/run_niveles.py`), por
-donde pasan las llamadas del trabajo activo, lee la clave del entorno según
-el proveedor. Las claves nunca se imprimen ni quedan en archivos del repo.
+se retiró: más simple. Ahora **dos puertas que leen la clave del entorno según el host**:
+`proveedores.llamar` (`mvp/código/proveedores/`), por donde pasan las llamadas del MVP, y
+`call_model` (`niveles/run_niveles.py`), que usan las líneas viejas. Las claves nunca se imprimen
+ni quedan en archivos del repo.
 
 **Claves de los proveedores.** Son variables globales del shell, definidas en `~/.bashrc`:
 
@@ -229,6 +214,7 @@ el proveedor. Las claves nunca se imprimen ni quedan en archivos del repo.
 | Z.ai (GLM) | `api.z.ai` | `ZAI_API_KEY` |
 | DeepSeek | `api.deepseek.com` | `DEEPSEEK_API_KEY` |
 | xAI (Grok) | `api.x.ai` | `XAI_API_KEY` |
+| Anthropic (Claude) | `api.anthropic.com` | `ANTHROPIC_API_KEY` |
 
 `ZAI_API_KEY` no está escrita en `~/.bashrc`: la carga desde `~/.config/zai/api_key.env`. Para agregar o cambiar una clave, pon una línea `export NOMBRE=clave` en `~/.bashrc` y corre `source ~/.bashrc` (para xAI hay un asistente: `bash utiliarios/configurar_clave_xai.sh`, que la pide sin mostrarla).
 

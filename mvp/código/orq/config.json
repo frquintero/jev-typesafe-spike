@@ -1,0 +1,28 @@
+{
+  "rutas": {
+    "preguntas": "../../consulta/preguntas_doc6.md",
+    "r": "../R.json",
+    "corpus": "../corpus.db",
+    "prompt": "../../prompts/prompt_ORQ.md",
+    "salida": "../../temp/consulta/salida.md",
+    "traza": "../../temp/consulta/traza.jsonl",
+    "crudos": "../../temp/consulta/cache"
+  },
+  "preguntas": {
+    "desde_archivo": true,
+    "cual": 1
+  },
+  "dominio": "GENERAL",
+  "modelo": {
+    "alias": "deepseek",
+    "esfuerzo": "low"
+  },
+  "guardias": {
+    "max_turnos": 8,
+    "max_herramientas": 20
+  },
+  "entrega": {
+    "forma": "json_en_mensaje_final"
+  },
+  "etiqueta": "consulta-doc6-q{numero}"
+}

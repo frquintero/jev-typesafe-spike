@@ -11,7 +11,7 @@ operativo (comandos, claves, modelos, reportes) está en `AGENTS.md`.
 |---|---|
 | `README.md`, «Proyectos en curso» | la lista de proyectos que se trabajan, una línea por proyecto («Fecha: AAAA-MM-DD · Proyecto: … (carpeta)»). Solo referencia, no bitácora. |
 | `AGENTS.md`, «Mapa del repo» | qué hay en cada carpeta y en qué estado. |
-| `memoria de trabajo y pendientes.md`, «Dónde quedamos» | el estado vigente y lo que sigue. Fuente única del estado. |
+| `mvp/memoria de trabajo y pendientes.md`, «Dónde quedamos» | el estado vigente y lo que sigue. Fuente única del estado. |
 
 - **Cuándo:** al abrir un proyecto o una línea de trabajo, al cerrarlo o
   suspenderlo, y cada vez que cambia el paso que se está dando.
@@ -28,10 +28,12 @@ operativo (comandos, claves, modelos, reportes) está en `AGENTS.md`.
 
 ## 2. Política de ubicación
 
-**Raíz.** Solo los documentos de navegación, estado y vocabulario:
+**Raíz.** Solo los documentos de navegación y vocabulario:
 
-`README.md` · `AGENTS.md` · `CLAUDE.md` · `memoria de trabajo y pendientes.md` ·
-`política.md` · `definiciones-del-marco.md` · `zettel-vision-operativa.md`
+`README.md` · `AGENTS.md` · `CLAUDE.md` · `política.md` ·
+`definiciones-del-marco.md` · `zettel-vision-operativa.md`
+
+**El estado vive con su proyecto:** la memoria, en `mvp/memoria de trabajo y pendientes.md`.
 
 Cualquier otro documento va a `otros documentos/`. Las carpetas de proyecto
 (`unidades/`, `mvp/`, `prototipos/`, `niveles/`, `probes/`, `cutoff-spike/`,
@@ -57,7 +59,7 @@ le da carpeta propia y entra en los tres sitios.
 - **Regla para un guion que viva ahí:** el repo se resuelve como
   `"$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"` (el padre de `utiliarios/`),
   nunca como el directorio del propio guion.
-- Los guiones de un proyecto se quedan en su carpeta (`mvp/pruebas/correr_muse.sh`).
+- Los guiones de un proyecto se quedan en su carpeta (`mvp/código/paso1_unidades.py`).
 
 **Documentos vivos (no se editan sin aprobación de Frat):** los siete de la raíz y,
 en `otros documentos/`, `diccionario.md` y `jev_typesafe_guia_pedagogica_v2.md`.

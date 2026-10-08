@@ -24,9 +24,9 @@ establece, y si lo que no se puede establecer se dice con precisión. El recorri
 terminado; **la evaluación, pendiente**.
 
 **Base.** [orquestador-plan.md](../historico/orquestador-plan.md) §3 (estaciones) y
-§11 (F0, F1); el contrato de [mesa-dominio-plan.md](mesa-dominio-plan.md) §9 y su
+§11 (F0, F1); el contrato del plan de la mesa de dominio §9 y su
 cierre; la extracción del paso 2
-([paso2/informe_paso2.md](paso2/informe_paso2.md)). **Los tres prompts de trabajo viven en
+(el informe de esa ronda, archivado en `mvp/temp/`). **Los tres prompts de trabajo viven en
 `mvp/prompts/`:** `prompt_UT.md` (paso 1, unidades temáticas), `prompt_DATOS.md` (paso 2,
 los datos por unidad —una unidad por turno: devuelve `caso` y `datos`
 (`aspecto · valor · unidad_valor`)—) y `prompt_ORQ.md` (el agente de la consulta,
@@ -58,28 +58,27 @@ la cobertura, solo orquesta.
 
 ---
 
-## 2. El corpus: `doc4` y `doc6` radicados
+## 2. La primera ronda del corpus: `doc4` y `doc6` (archivada)
 
-Los documentos radicados son **`doc4`** (el corte de agua) y **`doc6`** (el puente
-peatonal sobre la avenida Los Nogales): los textos de pruebas, copiados tal cual, con
-su `sello`.
+**Hoy no hay documentos radicados:** el registro se reseteó el 08-10 y arranca vacío (§3). Lo que
+sigue es lo que produjo la **primera ronda**, que quedó **archivada en `mvp/temp/`** y sirve de
+referencia: los dos documentos eran textos de prueba, copiados tal cual, con su `sello`.
 
-- **`doc4`**: `mvp/corpus/documentos/doc4.md` (copia de `mvp/pruebas/doc4.md`)
-  - paso 1 (v10, Muse): `extraccion/doc4/p1-doc4-v10-muse-r1.out` → 5 unidades;
+- **`doc4`**: `mvp/temp/documentos/doc4.md` (copia del texto de pruebas)
+  - paso 1 (v10, Muse): `mvp/temp/extraccion/doc4/p1-doc4-v10-muse-r1.out` → 5 unidades;
     `[1–3]`, `[4–6]`, `[7]`, `[8,9,10,13–17]`, `[11,12]`
-  - paso 2 (`prompt_DATOS`, r2): `extraccion/doc4/p2-doc4-u{1..5}-r2.out`
+  - paso 2 (`prompt_DATOS`, r2): `mvp/temp/extraccion/doc4/p2-doc4-u{1..5}-r2.out`
   - lo que dio: **5 casos y 26 datos**. Las dos dudas de `U4` —el referente de «Su
     reclamo» y de «Su decisión»— quedan en el crudo del paso 2: la base no las guarda
     (§3).
-- **`doc6`**: `mvp/corpus/documentos/doc6.md` (copia de `mvp/pruebas/doc6.md`; el texto
+- **`doc6`**: `mvp/temp/documentos/doc6.md` (copia del texto de pruebas; el texto
   y su batería de preguntas entraron el 07-10)
-  - paso 1 (v10, Muse): `extraccion/doc6/p1-doc6-v10-muse-r1.out` → **14 unidades**
-  - paso 2 (`prompt_DATOS`, r1): `extraccion/doc6/p2-doc6-u{1..14}-r1.out`
+  - paso 1 (v10, Muse): `mvp/temp/extraccion/doc6/p1-doc6-v10-muse-r1.out` → **14 unidades**
+  - paso 2 (`prompt_DATOS`, r1): `mvp/temp/extraccion/doc6/p2-doc6-u{1..14}-r1.out`
   - lo que dio: **14 casos y 33 datos**.
 
-Cada documento radicado trae su batería de preguntas: `doc4` la de `preguntas.md` y
-`doc6` la de `preguntas-doc6.md` (§4.1). `doc5` (los tranvías) no está radicado: sus
-preguntas, su partición v9 y sus fichas quedan fuera.
+Cada documento traía su batería de preguntas —`preguntas_doc4.md` y `preguntas_doc6.md` (§4.1)— y
+las dos quedaron archivadas con él. `doc5` (los tranvías) nunca se radicó.
 
 **Cómo se obtienen las unidades temáticas (el paso 1):** el procedimiento completo —qué
 entra, de dónde viene, cómo se procesa, qué se entrega y cómo se entrega— está en
@@ -90,7 +89,7 @@ documento** con todas las unidades que falten, y la respuesta se reparte en un `
 La vía es `mvp/prompts/prompt_DATOS.md`:
 
 ```bash
-python3 mvp/corpus/paso2_datos.py <doc> <archivo de unidades> <modelo> <rN>
+python3 mvp/código/paso2_datos.py <doc> <archivo de unidades> <modelo> <rN>
 ```
 
 Deja `p2-<doc>-u<n>-<rN>.out` (el resultado, uno por unidad) y `p2-<doc>-tanda-<rN>.json` (el
@@ -120,24 +119,26 @@ documento, no el del esquema. **Abierto.**
 
 ## 3. La base: dos tablas en SQLite
 
-La base es `mvp/corpus/corpus.db` (SQLite, 40 KB), y la construye
-`mvp/corpus/cargar_corpus.py` desde los documentos radicados y los crudos de la
-extracción.
+`mvp/código/corpus.db` (SQLite) **es el registro**: no es una vista derivada y no se regenera.
+`mvp/código/cargar_corpus.py` **inscribe** un documento radicado —su fila y sus datos— y lo
+inscrito no se vuelve a tocar: un documento radicado no se mueve. En pruebas, el acto explícito
+`--reinscribir <doc>` lo saca y lo vuelve a entrar. La **fecha y hora de
+radicación las pone la base**, en el momento de inscribir.
 
 ```sql
 CREATE TABLE documentos (
-  id                 TEXT PRIMARY KEY,   -- doc4, doc6
+  id                 TEXT PRIMARY KEY,   -- el documento inscrito
   dominio            TEXT NOT NULL,      -- GENERAL
-  fecha_radicacion   TEXT NOT NULL,      -- 2026-10-07
-  ubicacion_local    TEXT NOT NULL,      -- …/documentos/doc4.md, …/doc6.md
-  ubicacion_upstream TEXT NOT NULL,      -- …/blob/main/…/doc4.md, …/doc6.md
+  fecha_radicacion   TEXT NOT NULL DEFAULT (datetime('now','localtime')),  -- fecha y hora: las pone la base, al inscribir
+  ubicacion_local    TEXT NOT NULL,      -- …/documentos/doc7.md
+  ubicacion_upstream TEXT NOT NULL,      -- …/blob/main/…/doc7.md
   commit_publicacion TEXT,               -- el commit que publica el documento
   sello              TEXT NOT NULL       -- sha256 de lo radicado
 );
 
 CREATE TABLE datos (
-  id           TEXT PRIMARY KEY,         -- doc4:U1:D4, doc6:U7:D1
-  unidad_id    TEXT NOT NULL,            -- doc4:U1, doc6:U7
+  id           TEXT PRIMARY KEY,         -- doc7:U1:D4, doc7:U7:D1
+  unidad_id    TEXT NOT NULL,            -- doc7:U1, doc7:U7
   caso         TEXT NOT NULL,            -- el caso de esa unidad
   aspecto      TEXT NOT NULL,
   valor        TEXT NOT NULL,
@@ -145,8 +146,11 @@ CREATE TABLE datos (
 );
 ```
 
-Contenido: **2 documentos** (`doc4` y `doc6`, ambos `GENERAL`), **59 datos**,
-**19 casos** (doc4: 26 datos en 5 casos · doc6: 33 datos en 14 casos).
+**El registro se reseteó el 08-10 y está vacío**: 0 documentos, 0 datos, 0 casos. Los documentos
+en `documentos/` y los crudos de la extracción siguen en el repo; `doc4` y `doc6` **no** están
+inscritos, y el primero en entrar será `doc7`, cuando se radique.
+
+Así se lee una fila (ejemplo, con datos inscritos):
 
 | id | unidad_id | caso | aspecto | valor | unidad_valor |
 |---|---|---|---|---|---|
@@ -198,12 +202,14 @@ nada, que no aporta ningún dato. El cargador puede avisarlo en la carga.
 
 ### 4.1. Archivos de preguntas (es el usuario)
 
-Dos archivos, **solo el texto de las preguntas, limpias** —sin condiciones, sin
-expectativas, sin pistas—: `mvp/corpus/consulta/preguntas.md` (las cinco de `doc4`) y
-`mvp/corpus/consulta/preguntas-doc6.md` (las cinco de `doc6`). Es lo único que aporta
-el usuario, junto con el dominio elegido.
+Un archivo por documento, **solo el texto de las preguntas, limpias** —sin condiciones, sin
+expectativas, sin pistas—, en `mvp/consulta/preguntas_<doc>.md` (si el documento es `doc7.md`, sus
+preguntas van en `preguntas_doc7.md`). Es lo único que aporta el usuario, junto con el dominio
+elegido. **Hoy no hay ninguno**: la carpeta está vacía, y las baterías de la primera ronda
+(`preguntas_doc4.md`, `preguntas_doc6.md`) quedaron archivadas en `mvp/temp/documentos/`. Las de
+abajo quedan como ejemplo del formato.
 
-`preguntas.md` (`doc4`):
+`preguntas_doc4.md` (`doc4`):
 
 ```
 1. ¿Qué empresa anunció el corte de agua y en qué barrio?
@@ -213,7 +219,7 @@ el usuario, junto con el dominio elegido.
 5. ¿A quién pertenecía el reclamo que quedó registrado en el acta?
 ```
 
-`preguntas-doc6.md` (`doc6`):
+`preguntas_doc6.md` (`doc6`):
 
 ```
 1. ¿Sobre qué vía se construirá el puente peatonal y cuánto medirá de largo?
@@ -229,7 +235,7 @@ abierto; en la de `doc6`, la 4 pide un número que el texto no da.
 
 ### 4.2. R
 
-`mvp/corpus/consulta/R.json` es **un JSON que lee el ORQUESTADOR**. El agente **no
+`mvp/código/R.json` es **un JSON que lee el ORQUESTADOR**. El agente **no
 lo ve**: R se aplica ofreciendo —qué fuentes se admiten, qué herramientas se
 ofrecen, qué operaciones existen—, no se le explica.
 
@@ -485,16 +491,16 @@ lo pida**.
 
 ## 10. Salidas
 
-- **`mvp/corpus/consulta/salida.md`** (lo que lee el usuario): por pregunta —con la
+- **`mvp/temp/consulta/salida.md`** (lo que lee el usuario): por pregunta —con la
   etiqueta del crudo, que distingue las dos baterías—, la respuesta tal como vino, el
   **mensaje del agente** cuando el JSON venía dentro de uno más largo (el caso de
   `no_esta_en_el_corpus`, donde la explicación vive solo ahí) y los casos leídos. Se
   **agrega**, no se reescribe.
-- **`mvp/corpus/consulta/traza.jsonl`** (append-only): una línea por corrida con las
+- **`mvp/temp/consulta/traza.jsonl`** (append-only): una línea por corrida con las
   anclas, la pregunta, el dominio y los documentos, los casos, los casos leídos, las
   herramientas ofrecidas, los turnos, las llamadas, el desenlace, **la forma en que se leyó
   el JSON y la causa del corte**, si cerró y el consumo por turno, más la ruta del crudo.
-- **`mvp/corpus/consulta/cache/consulta-<documento>-q{n}-r{k}.json`** (`doc4` y `doc6`):
+- **`mvp/temp/consulta/cache/consulta-<documento>-q{n}-r{k}.json`** (`doc4` y `doc6`):
   el crudo de la corrida —los cuerpos enviados y las respuestas, con los trozos SSE
   verbatim y sin cabeceras—. No se sobrescribe: una réplica nueva lleva un `k` nuevo.
 
@@ -505,11 +511,13 @@ lo pida**.
 Las guardias **no son R**: R dice qué se puede usar; esto solo corta si el bucle se
 enreda.
 
-- **Modelo:** alias `v2/deepseek` = `deepseek-flash`, con razonamiento encendido
-  (`thinking: enabled`) y `reasoning_effort: low`. El transporte es `stream: true`
-  (excepción autorizada: stream es transporte, no cambia la salida), y `call_model`
-  ensambla los deltas: `content`, `reasoning_content`, `tool_calls` y
-  `finish_reason`.
+- **Modelo:** alias `deepseek` = `deepseek-flash`, con razonamiento encendido
+  (`thinking: enabled`) y esfuerzo `low` —el de defecto del registro de proveedores, cambiable por
+  alias o por llamada—. El transporte es el del MVP (`mvp/código/proveedores/`, **sin
+  streaming**): la respuesta llega entera y se entrega en la forma de siempre
+  —`choices[0].message` con `content`, `reasoning_content`, `tool_calls` y `finish_reason`—. Los
+  alias declarados son `deepseek`, `glm` (GLM 5.3 Flash) y `haiku` (Claude Haiku 5.5), más `grok`
+  sin créditos.
 - **De a una:** se manda una pregunta; la siguiente, cuando termina la corrida.
 - **Guardias implementadas:** `max_turnos: 8` y `max_herramientas: 20`, y **el tope de
   herramientas se respeta de verdad**: el bucle mira el tope antes de ejecutar y corta la
@@ -561,8 +569,8 @@ no del ORQ (§1):
 
 La **vara** para distinguir el hueco del documento del hueco de la extracción son los
 números de oración de la partición del paso 1: viven en los crudos
-(`extraccion/doc4/p1-doc4-v10-muse-r1.out` y
-`extraccion/doc6/p1-doc6-v10-muse-r1.out`) y en el material de evaluación, no en la
+(`mvp/temp/extraccion/doc4/p1-doc4-v10-muse-r1.out` y
+`mvp/temp/extraccion/doc6/p1-doc6-v10-muse-r1.out`) y en el material de evaluación, no en la
 base (§3).
 
 ---
@@ -645,14 +653,14 @@ entregar» (07-10), la entrega es el **mensaje final**, y así corrieron `doc4` 
 | **D3** | Bucle con herramienta, o todo inyectado en una llamada | decidida: bucle con herramienta |
 | **D4** | Sin datos derivados en esta versión | decidida |
 | **D5** | R: `solo el documento`, sin mundo del LLM ni anclas como premisa | decidida: R.json con tres claves |
-| **D6** | Nombre y sitio de los archivos | decidida: base y documento en `mvp/corpus/`, consulta y código en `mvp/corpus/consulta/` |
+| **D6** | Nombre y sitio de los archivos | decidida: el código, `R.json` y la base en `mvp/código/` (el orquestador, en `orq/`); los documentos que se radican, en `mvp/documentos/`; las baterías, en `mvp/consulta/preguntas_<doc>.md`; los crudos de extracción y los registros de la consulta, en `mvp/temp/` (§2–§3) |
 | **D7** | Almacén | decidida: SQLite con dos tablas (`documentos`, `datos`) |
 | **D8** | Derivados | fuera de esta versión |
 | **D9** | Idioma de los `tipo` | obsoleta: no hay tipos |
 | **D10** | Documento R: esbozo + prosa para el agente | reemplazada: R es un JSON que lee el ORQ |
 | **D11** | Compactación del historial | no implementada: el historial crece y corta el tope de turnos |
 | **D12** | «Mundo del agente» en los documentos vivos | sigue como vocabulario; sin efecto en el código |
-| **D13** | Herramientas: (A) protocolo textual o (B) nativas | decidida: (B), aditivo sobre `call_model` |
+| **D13** | Herramientas: (A) protocolo textual o (B) nativas | decidida: (B), aditivo sobre el transporte del MVP (`proveedores`) |
 | **D14** | Prompts de la extracción | decidida: `prompt_UT` y `prompt_DATOS`, hoy en `mvp/prompts/` |
 | **D15** | Salida del paso 2 | decidida: `caso` y `datos`; **el 08-10 se quitó `dudas`** (no lo leía nadie) **y el paso 2 pasó a la tanda** (D27) |
 | **D16** | `unidad_valor`: campo propio o dentro del `valor` | abierta — se usa poco (3 de 26 datos en `doc4`; 4 de 33 en `doc6`) |
@@ -672,17 +680,18 @@ entregar» (07-10), la entrega es el **mensaje final**, y así corrieron `doc4` 
 
 ## 16. Qué se reutiliza
 
-- `niveles/run_niveles.py`: `call_model` —con `messages` y `tools` opcionales, y
-  acumulando `tool_calls` y `finish_reason`— y `extract_json`.
-- `mvp/corpus/cargar_corpus.py`: el cargador de la base (§3).
-- `mvp/corpus/consulta/orq/`: el orquestador, un archivo por paso (§5).
-- `mvp/corpus/consulta/orq/leer_entrega.py`: el lector de la entrega —el JSON de prompt 3,
+- `mvp/código/proveedores/`: **el transporte del MVP** —el registro de alias, `llamar` con `prompt`
+  o `mensajes` y `tools`, y la única lectura de claves (`claves.py`)—, con la forma de OpenAI como
+  contrato; y `mvp/código/respuesta.py`, con `extract_json`.
+- `mvp/código/cargar_corpus.py`: el cargador de la base (§3).
+- `mvp/código/orq/`: el orquestador, un archivo por paso (§5).
+- `mvp/código/orq/leer_entrega.py`: el lector de la entrega —el JSON de prompt 3,
   donde venga (§9).
 - `test_tool_calling/`: las corridas que fijaron la mecánica del bucle y las
   lecciones del tool calling.
-- `unidades/extraer_unidades.py`: `numerar_oraciones` —para la evaluación, no para la
-  base—.
-- `mvp/pieza1/pieza1.py`: `verificar` y `comparar` —para la evaluación—; `guardar` y
+- `mvp/código/extraer_unidades.py`: `numerar_oraciones` y `verificar_subtemas` —la copia propia del
+  MVP; para la evaluación, no para la base—.
+- `mvp/temp/pieza1/pieza1.py`: `verificar` y `comparar` —para la evaluación—; `guardar` y
   `mantener` quedan sin uso mientras no haya derivados.
 - `unidades/ficha_doc.py`: `verificar` y `fragmentos`, si el respaldo literal vuelve.
 - Los crudos de la extracción de `doc4` y `doc6` (§2).
@@ -704,7 +713,8 @@ parte C dice «mundo del agente»;
 [orquestador-plan.md](../historico/orquestador-plan.md) renombra el componente en
 §0–§2, sus estaciones y el prompt.
 
-**Divergencia declarada:** [pieza1/esquema2.md](pieza1/esquema2.md) sigue rotulando
+**Divergencia declarada:** el esquema candidato de la pieza 1 (archivado en `mvp/temp/`)
+sigue rotulando
 `mundo: orquestador` en su lista de R, por compatibilidad con la pieza 1 en prueba;
 se renombra al adoptar el esquema. Por un cambio de etiqueta no se tocan `pieza1.py`
 ni sus tablas de referencia.

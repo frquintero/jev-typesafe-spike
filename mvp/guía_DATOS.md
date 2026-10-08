@@ -1,8 +1,9 @@
 # Guía de los datos (paso 2)
 
 Cómo se obtienen los datos de las unidades temáticas: qué entra, de dónde viene, cómo se
-procesa, qué se entrega y cómo se entrega. Es el procedimiento vigente para el corpus
-(`mvp/corpus/`). El estado del trabajo vive en `memoria de trabajo y pendientes.md`; el paso 1
+procesa, qué se entrega y cómo se entrega. Es el procedimiento vigente del MVP (código en
+`mvp/código/`, crudos en `mvp/temp/extraccion/`). El estado del trabajo vive en
+`mvp/memoria de trabajo y pendientes.md`; el paso 1
 —de dónde salen las unidades— está en [guía_UT.md](guía_UT.md); acá está el paso 2, en detalle.
 
 **Va en tanda:** las unidades del documento se mandan en **una sola llamada**, y la respuesta se
@@ -27,8 +28,8 @@ ve el agente— y aparecía en 2 de 21 unidades.
   - `caso`: el `subtema` que devolvió el paso 1,
   - `contenido`: sus oraciones unidas en un párrafo, sin numeración.
   Van **solo las que todavía no tienen su salida**; las demás se saltan.
-- **El archivo de unidades** del paso 1: `mvp/corpus/extraccion/<doc>/p1-…out`.
-- **El texto del documento**: `mvp/pruebas/<doc>.md`. Se usa para volver a numerar las oraciones
+- **El archivo de unidades** del paso 1: `mvp/temp/extraccion/<doc>/p1-…out`.
+- **El texto del documento**: `mvp/temp/pruebas/<doc>.md`. Se usa para volver a numerar las oraciones
   y sacar de ahí las de cada unidad; la unidad que recibe el modelo no lleva números.
 - **El prompt**: `prompt_DATOS`, el que esté **vigente en `mvp/prompts/`**. Su único hueco es
   `{{UNIDADES}}`, que se sustituye con la lista de unidades.
@@ -45,21 +46,22 @@ ve el agente— y aparecía en 2 de 21 unidades.
 Un comando, desde la raíz del repo:
 
 ```bash
-python3 mvp/corpus/paso2_datos.py <doc> <unidades> <modelo> <rN>
+python3 mvp/código/paso2_datos.py <doc> <unidades> <modelo> <rN>
 
 # por ejemplo
-python3 mvp/corpus/paso2_datos.py doc7 p1-doc7-v10-deepseek-r1.out deepseek r1
+python3 mvp/código/paso2_datos.py doc7 p1-doc7-v10-deepseek-r1.out deepseek r1
 ```
 
 `<unidades>` es el archivo de paso 1: una ruta, o el nombre suelto dentro de
-`mvp/corpus/extraccion/<doc>/`. `<rN>` es la réplica con su `r` (`r1`, `r2`…).
+`mvp/temp/extraccion/<doc>/`. `<rN>` es la réplica con su `r` (`r1`, `r2`…).
 
 Lo que hace:
 
 1. **Arma la lista** de las unidades que faltan: `caso` = el `subtema`, `contenido` = sus
    oraciones en un párrafo.
 2. **Sustituye** `{{UNIDADES}}` en el prompt.
-3. **Llama al modelo** por `call_model` (`niveles/run_niveles.py`, `v2`/`deepseek`): **una sola
+3. **Llama al modelo** por `proveedores.llamar` (`mvp/código/proveedores/`; el alias del registro,
+   p. ej. `deepseek`): **una sola
    llamada** con todas las unidades, sin agente de por medio.
 4. **Lee la respuesta** con `extract_json` (tolera que el JSON venga dentro de una cerca).
 5. **Verifica la forma**: que `unidades` sea una lista, que estén todas las posiciones enviadas,
@@ -89,7 +91,7 @@ medición de la tanda que fijó esta vía.
 
 ## 5. Qué se entrega
 
-En `mvp/corpus/extraccion/<doc>/`:
+En `mvp/temp/extraccion/<doc>/`:
 
 **(a) El resultado, un archivo por unidad** — `p2-<doc>-u<n>-<rN>.out`:
 
@@ -105,11 +107,12 @@ Es lo que lee el cargador del corpus. `n` es el número de la unidad.
 la respuesta, los **segundos** y los tokens, y la verificación de forma. Sirve para volver a
 verificar sin llamar a la API, y para revisar la granularidad de lo que trajo la tanda.
 
-Un ejemplo real: `mvp/corpus/extraccion/doc7/p2-doc7-tanda-r1.json` —6 unidades en 24,4 s—.
+Un ejemplo real: `mvp/temp/extraccion/doc7/p2-doc7-u3-r1.out` —5 datos, 7,7 s—. El crudo de una
+tanda es `p2-<doc>-tanda-<rN>.json`.
 
 ## 6. Cómo se entrega
 
-**Nombre y lugar.** `mvp/corpus/extraccion/<doc>/p2-<doc>-u<n>-<rN>.{out}` (uno por unidad, el
+**Nombre y lugar.** `mvp/temp/extraccion/<doc>/p2-<doc>-u<n>-<rN>.{out}` (uno por unidad, el
 resultado) y `p2-<doc>-tanda-<rN>.json` (el crudo de la llamada).
 
 **Qué pasa después con lo que se entrega.** Cada dato es una **fila** del corpus:
@@ -117,7 +120,7 @@ resultado) y `p2-<doc>-tanda-<rN>.json` (el crudo de la llamada).
 - su id es `<doc>:U<n>:D<j>`, donde `j` es la **posición en la lista `datos`** (no un número que
   venga del texto),
 - lleva `unidad_id`, `caso`, `aspecto`, `valor` y `unidad_valor`,
-- y entra a la base cuando se corre `python3 mvp/corpus/cargar_corpus.py`, que lee el `.out` de
+- y entra a la base cuando se corre `python3 mvp/código/cargar_corpus.py`, que lee el `.out` de
   cada unidad del documento radicado. Si a una unidad le falta su `.out`, el cargador **se
   detiene en el medio** —la reconstruye entera, así que queda a medio armar—; se vuelve a
   correr cuando el archivo esté.

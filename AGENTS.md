@@ -24,7 +24,7 @@ haciendo. El camino se hace al andar.
 trabajan («Fecha: AAAA-MM-DD · Proyecto: … (carpeta)»), solo como
 referencia, no como bitácora. Si infieres o detectas que se está trabajando
 un proyecto nuevo (carpeta nueva, línea de trabajo nueva en un mensaje o en
-`memoria de trabajo y pendientes.md`), agrégalo a esa lista en el mismo
+`mvp/memoria de trabajo y pendientes.md`), agrégalo a esa lista en el mismo
 commit; si un proyecto se cierra o se suspende, quítalo.
 
 **Casa y actualización.** Qué se actualiza, cuándo, y dónde vive cada archivo
@@ -36,7 +36,7 @@ mover un archivo o de tocar el estado del repo.
 1. `git status --short` + `git log --oneline -5` (rama de trabajo: `main`).
 2. Leer `README.md`.
 3. Leer `política.md`.
-4. Leer `memoria de trabajo y pendientes.md`: fuente única del estado. No
+4. Leer `mvp/memoria de trabajo y pendientes.md`: fuente única del estado. No
    duplicarlo en ningún otro archivo.
 5. Leer `zettel-vision-operativa.md`.
 6. `definiciones-del-marco.md` es el vocabulario del marco (ensayo «¿Qué es un
@@ -53,7 +53,8 @@ mover un archivo o de tocar el estado del repo.
 - `prototipos/`: banco de prueba del paso 2 (ejemplos prototípicos). Rondas y
   comandos en su `PLAN.md`.
 - `niveles/`: sin trabajo activo. `run_niveles.py` tiene `call_model` (streaming) y los
-  alias de modelos que usan los guiones de `unidades/`.
+  alias de modelos que usan los guiones de `unidades/`; **el MVP no lo usa**: tiene su propio
+  transporte, `mvp/código/proveedores/`.
 - `probes/` + `cache/`: spike Jev original.
 - `cutoff-spike/`: sondas de ventana y recorte. No editar sus JSON de sondas sin releer
   su `PLAN.md`.
@@ -63,17 +64,21 @@ mover un archivo o de tocar el estado del repo.
 - `nblm-grafo-semantico/`: mixto: subtemas con DeepSeek y datos por unidad con
   NotebookLM, cada unidad como fuente aparte. Mismas reglas que `notebooklm-spike/`.
 - `mvp/`: MVP de Zettel. Mesas de la forma de A(Q), pieza 1 (conflicto y dato
-  derivado), mesa de dominio, pruebas del paso 1 (`pruebas/`) y
-  paso 2 (`paso2/`: ronda cerrada; entrada «unidad + referencias» como base
-  provisional, con `README.md` para la vía y la verificación sin API). `corpus/` es la
-  **consulta completa**: documentos radicados (`doc4`, `doc6`), la base SQLite, los
-  crudos de la extracción y el orquestador (`corpus/consulta/orq/`); **los tres prompts de
+  derivado), mesa de dominio, pruebas del paso 1 y ronda cerrada del paso 2 quedaron
+  **archivadas en `mvp/temp/`**. Lo vivo **arranca desde cero**: `mvp/documentos/` (los
+  documentos que se radican) y `mvp/consulta/` (las baterías `preguntas_<doc>.md`) están
+  **vacíos**, y la base `mvp/código/corpus.db` no tiene nada inscrito. El **código** está en
+  `mvp/código/`: los corredores de la extracción (`paso1_unidades.py`, `paso2_datos.py`), la
+  inscripción de la base (`cargar_corpus.py`, que inscribe y no regenera), `R.json` y el
+  orquestador (`mvp/código/orq/`); los crudos de la extracción y los registros de la consulta
+  quedan en `mvp/temp/`. **Los tres prompts de
   trabajo viven en `mvp/prompts/`** (`prompt_UT`, `prompt_DATOS` y `prompt_ORQ`). Lo
   construido y lo abierto está en `mvp/consulta-diseno.md`, y los procedimientos de la
   extracción, en `mvp/guía_UT.md` (paso 1, unidades temáticas) y `mvp/guía_DATOS.md`
-  (paso 2, datos por unidad). **Su estado vive en la memoria**; el
-  detalle, en el `README`, `PLAN` o diseño de cada subcarpeta. Sigue: correr prompt 4 (la sonda
-  de la herramienta de pregunta) y evaluar las respuestas (`mvp/consulta-diseno.md` §12).
+  (paso 2, datos por unidad). **El estado vive en `mvp/memoria de trabajo y pendientes.md`**; el
+  detalle, en el `README`, `PLAN` o diseño de cada subcarpeta. Sigue: **radicar el primer
+  documento** —su texto a `mvp/documentos/`, su batería a `mvp/consulta/preguntas_<doc>.md` y su
+  inscripción en la base—.
 - `test_tool_calling/`: la mecánica del bucle con herramientas en DeepSeek
   (`call_model` con `messages` y `tools`), corrida el 07-10; lecciones en su
   `README.md` y crudos en `cache/`.
@@ -90,9 +95,10 @@ mover un archivo o de tocar el estado del repo.
   en `~/Claude-memoria/memoria/`) y los informes sueltos (p. ej.
   `mistral-large-4-verificacion-2026-10-06.md`).
 - `deleted/`: snapshots históricos; no es fuente.
-- Documentos vivos (no editar sin aprobación): los siete de la raíz (`README.md`,
-  `AGENTS.md`, `CLAUDE.md`, `memoria de trabajo y pendientes.md`, `política.md`,
-  `definiciones-del-marco.md`, `zettel-vision-operativa.md`) y, en
+- Documentos vivos (no editar sin aprobación): los seis de la raíz (`README.md`,
+  `AGENTS.md`, `CLAUDE.md`, `política.md`,
+  `definiciones-del-marco.md`, `zettel-vision-operativa.md`), **la memoria** —fuente única del
+  estado— en `mvp/memoria de trabajo y pendientes.md`, y, en
   `otros documentos/`, `diccionario.md`, `jev_typesafe_guia_pedagogica_v2.md` y
   `agentes-delegados.md`.
 
@@ -122,17 +128,20 @@ en `unidades/PLAN.md`).
 
 ## Red y claves (regla dura)
 
-- Las llamadas a modelos pasan por `call_model` (`niveles/run_niveles.py`),
-  que lee la clave del entorno según el host y la pone en `Authorization`;
-  sin la variable, no pone cabecera. Ningún otro código lee claves.
+- Las llamadas a modelos pasan por **dos puertas, y cada una en un solo lugar**: `call_model`
+  (`niveles/run_niveles.py`), que usan las líneas viejas (`unidades/`, `prototipos/`, `probes/`), y
+  `proveedores.llamar` (`mvp/código/proveedores/`), que es la del MVP —el MVP no importa de
+  `niveles/`—. Las dos leen la clave del entorno según el host: `Authorization: Bearer` en los
+  compatibles con OpenAI, `x-api-key` en Anthropic. **Ningún otro código lee claves.**
 - Claves: `TYPESAFE_API_KEY` (api.typesafe.ai), `ZAI_API_KEY` (api.z.ai),
-  `DEEPSEEK_API_KEY` (api.deepseek.com), `XAI_API_KEY` (api.x.ai). Viven en
+  `DEEPSEEK_API_KEY` (api.deepseek.com), `XAI_API_KEY` (api.x.ai) y `ANTHROPIC_API_KEY`
+  (api.anthropic.com). Viven en
   `~/.bashrc` (ZAI en `~/.config/zai/api_key.env`); los shells no
   interactivos no las cargan solos: correr con `bash -ic '…'`.
 - **Una clave nunca se imprime, ni se escribe en crudos, reportes, logs o
   mensajes.** Los crudos guardan el cuerpo de la petición, no las cabeceras.
 - Verificar presencia sin imprimir valores:
-  `bash -ic 'for v in TYPESAFE_API_KEY ZAI_API_KEY DEEPSEEK_API_KEY XAI_API_KEY; do
+  `bash -ic 'for v in TYPESAFE_API_KEY ZAI_API_KEY DEEPSEEK_API_KEY XAI_API_KEY ANTHROPIC_API_KEY; do
   [ -n "${!v}" ] && echo "$v: SET" || echo "$v: MISSING"; done'`
 - **Muse usa la suscripción Muse Code Everyday, nunca pago por uso:** no
   cargar ni pasarle `META_API_KEY`. Cómo se arranca y se delega:

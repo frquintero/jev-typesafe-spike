@@ -1,7 +1,7 @@
 # Zettel: cómo lo soñamos (visión operativa)
 
 Fecha: 2026-10-04 (revisada el mismo día con Frat, y con las tensiones
-discutidas con DeepSeek en `mvp/tensiones-vision-operativa-2026-10-04.md`).
+discutidas con DeepSeek).
 Origen: discusión de Frat y Cowork. Este documento recuerda, con un ejemplo
 completo, cómo debería funcionar Zettel de punta a punta. Es visión, no
 especificación: el marco filosófico es lo único fijo (`marco filosófico/`,
@@ -48,7 +48,7 @@ sus convenciones de lectura: entra como premisa solo si R lo admite.
 - **Brecha:** lo que falta para pasar de A(Q | K) a una respuesta.
 
 **La tabla de A(Q).** A(Q) se representa, para que el efecto no sea un
-autorreporte del modelo. Reglas probadas en la mesa 1 (`mvp/mesa1/`):
+autorreporte del modelo. Reglas probadas en la mesa 1:
 
 | posicion | si | estado | ruta |
 |---|---|---|---|
