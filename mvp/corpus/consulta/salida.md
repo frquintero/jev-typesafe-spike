@@ -51,3 +51,11 @@
 
 **Casos leídos:** doc4:U2 (de 5)
 
+## Pregunta 4
+
+¿La junta de acción comunal logró que el corte no se hiciera en semana de exámenes?
+
+**Sin entrega.** El agente no entregó el JSON.
+
+**Casos leídos:** doc4:U4, doc4:U1 (de 5)
+
