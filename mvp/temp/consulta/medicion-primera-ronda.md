@@ -71,3 +71,12 @@ del crudo dice con cuál se hizo cada corrida.
 3. **El referente abierto** (`doc4` Q5): la corrida entregó `respondida`, con el reclamo atribuido a
    la junta de acción comunal. Los datos leídos de `U4` no incluyen el referente del reclamo; la
    extracción del paso 2 declaró dos dudas sobre los referentes («Su reclamo», «Su decisión»).
+
+## La extracción de esos dos documentos
+
+- **`doc4`**: paso 1 (v10, Muse) → 5 unidades (`[1–3]`, `[4–6]`, `[7]`, `[8,9,10,13–17]`,
+  `[11,12]`); paso 2 → **5 casos y 26 datos**. Las dos dudas de `U4` —el referente de «Su reclamo» y
+  de «Su decisión»— quedaron en el crudo del paso 2: la base no las guarda.
+- **`doc6`**: paso 1 (v10, Muse) → **14 unidades**; paso 2 → **14 casos y 33 datos**.
+- **`unidad_valor` se usa poco**: 3 de 26 datos en `doc4` y 4 de 33 en `doc6` (de ahí que D16 siga
+  abierta en el diseño).
