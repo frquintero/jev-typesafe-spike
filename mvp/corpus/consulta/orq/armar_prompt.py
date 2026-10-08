@@ -3,8 +3,8 @@
 
 El prompt vive en `prompt_agente.md`, en dos partes marcadas:
 
-    [SISTEMA]   lo que siempre va, sin perjuicio de la tarea: los casos y las anclas
-    [TAREA]     la tarea y el formato de salida
+    [SISTEMA]   lo que se conserva entre turnos: las anclas
+    [TAREA]     los casos del dominio, la tarea y el formato de salida
 
 Se rellena con `str.replace` —nunca `str.format`: el texto puede traer llaves—. Lo único dinámico
 son los casos, la pregunta y las anclas. R **no** va: R la aplica el orquestador, ofreciendo

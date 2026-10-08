@@ -47,7 +47,10 @@ def guardar_crudo(config, corrida):
         "turnos": estado["turnos"],
         "llamadas": estado["llamadas"],
         "cerrado": estado["cerrado"],
+        "corte": estado.get("corte"),
         "contenido_final": estado.get("contenido_final"),
+        "forma_entrega": estado.get("forma_entrega"),
+        "json_entrega": estado.get("json_entrega"),
         "entrega": estado["entrega"],
     }
     destino.write_text(json.dumps(crudo, ensure_ascii=False, indent=1), encoding="utf-8")

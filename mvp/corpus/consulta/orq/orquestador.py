@@ -64,16 +64,20 @@ def main():
                "herramientas": [h["function"]["name"] for h in herramientas],
                "r": r, "estado": estado}
     ruta_crudo = guardar_crudo(config, corrida)
-    ruta_salida = escribir_salida(config, corrida)
+    ruta_salida = escribir_salida(config, corrida, ruta_crudo)
     ruta_traza = registrar_traza(config, corrida, ruta_crudo)
 
     print(f"turnos {estado['turnos']} · llamadas {estado['llamadas']} · "
+          f"corte {estado['corte'] or 'ninguno'} · "
           f"casos leídos {', '.join(estado['casos_leidos']) or 'ninguno'}")
     if isinstance(estado["entrega"], dict):
-        print(f"desenlace: {estado['entrega'].get('desenlace')}")
+        print(f"desenlace: {estado['entrega'].get('desenlace')} "
+              f"({estado['forma_entrega']})")
         print(f"respuesta: {estado['entrega'].get('respuesta') or '(sin respuesta)'}")
     elif estado.get("contenido_final"):
         print(f"respuesta (sin JSON): {estado['contenido_final']}")
+    elif estado.get("corte"):
+        print(f"sin entrega: la corrida se cortó por {estado['corte']}")
     else:
         print("sin respuesta: el agente no contestó")
     for etiqueta, ruta in (("crudo", ruta_crudo), ("traza", ruta_traza), ("salida", ruta_salida)):

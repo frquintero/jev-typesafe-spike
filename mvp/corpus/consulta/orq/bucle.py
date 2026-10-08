@@ -8,16 +8,19 @@ El estado es la lista de mensajes. En cada turno:
        `tool_calls` y su `reasoning_content`, que la API exige devolver cuando hay `tools`—,
        cada llamada se ejecuta y su resultado entra como un mensaje `role: "tool"` con su
        `tool_call_id`;
-    3. si el mensaje **no** trae llamadas, el agente terminó: su contenido es la respuesta, y el
-       ORQ la lee de ahí (el JSON de RESPUESTA_JSON). No la juzga: la registra tal como vino.
+    3. si el mensaje **no** trae llamadas, el agente terminó: su contenido es la respuesta, y
+       de ahí sale la entrega —el JSON de `RESPUESTA_JSON`, donde el prompt lo ponga
+       (`leer_entrega.extraer_entrega`)—. El ORQ no la juzga: la registra tal como vino.
 
-Se corta por `guardias.max_turnos` o `guardias.max_herramientas` (topes del orquestador, no de R).
+Se corta por `guardias.max_turnos` o `guardias.max_herramientas` (topes del orquestador, no
+de R), y la causa queda en `corte`: `None` si el agente cerró; `"max_turnos"` o
+`"max_herramientas"` si lo cortó una guardia.
 """
 
 import copy
-import json
 
 from ejecutar_herramienta import ejecutar_herramienta
+from leer_entrega import extraer_entrega
 from llamar_modelo import llamar_modelo
 
 
@@ -25,10 +28,14 @@ def bucle(config, mensajes, herramientas, db, casos):
     """Corre el bucle y devuelve el estado de la corrida."""
     cuerpos, respuestas, casos_leidos = [], [], []
     entrega = None
+    json_entrega = None
+    forma_entrega = None
     contenido_final = None
     cerrado = False
+    corte = None
     turnos = 0
     llamadas = 0
+    tope_herramientas = config["guardias"]["max_herramientas"]
 
     for turno in range(1, config["guardias"]["max_turnos"] + 1):
         turnos = turno
@@ -39,12 +46,9 @@ def bucle(config, mensajes, herramientas, db, casos):
         pedidas = mensaje.get("tool_calls") or []
 
         if not pedidas:
-            # El agente terminó: lo que trae el mensaje es su respuesta.
+            # El agente terminó: su mensaje trae la respuesta y, dentro, la entrega.
             contenido_final = (mensaje.get("content") or "").strip()
-            try:
-                entrega = json.loads(contenido_final) if contenido_final else None
-            except json.JSONDecodeError:
-                entrega = None  # no vino JSON: se registra el texto tal cual
+            entrega, json_entrega, forma_entrega = extraer_entrega(contenido_final)
             cerrado = True
             break
 
@@ -55,6 +59,10 @@ def bucle(config, mensajes, herramientas, db, casos):
         mensajes.append(asistente)
 
         for llamada in pedidas:
+            # El tope se mira **antes** de ejecutar: no se pasa del número ofrecido.
+            if llamadas >= tope_herramientas:
+                corte = "max_herramientas"
+                break
             llamadas += 1
             nombre = llamada["function"]["name"]
             texto, ok, objeto = ejecutar_herramienta(nombre, llamada["function"]["arguments"],
@@ -62,9 +70,12 @@ def bucle(config, mensajes, herramientas, db, casos):
             if nombre == "obtener_datos_del_caso" and ok:
                 casos_leidos.append(objeto["unidad_id"])
             mensajes.append({"role": "tool", "tool_call_id": llamada["id"], "content": texto})
-            if llamadas >= config["guardias"]["max_herramientas"]:
-                break
+        if corte:
+            break
+    else:
+        corte = "max_turnos"
 
-    return {"entrega": entrega, "contenido_final": contenido_final, "cuerpos": cuerpos,
+    return {"entrega": entrega, "json_entrega": json_entrega, "forma_entrega": forma_entrega,
+            "contenido_final": contenido_final, "cuerpos": cuerpos,
             "respuestas": respuestas, "casos_leidos": casos_leidos, "turnos": turnos,
-            "llamadas": llamadas, "cerrado": cerrado, "mensajes": mensajes}
+            "llamadas": llamadas, "cerrado": cerrado, "corte": corte, "mensajes": mensajes}

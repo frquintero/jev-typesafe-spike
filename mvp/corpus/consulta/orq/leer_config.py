@@ -12,7 +12,7 @@ Qué hay en la configuración:
     dominio                  el dominio elegido para esta consulta (entrada, no se infiere)
     modelo.version/.alias    qué modelo de `niveles/run_niveles.py` se usa
     guardias.*               topes del bucle: no son R, son guardias del orquestador
-    entrega.forma            la forma del objeto de entrega
+    entrega.forma            cómo lee el ORQ la entrega; hoy, solo "json_en_mensaje_final"
     etiqueta                 nombre base del crudo de la corrida
 """
 
@@ -29,4 +29,8 @@ def leer_config(ruta=None):
     config["rutas"] = {clave: (AQUI / valor).resolve()
                        for clave, valor in config["rutas"].items()}
     config["_config"] = str(ruta)
+    forma = (config.get("entrega") or {}).get("forma")
+    if forma != "json_en_mensaje_final":
+        raise SystemExit(f"la forma de entrega '{forma}' no la sabe leer este orquestador: "
+                         "solo 'json_en_mensaje_final'")
     return config

@@ -22,7 +22,7 @@
     "max_herramientas": 20
   },
   "entrega": {
-    "forma": "sobre_minimo"
+    "forma": "json_en_mensaje_final"
   },
   "etiqueta": "consulta-doc6-q{numero}"
 }
