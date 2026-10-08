@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""El bucle: llama, ejecuta las herramientas, apila; y el código acepta o rechaza la entrega.
+"""El bucle: llama, ejecuta las herramientas, apila; y termina con la entrega.
 
 El estado es la lista de mensajes. En cada turno:
 
@@ -8,23 +8,21 @@ El estado es la lista de mensajes. En cada turno:
        `reasoning_content`, que la API exige devolver cuando hay `tools`—;
     3. cada llamada se ejecuta y su resultado entra como un mensaje `role: "tool"` con su
        `tool_call_id`;
-    4. si la llamada es `entregar`, el código la comprueba: si pasa, la corrida termina; si no,
-       el motivo vuelve al agente por el mismo canal.
+    4. si la llamada es `entregar`, la corrida termina: el ORQ **no juzga** la entrega, la
+       registra tal como vino.
 
 Se corta por `guardias.max_turnos` o `guardias.max_herramientas` (topes del orquestador, no de R).
 """
 
 import copy
-import json
 
-from comprobar_entrega import comprobar_entrega
 from ejecutar_herramienta import ejecutar_herramienta
 from llamar_modelo import llamar_modelo
 
 
-def bucle(config, mensajes, herramientas, db, casos, documentos):
+def bucle(config, mensajes, herramientas, db, casos):
     """Corre el bucle y devuelve el estado de la corrida."""
-    cuerpos, respuestas, casos_leidos, rechazos = [], [], [], []
+    cuerpos, respuestas, casos_leidos = [], [], []
     entrega = None
     turnos = 0
     llamadas = 0
@@ -38,7 +36,7 @@ def bucle(config, mensajes, herramientas, db, casos, documentos):
         pedidas = mensaje.get("tool_calls") or []
 
         if not pedidas:
-            break  # contestó sin herramientas: no hay entrega formal
+            break  # contestó sin herramientas: no hay entrega
 
         asistente = {"role": "assistant", "content": mensaje["content"] or None,
                      "tool_calls": pedidas}
@@ -51,22 +49,17 @@ def bucle(config, mensajes, herramientas, db, casos, documentos):
             nombre = llamada["function"]["name"]
             texto, ok, objeto = ejecutar_herramienta(nombre, llamada["function"]["arguments"],
                                                      db, casos)
-            if nombre == "leer_caso" and ok:
+            if nombre == "obtener_datos_del_caso" and ok:
                 casos_leidos.append(objeto["unidad_id"])
             if nombre == "entregar":
-                valido, motivo = comprobar_entrega(objeto, casos, casos_leidos, documentos, db)
-                rechazos.append({"desenlace": objeto.get("desenlace"), "motivo": motivo})
-                if valido:
-                    entrega = objeto
-                    return {"entrega": entrega, "cuerpos": cuerpos, "respuestas": respuestas,
-                            "casos_leidos": casos_leidos, "rechazos": rechazos,
-                            "turnos": turnos, "llamadas": llamadas, "cerrado": True,
-                            "mensajes": mensajes}
-                texto = json.dumps({"rechazada": motivo}, ensure_ascii=False)
+                entrega = objeto
+                return {"entrega": entrega, "cuerpos": cuerpos, "respuestas": respuestas,
+                        "casos_leidos": casos_leidos, "turnos": turnos, "llamadas": llamadas,
+                        "cerrado": True, "mensajes": mensajes}
             mensajes.append({"role": "tool", "tool_call_id": llamada["id"], "content": texto})
             if llamadas >= config["guardias"]["max_herramientas"]:
                 break
 
     return {"entrega": entrega, "cuerpos": cuerpos, "respuestas": respuestas,
-            "casos_leidos": casos_leidos, "rechazos": rechazos, "turnos": turnos,
-            "llamadas": llamadas, "cerrado": False, "mensajes": mensajes}
+            "casos_leidos": casos_leidos, "turnos": turnos, "llamadas": llamadas,
+            "cerrado": False, "mensajes": mensajes}

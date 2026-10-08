@@ -23,7 +23,6 @@ def registrar_traza(config, corrida, ruta_crudo):
         "herramientas": corrida["herramientas"],
         "turnos": estado["turnos"],
         "llamadas": estado["llamadas"],
-        "rechazos": estado["rechazos"],
         "desenlace": (estado["entrega"] or {}).get("desenlace"),
         "cerrado": estado["cerrado"],
         "uso": [{"prompt": uso.get("prompt_tokens"),

@@ -14,8 +14,8 @@ El orden, y nada más que el orden —cada paso vive en su archivo—:
     5. resolver_dominio     el dominio elegido → sus documentos (pertenencia, sin juicio)
     6. listar_casos         los casos del dominio: id y nombre, sin aspectos ni valores
     7. armar_herramientas   R ∩ las herramientas que existen
-    8. anclas + armar_prompt  el system con los bloques, y la pregunta
-    9. bucle                llama, ejecuta, comprueba la entrega y corta por guardia
+    8. anclas + armar_prompt  el system con el prompt y la pregunta
+    9. bucle                llama, ejecuta y termina con la entrega (sin juzgarla)
    10. guardar_crudo · registrar_traza · escribir_salida
 """
 
@@ -52,32 +52,28 @@ def main():
     casos = listar_casos(db, documentos)
     herramientas = armar_herramientas(r)
     marcas = anclas()
-    mensajes = armar_prompt(config["rutas"]["prompt"], pregunta, casos, documentos,
-                            config["dominio"], marcas)
+    mensajes = armar_prompt(config["rutas"]["prompt"], pregunta, casos, marcas)
 
     print(f"dominio {config['dominio']} · documentos {[d['id'] for d in documentos]} · "
           f"{len(casos)} casos · herramientas {[h['function']['name'] for h in herramientas]}")
     print(f"pregunta {numero}: {pregunta}\n")
 
-    estado = bucle(config, mensajes, herramientas, db, casos, documentos)
+    estado = bucle(config, mensajes, herramientas, db, casos)
     corrida = {"anclas": marcas, "documentos": documentos, "pregunta": pregunta,
                "numero": numero, "casos": casos,
                "herramientas": [h["function"]["name"] for h in herramientas],
                "r": r, "estado": estado}
     ruta_crudo = guardar_crudo(config, corrida)
-    ruta_salida = escribir_salida(config, corrida, db)
+    ruta_salida = escribir_salida(config, corrida)
     ruta_traza = registrar_traza(config, corrida, ruta_crudo)
 
     print(f"turnos {estado['turnos']} · llamadas {estado['llamadas']} · "
           f"casos leídos {', '.join(estado['casos_leidos']) or 'ninguno'}")
-    for rechazo in estado["rechazos"]:
-        marca = "aceptada" if rechazo["motivo"] == "aceptada" else "rechazada"
-        print(f"  entrega {marca}: {rechazo['motivo']}")
-    if estado["entrega"] is None:
-        print("sin entrega: el agente no entregó un objeto válido")
+    if isinstance(estado["entrega"], dict):
+        print(f"desenlace: {estado['entrega'].get('desenlace')}")
+        print(f"respuesta: {estado['entrega'].get('respuesta') or '(sin respuesta)'}")
     else:
-        print(f"desenlace: {estado['entrega']['desenlace']}")
-        print(f"respuesta: {estado['entrega']['respuesta'] or '(sin respuesta)'}")
+        print("sin entrega: el agente no entregó el JSON")
     for etiqueta, ruta in (("crudo", ruta_crudo), ("traza", ruta_traza), ("salida", ruta_salida)):
         print(f"{etiqueta}: {ruta.relative_to(RAIZ)}")
 

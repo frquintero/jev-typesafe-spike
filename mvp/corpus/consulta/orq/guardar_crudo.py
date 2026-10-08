@@ -44,7 +44,6 @@ def guardar_crudo(config, corrida):
             for respuesta in estado["respuestas"]
         ],
         "casos_leidos": estado["casos_leidos"],
-        "rechazos": estado["rechazos"],
         "turnos": estado["turnos"],
         "llamadas": estado["llamadas"],
         "cerrado": estado["cerrado"],

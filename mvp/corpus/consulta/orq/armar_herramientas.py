@@ -4,12 +4,14 @@
 R **se aplica ofreciendo**: si una herramienta no está en R, no se le da al agente y no hay nada
 que denegar. Las definiciones viven acá, en un solo lugar, y son las que viajan en el campo
 `tools` de cada llamada.
+
+Las dos herramientas, y nada más: la que trae los datos de un caso y la que entrega el JSON.
 """
 
-LEER_CASO = {
+OBTENER_DATOS_DEL_CASO = {
     "type": "function",
     "function": {
-        "name": "leer_caso",
+        "name": "obtener_datos_del_caso",
         "description": "Devuelve todos los datos de un caso del dominio. Se pide por su id.",
         "parameters": {
             "type": "object",
@@ -29,10 +31,7 @@ ENTREGAR = {
     "type": "function",
     "function": {
         "name": "entregar",
-        "description": (
-            "Entrega la respuesta y los datos que la sostienen. Si la respuesta no está en los "
-            "datos del corpus, entregá desenlace 'no_esta_en_el_corpus' con el reporte."
-        ),
+        "description": "Entrega la respuesta en el JSON de RESPUESTA_JSON.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -43,25 +42,16 @@ ENTREGAR = {
                 },
                 "respuesta": {
                     "type": "string",
-                    "description": "La respuesta en una frase. Vacía si no está en el corpus.",
-                },
-                "datos": {
-                    "type": "array",
-                    "items": {"type": "string"},
-                    "description": "Los ids de los datos que sostienen la respuesta.",
-                },
-                "reporte": {
-                    "type": "string",
-                    "description": "Qué casos leíste y qué encontraste en ellos.",
+                    "description": "La respuesta corta y autocontenida; vacía si no está en el corpus.",
                 },
             },
-            "required": ["desenlace", "respuesta", "datos", "reporte"],
+            "required": ["desenlace", "respuesta"],
             "additionalProperties": False,
         },
     },
 }
 
-DEFINICIONES = {"leer_caso": LEER_CASO, "entregar": ENTREGAR}
+DEFINICIONES = {"obtener_datos_del_caso": OBTENER_DATOS_DEL_CASO, "entregar": ENTREGAR}
 
 
 def armar_herramientas(r):

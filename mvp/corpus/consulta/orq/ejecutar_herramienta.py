@@ -10,7 +10,7 @@ Devuelve (texto, ok, objeto): `objeto` es la entrega cuando la herramienta es `e
 
 import json
 
-from leer_caso import leer_caso
+from obtener_datos_del_caso import obtener_datos_del_caso
 
 
 def ejecutar_herramienta(nombre, argumentos_crudos, db, casos):
@@ -24,11 +24,11 @@ def ejecutar_herramienta(nombre, argumentos_crudos, db, casos):
         return json.dumps({"error": "los argumentos tienen que ser un objeto"},
                           ensure_ascii=False), False, None
 
-    if nombre == "leer_caso":
+    if nombre == "obtener_datos_del_caso":
         unidad_id = argumentos.get("unidad_id")
         if not isinstance(unidad_id, str) or not unidad_id.strip():
             return json.dumps({"error": "falta 'unidad_id'"}, ensure_ascii=False), False, None
-        caso, error = leer_caso(db, unidad_id.strip(), casos)
+        caso, error = obtener_datos_del_caso(db, unidad_id.strip(), casos)
         if error:
             return json.dumps({"error": error}, ensure_ascii=False), False, None
         return json.dumps(caso, ensure_ascii=False), True, caso
