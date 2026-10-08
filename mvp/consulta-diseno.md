@@ -1,34 +1,35 @@
-# Consulta completa de Zettel (v1) · diseño y estado
+# Consulta completa de Zettel (v1) · diseño
 
-Fecha: 07-10-2026. **Estado: el primer recorrido está construido y corrido.** Hay
-base, orquestador, prompt del agente y cinco preguntas corridas sobre `doc4`. Este
-documento describe **lo que hay**; donde algo quedó abierto, lo dice con esa
-palabra.
+Fecha: 07-10-2026.
 
-**Lo que sigue (07-10).** (a) Decidir cómo se lee el JSON de salida del agente, que
-hoy no se lee cuando viene con prosa o envuelto (§9); (b) las condiciones de la
-consulta que el código no puede aplicar y hoy no están en ningún lado (§4.2);
-(c) evaluar las cinco respuestas (§12).
+El primer recorrido está construido: base, orquestador, prompt del agente y las
+cinco preguntas de `doc4` corridas. Este documento describe **lo que hay**; donde
+algo está abierto, lo dice con esa palabra.
 
-**Para qué.** Construir el **primer recorrido completo** de Zettel sobre el corpus:
-recibir una pregunta y entregar una respuesta con lo que el corpus establece —o
-decir con precisión que no está—, con el recorrido registrado.
+**Lo que sigue.** (a) Cómo se lee el JSON de salida del agente, que no se lee cuando
+viene con prosa o envuelto (§9); (b) las condiciones de la consulta que el código no
+puede aplicar y no están escritas en ninguna parte (§4.2); (c) la evaluación de las
+cinco respuestas (§12).
+
+**Para qué.** El **primer recorrido completo** de Zettel sobre el corpus: recibir
+una pregunta y entregar una respuesta con lo que el corpus establece —o decir con
+precisión que no está—, con el recorrido registrado.
 
 **Qué se considera terminado.** Una ejecución acotada de ese recorrido, sobre un
-dominio y unas preguntas fijadas antes, evaluada contra lo que se dejó escrito: si
-la respuesta es fiel, si se sostiene en lo que el documento establece, y si lo que
-no se puede establecer se dice con precisión. Hoy el recorrido está terminado y
-corrido; **la evaluación, pendiente**.
+dominio y unas preguntas fijadas antes, evaluada contra lo que se dejó escrito: si la
+respuesta es fiel, si se sostiene en lo que el documento establece, y si lo que no se
+puede establecer se dice con precisión. El recorrido está terminado; **la
+evaluación, pendiente**.
 
 **Base.** [orquestador-plan.md](../historico/orquestador-plan.md) §3 (estaciones) y
 §11 (F0, F1); el contrato de [mesa-dominio-plan.md](mesa-dominio-plan.md) §9 y su
-cierre; la extracción cerrada del paso 2
-([paso2/informe_paso2.md](paso2/informe_paso2.md)). **Prompts de la extracción,
-fijados (07-10):** paso 1, `mvp/pruebas/prompt_v10.md`; paso 2,
-`mvp/pruebas/prompt_datos_v1.md` —una unidad por turno: devuelve `caso`, `datos`
-(`aspecto · valor · unidad_valor`) y `dudas`—. El paso 1 de la ronda cerrada (v9) y
-el candidato `prompt_ficha_contexto.md` quedan **congelados**: no se reabren ni se
-adoptan. Sin Jev y sin búsqueda externa.
+cierre; la extracción del paso 2
+([paso2/informe_paso2.md](paso2/informe_paso2.md)). **Prompts de la extracción:**
+paso 1, `mvp/pruebas/prompt_v10.md`; paso 2, `mvp/pruebas/prompt_datos_v1.md` —una
+unidad por turno: devuelve `caso`, `datos` (`aspecto · valor · unidad_valor`) y
+`dudas`—. El paso 1 de la ronda cerrada (v9) y el candidato
+`prompt_ficha_contexto.md` quedan congelados: no se reabren ni se adoptan. Sin Jev y
+sin búsqueda externa.
 
 ---
 
@@ -46,31 +47,30 @@ prompt; el orquestador lleva la memoria y compone cada llamada (§6).
 | Piensa | **nada**: no interpreta la pregunta, no elige casos, no juzga la entrega | qué casos pedir; qué responder; cuándo parar |
 | **Memoria** | los mensajes de la consulta | **ninguna** |
 | Propone | — | la respuesta, en el JSON de `RESPUESTA_JSON` |
-| Juzga | **no juzga** (decisión del 07-10) | no ejecuta ni calcula |
+| Juzga | **no juzga** | no ejecuta ni calcula |
 
-El juicio no se perdió: vive en la **evaluación** (§12), fuera del ORQ. Es la
-separación «control/contenido» del plan, con el ajuste del 07-10: el orquestador no
-comprueba la entrega ni la cobertura, solo orquesta.
+El juicio no se pierde: vive en la **evaluación** (§12), fuera del ORQ. Es la
+separación «control/contenido» del plan: el orquestador no comprueba la entrega ni
+la cobertura, solo orquesta.
 
 ---
 
 ## 2. El corpus: `doc4` radicado
 
-El documento radicado es **`doc4`** (el corte de agua). Su origen es el texto de
-pruebas, copiado tal cual —mismo `sello`:
+El documento radicado es **`doc4`** (el corte de agua): el texto de pruebas, copiado
+tal cual, con el mismo `sello`.
 
 - Documento radicado: `mvp/corpus/documentos/doc4.md` (copia de `mvp/pruebas/doc4.md`)
 - Crudos de su extracción: `mvp/corpus/extraccion/doc4/`
   - paso 1 (v10, Muse): `p1-doc4-v10-muse-r1.out` → 5 unidades; `[1–3]`, `[4–6]`,
     `[7]`, `[8,9,10,13–17]`, `[11,12]`
   - paso 2 (`prompt_datos_v1`, r2): `p2-doc4-u{1..5}-r2.out`
-- Lo que dio: **5 casos y 26 datos**. Las dos dudas de `U4` (el referente de «Su
-  reclamo» y de «Su decisión») quedaron en el crudo del paso 2: la base no las
-  guarda (§3).
+- Lo que dio: **5 casos y 26 datos**. Las dos dudas de `U4` —el referente de «Su
+  reclamo» y de «Su decisión»— quedan en el crudo del paso 2: la base no las guarda
+  (§3).
 
 Las **cinco preguntas son de `doc4`** (§4.1). `doc5` (los tranvías) no está
-radicado: sus preguntas —las que tenía el diseño anterior— quedaron fuera, y con
-ellas la partición v9 y sus fichas.
+radicado: sus preguntas, su partición v9 y sus fichas quedan fuera.
 
 **Radicar es fijar.** Un documento radicado no cambia: si su texto cambia, eso es
 **otro documento**, con su radicación y su fila propias. El `sello` (sha256 de lo
@@ -79,7 +79,7 @@ reporta. Una **mudanza** de archivo es otra cosa —el documento es el mismo y e
 sello no cambia— y se resuelve con una actualización de la base, autorizada.
 
 **Conflictos.** Con un solo documento no hay conflicto entre fuentes. Ejercitar ese
-desenlace pide un segundo documento admitido (o la mesa de dominio: `M1` 42 plazas
+desenlace pide un segundo documento admitido o la mesa de dominio (`M1` 42 plazas
 frente a `M2` 47). **Abierto.**
 
 **La declaración del esquema** —con qué partición, qué prompt, con qué hash y con
@@ -115,7 +115,7 @@ CREATE TABLE datos (
 );
 ```
 
-Estado hoy: **1 documento** (`doc4 · GENERAL`), **26 datos**, **5 casos**.
+Contenido: **1 documento** (`doc4 · GENERAL`), **26 datos**, **5 casos**.
 
 | id | unidad_id | caso | aspecto | valor | unidad_valor |
 |---|---|---|---|---|---|
@@ -127,21 +127,20 @@ Estado hoy: **1 documento** (`doc4 · GENERAL`), **26 datos**, **5 casos**.
 
 - **El texto del documento**, ni las oraciones, ni sus números: el texto vive en el
   documento radicado, que es la **fuente única**. La numeración de oraciones es la
-  vara con la que evaluamos el paso 1 (§12): vive en los crudos de la extracción.
-- **La tabla de unidades**: se quitó (decisión del 07-10). La unidad sigue
-  existiendo como columna en cada dato —`unidad_id` y `caso`—, así que cada fila se
-  lee sola y agrupar por caso es una consulta de una línea.
-- **La tabla de dudas**: se quitó (decisión del 07-10). Las dudas quedan en el crudo
-  del paso 2.
-- **`documento_id` en `datos`**: hoy el documento de un dato se conoce por el
-  prefijo de su `unidad_id` (`doc4:U1` → `doc4`). Es una convención sobre el texto
-  del id, no un dato. **Abierto.**
+  vara con la que se evalúa el paso 1 (§12): vive en los crudos de la extracción.
+- **La tabla de unidades**: la unidad existe como columna en cada dato —`unidad_id` y
+  `caso`—, así que cada fila se lee sola y agrupar por caso es una consulta de una
+  línea.
+- **La tabla de dudas**: las dudas quedan en el crudo del paso 2.
+- **`documento_id` en `datos`**: el documento de un dato se conoce por el prefijo de
+  su `unidad_id` (`doc4:U1` → `doc4`). Es una convención sobre el texto del id, no un
+  dato. **Abierto.**
 
-**Por qué SQLite.** Porque la forma se elige por **forma de acceso** y acá lo que
-manda es leer un caso entero y filtrar por dominio y por caso: eso pide claves,
-foráneas y consultas, no un molde único. SQLite viene en la biblioteca estándar, no
-tiene servidor, y el archivo es uno. La discusión clásica lo dice igual: el problema
-no es el formato de serialización sino qué operaciones se hacen
+**Por qué SQLite.** La forma se elige por **forma de acceso**, y acá lo que manda es
+leer un caso entero y filtrar por dominio y por caso: eso pide claves, foráneas y
+consultas, no un molde único. SQLite viene en la biblioteca estándar, no tiene
+servidor, y el archivo es uno. La discusión clásica dice lo mismo: el problema no es
+el formato de serialización sino qué operaciones se hacen
 ([flat files vs SQLite](https://sqlite.org/forum/forumpost/c43b208884?t=h),
 [hilo sobre JSON y SQLite](https://github.com/kody-w/rappterbook/discussions/3742)).
 Con 26 filas cualquier cosa funciona; el motor se elige por lo que se hace con los
@@ -161,8 +160,7 @@ migraciones, copias de seguridad y versionado de la base.
   y reporta**.
 
 **El vacío legítimo** es de nivel unidad: una unidad cuyas oraciones no establezcan
-nada, que no aporta ningún dato. El cargador puede avisarlo en la carga; hoy no lo
-hace.
+nada, que no aporta ningún dato. El cargador puede avisarlo en la carga.
 
 ---
 
@@ -188,8 +186,8 @@ miércoles); la 5 es la que el documento deja con el referente abierto.
 ### 4.2. R
 
 `mvp/corpus/consulta/R.json` es **un JSON que lee el ORQUESTADOR**. El agente **no
-lo ve**: R se aplica offering —qué fuentes se admiten, qué herramientas se ofrecen,
-qué operaciones existen—, no se le explica.
+lo ve**: R se aplica ofreciendo —qué fuentes se admiten, qué herramientas se
+ofrecen, qué operaciones existen—, no se le explica.
 
 ```json
 {
@@ -211,8 +209,8 @@ de llamadas no son R**: son guardias del orquestador (§11).
 **Las condiciones que el código no puede aplicar** —«tu saber no es premisa», «los
 conflictos se muestran y no se eligen», «lo que no se cierra se entrega explícito,
 con la brecha», «no hay interacción con el usuario»— no van en R: son reglas del
-agente, y **hoy no están en ningún lado**. Estuvieron en un bloque del prompt que se
-quitó el 07-10. **Abierto:** decidir si vuelven, y dónde.
+agente, y **no están escritas en ninguna parte**. **Abierto:** decidir si vuelven, y
+dónde.
 
 ### 4.3. Las anclas
 
@@ -224,7 +222,7 @@ son dato del documento**, y el prompt lo dice.
 
 ---
 
-## 5. El recorrido, como está implementado
+## 5. El recorrido
 
 | # | Paso | Archivo | Qué hace |
 |---|---|---|---|
@@ -278,12 +276,11 @@ hay `previous_response_id` ni estado del lado del servidor: «no reenviar» es n
 ([Responses API](https://api-docs.deepseek.com/guides/responses_api)). Lo que
 abarata el reenvío es el **caché de prefijo**: coincidencia desde el token 0, por
 unidades de prefijo persistidas
-([Context Caching](https://api-docs.deepseek.com/guides/kv_cache)). Medido en
-nuestras corridas (§11): el primer turno es todo `miss` y los siguientes pegan
-`hit` sobre el prefijo fijo; lo que se paga es **cada resultado nuevo**.
+([Context Caching](https://api-docs.deepseek.com/guides/kv_cache)). Medido (§11): el
+primer turno es todo `miss` y los siguientes pegan `hit` sobre el prefijo fijo; lo
+que se paga es **cada resultado nuevo**.
 
-**Lo que el bucle hace, y lo que aprendimos midiéndolo** (ronda de
-`test_tool_calling/`, 07-10, tres corridas reales):
+**La mecánica del bucle**, verificada en `test_tool_calling/` con llamadas reales:
 
 - **El orquestador no tiene estado entre turnos.** El mensaje del asistente vuelve
   tal cual —con sus `tool_calls` y su `reasoning_content`, que la API **exige**
@@ -317,9 +314,8 @@ Devuelve el caso completo: `unidad_id`, `caso` y **todos** sus datos, cada uno c
 su id (`aspecto`, `valor`, `unidad_valor`). La lectura es por caso entero: el agente
 no filtra por aspecto antes de leer.
 
-**No hay herramienta de entrega.** La `entregar` que tenía el diseño se quitó el
-07-10: sobraba. La respuesta es el **mensaje final** del agente, y el ORQ la lee de
-ahí (§9).
+**No hay herramienta de entrega.** La respuesta es el **mensaje final** del agente, y
+el ORQ la lee de ahí (§9).
 
 **R se aplica al ofrecer.** La lista de `tools` es R ∩ lo que existe: lo restringido
 no se da, así que el agente no puede pedirlo. Y el sistema decide qué puede: si la
@@ -329,10 +325,9 @@ herramienta no existe, no se ofrece aunque R la admita.
 `dominio`: el ORQ lo resuelve por pertenencia y valida cada id contra los casos del
 dominio. El agente no puede ampliar el alcance cambiando un argumento.
 
-**Qué le queda al código después del 07-10:** solo lo **mecánico** —parsear los
-argumentos (si no son JSON, no hay nada que ejecutar) y saber qué herramienta
-ejecutar—. Todo lo demás se cayó: no comprueba la entrega, ni la cobertura, ni que
-un dato citado exista. El ORQ orquesta; no juzga.
+**Qué le queda al código:** solo lo **mecánico** —parsear los argumentos (si no son
+JSON, no hay nada que ejecutar) y saber qué herramienta ejecutar—. No comprueba la
+entrega, ni la cobertura, ni que un dato citado exista. El ORQ orquesta; no juzga.
 
 ---
 
@@ -368,9 +363,9 @@ RESPUESTA_JSON:
 ```
 
 **Lo que el prompt no lleva, a propósito:** no hay bloques `ROL`, `REGLAS` ni
-`ALCANCE` (se quitaron el 07-10); no lleva R (la aplica el ORQ); no lleva el esquema
-de las herramientas (viaja en `tools`); no dice el dominio ni los documentos —los
-casos son lo que el agente necesita para elegir—.
+`ALCANCE`; no lleva R (la aplica el ORQ); no lleva el esquema de las herramientas
+(viaja en `tools`); no dice el dominio ni los documentos —los casos son lo que el
+agente necesita para elegir—.
 
 **El umbral del 80%** es el criterio de selección: el agente mira los nombres de los
 casos y pide los que podrían contener la respuesta. Su límite es que los nombres son
@@ -391,11 +386,11 @@ El agente entrega un JSON con dos estados:
 {"desenlace": "no_esta_en_el_corpus", "respuesta": ""}
 ```
 
-**Pero el JSON no tiene campo propio**: como no hay herramienta de entrega, vive
-**dentro** del mensaje final, junto a lo que el agente escriba alrededor. Eso trae
-un problema medido (§13): si el modelo envuelve el JSON en un bloque de código, o
-escribe prosa antes, el ORQ no lo lee y registra «respuesta del agente (sin JSON)».
-Dos formas de resolverlo, sin decidir:
+**El JSON no tiene campo propio**: como no hay herramienta de entrega, vive **dentro**
+del mensaje final, junto a lo que el agente escriba alrededor. Eso trae un problema
+medido (§13): si el modelo envuelve el JSON en un bloque de código, o escribe prosa
+antes, el ORQ no lo lee y registra «respuesta del agente (sin JSON)». Dos formas de
+resolverlo, sin decidir:
 
 1. **En el ORQ**: extraer del contenido el primer bloque `{…}` bien formado, en vez
    de exigir que todo el mensaje sea JSON. No es juzgar: es leer.
@@ -438,16 +433,15 @@ enreda.
   `finish_reason`.
 - **De a una:** se manda una pregunta; la siguiente, cuando termina la corrida.
 - **Guardias implementadas:** `max_turnos: 8` y `max_herramientas: 20`. **No hay
-  corte por ciclo** (misma acción con los mismos argumentos dos veces): el 07-10 se
-  vio un caso real de repetición —la pregunta 5 pidió `doc4:U4` dos veces—.
-  **Abierto.**
-- **El consumo real de las corridas** (`prompt_tokens = hit + miss`):
+  corte por ciclo** (misma acción con los mismos argumentos dos veces): la pregunta
+  5 pidió `doc4:U4` dos veces. **Abierto.**
+- **El consumo de las corridas** (`prompt_tokens = hit + miss`):
 
 | Corrida | Turnos | Turno 1 | Turnos siguientes |
 |---|---|---|---|
-| Q1 r1 (prompt viejo) | 2 | 1501 = 0 + 1501 | 1887 = 1536 + 351 |
+| Q1 r1 | 2 | 1501 = 0 + 1501 | 1887 = 1536 + 351 |
 | Q1 r2 | 2 | 1020 = 0 + 1020 | 2393 = 1280 + 1113 |
-| Q2 r1 (prompt viejo) | 2 | 1502 = 0 + 1502 | 1886 = 1536 + 350 |
+| Q2 r1 | 2 | 1502 = 0 + 1502 | 1886 = 1536 + 350 |
 | Q2 r2 | 2 | 1021 = 0 + 1021 | 1432 = 1024 + 408 |
 | Q3 r1 | 2 | 1016 = 0 + 1016 | 1408 = 1024 + 384 |
 | Q4 r1 | 2 | 1030 = 0 + 1030 | 2155 = 1152 + 1003 |
@@ -480,52 +474,52 @@ no del ORQ (§1):
   y en la salida), y se distinguen del campo;
 - **no interviene Jev**: el juicio es nuestro y se registra.
 
-La **vara** para distinguir el hueco del documento del hueco de la extracción son
-los números de oración de la partición del paso 1: viven en los crudos
+La **vara** para distinguir el hueco del documento del hueco de la extracción son los
+números de oración de la partición del paso 1: viven en los crudos
 (`extraccion/doc4/p1-doc4-v10-muse-r1.out`) y en el material de evaluación, no en la
 base (§3).
 
 ---
 
-## 13. Lo que se corrió hasta hoy
+## 13. Medición de las corridas
 
 Cinco preguntas más una réplica, todas con `doc4` (26 datos, 5 casos).
 
 | Corrida | Casos pedidos | Distintos | Turnos · llamadas | Qué entregó |
 |---|---|---|---|---|
-| Q1 `-r1` (prompt viejo, con `entregar`) | `U1` | 1 | 2 · 2 | respondida: la empresa de acueducto, en el barrio San Jorge |
+| Q1 `-r1` | `U1` | 1 | 2 · 2 | respondida: la empresa de acueducto, en el barrio San Jorge |
 | Q1 `-r2` | `U1`, `U3`, `U4` | 3 | 2 · 4 | respondida: la empresa de acueducto, en el barrio San Jorge |
 | Q2 `-r1` | `U1` | 1 | 2 · 2 | respondida: catorce horas |
 | Q2 `-r2` | `U1` | 1 | 2 · 2 | respondida: catorce horas (desde las seis de la mañana del jueves) |
 | Q3 `-r1` | `U2` | 1 | 2 · 2 | respondida: la reparación de una tubería matriz en la carrera séptima |
-| Q4 `-r1` | `U4`, `U1` | 2 | 2 · 2 | **sin entrega**: el JSON vino como texto |
-| Q5 `-r1` | `U4`, `U4` | 1 | 3 · 2 | **sin JSON leído**: vino envuelto en ```json |
-| Q5 `-r2` | `U4` | 1 | 2 · 1 | **sin JSON leído**: prosa + ```json |
+| Q4 `-r1` | `U4`, `U1` | 2 | 2 · 2 | sin entrega: el JSON vino como texto |
+| Q5 `-r1` | `U4`, `U4` | 1 | 3 · 2 | sin JSON leído: vino envuelto en ```json |
+| Q5 `-r2` | `U4` | 1 | 2 · 1 | sin JSON leído: prosa + ```json |
 
-**Los tres hallazgos:**
+Nunca pidió los cinco casos: filtra por el umbral del 80% sobre los nombres, y en las
+cinco acertó el caso.
 
-1. **El JSON como texto** (Q4): el agente escribió el JSON en su mensaje final; en
-   ese momento la entrega se esperaba por la herramienta `entregar`, así que no se
-   registró. Después se quitó esa herramienta (§7) y ese JSON se leería.
-2. **El JSON envuelto** (Q5, las dos réplicas): el agente escribió, además del JSON,
-   la prosa que le pide la tarea 5 y la cerca de código. El ORQ exige que el
+**Límites que la medición deja a la vista:**
+
+1. **El JSON como texto** (Q4): el agente escribió el JSON en su mensaje final y la
+   entrega se registró como ausente. Con la entrega por mensaje final (§7), ese JSON
+   se lee.
+2. **El JSON envuelto** (Q5, las dos réplicas): el agente escribe, además del JSON,
+   la prosa que le pide la tarea 5 y la cerca de código; el ORQ exige que el
    contenido empiece con `{`, así que no lo lee (§9).
-3. **La inferencia** (Q5): el agente respondió «respondida» —el reclamo era de la
+3. **La inferencia** (Q5): el agente responde «respondida» —el reclamo era de la
    junta de acción comunal—, y en su `reasoning_content` dice que el dato **no**
-   establece de quién era («the data doesn't explicitly say who… This is ambiguous»)
-   y que responde igual. El documento no lo establece: la extracción lo había
-   marcado como duda. Sin las condiciones que se quitaron (§4.2), nada lo impedía.
-
-Nunca pidió los cinco casos: filtra por el umbral del 80% sobre los nombres, y en
-las cinco acertó el caso.
+   establece de quién era («the data doesn't explicitly say who… This is
+   ambiguous») y que responde igual. El documento no lo establece: la extracción lo
+   había marcado como duda. Sin las condiciones del §4.2, nada lo impide.
 
 ---
 
 ## 14. Riesgos y límites
 
 - **La extracción acota la respuesta** (hallazgo del paso 2, no defecto del puente).
-- **El agente infiere cuando el dato no establece** —medido en Q5— y hoy no hay
-  ninguna regla que lo prohíba.
+- **El agente infiere cuando el dato no establece** —verificado en la pregunta 5— y
+  no hay ninguna regla que lo prohíba.
 - **El JSON de salida no se lee** si viene con prosa o envuelto (§9).
 - **El prompt es el único canal.** Lo que el ORQ no ponga, el agente no lo sabe: si
   no le pasa un caso, no existe para él.
@@ -543,49 +537,47 @@ las cinco acertó el caso.
 
 | # | Decisión | Estado |
 |---|---|---|
-| **D1** | Nombres: código = ORQUESTADOR, LLM = AGENTE ENCARGADO | **decidida**; vocabulario en §17 |
+| **D1** | Nombres: código = ORQUESTADOR, LLM = AGENTE ENCARGADO | decidida; vocabulario en §17 |
 | **D2** | Corpus: solo `doc4`, o `doc4` + otro documento para tener conflicto | abierta |
-| **D3** | Bucle con herramienta, o todo inyectado en una llamada | **decidida: bucle con herramienta** (implementado) |
-| **D4** | Sin datos derivados en esta versión | **decidida** |
-| **D5** | R: `solo el documento`, sin mundo del LLM ni anclas como premisa | **decidida**: R.json con tres claves; las anclas no son premisa |
-| **D6** | Nombre y sitio de los archivos | **decidida en la práctica**: base y documento en `mvp/corpus/`, consulta y código en `mvp/corpus/consulta/` |
-| **D7** | Almacén | **decidida: SQLite con dos tablas** (`documentos`, `datos`); sin tabla de unidades ni de dudas; `caso` en cada dato |
-| **D8** | Derivados en `corpus.jsonl` | **fuera de esta versión** |
-| **D9** | Idioma de los `tipo` | **obsoleta**: no hay tipos |
-| **D10** | Documento R: esbozo + prosa para el agente | **reemplazada**: R es un JSON que lee el ORQ |
-| **D11** | Compactación del historial | **no implementada**: el historial crece y corta el tope de turnos |
+| **D3** | Bucle con herramienta, o todo inyectado en una llamada | decidida: bucle con herramienta |
+| **D4** | Sin datos derivados en esta versión | decidida |
+| **D5** | R: `solo el documento`, sin mundo del LLM ni anclas como premisa | decidida: R.json con tres claves |
+| **D6** | Nombre y sitio de los archivos | decidida: base y documento en `mvp/corpus/`, consulta y código en `mvp/corpus/consulta/` |
+| **D7** | Almacén | decidida: SQLite con dos tablas (`documentos`, `datos`) |
+| **D8** | Derivados | fuera de esta versión |
+| **D9** | Idioma de los `tipo` | obsoleta: no hay tipos |
+| **D10** | Documento R: esbozo + prosa para el agente | reemplazada: R es un JSON que lee el ORQ |
+| **D11** | Compactación del historial | no implementada: el historial crece y corta el tope de turnos |
 | **D12** | «Mundo del agente» en los documentos vivos | sigue como vocabulario; sin efecto en el código |
-| **D13** | Herramientas: (A) protocolo textual o (B) nativas | **decidida: (B)**, aditivo sobre `call_model`; implementado |
-| **D14** | Prompts de la extracción | **decidida (07-10)**: v10 y `prompt_datos_v1` |
-| **D15** | Salida del paso 2 | **decidida (07-10)**: `caso`, `datos`, `dudas`, una unidad por turno |
+| **D13** | Herramientas: (A) protocolo textual o (B) nativas | decidida: (B), aditivo sobre `call_model` |
+| **D14** | Prompts de la extracción | decidida: `prompt_v10` y `prompt_datos_v1` |
+| **D15** | Salida del paso 2 | decidida: `caso`, `datos`, `dudas`, una unidad por turno |
 | **D16** | `unidad_valor`: campo propio o dentro del `valor` | abierta — se usa poco (3 de 26 datos en `doc4`) |
-| **D17** | El agente, ¿lee texto del documento o solo los datos extraídos? | **decidida: solo los datos**; el texto queda para cuando se pida el sostén |
-| **D18** | El ORQ, ¿juzga la entrega? | **decidida (07-10): no**; el juicio vive en la evaluación (§12) |
-| **D19** | La entrega, ¿por herramienta o por mensaje final? | **decidida (07-10): mensaje final**; `entregar` se quitó |
-| **D20** | Cómo se lee el JSON de salida cuando viene con prosa o envuelto | **abierta** (§9): extraer en el ORQ, o exigir en el prompt que sea solo el JSON |
-| **D21** | Las condiciones que el código no puede aplicar (premisa, conflictos, brecha) | **abierta**: hoy no están en ningún lado (§4.2) |
+| **D17** | El agente, ¿lee texto del documento o solo los datos extraídos? | decidida: solo los datos |
+| **D18** | El ORQ, ¿juzga la entrega? | decidida: no; el juicio vive en la evaluación (§12) |
+| **D19** | La entrega, ¿por herramienta o por mensaje final? | decidida: mensaje final |
+| **D20** | Cómo se lee el JSON de salida cuando viene con prosa o envuelto | abierta (§9) |
+| **D21** | Las condiciones que el código no puede aplicar (premisa, conflictos, brecha) | abierta: no están escritas en ninguna parte (§4.2) |
 | **D22** | `documento_id` en `datos`, en vez del prefijo del id | abierta |
 | **D23** | La declaración del esquema (partición, prompt, hash, modelo) en la base | abierta |
-| **D24** | El sostén en la respuesta (datos citados, reporte) | **diferida**: cuando el usuario pida ver la fuente |
-| **D25** | Tope y corte por ciclo | **abierta**: hay tope de turnos y de llamadas; no hay corte por repetición |
+| **D24** | El sostén en la respuesta (datos citados, reporte) | diferida: cuando el usuario pida ver la fuente |
+| **D25** | Tope y corte por ciclo | abierta: hay tope de turnos y de llamadas; no hay corte por repetición |
 
 ---
 
 ## 16. Qué se reutiliza
 
-- `niveles/run_niveles.py`: `call_model` —extendido de forma aditiva el 07-10:
-  `messages` y `tools` opcionales, y acumula `tool_calls` y `finish_reason`— y
-  `extract_json`.
+- `niveles/run_niveles.py`: `call_model` —con `messages` y `tools` opcionales, y
+  acumulando `tool_calls` y `finish_reason`— y `extract_json`.
 - `mvp/corpus/cargar_corpus.py`: el cargador de la base (§3).
 - `mvp/corpus/consulta/orq/`: el orquestador, un archivo por paso (§5).
 - `test_tool_calling/`: las corridas que fijaron la mecánica del bucle y las
-  lecciones del tool calling (07-10).
-- `unidades/extraer_unidades.py`: `numerar_oraciones` —para la evaluación, no para
-  la base—.
-- `mvp/pieza1/pieza1.py`: `verificar` y `comparar` —para la evaluación—;
-  `guardar` y `mantener` quedan sin uso mientras no haya derivados.
-- `unidades/ficha_doc.py`: `verificar` y `fragmentos`, si el respaldo literal
-  vuelve.
+  lecciones del tool calling.
+- `unidades/extraer_unidades.py`: `numerar_oraciones` —para la evaluación, no para la
+  base—.
+- `mvp/pieza1/pieza1.py`: `verificar` y `comparar` —para la evaluación—; `guardar` y
+  `mantener` quedan sin uso mientras no haya derivados.
+- `unidades/ficha_doc.py`: `verificar` y `fragmentos`, si el respaldo literal vuelve.
 - Los crudos de la extracción de `doc4` (§2).
 
 ---
@@ -595,13 +587,13 @@ las cinco acertó el caso.
 - **orquestador** = el código: resuelve, aplica, ejecuta y registra. No piensa y no
   juzga.
 - **agente encargado** = el LLM: interpreta, selecciona y propone. Stateless.
-- **mundo del agente** = su saber general y sus convenciones de lectura, que antes
-  se llamaba «mundo del orquestador».
+- **mundo del agente** = su saber general y sus convenciones de lectura, que antes se
+  llamaba «mundo del orquestador».
 
 Dónde vive: [zettel-vision-operativa.md](../zettel-vision-operativa.md) define los
 dos nombres en «Notación y vocabulario»;
-[definiciones-del-marco.md](../definiciones-del-marco.md) parte B tiene las filas y
-la parte C dice «mundo del agente»;
+[definiciones-del-marco.md](../definiciones-del-marco.md) parte B tiene las filas y la
+parte C dice «mundo del agente»;
 [orquestador-plan.md](../historico/orquestador-plan.md) renombra el componente en
 §0–§2, sus estaciones y el prompt.
 
@@ -628,8 +620,8 @@ ni sus tablas de referencia.
 - *Flat files vs SQLite* (foro de SQLite): <https://sqlite.org/forum/forumpost/c43b208884?t=h>
 - Hilo «Flat JSON files vs SQLite for agent state» — elegir por forma de acceso:
   <https://github.com/kody-w/rappterbook/discussions/3742>
-- *Towards Principled, Practical Document Database Design* (VLDB) — modelar por
-  forma de acceso, incrustar lo que se lee junto:
+- *Towards Principled, Practical Document Database Design* (VLDB) — modelar por forma
+  de acceso, incrustar lo que se lee junto:
   <https://www.vldb.org/pvldb/vol18/p4804-carey.pdf>
 - *Data modeling with Amazon DocumentDB* — patrones de acceso:
   <https://d1.awsstatic.com/product-marketing/Data%20modeling%20with%20Amazon%20DocumentDB.pdf>
@@ -650,7 +642,8 @@ ni sus tablas de referencia.
 - *Writing effective tools for agents* (Anthropic) — buscar, no listar; pocas
   herramientas con propósitos distintos:
   <https://www.anthropic.com/engineering/writing-tools-for-agents>
-- *Context compression strategies*: <https://www.agentpatterns.ai/context-engineering/context-compression-strategies/>
+- *Context compression strategies*:
+  <https://www.agentpatterns.ai/context-engineering/context-compression-strategies/>
 - *Just-in-time retrieval* — un recuperador ruidoso es peor que precargar:
   <https://learn.agentpatterns.ai/context-engineering/just-in-time-retrieval/>
 - *Progressive disclosure* (arXiv 2607.17598) — un nivel de divulgación basta:
@@ -662,8 +655,8 @@ ni sus tablas de referencia.
   `finish_reason`, `usage`: <https://api-docs.deepseek.com/api/create-chat-completion/>
 - *DeepSeek · Tool Calls* — el flujo de cuatro pasos y el `role: "tool"`:
   <https://api-docs.deepseek.com/guides/tool_calls/>
-- *DeepSeek · Thinking Mode* — con `tools`, el `reasoning_content` tiene que volver
-  en todos los turnos siguientes (si no, 400):
+- *DeepSeek · Thinking Mode* — con `tools`, el `reasoning_content` tiene que volver en
+  todos los turnos siguientes (si no, 400):
   <https://api-docs.deepseek.com/guides/thinking_mode/>
 - *DeepSeek · Context Caching* — caché por prefijo, unidades de prefijo, y
   `prompt_cache_hit_tokens` / `prompt_cache_miss_tokens`:
