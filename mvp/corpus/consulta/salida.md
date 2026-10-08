@@ -27,3 +27,11 @@
 
 **Casos leídos:** doc4:U1 (de 5)
 
+## Pregunta 1
+
+¿Qué empresa anunció el corte de agua y en qué barrio?
+
+**Respuesta:** El corte de agua fue anunciado por la empresa de acueducto en el barrio San Jorge.
+
+**Casos leídos:** doc4:U1, doc4:U3, doc4:U4 (de 5)
+
