@@ -59,3 +59,15 @@
 
 **Casos leídos:** doc4:U4, doc4:U1 (de 5)
 
+## Pregunta 5
+
+¿A quién pertenecía el reclamo que quedó registrado en el acta?
+
+**Respuesta del agente (sin JSON):**
+
+```json
+{"desenlace": "respondida", "respuesta": "El reclamo registrado en el acta pertenecía a la junta de acción comunal, que solicitó que el corte de agua anunciado no se hiciera en semana de exámenes."}
+```
+
+**Casos leídos:** doc4:U4, doc4:U4 (de 5)
+
