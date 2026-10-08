@@ -45,6 +45,19 @@ DOCUMENTOS = [
         "unidades": "extraccion/doc4/p1-doc4-v10-muse-r1.out",
         "datos": "extraccion/doc4/p2-doc4-u{n}-r2.out",
     },
+    {
+        "id": "doc6",
+        "dominio": "GENERAL",  # el mismo dominio del MVP
+        "fecha_radicacion": "2026-10-07",
+        "ubicacion_local": "mvp/corpus/documentos/doc6.md",
+        "ubicacion_upstream": (
+            "https://github.com/frquintero/jev-typesafe-spike/blob/main/"
+            "mvp/corpus/documentos/doc6.md"
+        ),
+        "commit": None,  # se llena con el commit que publica el documento
+        "unidades": "extraccion/doc6/p1-doc6-v10-muse-r1.out",
+        "datos": "extraccion/doc6/p2-doc6-u{n}-r1.out",
+    },
 ]
 
 ESQUEMA = """
