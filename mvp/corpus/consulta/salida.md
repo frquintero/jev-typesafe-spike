@@ -116,3 +116,15 @@ RESPUESTA_JSON:
 
 **Casos leídos:** doc6:U5 (de 19)
 
+## Pregunta 4 · doc4, doc6
+
+¿Cuántas rampas tendrá el puente?
+
+**Respuesta del agente (sin JSON):**
+
+Los datos obtenidos indican que el diseño del puente incluye "rampas para sillas de ruedas" (doc6:U7:D1) y que se revisa el diseño de las rampas (doc6:U12), pero en ningún caso se especifica el número o cantidad de rampas que tendrá el puente. Por lo tanto, la cantidad de rampas no está en el corpus.
+
+{"desenlace": "no_esta_en_el_corpus", "respuesta": ""}
+
+**Casos leídos:** doc6:U7, doc6:U12 (de 19)
+
