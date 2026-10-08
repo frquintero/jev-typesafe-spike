@@ -14,7 +14,8 @@ def escribir_salida(config, corrida):
     """Agrega la sección de esta pregunta a `salida.md` y devuelve su ruta."""
     estado = corrida["estado"]
     entrega = estado["entrega"]
-    lineas = [f"## Pregunta {corrida['numero']}", "", corrida["pregunta"], ""]
+    documentos = ", ".join(documento["id"] for documento in corrida["documentos"])
+    lineas = [f"## Pregunta {corrida['numero']} · {documentos}", "", corrida["pregunta"], ""]
 
     if isinstance(entrega, dict) and entrega.get("desenlace") == "no_esta_en_el_corpus":
         lineas += ["**No está en los datos del corpus.**", ""]

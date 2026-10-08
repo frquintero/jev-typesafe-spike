@@ -88,3 +88,11 @@ RESPUESTA_JSON:
 
 **Casos leídos:** doc4:U4 (de 5)
 
+## Pregunta 1 · doc4, doc6
+
+¿Sobre qué vía se construirá el puente peatonal y cuánto medirá de largo?
+
+**Respuesta:** El puente peatonal se construirá sobre la avenida Los Nogales y medirá sesenta metros de largo.
+
+**Casos leídos:** doc6:U1, doc6:U3 (de 19)
+

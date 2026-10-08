@@ -1,6 +1,6 @@
 {
   "rutas": {
-    "preguntas": "../preguntas.md",
+    "preguntas": "../preguntas-doc6.md",
     "r": "../R.json",
     "corpus": "../../corpus.db",
     "prompt": "prompt_agente.md",
@@ -10,7 +10,7 @@
   },
   "preguntas": {
     "desde_archivo": true,
-    "cual": 2
+    "cual": 1
   },
   "dominio": "GENERAL",
   "modelo": {
@@ -24,5 +24,5 @@
   "entrega": {
     "forma": "sobre_minimo"
   },
-  "etiqueta": "consulta-doc4-q{numero}"
+  "etiqueta": "consulta-doc6-q{numero}"
 }
