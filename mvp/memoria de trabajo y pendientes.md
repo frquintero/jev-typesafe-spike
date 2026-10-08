@@ -12,33 +12,31 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   preguntas y se obtenga información: el cambio en A(Q) al considerar datos conforme a
   reglas. Recuperar no es responder. Detalle en `README.md`, «Visión», y en
   `definiciones-del-marco.md`.
-- **Hilo activo: el MVP, `mvp/` — desde cero (08-10).** La estructura está armada y **vacía**:
-  `mvp/documentos/` (los documentos que se radican) y `mvp/consulta/` (las baterías
-  `preguntas_<doc>.md`) no tienen nada, y la base `mvp/código/corpus.db` no tiene nada inscrito
-  (0 documentos · 0 datos). Lo que está listo es **el código y los procedimientos**: en
-  `mvp/código/` los dos corredores de la extracción, la inscripción de la base y el orquestador
-  (`mvp/código/orq/`, con `R.json`), y en `mvp/prompts/` los tres prompts de trabajo. El diseño y
-  lo abierto están en `mvp/consulta-diseno.md`; los procedimientos, en `mvp/guía_UT.md` y
-  `mvp/guía_DATOS.md`. **Lo que sigue: radicar el primer documento** —su texto a
-  `mvp/documentos/`, su batería a `mvp/consulta/preguntas_<doc>.md` y su inscripción en la
-  base— y después correr la consulta.
+- **Hilo activo: el MVP, `mvp/` — desde cero (08-10).** El código y los procedimientos están
+  listos: en `mvp/código/` los dos corredores de la extracción, los actos de la base
+  (`radicar.py`, `cargar_datos.py`, `base.py`) y el orquestador (`mvp/código/orq/`, con `R.json`);
+  en `mvp/prompts/`, los tres prompts de trabajo. El diseño y lo abierto están en
+  `mvp/consulta-diseno.md`; los procedimientos, en `mvp/guía_UT.md` y `mvp/guía_DATOS.md`.
+  **`doc8` es el primer documento radicado** (08-10 16:50:28, dominio `GENERAL`), todavía **sin
+  extraer**: cada etapa que sigue es un acto aparte y a mano —paso 1, paso 2, cargar los datos, la
+  batería en `mvp/consulta/preguntas_doc8.md` y la consulta—.
 - **El material anterior quedó archivado en `mvp/temp/`:** los documentos `doc4` y `doc6` con sus
   baterías (`mvp/temp/documentos/`), el texto, la batería y la extracción de `doc7`
   (`mvp/temp/pruebas/` y `mvp/temp/extraccion/`), los crudos de extracción
   (`mvp/temp/extraccion/`) y los registros de las 13 corridas de consulta
   (`mvp/temp/consulta/`). **Nada de eso está inscrito**: el registro arranca limpio y crece solo
   por actos de radicación.
-- **La base es el registro, no una vista derivada (08-10).** Se **reseteó**: arranca **vacía** (0
-  documentos, 0 datos, 0 casos). Los documentos y los crudos de la extracción siguen en el repo
-  (archivados en `mvp/temp/`), pero **no hay nada inscrito** y el catálogo del inscriptor está
-  vacío: el primero en entrar será el que se radique. `cargar_corpus.py` dejó de borrar y
-  recrear: **inscribe** un documento
-  (`python3 mvp/código/cargar_corpus.py <doc>`) —su fila y sus datos— y lo inscrito no se vuelve a
-  tocar (en pruebas, `--reinscribir <doc>` es el acto explícito que lo saca y lo vuelve a entrar).
-  La **fecha y hora de radicación las pone la base**, en el momento de inscribir
-  (`datetime('now','localtime')`). Mientras el registro esté vacío, la consulta no tiene de dónde
-  leer; y como todavía no hay preguntas, el ORQ se detiene antes: «no está el archivo de
-  preguntas».
+- **La base es el registro, no una vista derivada (08-10).** Arranca **vacía** (0 documentos, 0
+  datos). **Cada etapa es un acto manual y separado; nada se dispara solo.** Primero se **radica**
+  (`python3 mvp/código/radicar.py <doc>`): el texto en `mvp/documentos/` y la fila con el nombre, la
+  **fecha y la hora que pone la base** (`datetime('now','localtime')`). Después, y por separado, la
+  extracción (`paso1_unidades.py`, `paso2_datos.py`) y la **carga de los datos**
+  (`python3 mvp/código/cargar_datos.py <doc> <p1.out> <rN>`), que escribe solo las filas de datos de
+  ese documento: **no toca su fila** —un documento radicado no se mueve— y se puede repetir con
+  `--recargar`. En pruebas, `radicar.py --rehacer <doc>` saca la fila y sus datos. Los documentos que
+  había (`doc4`, `doc6`) quedaron archivados en `mvp/temp/`: **no hay nada radicado**. Mientras el
+  registro esté vacío, la consulta no tiene de dónde leer; y como todavía no hay preguntas, el ORQ se
+  detiene antes: «no está el archivo de preguntas».
 - **Prompt 4 (08-10): la sonda de la herramienta de pregunta.** El prompt del agente suma
   `preguntar_al_usuario`: cuando la pregunta **admite dos o más respuestas plausibles**, el
   agente pregunta en vez de inventar. En este MVP **el ciclo termina ahí** (D26): el ORQ registra
@@ -197,11 +195,13 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
 listos; `mvp/documentos/`, `mvp/consulta/` y la base, vacíos. Lo que sigue es **radicar el primer
 documento** (punto 0). El material anterior —documentos, baterías, extracción y corridas— está
 archivado en `mvp/temp/`.
-0. **Radicar el primer documento:** decidir cuál es, poner su texto en `mvp/documentos/`, escribir
-   su batería en `mvp/consulta/preguntas_<doc>.md`, extraerlo (paso 1 y paso 2) e inscribirlo
-   (`python3 mvp/código/cargar_corpus.py <doc>`); después, correr la consulta y evaluarla con la
-   vara de los números de oración, distinguiendo «no está en los datos extraídos» de «el documento
-   no lo dice» (`mvp/consulta-diseno.md`, §12). Las baterías de `doc4`/`doc6` están archivadas y
+0. **Radicar el primer documento:** poner su texto en `mvp/documentos/` y radicarlo
+   (`python3 mvp/código/radicar.py doc8`) —eso es todo el acto: el archivo y la fila con nombre,
+   fecha y hora—. Después, **en actos aparte y a mano**: extraerlo (paso 1 y paso 2), cargar sus
+   datos (`cargar_datos.py`), escribir su batería en `mvp/consulta/preguntas_<doc>.md` y correr la
+   consulta; evaluarla con la vara de los números de oración, distinguiendo «no está en los datos
+   extraídos» de «el documento no lo dice» (`mvp/consulta-diseno.md`, §12). Las baterías de
+   `doc4`/`doc6` están archivadas y
    **sin evaluar**: si se quiere evaluación, o se escribe la lista de expectativas antes de correr,
    o se declara posterior.
 1. **El rechazo por dominio, sin ejercitar:** la consulta valida cada id contra los casos del

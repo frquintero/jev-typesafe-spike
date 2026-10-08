@@ -102,7 +102,7 @@ entrega— está en [guía_DATOS.md](guía_DATOS.md).
 
 **Radicar es fijar.** Un documento radicado no cambia: si su texto cambia, eso es
 **otro documento**, con su radicación y su fila propias. El `sello` (sha256 de lo
-radicado) es el guardián: si el archivo ya no coincide, el cargador se detiene y
+radicado) es el guardián: si el archivo ya no coincide, la carga de los datos se detiene y
 reporta. Una **mudanza** de archivo es otra cosa —el documento es el mismo y el
 sello no cambia— y se resuelve con una actualización de la base, autorizada.
 
@@ -119,17 +119,18 @@ documento, no el del esquema. **Abierto.**
 
 ## 3. La base: dos tablas en SQLite
 
-`mvp/código/corpus.db` (SQLite) **es el registro**: no es una vista derivada y no se regenera.
-`mvp/código/cargar_corpus.py` **inscribe** un documento radicado —su fila y sus datos— y lo
-inscrito no se vuelve a tocar: un documento radicado no se mueve. En pruebas, el acto explícito
-`--reinscribir <doc>` lo saca y lo vuelve a entrar. La **fecha y hora de
-radicación las pone la base**, en el momento de inscribir.
+`mvp/código/corpus.db` (SQLite) **es el registro**: no es una vista derivada y no se regenera. Lo
+escriben **dos actos manuales y separados**. Primero `mvp/código/radicar.py` pone la fila del
+documento —su nombre, su dominio, dónde vive y **la fecha y la hora, que pone la base** al radicar—;
+después, `mvp/código/cargar_datos.py` escribe las filas de datos de esa unidad **sin tocar la fila
+del documento**: un documento radicado no se mueve. En pruebas, `radicar.py --rehacer <doc>` saca la
+fila y sus datos.
 
 ```sql
 CREATE TABLE documentos (
-  id                 TEXT PRIMARY KEY,   -- el documento inscrito
+  id                 TEXT PRIMARY KEY,   -- el documento radicado
   dominio            TEXT NOT NULL,      -- GENERAL
-  fecha_radicacion   TEXT NOT NULL DEFAULT (datetime('now','localtime')),  -- fecha y hora: las pone la base, al inscribir
+  fecha_radicacion   TEXT NOT NULL DEFAULT (datetime('now','localtime')),  -- fecha y hora: las pone la base, al radicar
   ubicacion_local    TEXT NOT NULL,      -- …/documentos/doc7.md
   ubicacion_upstream TEXT NOT NULL,      -- …/blob/main/…/doc7.md
   commit_publicacion TEXT,               -- el commit que publica el documento
@@ -683,7 +684,7 @@ entregar» (07-10), la entrega es el **mensaje final**, y así corrieron `doc4` 
 - `mvp/código/proveedores/`: **el transporte del MVP** —el registro de alias, `llamar` con `prompt`
   o `mensajes` y `tools`, y la única lectura de claves (`claves.py`)—, con la forma de OpenAI como
   contrato; y `mvp/código/respuesta.py`, con `extract_json`.
-- `mvp/código/cargar_corpus.py`: el cargador de la base (§3).
+- `mvp/código/base.py`, `radicar.py` y `cargar_datos.py`: la base y sus **dos actos** (§3).
 - `mvp/código/orq/`: el orquestador, un archivo por paso (§5).
 - `mvp/código/orq/leer_entrega.py`: el lector de la entrega —el JSON de prompt 3,
   donde venga (§9).

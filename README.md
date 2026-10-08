@@ -65,11 +65,12 @@ README y el `PLAN.md` de su carpeta. No es bitácora.
   ronda del paso 2 quedó **cerrada** el 06-10 y quedan pendientes su evaluación
   (F6) y la adopción del candidato.
 - Fecha: 2026-10-08 · Proyecto: MVP de Zettel (`mvp/`): la **consulta completa**
-  —código, prompts y base— quedó **desde cero**: los corredores de la extracción,
-  la inscripción de la base y el orquestador en `mvp/código/`, los tres prompts en
-  `mvp/prompts/`, y `mvp/documentos/`, `mvp/consulta/` y la base **vacíos**; el
-  material anterior, archivado en `mvp/temp/`. Sigue: **radicar el primer
-  documento** y correr la consulta; el diseño está en `mvp/consulta-diseno.md`.
+  —código, prompts y base— quedó **desde cero**: los corredores de la extracción, los
+  actos de la base (`radicar.py`, `cargar_datos.py`) y el orquestador en `mvp/código/`,
+  los tres prompts en `mvp/prompts/`, y `mvp/documentos/`, `mvp/consulta/` y la base
+  **vacíos**; el material anterior, archivado en `mvp/temp/`. Cada etapa es un acto
+  manual y separado. Sigue: **radicar el primer documento** y correr la consulta; el
+  diseño está en `mvp/consulta-diseno.md`.
 
 ## Frentes cerrados: lecciones e ideas rescatables
 

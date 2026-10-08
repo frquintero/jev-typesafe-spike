@@ -120,10 +120,14 @@ resultado) y `p2-<doc>-tanda-<rN>.json` (el crudo de la llamada).
 - su id es `<doc>:U<n>:D<j>`, donde `j` es la **posición en la lista `datos`** (no un número que
   venga del texto),
 - lleva `unidad_id`, `caso`, `aspecto`, `valor` y `unidad_valor`,
-- y entra a la base cuando se corre `python3 mvp/código/cargar_corpus.py`, que lee el `.out` de
-  cada unidad del documento radicado. Si a una unidad le falta su `.out`, el cargador **se
-  detiene en el medio** —la reconstruye entera, así que queda a medio armar—; se vuelve a
-  correr cuando el archivo esté.
+- y entra a la base en un acto **aparte y posterior**, a mano:
+
+      python3 mvp/código/cargar_datos.py <doc> p1-<doc>-UT-<modelo>-<rN>.out <rN>
+
+  Lee el `.out` de cada unidad del documento radicado. Primero lee **todo** y recién después
+  escribe: si falta el `.out` de una unidad, **no carga nada** y dice cuál falta. Si el documento ya
+  tiene datos, no los toca; para reemplazarlos por los de otra extracción, `--recargar`. La fila
+  del documento —su nombre, su fecha y su hora— **no se mueve**.
 
 **Cierre de la corrida.** Si se tocó código, `python3 -m py_compile <archivo>`. Al terminar, se
 commitea y se sube: los `.out`, el crudo de la tanda y, si el paso cambió, los «sigue» de
