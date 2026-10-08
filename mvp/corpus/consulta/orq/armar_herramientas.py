@@ -5,7 +5,8 @@ R **se aplica ofreciendo**: si una herramienta no está en R, no se le da al age
 que denegar. Las definiciones viven acá, en un solo lugar, y son las que viajan en el campo
 `tools` de cada llamada.
 
-Las dos herramientas, y nada más: la que trae los datos de un caso y la que entrega el JSON.
+Una sola herramienta: la que trae los datos de un caso. **No hay herramienta de entrega**: la
+respuesta es el mensaje final del agente, y el ORQ la lee de ahí.
 """
 
 OBTENER_DATOS_DEL_CASO = {
@@ -27,31 +28,7 @@ OBTENER_DATOS_DEL_CASO = {
     },
 }
 
-ENTREGAR = {
-    "type": "function",
-    "function": {
-        "name": "entregar",
-        "description": "Entrega la respuesta en el JSON de RESPUESTA_JSON.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "desenlace": {
-                    "type": "string",
-                    "enum": ["respondida", "no_esta_en_el_corpus"],
-                    "description": "'respondida' si hay respuesta; 'no_esta_en_el_corpus' si no.",
-                },
-                "respuesta": {
-                    "type": "string",
-                    "description": "La respuesta corta y autocontenida; vacía si no está en el corpus.",
-                },
-            },
-            "required": ["desenlace", "respuesta"],
-            "additionalProperties": False,
-        },
-    },
-}
-
-DEFINICIONES = {"obtener_datos_del_caso": OBTENER_DATOS_DEL_CASO, "entregar": ENTREGAR}
+DEFINICIONES = {"obtener_datos_del_caso": OBTENER_DATOS_DEL_CASO}
 
 
 def armar_herramientas(r):

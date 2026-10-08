@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
-"""El bucle: llama, ejecuta las herramientas, apila; y termina con la entrega.
+"""El bucle: llama, ejecuta las herramientas, apila; y termina con la respuesta del agente.
 
 El estado es la lista de mensajes. En cada turno:
 
     1. se llama al modelo con los mensajes y las herramientas;
-    2. el mensaje del asistente vuelve **tal cual** —con sus `tool_calls` y su
-       `reasoning_content`, que la API exige devolver cuando hay `tools`—;
-    3. cada llamada se ejecuta y su resultado entra como un mensaje `role: "tool"` con su
+    2. si el mensaje trae llamadas, el mensaje del asistente vuelve **tal cual** —con sus
+       `tool_calls` y su `reasoning_content`, que la API exige devolver cuando hay `tools`—,
+       cada llamada se ejecuta y su resultado entra como un mensaje `role: "tool"` con su
        `tool_call_id`;
-    4. si la llamada es `entregar`, la corrida termina: el ORQ **no juzga** la entrega, la
-       registra tal como vino.
+    3. si el mensaje **no** trae llamadas, el agente terminó: su contenido es la respuesta, y el
+       ORQ la lee de ahí (el JSON de RESPUESTA_JSON). No la juzga: la registra tal como vino.
 
 Se corta por `guardias.max_turnos` o `guardias.max_herramientas` (topes del orquestador, no de R).
 """
 
 import copy
+import json
 
 from ejecutar_herramienta import ejecutar_herramienta
 from llamar_modelo import llamar_modelo
@@ -24,6 +25,8 @@ def bucle(config, mensajes, herramientas, db, casos):
     """Corre el bucle y devuelve el estado de la corrida."""
     cuerpos, respuestas, casos_leidos = [], [], []
     entrega = None
+    contenido_final = None
+    cerrado = False
     turnos = 0
     llamadas = 0
 
@@ -36,7 +39,14 @@ def bucle(config, mensajes, herramientas, db, casos):
         pedidas = mensaje.get("tool_calls") or []
 
         if not pedidas:
-            break  # contestó sin herramientas: no hay entrega
+            # El agente terminó: lo que trae el mensaje es su respuesta.
+            contenido_final = (mensaje.get("content") or "").strip()
+            try:
+                entrega = json.loads(contenido_final) if contenido_final else None
+            except json.JSONDecodeError:
+                entrega = None  # no vino JSON: se registra el texto tal cual
+            cerrado = True
+            break
 
         asistente = {"role": "assistant", "content": mensaje["content"] or None,
                      "tool_calls": pedidas}
@@ -51,15 +61,10 @@ def bucle(config, mensajes, herramientas, db, casos):
                                                      db, casos)
             if nombre == "obtener_datos_del_caso" and ok:
                 casos_leidos.append(objeto["unidad_id"])
-            if nombre == "entregar":
-                entrega = objeto
-                return {"entrega": entrega, "cuerpos": cuerpos, "respuestas": respuestas,
-                        "casos_leidos": casos_leidos, "turnos": turnos, "llamadas": llamadas,
-                        "cerrado": True, "mensajes": mensajes}
             mensajes.append({"role": "tool", "tool_call_id": llamada["id"], "content": texto})
             if llamadas >= config["guardias"]["max_herramientas"]:
                 break
 
-    return {"entrega": entrega, "cuerpos": cuerpos, "respuestas": respuestas,
-            "casos_leidos": casos_leidos, "turnos": turnos, "llamadas": llamadas,
-            "cerrado": False, "mensajes": mensajes}
+    return {"entrega": entrega, "contenido_final": contenido_final, "cuerpos": cuerpos,
+            "respuestas": respuestas, "casos_leidos": casos_leidos, "turnos": turnos,
+            "llamadas": llamadas, "cerrado": cerrado, "mensajes": mensajes}

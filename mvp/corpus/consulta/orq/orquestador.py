@@ -72,8 +72,10 @@ def main():
     if isinstance(estado["entrega"], dict):
         print(f"desenlace: {estado['entrega'].get('desenlace')}")
         print(f"respuesta: {estado['entrega'].get('respuesta') or '(sin respuesta)'}")
+    elif estado.get("contenido_final"):
+        print(f"respuesta (sin JSON): {estado['contenido_final']}")
     else:
-        print("sin entrega: el agente no entregó el JSON")
+        print("sin respuesta: el agente no contestó")
     for etiqueta, ruta in (("crudo", ruta_crudo), ("traza", ruta_traza), ("salida", ruta_salida)):
         print(f"{etiqueta}: {ruta.relative_to(RAIZ)}")
 
