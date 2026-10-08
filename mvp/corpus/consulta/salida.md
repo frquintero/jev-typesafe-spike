@@ -35,3 +35,11 @@
 
 **Casos leídos:** doc4:U1, doc4:U3, doc4:U4 (de 5)
 
+## Pregunta 2
+
+¿Cuántas horas va a durar el corte de agua anunciado?
+
+**Respuesta:** El corte de agua anunciado en el barrio San Jorge durará catorce horas (desde las seis de la mañana del jueves).
+
+**Casos leídos:** doc4:U1 (de 5)
+
