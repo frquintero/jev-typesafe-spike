@@ -63,22 +63,19 @@ mover un archivo o de tocar el estado del repo.
   detenida por costo: no retomarla sin autorización. Detalle en su `README`/`PLAN`.
 - `nblm-grafo-semantico/`: mixto: subtemas con DeepSeek y datos por unidad con
   NotebookLM, cada unidad como fuente aparte. Mismas reglas que `notebooklm-spike/`.
-- `mvp/`: MVP de Zettel. Mesas de la forma de A(Q), pieza 1 (conflicto y dato
-  derivado), mesa de dominio, pruebas del paso 1 y ronda cerrada del paso 2 quedaron
-  **archivadas en `mvp/temp/`**. Lo vivo **arranca desde cero**: `mvp/documentos/` (los
-  documentos que se radican) y `mvp/consulta/` (las baterías `preguntas_<doc>.md`) están
-  **vacíos**, y la base `mvp/código/corpus.db` no tiene nada radicado. El **código** está en
-  `mvp/código/`: los corredores de la extracción (`paso1_unidades.py`, `paso2_datos.py`), los tres
-  actos de la base en archivos propios —`radicar.py`, `cargar_datos.py` y `base.py`—, `R.json` y el
-  orquestador (`mvp/código/orq/`); los crudos de la extracción y los registros de la consulta
-  quedan en `mvp/temp/`. **Los tres prompts de
-  trabajo viven en `mvp/prompts/`** (`prompt_UT`, `prompt_DATOS` y `prompt_ORQ`). Lo
-  construido y lo abierto está en `mvp/consulta-diseno.md`, y los procedimientos de la
-  extracción, en `mvp/guía_UT.md` (paso 1, unidades temáticas) y `mvp/guía_DATOS.md`
-  (paso 2, datos por unidad). **El estado vive en `mvp/memoria de trabajo y pendientes.md`**; el
-  detalle, en el `README`, `PLAN` o diseño de cada subcarpeta. **Cada etapa es un acto manual y
-  separado**, nada se dispara solo: radicar (`radicar.py <doc>`), extraer, cargar los datos
-  (`cargar_datos.py <doc> <p1.out> <rN>`) y consultar. Sigue: radicar el primer documento.
+- `mvp/`: MVP de Zettel. Las mesas de la forma de A(Q), la pieza 1 (conflicto y dato
+  derivado), la mesa de dominio, las pruebas del paso 1 y la ronda cerrada del paso 2 quedaron
+  **archivadas en `mvp/temp/`**; lo vivo está en `mvp/`: `mvp/documentos/` (los documentos que se
+  radican), `mvp/consulta/` (las baterías `preguntas_<doc>.md`), `mvp/prompts/` (los tres prompts de
+  trabajo: `prompt_UT`, `prompt_DATOS` y `prompt_ORQ`) y `mvp/código/` (los dos corredores de la
+  extracción, los actos de la base —`radicar.py`, `cargar_datos.py` y `base.py`—, `R.json` y el
+  orquestador en `orq/`); los crudos de la extracción y los registros de la consulta quedan en
+  `mvp/temp/`. **Cada etapa es un acto manual y separado, y nada se dispara solo**: radicar
+  (`radicar.py <doc>`), extraer, cargar los datos (`cargar_datos.py <doc> <p1.out> <rN>`) y
+  consultar. Lo construido y lo abierto está en `mvp/consulta-diseno.md`; los procedimientos, en
+  `mvp/guía_UT.md` (paso 1, unidades temáticas) y `mvp/guía_DATOS.md` (paso 2, datos por unidad); y
+  **el estado —qué hay radicado y qué sigue— solo en `mvp/memoria de trabajo y pendientes.md`**,
+  que es la fuente única: los demás sitios no repiten los números.
 - `test_tool_calling/`: la mecánica del bucle con herramientas en DeepSeek
   (`call_model` con `messages` y `tools`), corrida el 07-10; lecciones en su
   `README.md` y crudos en `cache/`.

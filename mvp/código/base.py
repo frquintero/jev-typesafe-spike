@@ -3,8 +3,9 @@
 `mvp/código/corpus.db` **es el registro**: no es una vista derivada y no se regenera. Dos tablas:
 
 - `documentos`: un documento **radicado** por fila —su nombre, su dominio, la fecha y la hora de la
-  radicación (las pone la base), dónde vive, su sello y, si está publicado, su commit—. Un
-  documento radicado no se mueve: si su texto cambia, eso es otro documento.
+  radicación (las pone la base), dónde vive y su **sello** (sha256 del texto: es su identidad)—. De
+  la vida del repo no guarda nada, ni el commit. Un documento radicado no se mueve: si su texto
+  cambia, eso es otro documento.
 - `datos`: las filas de datos de cada unidad de un documento radicado. Se cargan **después**, en un
   acto aparte, y recargarlas no toca la fila del documento.
 

@@ -60,9 +60,10 @@ la cobertura, solo orquesta.
 
 ## 2. La primera ronda del corpus: `doc4` y `doc6` (archivada)
 
-**Hoy no hay documentos radicados:** el registro se reseteó el 08-10 y arranca vacío (§3). Lo que
-sigue es lo que produjo la **primera ronda**, que quedó **archivada en `mvp/temp/`** y sirve de
-referencia: los dos documentos eran textos de prueba, copiados tal cual, con su `sello`.
+**El estado —qué hay radicado y qué falta— vive en `mvp/memoria de trabajo y pendientes.md`** y no
+se repite acá. Lo que sigue es lo que produjo la **primera ronda**, que quedó **archivada en
+`mvp/temp/`** y sirve de referencia: los dos documentos eran textos de prueba, copiados tal cual, con
+su `sello`.
 
 - **`doc4`**: `mvp/temp/documentos/doc4.md` (copia del texto de pruebas)
   - paso 1 (v10, Muse): `mvp/temp/extraccion/doc4/p1-doc4-v10-muse-r1.out` → 5 unidades;
@@ -146,9 +147,9 @@ CREATE TABLE datos (
 );
 ```
 
-**El registro se reseteó el 08-10 y está vacío**: 0 documentos, 0 datos, 0 casos. Los documentos
-en `documentos/` y los crudos de la extracción siguen en el repo; `doc4` y `doc6` **no** están
-inscritos, y el primero en entrar será `doc7`, cuando se radique.
+**El registro arranca de cero el 08-10** (se reseteó): los documentos anteriores (`doc4`, `doc6`) y
+sus crudos siguen en el repo, archivados en `mvp/temp/`, y no están radicados. **Qué hay radicado hoy
+se lee en `mvp/memoria de trabajo y pendientes.md`**, la fuente única del estado.
 
 Así se lee una fila (ejemplo, con datos inscritos):
 

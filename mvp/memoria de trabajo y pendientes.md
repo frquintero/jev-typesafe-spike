@@ -26,17 +26,17 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   (`mvp/temp/extraccion/`) y los registros de las 13 corridas de consulta
   (`mvp/temp/consulta/`). **Nada de eso está inscrito**: el registro arranca limpio y crece solo
   por actos de radicación.
-- **La base es el registro, no una vista derivada (08-10).** Arranca **vacía** (0 documentos, 0
-  datos). **Cada etapa es un acto manual y separado; nada se dispara solo.** Primero se **radica**
-  (`python3 mvp/código/radicar.py <doc>`): el texto en `mvp/documentos/` y la fila con el nombre, la
-  **fecha y la hora que pone la base** (`datetime('now','localtime')`). Después, y por separado, la
-  extracción (`paso1_unidades.py`, `paso2_datos.py`) y la **carga de los datos**
+- **La base es el registro, no una vista derivada (08-10).** El registro es `mvp/código/corpus.db`:
+  no se regenera, y lo que entra no se toca. Se escribe con **actos manuales y separados**, y cada
+  uno es un guion propio: **radicar** (`python3 mvp/código/radicar.py <doc>`) pone la fila del
+  documento —el nombre, y **la fecha y la hora que pone la base** (`datetime('now','localtime')`)—;
+  después, la extracción (paso 1 y paso 2) y, en otro acto, la **carga de los datos**
   (`python3 mvp/código/cargar_datos.py <doc> <p1.out> <rN>`), que escribe solo las filas de datos de
-  ese documento: **no toca su fila** —un documento radicado no se mueve— y se puede repetir con
-  `--recargar`. En pruebas, `radicar.py --rehacer <doc>` saca la fila y sus datos. Los documentos que
-  había (`doc4`, `doc6`) quedaron archivados en `mvp/temp/`: **no hay nada radicado**. Mientras el
-  registro esté vacío, la consulta no tiene de dónde leer; y como todavía no hay preguntas, el ORQ se
-  detiene antes: «no está el archivo de preguntas».
+  ese documento y **no toca su fila**: un documento radicado no se mueve. Se puede repetir con
+  `--recargar`, y en pruebas `radicar.py --rehacer <doc>` saca la fila y sus datos. La fila guarda
+  nombre, dominio, fecha y hora, ubicación y **sello** (sha256 del texto: es la identidad de lo
+  radicado, y si el archivo cambia después la carga se detiene y lo reporta). Del repo no guarda
+  nada. **Cuánto hay radicado hoy, en la primera viñeta** —no se repite acá—.
 - **Prompt 4 (08-10): la sonda de la herramienta de pregunta.** El prompt del agente suma
   `preguntar_al_usuario`: cuando la pregunta **admite dos o más respuestas plausibles**, el
   agente pregunta en vez de inventar. En este MVP **el ciclo termina ahí** (D26): el ORQ registra
@@ -191,17 +191,15 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
 
 ## 3. Pendientes vigentes
 
-**Orden (08-10).** La estructura quedó armada y **desde cero**: código, prompts y procedimientos
-listos; `mvp/documentos/`, `mvp/consulta/` y la base, vacíos. Lo que sigue es **radicar el primer
-documento** (punto 0). El material anterior —documentos, baterías, extracción y corridas— está
+**Orden (08-10).** El código, los prompts y los procedimientos están listos; **`doc8` ya está
+radicado** (primera viñeta) y lo que sigue es **pasarlo por las etapas que restan**, cada una como
+acto aparte (punto 0). El material anterior —documentos, baterías, extracción y corridas— está
 archivado en `mvp/temp/`.
-0. **Radicar el primer documento:** poner su texto en `mvp/documentos/` y radicarlo
-   (`python3 mvp/código/radicar.py doc8`) —eso es todo el acto: el archivo y la fila con nombre,
-   fecha y hora—. Después, **en actos aparte y a mano**: extraerlo (paso 1 y paso 2), cargar sus
-   datos (`cargar_datos.py`), escribir su batería en `mvp/consulta/preguntas_<doc>.md` y correr la
-   consulta; evaluarla con la vara de los números de oración, distinguiendo «no está en los datos
-   extraídos» de «el documento no lo dice» (`mvp/consulta-diseno.md`, §12). Las baterías de
-   `doc4`/`doc6` están archivadas y
+0. **`doc8`, por las etapas que restan,** en actos sueltos y a mano: paso 1 (unidades), paso 2
+   (datos), cargar sus datos (`cargar_datos.py`), escribir su batería en
+   `mvp/consulta/preguntas_doc8.md` y correr la consulta; evaluarla con la vara de los números de
+   oración, distinguiendo «no está en los datos extraídos» de «el documento no lo dice»
+   (`mvp/consulta-diseno.md`, §12). Las baterías de `doc4`/`doc6` están archivadas y
    **sin evaluar**: si se quiere evaluación, o se escribe la lista de expectativas antes de correr,
    o se declara posterior.
 1. **El rechazo por dominio, sin ejercitar:** la consulta valida cada id contra los casos del
