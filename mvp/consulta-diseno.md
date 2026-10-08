@@ -85,15 +85,21 @@ preguntas, su partición v9 y sus fichas quedan fuera.
 entra, de dónde viene, cómo se procesa, qué se entrega y cómo se entrega— está en
 [guía_UT.md](guía_UT.md).
 
-**El paso 2 (los datos por unidad)** corre **por la API**, con `mvp/prompts/prompt_DATOS.md`:
+**El paso 2 (los datos por unidad)** corre **por la API y en tanda**: **una llamada por
+documento** con todas las unidades que falten, y la respuesta se reparte en un `.out` por unidad.
+La vía es `mvp/prompts/prompt_DATOS.md`:
 
 ```bash
 python3 mvp/corpus/paso2_datos.py <doc> <archivo de unidades> <modelo> <rN>
 ```
 
-Una llamada por unidad —sin agente de por medio—, que deja `p2-<doc>-u<n>-<rN>.out` y su crudo
-con los segundos; es idempotente **por unidad**. Los datos de `doc4` y `doc6` se hicieron antes
-delegando a Muse, a mano; `doc7` es el primero que corre así.
+Deja `p2-<doc>-u<n>-<rN>.out` (el resultado, uno por unidad) y `p2-<doc>-tanda-<rN>.json` (el
+crudo, con los segundos y los tokens); es idempotente **por unidad**, así que retoma lo que falta
+sin volver a pagar lo hecho. Medido el 08-10 sobre las seis unidades de `doc7`: **24,4 s y 8.759
+tokens** en tanda contra **52,2 s y 18.481** de a una, con los mismos datos salvo granularidad en
+una unidad. Los datos de `doc4` y `doc6` se hicieron antes delegando a Muse, a mano. El
+procedimiento completo —qué entra, de dónde viene, cómo se procesa, qué se entrega y cómo se
+entrega— está en [guía_DATOS.md](guía_DATOS.md).
 
 **Radicar es fijar.** Un documento radicado no cambia: si su texto cambia, eso es
 **otro documento**, con su radicación y su fila propias. El `sello` (sha256 de lo
@@ -648,7 +654,7 @@ entregar» (07-10), la entrega es el **mensaje final**, y así corrieron `doc4` 
 | **D12** | «Mundo del agente» en los documentos vivos | sigue como vocabulario; sin efecto en el código |
 | **D13** | Herramientas: (A) protocolo textual o (B) nativas | decidida: (B), aditivo sobre `call_model` |
 | **D14** | Prompts de la extracción | decidida: `prompt_UT` y `prompt_DATOS`, hoy en `mvp/prompts/` |
-| **D15** | Salida del paso 2 | decidida: `caso` y `datos`, una unidad por turno; **`dudas` se quitó el 08-10** —no lo leía nadie: no entra a la base ni lo ve el agente— |
+| **D15** | Salida del paso 2 | decidida: `caso` y `datos`; **el 08-10 se quitó `dudas`** (no lo leía nadie) **y el paso 2 pasó a la tanda** (D27) |
 | **D16** | `unidad_valor`: campo propio o dentro del `valor` | abierta — se usa poco (3 de 26 datos en `doc4`; 4 de 33 en `doc6`) |
 | **D17** | El agente, ¿lee texto del documento o solo los datos extraídos? | decidida: solo los datos |
 | **D18** | El ORQ, ¿juzga la entrega? | decidida: no; el juicio vive en la evaluación (§12) |
@@ -660,6 +666,7 @@ entregar» (07-10), la entrega es el **mensaje final**, y así corrieron `doc4` 
 | **D24** | El sostén en la respuesta (datos citados, reporte) | diferida: cuando el usuario pida ver la fuente |
 | **D25** | Tope y corte por ciclo | en parte: el tope de herramientas se respeta y la causa del corte se registra; **no hay corte por repetición** |
 | **D26** | Al usar `preguntar_al_usuario`, ¿se reanuda la corrida? | decidida (08-10): no en este MVP; el ciclo termina y la pregunta queda en la salida y en el crudo (§7) |
+| **D27** | ¿El paso 2 va de a una unidad o en tanda? | decidida (08-10): **en tanda**, una llamada por documento; medido en `doc7`: 24,4 s y 8.759 tokens contra 52,2 s y 18.481 de a una, con los mismos datos salvo granularidad (§2, `guía_DATOS.md`) |
 
 ---
 

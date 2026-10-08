@@ -1,0 +1,20 @@
+{
+  "caso": "las peticiones, promesas y declaraciones sobre beneficios para el barrio El Mirador",
+  "datos": [
+    {
+      "aspecto": "petición de los vecinos del barrio El Mirador",
+      "valor": "un sendero elevado para observar las aves",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "promesa de la empresa",
+      "valor": "contratar a veinte personas del sector",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "declaración del concejal Óscar Medina",
+      "valor": "la recuperación era una deuda histórica con el barrio",
+      "unidad_valor": null
+    }
+  ]
+}

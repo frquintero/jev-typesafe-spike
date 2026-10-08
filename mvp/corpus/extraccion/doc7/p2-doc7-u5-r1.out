@@ -1,0 +1,15 @@
+{
+  "caso": "la petición de publicar el informe antes de las elecciones",
+  "datos": [
+    {
+      "aspecto": "persona que pidió",
+      "valor": "La personera",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "petición",
+      "valor": "que el informe se publicara antes de las elecciones",
+      "unidad_valor": null
+    }
+  ]
+}

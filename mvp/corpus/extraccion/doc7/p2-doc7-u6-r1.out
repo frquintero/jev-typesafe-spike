@@ -1,0 +1,30 @@
+{
+  "caso": "el antecedente de la restauración abandonada en el humedal de Tibanica",
+  "datos": [
+    {
+      "aspecto": "año del intento de restauración",
+      "valor": "2018",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "tipo de restauración intentada",
+      "valor": "similar",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "lugar del intento de restauración",
+      "valor": "el humedal de Tibanica",
+      "unidad_valor": null
+    },
+    {
+      "aspecto": "tiempo hasta el abandono",
+      "valor": "dos",
+      "unidad_valor": "años"
+    },
+    {
+      "aspecto": "causa del abandono",
+      "valor": "falta de mantenimiento",
+      "unidad_valor": null
+    }
+  ]
+}

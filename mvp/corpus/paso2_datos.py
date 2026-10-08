@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Paso 2 del corpus: los datos de cada unidad temática, por la API (`call_model`).
+"""Paso 2 del corpus: los datos de las unidades temáticas, en UNA llamada por documento.
 
 Uso:
     python3 mvp/corpus/paso2_datos.py <doc> <unidades> <modelo> <rN>
@@ -9,23 +9,27 @@ Uso:
 dentro de `mvp/corpus/extraccion/<doc>/` (`p1-doc7-v10-deepseek-r1.out`). `<rN>` es la réplica
 con su `r` (`r1`, `r2`…), igual que en el paso 1.
 
-Hace, por cada unidad, lo que para `doc4` y `doc6` se hizo a mano delegando a Muse:
+El paso 2 va **en tanda**: las unidades del documento se mandan en **una sola llamada**. Medido
+el 08-10 sobre las seis unidades de `doc7`: **24,4 s y 8.759 tokens** en una llamada, contra
+**52,2 s y 18.481 tokens** en seis llamadas, con los mismos datos salvo granularidad (una vez
+juntó en un valor lo que de a una salieron dos). Antes el corredor iba de a una unidad.
 
-1. arma la unidad que recibe el paso 2 —`caso` = el `subtema` que devolvió el paso 1,
-   `contenido` = sus oraciones unidas en un párrafo y sin numeración—;
-2. sustituye `{{UNIDAD}}` en `mvp/prompts/prompt_DATOS.md`;
-3. llama al modelo por `call_model` (`niveles/run_niveles.py`): **una llamada por unidad, sin
-   agente de por medio**;
+1. arma la lista de unidades —`caso` = el `subtema` que devolvió el paso 1, `contenido` = sus
+   oraciones unidas en un párrafo y sin numeración—, **solo con las que todavía no tienen su
+   salida**;
+2. sustituye `{{UNIDADES}}` en `mvp/prompts/prompt_DATOS.md`;
+3. llama al modelo por `call_model` (`niveles/run_niveles.py`), **una vez**;
 4. lee la respuesta con `extract_json` y verifica la **forma** (no el contenido);
-5. escribe la salida y el crudo.
+5. **reparte** la respuesta: escribe un `.out` por unidad, que es lo que lee el cargador.
 
 Escribe, en `mvp/corpus/extraccion/<doc>/`:
 
-    p2-<doc>-u<n>-<rN>.out    el JSON de datos de esa unidad (lo que lee el cargador)
-    p2-<doc>-u<n>-<rN>.json   el crudo: unidad enviada, petición, respuesta, segundos y forma
+    p2-<doc>-u<n>-<rN>.out     los datos de esa unidad (uno por unidad: lo que lee el cargador)
+    p2-<doc>-tanda-<rN>.json   el crudo de la llamada: unidades enviadas, petición, respuesta,
+                               segundos y forma
 
-Idempotente **por unidad**: si el `.out` de esa unidad ya existe, no vuelve a llamar; así una
-corrida cortada se retoma sin repetir lo hecho.
+Idempotente **por unidad**: las que ya tienen su `.out` no se mandan, así una corrida cortada se
+retoma sin repetir —ni volver a pagar— lo hecho.
 """
 
 import json
@@ -59,28 +63,43 @@ def resolver_unidades(doc, argumento):
     raise SystemExit(f"no encuentro el archivo de unidades '{argumento}' para {doc}")
 
 
-def forma(parsed):
-    """Verifica la forma de la salida del paso 2. No juzga el contenido."""
-    if not isinstance(parsed, dict):
-        return {"parseo": False, "datos": 0, "problemas": ["no hay objeto JSON"]}
+def forma(parsed, enviadas):
+    """Verifica la forma de lo que devolvió la tanda. No juzga el contenido."""
+    if not isinstance(parsed, dict) or not isinstance(parsed.get("unidades"), list):
+        return {"parseo": False, "unidades": 0, "datos": 0, "problemas": ["no hay lista 'unidades'"]}
+    unidades = parsed["unidades"]
     problemas = []
-    if not isinstance(parsed.get("caso"), str) or not parsed["caso"].strip():
-        problemas.append("falta 'caso'")
-    datos = parsed.get("datos")
-    if not isinstance(datos, list):
-        problemas.append("'datos' no es una lista")
-        datos = []
-    for i, dato in enumerate(datos, 1):
-        if not isinstance(dato, dict):
-            problemas.append(f"datos[{i}] no es un objeto")
+    if len(unidades) != len(enviadas):
+        problemas.append(f"devolvió {len(unidades)} y se enviaron {len(enviadas)}")
+    numeros = set()
+    for u in unidades:
+        if not isinstance(u, dict):
+            problemas.append("una unidad no es un objeto")
             continue
-        if not isinstance(dato.get("aspecto"), str) or not dato["aspecto"].strip():
-            problemas.append(f"datos[{i}] sin 'aspecto'")
-        if not isinstance(dato.get("valor"), (str, int, float)):
-            problemas.append(f"datos[{i}] sin 'valor'")
-        if dato.get("unidad_valor") is not None and not isinstance(dato["unidad_valor"], str):
-            problemas.append(f"datos[{i}] 'unidad_valor' no es texto ni null")
-    return {"parseo": True, "datos": len(datos), "problemas": problemas}
+        if not isinstance(u.get("n"), int):
+            problemas.append("una unidad sin 'n'")
+        else:
+            numeros.add(u["n"])
+        if not isinstance(u.get("caso"), str) or not u["caso"].strip():
+            problemas.append(f"la unidad n={u.get('n')} sin 'caso'")
+        if not isinstance(u.get("datos"), list):
+            problemas.append(f"la unidad n={u.get('n')} no trae 'datos'")
+            continue
+        for i, dato in enumerate(u["datos"], 1):
+            if not isinstance(dato, dict):
+                problemas.append(f"n={u.get('n')} datos[{i}] no es un objeto")
+                continue
+            if not isinstance(dato.get("aspecto"), str) or not dato["aspecto"].strip():
+                problemas.append(f"n={u.get('n')} datos[{i}] sin 'aspecto'")
+            if not isinstance(dato.get("valor"), (str, int, float)):
+                problemas.append(f"n={u.get('n')} datos[{i}] sin 'valor'")
+            if dato.get("unidad_valor") is not None and not isinstance(dato["unidad_valor"], str):
+                problemas.append(f"n={u.get('n')} datos[{i}] 'unidad_valor' no es texto ni null")
+    faltan = [i for i in range(1, len(enviadas) + 1) if i not in numeros]
+    if faltan:
+        problemas.append(f"sin salida para las posiciones {faltan}")
+    datos = sum(len(u.get("datos") or []) for u in unidades if isinstance(u, dict))
+    return {"parseo": True, "unidades": len(unidades), "datos": datos, "problemas": problemas}
 
 
 def run(doc, unidades_arg, modelo, rep):
@@ -91,53 +110,73 @@ def run(doc, unidades_arg, modelo, rep):
     _, oraciones_numeradas = numerar_oraciones(texto)
     reconstruidas = reconstruir_subtemas({"subtemas": unidades}, oraciones_numeradas)
 
-    ruta_prompt = PROMPTS / "prompt_DATOS.md"
-    prompt = ruta_prompt.read_text(encoding="utf-8")
-    if "{{UNIDAD}}" not in prompt:
-        raise SystemExit(f"el prompt '{ruta_prompt.name}' no tiene {{{{UNIDAD}}}}")
-
     print(f"{doc}: {len(unidades)} unidades desde {ruta_unidades.name} · modelo {modelo}")
-    total = 0.0
-    llamadas = 0
+    faltantes = []
     for n, unidad in enumerate(reconstruidas, 1):
         if not unidad["oraciones"]:
             print(f"  U{n}: sin oraciones reconstruidas, salto")
             continue
-        salida = carpeta / f"p2-{doc}-u{n}-{rep}.out"
-        if salida.exists():
+        if (carpeta / f"p2-{doc}-u{n}-{rep}.out").exists():
             print(f"  U{n}: crudo ya existe, salto")
             continue
+        faltantes.append((n, unidad))
+    if not faltantes:
+        print("  no falta ninguna unidad: no se llama al modelo")
+        return
 
-        entrada = {"caso": unidad["subtema"], "contenido": " ".join(unidad["oraciones"])}
-        prompt_enviado = prompt.replace("{{UNIDAD}}", json.dumps(entrada, ensure_ascii=False))
+    lista = [{"caso": u["subtema"], "contenido": " ".join(u["oraciones"])} for _, u in faltantes]
+    ruta_prompt = PROMPTS / "prompt_DATOS.md"
+    plantilla = ruta_prompt.read_text(encoding="utf-8")
+    if "{{UNIDADES}}" not in plantilla:
+        raise SystemExit(f"el prompt '{ruta_prompt.name}' no tiene {{{{UNIDADES}}}}")
+    prompt = plantilla.replace("{{UNIDADES}}", json.dumps(lista, ensure_ascii=False))
 
-        t0 = time.time()
-        body, resp = call_model(VERSION, modelo, prompt_enviado)
-        segundos = round(time.time() - t0, 1)
-        total += segundos
-        llamadas += 1
-        parsed, venia_con_cerca, error = extract_json(resp["choices"][0]["message"]["content"])
+    print(f"  una llamada con {len(lista)} unidades: {[n for n, _ in faltantes]}")
+    t0 = time.time()
+    body, resp = call_model(VERSION, modelo, prompt)
+    segundos = round(time.time() - t0, 1)
+    contenido = resp["choices"][0]["message"]["content"] or ""
+    parsed, venia_con_cerca, error = extract_json(contenido)
+    v = forma(parsed, lista)
+    uso = resp.get("usage") or {}
 
-        carpeta.mkdir(parents=True, exist_ok=True)
-        if parsed is not None:
-            salida.write_text(json.dumps(parsed, ensure_ascii=False, indent=2), encoding="utf-8")
-        (carpeta / f"p2-{doc}-u{n}-{rep}.json").write_text(json.dumps({
-            "doc": doc, "unidad_n": n, "prompt": "prompt_DATOS", "modelo": modelo,
-            "version": VERSION, "rN": rep, "segundos": segundos,
-            "unidad_enviada": entrada, "request": body, "response": resp,
-            "parsed": parsed, "venia_con_cerca": venia_con_cerca, "error_parseo": error,
-            "forma": forma(parsed),
-        }, ensure_ascii=False, indent=2), encoding="utf-8")
+    # Reparto: la posición en la lista enviada es el número real de la unidad.
+    por_posicion = {}
+    if isinstance(parsed, dict) and isinstance(parsed.get("unidades"), list):
+        for item in parsed["unidades"]:
+            if isinstance(item, dict) and isinstance(item.get("n"), int):
+                por_posicion[item["n"]] = item
+    carpeta.mkdir(parents=True, exist_ok=True)
+    (carpeta / f"p2-{doc}-tanda-{rep}.json").write_text(json.dumps({
+        "doc": doc, "prompt": "prompt_DATOS", "modelo": modelo, "version": VERSION, "rN": rep,
+        "segundos": segundos, "unidades_enviadas": lista,
+        "request": body, "response": resp, "parsed": parsed,
+        "venia_con_cerca": venia_con_cerca, "error_parseo": error, "forma": v,
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
 
-        if parsed is None:
-            print(f"  U{n}: NO se pudo parsear ({error}) · {segundos} s")
+    escritas = 0
+    for posicion, (n, unidad) in enumerate(faltantes, 1):
+        item = por_posicion.get(posicion)
+        if item is None:  # sin `n` utilizable: se busca por el caso
+            for candidato in (parsed or {}).get("unidades", []):
+                if (isinstance(candidato, dict)
+                        and str(candidato.get("caso", "")).strip() == unidad["subtema"].strip()):
+                    item = candidato
+                    break
+        if item is None:
+            print(f"  U{n}: la tanda no trajo su salida")
             continue
-        v = forma(parsed)
-        aviso = f" · problemas: {v['problemas']}" if v["problemas"] else ""
-        print(f"  U{n}: {v['datos']} datos · {segundos} s{aviso}")
+        salida = {"caso": item.get("caso") or unidad["subtema"], "datos": item.get("datos") or []}
+        (carpeta / f"p2-{doc}-u{n}-{rep}.out").write_text(
+            json.dumps(salida, ensure_ascii=False, indent=2), encoding="utf-8")
+        escritas += 1
+        print(f"  U{n}: {len(salida['datos'])} datos")
 
-    if llamadas:
-        print(f"  total: {total:.1f} s en {llamadas} llamadas · media {total / llamadas:.1f} s")
+    print(f"  {escritas} de {len(faltantes)} unidades escritas · {segundos} s · "
+          f"tokens prompt {uso.get('prompt_tokens')} · completion {uso.get('completion_tokens')}")
+    if v["problemas"]:
+        print(f"  problemas de forma: {v['problemas']}")
+    print(f"  -> {carpeta.relative_to(RAIZ)}/p2-{doc}-tanda-{rep}.json")
 
 
 if __name__ == "__main__":

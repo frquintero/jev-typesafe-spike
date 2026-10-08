@@ -69,8 +69,9 @@ mover un archivo o de tocar el estado del repo.
   **consulta completa**: documentos radicados (`doc4`, `doc6`), la base SQLite, los
   crudos de la extracción y el orquestador (`corpus/consulta/orq/`); **los tres prompts de
   trabajo viven en `mvp/prompts/`** (`prompt_UT`, `prompt_DATOS` y `prompt_ORQ`). Lo
-  construido y lo abierto está en `mvp/consulta-diseno.md`, y el procedimiento de las
-  unidades temáticas (paso 1), en `mvp/guía_UT.md`. **Su estado vive en la memoria**; el
+  construido y lo abierto está en `mvp/consulta-diseno.md`, y los procedimientos de la
+  extracción, en `mvp/guía_UT.md` (paso 1, unidades temáticas) y `mvp/guía_DATOS.md`
+  (paso 2, datos por unidad). **Su estado vive en la memoria**; el
   detalle, en el `README`, `PLAN` o diseño de cada subcarpeta. Sigue: correr prompt 4 (la sonda
   de la herramienta de pregunta) y evaluar las respuestas (`mvp/consulta-diseno.md` §12).
 - `test_tool_calling/`: la mecánica del bucle con herramientas en DeepSeek
