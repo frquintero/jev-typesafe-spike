@@ -1,6 +1,10 @@
+[SISTEMA]
 CASOS:
 {{CASOS}}
 
+ANCLAS: {{ANCLAS}} (día y hora del sistema; no es dato del documento)
+
+[TAREA]
 TAREAS:
 1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la
    siguiente pregunta: {{PREGUNTA}}.
@@ -14,5 +18,3 @@ TAREAS:
 RESPUESTA_JSON:
 {"desenlace": "respondida", "respuesta": "…"}
 {"desenlace": "no_esta_en_el_corpus", "respuesta": ""}
-
-ANCLAS: {{ANCLAS}} (día y hora del sistema; no es dato del documento)
