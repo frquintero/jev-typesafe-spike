@@ -368,12 +368,11 @@ RESPUESTA_JSON:
 agente necesita para elegir—.
 
 **El umbral del 80%** es el criterio de selección: el agente mira los nombres de los
-casos y pide los que podrían contener la respuesta. Su límite es que los nombres son
-resúmenes: la pregunta «¿a qué hora empieza el corte?» no aparece en el nombre de
-`U1` («… su **duración** de catorce horas y los usuarios afectados»), pero el dato
-existe (`doc4:U1:D5`, «desde las seis de la mañana»). Un agente estricto con el
-umbral puede descartar el caso correcto y responder que no está. En las corridas
-hechas no pasó: los casos que pidió fueron los pertinentes (§13).
+casos y pide los que podrían contener la respuesta. Los nombres son resúmenes: hay
+aspectos que el nombre del caso no nombra. La pregunta «¿a qué hora empieza el
+corte?» no aparece en el nombre de `U1` («… su **duración** de catorce horas y los
+usuarios afectados»), y el dato existe (`doc4:U1:D5`, «desde las seis de la mañana»).
+**Abierto:** si el criterio debe mirar algo más que el nombre.
 
 ---
 
@@ -387,8 +386,8 @@ El agente entrega un JSON con dos estados:
 ```
 
 **El JSON no tiene campo propio**: como no hay herramienta de entrega, vive **dentro**
-del mensaje final, junto a lo que el agente escriba alrededor. Eso trae un problema
-medido (§13): si el modelo envuelve el JSON en un bloque de código, o escribe prosa
+del mensaje final, junto a lo que el agente escriba alrededor. Eso tiene una
+consecuencia medida (§13): si el modelo envuelve el JSON en un bloque de código, o escribe prosa
 antes, el ORQ no lo lee y registra «respuesta del agente (sin JSON)». Dos formas de
 resolverlo, sin decidir:
 
@@ -464,9 +463,7 @@ no del ORQ (§1):
 
 - la respuesta se sostiene en lo que el documento establece;
 - lo que no se puede establecer se dice con precisión: qué falta y por qué;
-- **no cuenta** acertar por casualidad: una respuesta que acierta **infiriendo** lo
-  que el texto no dice no es una respuesta del corpus (el caso de la pregunta 5,
-  §13);
+- **no cuenta** acertar por casualidad ni citar texto que no sostiene la respuesta;
 - se distingue «no está en los datos extraídos» de «el documento no lo dice»: la
   extracción puede haber dejado algo afuera, y una unidad vacía es un hueco nuestro,
   no del documento;
@@ -496,10 +493,9 @@ Cinco preguntas más una réplica, todas con `doc4` (26 datos, 5 casos).
 | Q5 `-r1` | `U4`, `U4` | 1 | 3 · 2 | sin JSON leído: vino envuelto en ```json |
 | Q5 `-r2` | `U4` | 1 | 2 · 1 | sin JSON leído: prosa + ```json |
 
-Nunca pidió los cinco casos: filtra por el umbral del 80% sobre los nombres, y en las
-cinco acertó el caso.
+Nunca pidió los cinco casos: filtra por el umbral del 80% sobre los nombres.
 
-**Límites que la medición deja a la vista:**
+**Lo que la medición deja a la vista:**
 
 1. **El JSON como texto** (Q4): el agente escribió el JSON en su mensaje final y la
    entrega se registró como ausente. Con la entrega por mensaje final (§7), ese JSON
@@ -507,19 +503,16 @@ cinco acertó el caso.
 2. **El JSON envuelto** (Q5, las dos réplicas): el agente escribe, además del JSON,
    la prosa que le pide la tarea 5 y la cerca de código; el ORQ exige que el
    contenido empiece con `{`, así que no lo lee (§9).
-3. **La inferencia** (Q5): el agente responde «respondida» —el reclamo era de la
-   junta de acción comunal—, y en su `reasoning_content` dice que el dato **no**
-   establece de quién era («the data doesn't explicitly say who… This is
-   ambiguous») y que responde igual. El documento no lo establece: la extracción lo
-   había marcado como duda. Sin las condiciones del §4.2, nada lo impide.
+3. **El referente abierto** (Q5): la corrida entregó `respondida`, con el reclamo
+   atribuido a la junta de acción comunal. Los datos leídos de `U4` no incluyen el
+   referente del reclamo; la extracción del paso 2 declaró dos dudas sobre los
+   referentes («Su reclamo», «Su decisión»).
 
 ---
 
 ## 14. Riesgos y límites
 
 - **La extracción acota la respuesta** (hallazgo del paso 2, no defecto del puente).
-- **El agente infiere cuando el dato no establece** —verificado en la pregunta 5— y
-  no hay ninguna regla que lo prohíba.
 - **El JSON de salida no se lee** si viene con prosa o envuelto (§9).
 - **El prompt es el único canal.** Lo que el ORQ no ponga, el agente no lo sabe: si
   no le pasa un caso, no existe para él.
