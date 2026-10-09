@@ -67,6 +67,20 @@ def fallar(db, corrida, motivo, conservar):
     db.commit()
 
 
+def roturas(verificacion):
+    """Lo que hace inconsistente la partición con el documento.
+
+    No es una lectura: es una partición rota. Si el texto tiene dieciocho oraciones, cada una tiene
+    que quedar en una unidad y una sola, con números que existan y sean enteros. Que el Cámbrico
+    vaya junto con la conquista de la tierra firme, en cambio, es una lectura: eso no es una rotura.
+    """
+    nombres = {"huecos": "oraciones sin unidad", "solapes": "oraciones en dos unidades",
+               "fuera_de_rango": "números que no existen", "no_enteros": "números no enteros"}
+    return [f"{nombres[clave]}: {verificacion[clave]}"
+            for clave in ("huecos", "solapes", "fuera_de_rango", "no_enteros")
+            if verificacion.get(clave)]
+
+
 def run(doc, modelo, prompt_name, rehacer):
     db = conectar()
     fila = exigir_documento(db, doc)
@@ -122,6 +136,11 @@ def run(doc, modelo, prompt_name, rehacer):
         return
 
     verificacion = verificar_subtemas(parsed, registros)
+    rotas = roturas(verificacion)
+    if rotas:
+        motivo = "la partición no cierra — " + " · ".join(rotas)
+        fallar(db, corrida, motivo, conservar=bool(ya))
+        raise SystemExit(f"  {doc}: la corrida falló — {motivo}")
     subtemas = parsed.get("subtemas") or []
     registrar_corrida(db, estado="exitoso", **corrida)
     for n, subtema in enumerate(subtemas, 1):

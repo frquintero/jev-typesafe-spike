@@ -240,6 +240,25 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   gastó 2.400-3.000 tokens de salida contra 48-53 s y ~10.500 de DeepSeek `low`; en `doc333`, 22,3 s
   y 4.332 contra 45,9 s, 10.227 y **35.782 caracteres de razonamiento** (nueve veces el de Haiku).
 
+**Verificadas con la revisión de los prompts y de la base (09-10).**
+
+- **Las reglas pueden viajar dentro de los ejemplos.** Al reemplazar los ejemplos de un prompt se
+  recortan reglas sin verlo: la sección `REFERENCIAS EXTERNAS` de `prompt_UT` quedó como definición
+  suelta al pasar al ejemplo único, y un modelo lo dijo con esas palabras —«seems to just be
+  definitional context»—; el costo se vio en `doc11`, donde el nombre de la unidad no citó el
+  antecedente y el paso 2 tuvo que agregarlo entre paréntesis. Antes de recortar ejemplos, revisar
+  qué más cargaban.
+- **Un chequeo de forma no juzga contenido.** `forma()` **decide** (claves de más, posiciones, tipos)
+  y **avisa** (dónde va la unidad de medida, que es redacción). Lo que decide es la forma y la
+  consistencia; lo que se juzga, se reporta. Con eso, 41 de los 42 crudos guardados pasan y el que
+  falla falla por lo que debe: devolvió cinco unidades donde se enviaron seis.
+- **Una partición rota no se inscribe.** Huecos, solapes, números fuera de rango o no enteros hacen
+  fallar UT, como DATOS es todo o nada. Distinto es una partición que cubre todo y agrupa distinto:
+  eso es una lectura, y ahí el acto no opina.
+- **Los totales de tokens de Anthropic con caché son la suma de tres campos** (`input_tokens` solo
+  cuenta lo que va después del corte): con `cache_control`, `input_tokens` + `cache_creation` +
+  `cache_read`. Si no, la corrida registra menos entrada de la real.
+
 ## 3. Pendientes vigentes
 
 **Orden (08-10).** El código, los prompts y los procedimientos están listos; **`doc8` ya está
@@ -279,6 +298,10 @@ extracción y corridas— está archivado en `mvp/temp/`.
     dos guías (los actos ahora mandan dos mensajes), la estructura de los tres prompts, y los
     desfases que encontró la revisión: el diseño §5/§10/§11 («una unidad por turno», las tareas 5 y
     6, la columna `corte` que no existe, el desenlace en prosa), y el tú y el vos de `prompt_ORQ`.
+15. **Dónde van las notas de una corrida exitosa.** La verificación de UT (huecos, solapes, rango,
+    enteros) y los avisos de DATOS (dónde va la unidad) se imprimen y no tienen campo en la base:
+    el registro no los guarda. Decidir si se agrega una columna —o un campo en la unidad— antes de
+    que haya filas: la base está vacía, así que es cambiar el esquema, no migrar.
 
 **Cerrado el 08-10: alineación con prompt 3.** El ORQ ubica el JSON del mensaje final donde
 prompt 3 lo ponga (`orq/leer_entrega.py`; `entrega.forma` en `config.json`, que el ORQ valida) y

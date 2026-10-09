@@ -98,7 +98,12 @@ def _respuesta(datos):
     if llamadas:
         _TURNOS[tuple(llamada["id"] for llamada in llamadas)] = bloques
     uso = datos.get("usage") or {}
-    prompt = uso.get("input_tokens")
+    # Con `cache_control`, `input_tokens` es solo lo que va *después* del corte de caché: el total
+    # de la entrada es la suma de lo que entró, lo que se escribió en el caché y lo que se leyó.
+    entrada = uso.get("input_tokens") or 0
+    cache_escrito = uso.get("cache_creation_input_tokens") or 0
+    cache_leido = uso.get("cache_read_input_tokens") or 0
+    prompt = (entrada + cache_escrito + cache_leido) or None
     completion = uso.get("output_tokens")
     return {
         "model": datos.get("model"),
@@ -115,7 +120,7 @@ def _respuesta(datos):
                   "completion_tokens": completion,
                   "total_tokens": (prompt or 0) + (completion or 0),
                   "prompt_cache_hit_tokens": uso.get("cache_read_input_tokens"),
-                  "prompt_cache_miss_tokens": prompt,
+                  "prompt_cache_miss_tokens": (entrada + cache_escrito) or None,
                   "thinking_tokens": (uso.get("output_tokens_details") or {}).get("thinking_tokens"),
                   "anthropic": uso},
         "stop_reason": datos.get("stop_reason"),

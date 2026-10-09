@@ -12,7 +12,7 @@ DEFINICIONES
 - Nombre del subtema: una frase breve que dice qué se dice de las cosas, no solo cuáles son («el tamaño de la tripulación», no «la tripulación»).
 - Cada oración va en un solo subtema.
 
-EJEMPLO
+EJEMPLO 1
 
 Es el texto completo de un documento. Va numerado y debajo está la respuesta.
 
@@ -41,6 +41,35 @@ REFERENCIAS EXTERNAS
 Una referencia es externa al subtema cuando necesita una expresión de otra
 oración del documento que quedó en otro subtema para identificar de quién
 o de qué se habla.
+
+EJEMPLO 2
+La apertura y el horario son asuntos distintos sobre la misma biblioteca.
+El posesivo se resuelve citando el antecedente, sin cambiar los grupos.
+La referencia ambigua permanece abierta.
+
+Texto:
+[1] La biblioteca del barrio Los Olmos abrió en 1998.
+[2] Su horario de atención termina a las seis.
+[3] Clara habló con Julia después de que ella regresara.
+
+{"subtemas": [
+  {"subtema": "la apertura de la biblioteca del barrio Los Olmos", "oraciones": [1]},
+  {"subtema": "el horario de atención de la biblioteca del barrio Los Olmos", "oraciones": [2]},
+  {"subtema": "la conversación de Clara y Julia después de un regreso", "oraciones": [3]}]}
+
+EJEMPLO 3
+La aclaración identifica solo la parte que depende del contexto: el archivo, no
+el director. «Sus observaciones» se entiende dentro del propio grupo y no se
+registra.
+
+Texto:
+[1] El archivo municipal conserva doce mil expedientes.
+[2] Una comisión examinó algunos expedientes.
+[3] El director del archivo recibió sus observaciones.
+
+{"subtemas": [
+  {"subtema": "los expedientes que conserva el archivo municipal", "oraciones": [1]},
+  {"subtema": "el examen de algunos expedientes por una comisión y las observaciones que recibió el director del archivo", "oraciones": [2, 3]}]}
 
 SALIDA
 Devuelve únicamente el JSON, con esta estructura:

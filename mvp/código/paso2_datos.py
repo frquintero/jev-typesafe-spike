@@ -71,15 +71,23 @@ def _sin_tildes(texto):
 
 
 def forma(parsed, enviadas):
-    """Verifica la forma de lo que devolvió la tanda. No juzga el contenido.
+    """Verifica la forma de lo que devolvió la tanda.
 
-    Hace cumplir el contrato: la forma declarada en el prompt es la que tiene que volver, sin claves
-    de más, y la unidad de medida no se repite dentro del valor.
+    Devuelve dos cosas distintas, y la diferencia importa:
+
+    - `problemas`: la **forma**. Si hay uno solo, el acto no escribe nada (todo o nada): el contrato
+      está declarado en el prompt y una clave de más o un dato sin `aspecto` es una violación.
+    - `avisos`: lo que es **contenido** —dónde va la unidad de medida— y no se juzga desde acá: se
+      reporta y el dato entra igual.
+
+    Lo que decide es la forma y la consistencia; lo que se juzga, se reporta.
     """
     if not isinstance(parsed, dict) or not isinstance(parsed.get("unidades"), list):
-        return {"parseo": False, "unidades": 0, "datos": 0, "problemas": ["no hay lista 'unidades'"]}
+        return {"parseo": False, "unidades": 0, "datos": 0, "problemas": ["no hay lista 'unidades'"],
+                "avisos": []}
     unidades = parsed["unidades"]
     problemas = [f"clave de más en la raíz: «{clave}»" for clave in parsed if clave != "unidades"]
+    avisos = []
     if len(unidades) != len(enviadas):
         problemas.append(f"devolvió {len(unidades)} y se enviaron {len(enviadas)}")
     numeros = set()
@@ -100,27 +108,28 @@ def forma(parsed, enviadas):
             continue
         for i, dato in enumerate(u["datos"], 1):
             if not isinstance(dato, dict):
-                problemas.append(f"n={u.get('n')} datos[{i}] no es un objeto")
+                problemas.append(f"n={u.get('n')} dato {i} no es un objeto")
                 continue
-            problemas += [f"n={u.get('n')} datos[{i}]: clave de más «{clave}»"
+            problemas += [f"n={u.get('n')} dato {i}: clave de más «{clave}»"
                           for clave in dato if clave not in ("aspecto", "valor", "unidad_valor")]
             if not isinstance(dato.get("aspecto"), str) or not dato["aspecto"].strip():
-                problemas.append(f"n={u.get('n')} datos[{i}] sin 'aspecto'")
+                problemas.append(f"n={u.get('n')} dato {i} sin 'aspecto'")
             if not isinstance(dato.get("valor"), (str, int, float)):
-                problemas.append(f"n={u.get('n')} datos[{i}] sin 'valor'")
+                problemas.append(f"n={u.get('n')} dato {i} sin 'valor'")
             if dato.get("unidad_valor") is not None and not isinstance(dato["unidad_valor"], str):
-                problemas.append(f"n={u.get('n')} datos[{i}] 'unidad_valor' no es texto ni null")
+                problemas.append(f"n={u.get('n')} dato {i} 'unidad_valor' no es texto ni null")
             unidad_valor = dato.get("unidad_valor")
             if (isinstance(unidad_valor, str) and unidad_valor.strip()
                     and isinstance(dato.get("valor"), str)
                     and _sin_tildes(unidad_valor).strip() in _sin_tildes(dato["valor"])):
-                problemas.append(f"n={u.get('n')} datos[{i}]: la unidad «{unidad_valor}» también "
-                                 f"está dentro del valor")
+                avisos.append(f"n={u.get('n')} dato {i}: la unidad «{unidad_valor}» también está "
+                              f"dentro del valor")
     faltan = [i for i in range(1, len(enviadas) + 1) if i not in numeros]
     if faltan:
         problemas.append(f"sin salida para las posiciones {faltan}")
     datos = sum(len(u.get("datos") or []) for u in unidades if isinstance(u, dict))
-    return {"parseo": True, "unidades": len(unidades), "datos": datos, "problemas": problemas}
+    return {"parseo": True, "unidades": len(unidades), "datos": datos, "problemas": problemas,
+            "avisos": avisos}
 
 
 def fallar(db, corrida, motivo, conservar):
@@ -212,7 +221,7 @@ def run(doc, modelo, rehacer):
             db.execute("INSERT INTO datos (id, unidad_id, caso, aspecto, valor, unidad_valor, "
                        "corrida_id) VALUES (?,?,?,?,?,?,?)",
                        (f"{unidad['id']}:D{j}", unidad["id"],
-                        dato.get("caso") or unidad["subtema"] or item.get("caso") or "",
+                        unidad["subtema"] or item.get("caso") or "",
                         dato["aspecto"], str(dato["valor"]), dato.get("unidad_valor"),
                         f"{doc}:DATOS"))
             cargados += 1
@@ -221,6 +230,8 @@ def run(doc, modelo, rehacer):
     print(f"  {doc}: {len(armadas)} unidades · {cargados} datos · {segundos} s · "
           f"{config['id']} (esfuerzo {config.get('esfuerzo')})")
     print(f"    verificación: {json.dumps(verificacion, ensure_ascii=False)}")
+    for aviso in verificacion["avisos"]:
+        print(f"    aviso: {aviso}")
     print(f"    -> la base: la corrida {doc}:DATOS y {cargados} datos")
 
 
