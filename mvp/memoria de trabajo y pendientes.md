@@ -16,9 +16,10 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   `radicar.py` (radica el documento), `paso1_unidades.py` (UT), `paso2_datos.py` (DATOS), `base.py`
   (la base y su esquema), `proveedores/` (el transporte) y el orquestador (`orq/`, con `R.json`); los
   tres prompts de trabajo, en `mvp/prompts/`. **`doc8` es el primer documento radicado**
-  (08-10 16:50:28, dominio `GENERAL`) y todavía **no tiene unidades ni datos**: cada etapa que sigue
-  es un acto aparte y a mano —UT, DATOS, la batería en `mvp/consulta/preguntas_doc8.md` y la
-  consulta—. El diseño y lo abierto están en `mvp/consulta-diseno.md`; los procedimientos, en
+  (08-10 16:50:28, dominio `GENERAL`) **y ya tiene sus unidades**: **UT corrió el 08-10 19:07:09**
+  (`deepseek-flash`, esfuerzo `low`, 53,4 s) y escribió su corrida y **8 unidades**; no hay datos
+  todavía. Cada etapa es un acto aparte y a mano —DATOS, la batería en
+  `mvp/consulta/preguntas_doc8.md` y la consulta—. El diseño y lo abierto están en `mvp/consulta-diseno.md`; los procedimientos, en
   `mvp/guía_UT.md` y `mvp/guía_DATOS.md`.
 - **`mvp/temp/` es el archivo: no se corre desde ahí, no se lee, no se escribe.** Ahí quedaron los
   documentos `doc4` y `doc6` con sus baterías (`mvp/temp/documentos/`), el texto, la batería y la
@@ -40,7 +41,23 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   **sello** es el guardián del texto. La base **impone sus contratos** (`paso`, `estado`, `motivo`
   si falló, un `n` por documento, y las claves foráneas). **Lo que se lee son solo entradas**: el
   documento radicado, los prompts, R y la batería. **Cuánto hay radicado hoy, en la primera viñeta**
-  —no se repite acá—.
+  —no se repite acá—. Las tablas se reconstruyeron el 08-10 para imponer los contratos, con la
+  radicación intacta (misma fecha y sello), y el esquema quedó igual a su DDL en
+  `mvp/consulta-diseno.md`.
+- **Las particiones, probadas fuera de la base (08-10).** En el scratch `temp/ut-haiku/` —**sin
+  versionar y sin tocar la base**— un corredor llama a `proveedores.llamar` con el mismo prompt, el
+  mismo documento y la misma verificación que el acto real, y guarda su JSON; otro compara
+  particiones oración por oración. **`doc8`: seis corridas, seis particiones distintas** —DeepSeek
+  `low` ×2 (48-53 s, ~10.500 tokens de salida) y Haiku `high` ×4 (12-22 s, 2.400-3.000)—.
+  Coinciden en 1-4, 11-13 y 18 —y 9-10 en 5 de 6—, y **titubean siempre en los mismos dos cortes**:
+  si la explosión del Cámbrico (5) y la conquista de la tierra firme (6-8) son uno o dos asuntos, y
+  si los arrecifes (17) entran en el cambio del mar (14-16). La cola unida la dieron Haiku y
+  DeepSeek, y la separada también los dos: **la partición no la decide el modelo, la decide la
+  tirada**. Con un ejemplo que **es** el documento, los dos modelos **transcriben** el ejemplo (6,1 s
+  y 6,7 s, nombres incluidos); con un documento nuevo —`doc333`, inventado en `temp/`: la Segunda
+  Guerra Mundial, tres párrafos, 14 oraciones con valores y unidades— **deciden otra vez** y no
+  coinciden: Haiku 6 unidades en 22,3 s, DeepSeek 8 en 45,9 s. Los detalles, en `temp/ut-haiku/`
+  (`comparacion-doc8.md`, `comparacion-doc333.md`, un JSON por corrida).
 - **Prompt 4 (08-10): la sonda de la herramienta de pregunta.** El prompt del agente suma
   `preguntar_al_usuario`: cuando la pregunta **admite dos o más respuestas plausibles**, el
   agente pregunta en vez de inventar. En este MVP **el ciclo termina ahí** (D26): el ORQ registra
@@ -137,7 +154,9 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
 - **Cada ítem que se espera recuperar prueba una sola cosa** (contenido, identidad externa, condición o duda) y hay que poder señalar el registro que lo satisface: mezclarlos infla los porcentajes.
 - **Lo que un paso no registra no llega al siguiente:** el paso 2 solo usa el contexto que el paso 1 le entrega.
 - **Jev es posterior:** subtemas, inventario global y Jev siguen fuera de las pruebas del núcleo. La detección o recuperación posterior de omisiones no se ha probado aquí.
-- **Operativo:** DeepSeek solo tiene razonamiento `high` y `max` (nuestro `low` se vuelve `high`); puede dejar el stream colgado (si pasa un minuto sin bytes, relanzar).
+- **Operativo:** DeepSeek declara `low`, `high` y `max`, con `high` por defecto, así que el `low` que
+  mandamos es un escalón declarado, no un alias de `high` (corregido el 08-10); en las líneas viejas,
+  que usan streaming, puede dejar el stream colgado (si pasa un minuto sin bytes, relanzar).
 
 **Verificadas en el cierre del paso 2 (06-10).**
 
@@ -194,14 +213,38 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   6 turnos y 5 llamadas; la guardia corta por número de turnos y de llamadas, no por
   repetición (`consulta-diseno.md`, §11, D25).
 
+**Verificadas con las pruebas de partición (08-10).**
+
+- **La partición no la decide el modelo, la decide la tirada.** Seis corridas de `doc8` con dos
+  modelos dieron seis particiones distintas; las dos formas de la cola 14-17 aparecieron en los dos
+  modelos. Donde el texto no deja dudas la distribución está picuda —1-4, 11-13, 18— y todas las
+  corridas coinciden; donde admite dos lecturas, la tirada elige. Y no hay perilla: **con el
+  pensamiento encendido, Anthropic exige `temperature` 1 —y en los Claude 5 la deprecó— y DeepSeek la
+  ignora**; temperatura 0 tampoco sería determinista (variaciones medidas de hasta 15 % entre
+  corridas idénticas, por la invariancia por lote del servidor). Lo que el registro hace es **fijar
+  la tirada**: la unidad inscrita no se mueve, y la corrida guarda con qué modelo, esfuerzo y prompt
+  salió.
+- **El ejemplo manda, pero no reemplaza la decisión.** Un ejemplo tomado del documento que se analiza
+  se transcribe literal —los dos modelos, nombres incluidos, y con la mitad del pensamiento—; con un
+  documento nuevo el mismo ejemplo **no** evita que el modelo decida, y lo que enseña es la **forma**:
+  agrupar por asunto a través de párrafos y con oraciones no contiguas, y nombrar diciendo qué se
+  dice.
+- **`max`, con el techo de 16.384, se lo come el pensamiento.** Haiku en `max` gastó los 16.384
+  tokens en pensar y devolvió la respuesta **vacía** (`finish_reason: length`); el modelo aguanta
+  hasta 128.000. El corredor real lo habría registrado **fallido** por el corte; el del scratch
+  guardó el JSON vacío, sin marcarlo.
+- **El costo sí separa a los modelos; la partición, no.** En `doc8`, Haiku `high` tardó 12-22 s y
+  gastó 2.400-3.000 tokens de salida contra 48-53 s y ~10.500 de DeepSeek `low`; en `doc333`, 22,3 s
+  y 4.332 contra 45,9 s, 10.227 y **35.782 caracteres de razonamiento** (nueve veces el de Haiku).
+
 ## 3. Pendientes vigentes
 
 **Orden (08-10).** El código, los prompts y los procedimientos están listos; **`doc8` ya está
-radicado** (primera viñeta) y lo que sigue es **pasarlo por las etapas que restan**, cada una como
-acto aparte (punto 0). El material anterior —documentos, baterías, extracción y corridas— está
-archivado en `mvp/temp/`.
-0. **`doc8`, por las etapas que restan,** en actos sueltos y a mano: UT (`paso1_unidades.py doc8`),
-   DATOS (`paso2_datos.py doc8`) —los dos corren contra la API real y escriben en la base—, escribir
+radicado y con sus unidades** (primera viñeta) y lo que sigue es **pasarlo por las etapas que
+restan**, cada una como acto aparte (punto 0). El material anterior —documentos, baterías,
+extracción y corridas— está archivado en `mvp/temp/`.
+0. **`doc8`, por las etapas que restan,** en actos sueltos y a mano: **UT ya corrió** (8 unidades);
+   sigue **DATOS** (`paso2_datos.py doc8`) —corre contra la API real y escribe en la base—, escribir
    su batería en `mvp/consulta/preguntas_doc8.md` y correr la consulta; evaluarla con la vara de los números de oración, distinguiendo «no está en los datos
    extraídos» de «el documento no lo dice» (`mvp/consulta-diseno.md`, §12). Las baterías de `doc4`/`doc6` están archivadas y
    **sin evaluar** —el registro de esa ronda, con su medición, en
@@ -220,6 +263,15 @@ archivado en `mvp/temp/`.
 8. **Unidad temática con el eje de `v1`** (decisión de Frat, 02-10; registrada en `definiciones-del-marco.md`, parte B). Los prompts de trabajo (`prompt_UT` y `prompt_DATOS`) producen la unidad con el eje en el asunto: el `subtema` **nombra el núcleo** —el caso de la unidad— y las oraciones que lo desarrollan van juntas. Falta **declarar los satélites**, los casos de los que el texto habla por su relación con el núcleo, que hoy se leen de las relaciones y acciones. Discutirlo antes de escribirlo.
 9. **Adoptar el candidato del paso 2:** `mvp/temp/paso2/prompt_ficha_contexto.md` vive hoy en la carpeta de trabajo; si se adopta, le toca su sitio en `mvp/prompts/` con nombre propio, sin mezclarlo con `ficha_v2`.
 10. **Cerrar la forma del dato del paso 2:** si vuelven el `sostiene` (quién lo sostiene) y el `respaldo` (la ruta al fragmento), y si `unidad_valor` se queda como campo propio o la unidad va dentro del valor. Hoy el dato viaja sin fuente ni ruta.
+11. **Los ejemplos de `prompt_UT`.** Los siete ejemplos son el **78 %** del prompt (3.916 de 5.019
+    caracteres) contra el 15 % de las reglas, y los dos últimos enseñan referencias —otra lección—:
+    decidir si se recortan, y con qué criterio, antes de tocar nada (el prompt no se afina en cada
+    corrida).
+12. **El commit del tramo.** La base tiene la corrida de UT de `doc8` (el acto de 19:07) y esta
+    memoria, sin commitear. `temp/` —el scratch donde viven las pruebas de partición— no se versiona.
+13. **Sin decidir: ¿el corpus quiere una partición estable?** Medir el acuerdo entre réplicas,
+    agregar por co-pertenencia o quedarse con la tirada que fija el registro. Registrado como
+    pregunta abierta, sin corridas asociadas.
 
 **Cerrado el 08-10: alineación con prompt 3.** El ORQ ubica el JSON del mensaje final donde
 prompt 3 lo ponga (`orq/leer_entrega.py`; `entrega.forma` en `config.json`, que el ORQ valida) y
