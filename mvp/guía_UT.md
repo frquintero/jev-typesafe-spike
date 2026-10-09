@@ -2,7 +2,7 @@
 
 Cómo se obtienen las unidades temáticas de un documento: qué entra, de dónde viene, cómo se
 procesa, qué se entrega y cómo se entrega. Es el procedimiento vigente del MVP: el código en
-`mvp/código/` y los crudos que produce en `mvp/temp/extraccion/`. El estado del trabajo vive en
+`mvp/código/` y lo que produce en la base (`mvp/código/corpus.db`). El estado del trabajo vive en
 `mvp/memoria de trabajo y pendientes.md`; acá está
 el procedimiento, en detalle.
 
@@ -22,8 +22,10 @@ núcleo **más sus satélites**; los satélites todavía no se registran: es un 
 
 ## 2. Qué entra
 
-- **El texto**: `mvp/temp/pruebas/<doc>.md`. Un documento sintético, de contenido general
-  (divulgación, noticia, nota de servicio), escrito para la prueba.
+- **El texto**: el **documento radicado**, `mvp/documentos/<doc>.md`. Un documento sintético, de
+  contenido general (divulgación, noticia, nota de servicio), escrito para la prueba. Antes de
+  trabajar se comprueba su **sello** contra la base: si el archivo cambió, eso es otro documento y
+  se detiene.
 - **El prompt**: `prompt_UT`, el que esté **vigente en `mvp/prompts/`**. Se lee del archivo; su
   único hueco es `{{TEXTO_NUMERADO}}`, que se sustituye con `str.replace` (nunca `str.format`:
   el texto trae llaves). Es una versión de trabajo: no se afina en cada corrida.
@@ -44,10 +46,10 @@ El título del documento (la línea que empieza con `#`) no es una oración y qu
 Un comando, desde la raíz del repo:
 
 ```bash
-python3 mvp/código/paso1_unidades.py <doc> <prompt> <modelo> <rN>
+python3 mvp/código/paso1_unidades.py <doc> [--modelo M] [--prompt UT] [--rehacer]
 
 # por ejemplo
-python3 mvp/código/paso1_unidades.py doc7 UT deepseek r1
+python3 mvp/código/paso1_unidades.py doc8
 ```
 
 Lo que hace, en orden:
@@ -63,10 +65,15 @@ Lo que hace, en orden:
    código).
 5. **Verifica la forma** con `verificar_subtemas`: que ninguna oración quede sin asignar, que
    ninguna esté en dos UT, que no haya números fuera de rango ni valores que no sean enteros.
-6. **Escribe** los dos archivos de la §5.
+6. **Escribe en la base**, en una sola transacción: la fila de la **corrida** y las **unidades**
+   (§5).
 
-Si el `.out` ya existe, **no vuelve a llamar**. Una repetición se pide con otro `rN` (`r2`,
-`r3`…): un crudo no se borra ni se sobrescribe.
+Si el documento **ya tiene unidades**, no llama al modelo. Rehacerlas es un acto explícito:
+`--rehacer` (se rehacen las unidades y los datos que cuelgan de ellas). **Todo o nada:** si la
+llamada falla, si la respuesta se cortó o si el JSON no se pudo leer, la corrida queda **fallida**
+con su motivo y no se escribe ninguna unidad; y si el intento era un `--rehacer`, **lo anterior
+vuelve** —el borrado y la escritura nueva van en una sola transacción—, así que un intento fallido no
+se come la extracción buena.
 
 **Antecedente.** `doc4` y `doc6` se hicieron por Muse: se pegaba el prompt con el texto ya
 numerado en un mensaje y se le delegaba la tarea a un agente. Lo medido:
@@ -76,43 +83,37 @@ comando directo.
 
 ## 5. Qué se entrega
 
-Dos archivos, en `mvp/temp/extraccion/<doc>/`:
+**Dos cosas en la base** (`mvp/código/corpus.db`), y nada en archivos:
 
-**(a) El resultado** — `p1-<doc>-<prompt>-<modelo>-rN.out`:
+**(a) La corrida** — en `corridas`, con el id `<doc>:UT`: el modelo y su esfuerzo, el prompt y su
+hash, los tokens (entrada, salida y pensamiento), los segundos, la fecha, y el `estado`
+(`exitoso`, o `fallido` con su motivo si el JSON no se pudo leer).
 
-```json
-{"subtemas": [
-  {"subtema": "el nombre del asunto", "oraciones": [1, 2]},
-  {"subtema": "otro asunto", "oraciones": [3]}]}
+**(b) Las unidades** — en `unidades`, una por UT: el id `<doc>:Un`, el nombre del caso (`subtema`)
+y **los números de oración** que agrupa («1,4»). Las oraciones literales no se guardan: se leen del
+documento radicado, y el sello es el guardián.
+
+```sql
+-- así se lee una unidad, con la corrida que la produjo
+SELECT u.id, u.subtema, u.oraciones, c.modelo, c.tokens_salida
+FROM unidades u JOIN corridas c ON c.id = u.corrida_id
+WHERE u.documento_id = 'doc8' ORDER BY u.n;
 ```
 
-Es lo que lee el cargador del corpus y lo que usa el paso 2 (los datos por unidad).
-
-**(b) El crudo** — el mismo nombre con `.json`: la petición enviada, la respuesta, el texto
-numerado, las oraciones numeradas, los **segundos** que tardó y la verificación. Sirve para
-volver a verificar sin llamar a la API.
-
-Un ejemplo real: `mvp/temp/extraccion/doc7/p1-doc7-v10-deepseek-r1.{out,json}`
-—13 oraciones → 6 unidades, sin huecos ni solapes, 58,3 s—. El nombre lleva el prompt como se
-llamaba entonces (`v10`); los crudos no se renombran.
+Si la corrida falla —no se pudo leer el JSON—, **no se escribe ninguna unidad**: queda la corrida
+marcada como fallida, con su motivo.
 
 ## 6. Cómo se entrega
 
-**Nombre y lugar.** `mvp/temp/extraccion/<doc>/p1-<doc>-<prompt>-<modelo>-rN.{out,json}`.
-`<prompt>` es el nombre corto del archivo en `mvp/prompts/` (`UT` para `prompt_UT.md`) y
-`<modelo>` la vía que se usó (`deepseek` hoy; `muse` en doc4 y doc6).
+**Nombre y lugar.** En la base, siempre. El id de la unidad es `<doc>:Un` —la **posición en el
+arreglo** que devolvió el modelo, no el orden de lectura: el corte no es contiguo—, y `oraciones`
+son los números del texto.
 
-**Qué pasa después con lo que se entrega.** Cada UT es una fila del corpus:
-
-- la unidad **n** es la **posición en el arreglo**, no el orden de lectura —el corte no es
-  contiguo—,
-- su id es `<doc>:Un` (por ejemplo `doc7:U3`),
-- sus datos son los que produce el paso 2 en `p2-<doc>-u{n}-r{k}.out`. Si ese archivo falta, el
-  cargador no puede armar la base y se detiene.
+**Qué pasa después con lo que se entrega.** El paso 2 lee esas unidades **de la base** y escribe
+los datos. Nada se escribe en `mvp/temp/`: ese es el archivo y no se toca.
 
 **Cierre de la corrida.** Si se tocó código, `python3 -m py_compile <archivo>`. Al terminar, se
-commitea y se sube: el `.out`, el crudo y, si el paso cambió, los «sigue» de `README.md`,
-`AGENTS.md` y la memoria.
+commitea y se sube **la base** (ahí quedó todo).
 
 ## 7. Qué no hace este procedimiento
 

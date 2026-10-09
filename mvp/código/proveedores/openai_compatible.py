@@ -13,7 +13,7 @@ import time
 import urllib.error
 import urllib.request
 
-from .claves import cabeceras, exigir
+from .claves import ErrorDeLlamada, cabeceras, exigir
 
 TIMEOUT = 900  # segundos: una sola espera, sin el «600 s entre bytes» del streaming
 
@@ -37,10 +37,16 @@ def llamar(cfg, mensajes, herramientas, conv_id=None):
         with urllib.request.urlopen(peticion, timeout=TIMEOUT) as respuesta_http:
             datos = json.loads(respuesta_http.read())
     except urllib.error.HTTPError as error:
-        raise SystemExit(f"la API contestó {error.code} ({cfg['id']}): "
-                         f"{error.read().decode('utf-8', 'replace')[:800]}")
+        raise ErrorDeLlamada(f"la API contestó {error.code} ({cfg['id']}): "
+                             f"{error.read().decode('utf-8', 'replace')[:800]}")
 
     respuesta = dict(datos)
     respuesta["_segundos"] = round(time.time() - t0, 1)
-    respuesta["_stream_chunks_crudos"] = None  # sin streaming: no hay frames que guardar
+    uso = respuesta.get("usage") or {}
+    # Los tokens de pensamiento vienen con otro nombre en estos hosts: se normalizan para que la
+    # columna sea la misma que la de Anthropic.
+    detalles = uso.get("completion_tokens_details") or {}
+    if uso.get("thinking_tokens") is None and detalles.get("reasoning_tokens") is not None:
+        uso["thinking_tokens"] = detalles["reasoning_tokens"]
+        respuesta["usage"] = uso
     return cuerpo, respuesta

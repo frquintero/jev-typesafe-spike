@@ -65,17 +65,23 @@ mover un archivo o de tocar el estado del repo.
   NotebookLM, cada unidad como fuente aparte. Mismas reglas que `notebooklm-spike/`.
 - `mvp/`: MVP de Zettel. Las mesas de la forma de A(Q), la pieza 1 (conflicto y dato
   derivado), la mesa de dominio, las pruebas del paso 1 y la ronda cerrada del paso 2 quedaron
-  **archivadas en `mvp/temp/`**; lo vivo está en `mvp/`: `mvp/documentos/` (los documentos que se
-  radican), `mvp/consulta/` (las baterías `preguntas_<doc>.md`), `mvp/prompts/` (los tres prompts de
-  trabajo: `prompt_UT`, `prompt_DATOS` y `prompt_ORQ`) y `mvp/código/` (los dos corredores de la
-  extracción, los actos de la base —`radicar.py`, `cargar_datos.py` y `base.py`—, `R.json` y el
-  orquestador en `orq/`); los crudos de la extracción y los registros de la consulta quedan en
-  `mvp/temp/`. **Cada etapa es un acto manual y separado, y nada se dispara solo**: radicar
-  (`radicar.py <doc>`), extraer, cargar los datos (`cargar_datos.py <doc> <p1.out> <rN>`) y
-  consultar. Lo construido y lo abierto está en `mvp/consulta-diseno.md`; los procedimientos, en
-  `mvp/guía_UT.md` (paso 1, unidades temáticas) y `mvp/guía_DATOS.md` (paso 2, datos por unidad); y
-  **el estado —qué hay radicado y qué sigue— solo en `mvp/memoria de trabajo y pendientes.md`**,
-  que es la fuente única: los demás sitios no repiten los números.
+  **archivadas en `mvp/temp/`**, que es **archivo: no se corre desde ahí, no se lee, no se escribe**.
+  Lo vivo está en `mvp/`: los **documentos que se radican** (`mvp/documentos/`), las **baterías** de
+  preguntas (`mvp/consulta/preguntas_<doc>.md`), los **prompts** de trabajo (`mvp/prompts/`:
+  `prompt_UT`, `prompt_DATOS` y `prompt_ORQ`) y el **código** (`mvp/código/`): `radicar.py` (radica
+  el documento), `paso1_unidades.py` (UT), `paso2_datos.py` (DATOS), `base.py` (la base y su
+  esquema), `proveedores/` (el transporte), `R.json` y el orquestador (`orq/`). **La base
+  `mvp/código/corpus.db` es el centro**: lo que producen UT, DATOS y la consulta queda ahí —las
+  **seis tablas**: el corpus (`documentos`, `unidades`, `datos`) y el expediente (`corridas`,
+  `consultas`, `consulta_casos`)—, encadenado para poder hacer la **traza completa**; **no hay
+  archivos intermedios**. Lo único que se lee son entradas: el documento radicado, los prompts, R y
+  la batería. **Cada etapa es un acto manual y separado, y nada se
+  dispara solo**: radicar (`radicar.py <doc>`), UT (`paso1_unidades.py <doc>`), DATOS
+  (`paso2_datos.py <doc>`) y consultar. Lo construido y lo abierto está en `mvp/consulta-diseno.md`;
+  los procedimientos, en `mvp/guía_UT.md` (paso 1, unidades temáticas) y `mvp/guía_DATOS.md` (paso 2,
+  datos por unidad); y **el estado —qué hay radicado y qué sigue— solo en
+  `mvp/memoria de trabajo y pendientes.md`**, que es la fuente única: los demás sitios no repiten los
+  números.
 - `test_tool_calling/`: la mecánica del bucle con herramientas en DeepSeek
   (`call_model` con `messages` y `tools`), corrida el 07-10; lecciones en su
   `README.md` y crudos en `cache/`.
@@ -104,12 +110,16 @@ mover un archivo o de tocar el estado del repo.
 Los comandos de cada proyecto están en su `PLAN.md` o `README.md` (los de `unidades/`,
 en `unidades/PLAN.md`).
 
-- Los guiones son idempotentes: si el crudo existe, no vuelven a llamar.
+- Los guiones son idempotentes: si el crudo existe, no vuelven a llamar. **En el MVP no hay
+  crudos**: la idempotencia es «si las unidades (o los datos) de ese documento ya están en la base,
+  no se llama», y rehacer es un acto explícito (`--rehacer`).
 - **Nunca borrar, mover ni sobrescribir un crudo** para forzar una corrida: una réplica
   nueva lleva un `rN` nuevo (`r2`, `r3`…). Si el mensaje pide un `rN` que ya existe,
-  detenerse y reportar.
+  detenerse y reportar. (Vale para las líneas que guardan crudos: `unidades/`, `probes/`,
+  `cutoff-spike/`; en el MVP no se guardan.)
 - Tras tocar código: `python3 -m py_compile <archivo>` (no hay tests ni lint).
-- Al terminar una corrida: commit y push de los crudos (y del guion si cambió).
+- Al terminar una corrida: commit y push. En el MVP se commitea **la base** (ahí quedó todo);
+  en las líneas viejas, los crudos.
 
 ## Git y remoto
 

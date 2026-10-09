@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Abre la base del corpus, en solo lectura.
 
-Solo lectura a propósito: el orquestador **consulta** el registro, no lo escribe. Lo escriben, en
-actos separados y a mano, `mvp/código/radicar.py` (la fila del documento) y
-`mvp/código/cargar_datos.py` (las filas de datos).
+Solo lectura a propósito: el orquestador **consulta** el corpus; no lo escribe. Lo que produce su
+corrida —la fila de `corridas` y la respuesta— lo escribe al final `orq/registrar_consulta.py`, y
+lo escriben, en actos separados y a mano, `mvp/código/radicar.py`, `paso1_unidades.py` y
+`paso2_datos.py`.
 """
 
 import sqlite3

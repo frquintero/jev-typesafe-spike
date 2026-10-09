@@ -12,31 +12,35 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   preguntas y se obtenga información: el cambio en A(Q) al considerar datos conforme a
   reglas. Recuperar no es responder. Detalle en `README.md`, «Visión», y en
   `definiciones-del-marco.md`.
-- **Hilo activo: el MVP, `mvp/` — desde cero (08-10).** El código y los procedimientos están
-  listos: en `mvp/código/` los dos corredores de la extracción, los actos de la base
-  (`radicar.py`, `cargar_datos.py`, `base.py`) y el orquestador (`mvp/código/orq/`, con `R.json`);
-  en `mvp/prompts/`, los tres prompts de trabajo. El diseño y lo abierto están en
-  `mvp/consulta-diseno.md`; los procedimientos, en `mvp/guía_UT.md` y `mvp/guía_DATOS.md`.
-  **`doc8` es el primer documento radicado** (08-10 16:50:28, dominio `GENERAL`), todavía **sin
-  extraer**: cada etapa que sigue es un acto aparte y a mano —paso 1, paso 2, cargar los datos, la
-  batería en `mvp/consulta/preguntas_doc8.md` y la consulta—.
-- **El material anterior quedó archivado en `mvp/temp/`:** los documentos `doc4` y `doc6` con sus
-  baterías (`mvp/temp/documentos/`), el texto, la batería y la extracción de `doc7`
-  (`mvp/temp/pruebas/` y `mvp/temp/extraccion/`), los crudos de extracción
-  (`mvp/temp/extraccion/`) y los registros de las 13 corridas de consulta
-  (`mvp/temp/consulta/`). **Nada de eso está inscrito**: el registro arranca limpio y crece solo
-  por actos de radicación.
-- **La base es el registro, no una vista derivada (08-10).** El registro es `mvp/código/corpus.db`:
-  no se regenera, y lo que entra no se toca. Se escribe con **actos manuales y separados**, y cada
-  uno es un guion propio: **radicar** (`python3 mvp/código/radicar.py <doc>`) pone la fila del
-  documento —el nombre, y **la fecha y la hora que pone la base** (`datetime('now','localtime')`)—;
-  después, la extracción (paso 1 y paso 2) y, en otro acto, la **carga de los datos**
-  (`python3 mvp/código/cargar_datos.py <doc> <p1.out> <rN>`), que escribe solo las filas de datos de
-  ese documento y **no toca su fila**: un documento radicado no se mueve. Se puede repetir con
-  `--recargar`, y en pruebas `radicar.py --rehacer <doc>` saca la fila y sus datos. La fila guarda
-  nombre, dominio, fecha y hora, ubicación y **sello** (sha256 del texto: es la identidad de lo
-  radicado, y si el archivo cambia después la carga se detiene y lo reporta). Del repo no guarda
-  nada. **Cuánto hay radicado hoy, en la primera viñeta** —no se repite acá—.
+- **Hilo activo: el MVP, `mvp/` — la base es el centro (08-10).** El código está en `mvp/código/`:
+  `radicar.py` (radica el documento), `paso1_unidades.py` (UT), `paso2_datos.py` (DATOS), `base.py`
+  (la base y su esquema), `proveedores/` (el transporte) y el orquestador (`orq/`, con `R.json`); los
+  tres prompts de trabajo, en `mvp/prompts/`. **`doc8` es el primer documento radicado**
+  (08-10 16:50:28, dominio `GENERAL`) y todavía **no tiene unidades ni datos**: cada etapa que sigue
+  es un acto aparte y a mano —UT, DATOS, la batería en `mvp/consulta/preguntas_doc8.md` y la
+  consulta—. El diseño y lo abierto están en `mvp/consulta-diseno.md`; los procedimientos, en
+  `mvp/guía_UT.md` y `mvp/guía_DATOS.md`.
+- **`mvp/temp/` es el archivo: no se corre desde ahí, no se lee, no se escribe.** Ahí quedaron los
+  documentos `doc4` y `doc6` con sus baterías (`mvp/temp/documentos/`), el texto, la batería y la
+  extracción de `doc7` (`mvp/temp/pruebas/` y `mvp/temp/extraccion/`), los crudos de las trece
+  corridas de consulta y su medición (`mvp/temp/consulta/`). Nada de eso está radicado.
+- **La base es el centro de datos (08-10).** `mvp/código/corpus.db` **es** la fuente: no se
+  regenera, y **no hay archivos intermedios**. Se escribe con **actos manuales y separados**:
+  **radicar** (`python3 mvp/código/radicar.py <doc>`) pone la fila del documento —nombre, dominio,
+  ubicación y **la fecha y la hora que pone la base**—; **UT** (`paso1_unidades.py`) escribe su
+  corrida y las **unidades** —el caso y los números de oración—; **DATOS** (`paso2_datos.py`)
+  escribe su corrida y los **datos**; y la **consulta** (`orq/registrar_consulta.py`) escribe su
+  corrida y la respuesta (`consultas` + `consulta_casos`). **Una corrida se escribe al terminar y
+  una sola vez**: queda `exitoso`, o `fallido` con su motivo, y **narra la extracción que está en la
+  base** —un reintento fallido no pisa la cita de lo que sigue ahí—. **Todo o nada, en una sola
+  transacción**: si la llamada falla, si la respuesta se cortó o si el JSON no se pudo leer, no se
+  escribe salida y la corrida queda `fallida` con su motivo (lo que volvió, recortado a la cabeza y
+  la cola); y si el intento era un `--rehacer`, **lo anterior vuelve**. La fila del documento no se
+  toca nunca: un documento radicado no se mueve (en pruebas, `radicar.py --rehacer <doc>`). El
+  **sello** es el guardián del texto. La base **impone sus contratos** (`paso`, `estado`, `motivo`
+  si falló, un `n` por documento, y las claves foráneas). **Lo que se lee son solo entradas**: el
+  documento radicado, los prompts, R y la batería. **Cuánto hay radicado hoy, en la primera viñeta**
+  —no se repite acá—.
 - **Prompt 4 (08-10): la sonda de la herramienta de pregunta.** El prompt del agente suma
   `preguntar_al_usuario`: cuando la pregunta **admite dos o más respuestas plausibles**, el
   agente pregunta en vez de inventar. En este MVP **el ciclo termina ahí** (D26): el ORQ registra
@@ -99,7 +103,7 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   tarea, no con el modelo.
 - **Flujo de una ronda:** se discute y se conjetura; se corre solo si hay conjetura nueva;
   se escribe el prompt y la sección del `PLAN.md`; el ejecutor corre, reporta sin veredicto
-  y hace commit y push de los crudos; Cowork los evalúa contra la conjetura y Frat decide.
+  y hace commit y push (en el MVP, de la base); Cowork evalúa contra la conjetura y Frat decide.
 - **Aviso de fin de tarea: ntfy (obligatorio).** Los envoltorios publican al terminar en el
   tema de `~/.config/dsh_tarea/ntfy_topic`; el ORQUESTADOR escucha ese tema o arma el
   Monitor de Claude. **Nada de `sleep` ni de sondear el repo.** Procedimiento, y la
@@ -146,7 +150,8 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   (una tarea de 2 646 s traía un timeout de transporte de 47 s); esa duración no se atribuye al
   razonamiento, y si no es reconstruible se dice.
 - **`reasoning_tokens` viene dentro de `completion_tokens`:** no se suma dos veces.
-- **Los crudos tienen que permitir re-verificar sin API:** con el material enviado guardado, la
+- **La base y el documento tienen que permitir re-verificar sin API:** con lo producido en la base
+  y el texto radicado (y el prompt en `mvp/prompts/`), la
   verificación de literales se recompone (`mvp/temp/paso2/comparacion.py verificar-todos`; 69/69 sin
   diferencias al 06-10).
 
@@ -195,11 +200,10 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
 radicado** (primera viñeta) y lo que sigue es **pasarlo por las etapas que restan**, cada una como
 acto aparte (punto 0). El material anterior —documentos, baterías, extracción y corridas— está
 archivado en `mvp/temp/`.
-0. **`doc8`, por las etapas que restan,** en actos sueltos y a mano: paso 1 (unidades), paso 2
-   (datos), cargar sus datos (`cargar_datos.py`), escribir su batería en
-   `mvp/consulta/preguntas_doc8.md` y correr la consulta; evaluarla con la vara de los números de
-   oración, distinguiendo «no está en los datos extraídos» de «el documento no lo dice»
-   (`mvp/consulta-diseno.md`, §12). Las baterías de `doc4`/`doc6` están archivadas y
+0. **`doc8`, por las etapas que restan,** en actos sueltos y a mano: UT (`paso1_unidades.py doc8`),
+   DATOS (`paso2_datos.py doc8`) —los dos corren contra la API real y escriben en la base—, escribir
+   su batería en `mvp/consulta/preguntas_doc8.md` y correr la consulta; evaluarla con la vara de los números de oración, distinguiendo «no está en los datos
+   extraídos» de «el documento no lo dice» (`mvp/consulta-diseno.md`, §12). Las baterías de `doc4`/`doc6` están archivadas y
    **sin evaluar** —el registro de esa ronda, con su medición, en
    `mvp/temp/consulta/medicion-primera-ronda.md`—: si se quiere evaluación, o se escribe la lista de
    expectativas antes de correr, o se declara posterior.

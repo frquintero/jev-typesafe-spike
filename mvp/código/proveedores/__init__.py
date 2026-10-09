@@ -20,6 +20,7 @@ Uso:
 """
 
 from . import anthropic, openai_compatible
+from .claves import ErrorDeLlamada  # se exporta: los corredores atrapan el fallo y lo registran
 
 ESFUERZO_POR_DEFECTO = "low"
 

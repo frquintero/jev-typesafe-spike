@@ -3,10 +3,7 @@
     "preguntas": "../../consulta/preguntas_doc8.md",
     "r": "../R.json",
     "corpus": "../corpus.db",
-    "prompt": "../../prompts/prompt_ORQ.md",
-    "salida": "../../temp/consulta/salida.md",
-    "traza": "../../temp/consulta/traza.jsonl",
-    "crudos": "../../temp/consulta/cache"
+    "prompt": "../../prompts/prompt_ORQ.md"
   },
   "preguntas": {
     "desde_archivo": true,
@@ -23,6 +20,5 @@
   },
   "entrega": {
     "forma": "json_en_mensaje_final"
-  },
-  "etiqueta": "consulta-doc8-q{numero}"
+  }
 }

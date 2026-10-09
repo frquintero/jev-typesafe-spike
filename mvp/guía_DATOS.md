@@ -2,12 +2,12 @@
 
 Cómo se obtienen los datos de las unidades temáticas: qué entra, de dónde viene, cómo se
 procesa, qué se entrega y cómo se entrega. Es el procedimiento vigente del MVP (código en
-`mvp/código/`, crudos en `mvp/temp/extraccion/`). El estado del trabajo vive en
+`mvp/código/`, y lo que produce en la base `mvp/código/corpus.db`). El estado del trabajo vive en
 `mvp/memoria de trabajo y pendientes.md`; el paso 1
 —de dónde salen las unidades— está en [guía_UT.md](guía_UT.md); acá está el paso 2, en detalle.
 
 **Va en tanda:** las unidades del documento se mandan en **una sola llamada**, y la respuesta se
-reparte en un archivo por unidad.
+reparte por la **posición en la lista enviada**.
 
 ## 1. Qué es un dato
 
@@ -24,36 +24,33 @@ ve el agente— y aparecía en 2 de 21 unidades.
 
 ## 2. Qué entra
 
-- **Las unidades**, armadas por el código (no por el modelo), **en una lista**:
-  - `caso`: el `subtema` que devolvió el paso 1,
+- **Las unidades de la base** (las escribió el paso 1), armadas en una lista:
+  - `caso`: el `subtema` de la unidad,
   - `contenido`: sus oraciones unidas en un párrafo, sin numeración.
-  Van **solo las que todavía no tienen su salida**; las demás se saltan.
-- **El archivo de unidades** del paso 1: `mvp/temp/extraccion/<doc>/p1-…out`.
-- **El texto del documento**: `mvp/temp/pruebas/<doc>.md`. Se usa para volver a numerar las oraciones
-  y sacar de ahí las de cada unidad; la unidad que recibe el modelo no lleva números.
+  Van **todas** las unidades del documento: la corrida es todo o nada.
+- **El texto del documento radicado**: `mvp/documentos/<doc>.md`. Se usa para volver a numerar las
+  oraciones y sacar de ahí las de cada unidad (del número a la oración); la unidad que recibe el
+  modelo no lleva números. Antes de trabajar se comprueba su **sello** contra la base.
 - **El prompt**: `prompt_DATOS`, el que esté **vigente en `mvp/prompts/`**. Su único hueco es
   `{{UNIDADES}}`, que se sustituye con la lista de unidades.
 
 ## 3. De dónde viene
 
 - **Las unidades** vienen del paso 1, con su procedimiento en [guía_UT.md](guía_UT.md): el
-  documento se numera, el prompt las agrupa y el resultado queda en `p1-…out`.
-- El mismo documento entra después al corpus como **documento radicado**; el detalle está en
-  `mvp/consulta-diseno.md` §2–§3.
+  documento se numera, el prompt las agrupa y el resultado queda en la base (`unidades`).
+- El documento tiene que estar **radicado**: su texto en `mvp/documentos/<doc>.md` y su fila en la
+  base. El detalle está en `mvp/consulta-diseno.md` §2–§3.
 
 ## 4. Cómo se procesa
 
 Un comando, desde la raíz del repo:
 
 ```bash
-python3 mvp/código/paso2_datos.py <doc> <unidades> <modelo> <rN>
+python3 mvp/código/paso2_datos.py <doc> [--modelo M] [--rehacer]
 
 # por ejemplo
-python3 mvp/código/paso2_datos.py doc7 p1-doc7-v10-deepseek-r1.out deepseek r1
+python3 mvp/código/paso2_datos.py doc8
 ```
-
-`<unidades>` es el archivo de paso 1: una ruta, o el nombre suelto dentro de
-`mvp/temp/extraccion/<doc>/`. `<rN>` es la réplica con su `r` (`r1`, `r2`…).
 
 Lo que hace:
 
@@ -67,71 +64,54 @@ Lo que hace:
 5. **Verifica la forma**: que `unidades` sea una lista, que estén todas las posiciones enviadas,
    y que cada unidad traiga `n`, `caso` y `datos` con `aspecto` y `valor`. **No juzga el
    contenido.**
-6. **Reparte**: escribe un `.out` por unidad, más el crudo de la llamada (§5).
+6. **Escribe en la base**, en una sola transacción: la fila de la **corrida** y los **datos**
+   (§5). Si lo que volvió no sirve, no escribe ningún dato y deja la corrida marcada como fallida.
 
-Si **todas** las unidades ya tienen su `.out`, **no llama al modelo**. Si faltan algunas, manda
-solo esas: una corrida cortada se retoma sin repetir —ni volver a pagar— lo hecho. Una repetición
-se pide con otro `rN` (`r2`, `r3`…): un crudo no se borra ni se sobrescribe.
+Si el documento **ya tiene datos**, no llama al modelo. Rehacerlos es un acto explícito:
+`--rehacer`. **Todo o nada:** si la llamada falla, si la respuesta se cortó, si lo que volvió no
+sirve o si una unidad no se pudo armar, la corrida queda **fallida** con su motivo y no se escribe
+ningún dato; y si el intento era un `--rehacer`, **lo anterior vuelve** —el borrado y la escritura
+nueva van en una sola transacción—, así que un intento fallido no se come la extracción buena.
 
-**Por qué en tanda.** Medido el 08-10 sobre las seis unidades de `doc7`:
-
-| | De a una (6 llamadas) | En tanda (1 llamada) |
-|---|---|---|
-| Tiempo | 52,2 s | **24,4 s** |
-| Tokens (prompt + completion) | 18.481 | **8.759** |
-| Datos | 28 | 27 |
-
-Los mismos datos salvo **granularidad**: en una unidad la tanda juntó en un valor lo que de a una
-salieron dos («firmado con la alcaldía en febrero» contra «la alcaldía» y «febrero» separados).
-Lo que se gana en tiempo y tokens se puede perder en finura; por eso el reparto se revisa.
+**Por qué en tanda.** Una sola llamada por documento sale más barata y más rápida que una por
+unidad, con los mismos datos salvo **granularidad**: la tanda puede juntar en un valor lo que de a
+una salen dos («firmado con la alcaldía en febrero» contra «la alcaldía» y «febrero» separados). Lo
+que se gana en tiempo y tokens se puede perder en finura; por eso el reparto se revisa. La medición
+que fijó esta vía está en `mvp/memoria de trabajo y pendientes.md`.
 
 **Antecedente.** Los datos de `doc4` y `doc6` se hicieron por Muse, a mano, con un mensaje por
-unidad. `doc7` fue el primero por la API: primero de a una (los `.out` que hay), y después la
-medición de la tanda que fijó esta vía.
+unidad; `doc7` fue el primero por la API.
 
 ## 5. Qué se entrega
 
-En `mvp/temp/extraccion/<doc>/`:
+**Dos cosas en la base** (`mvp/código/corpus.db`), y nada en archivos:
 
-**(a) El resultado, un archivo por unidad** — `p2-<doc>-u<n>-<rN>.out`:
+**(a) La corrida** — en `corridas`, con el id `<doc>:DATOS`: el modelo y su esfuerzo, el prompt y su
+hash, los tokens, los segundos, la fecha, y el `estado` (`exitoso`, o `fallido` con su motivo).
 
-```json
-{"caso": "el nombre de la unidad",
- "datos": [
-   {"aspecto": "bajo qué se considera", "valor": "lo que se establece", "unidad_valor": null}]}
+**(b) Los datos** — en `datos`, una fila por dato: el id `<doc>:U<n>:D<j>`, la unidad, el `caso`, el
+`aspecto`, el `valor` y la `unidad_valor`. `j` es la **posición en la lista `datos`** que devolvió
+el modelo, no un número que venga del texto.
+
+```sql
+-- así se lee un dato, con su unidad y la corrida que lo produjo
+SELECT d.id, d.caso, d.aspecto, d.valor, d.unidad_valor, u.subtema, u.oraciones,
+       c.modelo, c.tokens_salida
+FROM datos d JOIN unidades u ON u.id = d.unidad_id
+JOIN corridas c ON c.id = d.corrida_id
+WHERE d.id = 'doc8:U1:D1';
 ```
-
-Es lo que lee el cargador del corpus. `n` es el número de la unidad.
-
-**(b) El crudo de la llamada** — `p2-<doc>-tanda-<rN>.json`: las unidades enviadas, la petición,
-la respuesta, los **segundos** y los tokens, y la verificación de forma. Sirve para volver a
-verificar sin llamar a la API, y para revisar la granularidad de lo que trajo la tanda.
-
-Un ejemplo real: `mvp/temp/extraccion/doc7/p2-doc7-u3-r1.out` —5 datos, 7,7 s—. El crudo de una
-tanda es `p2-<doc>-tanda-<rN>.json`.
 
 ## 6. Cómo se entrega
 
-**Nombre y lugar.** `mvp/temp/extraccion/<doc>/p2-<doc>-u<n>-<rN>.{out}` (uno por unidad, el
-resultado) y `p2-<doc>-tanda-<rN>.json` (el crudo de la llamada).
+**Nombre y lugar.** En la base, siempre. La unidad es la que ya estaba (`<doc>:U<n>`), y el dato se
+numera por su posición en la lista.
 
-**Qué pasa después con lo que se entrega.** Cada dato es una **fila** del corpus:
-
-- su id es `<doc>:U<n>:D<j>`, donde `j` es la **posición en la lista `datos`** (no un número que
-  venga del texto),
-- lleva `unidad_id`, `caso`, `aspecto`, `valor` y `unidad_valor`,
-- y entra a la base en un acto **aparte y posterior**, a mano:
-
-      python3 mvp/código/cargar_datos.py <doc> p1-<doc>-UT-<modelo>-<rN>.out <rN>
-
-  Lee el `.out` de cada unidad del documento radicado. Primero lee **todo** y recién después
-  escribe: si falta el `.out` de una unidad, **no carga nada** y dice cuál falta. Si el documento ya
-  tiene datos, no los toca; para reemplazarlos por los de otra extracción, `--recargar`. La fila
-  del documento —su nombre, su fecha y su hora— **no se mueve**.
+**Qué pasa después con lo que se entrega.** No hay paso siguiente: el dato ya está en la base, y de
+ahí lo lee la consulta. Nada se escribe en `mvp/temp/`: ese es el archivo y no se toca.
 
 **Cierre de la corrida.** Si se tocó código, `python3 -m py_compile <archivo>`. Al terminar, se
-commitea y se sube: los `.out`, el crudo de la tanda y, si el paso cambió, los «sigue» de
-`README.md`, `AGENTS.md` y la memoria.
+commitea y se sube **la base** (ahí quedó todo).
 
 ## 7. Qué no hace este procedimiento
 

@@ -2,7 +2,11 @@
 
 Se leen por host (`CLAVE_POR_HOST`) y van en la cabecera que cada proveedor usa: `Authorization:
 Bearer` en los compatibles con OpenAI, `x-api-key` + `anthropic-version` en Anthropic. El cuerpo
-que se devuelve para el crudo **no lleva cabeceras**: la clave no entra en ningún archivo.
+que se devuelve **no lleva cabeceras**: la clave no entra en ningún archivo ni en la base.
+
+Acá vive también `ErrorDeLlamada`: lo que impidió completar una llamada —una clave que falta o una
+respuesta de la API—. Los corredores lo atrapan, dejan la corrida marcada como fallida con su motivo
+y se detienen: un fallo no se pierde.
 """
 
 import os
@@ -15,6 +19,10 @@ CLAVE_POR_HOST = {
 }
 
 UA = "spike-jev/1.0"
+
+
+class ErrorDeLlamada(Exception):
+    """La llamada no se pudo completar: falta la clave, o la API contestó con un error."""
 
 
 def variable(url):
@@ -30,8 +38,8 @@ def clave(url):
 def exigir(url):
     """Se detiene si falta la clave: no se sigue a ciegas ni se busca por otros medios."""
     if not clave(url):
-        raise SystemExit(f"falta {variable(url) or 'la clave'} en el entorno "
-                         f"(los shells no interactivos no la cargan: correr con bash -ic)")
+        raise ErrorDeLlamada(f"falta {variable(url) or 'la clave'} en el entorno "
+                             f"(los shells no interactivos no la cargan: correr con bash -ic)")
 
 
 def cabeceras(proveedor, url, conv_id=None):

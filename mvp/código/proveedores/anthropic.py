@@ -27,7 +27,7 @@ import time
 import urllib.error
 import urllib.request
 
-from .claves import cabeceras, exigir
+from .claves import ErrorDeLlamada, cabeceras, exigir
 
 TIMEOUT = 900
 
@@ -104,7 +104,8 @@ def _respuesta(datos):
         "model": datos.get("model"),
         "choices": [{
             "index": 0,
-            "finish_reason": "tool_calls" if datos.get("stop_reason") == "tool_use" else "stop",
+            "finish_reason": {"tool_use": "tool_calls", "max_tokens": "length"}.get(
+                datos.get("stop_reason"), "stop"),
             "message": {"role": "assistant",
                         "content": "".join(textos) or None,
                         "reasoning_content": "".join(pensamientos) or None,
@@ -118,8 +119,6 @@ def _respuesta(datos):
                   "thinking_tokens": (uso.get("output_tokens_details") or {}).get("thinking_tokens"),
                   "anthropic": uso},
         "stop_reason": datos.get("stop_reason"),
-        "_stream_chunks_crudos": None,
-        "_anthropic_crudo": datos,
     }
 
 
@@ -147,8 +146,8 @@ def llamar(cfg, mensajes, herramientas, conv_id=None):
         with urllib.request.urlopen(peticion, timeout=TIMEOUT) as respuesta_http:
             datos = json.loads(respuesta_http.read())
     except urllib.error.HTTPError as error:
-        raise SystemExit(f"la API contestó {error.code} ({cfg['id']}): "
-                         f"{error.read().decode('utf-8', 'replace')[:800]}")
+        raise ErrorDeLlamada(f"la API contestó {error.code} ({cfg['id']}): "
+                             f"{error.read().decode('utf-8', 'replace')[:800]}")
 
     respuesta = _respuesta(datos)
     respuesta["_segundos"] = round(time.time() - t0, 1)

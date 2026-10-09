@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""El ORQUESTADOR: abre la consulta, corre el bucle y entrega.
+"""El ORQUESTADOR: abre la consulta, corre el bucle y registra lo que pasó.
 
     python3 orquestador.py [n]
 
@@ -16,7 +16,9 @@ El orden, y nada más que el orden —cada paso vive en su archivo—:
     7. armar_herramientas   R ∩ las herramientas que existen
     8. anclas + armar_prompt  el system con el prompt y la pregunta
     9. bucle                llama, ejecuta y termina con la entrega (sin juzgarla)
-   10. guardar_crudo · registrar_traza · escribir_salida
+   10. registrar_consulta   la corrida y la respuesta, en la base (al terminar)
+
+Nada se escribe en archivos: `mvp/temp/` no se toca.
 """
 
 import pathlib
@@ -27,16 +29,13 @@ from anclas import anclas
 from armar_herramientas import armar_herramientas
 from armar_prompt import armar_prompt
 from bucle import bucle
-from escribir_salida import escribir_salida
-from guardar_crudo import guardar_crudo
 from leer_config import leer_config
 from leer_pregunta import leer_pregunta
 from leer_r import leer_r
 from listar_casos import listar_casos
-from registrar_traza import registrar_traza
+from proveedores import ErrorDeLlamada
+from registrar_consulta import registrar_consulta
 from resolver_dominio import resolver_dominio
-
-RAIZ = pathlib.Path(__file__).resolve().parents[3]  # mvp/código/orq → la raíz del repo
 
 
 def main():
@@ -58,26 +57,36 @@ def main():
           f"{len(casos)} casos · herramientas {[h['function']['name'] for h in herramientas]}")
     print(f"pregunta {numero}: {pregunta}\n")
 
-    estado = bucle(config, mensajes, herramientas, db, casos)
+    estado = None
     corrida = {"anclas": marcas, "documentos": documentos, "pregunta": pregunta,
                "numero": numero, "casos": casos,
                "herramientas": [h["function"]["name"] for h in herramientas],
-               "r": r, "estado": estado}
-    ruta_crudo = guardar_crudo(config, corrida)
-    ruta_salida = escribir_salida(config, corrida, ruta_crudo)
-    ruta_traza = registrar_traza(config, corrida, ruta_crudo)
+               "r": r}
+    try:
+        estado = bucle(config, mensajes, herramientas, db, casos)
+    except ErrorDeLlamada as error:
+        # La llamada no se pudo completar: la corrida se registra fallida, con su motivo.
+        db.close()
+        identificador = registrar_consulta(config, corrida, error=str(error))
+        print(f"la corrida se cortó: {error}")
+        print(f"    -> la base: la corrida y la consulta {identificador} (fallida)")
+        raise SystemExit(1)
+    db.close()
+
+    corrida["estado"] = estado
+    identificador = registrar_consulta(config, corrida)
 
     print(f"turnos {estado['turnos']} · llamadas {estado['llamadas']} · "
           f"corte {estado['corte'] or 'ninguno'} · "
           f"casos leídos {', '.join(estado['casos_leidos']) or 'ninguno'}")
-    if isinstance(estado["entrega"], dict):
-        print(f"desenlace: {estado['entrega'].get('desenlace')} "
-              f"({estado['forma_entrega']})")
-        print(f"respuesta: {estado['entrega'].get('respuesta') or '(sin respuesta)'}")
+    entrega = estado["entrega"]
+    if isinstance(entrega, dict):
+        print(f"desenlace: {entrega.get('desenlace')} ({estado['forma_entrega']})")
+        print(f"respuesta: {entrega.get('respuesta') or '(sin respuesta)'}")
     elif estado.get("pregunta_usuario"):
-        pregunta = estado["pregunta_usuario"]
-        print(f"pregunta al usuario: {pregunta.get('pregunta')}")
-        for opcion in pregunta.get("opciones") or []:
+        pregunta_usuario = estado["pregunta_usuario"]
+        print(f"pregunta al usuario: {pregunta_usuario.get('pregunta')}")
+        for opcion in pregunta_usuario.get("opciones") or []:
             print(f"  - {opcion}")
     elif estado.get("contenido_final"):
         print(f"respuesta (sin JSON): {estado['contenido_final']}")
@@ -85,8 +94,7 @@ def main():
         print(f"sin entrega: la corrida se cortó por {estado['corte']}")
     else:
         print("sin respuesta: el agente no contestó")
-    for etiqueta, ruta in (("crudo", ruta_crudo), ("traza", ruta_traza), ("salida", ruta_salida)):
-        print(f"{etiqueta}: {ruta.relative_to(RAIZ)}")
+    print(f"    -> la base: la corrida y la consulta {identificador}")
 
 
 if __name__ == "__main__":

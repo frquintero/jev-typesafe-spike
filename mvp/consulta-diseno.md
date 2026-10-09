@@ -36,7 +36,7 @@ prompt; el orquestador lleva la memoria y compone cada llamada (§6).
 |---|---|---|
 | Prepara | configuración y rutas; el dominio y sus documentos; las anclas; la lista de casos; el prompt de cada llamada | — |
 | Sirve | los datos del caso que el agente pide (la única herramienta) | — |
-| Hace | ejecuta la herramienta, lleva los mensajes, registra (crudo, traza, salida) | — |
+| Hace | ejecuta la herramienta, lleva los mensajes, registra la corrida y la respuesta | — |
 | Piensa | **nada**: no interpreta la pregunta, no elige casos, no juzga la entrega | qué casos pedir; qué responder; cuándo parar |
 | **Memoria** | los mensajes de la consulta | **ninguna** |
 | Propone | — | la respuesta, en el JSON de `RESPUESTA_JSON` |
@@ -54,18 +54,17 @@ la cobertura, solo orquesta.
 se procesa, qué se entrega y cómo se entrega— está en [guía_UT.md](guía_UT.md).
 
 **El paso 2** (los datos por unidad) corre **por la API y en tanda**: **una llamada por documento**
-con todas las unidades que falten, y la respuesta se reparte en un `.out` por unidad. La vía es
-`mvp/prompts/prompt_DATOS.md`:
+con todas las unidades que falten, y la respuesta se reparte por la **posición en la lista
+enviada**. La vía es `mvp/prompts/prompt_DATOS.md`:
 
 ```bash
-python3 mvp/código/paso2_datos.py <doc> <archivo de unidades> <modelo> <rN>
+python3 mvp/código/paso2_datos.py <doc> [--modelo M] [--rehacer]
 ```
 
-Deja `p2-<doc>-u<n>-<rN>.out` (el resultado, uno por unidad) y `p2-<doc>-tanda-<rN>.json` (el
-crudo, con los segundos y los tokens); es idempotente **por unidad**, así que retoma lo que falta
-sin volver a pagar lo hecho. **La medición que lo decidió está en
-`mvp/memoria de trabajo y pendientes.md`.** El procedimiento completo —qué entra, de dónde viene, cómo se procesa, qué se entrega y cómo se
-entrega— está en [guía_DATOS.md](guía_DATOS.md).
+Escribe en la base —la corrida y los datos—, **todo o nada**: la tanda manda **todas** las unidades
+del documento, y si alguna no se puede armar, o si la llamada falla, no se escribe ningún dato. **La medición que lo decidió está en
+`mvp/memoria de trabajo y pendientes.md`.** El procedimiento completo —qué entra, de dónde viene,
+cómo se procesa, qué se entrega y cómo se entrega— está en [guía_DATOS.md](guía_DATOS.md).
 
 **Radicar es fijar.** Un documento radicado no cambia: si su texto cambia, eso es
 **otro documento**, con su radicación y su fila propias. El `sello` (sha256 de lo
@@ -76,38 +75,85 @@ sello no cambia— y se resuelve con una actualización de la base, autorizada.
 **El conflicto entre fuentes, sin ejercitar.** Ejercitarlo pide un hecho disputado entre dos
 documentos del mismo dominio. **Abierto.**
 
-**La declaración del esquema** —con qué partición, qué prompt, con qué hash y con
-qué modelo se extrajo— **no está en la base**: el cargador registra el sello del
-documento, no el del esquema. **Abierto.**
+**La declaración del esquema** —con qué partición, qué prompt, con qué hash y con qué modelo se
+extrajo— **está en la base**: la fila de `corridas` guarda el prompt y su hash, el modelo y el
+esfuerzo de lo que está en la base, y los tokens (D23).
 
 ---
 
-## 3. La base: dos tablas en SQLite
+## 3. La base: el centro de datos
 
-`mvp/código/corpus.db` (SQLite) **es el registro**: no es una vista derivada y no se regenera. Lo
-escriben **dos actos manuales y separados**. Primero `mvp/código/radicar.py` pone la fila del
-documento —su nombre, su dominio, dónde vive y **la fecha y la hora, que pone la base** al radicar—;
-después, `mvp/código/cargar_datos.py` escribe las filas de datos de esa unidad **sin tocar la fila
-del documento**: un documento radicado no se mueve. En pruebas, `radicar.py --rehacer <doc>` saca la
-fila y sus datos.
+`mvp/código/corpus.db` (SQLite) **es el centro**: no hay archivos intermedios, y todo lo que los
+pasos producen queda ahí, encadenado, para poder hacer la traza completa. Lo escriben **actos
+manuales y separados**: `radicar.py` pone la fila del documento —su nombre, su dominio, dónde vive
+y **la fecha y la hora, que pone la base** al radicar—; `paso1_unidades.py` (UT) escribe su corrida
+y las unidades; `paso2_datos.py` (DATOS) escribe su corrida y los datos; y
+`orq/registrar_consulta.py` escribe la corrida del ORQ y la respuesta. **Nunca se toca la fila del
+documento**: un documento radicado no se mueve. En pruebas, `radicar.py --rehacer <doc>` saca su
+fila y todo lo que cuelga de ella.
 
 ```sql
 CREATE TABLE documentos (
   id                 TEXT PRIMARY KEY,   -- el documento radicado
   dominio            TEXT NOT NULL,      -- GENERAL
   fecha_radicacion   TEXT NOT NULL DEFAULT (datetime('now','localtime')),  -- fecha y hora: las pone la base, al radicar
-  ubicacion_local    TEXT NOT NULL,      -- dónde vive en esta máquina
   ubicacion_upstream TEXT NOT NULL,      -- dónde vive en el repo
   sello              TEXT NOT NULL       -- sha256 de lo radicado: es su identidad
 );
 
-CREATE TABLE datos (
-  id           TEXT PRIMARY KEY,         -- <doc>:U1:D4, <doc>:U7:D1
-  unidad_id    TEXT NOT NULL,            -- <doc>:U1, <doc>:U7
-  caso         TEXT NOT NULL,            -- el caso de esa unidad
+CREATE TABLE corridas (                  -- una fila por corrida de UT, DATOS y el ORQ
+  id              TEXT PRIMARY KEY,      -- <doc>:UT · <doc>:DATOS · <doc>:q<n>
+  paso            TEXT NOT NULL CHECK (paso IN ('UT', 'DATOS', 'ORQ')),
+  documento_id    TEXT REFERENCES documentos(id) ON DELETE CASCADE,  -- UT y DATOS
+  dominio         TEXT,                  -- ORQ: el alcance de la consulta
+  bateria         TEXT,                  -- ORQ: el archivo de preguntas
+  pregunta_numero INTEGER,
+  pregunta_texto  TEXT,
+  prompt          TEXT, hash_prompt TEXT, hash_r TEXT,
+  modelo          TEXT NOT NULL, esfuerzo TEXT,
+  tokens_entrada INTEGER, tokens_salida INTEGER, tokens_pensando INTEGER, cache_hit INTEGER,
+  segundos        REAL, turnos INTEGER, llamadas INTEGER,
+  estado          TEXT NOT NULL CHECK (estado IN ('exitoso', 'fallido')),
+  motivo          TEXT,                  -- cortada por… · sin JSON · error de la API
+  fecha           TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+  CHECK (estado = 'exitoso' OR motivo IS NOT NULL),                   -- un fallo dice por qué
+  CHECK ((paso = 'ORQ' AND dominio IS NOT NULL AND documento_id IS NULL)
+      OR (paso <> 'ORQ' AND documento_id IS NOT NULL))                -- el alcance de cada paso
+);
+
+CREATE TABLE unidades (                  -- la salida de UT
+  id           TEXT PRIMARY KEY,         -- <doc>:U1
+  documento_id TEXT NOT NULL REFERENCES documentos(id) ON DELETE CASCADE,
+  n            INTEGER NOT NULL,
+  subtema      TEXT NOT NULL,            -- el nombre del caso
+  oraciones    TEXT NOT NULL,            -- los números de oración, "1,4"
+  corrida_id   TEXT NOT NULL REFERENCES corridas(id),
+  UNIQUE (documento_id, n)
+);
+
+CREATE TABLE datos (                     -- la salida de DATOS
+  id           TEXT PRIMARY KEY,         -- <doc>:U1:D4
+  unidad_id    TEXT NOT NULL REFERENCES unidades(id) ON DELETE CASCADE,
+  caso         TEXT NOT NULL,
   aspecto      TEXT NOT NULL,
   valor        TEXT NOT NULL,
-  unidad_valor TEXT                      -- "horas", "años", …
+  unidad_valor TEXT,                     -- "horas", "años", …
+  corrida_id   TEXT NOT NULL REFERENCES corridas(id)
+);
+
+CREATE TABLE consultas (                 -- la respuesta del ORQ
+  id             TEXT PRIMARY KEY,       -- <doc>:q<n>
+  corrida_id     TEXT NOT NULL REFERENCES corridas(id),
+  dominio        TEXT NOT NULL, documentos TEXT NOT NULL,
+  pregunta_texto TEXT NOT NULL,
+  desenlace      TEXT, respuesta TEXT,
+  fecha          TEXT NOT NULL DEFAULT (datetime('now','localtime'))
+);
+
+CREATE TABLE consulta_casos (            -- los casos que el agente leyó
+  consulta_id TEXT NOT NULL REFERENCES consultas(id) ON DELETE CASCADE,
+  unidad_id   TEXT NOT NULL,
+  PRIMARY KEY (consulta_id, unidad_id)
 );
 ```
 
@@ -120,15 +166,13 @@ Así se lee una fila (ejemplo del formato):
 
 **Qué NO guarda la base, y por qué:**
 
-- **El texto del documento**, ni las oraciones, ni sus números: el texto vive en el
-  documento radicado, que es la **fuente única**. La numeración de oraciones es la
-  vara con la que se evalúa el paso 1 (§12): vive en los crudos de la extracción.
-- **La tabla de unidades**: la unidad existe como columna en cada dato —`unidad_id` y
-  `caso`—, así que cada fila se lee sola y agrupar por caso es una consulta de una
-  línea.
-- **`documento_id` en `datos`**: el documento de un dato se conoce por el prefijo de
-  su `unidad_id` (`<doc>:U1` → `<doc>`). Es una convención sobre el texto del id, no un
-  dato. **Abierto.**
+- **El texto del documento ni las oraciones literales**: viven en el documento radicado, que es la
+  **fuente única**; la base guarda los **números** de oración de cada unidad, y el sello es el
+  guardián de que el texto no cambió.
+- **El crudo de las llamadas**: la petición se rearma —el prompt, el texto numerado desde el
+  documento, y las unidades o los datos que ya están en la base—, y lo que el modelo produjo está en
+  la base. Se pierde lo que dijo de más: su razonamiento.
+- **Los reintentos**: una sola fila por paso y documento; la corrida efectiva reescribe la suya.
 
 **Por qué SQLite.** La forma se elige por **forma de acceso**, y acá lo que manda es
 leer un caso entero y filtrar por dominio y por caso: eso pide claves, foráneas y
@@ -140,21 +184,21 @@ el formato de serialización sino qué operaciones se hacen
 Con 26 filas cualquier cosa funciona; el motor se elige por lo que se hace con los
 datos, no por el volumen.
 
-**Es un derivado regenerable.** La construcción es idempotente: borrar `corpus.db` y
-correr el cargador reproduce lo mismo. La fuente de verdad son **los documentos y
-los crudos**, no el almacén. Lo único append-only es `traza.jsonl`. Esto evita
-migraciones, copias de seguridad y versionado de la base.
+**No es un derivado regenerable.** El registro **es** la fuente: lo que entra, queda, y no se
+reproduce corriendo nada de nuevo (cada corrida se paga). Lo único que vive fuera son los
+**documentos radicados** —su texto, con el sello como guardián—, que es de donde se leen las
+oraciones. Nada es append-only: la corrida efectiva **reescribe su fila**.
 
-**Invariantes que el cargador puede exigir:**
+**Invariantes que los actos exigen:**
 
 - Un documento radicado tiene **una unidad o más**: un documento sin unidades no es
   un estado válido, es una extracción que falló (§13). Una línea es una unidad
   temática.
-- Si el documento no está donde dice su `ubicacion_local`, el cargador **se detiene
-  y reporta**.
+- Si el texto del documento no coincide con su **sello**, el acto **se detiene y reporta**: eso es
+  otro documento.
 
 **El vacío legítimo** es de nivel unidad: una unidad cuyas oraciones no establezcan
-nada, que no aporta ningún dato. El cargador puede avisarlo en la carga.
+nada, que no aporta ningún dato. La carga puede avisarlo.
 
 ---
 
@@ -183,7 +227,7 @@ ofrecen, qué operaciones existen—, no se le explica.
 ```json
 {
   "fuentes_admitidas": ["solo el documento"],
-  "herramientas": ["obtener_datos_del_caso"],
+  "herramientas": ["obtener_datos_del_caso", "preguntar_al_usuario"],
   "operaciones": []
 }
 ```
@@ -194,7 +238,7 @@ ofrecen, qué operaciones existen—, no se le explica.
 | `herramientas` | qué se le ofrece; lo que no está, no se le da | el ORQ, al armar `tools` |
 | `operaciones` | ninguna: sin aritmética ni fechas calculadas | el ORQ, no ofreciendo nada |
 
-Se fija antes de la corrida y queda registrada en el crudo. **Los topes de turnos y
+Se fija antes de la corrida y queda registrada en la fila de la corrida. **Los topes de turnos y
 de llamadas no son R**: son guardias del orquestador (§11).
 
 **Las condiciones que el código no puede aplicar** —«tu saber no es premisa», «los
@@ -217,7 +261,7 @@ son dato del documento**, y el prompt lo dice.
 
 | # | Paso | Archivo | Qué hace |
 |---|---|---|---|
-| 1 | Leer la configuración | `orq/leer_config.py` | rutas, dominio, modelo, guardias, etiqueta del crudo |
+| 1 | Leer la configuración | `orq/leer_config.py` | las rutas de entrada, el dominio, el modelo y las guardias |
 | 2 | Leer la pregunta | `orq/leer_pregunta.py` | la pregunta n del archivo, tal cual |
 | 3 | Leer R | `orq/leer_r.py` | el JSON del orquestador |
 | 4 | Abrir la base | `orq/abrir_db.py` | `corpus.db`, **solo lectura** |
@@ -226,11 +270,11 @@ son dato del documento**, y el prompt lo dice.
 | 7 | Armar las herramientas | `orq/armar_herramientas.py` | R ∩ las que existen |
 | 8 | Armar los mensajes | `orq/armar_prompt.py` + `prompt_ORQ.md` | el `system` (anclas) y el `user` (casos, tarea, formato) |
 | 9 | El bucle | `orq/llamar_modelo.py`, `orq/ejecutar_herramienta.py`, `orq/obtener_datos_del_caso.py`, `orq/bucle.py` | llama, ejecuta lo que el agente pide, apila, y termina con la respuesta |
-| 10 | Registrar y entregar | `orq/guardar_crudo.py`, `orq/registrar_traza.py`, `orq/escribir_salida.py` | el crudo, la traza y `salida.md` |
+| 10 | Registrar | `orq/registrar_consulta.py` | la corrida y la respuesta, en la base |
 
 `orq/orquestador.py` es el `main`: los llama en ese orden y nada más. Cada paso vive
-en su archivo; `orq/config.json` tiene las rutas, el dominio, el modelo, las
-guardias y la etiqueta del crudo (plantilla por pregunta).
+en su archivo; `orq/config.json` tiene las rutas de **entrada** (las preguntas, R, la base y el
+prompt), el dominio, el modelo y las guardias. Lo que el ORQ produce no se configura: va a la base.
 
 **La petición.** El `system` lleva lo que se conserva entre turnos (las anclas) y el
 `user` los casos del dominio, la tarea y el formato. La **pregunta va dentro de la
@@ -350,7 +394,7 @@ mensajes. Los huecos son `{{CASOS}}`, `{{PREGUNTA}}` y `{{ANCLAS}}`, rellenados 
 `str.replace` —nunca `str.format`—.
 
 **Prompt 3 y prompt 4.** El prompt del agente es el que Frat llama **prompt 3** —hoy
-`prompt_ORQ.md`—, y los crudos lo conservan: de él sale el lector de la entrega (§9). Lo que
+`prompt_ORQ.md`—, y de él sale el lector de la entrega (§9). Lo que
 sigue es **prompt 4**, la sonda de `preguntar_al_usuario`: sobre prompt 3 cambian la pregunta
 —sale de la tarea 1 y va en su línea—, el nombre del bloque (`TAREAS` → `LÓGICA DEL AGENTE
 ENCARGADO`), la tarea 4 (la tríada: una respuesta → responder · dos o más → herramienta ·
@@ -403,7 +447,7 @@ El agente entrega un JSON con dos estados:
 ```
 
 El segundo valor se llama `no_esta_en_los_datos` desde prompt 4; **el lector acepta también el
-viejo** (`no_esta_en_el_corpus`), que es el que traen los crudos guardados
+viejo** (`no_esta_en_el_corpus`), que es el que traían los crudos de la primera ronda, ya archivados
 (`orq/leer_entrega.py`, `ESTADOS`).
 
 **El JSON no tiene campo propio**: como no hay herramienta de entrega, vive **dentro**
@@ -431,18 +475,21 @@ lo pida**.
 
 ## 10. Salidas
 
-- **`mvp/temp/consulta/salida.md`** (lo que lee el usuario): por pregunta —con la
-  etiqueta del crudo, que distingue las baterías—, la respuesta tal como vino, el
-  **mensaje del agente** cuando el JSON venía dentro de uno más largo (el caso de
-  `no_esta_en_el_corpus`, donde la explicación vive solo ahí) y los casos leídos. Se
-  **agrega**, no se reescribe.
-- **`mvp/temp/consulta/traza.jsonl`** (append-only): una línea por corrida con las
-  anclas, la pregunta, el dominio y los documentos, los casos, los casos leídos, las
-  herramientas ofrecidas, los turnos, las llamadas, el desenlace, **la forma en que se leyó
-  el JSON y la causa del corte**, si cerró y el consumo por turno, más la ruta del crudo.
-- **`mvp/temp/consulta/cache/consulta-<documento>-q{n}-r{k}.json`**: el crudo de la
-  corrida —los cuerpos enviados y las respuestas, con los trozos SSE verbatim y sin
-  cabeceras—. No se sobrescribe: una réplica nueva lleva un `k` nuevo.
+Todo lo que produce la consulta queda **en la base**, y nada en archivos:
+
+- **`consultas`**: una fila por pregunta —el dominio, los documentos ofrecidos, la pregunta y su
+  texto, el desenlace (`respondida`, `no está en los datos`, `preguntó al usuario`) y la respuesta,
+  tal como vino—. Se reescribe si la pregunta se vuelve a correr: vale la efectiva.
+- **`consulta_casos`**: los casos que el agente leyó: es lo que permite la **traza**, de la
+  respuesta a la unidad y al dato.
+- **`corridas`**: la cédula de la corrida —modelo, esfuerzo, el prompt y su hash, R y su hash, los
+  tokens, los segundos, los turnos, las llamadas, y el `estado` con su motivo—.
+
+**Cómo se lee una respuesta.** Con una consulta, no con un archivo: el ORQ no escribe `salida.md`,
+ni `traza.jsonl`, ni crudos. Quien quiera ver una respuesta la lee de la base —uniendo `consultas`
+con las seis tablas—: `consultas` y `consulta_casos` dan la respuesta y los casos leídos,
+`unidades` y `datos` el corpus, `documentos` el texto radicado y `corridas` la cédula de cada
+llamada.
 
 ---
 
@@ -461,16 +508,16 @@ enreda.
 - **De a una:** se manda una pregunta; la siguiente, cuando termina la corrida.
 - **Guardias implementadas:** `max_turnos: 8` y `max_herramientas: 20`, y **el tope de
   herramientas se respeta de verdad**: el bucle mira el tope antes de ejecutar y corta la
-  corrida (antes ejecutaba una herramienta más por turno). La causa del corte queda en el
-  crudo y en la traza (`corte`: `max_turnos`, `max_herramientas`, `pregunta_al_usuario`, o
-  `null` si el agente cerró). **No hay corte por ciclo** (misma acción con los mismos
+  corrida (antes ejecutaba una herramienta más por turno). La causa del corte queda en la fila de
+  la corrida (`corte`: `max_turnos`, `max_herramientas`, `pregunta_al_usuario`, o `null` si el
+  agente cerró), y un corte se registra como **fallido**. **No hay corte por ciclo** (misma acción con los mismos
   argumentos dos veces). **Abierto.**
 - **El consumo de las corridas** (`prompt_tokens = hit + miss`): el **prefijo fijo se cachea** (el
   `hit` aparece desde el segundo turno) y lo que se paga es lo nuevo —cada resultado de herramienta
   y cada mensaje del asistente—. El precio se calcula con la tarifa publicada el día de la corrida y
   se registra; no se estima a ojo. **La medición** —corrida por corrida, con su consumo turno por
-  turno y lo que entregó cada una— quedó como **registro aparte**, junto a sus crudos:
-  `mvp/temp/consulta/medicion-primera-ronda.md`.
+  turno y lo que entregó cada una— quedó como **registro aparte** de la primera ronda:
+  `mvp/temp/consulta/medicion-primera-ronda.md`. Los totales de cada corrida están en `corridas`.
 - **El prompt no se muestra antes de correr:** se guarda con la corrida y se muestra
   cuando se pide.
 
@@ -487,13 +534,13 @@ no del ORQ (§1):
 - se distingue «no está en los datos extraídos» de «el documento no lo dice»: la
   extracción puede haber dejado algo afuera, y una unidad vacía es un hueco nuestro,
   no del documento;
-- las **unidades examinadas** quedan registradas (los casos leídos están en la traza
-  y en la salida), y se distinguen del campo;
+- las **unidades examinadas** quedan registradas (los casos leídos están en `consulta_casos`), y se
+  distinguen del campo;
 - **no interviene Jev**: el juicio es nuestro y se registra.
 
 La **vara** para distinguir el hueco del documento del hueco de la extracción son los
-números de oración de la partición del paso 1: viven en el crudo del paso 1 y en el material de
-evaluación, no en la base (§3).
+números de oración de la partición del paso 1: viven en `unidades` (los números) y en el documento
+radicado (las oraciones), y desde ahí se consultan (§3).
 
 ---
 
@@ -523,8 +570,8 @@ evaluación, no en la base (§3).
 | **D3** | Bucle con herramienta, o todo inyectado en una llamada | decidida: bucle con herramienta |
 | **D4** | Sin datos derivados en esta versión | decidida |
 | **D5** | R: `solo el documento`, sin mundo del LLM ni anclas como premisa | decidida: R.json con tres claves |
-| **D6** | Nombre y sitio de los archivos | decidida: el código, `R.json` y la base en `mvp/código/` (el orquestador, en `orq/`); los documentos que se radican, en `mvp/documentos/`; las baterías, en `mvp/consulta/preguntas_<doc>.md`; los crudos de extracción y los registros de la consulta, en `mvp/temp/` (§2–§3) |
-| **D7** | Almacén | decidida: SQLite con dos tablas (`documentos`, `datos`) |
+| **D6** | Nombre y sitio de los archivos | decidida: el código, `R.json` y la base en `mvp/código/` (el orquestador, en `orq/`); los documentos que se radican, en `mvp/documentos/`; las baterías, en `mvp/consulta/preguntas_<doc>.md`; los prompts, en `mvp/prompts/`; y **lo que se produce, en la base**. `mvp/temp/` es archivo: no se corre desde ahí, no se lee, no se escribe (§2–§3) |
+| **D7** | Almacén | decidida: SQLite con **seis tablas** —el corpus (`documentos`, `unidades`, `datos`) y el expediente (`corridas`, `consultas`, `consulta_casos`)—, con claves foráneas y contratos (`paso`, `estado`, `motivo` si falló, un `n` por documento) |
 | **D8** | Derivados | fuera de esta versión |
 | **D9** | Idioma de los `tipo` | obsoleta: no hay tipos |
 | **D10** | Documento R: esbozo + prosa para el agente | reemplazada: R es un JSON que lee el ORQ |
@@ -540,7 +587,7 @@ evaluación, no en la base (§3).
 | **D20** | Cómo se lee el JSON de salida cuando viene con prosa o envuelto | decidida (08-10): el ORQ ubica el JSON del mensaje final donde prompt 3 lo ponga (§9; `orq/leer_entrega.py`) |
 | **D21** | Las condiciones que el código no puede aplicar (premisa, conflictos, brecha) | abierta: no están escritas en ninguna parte (§4.2) |
 | **D22** | `documento_id` en `datos`, en vez del prefijo del id | abierta |
-| **D23** | La declaración del esquema (partición, prompt, hash, modelo) en la base | abierta |
+| **D23** | La declaración del esquema (partición, prompt, hash, modelo) en la base | **decidida (08-10):** la fila de `corridas` guarda el prompt y su hash, el modelo, el esfuerzo y los tokens de lo que está en la base |
 | **D24** | El sostén en la respuesta (datos citados, reporte) | diferida: cuando el usuario pida ver la fuente |
 | **D25** | Tope y corte por ciclo | en parte: el tope de herramientas se respeta y la causa del corte se registra; **no hay corte por repetición** |
 | **D26** | Al usar `preguntar_al_usuario`, ¿se reanuda la corrida? | decidida (08-10): no en este MVP; el ciclo termina y la pregunta queda en la salida y en el crudo (§7) |
@@ -553,7 +600,8 @@ evaluación, no en la base (§3).
 - `mvp/código/proveedores/`: **el transporte del MVP** —el registro de alias, `llamar` con `prompt`
   o `mensajes` y `tools`, y la única lectura de claves (`claves.py`)—, con la forma de OpenAI como
   contrato; y `mvp/código/respuesta.py`, con `extract_json`.
-- `mvp/código/base.py`, `radicar.py` y `cargar_datos.py`: la base y sus **dos actos** (§3).
+- `mvp/código/base.py`, `radicar.py`, `paso1_unidades.py` y `paso2_datos.py`: la base y sus
+  **actos** (§3).
 - `mvp/código/orq/`: el orquestador, un archivo por paso (§5).
 - `mvp/código/orq/leer_entrega.py`: el lector de la entrega —el JSON de prompt 3,
   donde venga (§9).
