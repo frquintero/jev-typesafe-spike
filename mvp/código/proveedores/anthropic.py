@@ -134,7 +134,10 @@ def llamar(cfg, mensajes, herramientas, conv_id=None):
     if cfg.get("esfuerzo"):
         cuerpo["output_config"] = {"effort": cfg["esfuerzo"]}
     if system:
-        cuerpo["system"] = system
+        # El system es el prefijo invariante (las reglas del acto): se marca para el caché, que en
+        # esta API hay que pedir. El primer pedido lo escribe; los siguientes lo leen.
+        cuerpo["system"] = [{"type": "text", "text": system,
+                             "cache_control": {"type": "ephemeral"}}]
     if herramientas:
         cuerpo["tools"] = _herramientas(herramientas)
 

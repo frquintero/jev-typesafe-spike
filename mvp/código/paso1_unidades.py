@@ -10,7 +10,9 @@ Qué hace, y nada más:
 
 1. **Verifica el documento**: lee `mvp/documentos/<doc>.md` y comprueba su sello contra la base; si
    el archivo cambió, se detiene (eso es otro documento).
-2. **Numera las oraciones** y sustituye `{{TEXTO_NUMERADO}}` en `mvp/prompts/prompt_<prompt>.md`.
+2. **Numera las oraciones** y arma **los dos mensajes**: el prompt —reglas y ejemplo— va como
+   `system`, y el texto numerado como `user`. Así la regla viaja como instrucción y el documento
+   como dato, y el prefijo invariante queda estable entre documentos.
 3. **Llama al modelo** por `proveedores.llamar`: una sola llamada de texto a JSON.
 4. **Lee la respuesta** con `extract_json` (tolera la cerca de código) y **verifica la partición**
    —huecos, solapes, números fuera de rango—: solo reporta, no corrige.
@@ -41,6 +43,7 @@ sys.path.insert(0, str(AQUI))
 
 from base import (borrar_corridas, borrar_unidades, conectar, exigir_documento,  # noqa: E402
                   exigir_sello, hash_texto, registrar_corrida, unidades_de)
+from mensajes import partir  # noqa: E402
 from proveedores import ErrorDeLlamada, llamar, resolver  # noqa: E402
 from respuesta import extract_json  # noqa: E402
 from extraer_unidades import numerar_oraciones, verificar_subtemas  # noqa: E402
@@ -85,7 +88,7 @@ def run(doc, modelo, prompt_name, rehacer):
         raise SystemExit(f"el prompt '{ruta_prompt.name}' no tiene {{{{TEXTO_NUMERADO}}}}")
 
     texto_numerado, registros = numerar_oraciones(texto)
-    prompt = plantilla.replace("{{TEXTO_NUMERADO}}", texto_numerado)
+    mensajes = partir(plantilla, ruta_prompt.name, TEXTO_NUMERADO=texto_numerado)
     config = resolver(modelo)
     corrida = dict(id=f"{doc}:UT", paso="UT", documento_id=doc, prompt=ruta_prompt.name,
                    hash_prompt=hash_texto(plantilla), modelo=config["id"],
@@ -93,7 +96,7 @@ def run(doc, modelo, prompt_name, rehacer):
 
     t0 = time.time()
     try:
-        _, respuesta = llamar(modelo, prompt=prompt)
+        _, respuesta = llamar(modelo, mensajes=mensajes)
     except ErrorDeLlamada as error:
         fallar(db, corrida, str(error), conservar=bool(ya))
         raise SystemExit(f"  {doc}: la corrida falló — {error}")

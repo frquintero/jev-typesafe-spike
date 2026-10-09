@@ -1,81 +1,58 @@
+[SISTEMA]
 TAREA
-Extraer los datos de CADA unidad temática de la lista.
+Extrae los datos de CADA unidad temática de la lista.
+Responde solo con el JSON.
+La forma es el contrato: no agregues claves fuera de las que define `FORMATO DE RESPUESTA`.
 
-UN DATO es lo que la UNIDAD TEMÁTICA establece acerca de algo bajo un aspecto.
+UN DATO
+Lo que la unidad establece acerca de algo, escrito para que se entienda sin el texto al lado:
+- `aspecto`: qué se pregunta y de qué cosa, nombrada completa («altura del faro»).
+- `valor`: lo que responde esa pregunta.
+- `unidad_valor`: la unidad de medida, si el valor es un número con una sola unidad de medida; si no, null.
 
-REGLAS
-1. Extrae solo del contenido de la unidad: la unidad es el alcance.
-2. No inventes: registra lo que el texto dice, sin agregar saber externo.
-3. Una salida por unidad, en el mismo orden de la lista, con su `caso`; no mezcles datos de una unidad en otra.
+CÓMO SE DECIDE
+1. Un dato por cada pregunta distinta que la unidad responde. No omitas ninguna.
+2. Cada palabra va a un solo sitio: al valor, si cambia la respuesta; al aspecto, si acota la pregunta (cuándo, dónde, cada cuánto, de quién); fuera, si solo enlaza.
+3. Fuera de los paréntesis, solo lo que dice el texto. Lo que agregues para que el dato se entienda —un antecedente que está en otra parte, lo que resume una expresión como «ese cambio», o lo que sabes del mundo— va entre paréntesis, junto a la expresión del texto. Un pronombre con un solo antecedente en la unidad se reemplaza, sin paréntesis. Si quedan dos posibles, aunque uno esté más cerca, escribe los dos.
 
-EJEMPLO 1.
+CASOS
+Las oraciones son inventadas. Cada caso es un precedente: cuando dudes, busca el parecido.
 
-Para la siguiente lista de unidades temáticas:
-[{"caso": "las muestras que conserva el banco y el etiquetado de los sobres", "contenido": "Conserva muestras de cuarenta y dos especies nativas en sobres sellados. Cada sobre lleva la fecha de recolección y el nombre de quien recolectó."},
- {"caso": "el corte similar al anunciado ocurrido el año pasado, que dejó sin servicio a dos colegios del sector y duró diecinueve horas", "contenido": "El año pasado, un corte similar dejó sin servicio a dos colegios del sector. Aquel episodio duró diecinueve horas."}]
+Caso 1. A dónde va cada palabra.
+«El faro alcanza los cuarenta metros de altura.» → altura del faro = cuarenta [metros]
+«El puente se inauguró hace cuarenta años.» → fecha de la inauguración del puente = hace cuarenta [años]
+«Hoy el museo recibe unas tres mil visitas al mes.» → número de visitas mensuales que recibe hoy el museo = unas tres mil [null]
+«Según la cooperativa, la cosecha subirá cerca de un veinte por ciento si llueve en abril.» → aumento previsto de la cosecha = cerca de un veinte, si llueve en abril, según la cooperativa [por ciento]
+«Si cierran el puente, el tráfico se desviará por el norte.» → ruta del desvío del tráfico = por el norte, si cierran el puente [null]
+Por qué: sin «hace», cuarenta años sería una duración; «hoy» y «al mes» acotan la pregunta; «si…» no establece que el puente se cierre: la condición va con la consecuencia y no es un dato aparte.
 
-El json de salida con los datos es el siguiente:
+Caso 2. La unidad de medida.
+«El tanque guarda doce mil litros. El glaciar retrocede diez metros por año. El cometa vuelve cada setenta y seis años. La travesía duró dos horas y cuarto. La isla tiene doce mil habitantes. La torre es tres veces más alta que la iglesia.»
+→ capacidad del tanque = doce mil [litros] · retroceso anual del glaciar = diez [metros por año] · período de retorno del cometa = setenta y seis [años] · duración de la travesía = dos horas y cuarto [null] · número de habitantes de la isla = doce mil [null] · altura de la torre comparada con la de la iglesia = tres veces [null]
+Por qué: «cada» acota la pregunta; dos horas y cuarto combina dos unidades; los habitantes se cuentan; tres veces compara.
 
-{"unidades": [
-  {"n": 1,
-   "caso": "las muestras que conserva el banco y el etiquetado de los sobres",
-   "datos": [
-     {"aspecto": "especies nativas conservadas",
-      "valor": "cuarenta y dos",
-      "unidad_valor": null},
-     {"aspecto": "forma de conservación",
-      "valor": "en sobres sellados",
-      "unidad_valor": null},
-     {"aspecto": "datos anotados en cada sobre",
-      "valor": "la fecha de recolección y el nombre de quien recolectó",
-      "unidad_valor": null}]},
-  {"n": 2,
-   "caso": "el corte similar al anunciado ocurrido el año pasado, que dejó sin servicio a dos colegios del sector y duró diecinueve horas",
-   "datos": [
-     {"aspecto": "fecha del corte",
-      "valor": "el año pasado",
-      "unidad_valor": null},
-     {"aspecto": "afectados por el corte",
-      "valor": "dos colegios del sector",
-      "unidad_valor": null},
-     {"aspecto": "duración del corte",
-      "valor": "diecinueve",
-      "unidad_valor": "horas"}]}]}
+Caso 3. Una pregunta, un dato; el valor es la respuesta.
+«Los bomberos rescataron a dos excursionistas perdidos con un helicóptero de la gobernación.» → número de excursionistas perdidos rescatados por los bomberos = dos [null] · medio del rescate de los excursionistas = un helicóptero de la gobernación [null]
+«De las lluvias de abril depende la cosecha del valle.» → fuente de la que depende la cosecha del valle = las lluvias de abril [null]
+Por qué: «perdidos» dice cuáles excursionistas; el helicóptero responde otra pregunta.
 
-EJEMPLO 2.
-
-Para la siguiente lista de unidades temáticas:
-[{"caso": "la revisión del borrador del convenio y la firma pendiente", "contenido": "La interventora y la secretaria revisaron el borrador en junio. Ella pidió incluir una cláusula de salida. Su firma quedó pendiente hasta después de las elecciones de octubre."}]
-
-El json de salida con los datos es el siguiente:
-
-{"unidades": [
-  {"n": 1,
-   "caso": "la revisión del borrador del convenio y la firma pendiente",
-   "datos": [
-     {"aspecto": "responsables de la revisión",
-      "valor": "la interventora y la secretaria",
-      "unidad_valor": null},
-     {"aspecto": "fecha de la revisión del borrador",
-      "valor": "junio",
-      "unidad_valor": null},
-     {"aspecto": "petición de la Interventora",
-      "valor": "incluir una cláusula de salida",
-      "unidad_valor": null},
-     {"aspecto": "estado de la firma de la petición",
-      "valor": "pendiente hasta después de las elecciones de octubre",
-      "unidad_valor": null}]}]}
-
-UNIDADES
-{{UNIDADES}}
+Caso 4. Lo que se agrega va entre paréntesis.
+«La fábrica cambió sus calderas de carbón por calderas de gas. Ese cambio redujo sus emisiones a la mitad.» → reducción de las emisiones de la fábrica por ese cambio (el de las calderas de carbón por calderas de gas) = la mitad [null]
+«El alcalde inauguró la obra y el concejal la recorrió. Él prometió terminarla en mayo.» → autor de la promesa de terminar la obra = él (el alcalde o el concejal) [null]
+«Su capital tiene dos puertos.» (la isla se nombra en otra unidad) → número de puertos de su capital (la de la isla) = dos [null]
+Por qué: «sus emisiones» tiene un solo antecedente y se reemplaza; «ese cambio» no es un pronombre: resume lo dicho y lleva su referente entre paréntesis, aunque sea claro; «él» tiene dos posibles, aunque el concejal esté más cerca.
 
 FORMATO DE RESPUESTA
-
+Una salida por unidad, en el mismo orden de la lista, con su `caso`:
 
 {"unidades": [
   {"n": <la posición de la unidad en la lista>,
    "caso": "<el caso de la unidad>",
    "datos": [
-     {"aspecto": "<bajo qué se considera>",
-      "valor": "<lo que se establece>",
-      "unidad_valor": la unidad del valor («kilómetros», «°C»), o null.}]}]}
+     {"aspecto": "<qué se pregunta y de qué cosa>",
+      "valor": "<lo que responde>",
+      "unidad_valor": "<la unidad de medida>" o null}]}]}
+
+[TAREA]
+UNIDADES
+{{UNIDADES}}

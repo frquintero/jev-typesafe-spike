@@ -1,6 +1,6 @@
 # Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 08-10-2026. **Fuente única del estado: solo lo que estamos trabajando y lo que
+Estado al 09-10-2026. **Fuente única del estado: solo lo que estamos trabajando y lo que
 hace falta para trabajarlo.** El detalle de cada ronda vive en el `PLAN.md` de su
 proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, en
 `otros documentos/`; la casa, la actualización de los tres sitios y los reportes, en
@@ -12,15 +12,18 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   preguntas y se obtenga información: el cambio en A(Q) al considerar datos conforme a
   reglas. Recuperar no es responder. Detalle en `README.md`, «Visión», y en
   `definiciones-del-marco.md`.
-- **Hilo activo: el MVP, `mvp/` — la base es el centro (08-10).** El código está en `mvp/código/`:
+- **Hilo activo: el MVP, `mvp/` — la base es el centro.** El código está en `mvp/código/`:
   `radicar.py` (radica el documento), `paso1_unidades.py` (UT), `paso2_datos.py` (DATOS), `base.py`
-  (la base y su esquema), `proveedores/` (el transporte) y el orquestador (`orq/`, con `R.json`); los
-  tres prompts de trabajo, en `mvp/prompts/`. **`doc8` es el primer documento radicado**
-  (08-10 16:50:28, dominio `GENERAL`) **y ya tiene sus unidades**: **UT corrió el 08-10 19:07:09**
-  (`deepseek-flash`, esfuerzo `low`, 53,4 s) y escribió su corrida y **8 unidades**; no hay datos
-  todavía. Cada etapa es un acto aparte y a mano —DATOS, la batería en
-  `mvp/consulta/preguntas_doc8.md` y la consulta—. El diseño y lo abierto están en `mvp/consulta-diseno.md`; los procedimientos, en
-  `mvp/guía_UT.md` y `mvp/guía_DATOS.md`.
+  (la base y su esquema), `mensajes.py` (parte el prompt en los dos mensajes), `proveedores/` (el
+  transporte) y el orquestador (`orq/`, con `R.json`); los tres prompts de trabajo, en
+  `mvp/prompts/`, cada uno en dos bloques: `[SISTEMA]` lo invariante y `[TAREA]` el material, que es
+  lo que los actos mandan como `system` y como `user`. **El documento de trabajo es `doc11`**
+  —«La anemia falciforme»—, **radicado el 09-10 13:10:31** (dominio `GENERAL`, sello `27be7a53…`),
+  **sin unidades ni datos todavía**: el 09-10 la base se **reseteó de cero** (se borró `corpus.db` y
+  volvió a nacer con el esquema) y `doc8` salió de `mvp/documentos/`. Cada etapa es un acto aparte y
+  a mano —UT, DATOS, la batería en `mvp/consulta/preguntas_doc11.md` y la consulta—. El diseño y lo
+  abierto están en `mvp/consulta-diseno.md`; los procedimientos, en `mvp/guía_UT.md` y
+  `mvp/guía_DATOS.md`.
 - **`mvp/temp/` es el archivo: no se corre desde ahí, no se lee, no se escribe.** Ahí quedaron los
   documentos `doc4` y `doc6` con sus baterías (`mvp/temp/documentos/`), el texto, la batería y la
   extracción de `doc7` (`mvp/temp/pruebas/` y `mvp/temp/extraccion/`), los crudos de las trece
@@ -263,15 +266,19 @@ extracción y corridas— está archivado en `mvp/temp/`.
 8. **Unidad temática con el eje de `v1`** (decisión de Frat, 02-10; registrada en `definiciones-del-marco.md`, parte B). Los prompts de trabajo (`prompt_UT` y `prompt_DATOS`) producen la unidad con el eje en el asunto: el `subtema` **nombra el núcleo** —el caso de la unidad— y las oraciones que lo desarrollan van juntas. Falta **declarar los satélites**, los casos de los que el texto habla por su relación con el núcleo, que hoy se leen de las relaciones y acciones. Discutirlo antes de escribirlo.
 9. **Adoptar el candidato del paso 2:** `mvp/temp/paso2/prompt_ficha_contexto.md` vive hoy en la carpeta de trabajo; si se adopta, le toca su sitio en `mvp/prompts/` con nombre propio, sin mezclarlo con `ficha_v2`.
 10. **Cerrar la forma del dato del paso 2:** si vuelven el `sostiene` (quién lo sostiene) y el `respaldo` (la ruta al fragmento), y si `unidad_valor` se queda como campo propio o la unidad va dentro del valor. Hoy el dato viaja sin fuente ni ruta.
-11. **Los ejemplos de `prompt_UT`.** Los siete ejemplos son el **78 %** del prompt (3.916 de 5.019
-    caracteres) contra el 15 % de las reglas, y los dos últimos enseñan referencias —otra lección—:
-    decidir si se recortan, y con qué criterio, antes de tocar nada (el prompt no se afina en cada
-    corrida).
-12. **El commit del tramo.** La base tiene la corrida de UT de `doc8` (el acto de 19:07) y esta
-    memoria, sin commitear. `temp/` —el scratch donde viven las pruebas de partición— no se versiona.
+11. **El ejemplo de `prompt_UT`.** El prompt quedó con **un solo ejemplo, y es un documento entero**
+    —el que era `doc8`—, con su partición escrita a mano: para un documento nuevo enseña la forma y
+    el modelo decide, pero sobre ese mismo texto el acto **transcribe el ejemplo** (2,8 s). Por eso
+    `doc8` salió de `mvp/documentos/`.
+12. **El scratch.** `temp/` —las pruebas de particiones de UT y de extracción de DATOS, con sus
+    crudos— **no se versiona**: vive solo en el disco. La base, en cambio, sí se commitea.
 13. **Sin decidir: ¿el corpus quiere una partición estable?** Medir el acuerdo entre réplicas,
     agregar por co-pertenencia o quedarse con la tirada que fija el registro. Registrado como
     pregunta abierta, sin corridas asociadas.
+14. **Los papeles, al día (09-10).** El diseño (§8 dice que el `system` son las anclas: ya no), las
+    dos guías (los actos ahora mandan dos mensajes), la estructura de los tres prompts, y los
+    desfases que encontró la revisión: el diseño §5/§10/§11 («una unidad por turno», las tareas 5 y
+    6, la columna `corte` que no existe, el desenlace en prosa), y el tú y el vos de `prompt_ORQ`.
 
 **Cerrado el 08-10: alineación con prompt 3.** El ORQ ubica el JSON del mensaje final donde
 prompt 3 lo ponga (`orq/leer_entrega.py`; `entrega.forma` en `config.json`, que el ORQ valida) y

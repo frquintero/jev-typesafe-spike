@@ -10,7 +10,8 @@ Qué hace, y nada más:
 
 1. **Lee las unidades de la base** (las escribió el paso 1) y el texto del documento radicado, para
    reponer las oraciones literales de cada unidad: del número a la oración. El sello es el guardián.
-2. **Una sola llamada** —la tanda— con **todas** las unidades del documento, y la respuesta se
+2. **Una sola llamada** —la tanda— con **todas** las unidades del documento y **los dos mensajes**:
+   el prompt (reglas, casos y formato) va como `system`, y las unidades como `user`. La respuesta se
    reparte por la **posición en la lista enviada**.
 3. **Verifica la forma** de lo que volvió: que estén todas las posiciones y que cada dato traiga
    aspecto y valor. No juzga el contenido.
@@ -32,6 +33,7 @@ import json
 import pathlib
 import sys
 import time
+import unicodedata
 
 RAIZ = pathlib.Path(__file__).resolve().parent.parent.parent
 AQUI = pathlib.Path(__file__).resolve().parent
@@ -39,6 +41,7 @@ sys.path.insert(0, str(AQUI))
 
 from base import (borrar_datos, conectar, datos_de, exigir_documento,  # noqa: E402
                   exigir_sello, hash_texto, registrar_corrida, unidades_de)
+from mensajes import partir  # noqa: E402
 from proveedores import ErrorDeLlamada, llamar, resolver  # noqa: E402
 from respuesta import extract_json  # noqa: E402
 from extraer_unidades import numerar_oraciones  # noqa: E402
@@ -61,12 +64,22 @@ def literales(unidad, por_numero):
     return [por_numero[int(n)] for n in numeros if n.strip().isdigit() and int(n) in por_numero]
 
 
+def _sin_tildes(texto):
+    """El texto en minúsculas y sin tildes, para comparar sin que estorbe la ortografía."""
+    return "".join(c for c in unicodedata.normalize("NFD", texto.lower())
+                   if unicodedata.category(c) != "Mn")
+
+
 def forma(parsed, enviadas):
-    """Verifica la forma de lo que devolvió la tanda. No juzga el contenido."""
+    """Verifica la forma de lo que devolvió la tanda. No juzga el contenido.
+
+    Hace cumplir el contrato: la forma declarada en el prompt es la que tiene que volver, sin claves
+    de más, y la unidad de medida no se repite dentro del valor.
+    """
     if not isinstance(parsed, dict) or not isinstance(parsed.get("unidades"), list):
         return {"parseo": False, "unidades": 0, "datos": 0, "problemas": ["no hay lista 'unidades'"]}
     unidades = parsed["unidades"]
-    problemas = []
+    problemas = [f"clave de más en la raíz: «{clave}»" for clave in parsed if clave != "unidades"]
     if len(unidades) != len(enviadas):
         problemas.append(f"devolvió {len(unidades)} y se enviaron {len(enviadas)}")
     numeros = set()
@@ -74,6 +87,8 @@ def forma(parsed, enviadas):
         if not isinstance(u, dict):
             problemas.append("una unidad no es un objeto")
             continue
+        problemas += [f"unidad n={u.get('n')}: clave de más «{clave}»"
+                      for clave in u if clave not in ("n", "caso", "datos")]
         if not isinstance(u.get("n"), int):
             problemas.append("una unidad sin 'n'")
         else:
@@ -87,12 +102,20 @@ def forma(parsed, enviadas):
             if not isinstance(dato, dict):
                 problemas.append(f"n={u.get('n')} datos[{i}] no es un objeto")
                 continue
+            problemas += [f"n={u.get('n')} datos[{i}]: clave de más «{clave}»"
+                          for clave in dato if clave not in ("aspecto", "valor", "unidad_valor")]
             if not isinstance(dato.get("aspecto"), str) or not dato["aspecto"].strip():
                 problemas.append(f"n={u.get('n')} datos[{i}] sin 'aspecto'")
             if not isinstance(dato.get("valor"), (str, int, float)):
                 problemas.append(f"n={u.get('n')} datos[{i}] sin 'valor'")
             if dato.get("unidad_valor") is not None and not isinstance(dato["unidad_valor"], str):
                 problemas.append(f"n={u.get('n')} datos[{i}] 'unidad_valor' no es texto ni null")
+            unidad_valor = dato.get("unidad_valor")
+            if (isinstance(unidad_valor, str) and unidad_valor.strip()
+                    and isinstance(dato.get("valor"), str)
+                    and _sin_tildes(unidad_valor).strip() in _sin_tildes(dato["valor"])):
+                problemas.append(f"n={u.get('n')} datos[{i}]: la unidad «{unidad_valor}» también "
+                                 f"está dentro del valor")
     faltan = [i for i in range(1, len(enviadas) + 1) if i not in numeros]
     if faltan:
         problemas.append(f"sin salida para las posiciones {faltan}")
@@ -146,13 +169,13 @@ def run(doc, modelo, rehacer):
 
     lista = [{"caso": unidad["subtema"], "contenido": " ".join(oraciones)}
              for unidad, oraciones in armadas]
-    prompt = plantilla.replace("{{UNIDADES}}", json.dumps(lista, ensure_ascii=False))
+    mensajes = partir(plantilla, ruta_prompt.name, UNIDADES=json.dumps(lista, ensure_ascii=False))
 
     print(f"  {doc}: una llamada con {len(lista)} unidades "
           f"({[unidad['id'] for unidad, _ in armadas]}) · {config['id']}")
     t0 = time.time()
     try:
-        _, respuesta = llamar(modelo, prompt=prompt)
+        _, respuesta = llamar(modelo, mensajes=mensajes)
     except ErrorDeLlamada as error:
         fallar(db, corrida, str(error), conservar=bool(ya))
         raise SystemExit(f"  {doc}: la corrida falló — {error}")

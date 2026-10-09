@@ -45,7 +45,9 @@ ALIAS = {
         "id": "claude-haiku-5-5",
         "url": "https://api.anthropic.com/v1/messages",
         "esfuerzo": "low",
-        "max_tokens": 16384,
+        # El techo tiene que cubrir el pensamiento *y* la respuesta: con 16384, un `high` sobre un
+        # documento de cuatro párrafos se lo comió pensando y volvió vacío (`finish_reason: length`).
+        "max_tokens": 64000,
     },
     # Sin créditos en xAI: se declara para cuando se recargue (ver la memoria).
     "grok": {
