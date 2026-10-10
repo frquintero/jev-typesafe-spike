@@ -17,13 +17,13 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   (la base y su esquema), `mensajes.py` (parte el prompt en los dos mensajes), `proveedores/` (el
   transporte) y el orquestador (`orq/`, con `R.json`); los tres prompts de trabajo, en
   `mvp/prompts/`, cada uno en dos bloques: `[SISTEMA]` lo invariante y `[TAREA]` el material, que es
-  lo que los actos mandan como `system` y como `user`. **La base está vacía desde el 10-10**: se
-  **reseteó** (se borró `corpus.db` y volvió a nacer con el esquema, las seis tablas en cero) al
-  cambiar `prompt_UT`, porque la UT que tenía `preparación del café` la había hecho el prompt
-  anterior. Los textos de **`preparación del café`** —las tres dinámicas de extracción— y de
-  **`doc11`** —«La anemia falciforme»— siguen en `mvp/documentos/`, sin radicar. El 10-10 el texto
-  del café se corrigió («inversión» por **«inmersión»**, el término de los métodos por inmersión):
-  radicado, saldrá con un sello nuevo; `doc11` vuelve con el mismo. Cada etapa es un acto aparte y a mano —radicar, UT, DATOS, la
+  lo que los actos mandan como `system` y como `user`. **El documento de trabajo es `preparacion_cafe`** —las tres dinámicas de extracción;
+  antes se llamaba `preparación del café`—, **radicado el 10-10 06:15:41** (dominio `GENERAL`, sello
+  `3a75bf28…`), **sin unidades ni datos**. Ese mismo día la base se **reseteó** (se borró `corpus.db`
+  y volvió a nacer con el esquema) al cambiar `prompt_UT`, porque la UT anterior del café la había
+  hecho el prompt viejo, y el texto se corrigió («inversión» por **«inmersión»**, el término de los
+  métodos por inmersión), por eso el sello es nuevo. **`doc11`** —«La anemia falciforme»— sigue en
+  `mvp/documentos/`, sin radicar: radicarlo otra vez lo devuelve con el mismo sello. Cada etapa es un acto aparte y a mano —radicar, UT, DATOS, la
   batería en `mvp/consulta/preguntas_<doc>.md` y la consulta—. El diseño y lo abierto están en
   `mvp/consulta-diseno.md`; los procedimientos, en `mvp/guía_UT.md` y `mvp/guía_DATOS.md`.
 - **`mvp/temp/` es el archivo: no se corre desde ahí, no se lee, no se escribe.** Ahí quedaron los
@@ -288,7 +288,7 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   correlacionar. La prueba, barata: leer el texto e intentar reconstruir la respuesta sin mirarla.
 
 **Verificadas con los nombres corregidos del primer ejemplo (10-10)**, en el scratch `temp/` y sin
-tocar la base: seis particiones de `preparación del café` (Haiku `low` ×2, `medium`, `high` ×2;
+tocar la base: seis particiones de `preparacion_cafe` (Haiku `low` ×2, `medium`, `high` ×2;
 DeepSeek `low`) mandadas como el acto real, en dos mensajes.
 
 - **Los cortes estables no se mueven; el que duda es la oración que vale para todo el texto.** Los
@@ -301,17 +301,17 @@ DeepSeek `low`) mandadas como el acto real, en dos mensajes.
 
 ## 3. Pendientes vigentes
 
-**Orden (10-10).** El código, los prompts y los procedimientos están listos; **la base está vacía**
-(primera viñeta) y lo que sigue es **radicar el documento de trabajo y pasarlo por las etapas**, cada
-una como acto aparte (punto 0). El material anterior —documentos, baterías,
+**Orden (10-10).** El código, los prompts y los procedimientos están listos; **`preparacion_cafe` está
+radicado, sin unidades** (primera viñeta), y lo que sigue es **pasarlo por las etapas**, cada una como
+acto aparte (punto 0). El material anterior —documentos, baterías,
 extracción y corridas— está archivado en `mvp/temp/`.
-0. **El documento de trabajo, por las etapas,** en actos sueltos y a mano: radicarlo
-   (`radicar.py <doc>`), correr **UT** con el `prompt_UT` vigente y después **DATOS**
-   (`paso2_datos.py <doc>`) —los dos corren contra la API real y escriben en la base—, escribir su
-   batería en `mvp/consulta/preguntas_<doc>.md` y correr la consulta; evaluarla con la vara de los
+0. **`preparacion_cafe`, por las etapas,** en actos sueltos y a mano: **ya está radicado**; sigue
+   **UT** con el `prompt_UT` vigente (`paso1_unidades.py preparacion_cafe`) y después **DATOS**
+   (`paso2_datos.py preparacion_cafe`) —los dos corren contra la API real y escriben en la base—,
+   escribir su batería en `mvp/consulta/preguntas_preparacion_cafe.md` y correr la consulta; evaluarla con la vara de los
    números de oración, distinguiendo «no está en los datos extraídos» de «el documento no lo dice»
-   (`mvp/consulta-diseno.md`, §12). `preparación del café` y `doc11` están en `mvp/documentos/`, fuera de
-   la base: cualquiera de los dos vuelve con dos actos, radicarlo y correrle UT. Las baterías de
+   (`mvp/consulta-diseno.md`, §12). `doc11` está en `mvp/documentos/`, fuera de la base: vuelve con dos
+   actos, radicarlo (el sello sale igual) y correrle UT. Las baterías de
    `doc4`/`doc6` están archivadas y **sin evaluar** —el registro de esa ronda, con su medición, en
    `mvp/temp/consulta/medicion-primera-ronda.md`—: si se quiere evaluación, o se escribe la lista de
    expectativas antes de correr, o se declara posterior.
