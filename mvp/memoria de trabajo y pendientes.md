@@ -17,13 +17,15 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   (la base y su esquema), `mensajes.py` (parte el prompt en los dos mensajes), `proveedores/` (el
   transporte) y el orquestador (`orq/`, con `R.json`); los tres prompts de trabajo, en
   `mvp/prompts/`, cada uno en dos bloques: `[SISTEMA]` lo invariante y `[TAREA]` el material, que es
-  lo que los actos mandan como `system` y como `user`. **El documento de trabajo es `doc11`**
-  —«La anemia falciforme»—, **radicado el 09-10 13:10:31** (dominio `GENERAL`, sello `27be7a53…`),
-  **sin unidades ni datos todavía**: el 09-10 la base se **reseteó de cero** (se borró `corpus.db` y
-  volvió a nacer con el esquema) y `doc8` salió de `mvp/documentos/`. Cada etapa es un acto aparte y
-  a mano —UT, DATOS, la batería en `mvp/consulta/preguntas_doc11.md` y la consulta—. El diseño y lo
-  abierto están en `mvp/consulta-diseno.md`; los procedimientos, en `mvp/guía_UT.md` y
-  `mvp/guía_DATOS.md`.
+  lo que los actos mandan como `system` y como `user`. **El documento de trabajo es `preparación del
+  café`** —las tres dinámicas de extracción—, **radicado el 09-10 23:33:31** (dominio `GENERAL`,
+  sello `e00deb25…`) y **con UT hecha: 5 unidades, 0 datos** (`deepseek` `low`, 13,5 s, prompt
+  `prompt_UT` con hash `d82a9bbb…`). El 09-10 la base se **reseteó dos veces** (se borró `corpus.db`
+  y volvió a nacer con el esquema) para arrancar de cero con este documento; **`doc11` —«La anemia
+  falciforme»— quedó fuera de la base**, aunque su texto sigue en `mvp/documentos/`: re-radicarlo lo
+  devuelve con el mismo sello. Cada etapa es un acto aparte y a mano —DATOS, la batería en
+  `mvp/consulta/preguntas_preparación del café.md` y la consulta—. El diseño y lo abierto están en
+  `mvp/consulta-diseno.md`; los procedimientos, en `mvp/guía_UT.md` y `mvp/guía_DATOS.md`.
 - **`mvp/temp/` es el archivo: no se corre desde ahí, no se lee, no se escribe.** Ahí quedaron los
   documentos `doc4` y `doc6` con sus baterías (`mvp/temp/documentos/`), el texto, la batería y la
   extracción de `doc7` (`mvp/temp/pruebas/` y `mvp/temp/extraccion/`), los crudos de las trece
@@ -84,9 +86,11 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   réplicas, reserva no independiente). El informe, la evaluación por ítem, los crudos y costos, la
   vía utilizable (entrada b, verificación sin API) y los hallazgos de esa ronda quedaron
   **archivados** con el proyecto, fuera de las fuentes vivas.
-- **Los prompts de trabajo (07-10).** **Paso 1:** `prompt_UT` (`mvp/prompts/prompt_UT.md`) —agrupa por
-  asunto, sin referencias, con los ejemplos homogéneos y el boilerplate al final—; devuelve
-  `subtemas` con `subtema` y `oraciones` (sin ids: los pone el código). **Paso 2:**
+- **Los prompts de trabajo (07-10).** **Paso 1:** `prompt_UT` (`mvp/prompts/prompt_UT.md`) —el 09-10
+  se **reemplazó por `v1`**: cinco definiciones (el subtema como oraciones correlacionadas con una
+  idea, el nombre como frase que describe el contenido), **dos ejemplos** —un texto marino de seis
+  oraciones y `doc9` entero en once unidades— y **sin la sección de `REFERENCIAS EXTERNAS`**—;
+  devuelve `subtemas` con `subtema` y `oraciones` (sin ids: los pone el código). **Paso 2:**
   `prompt_DATOS` (`mvp/prompts/prompt_DATOS.md`) —recibe **todas las unidades del documento en una
   sola llamada** (tanda) y devuelve, por unidad, `caso` y `datos` (`aspecto · valor · unidad_valor`). El código arma cada unidad
   que recibe el paso 2: `caso` = el `subtema` que devolvió el paso 1, `contenido` = sus oraciones
@@ -259,17 +263,41 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   cuenta lo que va después del corte): con `cache_control`, `input_tokens` + `cache_creation` +
   `cache_read`. Si no, la corrida registra menos entrada de la real.
 
+**Verificadas con el prompt v1 de UT (09-10).**
+
+- **El ejemplo enseña por masa, y también con lo que omite.** La primera versión de `v1` —con la
+  sección `REFERENCIAS EXTERNAS` y sus dos casos— nombró las unidades citando el antecedente en
+  **19 de 20** nombres (DeepSeek `low`: 7/8, 6/6, 6/6; Haiku `low`: 5/5). La misma versión, ya sin
+  esa sección y con los ejemplos rehechos, citó **4 de 27** (1/7, 2/10, 1/10), y el prompt anterior
+  citaba 2 de 7. La deliberación acompaña: 5.385-8.768 tokens de pensamiento con la regla,
+  1.151-3.012 sin ella. Son tres corridas por versión, con los ejemplos cambiados a la vez que la
+  sección: **señala, no prueba**.
+- **La granularidad del ejemplo sí se traslada** (corrige lo dicho el 09-10 con el ejemplo grueso).
+  Con el ejemplo de once unidades —seis de ellas de una sola oración— las particiones de `doc11`
+  pasaron de 6-8 unidades a 7, 10 y 10, y el acuerdo entre corridas del mismo prompt bajó de 95-100 %
+  a **93 %**. El ejemplo fino afina la partición y la vuelve más inestable.
+- **Un nombre describe el contenido: no es el objeto ni una pregunta.** «Los exoplanetas conocidos»
+  nombra el objeto; «cuántos exoplanetas se conocen y desde cuándo» pregunta. La definición que lo
+  cierra —«una frase breve que describe por sí sola el contenido de las oraciones del subtema»—
+  atrapa los dos casos.
+- **El texto de un ejemplo tiene que sostener su respuesta.** Un texto de oraciones que no se
+  desarrollan entre sí deja la partición como una decisión arbitraria: el modelo no tiene qué
+  correlacionar. La prueba, barata: leer el texto e intentar reconstruir la respuesta sin mirarla.
+
 ## 3. Pendientes vigentes
 
-**Orden (08-10).** El código, los prompts y los procedimientos están listos; **`doc8` ya está
-radicado y con sus unidades** (primera viñeta) y lo que sigue es **pasarlo por las etapas que
-restan**, cada una como acto aparte (punto 0). El material anterior —documentos, baterías,
+**Orden (09-10).** El código, los prompts y los procedimientos están listos; **`preparación del café`
+ya está radicado y con sus unidades** (primera viñeta) y lo que sigue es **pasarlo por las etapas
+que restan**, cada una como acto aparte (punto 0). El material anterior —documentos, baterías,
 extracción y corridas— está archivado en `mvp/temp/`.
-0. **`doc8`, por las etapas que restan,** en actos sueltos y a mano: **UT ya corrió** (8 unidades);
-   sigue **DATOS** (`paso2_datos.py doc8`) —corre contra la API real y escribe en la base—, escribir
-   su batería en `mvp/consulta/preguntas_doc8.md` y correr la consulta; evaluarla con la vara de los números de oración, distinguiendo «no está en los datos
-   extraídos» de «el documento no lo dice» (`mvp/consulta-diseno.md`, §12). Las baterías de `doc4`/`doc6` están archivadas y
-   **sin evaluar** —el registro de esa ronda, con su medición, en
+0. **`preparación del café`, por las etapas que restan,** en actos sueltos y a mano: **UT ya corrió**
+   (5 unidades, 13,5 s, `deepseek` `low`); sigue **DATOS** (`paso2_datos.py "preparación del café"`)
+   —corre contra la API real y escribe en la base—, escribir su batería en
+   `mvp/consulta/preguntas_preparación del café.md` y correr la consulta; evaluarla con la vara de los
+   números de oración, distinguiendo «no está en los datos extraídos» de «el documento no lo dice»
+   (`mvp/consulta-diseno.md`, §12). **`doc11` queda fuera de la base**: si se quiere de vuelta, son
+   dos actos, radicarlo otra vez (el texto está, y el sello sale igual) y correrle UT. Las baterías de
+   `doc4`/`doc6` están archivadas y **sin evaluar** —el registro de esa ronda, con su medición, en
    `mvp/temp/consulta/medicion-primera-ronda.md`—: si se quiere evaluación, o se escribe la lista de
    expectativas antes de correr, o se declara posterior.
 1. **El rechazo por dominio, sin ejercitar:** la consulta valida cada id contra los casos del
@@ -285,23 +313,28 @@ extracción y corridas— está archivado en `mvp/temp/`.
 8. **Unidad temática con el eje de `v1`** (decisión de Frat, 02-10; registrada en `definiciones-del-marco.md`, parte B). Los prompts de trabajo (`prompt_UT` y `prompt_DATOS`) producen la unidad con el eje en el asunto: el `subtema` **nombra el núcleo** —el caso de la unidad— y las oraciones que lo desarrollan van juntas. Falta **declarar los satélites**, los casos de los que el texto habla por su relación con el núcleo, que hoy se leen de las relaciones y acciones. Discutirlo antes de escribirlo.
 9. **Adoptar el candidato del paso 2:** `mvp/temp/paso2/prompt_ficha_contexto.md` vive hoy en la carpeta de trabajo; si se adopta, le toca su sitio en `mvp/prompts/` con nombre propio, sin mezclarlo con `ficha_v2`.
 10. **Cerrar la forma del dato del paso 2:** si vuelven el `sostiene` (quién lo sostiene) y el `respaldo` (la ruta al fragmento), y si `unidad_valor` se queda como campo propio o la unidad va dentro del valor. Hoy el dato viaja sin fuente ni ruta.
-11. **El ejemplo de `prompt_UT`.** El prompt quedó con **un solo ejemplo, y es un documento entero**
-    —el que era `doc8`—, con su partición escrita a mano: para un documento nuevo enseña la forma y
-    el modelo decide, pero sobre ese mismo texto el acto **transcribe el ejemplo** (2,8 s). Por eso
-    `doc8` salió de `mvp/documentos/`.
+11. **El ejemplo de `prompt_UT` (cerrado el 09-10).** Era **un solo ejemplo, y era un documento
+    entero** —el que era `doc8`—: para un documento nuevo enseñaba la forma, pero sobre ese mismo
+    texto el acto **transcribía el ejemplo**. `v1` tiene **dos ejemplos** y **ninguno es el documento
+    que se analiza**: un texto marino de seis oraciones y `doc9` entero. `doc8` sigue fuera de
+    `mvp/documentos/`.
 12. **El scratch.** `temp/` —las pruebas de particiones de UT y de extracción de DATOS, con sus
     crudos— **no se versiona**: vive solo en el disco. La base, en cambio, sí se commitea.
-13. **Sin decidir: ¿el corpus quiere una partición estable?** Medir el acuerdo entre réplicas,
-    agregar por co-pertenencia o quedarse con la tirada que fija el registro. Registrado como
-    pregunta abierta, sin corridas asociadas.
+13. **Sin decidir: ¿el corpus quiere una partición estable?** Medido el 09-10 sobre `doc11` con
+    DeepSeek `low` y el mismo documento: el prompt **no** mueve la partición —entre prompts el
+    acuerdo es 97-98 %, y dentro de la primera versión de `v1`, 95-100 %—, y con el ejemplo fino el
+    acuerdo entre corridas del mismo prompt bajó a **93 %**. Queda la pregunta: agregar por
+    co-pertenencia, o quedarse con la tirada que fija el registro.
 14. **Los papeles, al día (09-10).** El diseño (§8 dice que el `system` son las anclas: ya no), las
-    dos guías (los actos ahora mandan dos mensajes), la estructura de los tres prompts, y los
-    desfases que encontró la revisión: el diseño §5/§10/§11 («una unidad por turno», las tareas 5 y
-    6, la columna `corte` que no existe, el desenlace en prosa), y el tú y el vos de `prompt_ORQ`.
+    dos guías (los actos ahora mandan dos mensajes, y describen el `prompt_UT` viejo —la definición
+    de «desarrollo», el ejemplo único, la sección de referencias— que `v1` reemplazó), la estructura
+    de los tres prompts, y los desfases que encontró la revisión: el diseño §5/§10/§11 («una unidad
+    por turno», las tareas 5 y 6, la columna `corte` que no existe, el desenlace en prosa), y el tú y
+    el vos de `prompt_ORQ`.
 15. **Dónde van las notas de una corrida exitosa.** La verificación de UT (huecos, solapes, rango,
     enteros) y los avisos de DATOS (dónde va la unidad) se imprimen y no tienen campo en la base:
     el registro no los guarda. Decidir si se agrega una columna —o un campo en la unidad— antes de
-    que haya filas: la base está vacía, así que es cambiar el esquema, no migrar.
+    que la base crezca: hoy tiene 5 unidades y 0 datos, así que es cambiar el esquema, no migrar.
 
 **Cerrado el 08-10: alineación con prompt 3.** El ORQ ubica el JSON del mensaje final donde
 prompt 3 lo ponga (`orq/leer_entrega.py`; `entrega.forma` en `config.json`, que el ORQ valida) y

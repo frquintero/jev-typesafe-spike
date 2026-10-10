@@ -1,75 +1,59 @@
 [SISTEMA]
 TAREA
-Agrupa las oraciones de `texto` en subtemas, según las definiciones y el ejemplo.
+Agrupa las oraciones de `texto` en subtemas, según las definiciones y los ejemplos.
 Responde solo con el JSON.
 La forma es el contrato: no agregues claves fuera de las que define `SALIDA`.
 
 DEFINICIONES
 - Oración: el texto que va de un punto, signo de interrogación o signo de exclamación al siguiente. En `texto` va numerada ([1], [2], …).
-- Subtema: un asunto nuclear y su desarrollo, en una o varias oraciones, seguidas o separadas.
-- Desarrollo: una oración desarrolla un subtema si lo detalla, lo explica, lo continúa, lo contradice o saca su consecuencia. Si abre un asunto que no depende de ninguno anterior, empieza un subtema nuevo.
-- Nombrar el mismo lugar, objeto o persona no basta para unir oraciones: lo que las une es el asunto. Un cambio de párrafo no separa por sí solo un subtema.
-- Nombre del subtema: una frase breve que dice qué se dice de las cosas, no solo cuáles son («el tamaño de la tripulación», no «la tripulación»).
-- Cada oración va en un solo subtema.
+- Subtema: una o varias oraciones asociadas o correlacionadas con una idea o asunto nuclear dentro del `texto` dado.
+- Nombre del subtema: una frase breve que describe por si sola el contenido de las oraciones del subtema
+- Todas y cada una de las oraciones de `texto` van en un solo subtema.
+- Lo que une oraciones bajo un mismo subtema es que forman parte de una misma idea o asunto nuclear.
 
 EJEMPLO 1
-
-Es el texto completo de un documento. Va numerado y debajo está la respuesta.
+Cada subtema junta las oraciones que desarrollan una misma idea.
 
 `texto`
 <<<
-[1] La vida apareció en el océano hace unos tres mil quinientos millones de años. [2] El agua cubre el setenta y uno por ciento de la superficie del planeta y su profundidad media es de tres mil setecientos metros. [3] En el fondo abisal la temperatura se mantiene cerca de los dos grados centígrados. [4] Los primeros seres vivos fueron microorganismos de unas pocas micras, y durante casi tres mil millones de años el mar fue el único lugar habitado.
+[1] El océano cubre el setenta y uno por ciento de la superficie del planeta. [2] Su profundidad media es de tres mil setecientos metros, y en los fondos abisales la temperatura ronda los dos grados centígrados.
 
-[5] Hace quinientos treinta millones de años ocurrió la explosión del Cámbrico: en veinte millones de años aparecieron la mayoría de los grandes grupos de animales que conocemos. [6] Los primeros peces nadaban en el océano hace unos quinientos millones de años. [7] Hace trescientos setenta y cinco millones de años, un linaje de peces de aletas carnosas salió del agua y dio origen a los anfibios, que todavía dependían del agua para reproducirse. [8] La conquista de la tierra firme fue lenta: los primeros reptiles, con huevos de cáscara dura, aparecieron unos trescientos veinte millones de años después de aquella salida.
-
-[9] Algunos linajes hicieron el camino de vuelta. [10] Los antepasados de las ballenas caminaban sobre la tierra hace cincuenta millones de años y volvieron al mar en unos diez millones de años. [11] La ballena azul mide hasta treinta metros y pesa ciento cincuenta toneladas: es el animal más grande que ha existido. [12] Puede bucear quinientos metros y aguantar la respiración cuarenta minutos. [13] Sus crías beben doscientos litros de leche al día.
-
-[14] Hoy el mar cambia más rápido que en cualquier otro momento de esa historia. [15] Ha absorbido el noventa por ciento del calor extra que retuvo la atmósfera. [16] Desde la era preindustrial, la acidez del agua superficial aumentó un treinta por ciento, y eso altera a los corales, que crecen apenas un centímetro al año. [17] Los arrecifes ocupan menos del uno por ciento del fondo marino y albergan cerca de la cuarta parte de las especies marinas. [18] Una reserva del Pacífico pasó de mil quinientas a doce mil hectáreas en dos años.
+[3] La vida apareció en él hace unos tres mil quinientos millones de años. [4] Los primeros seres vivos fueron microorganismos de unas pocas micras, y durante casi tres mil millones de años el mar fue el único lugar habitado. [5] El océano regula además el clima: absorbe el calor que la atmósfera retiene en el verano. [6] Las corrientes que lo recorren reparten ese calor por el planeta y lo devuelven en el invierno.
 >>>
 {"subtemas": [
-  {"subtema": "el origen de la vida en el océano y los primeros seres vivos", "oraciones": [1, 4]},
-  {"subtema": "la extensión, la profundidad y la temperatura del océano", "oraciones": [2, 3]},
-  {"subtema": "la evolución de los animales desde la explosión del Cámbrico hasta la conquista de la tierra firme", "oraciones": [5, 6, 7, 8]},
-  {"subtema": "el regreso de algunos linajes al mar, como los antepasados de las ballenas", "oraciones": [9, 10]},
-  {"subtema": "el tamaño, el buceo y la alimentación de las crías de la ballena azul", "oraciones": [11, 12, 13]},
-  {"subtema": "el cambio actual del mar: el calor que absorbe y la acidificación que afecta a los corales", "oraciones": [14, 15, 16]},
-  {"subtema": "la extensión y la diversidad de los arrecifes", "oraciones": [17]},
-  {"subtema": "la ampliación de una reserva marina del Pacífico", "oraciones": [18]}]}
-
-REFERENCIAS EXTERNAS
-
-Una referencia es externa al subtema cuando necesita una expresión de otra
-oración del documento que quedó en otro subtema para identificar de quién
-o de qué se habla.
+  {"subtema": "el océano: su extensión, profundidad y temperatura", "oraciones": [1, 2]},
+  {"subtema": "el origen de la vida en el océano: los primeros seres vivos", "oraciones": [3]},
+  {"subtema": "el tiempo en el que el mar fue el único lugar habitado", "oraciones": [4]},
+  {"subtema": "el papel del océano en la regulación del clima", "oraciones": [5, 6]}]}
 
 EJEMPLO 2
-La apertura y el horario son asuntos distintos sobre la misma biblioteca.
-El posesivo se resuelve citando el antecedente, sin cambiar los grupos.
-La referencia ambigua permanece abierta.
+Es el texto completo de un documento. Mirá cuatro cosas en la respuesta: un subtema
+cruza el párrafo ([1] con [5]), otro junta oraciones separadas ([13] con [16]), uno
+es de una sola oración ([4]), y el Sol aparece en dos subtemas distintos (en [1] y
+en [10]).
 
-Texto:
-[1] La biblioteca del barrio Los Olmos abrió en 1998.
-[2] Su horario de atención termina a las seis.
-[3] Clara habló con Julia después de que ella regresara.
+`texto`
+<<<
+[1] El Sol está a unos ciento cincuenta millones de kilómetros de la Tierra, y su luz tarda ocho minutos y veinte segundos en llegar. [2] Júpiter es el planeta más grande del sistema solar: su diámetro mide ciento cuarenta y tres mil kilómetros, once veces el de la Tierra. [3] Saturno está rodeado por anillos de hielo y polvo que se extienden unos doscientos ochenta mil kilómetros. [4] La Luna se aleja de nosotros casi cuatro centímetros por año, una medida que se comprueba con espejos dejados en su superficie.
 
+[5] El Sol tiene unos cuatro mil seiscientos millones de años y en su núcleo la temperatura alcanza los quince millones de grados centígrados. [6] Cada segundo convierte unos seiscientos millones de toneladas de hidrógeno en helio. [7] De esa energía depende toda la vida en la Tierra, y las plantas la capturan mediante la fotosíntesis. [8] Las estrellas más masivas viven apenas unos pocos millones de años, mientras que las más pequeñas duran decenas de miles de millones.
+
+[9] La Vía Láctea contiene entre cien mil y cuatrocientos mil millones de estrellas. [10] Su disco mide unos cien mil años luz de diámetro, y el Sol completa una vuelta alrededor del centro galáctico cada doscientos treinta millones de años. [11] La galaxia más cercana es Andrómeda, a dos millones y medio de años luz. [12] Las galaxias se alejan unas de otras: el universo se expande desde hace casi catorce mil millones de años.
+
+[13] Los telescopios actuales detectan la luz que salió de galaxias lejanas hace más de trece mil millones de años. [14] El primer planeta fuera del sistema solar se confirmó en mil novecientos noventa y dos, y hoy se conocen más de cinco mil. [15] En dos mil diecinueve se publicó la primera imagen de un agujero negro, obtenida por ocho radiotelescopios coordinados de todo el planeta. [16] La astronomía trabaja con esa luz vieja: mirar lejos es mirar hacia atrás en el tiempo.
+>>>
 {"subtemas": [
-  {"subtema": "la apertura de la biblioteca del barrio Los Olmos", "oraciones": [1]},
-  {"subtema": "el horario de atención de la biblioteca del barrio Los Olmos", "oraciones": [2]},
-  {"subtema": "la conversación de Clara y Julia después de un regreso", "oraciones": [3]}]}
-
-EJEMPLO 3
-La aclaración identifica solo la parte que depende del contexto: el archivo, no
-el director. «Sus observaciones» se entiende dentro del propio grupo y no se
-registra.
-
-Texto:
-[1] El archivo municipal conserva doce mil expedientes.
-[2] Una comisión examinó algunos expedientes.
-[3] El director del archivo recibió sus observaciones.
-
-{"subtemas": [
-  {"subtema": "los expedientes que conserva el archivo municipal", "oraciones": [1]},
-  {"subtema": "el examen de algunos expedientes por una comisión y las observaciones que recibió el director del archivo", "oraciones": [2, 3]}]}
+  {"subtema": "el Sol: su distancia a la Tierra y la energía que sostiene la vida", "oraciones": [1, 5, 6, 7]},
+  {"subtema": "el tamaño de Júpiter", "oraciones": [2]},
+  {"subtema": "la composición y la extensión de los anillos de Saturno", "oraciones": [3]},
+  {"subtema": "el alejamiento de la Luna respecto de la Tierra", "oraciones": [4]},
+  {"subtema": "la duración de las estrellas según su masa", "oraciones": [8]},
+  {"subtema": "el tamaño de la Vía Láctea y el recorrido del Sol en ella", "oraciones": [9, 10]},
+  {"subtema": "la distancia a la galaxia Andrómeda", "oraciones": [11]},
+  {"subtema": "la expansión del universo", "oraciones": [12]},
+  {"subtema": "la luz vieja que captan los telescopios y lo que revela del pasado", "oraciones": [13, 16]},
+  {"subtema": "fecha de confirmación del primer planeta fuera del sistema solar y la cantidad conocida hoy en día", "oraciones": [14]},
+  {"subtema": "la publicación de la primera imagen de un agujero negro", "oraciones": [15]}]}
 
 SALIDA
 Devuelve únicamente el JSON, con esta estructura:
