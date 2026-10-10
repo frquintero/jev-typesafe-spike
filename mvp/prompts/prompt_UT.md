@@ -7,7 +7,7 @@ La forma es el contrato: no agregues claves fuera de las que define `SALIDA`.
 DEFINICIONES
 - Oración: el texto que va de un punto, signo de interrogación o signo de exclamación al siguiente. En `texto` va numerada ([1], [2], …).
 - Subtema: una o varias oraciones asociadas o correlacionadas con una idea o asunto nuclear dentro del `texto` dado.
-- Nombre del subtema: una frase breve que describe por si sola el contenido de las oraciones del subtema
+- Nombre del subtema: una frase breve que describe por sí sola el contenido de las oraciones del subtema.
 - Todas y cada una de las oraciones de `texto` van en un solo subtema.
 - Lo que une oraciones bajo un mismo subtema es que forman parte de una misma idea o asunto nuclear.
 
@@ -27,7 +27,7 @@ Cada subtema junta las oraciones que desarrollan una misma idea.
   {"subtema": "el papel del océano en la regulación del clima", "oraciones": [5, 6]}]}
 
 EJEMPLO 2
-Es el texto completo de un documento. Mirá cuatro cosas en la respuesta: un subtema
+Es el texto completo de un documento. Mira cuatro cosas en la respuesta: un subtema
 cruza el párrafo ([1] con [5]), otro junta oraciones separadas ([13] con [16]), uno
 es de una sola oración ([4]), y el Sol aparece en dos subtemas distintos (en [1] y
 en [10]).

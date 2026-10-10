@@ -21,8 +21,9 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   **reseteó** (se borró `corpus.db` y volvió a nacer con el esquema, las seis tablas en cero) al
   cambiar `prompt_UT`, porque la UT que tenía `preparación del café` la había hecho el prompt
   anterior. Los textos de **`preparación del café`** —las tres dinámicas de extracción— y de
-  **`doc11`** —«La anemia falciforme»— siguen en `mvp/documentos/`, sin radicar: radicarlos otra vez
-  los devuelve con el mismo sello. Cada etapa es un acto aparte y a mano —radicar, UT, DATOS, la
+  **`doc11`** —«La anemia falciforme»— siguen en `mvp/documentos/`, sin radicar. El 10-10 el texto
+  del café se corrigió («inversión» por **«inmersión»**, el término de los métodos por inmersión):
+  radicado, saldrá con un sello nuevo; `doc11` vuelve con el mismo. Cada etapa es un acto aparte y a mano —radicar, UT, DATOS, la
   batería en `mvp/consulta/preguntas_<doc>.md` y la consulta—. El diseño y lo abierto están en
   `mvp/consulta-diseno.md`; los procedimientos, en `mvp/guía_UT.md` y `mvp/guía_DATOS.md`.
 - **`mvp/temp/` es el archivo: no se corre desde ahí, no se lee, no se escribe.** Ahí quedaron los
@@ -310,7 +311,7 @@ extracción y corridas— está archivado en `mvp/temp/`.
    batería en `mvp/consulta/preguntas_<doc>.md` y correr la consulta; evaluarla con la vara de los
    números de oración, distinguiendo «no está en los datos extraídos» de «el documento no lo dice»
    (`mvp/consulta-diseno.md`, §12). `preparación del café` y `doc11` están en `mvp/documentos/`, fuera de
-   la base: cualquiera de los dos vuelve con dos actos, radicarlo (el sello sale igual) y correrle UT. Las baterías de
+   la base: cualquiera de los dos vuelve con dos actos, radicarlo y correrle UT. Las baterías de
    `doc4`/`doc6` están archivadas y **sin evaluar** —el registro de esa ronda, con su medición, en
    `mvp/temp/consulta/medicion-primera-ronda.md`—: si se quiere evaluación, o se escribe la lista de
    expectativas antes de correr, o se declara posterior.
