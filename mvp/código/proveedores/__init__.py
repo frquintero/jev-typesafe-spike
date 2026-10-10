@@ -34,6 +34,21 @@ ALIAS = {
         "esfuerzo": "low",
         "extra": {"thinking": {"type": "enabled"}},
     },
+    # GLM-5.3-Flash (z.ai). La documentación de z.ai dice que el razonamiento no se puede apagar
+    # (`thinking.type` solo admite `enabled`, que es el valor por defecto), que «GLM-5.3 y
+    # GLM-5.3-FLASH siempre piensan cuando está habilitado» y que `reasoning_effort` admite
+    # `low` / `high` / `max` (por defecto y recomendado: `max`).
+    # Lo observado NO coincide con eso:
+    # - 09-10-2026: sobre doc10 (prompt DATOS v7), `low` razonó 516 y 877 tokens; `high`, 4.921 y
+    #   6.401.
+    # - 10-10-2026: `low` devolvió `reasoning_tokens: 0` y sin `reasoning_content` en todas las
+    #   pruebas —el café con DATOS v1 (system + user, un solo mensaje, y con `thinking: enabled`
+    #   explícito), doc10 repetido con v7, y «qué es una variable en python», también por `curl`
+    #   directo con `max_tokens` 256 y 8.000—; `high` dio 0 en la pregunta y 5 tokens en el café
+    #   («Extract data per UT.»); solo `max` razonó (298 a 472 tokens en la pregunta, 3.088 en el
+    #   café). La API aceptó los tres niveles (HTTP 200).
+    # El transporte no es la causa: el `curl` directo da lo mismo. Si se quiere razonamiento de
+    # GLM, hay que pedir `max` explícito; con el `low` de este alias, hoy no razona.
     "glm": {
         "proveedor": "openai_compatible",
         "id": "glm-5.3-flash",
