@@ -19,7 +19,8 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   `mvp/prompts/`, cada uno en dos bloques: `[SISTEMA]` lo invariante y `[TAREA]` el material, que es
   lo que los actos mandan como `system` y como `user`. **El documento de trabajo es `preparacion_cafe`** —las tres dinámicas de extracción;
   antes se llamaba `preparación del café`—, **radicado el 10-10 06:15:41** (dominio `GENERAL`, sello
-  `3a75bf28…`), **sin unidades ni datos**. Ese mismo día la base se **reseteó** (se borró `corpus.db`
+  `3a75bf28…`), y **con UT hecha: 5 unidades, 0 datos** (Haiku `high`, 4,0 s, 326 tokens de
+  pensamiento, prompt `prompt_UT` con hash `8185ce90…`). Ese mismo día la base se **reseteó** (se borró `corpus.db`
   y volvió a nacer con el esquema) al cambiar `prompt_UT`, porque la UT anterior del café la había
   hecho el prompt viejo, y el texto se corrigió («inversión» por **«inmersión»**, el término de los
   métodos por inmersión), por eso el sello es nuevo. **`doc11`** —«La anemia falciforme»— sigue en
@@ -302,12 +303,12 @@ DeepSeek `low`) mandadas como el acto real, en dos mensajes.
 ## 3. Pendientes vigentes
 
 **Orden (10-10).** El código, los prompts y los procedimientos están listos; **`preparacion_cafe` está
-radicado, sin unidades** (primera viñeta), y lo que sigue es **pasarlo por las etapas**, cada una como
+radicado y con sus unidades** (primera viñeta), y lo que sigue es **pasarlo por las etapas**, cada una como
 acto aparte (punto 0). El material anterior —documentos, baterías,
 extracción y corridas— está archivado en `mvp/temp/`.
-0. **`preparacion_cafe`, por las etapas,** en actos sueltos y a mano: **ya está radicado**; sigue
-   **UT** con el `prompt_UT` vigente (`paso1_unidades.py preparacion_cafe`) y después **DATOS**
-   (`paso2_datos.py preparacion_cafe`) —los dos corren contra la API real y escriben en la base—,
+0. **`preparacion_cafe`, por las etapas,** en actos sueltos y a mano: **ya está radicado y UT ya
+   corrió** (5 unidades, Haiku `high`); sigue **DATOS** (`paso2_datos.py preparacion_cafe`) —corre
+   contra la API real y escribe en la base—,
    escribir su batería en `mvp/consulta/preguntas_preparacion_cafe.md` y correr la consulta; evaluarla con la vara de los
    números de oración, distinguiendo «no está en los datos extraídos» de «el documento no lo dice»
    (`mvp/consulta-diseno.md`, §12). `doc11` está en `mvp/documentos/`, fuera de la base: vuelve con dos
