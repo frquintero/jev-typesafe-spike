@@ -81,7 +81,7 @@ def roturas(verificacion):
             if verificacion.get(clave)]
 
 
-def run(doc, modelo, prompt_name, rehacer):
+def run(doc, modelo, prompt_name, rehacer, esfuerzo=None):
     db = conectar()
     fila = exigir_documento(db, doc)
     ya = unidades_de(db, doc)
@@ -103,14 +103,14 @@ def run(doc, modelo, prompt_name, rehacer):
 
     texto_numerado, registros = numerar_oraciones(texto)
     mensajes = partir(plantilla, ruta_prompt.name, TEXTO_NUMERADO=texto_numerado)
-    config = resolver(modelo)
+    config = resolver(modelo, esfuerzo)
     corrida = dict(id=f"{doc}:UT", paso="UT", documento_id=doc, prompt=ruta_prompt.name,
                    hash_prompt=hash_texto(plantilla), modelo=config["id"],
                    esfuerzo=config.get("esfuerzo"))
 
     t0 = time.time()
     try:
-        _, respuesta = llamar(modelo, mensajes=mensajes)
+        _, respuesta = llamar(modelo, mensajes=mensajes, esfuerzo=esfuerzo)
     except ErrorDeLlamada as error:
         fallar(db, corrida, str(error), conservar=bool(ya))
         raise SystemExit(f"  {doc}: la corrida falló — {error}")
@@ -163,24 +163,26 @@ def run(doc, modelo, prompt_name, rehacer):
 def main(argumentos):
     if not argumentos:
         raise SystemExit("uso: python3 mvp/código/paso1_unidades.py <doc> "
-                         "[--modelo M] [--prompt UT] [--rehacer]")
+                         "[--modelo M] [--esfuerzo E] [--prompt UT] [--rehacer]")
     doc = argumentos[0]
-    modelo, prompt_name, rehacer = "deepseek", "UT", False
+    modelo, prompt_name, rehacer, esfuerzo = "deepseek", "UT", False, None
     resto = argumentos[1:]
     while resto:
         opcion = resto.pop(0)
         if opcion == "--rehacer":
             rehacer = True
-        elif opcion in ("--modelo", "--prompt") and resto:
+        elif opcion in ("--modelo", "--esfuerzo", "--prompt") and resto:
             valor = resto.pop(0)
             if opcion == "--modelo":
                 modelo = valor
+            elif opcion == "--esfuerzo":
+                esfuerzo = valor
             else:
                 prompt_name = valor
         else:
             raise SystemExit(f"no entiendo '{opcion}'. Uso: paso1_unidades.py <doc> "
-                             f"[--modelo M] [--prompt UT] [--rehacer]")
-    run(doc, modelo, prompt_name, rehacer)
+                             f"[--modelo M] [--esfuerzo E] [--prompt UT] [--rehacer]")
+    run(doc, modelo, prompt_name, rehacer, esfuerzo)
 
 
 if __name__ == "__main__":

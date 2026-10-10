@@ -58,7 +58,7 @@ con todas las unidades que falten, y la respuesta se reparte por la **posición 
 enviada**. La vía es `mvp/prompts/prompt_DATOS.md`:
 
 ```bash
-python3 mvp/código/paso2_datos.py <doc> [--modelo M] [--rehacer]
+python3 mvp/código/paso2_datos.py <doc> [--modelo M] [--esfuerzo E] [--rehacer]
 ```
 
 Escribe en la base —la corrida y los datos—, **todo o nada**: la tanda manda **todas** las unidades

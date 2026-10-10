@@ -46,7 +46,7 @@ El título del documento (la línea que empieza con `#`) no es una oración y qu
 Un comando, desde la raíz del repo:
 
 ```bash
-python3 mvp/código/paso1_unidades.py <doc> [--modelo M] [--prompt UT] [--rehacer]
+python3 mvp/código/paso1_unidades.py <doc> [--modelo M] [--esfuerzo E] [--prompt UT] [--rehacer]
 
 # por ejemplo
 python3 mvp/código/paso1_unidades.py doc8

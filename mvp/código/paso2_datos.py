@@ -139,7 +139,7 @@ def fallar(db, corrida, motivo, conservar):
     db.commit()
 
 
-def run(doc, modelo, rehacer):
+def run(doc, modelo, rehacer, esfuerzo=None):
     db = conectar()
     fila = exigir_documento(db, doc)
     unidades = unidades_de(db, doc)
@@ -160,7 +160,7 @@ def run(doc, modelo, rehacer):
     plantilla = ruta_prompt.read_text(encoding="utf-8")
     if "{{UNIDADES}}" not in plantilla:
         raise SystemExit(f"el prompt '{ruta_prompt.name}' no tiene {{{{UNIDADES}}}}")
-    config = resolver(modelo)
+    config = resolver(modelo, esfuerzo)
     corrida = dict(id=f"{doc}:DATOS", paso="DATOS", documento_id=doc, prompt=ruta_prompt.name,
                    hash_prompt=hash_texto(plantilla), modelo=config["id"],
                    esfuerzo=config.get("esfuerzo"))
@@ -184,7 +184,7 @@ def run(doc, modelo, rehacer):
           f"({[unidad['id'] for unidad, _ in armadas]}) · {config['id']}")
     t0 = time.time()
     try:
-        _, respuesta = llamar(modelo, mensajes=mensajes)
+        _, respuesta = llamar(modelo, mensajes=mensajes, esfuerzo=esfuerzo)
     except ErrorDeLlamada as error:
         fallar(db, corrida, str(error), conservar=bool(ya))
         raise SystemExit(f"  {doc}: la corrida falló — {error}")
@@ -237,9 +237,9 @@ def run(doc, modelo, rehacer):
 
 def main(argumentos):
     if not argumentos:
-        raise SystemExit("uso: python3 mvp/código/paso2_datos.py <doc> [--modelo M] [--rehacer]")
+        raise SystemExit("uso: python3 mvp/código/paso2_datos.py <doc> [--modelo M] [--esfuerzo E] [--rehacer]")
     doc = argumentos[0]
-    modelo, rehacer = "deepseek", False
+    modelo, rehacer, esfuerzo = "deepseek", False, None
     resto = argumentos[1:]
     while resto:
         opcion = resto.pop(0)
@@ -247,10 +247,12 @@ def main(argumentos):
             rehacer = True
         elif opcion == "--modelo" and resto:
             modelo = resto.pop(0)
+        elif opcion == "--esfuerzo" and resto:
+            esfuerzo = resto.pop(0)
         else:
             raise SystemExit(f"no entiendo '{opcion}'. Uso: paso2_datos.py <doc> "
-                             f"[--modelo M] [--rehacer]")
-    run(doc, modelo, rehacer)
+                             f"[--modelo M] [--esfuerzo E] [--rehacer]")
+    run(doc, modelo, rehacer, esfuerzo)
 
 
 if __name__ == "__main__":

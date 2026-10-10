@@ -46,7 +46,7 @@ ve el agente— y aparecía en 2 de 21 unidades.
 Un comando, desde la raíz del repo:
 
 ```bash
-python3 mvp/código/paso2_datos.py <doc> [--modelo M] [--rehacer]
+python3 mvp/código/paso2_datos.py <doc> [--modelo M] [--esfuerzo E] [--rehacer]
 
 # por ejemplo
 python3 mvp/código/paso2_datos.py doc8
