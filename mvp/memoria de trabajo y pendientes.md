@@ -1,6 +1,6 @@
 # Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 09-10-2026. **Fuente única del estado: solo lo que estamos trabajando y lo que
+Estado al 10-10-2026. **Fuente única del estado: solo lo que estamos trabajando y lo que
 hace falta para trabajarlo.** El detalle de cada ronda vive en el `PLAN.md` de su
 proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, en
 `otros documentos/`; la casa, la actualización de los tres sitios y los reportes, en
@@ -17,14 +17,13 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   (la base y su esquema), `mensajes.py` (parte el prompt en los dos mensajes), `proveedores/` (el
   transporte) y el orquestador (`orq/`, con `R.json`); los tres prompts de trabajo, en
   `mvp/prompts/`, cada uno en dos bloques: `[SISTEMA]` lo invariante y `[TAREA]` el material, que es
-  lo que los actos mandan como `system` y como `user`. **El documento de trabajo es `preparación del
-  café`** —las tres dinámicas de extracción—, **radicado el 09-10 23:33:31** (dominio `GENERAL`,
-  sello `e00deb25…`) y **con UT hecha: 5 unidades, 0 datos** (`deepseek` `low`, 13,5 s, prompt
-  `prompt_UT` con hash `d82a9bbb…`). El 09-10 la base se **reseteó dos veces** (se borró `corpus.db`
-  y volvió a nacer con el esquema) para arrancar de cero con este documento; **`doc11` —«La anemia
-  falciforme»— quedó fuera de la base**, aunque su texto sigue en `mvp/documentos/`: re-radicarlo lo
-  devuelve con el mismo sello. Cada etapa es un acto aparte y a mano —DATOS, la batería en
-  `mvp/consulta/preguntas_preparación del café.md` y la consulta—. El diseño y lo abierto están en
+  lo que los actos mandan como `system` y como `user`. **La base está vacía desde el 10-10**: se
+  **reseteó** (se borró `corpus.db` y volvió a nacer con el esquema, las seis tablas en cero) al
+  cambiar `prompt_UT`, porque la UT que tenía `preparación del café` la había hecho el prompt
+  anterior. Los textos de **`preparación del café`** —las tres dinámicas de extracción— y de
+  **`doc11`** —«La anemia falciforme»— siguen en `mvp/documentos/`, sin radicar: radicarlos otra vez
+  los devuelve con el mismo sello. Cada etapa es un acto aparte y a mano —radicar, UT, DATOS, la
+  batería en `mvp/consulta/preguntas_<doc>.md` y la consulta—. El diseño y lo abierto están en
   `mvp/consulta-diseno.md`; los procedimientos, en `mvp/guía_UT.md` y `mvp/guía_DATOS.md`.
 - **`mvp/temp/` es el archivo: no se corre desde ahí, no se lee, no se escribe.** Ahí quedaron los
   documentos `doc4` y `doc6` con sus baterías (`mvp/temp/documentos/`), el texto, la batería y la
@@ -89,7 +88,10 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
 - **Los prompts de trabajo (07-10).** **Paso 1:** `prompt_UT` (`mvp/prompts/prompt_UT.md`) —el 09-10
   se **reemplazó por `v1`**: cinco definiciones (el subtema como oraciones correlacionadas con una
   idea, el nombre como frase que describe el contenido), **dos ejemplos** —un texto marino de seis
-  oraciones y `doc9` entero en once unidades— y **sin la sección de `REFERENCIAS EXTERNAS`**—;
+  oraciones y `doc9` entero en once unidades— y **sin la sección de `REFERENCIAS EXTERNAS`**; el
+  10-10 se corrigieron dos nombres del primer ejemplo, para que cada uno describa solo lo que dicen
+  sus oraciones ([3] «el origen de la vida en el océano»; [4] «los primeros seres vivos y el tiempo
+  en que el mar fue el único lugar habitado»)—;
   devuelve `subtemas` con `subtema` y `oraciones` (sin ids: los pone el código). **Paso 2:**
   `prompt_DATOS` (`mvp/prompts/prompt_DATOS.md`) —recibe **todas las unidades del documento en una
   sola llamada** (tanda) y devuelve, por unidad, `caso` y `datos` (`aspecto · valor · unidad_valor`). El código arma cada unidad
@@ -284,19 +286,31 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
   desarrollan entre sí deja la partición como una decisión arbitraria: el modelo no tiene qué
   correlacionar. La prueba, barata: leer el texto e intentar reconstruir la respuesta sin mirarla.
 
+**Verificadas con los nombres corregidos del primer ejemplo (10-10)**, en el scratch `temp/` y sin
+tocar la base: seis particiones de `preparación del café` (Haiku `low` ×2, `medium`, `high` ×2;
+DeepSeek `low`) mandadas como el acto real, en dos mensajes.
+
+- **Los cortes estables no se mueven; el que duda es la oración que vale para todo el texto.** Los
+  tres bloques de métodos salieron idénticos en las seis; [3] —la molienda y la temperatura «para
+  cualquier método»— quedó sola en tres y unida a [1, 2] en tres. En Haiku `high` quedó sola las dos
+  veces, con el mismo nombre: **señala, no prueba**.
+- **Un nombre que junta dos asuntos se vuelve un rótulo.** Cuando [3] va unida, el nombre dice de qué
+  clase es («las claves generales», «los factores comunes»); sola, dice qué contiene («la molienda al
+  momento y la temperatura ideal del agua») en dos de tres corridas.
+
 ## 3. Pendientes vigentes
 
-**Orden (09-10).** El código, los prompts y los procedimientos están listos; **`preparación del café`
-ya está radicado y con sus unidades** (primera viñeta) y lo que sigue es **pasarlo por las etapas
-que restan**, cada una como acto aparte (punto 0). El material anterior —documentos, baterías,
+**Orden (10-10).** El código, los prompts y los procedimientos están listos; **la base está vacía**
+(primera viñeta) y lo que sigue es **radicar el documento de trabajo y pasarlo por las etapas**, cada
+una como acto aparte (punto 0). El material anterior —documentos, baterías,
 extracción y corridas— está archivado en `mvp/temp/`.
-0. **`preparación del café`, por las etapas que restan,** en actos sueltos y a mano: **UT ya corrió**
-   (5 unidades, 13,5 s, `deepseek` `low`); sigue **DATOS** (`paso2_datos.py "preparación del café"`)
-   —corre contra la API real y escribe en la base—, escribir su batería en
-   `mvp/consulta/preguntas_preparación del café.md` y correr la consulta; evaluarla con la vara de los
+0. **El documento de trabajo, por las etapas,** en actos sueltos y a mano: radicarlo
+   (`radicar.py <doc>`), correr **UT** con el `prompt_UT` vigente y después **DATOS**
+   (`paso2_datos.py <doc>`) —los dos corren contra la API real y escriben en la base—, escribir su
+   batería en `mvp/consulta/preguntas_<doc>.md` y correr la consulta; evaluarla con la vara de los
    números de oración, distinguiendo «no está en los datos extraídos» de «el documento no lo dice»
-   (`mvp/consulta-diseno.md`, §12). **`doc11` queda fuera de la base**: si se quiere de vuelta, son
-   dos actos, radicarlo otra vez (el texto está, y el sello sale igual) y correrle UT. Las baterías de
+   (`mvp/consulta-diseno.md`, §12). `preparación del café` y `doc11` están en `mvp/documentos/`, fuera de
+   la base: cualquiera de los dos vuelve con dos actos, radicarlo (el sello sale igual) y correrle UT. Las baterías de
    `doc4`/`doc6` están archivadas y **sin evaluar** —el registro de esa ronda, con su medición, en
    `mvp/temp/consulta/medicion-primera-ronda.md`—: si se quiere evaluación, o se escribe la lista de
    expectativas antes de correr, o se declara posterior.
@@ -334,7 +348,7 @@ extracción y corridas— está archivado en `mvp/temp/`.
 15. **Dónde van las notas de una corrida exitosa.** La verificación de UT (huecos, solapes, rango,
     enteros) y los avisos de DATOS (dónde va la unidad) se imprimen y no tienen campo en la base:
     el registro no los guarda. Decidir si se agrega una columna —o un campo en la unidad— antes de
-    que la base crezca: hoy tiene 5 unidades y 0 datos, así que es cambiar el esquema, no migrar.
+    que la base crezca: hoy está vacía, así que es cambiar el esquema, no migrar.
 
 **Cerrado el 08-10: alineación con prompt 3.** El ORQ ubica el JSON del mensaje final donde
 prompt 3 lo ponga (`orq/leer_entrega.py`; `entrega.forma` en `config.json`, que el ORQ valida) y

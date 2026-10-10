@@ -22,8 +22,8 @@ Cada subtema junta las oraciones que desarrollan una misma idea.
 >>>
 {"subtemas": [
   {"subtema": "el océano: su extensión, profundidad y temperatura", "oraciones": [1, 2]},
-  {"subtema": "el origen de la vida en el océano: los primeros seres vivos", "oraciones": [3]},
-  {"subtema": "el tiempo en el que el mar fue el único lugar habitado", "oraciones": [4]},
+  {"subtema": "el origen de la vida en el océano", "oraciones": [3]},
+  {"subtema": "los primeros seres vivos y el tiempo en que el mar fue el único lugar habitado", "oraciones": [4]},
   {"subtema": "el papel del océano en la regulación del clima", "oraciones": [5, 6]}]}
 
 EJEMPLO 2
