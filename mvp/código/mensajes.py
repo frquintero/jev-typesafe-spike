@@ -11,7 +11,7 @@ El `system` lleva el prompt —va con su hash en la fila de la corrida— y el `
 Así el modelo lee la regla como instrucción y el texto como dato, y el prefijo invariante queda
 estable entre llamadas.
 
-Los huecos (`{{TEXTO_NUMERADO}}`, `{{UNIDADES}}`, `{{CASOS}}`, `{{PREGUNTA}}`, `{{ANCLAS}}`) se
+Los huecos (`{{TEXTO}}`, `{{UNIDADES}}`, `{{CASOS}}`, `{{PREGUNTA}}`, `{{ANCLAS}}`) se
 rellenan con `str.replace` —nunca `str.format`: el texto puede traer llaves—.
 """
 

@@ -126,9 +126,17 @@ CREATE TABLE unidades (                  -- la salida de UT
   documento_id TEXT NOT NULL REFERENCES documentos(id) ON DELETE CASCADE,
   n            INTEGER NOT NULL,
   subtema      TEXT NOT NULL,            -- el nombre del caso
-  oraciones    TEXT NOT NULL,            -- los números de oración, "1,4"
   corrida_id   TEXT NOT NULL REFERENCES corridas(id),
   UNIQUE (documento_id, n)
+);
+
+CREATE TABLE unidad_oraciones (          -- las oraciones de la unidad, con su tramo
+  unidad_id    TEXT NOT NULL REFERENCES unidades(id) ON DELETE CASCADE,
+  n            INTEGER NOT NULL,         -- el orden dentro de la unidad
+  desde        INTEGER NOT NULL,         -- offsets en caracteres sobre el texto del documento
+  hasta        INTEGER NOT NULL,
+  texto        TEXT NOT NULL,            -- la oración literal, tal como la devolvió el modelo
+  PRIMARY KEY (unidad_id, n)
 );
 
 CREATE TABLE datos (                     -- la salida de DATOS
@@ -513,9 +521,9 @@ Todo lo que produce la consulta queda **en la base**, y nada en archivos:
 
 **Cómo se lee una respuesta.** Con una consulta, no con un archivo: el ORQ no escribe `salida.md`,
 ni `traza.jsonl`, ni crudos. Quien quiera ver una respuesta la lee de la base —uniendo `consultas`
-con las **siete** tablas—: `consultas`, `consulta_casos` y `consulta_llamadas` dan la respuesta,
-los casos leídos y la operación; `unidades` y `datos` el corpus; `documentos` el texto radicado; y
-`corridas` la cédula de cada llamada.
+con las **ocho** tablas—: `consultas`, `consulta_casos` y `consulta_llamadas` dan la respuesta,
+los casos leídos y la operación; `unidades`, `unidad_oraciones` y `datos` el corpus; `documentos` el
+texto radicado; y `corridas` la cédula de cada llamada.
 
 ---
 
@@ -564,9 +572,9 @@ no del ORQ (§1):
   distinguen del campo;
 - **no interviene Jev**: el juicio es nuestro y se registra.
 
-La **vara** para distinguir el hueco del documento del hueco de la extracción son los
-números de oración de la partición del paso 1: viven en `unidades` (los números) y en el documento
-radicado (las oraciones), y desde ahí se consultan (§3).
+La **vara** para distinguir el hueco del documento del hueco de la extracción son los **tramos** de
+la partición del paso 1: viven en `unidad_oraciones` (el `desde`, el `hasta` y la oración literal) y
+el texto sobre el que se cuentan está en el documento radicado, sellado. Desde ahí se consultan (§3).
 
 ---
 
@@ -597,7 +605,7 @@ radicado (las oraciones), y desde ahí se consultan (§3).
 | **D4** | Sin datos derivados en esta versión | decidida |
 | **D5** | R: `solo el documento`, sin mundo del LLM ni anclas como premisa | decidida: R.json con tres claves |
 | **D6** | Nombre y sitio de los archivos | decidida: el código, `R.json` y la base en `mvp/código/` (el orquestador, en `orq/`); los documentos que se radican, en `mvp/documentos/`; las baterías, en `mvp/consulta/preguntas_<doc>.md`; los prompts, en `mvp/prompts/`; y **lo que se produce, en la base**. `mvp/temp/` es archivo: no se corre desde ahí, no se lee, no se escribe (§2–§3) |
-| **D7** | Almacén | decidida: SQLite con **siete tablas** —el corpus (`documentos`, `unidades`, `datos`) y el expediente (`corridas`, `consultas`, `consulta_casos`, `consulta_llamadas`)—, con claves foráneas y contratos (`paso`, `estado`, `motivo` si falló, un `n` por documento) |
+| **D7** | Almacén | decidida: SQLite con **ocho tablas** —el corpus (`documentos`, `unidades`, `unidad_oraciones`, `datos`) y el expediente (`corridas`, `consultas`, `consulta_casos`, `consulta_llamadas`)—, con claves foráneas y contratos (`paso`, `estado`, `motivo` si falló, un `n` por documento) |
 | **D8** | Derivados | fuera de esta versión |
 | **D9** | Idioma de los `tipo` | obsoleta: no hay tipos |
 | **D10** | Documento R: esbozo + prosa para el agente | reemplazada: R es un JSON que lee el ORQ |
@@ -633,8 +641,9 @@ radicado (las oraciones), y desde ahí se consultan (§3).
   donde venga (§9).
 - `test_tool_calling/`: las corridas que fijaron la mecánica del bucle y las
   lecciones del tool calling.
-- `mvp/código/extraer_unidades.py`: `numerar_oraciones` y `verificar_subtemas` —la copia propia del
-  MVP; para la evaluación, no para la base—.
+- `mvp/código/extraer_unidades.py`: `ubicar` y `verificar_particion` —ubica en el texto las
+  oraciones que devolvió el modelo y verifica el contrato (literalidad, cobertura, exclusividad,
+  orden)—.
 - `mvp/temp/pieza1/pieza1.py`: `verificar` y `comparar` —para la evaluación—; `guardar` y
   `mantener` quedan sin uso mientras no haya derivados.
 - `unidades/ficha_doc.py`: `verificar` y `fragmentos`, si el respaldo literal vuelve.

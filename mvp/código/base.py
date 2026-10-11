@@ -10,8 +10,11 @@ llamada que lo produjo.
 - `documentos`: un documento **radicado** por fila —su nombre, su dominio, la fecha y la hora (que
   pone la base), dónde vive en el repo y su **sello** (sha256 del texto: es su identidad)—. El texto
   no se guarda: vive en el documento radicado. Un documento radicado no se mueve.
-- `unidades`: la salida de UT —el nombre del caso y **los números de oración** que agrupa—. Las
-  oraciones literales no se guardan: se leen del documento radicado, y el sello es el guardián.
+- `unidades`: la salida de UT —el nombre de cada unidad y su orden—.
+- `unidad_oraciones`: los tramos de cada unidad —la oración **literal** tal como la devolvió el
+  modelo, con su `desde` y su `hasta` sobre el texto del documento radicado—. El texto no se
+  duplica: el tramo lo señala, y el sello del documento es el guardián. La referencia es el tramo:
+  **no hay números de oración** (un número depende de la regla con la que se cortó).
 - `datos`: la salida de DATOS —caso, aspecto, valor y unidad del valor—.
 
 **El expediente**
@@ -79,9 +82,16 @@ CREATE TABLE IF NOT EXISTS unidades (
   documento_id TEXT NOT NULL REFERENCES documentos(id) ON DELETE CASCADE,
   n            INTEGER NOT NULL,
   subtema      TEXT NOT NULL,            -- el nombre del caso
-  oraciones    TEXT NOT NULL,            -- los números de oración, "4,5,6"
   corrida_id   TEXT NOT NULL REFERENCES corridas(id),
   UNIQUE (documento_id, n)
+);
+CREATE TABLE IF NOT EXISTS unidad_oraciones (   -- las oraciones de la unidad, con su tramo
+  unidad_id    TEXT NOT NULL REFERENCES unidades(id) ON DELETE CASCADE,
+  n            INTEGER NOT NULL,         -- el orden dentro de la unidad
+  desde        INTEGER NOT NULL,         -- offsets en caracteres sobre el texto del documento
+  hasta        INTEGER NOT NULL,
+  texto        TEXT NOT NULL,            -- la oración literal, tal como la devolvió el modelo
+  PRIMARY KEY (unidad_id, n)
 );
 CREATE TABLE IF NOT EXISTS datos (
   id           TEXT PRIMARY KEY,         -- <doc>:U<n>:D<j>

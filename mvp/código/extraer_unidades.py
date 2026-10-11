@@ -1,104 +1,124 @@
-"""Los ayudantes del paso 1 que usa el MVP: numerar oraciones y verificar la partición.
+"""Ubica en el texto las oraciones que devuelve el modelo, y verifica la partición.
 
-Copia **propia del MVP** (sin dependencias fuera de la biblioteca estándar) de la parte de
-`unidades/extraer_unidades.py` que el MVP usa: `mvp/` no importa de la línea `unidades/`. El
-original, que además trae el runner de aquella línea y su llamada al modelo, sigue ahí para lo
-suyo; acá el `re` es lo único que se importa.
+**El corte lo hace el modelo**: devuelve las oraciones **literales**. Acá se las **ubica** en el
+texto del documento para quedarse con su tramo (`desde`, `hasta`), y se verifica el contrato:
 
-Lo que hace:
+- **literalidad**: la oración está en el texto tal cual, sin reformular ni completar;
+- **cobertura del cuerpo**: no queda carácter no blanco del cuerpo fuera de un tramo. Los
+  encabezados (`# …`) no cuentan: son estructura, no oraciones;
+- **asignación exclusiva**: ninguna aparición se usa dos veces;
+- **orden**: las oraciones de una unidad en orden textual, y las unidades por su primera oración.
 
-- `numerar_oraciones`: numera las oraciones conservando los párrafos. El título (`# …`) queda
-  fuera. Devuelve el texto numerado y los registros `{"n", "oracion"}`.
-- `verificar_subtemas`: **solo reporta** huecos, solapes, números fuera de rango y no enteros.
-  No corrige ni juzga el contenido.
-- `reconstruir_subtemas`: repone las oraciones literales de cada subtema a partir de sus números.
+**No hay números de oración.** El número no identifica nada: depende de la regla con la que se
+cortó, y con otra regla dice otra cosa. La referencia es el tramo, y el tramo se cuenta sobre el
+texto del documento, que está sellado.
+
+Copia propia del MVP (sin dependencias fuera de la biblioteca estándar): `mvp/` no importa de
+`unidades/`.
 """
 
-import re
+
+def cuerpo(texto):
+    """Lo que se reparte entre las unidades: el texto sin las líneas de encabezado."""
+    return "\n".join(linea for linea in texto.splitlines() if not linea.startswith("#"))
 
 
-def oraciones(texto):
-    """Definición del prompt: de un . ? ! al siguiente; el título (# ...) queda fuera.
-
-    **El punto entre dígitos no corta**: en «250.000 millones» y en «5.500 °C» el punto es parte
-    del número, no el fin de una oración. Sin esto, el texto se parte por la mitad y el paso 2
-    extrae el valor sin los dígitos que quedaron del otro lado (250 en vez de 250.000).
-    """
-    cuerpo = "\n".join(l for l in texto.splitlines() if not l.startswith("#"))
-    return [p.strip() for p in re.findall(r"(?:\d+(?:[.,]\d+)+|[^.?!])+[.?!]?", cuerpo) if p.strip()]
-
-
-def numerar_oraciones(texto):
-    """Devuelve el texto numerado conservando párrafos y los registros de cada oración."""
-    parrafos = []
-    lineas_parrafo = []
-    for linea in texto.splitlines():
+def _mascara_del_cuerpo(texto):
+    """Por carácter: 1 si es del cuerpo, 0 si es de un encabezado."""
+    mascara = bytearray(b"\x01" * len(texto))
+    punto = 0
+    for linea in texto.splitlines(keepends=True):
         if linea.startswith("#"):
-            continue
-        if not linea.strip():
-            if lineas_parrafo:
-                parrafos.append("\n".join(lineas_parrafo))
-                lineas_parrafo = []
+            mascara[punto:punto + len(linea)] = b"\x00" * len(linea)
+        punto += len(linea)
+    return mascara
+
+
+def ubicar(texto, literales, usados):
+    """La primera aparición **libre** de cada literal, en el orden dado.
+
+    `usados` se comparte entre las unidades de la partición: así una misma aparición no puede ir a
+    dos UT, y una oración repetida en el texto se ubica en otra aparición. Devuelve los tramos
+    `(desde, hasta)` y los literales que no están en el texto.
+    """
+    tramos, ausentes = [], []
+    for literal in literales:
+        encontrado, desde = None, 0
+        while True:
+            posicion = texto.find(literal, desde)
+            if posicion < 0:
+                break
+            if all(not (posicion < b and a < posicion + len(literal)) for a, b in usados):
+                encontrado = posicion
+                break
+            desde = posicion + 1
+        if encontrado is None:
+            ausentes.append(literal)
         else:
-            lineas_parrafo.append(linea)
-    if lineas_parrafo:
-        parrafos.append("\n".join(lineas_parrafo))
-
-    registros = []
-    parrafos_numerados = []
-    for parrafo in parrafos:
-        oraciones_parrafo = []
-        for oracion in oraciones(parrafo):
-            numero = len(registros) + 1
-            registros.append({"n": numero, "oracion": oracion})
-            oraciones_parrafo.append(f"[{numero}] {oracion}")
-        if oraciones_parrafo:
-            parrafos_numerados.append(" ".join(oraciones_parrafo))
-    return "\n\n".join(parrafos_numerados), registros
+            usados.append((encontrado, encontrado + len(literal)))
+            tramos.append((encontrado, encontrado + len(literal)))
+    return tramos, ausentes
 
 
-def es_entero(valor):
-    return isinstance(valor, int) and not isinstance(valor, bool)
+def verificar_particion(texto, unidades):
+    """El contrato medido contra el texto. Solo reporta: no corrige ni juzga el contenido."""
+    usados, no_ubicadas, por_unidad = [], [], []
+    for n, unidad in enumerate(unidades, 1):
+        literales = [str(x) for x in (unidad.get("oraciones") or [])]
+        tramos, ausentes = ubicar(texto, literales, usados)
+        no_ubicadas += ausentes
+        por_unidad.append({
+            "n": n, "subtema": unidad.get("subtema"), "oraciones": len(literales),
+            "tramos": tramos, "no_ubicadas": ausentes,
+            "orden": all(b[0] > a[0] for a, b in zip(tramos, tramos[1:])),
+            "primera": tramos[0][0] if tramos else None})
 
-
-def reconstruir_subtemas(parsed, oraciones_numeradas):
-    por_numero = {item["n"]: item["oracion"] for item in oraciones_numeradas}
-    reconstruidas = []
-    for subtema in parsed.get("subtemas", []):
-        numeros = list(subtema.get("oraciones", []))
-        reconstruidas.append(
-            {
-                "subtema": subtema.get("subtema"),
-                "oraciones_n": numeros,
-                "oraciones": [
-                    por_numero[n]
-                    for n in numeros
-                    if es_entero(n) and n in por_numero
-                ],
-            }
-        )
-    return reconstruidas
-
-
-def verificar_subtemas(parsed, oraciones_numeradas):
-    total = len(oraciones_numeradas)
-    asignaciones = [0] * (total + 1)
-    fuera_de_rango = []
-    no_enteros = []
-    for subtema in parsed.get("subtemas", []):
-        for numero in subtema.get("oraciones", []):
-            if not es_entero(numero):
-                if not any(numero == visto for visto in no_enteros):
-                    no_enteros.append(numero)
-            elif numero < 1 or numero > total:
-                if numero not in fuera_de_rango:
-                    fuera_de_rango.append(numero)
-            else:
-                asignaciones[numero] += 1
+    del_cuerpo = _mascara_del_cuerpo(texto)
+    cubierto = bytearray(len(texto))
+    for desde, hasta in usados:
+        cubierto[desde:hasta] = b"\x01" * (hasta - desde)
+    huecos, i = [], 0
+    while i < len(texto):
+        if cubierto[i] or not del_cuerpo[i] or texto[i].isspace():
+            i += 1
+            continue
+        j = i
+        while j < len(texto) and not cubierto[j] and del_cuerpo[j] and not texto[j].isspace():
+            j += 1
+        huecos.append({"desde": i, "texto": texto[i:j][:100]})
+        i = j
+    no_blancos = sum(1 for k, c in enumerate(texto) if del_cuerpo[k] and not c.isspace())
+    cubiertos = sum(1 for k, c in enumerate(texto)
+                    if cubierto[k] and del_cuerpo[k] and not c.isspace())
+    solapes = [(a, b) for (a, b), (c, d) in zip(sorted(usados), sorted(usados)[1:]) if b > c]
+    primeras = [u["primera"] for u in por_unidad if u["primera"] is not None]
     return {
-        "oraciones_del_texto": total,
-        "huecos": [n for n in range(1, total + 1) if asignaciones[n] == 0],
-        "solapes": [n for n in range(1, total + 1) if asignaciones[n] > 1],
-        "fuera_de_rango": sorted(fuera_de_rango),
-        "no_enteros": no_enteros,
-    }
+        "caracteres": len(texto), "caracteres_no_blancos": no_blancos,
+        "cubiertos_no_blancos": cubiertos, "huecos": huecos,
+        "unidades": len(unidades),
+        "literales": sum(len(u.get("oraciones") or []) for u in unidades),
+        "no_ubicadas": no_ubicadas, "solapes": solapes,
+        "orden_en_unidades": all(u["orden"] for u in por_unidad),
+        "orden_entre_unidades": all(b > a for a, b in zip(primeras, primeras[1:])),
+        "por_unidad": por_unidad}
+
+
+def roturas(informe):
+    """Lo que hace inconsistente la partición con el texto.
+
+    No es una lectura: es una partición rota. Que el Cámbrico vaya junto con la conquista de la
+    tierra firme es una lectura —eso no es una rotura—; que una oración no esté en el texto, que
+    quede un tramo del cuerpo sin cubrir o que se solapen, sí.
+    """
+    rotas = []
+    if informe.get("no_ubicadas"):
+        rotas.append(f"oraciones que no están en el texto: {informe['no_ubicadas']}")
+    if informe.get("huecos"):
+        rotas.append(f"tramos del cuerpo sin cubrir: {[h['texto'] for h in informe['huecos']]}")
+    if informe.get("solapes"):
+        rotas.append(f"tramos solapados: {informe['solapes']}")
+    if not informe.get("orden_en_unidades"):
+        rotas.append("oraciones fuera de orden dentro de una unidad")
+    if not informe.get("orden_entre_unidades"):
+        rotas.append("unidades fuera de orden")
+    return rotas

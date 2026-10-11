@@ -10,15 +10,17 @@ Qué hace, y nada más:
 
 1. **Verifica el documento**: lee `mvp/documentos/<doc>.md` y comprueba su sello contra la base; si
    el archivo cambió, se detiene (eso es otro documento).
-2. **Numera las oraciones** y arma **los dos mensajes**: el prompt —reglas y ejemplo— va como
-   `system`, y el texto numerado como `user`. Así la regla viaja como instrucción y el documento
-   como dato, y el prefijo invariante queda estable entre documentos.
+2. **Arma los dos mensajes**: el prompt —reglas y ejemplos— va como `system`, y **el texto del
+   documento, entero** (títulos incluidos), como `user`. Así la regla viaja como instrucción y el
+   documento como dato, y el prefijo invariante queda estable entre documentos. **El texto no se
+   numera ni se marca**: los bordes de las oraciones los pone el modelo al devolverlas literales.
 3. **Llama al modelo** por `proveedores.llamar`: una sola llamada de texto a JSON.
-4. **Lee la respuesta** con `extract_json` (tolera la cerca de código) y **verifica la partición**
-   —huecos, solapes, números fuera de rango—: solo reporta, no corrige.
+4. **Lee la respuesta** con `extract_json` (tolera la cerca de código) y **ubica cada oración en el
+   texto** para quedarse con su tramo, verificando el contrato —literalidad, cobertura del cuerpo,
+   asignación exclusiva y orden—: solo reporta, no corrige.
 5. **Escribe en la base**, en una sola transacción: la fila de la **corrida** (modelo, esfuerzo,
-   prompt y su hash, tokens, segundos) y las **unidades** —el nombre del caso y los números de
-   oración—. Las oraciones literales no se guardan: viven en el documento radicado.
+   prompt y su hash, tokens, segundos), las **unidades** —el nombre del caso— y **sus tramos**: la
+   oración literal con su `desde` y su `hasta` sobre el texto radicado.
 
 **Todo o nada, y una sola transacción.** Si la llamada falla, si la respuesta se cortó o si el JSON
 no se pudo leer, **no se escribe ninguna unidad**: la corrida queda `fallida` con su motivo —lo que
@@ -46,7 +48,7 @@ from base import (borrar_corridas, borrar_unidades, conectar, exigir_documento, 
 from mensajes import partir  # noqa: E402
 from proveedores import ErrorDeLlamada, llamar, resolver  # noqa: E402
 from respuesta import extract_json  # noqa: E402
-from extraer_unidades import numerar_oraciones, verificar_subtemas  # noqa: E402
+from extraer_unidades import roturas, verificar_particion  # noqa: E402
 
 PROMPTS = RAIZ / "mvp" / "prompts"
 EXTRACTO = 100  # caracteres de la cabeza y de la cola que se guardan de una respuesta ilegible
@@ -67,20 +69,6 @@ def fallar(db, corrida, motivo, conservar):
     db.commit()
 
 
-def roturas(verificacion):
-    """Lo que hace inconsistente la partición con el documento.
-
-    No es una lectura: es una partición rota. Si el texto tiene dieciocho oraciones, cada una tiene
-    que quedar en una unidad y una sola, con números que existan y sean enteros. Que el Cámbrico
-    vaya junto con la conquista de la tierra firme, en cambio, es una lectura: eso no es una rotura.
-    """
-    nombres = {"huecos": "oraciones sin unidad", "solapes": "oraciones en dos unidades",
-               "fuera_de_rango": "números que no existen", "no_enteros": "números no enteros"}
-    return [f"{nombres[clave]}: {verificacion[clave]}"
-            for clave in ("huecos", "solapes", "fuera_de_rango", "no_enteros")
-            if verificacion.get(clave)]
-
-
 def run(doc, modelo, prompt_name, rehacer, esfuerzo=None):
     db = conectar()
     fila = exigir_documento(db, doc)
@@ -98,11 +86,10 @@ def run(doc, modelo, prompt_name, rehacer, esfuerzo=None):
     texto = exigir_sello(fila)
     ruta_prompt = PROMPTS / f"prompt_{prompt_name}.md"
     plantilla = ruta_prompt.read_text(encoding="utf-8")
-    if "{{TEXTO_NUMERADO}}" not in plantilla:
-        raise SystemExit(f"el prompt '{ruta_prompt.name}' no tiene {{{{TEXTO_NUMERADO}}}}")
+    if "{{TEXTO}}" not in plantilla:
+        raise SystemExit(f"el prompt '{ruta_prompt.name}' no tiene {{{{TEXTO}}}}")
 
-    texto_numerado, registros = numerar_oraciones(texto)
-    mensajes = partir(plantilla, ruta_prompt.name, TEXTO_NUMERADO=texto_numerado)
+    mensajes = partir(plantilla, ruta_prompt.name, TEXTO=texto)
     config = resolver(modelo, esfuerzo)
     corrida = dict(id=f"{doc}:UT", paso="UT", documento_id=doc, prompt=ruta_prompt.name,
                    hash_prompt=hash_texto(plantilla), modelo=config["id"],
@@ -135,29 +122,38 @@ def run(doc, modelo, prompt_name, rehacer, esfuerzo=None):
         print(f"    queda registrada como fallida; no se escribió ninguna unidad")
         return
 
-    verificacion = verificar_subtemas(parsed, registros)
+    unidades = parsed.get("unidades") or []
+    verificacion = verificar_particion(texto, unidades)
     rotas = roturas(verificacion)
     if rotas:
         motivo = "la partición no cierra — " + " · ".join(rotas)
         fallar(db, corrida, motivo, conservar=bool(ya))
         raise SystemExit(f"  {doc}: la corrida falló — {motivo}")
-    subtemas = parsed.get("subtemas") or []
     registrar_corrida(db, estado="exitoso", **corrida)
-    for n, subtema in enumerate(subtemas, 1):
-        numeros = [str(x) for x in (subtema.get("oraciones") or [])]
-        db.execute("INSERT INTO unidades (id, documento_id, n, subtema, oraciones, corrida_id) "
-                   "VALUES (?,?,?,?,?,?)",
-                   (f"{doc}:U{n}", doc, n, subtema.get("subtema") or "", ",".join(numeros),
-                    f"{doc}:UT"))
+    for posicion, unidad in enumerate(unidades, 1):
+        identificador = f"{doc}:U{posicion}"
+        db.execute("INSERT INTO unidades (id, documento_id, n, subtema, corrida_id) "
+                   "VALUES (?,?,?,?,?)",
+                   (identificador, doc, posicion, unidad.get("subtema") or "", f"{doc}:UT"))
+        tramos = verificacion["por_unidad"][posicion - 1]["tramos"]
+        for orden, (literal, (desde, hasta)) in enumerate(
+                zip(unidad.get("oraciones") or [], tramos), 1):
+            db.execute("INSERT INTO unidad_oraciones (unidad_id, n, desde, hasta, texto) "
+                       "VALUES (?,?,?,?,?)", (identificador, orden, desde, hasta, literal))
     db.commit()
 
-    print(f"  {doc}: {len(registros)} oraciones · {len(subtemas)} unidades · {segundos} s · "
-          f"{config['id']} (esfuerzo {config.get('esfuerzo')})")
-    print(f"    verificación: {json.dumps(verificacion, ensure_ascii=False)}")
-    for n, subtema in enumerate(subtemas, 1):
-        print(f"    U{n}: [{', '.join(str(x) for x in (subtema.get('oraciones') or []))}] "
-              f"{subtema.get('subtema')}")
-    print(f"    -> la base: la corrida {doc}:UT y {len(subtemas)} unidades")
+    print(f"  {doc}: {verificacion['literales']} oraciones · {len(unidades)} unidades · "
+          f"{segundos} s · {config['id']} (esfuerzo {config.get('esfuerzo')})")
+    print(f"    contrato: sin ubicar {len(verificacion['no_ubicadas'])} · "
+          f"sin cubrir {len(verificacion['huecos'])} · solapes {len(verificacion['solapes'])} · "
+          f"cuerpo cubierto {verificacion['cubiertos_no_blancos']}/"
+          f"{verificacion['caracteres_no_blancos']}")
+    for posicion, unidad in enumerate(unidades, 1):
+        print(f"    U{posicion} · «{unidad.get('subtema')}»")
+        for literal, (desde, hasta) in zip(unidad.get("oraciones") or [],
+                                           verificacion["por_unidad"][posicion - 1]["tramos"]):
+            print(f"      {desde:>7}–{hasta:>3}   {literal}")
+    print(f"    -> la base: la corrida {doc}:UT, {len(unidades)} unidades y sus tramos")
 
 
 def main(argumentos):

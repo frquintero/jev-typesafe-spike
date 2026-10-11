@@ -24,20 +24,24 @@ ve el agente— y aparecía en 2 de 21 unidades.
 
 ## 2. Qué entra
 
-- **Las unidades de la base** (las escribió el paso 1), armadas en una lista:
-  - `caso`: el `subtema` de la unidad,
-  - `contenido`: sus oraciones unidas en un párrafo, sin numeración.
+- **Las unidades de la base** (las escribió el paso 1), armadas en una lista, **un bloque por
+  unidad**:
+  - `caso:` el `subtema` de la unidad,
+  - `satélites:` sus oraciones, **una por línea** y numeradas desde `[1]` dentro del bloque. Esa
+    numeración es del bloque, no del documento: sirve para leer el corte entre oraciones —el paso 2
+    no numera nada del texto.
   Van **todas** las unidades del documento: la corrida es todo o nada.
-- **El texto del documento radicado**: `mvp/documentos/<doc>.md`. Se usa para volver a numerar las
-  oraciones y sacar de ahí las de cada unidad (del número a la oración); la unidad que recibe el
-  modelo no lleva números. Antes de trabajar se comprueba su **sello** contra la base.
+- **Las oraciones de cada unidad**: salen de `unidad_oraciones`, que las guardó el paso 1 con su
+  tramo. El paso 2 **no corta ni numera nada**. Antes de trabajar se comprueba el **sello** del
+  documento radicado (`mvp/documentos/<doc>.md`), que es sobre cuyo texto se cuentan los tramos.
 - **El prompt**: `prompt_DATOS`, el que esté **vigente en `mvp/prompts/`**. Su único hueco es
   `{{UNIDADES}}`, que se sustituye con la lista de unidades.
 
 ## 3. De dónde viene
 
-- **Las unidades** vienen del paso 1, con su procedimiento en [guía_UT.md](guía_UT.md): el
-  documento se numera, el prompt las agrupa y el resultado queda en la base (`unidades`).
+- **Las unidades** vienen del paso 1, con su procedimiento en [guía_UT.md](guía_UT.md): el prompt
+  las agrupa, el código ubica cada oración en el texto y el resultado queda en la base (`unidades`
+  y `unidad_oraciones`).
 - El documento tiene que estar **radicado**: su texto en `mvp/documentos/<doc>.md` y su fila en la
   base. El detalle está en `mvp/consulta-diseno.md` §2–§3.
 

@@ -36,10 +36,12 @@ un pendiente declarado, y hoy el cierre lo carga el nombre.
   trabajar se comprueba su **sello** contra la base: si el archivo cambió, eso es otro documento y
   se detiene.
 - **El prompt**: `prompt_UT`, el que esté **vigente en `mvp/prompts/`**. Se lee del archivo; su
-  único hueco es `{{TEXTO_NUMERADO}}`, que se sustituye con `str.replace` (nunca `str.format`:
-  el texto trae llaves). Es una versión de trabajo: no se afina en cada corrida.
+  único hueco es `{{TEXTO}}`, que se sustituye con `str.replace` (nunca `str.format`: el texto trae
+  llaves). Es una versión de trabajo: no se afina en cada corrida.
 
-El título del documento (la línea que empieza con `#`) no es una oración y queda fuera.
+**El texto entra entero, con sus títulos y subtítulos**: son contexto para interpretar, no
+oraciones. El corte en oraciones lo hace el modelo al devolverlas **literales**, y el código las
+ubica en el texto para quedarse con su tramo.
 
 ## 3. De dónde viene
 
@@ -63,19 +65,19 @@ python3 mvp/código/paso1_unidades.py doc8
 
 Lo que hace, en orden:
 
-1. **Numera las oraciones** del texto con `numerar_oraciones` (de `mvp/código/extraer_unidades.py`,
-   la copia propia del MVP):
-   quita las líneas de título, parte en párrafos por líneas en blanco y numera de 1 a N en
-   orden global. Una oración va de un `.`, `?` o `!` al siguiente.
-2. **Sustituye** `{{TEXTO_NUMERADO}}` en el prompt.
+1. **Toma el texto del documento radicado**, entero, sin numerar y sin marcar.
+2. **Sustituye** `{{TEXTO}}` en el prompt: el prompt va como `system` y el texto —delimitado— como
+   `user`.
 3. **Llama al modelo** por `proveedores.llamar` (`mvp/código/proveedores/`; el alias del registro,
-   p. ej. `deepseek`): una sola llamada de texto a JSON, sin agente de por medio.
+   p. ej. `luna`): una sola llamada de texto a JSON, sin agente de por medio.
 4. **Lee la respuesta** con `extract_json` (tolera que el JSON venga dentro de una cerca de
    código).
-5. **Verifica la forma** con `verificar_subtemas`: que ninguna oración quede sin asignar, que
-   ninguna esté en dos UT, que no haya números fuera de rango ni valores que no sean enteros.
-6. **Escribe en la base**, en una sola transacción: la fila de la **corrida** y las **unidades**
-   (§5).
+5. **Ubica cada oración en el texto** con `verificar_particion` (de
+   `mvp/código/extraer_unidades.py`) y verifica el contrato: que la oración esté en el texto tal
+   cual, que el **cuerpo** quede cubierto sin huecos, que ninguna aparición se use dos veces y que
+   el orden sea el del texto. Los títulos quedan fuera de la cuenta: no son oraciones.
+6. **Escribe en la base**, en una sola transacción: la fila de la **corrida**, las **unidades** y
+   **sus tramos** (§5).
 
 Si el documento **ya tiene unidades**, no llama al modelo. Rehacerlas es un acto explícito:
 `--rehacer` (se rehacen las unidades y los datos que cuelgan de ellas). **Todo o nada:** si la
@@ -98,15 +100,21 @@ comando directo.
 hash, los tokens (entrada, salida y pensamiento), los segundos, la fecha, y el `estado`
 (`exitoso`, o `fallido` con su motivo si el JSON no se pudo leer).
 
-**(b) Las unidades** — en `unidades`, una por UT: el id `<doc>:Un`, el nombre del caso (`subtema`)
-y **los números de oración** que agrupa («1,4»). Las oraciones literales no se guardan: se leen del
-documento radicado, y el sello es el guardián.
+**(b) Las unidades y sus tramos** — en `unidades`, una por UT: el id `<doc>:Un` y el nombre del
+caso (`subtema`). Y en **`unidad_oraciones`**, una fila por oración: su orden dentro de la unidad,
+su **tramo** (`desde`, `hasta`, en caracteres sobre el texto del documento) y la **oración literal**
+tal como la devolvió el modelo. El texto no se duplica: el tramo lo señala, y el sello del
+documento es el guardián. **No hay números de oración**: un número depende de la regla con la que se
+cortó, y con otra regla dice otra cosa; el tramo no.
 
 ```sql
--- así se lee una unidad, con la corrida que la produjo
-SELECT u.id, u.subtema, u.oraciones, c.modelo, c.tokens_salida
-FROM unidades u JOIN corridas c ON c.id = u.corrida_id
-WHERE u.documento_id = 'doc8' ORDER BY u.n;
+-- así se lee una unidad, con sus oraciones y la corrida que las produjo
+SELECT u.id, u.subtema, o.n, o.desde, o.hasta, o.texto, c.modelo, c.tokens_salida
+FROM unidades u
+JOIN unidad_oraciones o ON o.unidad_id = u.id
+JOIN corridas c ON c.id = u.corrida_id
+WHERE u.documento_id = 'doc8'
+ORDER BY u.n, o.n;
 ```
 
 Si la corrida falla —no se pudo leer el JSON—, **no se escribe ninguna unidad**: queda la corrida

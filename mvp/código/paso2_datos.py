@@ -8,8 +8,8 @@ Uso:
 
 Qué hace, y nada más:
 
-1. **Lee las unidades de la base** (las escribió el paso 1) y el texto del documento radicado, para
-   reponer las oraciones literales de cada unidad: del número a la oración. El sello es el guardián.
+1. **Lee las unidades de la base** (las escribió el paso 1) con **sus tramos**: la oración literal
+   que el modelo devolvió en cada una, en orden. El paso 2 **no corta ni numera nada**.
 2. **Una sola llamada** —la tanda— con **todas** las unidades del documento y **los dos mensajes**:
    el prompt (reglas, casos y formato) va como `system`, y las unidades como `user`. La respuesta se
    reparte por la **posición en la lista enviada**.
@@ -17,8 +17,8 @@ Qué hace, y nada más:
    aspecto y valor. No juzga el contenido.
 4. **Escribe en la base**, en una sola transacción: la fila de la **corrida** y los **datos**.
 
-**Todo o nada.** Si alguna unidad no se puede armar (sus oraciones no resuelven al texto), no se
-llama al modelo: la corrida falla con ese motivo. Si la llamada falla, si la respuesta se cortó o si
+**Todo o nada.** Si alguna unidad no tiene oraciones guardadas, no se llama al modelo: la corrida
+falla con ese motivo. Si la llamada falla, si la respuesta se cortó o si
 lo que volvió no sirve, **no se escribe ningún dato**. En los dos casos la corrida queda `fallida`
 con su motivo —lo que volvió, recortado a la cabeza y la cola— y, si el intento era un `--rehacer`,
 **lo anterior vuelve**: lo que estaba en la base no se pierde por un intento fallido. La fila de la
@@ -44,7 +44,6 @@ from base import (borrar_datos, conectar, datos_de, exigir_documento,  # noqa: E
 from mensajes import partir  # noqa: E402
 from proveedores import ErrorDeLlamada, llamar, resolver  # noqa: E402
 from respuesta import extract_json  # noqa: E402
-from extraer_unidades import numerar_oraciones  # noqa: E402
 
 PROMPTS = RAIZ / "mvp" / "prompts"
 EXTRACTO = 100  # caracteres de la cabeza y de la cola que se guardan de una respuesta ilegible
@@ -58,10 +57,10 @@ def extracto(contenido):
     return f"{limpio[:EXTRACTO]} … {limpio[-EXTRACTO:]}"
 
 
-def literales(unidad, por_numero):
-    """Las oraciones literales de una unidad, del número a la oración."""
-    numeros = [n for n in (unidad["oraciones"] or "").split(",") if n.strip()]
-    return [por_numero[int(n)] for n in numeros if n.strip().isdigit() and int(n) in por_numero]
+def oraciones_de(db, unidad_id):
+    """Las oraciones de una unidad, tal como las devolvió el modelo, en orden."""
+    return [fila["texto"] for fila in db.execute(
+        "SELECT texto FROM unidad_oraciones WHERE unidad_id = ? ORDER BY n", (unidad_id,))]
 
 
 def _sin_tildes(texto):
@@ -166,10 +165,8 @@ def run(doc, modelo, rehacer, esfuerzo=None):
                    esfuerzo=config.get("esfuerzo"))
 
     # Todo o nada: si una unidad no se puede armar, no se llama al modelo.
-    texto = exigir_sello(fila)
-    _, registros = numerar_oraciones(texto)
-    por_numero = {registro["n"]: registro["oracion"] for registro in registros}
-    armadas = [(unidad, literales(unidad, por_numero)) for unidad in unidades]
+    exigir_sello(fila)  # el texto radicado no cambió: los tramos de las unidades se cuentan sobre él
+    armadas = [(unidad, oraciones_de(db, unidad["id"])) for unidad in unidades]
     sin_armar = [unidad["id"] for unidad, oraciones in armadas if not oraciones]
     if sin_armar:
         motivo = f"no se pudieron armar sus oraciones: {', '.join(sin_armar)}"
