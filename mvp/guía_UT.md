@@ -12,13 +12,22 @@ Una UT es **un asunto y todo lo que el texto dice de ese asunto**: una o varias 
 desarrollan el mismo núcleo, aunque estén separadas en el texto. El nombre de la UT dice **qué
 se dice** de las cosas, no solo cuáles son («el tamaño de la tripulación», no «la tripulación»).
 
+**Para qué cierra.** La UT es el **ámbito donde se cierran las referencias**: una oración que por
+sí sola no cierra —«esa energía», «allí»— cierra en su unidad, porque el núcleo y los satélites son
+los referentes que nombra y las oraciones que se refieren a ellos van juntas. El **nombre del caso**
+es parte de ese mecanismo: nombra el núcleo y **trae su antecedente** («la energía solar en las
+cadenas alimentarias…», no «esa energía»).
+
 - Lo que une oraciones es **el asunto**, no el lugar, el objeto ni la persona.
 - Un cambio de párrafo **no** separa por sí solo.
 - **Cada oración va en una sola UT.**
+- **El cierre es su función:** el antecedente de lo que sus oraciones dicen está en la unidad —en
+  otra de sus oraciones o en el nombre del caso—. Si no está, la unidad queda abierta.
 
 Manda la definición del **prompt vigente** (`mvp/prompts/prompt_UT.md`), que es la que este
 procedimiento aplica. El marco (`definiciones-del-marco.md`) define la unidad temática como
-núcleo **más sus satélites**; los satélites todavía no se registran: es un pendiente declarado.
+núcleo **más sus satélites**, y los satélites son la mitad explícita de ese cierre: declararlos es
+un pendiente declarado, y hoy el cierre lo carga el nombre.
 
 ## 2. Qué entra
 
