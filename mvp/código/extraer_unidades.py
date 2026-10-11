@@ -18,9 +18,14 @@ import re
 
 
 def oraciones(texto):
-    """Definición del prompt: de un . ? ! al siguiente; el título (# ...) queda fuera."""
+    """Definición del prompt: de un . ? ! al siguiente; el título (# ...) queda fuera.
+
+    **El punto entre dígitos no corta**: en «250.000 millones» y en «5.500 °C» el punto es parte
+    del número, no el fin de una oración. Sin esto, el texto se parte por la mitad y el paso 2
+    extrae el valor sin los dígitos que quedaron del otro lado (250 en vez de 250.000).
+    """
     cuerpo = "\n".join(l for l in texto.splitlines() if not l.startswith("#"))
-    return [p.strip() for p in re.findall(r"[^.?!]+[.?!]?", cuerpo) if p.strip()]
+    return [p.strip() for p in re.findall(r"(?:\d+(?:[.,]\d+)+|[^.?!])+[.?!]?", cuerpo) if p.strip()]
 
 
 def numerar_oraciones(texto):
