@@ -19,7 +19,7 @@ Uso:
     cuerpo, respuesta = llamar("haiku", mensajes=mensajes, herramientas=tools, esfuerzo="max")
 """
 
-from . import anthropic, openai_compatible
+from . import anthropic, openai_compatible, openai_responses
 from .claves import ErrorDeLlamada  # se exporta: los corredores atrapan el fallo y lo registran
 
 ESFUERZO_POR_DEFECTO = "low"
@@ -51,6 +51,16 @@ ALIAS = {
         # documento de cuatro párrafos se lo comió pensando y volvió vacío (`finish_reason: length`).
         "max_tokens": 64000,
     },
+    # GPT 6 Luna, por OpenCode Go. Va por la familia `responses`, que tiene su propio transporte
+    # (`openai_responses`): ver mvp/proveedores.md §6. El defecto del modelo es `medium`.
+    "luna": {
+        "proveedor": "openai_responses",
+        "id": "gpt-6-luna",
+        "url": "https://opencode.ai/zen/go/v1/responses",
+        "esfuerzo": "low",
+        # El razonamiento cuenta como salida: el techo es el que se probó en el scratch.
+        "max_output_tokens": 16000,
+    },
     # Sin créditos en xAI: se declara para cuando se recargue (ver la memoria).
     "grok": {
         "proveedor": "openai_compatible",
@@ -60,7 +70,8 @@ ALIAS = {
     },
 }
 
-_PROVEEDORES = {"openai_compatible": openai_compatible, "anthropic": anthropic}
+_PROVEEDORES = {"openai_compatible": openai_compatible, "anthropic": anthropic,
+                "openai_responses": openai_responses}
 
 
 def resolver(alias, esfuerzo=None):

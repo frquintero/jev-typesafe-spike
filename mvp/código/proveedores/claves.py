@@ -16,6 +16,9 @@ CLAVE_POR_HOST = {
     "api.z.ai": "ZAI_API_KEY",
     "api.x.ai": "XAI_API_KEY",
     "api.anthropic.com": "ANTHROPIC_API_KEY",
+    # OpenCode Go: la puerta de agregación (Luna, MiMo y los demás). Vive en
+    # ~/.config/opencode-console/api_key.env, que carga ~/.bashrc: correr con `bash -ic`.
+    "opencode.ai": "OPENCODE_API_KEY",
 }
 
 UA = "spike-jev/1.0"
