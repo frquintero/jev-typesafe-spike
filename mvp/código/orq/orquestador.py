@@ -14,7 +14,7 @@ El orden, y nada más que el orden —cada paso vive en su archivo—:
     5. resolver_dominio     el dominio elegido → sus documentos (pertenencia, sin juicio)
     6. listar_casos         los casos del dominio: id y nombre, sin aspectos ni valores
     7. armar_herramientas   R ∩ las herramientas que existen
-    8. anclas + armar_prompt  el system con el prompt y la pregunta
+    8. anclas + armar_prompt  el system (los relojes y la lógica) y el user (casos, pregunta)
     9. bucle                llama, ejecuta y termina con la entrega (sin juzgarla)
    10. registrar_consulta   la corrida y la respuesta, en la base (al terminar)
 

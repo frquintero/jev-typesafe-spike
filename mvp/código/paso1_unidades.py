@@ -47,6 +47,7 @@ from base import (borrar_corridas, borrar_unidades, conectar, exigir_documento, 
                   exigir_sello, hash_texto, registrar_corrida, unidades_de)
 from mensajes import partir  # noqa: E402
 from proveedores import ErrorDeLlamada, llamar, resolver  # noqa: E402
+from relojes import relojes  # noqa: E402
 from respuesta import extract_json  # noqa: E402
 from extraer_unidades import roturas, verificar_particion  # noqa: E402
 
@@ -86,10 +87,12 @@ def run(doc, modelo, prompt_name, rehacer, esfuerzo=None):
     texto = exigir_sello(fila)
     ruta_prompt = PROMPTS / f"prompt_{prompt_name}.md"
     plantilla = ruta_prompt.read_text(encoding="utf-8")
-    if "{{TEXTO}}" not in plantilla:
-        raise SystemExit(f"el prompt '{ruta_prompt.name}' no tiene {{{{TEXTO}}}}")
+    for hueco in ("{{TEXTO}}", "{{RELOJES}}"):
+        if hueco not in plantilla:
+            raise SystemExit(f"el prompt '{ruta_prompt.name}' no tiene {hueco}")
 
-    mensajes = partir(plantilla, ruta_prompt.name, TEXTO=texto)
+    mensajes = partir(plantilla, ruta_prompt.name, TEXTO=texto,
+                      RELOJES=relojes(fila["fecha_radicacion"]))
     config = resolver(modelo, esfuerzo)
     corrida = dict(id=f"{doc}:UT", paso="UT", documento_id=doc, prompt=ruta_prompt.name,
                    hash_prompt=hash_texto(plantilla), modelo=config["id"],

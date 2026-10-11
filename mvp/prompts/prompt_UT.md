@@ -1,4 +1,7 @@
 [SISTEMA]
+RELOJES (el «ahora» de la corrida y la fecha de radicación del documento; no son datos del documento)
+{{RELOJES}}
+
 TAREA
 Extrae unidades temáticas (UT) de `texto`. Una UT contiene un nombre de subtema y una o varias oraciones literales que desarrollan un mismo asunto específico.
 

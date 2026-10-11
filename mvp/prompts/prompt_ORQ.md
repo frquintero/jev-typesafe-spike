@@ -1,4 +1,7 @@
 [SISTEMA]
+RELOJES (el «ahora» de esta consulta; no es dato de ningún documento)
+{{RELOJES}}
+
 LÓGICA DEL AGENTE ENCARGADO:
 1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.
 2. Si no hay casos que cumplan la condición anterior, pasa al punto 5.
@@ -13,8 +16,6 @@ RESPUESTA_JSON:
 {"desenlace": "no_esta_en_los_datos", "respuesta": ""}
 
 [TAREA]
-ANCLAS: {{ANCLAS}} (día y hora del sistema; no es dato del documento)
-
 CASOS:
 {{CASOS}}
 

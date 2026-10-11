@@ -4,6 +4,9 @@
 Se toman **una sola vez**: si cambiaran entre turnos, romperían el prefijo del caché y la
 consulta razonaría con dos «ahora» distintos. El ancla no es dato del documento: es el marco
 temporal de esta consulta, y así lo dice el prompt.
+
+Estas marcas son las que se congelan; el texto que va al prompt lo arma `relojes.de_marcas`
+(`mvp/código/relojes.py`), con el formato `[día-mes-año: hora]`.
 """
 
 from datetime import datetime

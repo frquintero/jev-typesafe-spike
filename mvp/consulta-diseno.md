@@ -266,13 +266,19 @@ con la brecha», «no hay interacción con el usuario»— no van en R: son regl
 agente, y **no están escritas en ninguna parte**. **Abierto:** decidir si vuelven, y
 dónde.
 
-### 4.3. Las anclas
+### 4.3. Los relojes
 
-El **día y la hora del sistema**, tomados una sola vez al abrir la consulta
-(`orq/anclas.py`) y **congelados**: si cambiaran entre turnos, romperían el prefijo
-del caché y la consulta razonaría con dos «ahora» distintos. Van en el `system`,
-junto con todo lo que se quiere conservar entre turnos, y quedan en la traza. **No
-son dato del documento**, y el prompt lo dice.
+**Dos**, con el mismo formato —`[día-mes-año: hora]`— y en el `system` de **todo** prompt
+(`mvp/código/relojes.py`):
+
+- **el del sistema**: el «ahora» de la corrida. En la consulta se toma una sola vez al abrirla
+  (`orq/anclas.py`) y queda **congelado**: si cambiara entre turnos, rompería el prefijo del caché
+  y la consulta razonaría con dos «ahora» distintos. Queda en la traza.
+- **el del radicado**: cuándo entró el documento a Zettel (`documentos.fecha_radicacion`). Lo llevan
+  las llamadas de un documento (UT y DATOS); la consulta, que va sobre un dominio, no.
+
+Van **etiquetados** y **no son datos del documento**, y el prompt lo dice: el del radicado es el que
+resuelve un deíctico del documento («ayer», «en dos días»), y el del sistema, el de la corrida.
 
 ---
 
@@ -287,7 +293,7 @@ son dato del documento**, y el prompt lo dice.
 | 5 | Resolver el dominio | `orq/resolver_dominio.py` | la etiqueta `GENERAL` → sus documentos (pertenencia, sin juicio) |
 | 6 | Listar los casos | `orq/listar_casos.py` | `unidad_id` y `caso`, sin aspectos ni valores |
 | 7 | Armar las herramientas | `orq/armar_herramientas.py` | R ∩ las que existen |
-| 8 | Armar los mensajes | `orq/armar_prompt.py` + `prompt_ORQ.md` | el `system` (anclas) y el `user` (casos, tarea, formato) |
+| 8 | Armar los mensajes | `orq/armar_prompt.py` + `prompt_ORQ.md` | el `system` (los relojes y la lógica) y el `user` (los casos y la pregunta) |
 | 9 | El bucle | `orq/llamar_modelo.py`, `orq/ejecutar_herramienta.py`, `orq/obtener_datos_del_caso.py`, `orq/bucle.py` | llama, ejecuta lo que el agente pide, apila, y termina con la respuesta |
 | 10 | Registrar | `orq/registrar_consulta.py` | la corrida y la respuesta, en la base |
 
@@ -295,7 +301,7 @@ son dato del documento**, y el prompt lo dice.
 en su archivo; `orq/config.json` tiene las rutas de **entrada** (las preguntas, R, la base y el
 prompt), el dominio, el modelo y las guardias. Lo que el ORQ produce no se configura: va a la base.
 
-**La petición.** El `system` lleva lo que se conserva entre turnos (las anclas) y el
+**La petición.** El `system` lleva lo que se conserva entre turnos (los relojes) y el
 `user` los casos del dominio, la tarea y el formato. La **pregunta va dentro de la
 tarea 1**, en el `user`. En cada turno siguiente el historial crece con el
 `assistant` y los mensajes `tool` (§6).
@@ -331,8 +337,8 @@ es una función pura: `agente(prompt + mensajes) -> acción` (patrón *stateless
 reducer*, factor 12 de
 [12-Factor Agents](https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-12-stateless-reducer.md)).
 
-**Qué se conserva entre turnos.** Lo que no cambia va en el `system`; hoy, las
-anclas. Lo que cambia —el historial del bucle— va en los mensajes.
+**Qué se conserva entre turnos.** Lo que no cambia va en el `system`; hoy, los
+relojes. Lo que cambia —el historial del bucle— va en los mensajes.
 
 **La API es stateless.** Cada turno **reenvía todo** el historial. En DeepSeek no
 hay `previous_response_id` ni estado del lado del servidor: «no reenviar» es no
@@ -419,7 +425,7 @@ entrega, ni la cobertura, ni que un dato citado exista. El ORQ orquesta; no juzg
 Vive en `mvp/prompts/prompt_ORQ.md`, **un solo archivo** con dos
 partes marcadas: `[SISTEMA]` (lo que se conserva entre turnos) y `[TAREA]` (lo que
 depende del dominio y de la pregunta). `armar_prompt.py` lo parte y devuelve los dos
-mensajes. Los huecos son `{{CASOS}}`, `{{PREGUNTA}}` y `{{ANCLAS}}`, rellenados con
+mensajes. Los huecos son `{{RELOJES}}`, `{{CASOS}}` y `{{PREGUNTA}}`, rellenados con
 `str.replace` —nunca `str.format`—.
 
 **Prompt 3 y prompt 4.** El prompt del agente es el que Frat llama **prompt 3** —hoy
@@ -431,7 +437,8 @@ ninguna → número 2) y el valor `no_esta_en_el_corpus` → `no_esta_en_los_dat
 
 ```
 [SISTEMA]
-ANCLAS: {{ANCLAS}} (día y hora del sistema; no es dato del documento)
+RELOJES (el «ahora» de esta consulta; no es dato de ningún documento)
+{{RELOJES}}
 
 [TAREA]
 CASOS:

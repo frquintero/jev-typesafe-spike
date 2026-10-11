@@ -35,9 +35,10 @@ un pendiente declarado, y hoy el cierre lo carga el nombre.
   contenido general (divulgación, noticia, nota de servicio), escrito para la prueba. Antes de
   trabajar se comprueba su **sello** contra la base: si el archivo cambió, eso es otro documento y
   se detiene.
-- **El prompt**: `prompt_UT`, el que esté **vigente en `mvp/prompts/`**. Se lee del archivo; su
-  único hueco es `{{TEXTO}}`, que se sustituye con `str.replace` (nunca `str.format`: el texto trae
-  llaves). Es una versión de trabajo: no se afina en cada corrida.
+- **El prompt**: `prompt_UT`, el que esté **vigente en `mvp/prompts/`**. Se lee del archivo; sus
+  huecos son `{{RELOJES}}` —los dos relojes, en el `system`— y `{{TEXTO}}` —el documento, en el
+  `user`—, y se sustituyen con `str.replace` (nunca `str.format`: el texto trae llaves). Es una
+  versión de trabajo: no se afina en cada corrida.
 
 **El texto entra entero, con sus títulos y subtítulos**: son contexto para interpretar, no
 oraciones. El corte en oraciones lo hace el modelo al devolverlas **literales**, y el código las

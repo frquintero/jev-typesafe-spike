@@ -5,6 +5,11 @@ comparativas hechas sobre la Etapa 2 (extracción de DATOS). El registro vivo de
 código que resuelve alias y llama a cada API— es `mvp/código/proveedores/__init__.py`; este
 documento es su bitácora de decisión, no un duplicado.
 
+**Antes que nada: la regla de los dos mensajes (§8).** Cómo se arma *cualquier* llamada del MVP
+—qué va en el `system` y qué en el `user`, y por qué— está en la última sección, y **rige para
+todos los prompts**: es lo que sostiene el caché y lo que hace que el material de una llamada no se
+confunda con la regla.
+
 ## 1. Modelos usados y rutas de activación por etapa
 
 El MVP tiene tres etapas, cada una con su propio corredor y su propio alias de modelo (los alias
@@ -264,3 +269,39 @@ para comparar o convertir, habrá que normalizarla.
 establecida. Lo que sí hay es una **lectura de Frat (10-10): `low` le parece de más calidad** que
 `medium` y `high`. Es el juicio de quien trae el interés, no una medición, y queda pendiente de
 confirmación con la batería de preguntas.
+
+## 8. La regla de los dos mensajes (y los relojes)
+
+**Rige para todos los prompts del MVP.** Quien arma una llamada —`paso1_unidades.py`,
+`paso2_datos.py`, `orq/armar_prompt.py`— sigue esta regla, y quien la implementa es
+`mvp/código/mensajes.py` (`partir`).
+
+1. **Dos marcas.** Un prompt de trabajo trae `[SISTEMA]` para lo invariante y, para el material de
+   la llamada, `[TAREA]` **o** `[USUARIO]` (las dos valen). Las marcas **no llegan al modelo**:
+   `partir` las consume.
+2. **Qué va en cada uno.** El `system` lleva la tarea, las reglas, el formato de salida **y los
+   ejemplos** —todo lo que no cambia de una llamada a otra—. El `user` lleva **el material de esta
+   llamada** —el documento, las unidades, los casos, la pregunta— **y el pedido**, al final.
+3. **Por qué así.** El `system` es el **prefijo invariante**: es lo que aprovecha el caché. En la
+   familia `responses` viaja como `instructions`, y en las otras dos como el primer mensaje del
+   sistema; el caché se mide sobre ese prefijo. Las medidas que lo sostienen están en §6 (Luna: el
+   prefijo entró entero, 2.048 de 2.066 tokens) y en §7 (MiMo). Poner en el `system` algo que cambia
+   por llamada se paga en cada corrida.
+4. **Los relojes, en todo prompt.** Todo prompt lleva el hueco `{{RELOJES}}` **en su `[SISTEMA]`**, y
+   el acto lo llena con `mvp/código/relojes.py`, con el mismo formato —`[día-mes-año: hora]`—:
+   - **el del sistema**: el «ahora» de la corrida, congelado una sola vez (en la consulta, al
+     abrirla: `orq/anclas.py`);
+   - **el del radicado**: `documentos.fecha_radicacion`, que lo puso la base al radicar. Lo llevan
+     las llamadas de **un documento** (UT y DATOS); la consulta, que va sobre un dominio, no.
+
+   Van **etiquetados**, y la etiqueta no es adorno: el reloj del radicado es el que resuelve un
+   deíctico del documento («ayer», «en dos días»); el del sistema, el de la corrida. **No son datos
+   del documento**, y el prompt lo dice.
+5. **Los huecos se rellenan con `str.replace`**, nunca con `str.format`: el texto del documento
+   puede traer llaves. Cada acto pasa los suyos: `RELOJES`, `TEXTO`, `UNIDADES`, `CASOS`,
+   `PREGUNTA`.
+6. **El material va delimitado** (`<texto> … </texto>`) y **el pedido, al final del `user`**.
+
+Lo que **no** va en el `system`: el material de la llamada y nada que cambie entre llamadas. Y si el
+prompt pide un hueco que el acto no llena, el acto **se detiene**: no se llama al modelo con el
+hueco crudo.

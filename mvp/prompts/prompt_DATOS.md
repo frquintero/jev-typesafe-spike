@@ -1,4 +1,7 @@
 [SISTEMA]
+RELOJES (el «ahora» de la corrida y la fecha de radicación del documento; no son datos del documento)
+{{RELOJES}}
+
 CONTEXTO
 Una UT es un caso —el núcleo, lo que la unidad dice que acaece, nombrado en su `caso`— junto con sus satélites, los casos de los que la UT habla por su relación con el núcleo, y todas las oraciones que se refieren a ellos.
 Un DATO es el aspecto, el valor y su unidad de valor que se extrae de los satélites de cada UT y que establece algo particular acerca del caso de la UT. Los DATOS se encuentran formulando preguntas como: qué cosa particular se nombra, qué valor y qué unidades de valor se mencionan.

@@ -1,30 +1,41 @@
-#!/usr/bin/env python3
 """Parte un prompt de trabajo en **los dos mensajes**: el `system` y el `user`.
 
-Un prompt de trabajo trae dos marcas:
+**La regla** —la misma para todos los prompts del MVP—:
 
-    [SISTEMA]   lo invariante: la tarea, las reglas, los casos, el formato de salida
-    [TAREA]     el material de esta llamada: el texto numerado, las unidades, los casos del dominio
+1. Un prompt de trabajo trae **dos marcas**: `[SISTEMA]` para lo invariante, y para el material de
+   la llamada `[TAREA]` **o** `[USUARIO]` (las dos valen). Las marcas **no llegan al modelo**:
+   `partir` las consume.
+2. El `system` lleva la tarea, las reglas, el formato de salida **y los ejemplos** —todo lo que no
+   cambia de una llamada a otra—. El `user` lleva **el material de esta llamada** —el documento, las
+   unidades, los casos, la pregunta— **y el pedido**.
+3. El `system` es el **prefijo invariante**: es lo que aprovecha el caché (en la familia `responses`
+   va como `instructions`). Por eso lo que cambia por llamada **no** va ahí.
+4. **Todo prompt lleva el hueco `{{RELOJES}}` en su `[SISTEMA]`**: el «ahora» de la corrida y la
+   fecha de radicación del documento (`mvp/código/relojes.py`, formato `[día-mes-año: hora]`). Lo
+   llena el acto con lo que aplica: **los dos relojes** cuando la llamada es de un documento (UT,
+   DATOS) y **el del sistema** cuando no lo es (la consulta, que va sobre un dominio).
+5. Los huecos de cada prompt (`{{RELOJES}}`, `{{TEXTO}}`, `{{UNIDADES}}`, `{{CASOS}}`,
+   `{{PREGUNTA}}`) se rellenan con `str.replace` —**nunca** `str.format`: el texto puede traer
+   llaves—.
+6. El material va **delimitado** (por ejemplo `<texto> … </texto>`), y el pedido va al final del
+   `user`.
 
-El `system` lleva el prompt —va con su hash en la fila de la corrida— y el `user` lleva el material
-—que es lo que cambia de un documento a otro, y lo que va con el sello del documento radicado—.
-Así el modelo lee la regla como instrucción y el texto como dato, y el prefijo invariante queda
-estable entre llamadas.
-
-Los huecos (`{{TEXTO}}`, `{{UNIDADES}}`, `{{CASOS}}`, `{{PREGUNTA}}`, `{{ANCLAS}}`) se
-rellenan con `str.replace` —nunca `str.format`: el texto puede traer llaves—.
+El porqué del reparto y las medidas de caché que lo sostienen: `mvp/proveedores.md`, la sección de
+la regla de los dos mensajes.
 """
 
 MARCA_SISTEMA = "[SISTEMA]"
 MARCA_TAREA = "[TAREA]"
+MARCA_USUARIO = "[USUARIO]"  # el material de la llamada también puede venir marcado así
 
 
 def partir(plantilla, ruta=None, **rellenos):
     """Devuelve los dos mensajes: `[{"role": "system", …}, {"role": "user", …}]`."""
-    if MARCA_SISTEMA not in plantilla or MARCA_TAREA not in plantilla:
-        raise SystemExit(f"el prompt '{ruta or '(sin nombre)'}' tiene que traer las marcas "
-                         f"{MARCA_SISTEMA} y {MARCA_TAREA}")
-    parte_sistema, parte_tarea = plantilla.split(MARCA_TAREA, 1)
+    marcas_del_material = [marca for marca in (MARCA_TAREA, MARCA_USUARIO) if marca in plantilla]
+    if MARCA_SISTEMA not in plantilla or not marcas_del_material:
+        raise SystemExit(f"el prompt '{ruta or '(sin nombre)'}' tiene que traer la marca "
+                         f"{MARCA_SISTEMA} y la del material ({MARCA_TAREA} o {MARCA_USUARIO})")
+    parte_sistema, parte_tarea = plantilla.split(marcas_del_material[0], 1)
     parte_sistema = parte_sistema.replace(MARCA_SISTEMA, "", 1)
 
     def rellenar(texto):

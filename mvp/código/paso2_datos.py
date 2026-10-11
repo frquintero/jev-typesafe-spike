@@ -43,6 +43,7 @@ from base import (borrar_datos, conectar, datos_de, exigir_documento,  # noqa: E
                   exigir_sello, hash_texto, registrar_corrida, unidades_de)
 from mensajes import partir  # noqa: E402
 from proveedores import ErrorDeLlamada, llamar, resolver  # noqa: E402
+from relojes import relojes  # noqa: E402
 from respuesta import extract_json  # noqa: E402
 
 PROMPTS = RAIZ / "mvp" / "prompts"
@@ -157,8 +158,8 @@ def run(doc, modelo, rehacer, esfuerzo=None):
 
     ruta_prompt = PROMPTS / "prompt_DATOS.md"
     plantilla = ruta_prompt.read_text(encoding="utf-8")
-    if "{{UNIDADES}}" not in plantilla:
-        raise SystemExit(f"el prompt '{ruta_prompt.name}' no tiene {{{{UNIDADES}}}}")
+    if "{{UNIDADES}}" not in plantilla or "{{RELOJES}}" not in plantilla:
+        raise SystemExit(f"el prompt '{ruta_prompt.name}' no tiene {{{{UNIDADES}}}} o {{{{RELOJES}}}}")
     config = resolver(modelo, esfuerzo)
     corrida = dict(id=f"{doc}:DATOS", paso="DATOS", documento_id=doc, prompt=ruta_prompt.name,
                    hash_prompt=hash_texto(plantilla), modelo=config["id"],
@@ -182,7 +183,8 @@ def run(doc, modelo, rehacer, esfuerzo=None):
     bloques = ["caso: " + unidad["caso"] + "\nsatélites:\n"
                + "\n".join(f"[{k}] {oracion}" for k, oracion in enumerate(unidad["satelites"], 1))
                for unidad in lista]
-    mensajes = partir(plantilla, ruta_prompt.name, UNIDADES="\n\n".join(bloques))
+    mensajes = partir(plantilla, ruta_prompt.name, UNIDADES="\n\n".join(bloques),
+                      RELOJES=relojes(fila["fecha_radicacion"]))
 
     print(f"  {doc}: una llamada con {len(lista)} unidades "
           f"({[unidad['id'] for unidad, _ in armadas]}) · {config['id']}")

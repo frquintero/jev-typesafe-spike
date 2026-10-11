@@ -4,10 +4,11 @@
 El prompt vigente es `mvp/prompts/prompt_ORQ.md` (lo apunta `config.json`), en dos partes marcadas
 por `mensajes.partir`:
 
-    [SISTEMA]   la LÓGICA DEL AGENTE ENCARGADO y la forma de la respuesta JSON
-    [TAREA]     las anclas, los casos del dominio y la pregunta
+    [SISTEMA]   los relojes —el «ahora» de esta consulta, congelado— y la LÓGICA DEL AGENTE
+                ENCARGADO con la forma de la respuesta JSON
+    [TAREA]     los casos del dominio y la pregunta
 
-Lo único dinámico son los casos, la pregunta y las anclas. R **no** va: R la aplica el orquestador,
+Lo único dinámico son los casos, la pregunta y los relojes. R **no** va: R la aplica el orquestador,
 ofreciendo herramientas y admitiendo fuentes.
 """
 
@@ -17,13 +18,17 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 
 from mensajes import partir  # noqa: E402
+from relojes import de_marcas  # noqa: E402
 
 
 def armar_prompt(ruta_prompt, pregunta, casos, marcas):
-    """Devuelve los dos mensajes: el system con la regla y el user con la tarea."""
+    """Devuelve los dos mensajes: el system con la regla y los relojes, y el user con la tarea."""
     if not ruta_prompt.exists():
         raise SystemExit(f"no está el prompt del agente en '{ruta_prompt}'")
     plantilla = ruta_prompt.read_text(encoding="utf-8")
+    for hueco in ("{{RELOJES}}", "{{CASOS}}", "{{PREGUNTA}}"):
+        if hueco not in plantilla:
+            raise SystemExit(f"el prompt '{ruta_prompt.name}' no tiene {hueco}")
     lista_casos = "\n".join(f"- {caso['unidad_id']} · {caso['caso']}" for caso in casos)
     return partir(plantilla, ruta_prompt.name, CASOS=lista_casos, PREGUNTA=pregunta,
-                  ANCLAS=marcas["texto"])
+                  RELOJES=de_marcas(marcas))
