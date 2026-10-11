@@ -103,9 +103,10 @@ hash, los tokens (entrada, salida y pensamiento), los segundos, la fecha, y el `
 **(b) Las unidades y sus tramos** — en `unidades`, una por UT: el id `<doc>:Un` y el nombre del
 caso (`subtema`). Y en **`unidad_oraciones`**, una fila por oración: su orden dentro de la unidad,
 su **tramo** (`desde`, `hasta`, en caracteres sobre el texto del documento) y la **oración literal**
-tal como la devolvió el modelo. El texto no se duplica: el tramo lo señala, y el sello del
-documento es el guardián. **No hay números de oración**: un número depende de la regla con la que se
-cortó, y con otra regla dice otra cosa; el tramo no.
+tal como la devolvió el modelo. La literal es la **evidencia** de lo que devolvió el modelo; el
+**tramo** es la referencia, y el sello del documento es el guardián: cortar el texto por el tramo
+tiene que devolver la literal, palabra por palabra. **No hay números de oración**: un número depende
+de la regla con la que se cortó, y con otra regla dice otra cosa; el tramo no.
 
 ```sql
 -- así se lee una unidad, con sus oraciones y la corrida que las produjo

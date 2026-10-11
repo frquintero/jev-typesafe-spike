@@ -12,9 +12,10 @@ llamada que lo produjo.
   no se guarda: vive en el documento radicado. Un documento radicado no se mueve.
 - `unidades`: la salida de UT —el nombre de cada unidad y su orden—.
 - `unidad_oraciones`: los tramos de cada unidad —la oración **literal** tal como la devolvió el
-  modelo, con su `desde` y su `hasta` sobre el texto del documento radicado—. El texto no se
-  duplica: el tramo lo señala, y el sello del documento es el guardián. La referencia es el tramo:
-  **no hay números de oración** (un número depende de la regla con la que se cortó).
+  modelo, con su `desde` y su `hasta` sobre el texto del documento radicado—. La literal es la
+  **evidencia** de lo que el modelo devolvió; el **tramo** es la referencia, y el sello del
+  documento es el guardián: cortar el texto por el tramo tiene que devolver la literal, palabra por
+  palabra. **No hay números de oración** (un número depende de la regla con la que se cortó).
 - `datos`: la salida de DATOS —caso, aspecto, valor y unidad del valor—.
 
 **El expediente**
