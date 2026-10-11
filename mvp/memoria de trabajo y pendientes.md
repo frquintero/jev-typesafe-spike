@@ -118,6 +118,20 @@ proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, e
 - **La ficha.** `ficha_v1` está congelada y es la base del paso 2; en F5 midió 60/63 dentro
   de su contrato. F6 se ejecutó y sigue sin evaluar. Detalle en `unidades/PLAN.md`.
 
+- **El tramo de la noche del 10-10 (lo que cambió).** El **cortador de oraciones** partía los
+  números: `250.000` y `5.500` quedaban cortados por la mitad y el paso 2 habría extraído «250» y
+  «5» (commit `6457f07`; solo cambió `sol`, de 18 a 16 oraciones; el café, `doc10` y `doc11`,
+  igual). La base quedó **en cero** —sin filas, con su esquema (`c3d25eb`)— y se **re-radicaron** los
+  dos documentos, con los mismos sellos (`b85511a`). **`sol` pasó por las etapas con Luna `low`**:
+  UT, 5 unidades (`f4db5e3`); DATOS, 24 datos (`b9e8b13`); y la **consulta 1** —`sol:q1`,
+  `respondida`, leyó `sol:U2`— ya está en la base (`96a3552`). Para eso entró el **transporte de la
+  familia `responses`** (`proveedores/openai_responses.py`, `06931d6`), que ahora también manda
+  `tools`, y el ORQ quedó apuntado a `mvp/consulta/preguntas_sol.md` con `luna` (`0777b55`).
+  **`prompt_ORQ` pide la entrega solo como JSON** (`747083c`): con Luna `low` entregaba la prosa y
+  la corrida quedaba «sin JSON». Ojo con dos cosas que dicen más arriba: la UT del café de la
+  primera viñeta **ya no vale** (el reseteo se la llevó), y los pendientes que decían «la base está
+  vacía» —el 15 y la nota del paso 2— tampoco: hoy tiene **dos documentos, 5 unidades y 24 datos**.
+
 ## 0. Dónde y cómo
 
 - **Carpeta:** `/home/fratquintero/Documentos/Claude/jev-typesafe-spike/` (Linux, máquina
@@ -381,13 +395,15 @@ está vacía hoy, así que es cambiar el esquema, no migrar (como el pendiente 1
 
 ## 3. Pendientes vigentes
 
-**Orden (10-10).** El código, los prompts y los procedimientos están listos; **`preparacion_cafe` está
-radicado y con sus unidades** (primera viñeta), y lo que sigue es **pasarlo por las etapas**, cada una como
+**Orden (10-10).** El código, los prompts y los procedimientos están listos; **`sol` ya pasó por las
+tres etapas** —UT, DATOS y su consulta 1; ver «El tramo de la noche»— y **`preparacion_cafe` está
+radicado y sin unidades**: lo que sigue es pasarlo por las etapas, cada una como
 acto aparte (punto 0). El material anterior —documentos, baterías,
 extracción y corridas— está archivado en `mvp/temp/`.
-0. **`preparacion_cafe`, por las etapas,** en actos sueltos y a mano: **ya está radicado y UT ya
-   corrió** (5 unidades, Haiku `high`); sigue **DATOS** (`paso2_datos.py preparacion_cafe`) —corre
-   contra la API real y escribe en la base; **espera la elección de modelo y esfuerzo**, ver
+0. **`preparacion_cafe`, por las etapas,** en actos sueltos y a mano: **radicado y sin unidades**
+   (el reseteo de la noche le sacó la UT de Haiku `high`); siguen **UT**
+   (`paso1_unidades.py preparacion_cafe`) y **DATOS** (`paso2_datos.py preparacion_cafe`) —corren
+   contra la API real y escriben en la base; el modelo y el esfuerzo son la elección abierta, ver
    «Encargo a otro modelo»—,
    escribir su batería en `mvp/consulta/preguntas_preparacion_cafe.md` y correr la consulta; evaluarla con la vara de los
    números de oración, distinguiendo «no está en los datos extraídos» de «el documento no lo dice»
@@ -431,6 +447,26 @@ extracción y corridas— está archivado en `mvp/temp/`.
     enteros) y los avisos de DATOS (dónde va la unidad) se imprimen y no tienen campo en la base:
     el registro no los guarda. Decidir si se agrega una columna —o un campo en la unidad— antes de
     que la base crezca: hoy está vacía, así que es cambiar el esquema, no migrar.
+16. **La entrada de la consulta: un JSON con `pregunta` y `dominio` (propuesta, 10-10).** La
+    pregunta se da **a mano** —en Zettel habrá un módulo para eso—, así que la entrada sería un JSON
+    de dos campos: la `pregunta` y el `dominio`; y el `dominio` puede ser una **etiqueta** que
+    identifica una colección de documentos radicados **o el nombre de un documento radicado**.
+    Revisado contra el repo: **encaja con lo que el diseño ya dice** (§4.1: lo único que aporta el
+    usuario es la pregunta y el dominio elegido —hoy el dominio vive en `config.json`, que es un
+    desvío—) y el gancho está escrito (`preguntas.desde_archivo` en `leer_config.py`, «la otra vía,
+    todavía no», y el corte de `orquestador.py`, «no hay otra entrada todavía»). `R` **no** se
+    mezcla: R son las reglas que aplica el ORQ, no la entrada del usuario. **Lo que hay que decidir
+    antes de escribirlo:** (a) **el id de la consulta**, que hoy sale del nombre de la batería
+    (`registrar_consulta.py`: `preguntas_sol.md` → `sol:q1`) —con un JSON no hay archivo, así que
+    hay que elegir de dónde sale: del dominio, de un campo propio o de un hash de la pregunta—; no
+    es cosmético: es la clave primaria y la del upsert; (b) **el alcance por documento choca con el
+    contrato de la base**: `corridas` impone que el ORQ tenga `dominio` no nulo y `documento_id`
+    nulo, así que un documento solo puede anotarse dentro de `dominio`, o hay que cambiar el CHECK;
+    (c) **`resolver_dominio` solo sabe de etiquetas** (`WHERE dominio = ?`): hace falta la regla «o
+    es un `documentos.id`» y una precedencia para el caso ambiguo; (d) **`corridas.bateria` se queda
+    sin referente** y `pregunta_numero` sin fuente si el JSON trae una sola pregunta. Y dos cosas a
+    fijar: si el JSON lleva **una** pregunta o una **lista**, y que hoy una «colección» es
+    implícita —el `dominio` de los documentos—, sin tabla ni validación.
 
 **Cerrado el 08-10: alineación con prompt 3.** El ORQ ubica el JSON del mensaje final donde
 prompt 3 lo ponga (`orq/leer_entrega.py`; `entrega.forma` en `config.json`, que el ORQ valida) y
