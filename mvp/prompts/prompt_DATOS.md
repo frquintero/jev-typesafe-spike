@@ -1,57 +1,73 @@
 [SISTEMA]
+CONTEXTO
+Una UT es un caso —el núcleo, lo que la unidad dice que acaece, nombrado en su `caso`— junto con sus satélites, los casos de los que la UT habla por su relación con el núcleo, y todas las oraciones que se refieren a ellos.
+Un DATO es el aspecto, el valor y su unidad de valor que se extrae de los satélites de cada UT y que establece algo particular acerca del caso de la UT. Los DATOS se encuentran formulando preguntas como: qué cosa particular se nombra, qué valor y qué unidades de valor se mencionan.
+
 TAREA
-Extrae los datos de CADA unidad temática de la lista.
+De cada UT extrae todos los DATOS.
 Responde solo con el JSON.
-La forma es el contrato: no agregues claves fuera de las que define `FORMATO DE RESPUESTA`.
 
-UN DATO
-Lo que la unidad establece acerca de algo, escrito para que se entienda sin el texto al lado:
-- `aspecto`: qué se pregunta y de qué cosa, nombrada completa («altura del faro»).
-- `valor`: lo que responde esa pregunta.
-- `unidad_valor`: la unidad de medida, si el valor es un número con una sola unidad de medida; si no, null.
+EJEMPLOS
+caso: la renovación del faro de la isla y lo que se espera de ella
+satélites:
+[1] El faro de la isla alcanza los cuarenta metros de altura y se inauguró hace ciento veinte años.
+[2] En dos mil diez, la alcaldía cambió su lámpara de queroseno por una lámpara de diodos.
+[3] Ese cambio redujo el consumo de energía a la mitad.
+[4] La luz gira cada doce segundos.
+[5] El alcalde y el capitán del puerto recorrieron la obra; él prometió abrir el faro a los visitantes en mayo.
+[6] Hoy el faro recibe unas tres mil visitas al mes.
+[7] Según la cooperativa de pescadores, las capturas subirán cerca de un veinte por ciento si la luz alcanza las treinta millas.
+[8] Faros automáticos como el de la isla se alimentan de energía solar, eólica y de la red eléctrica.
 
-CÓMO SE DECIDE
-1. Un dato por cada pregunta distinta que la unidad responde. No omitas ninguna.
-2. Cada palabra va a un solo sitio: al valor, si cambia la respuesta; al aspecto, si acota la pregunta (cuándo, dónde, cada cuánto, de quién); fuera, si solo enlaza.
-3. Fuera de los paréntesis, solo lo que dice el texto. Lo que agregues para que el dato se entienda —un antecedente que está en otra parte, lo que resume una expresión como «ese cambio», o lo que sabes del mundo— va entre paréntesis, junto a la expresión del texto. Un pronombre con un solo antecedente en la unidad se reemplaza, sin paréntesis. Si quedan dos posibles, aunque uno esté más cerca, escribe los dos.
+Los datos que se extraen son:
+- altura del faro de la isla = cuarenta [metros]
+- fecha de la inauguración del faro de la isla = hace ciento veinte [años]
+- año del cambio de la lámpara del faro de la isla = dos mil diez [null]
+- autor del cambio de la lámpara del faro de la isla = la alcaldía [null]
+- lámpara que se reemplazó en el faro de la isla = su lámpara de queroseno [null]
+- lámpara que se instaló en el faro de la isla = una lámpara de diodos [null]
+- reducción del consumo de energía (del faro de la isla) por ese cambio (el de la lámpara de queroseno por una de diodos) = la mitad [null]
+- período de giro de la luz (del faro de la isla) = doce [segundos]
+- autor de la promesa de abrir el faro a los visitantes = él (el alcalde o el capitán del puerto) [null]
+- fecha prometida para abrir el faro a los visitantes = mayo [null]
+- número de visitas mensuales que recibe hoy el faro de la isla = unas tres mil [null]
+- aumento previsto de las capturas (de los pescadores) = cerca de un veinte, si la luz alcanza las treinta millas, según la cooperativa de pescadores [por ciento]
+- tipo de faros como el faro de la isla = automático [null]
+- fuentes de energía de los faros automáticos = energía solar, eólica y de la red eléctrica [null]
 
-CASOS
-Las oraciones son inventadas. Cada caso es un precedente: cuando dudes, busca el parecido.
+caso: el rescate de dos pescadores perdidos cerca de la isla
+satélites:
+[1] Los guardacostas rescataron a dos pescadores perdidos a dieciocho millas de la costa, con una lancha del puerto.
+[2] La búsqueda duró dos horas y cuarto, con vientos de treinta y cinco nudos.
+[3] El agua estaba a catorce grados centígrados.
+[4] Su luz guió la lancha de regreso al puerto.
+[5] La lancha navega a cuarenta nudos, tres veces más rápido que la que tenía el puerto antes, y consume ciento veinte litros por hora.
+[6] Lanchas semirrígidas como la del puerto resisten olas de hasta cuatro metros.
 
-Caso 1. A dónde va cada palabra.
-«El faro alcanza los cuarenta metros de altura.» → altura del faro = cuarenta [metros]
-«El puente se inauguró hace cuarenta años.» → fecha de la inauguración del puente = hace cuarenta [años]
-«Hoy el museo recibe unas tres mil visitas al mes.» → número de visitas mensuales que recibe hoy el museo = unas tres mil [null]
-«Según la cooperativa, la cosecha subirá cerca de un veinte por ciento si llueve en abril.» → aumento previsto de la cosecha = cerca de un veinte, si llueve en abril, según la cooperativa [por ciento]
-«Si cierran el puente, el tráfico se desviará por el norte.» → ruta del desvío del tráfico = por el norte, si cierran el puente [null]
-Por qué: sin «hace», cuarenta años sería una duración; «hoy» y «al mes» acotan la pregunta; «si…» no establece que el puente se cierre: la condición va con la consecuencia y no es un dato aparte.
-
-Caso 2. La unidad de medida.
-«El tanque guarda doce mil litros. El glaciar retrocede diez metros por año. El cometa vuelve cada setenta y seis años. La travesía duró dos horas y cuarto. La isla tiene doce mil habitantes. La torre es tres veces más alta que la iglesia.»
-→ capacidad del tanque = doce mil [litros] · retroceso anual del glaciar = diez [metros por año] · período de retorno del cometa = setenta y seis [años] · duración de la travesía = dos horas y cuarto [null] · número de habitantes de la isla = doce mil [null] · altura de la torre comparada con la de la iglesia = tres veces [null]
-Por qué: «cada» acota la pregunta; dos horas y cuarto combina dos unidades; los habitantes se cuentan; tres veces compara.
-
-Caso 3. Una pregunta, un dato; el valor es la respuesta.
-«Los bomberos rescataron a dos excursionistas perdidos con un helicóptero de la gobernación.» → número de excursionistas perdidos rescatados por los bomberos = dos [null] · medio del rescate de los excursionistas = un helicóptero de la gobernación [null]
-«De las lluvias de abril depende la cosecha del valle.» → fuente de la que depende la cosecha del valle = las lluvias de abril [null]
-Por qué: «perdidos» dice cuáles excursionistas; el helicóptero responde otra pregunta.
-
-Caso 4. Lo que se agrega va entre paréntesis.
-«La fábrica cambió sus calderas de carbón por calderas de gas. Ese cambio redujo sus emisiones a la mitad.» → reducción de las emisiones de la fábrica por ese cambio (el de las calderas de carbón por calderas de gas) = la mitad [null]
-«El alcalde inauguró la obra y el concejal la recorrió. Él prometió terminarla en mayo.» → autor de la promesa de terminar la obra = él (el alcalde o el concejal) [null]
-«Su capital tiene dos puertos.» (la isla se nombra en otra unidad) → número de puertos de su capital (la de la isla) = dos [null]
-Por qué: «sus emisiones» tiene un solo antecedente y se reemplaza; «ese cambio» no es un pronombre: resume lo dicho y lleva su referente entre paréntesis, aunque sea claro; «él» tiene dos posibles, aunque el concejal esté más cerca.
+Los datos que se extraen son:
+- número de pescadores perdidos rescatados por los guardacostas = dos [null]
+- distancia de la costa a la que se rescató a los pescadores perdidos = dieciocho [millas]
+- medio del rescate de los pescadores perdidos = una lancha del puerto [null]
+- duración de la búsqueda (de los pescadores perdidos) = dos horas y cuarto [null]
+- velocidad de los vientos durante la búsqueda = treinta y cinco [nudos]
+- temperatura del agua (durante el rescate) = catorce [grados centígrados]
+- lo que guió la lancha de regreso al puerto = su luz (la del faro de la isla) [null]
+- velocidad de la lancha = cuarenta [nudos]
+- velocidad de la lancha comparada con la de la que tenía el puerto antes = tres veces [null]
+- consumo de la lancha = ciento veinte [litros por hora]
+- tipo de lanchas como la lancha del puerto = semirrígida [null]
+- altura de las olas que resisten las lanchas semirrígidas = hasta cuatro [metros]
 
 FORMATO DE RESPUESTA
-Una salida por unidad, en el mismo orden de la lista, con su `caso`:
+Una salida por UT, en el mismo orden de la lista, con su `caso`:
 
 {"unidades": [
-  {"n": <la posición de la unidad en la lista>,
-   "caso": "<el caso de la unidad>",
+  {"n": <la posición de la UT en la lista>,
+   "caso": "<el caso de la UT>",
    "datos": [
-     {"aspecto": "<qué se pregunta y de qué cosa>",
-      "valor": "<lo que responde>",
-      "unidad_valor": "<la unidad de medida>" o null}]}]}
+     {"aspecto": "<fragmento de información específico, independiente y que se explica por sí mismo>",
+      "valor": "<qué valor tiene ese aspecto>",
+      "unidad_valor": "<unidad de medida del aspecto>" o null}]}]}
 
 [TAREA]
 UNIDADES
