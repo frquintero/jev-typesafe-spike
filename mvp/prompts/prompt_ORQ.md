@@ -6,6 +6,8 @@ LÓGICA DEL AGENTE ENCARGADO:
 4. Analiza los datos: si hay una respuesta plausible, armá la respuesta; si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 5.
 5. Diligencia el JSON en RESPUESTA_JSON.
 
+Responde solo con el JSON.
+
 RESPUESTA_JSON:
 {"desenlace": "respondida", "respuesta": "…"}
 {"desenlace": "no_esta_en_los_datos", "respuesta": ""}
