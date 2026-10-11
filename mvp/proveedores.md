@@ -287,19 +287,24 @@ confirmación con la batería de preguntas.
    sistema; el caché se mide sobre ese prefijo. Las medidas que lo sostienen están en §6 (Luna: el
    prefijo entró entero, 2.048 de 2.066 tokens) y en §7 (MiMo). Poner en el `system` algo que cambia
    por llamada se paga en cada corrida.
-4. **Los relojes, en todo prompt.** Todo prompt lleva el hueco `{{RELOJES}}` **en su `[SISTEMA]`**, y
-   el acto lo llena con `mvp/código/relojes.py`, con el mismo formato —`[día-mes-año: hora]`—:
-   - **el del sistema**: el «ahora» de la corrida, congelado una sola vez (en la consulta, al
-     abrirla: `orq/anclas.py`);
-   - **el del radicado**: `documentos.fecha_radicacion`, que lo puso la base al radicar. Lo llevan
-     las llamadas de **un documento** (UT y DATOS); la consulta, que va sobre un dominio, no.
+4. **Los relojes, en todo prompt, y cada uno en su lugar.** Dos, con el mismo formato
+   —`[día-mes-año: hora]`— y armados por `mvp/código/relojes.py`:
+   - **el del radicado** (`{{RELOJ_RADICADO}}`): cuándo entró el documento a Zettel
+     (`documentos.fecha_radicacion`). Es **invariante por documento**, así que va en el **`system`**,
+     donde no ensucia el prefijo. En la consulta van los de **todos los documentos del dominio**,
+     una línea por documento.
+   - **el del sistema** (`{{RELOJ_SISTEMA}}`): el «ahora» de la corrida. **Cambia en cada corrida**,
+     así que va en el **`user`**, con el material y **al final, después del texto**: así el prefijo
+     común —las reglas y el documento— se sigue reusando, y lo que cambia queda al final. En la
+     consulta se congela **una sola vez**, al abrirla (`orq/anclas.py`): si cambiara entre turnos,
+     habría dos «ahora».
 
-   Van **etiquetados**, y la etiqueta no es adorno: el reloj del radicado es el que resuelve un
-   deíctico del documento («ayer», «en dos días»); el del sistema, el de la corrida. **No son datos
+   Van **etiquetados**, y la etiqueta no es adorno: el del radicado es el que resuelve un deíctico
+   **del documento** («ayer», «en dos días»); el del sistema, el de la corrida. **Ninguno es dato
    del documento**, y el prompt lo dice.
 5. **Los huecos se rellenan con `str.replace`**, nunca con `str.format`: el texto del documento
-   puede traer llaves. Cada acto pasa los suyos: `RELOJES`, `TEXTO`, `UNIDADES`, `CASOS`,
-   `PREGUNTA`.
+   puede traer llaves. Cada acto pasa los suyos: `RELOJ_RADICADO`, `RELOJ_SISTEMA`, `TEXTO`,
+   `UNIDADES`, `CASOS`, `PREGUNTA`.
 6. **El material va delimitado** (`<texto> … </texto>`) y **el pedido, al final del `user`**.
 
 Lo que **no** va en el `system`: el material de la llamada y nada que cambie entre llamadas. Y si el

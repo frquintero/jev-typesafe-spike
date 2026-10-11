@@ -35,7 +35,8 @@ ve el agente— y aparecía en 2 de 21 unidades.
   tramo. El paso 2 **no corta ni numera nada**. Antes de trabajar se comprueba el **sello** del
   documento radicado (`mvp/documentos/<doc>.md`), que es sobre cuyo texto se cuentan los tramos.
 - **El prompt**: `prompt_DATOS`, el que esté **vigente en `mvp/prompts/`**. Sus huecos son
-  `{{RELOJES}}` —los dos relojes, en el `system`— y `{{UNIDADES}}` —las unidades, en el `user`—.
+  `{{RELOJ_RADICADO}}` —la fecha del radicado, en el `system`—, y `{{UNIDADES}}` y
+  `{{RELOJ_SISTEMA}}` —las unidades y el «ahora», en el `user`—.
 
 ## 3. De dónde viene
 

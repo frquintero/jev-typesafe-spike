@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
-"""Los dos relojes que van en el `system` de **todo** prompt: el del sistema y el del radicado.
+"""Los dos relojes, y **dónde va cada uno**.
 
 Formato, siempre el mismo: `[día-mes-año: hora]` — por ejemplo `[11-10-2026: 14:35]`.
 
-- **El del sistema** es el «ahora» de la corrida. Se congela **una sola vez**, al empezar el acto:
-  si cambiara entre turnos rompería el prefijo del caché y habría dos «ahora» distintos.
 - **El del radicado** es cuándo entró el documento a Zettel: lo puso la base al radicar
-  (`documentos.fecha_radicacion`). Es invariante por documento.
+  (`documentos.fecha_radicacion`). Es **invariante por documento**, así que va en el **`system`**,
+  junto a las reglas: el prefijo que cachea no cambia de una corrida a otra del mismo documento.
+- **El del sistema** es el «ahora» de la corrida: **cambia en cada corrida**, así que va en el
+  **`user`**, con el material y **al final**, después del texto —para no romper el prefijo por
+  delante—.
 
-Van **juntos y etiquetados**, y la etiqueta no es adorno: el del radicado es el que resuelve un
-deíctico **del documento** («ayer», «en dos días»); el del sistema, el de la corrida. Sin etiqueta,
-el modelo puede resolver «ayer» contra el día equivocado.
+Van **etiquetados**, y la etiqueta no es adorno: el del radicado es el que resuelve un deíctico
+**del documento** («ayer», «en dos días»); el del sistema, el de la corrida. Sin etiqueta, el modelo
+puede resolver «ayer» contra el día equivocado.
 
-Una llamada que no es de un documento —la consulta, que va sobre un dominio— lleva solo el del
-sistema. Lo llena cada acto y va en el hueco `{{RELOJES}}`.
+Una llamada que no es de un documento —la consulta— lleva **los radicados de los documentos del
+dominio**: una línea por documento.
 """
 
 from datetime import datetime
@@ -41,16 +43,23 @@ def _momento(valor):
                      f"se espera AAAA-MM-DD HH:MM:SS")
 
 
-def relojes(radicado=None, momento=None):
-    """El texto que va en `{{RELOJES}}`: el del sistema y —si hay documento— el del radicado."""
-    ahora = momento or datetime.now()
-    lineas = [f"sistema: {formato(ahora)}"]
-    if radicado:
-        lineas.append(f"radicado: {formato(_momento(radicado))}")
-    return "\n".join(lineas)
+def reloj_sistema(momento=None):
+    """El «ahora» de la corrida. Va en el `user`, al final, después del material."""
+    return f"sistema: {formato(momento or datetime.now())}"
 
 
-def de_marcas(marcas, radicado=None):
+def reloj_sistema_de(marcas):
     """Lo mismo, a partir de las anclas ya congeladas de una consulta (`fecha` y `hora`)."""
     momento = datetime.strptime(f"{marcas['fecha']} {marcas['hora']}", "%Y-%m-%d %H:%M")
-    return relojes(radicado=radicado, momento=momento)
+    return reloj_sistema(momento)
+
+
+def reloj_radicado(radicado, etiqueta=None):
+    """La fecha de radicación de un documento. Va en el `system`."""
+    nombre = f" {etiqueta}" if etiqueta else ""
+    return f"radicado{nombre}: {formato(_momento(radicado))}"
+
+
+def reloj_radicados(documentos):
+    """Una línea por documento del dominio: la consulta no va sobre uno solo."""
+    return "\n".join(reloj_radicado(fila["fecha_radicacion"], fila["id"]) for fila in documentos)

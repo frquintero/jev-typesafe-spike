@@ -1,6 +1,6 @@
 [SISTEMA]
-RELOJES (el «ahora» de la corrida y la fecha de radicación del documento; no son datos del documento)
-{{RELOJES}}
+RELOJES (la fecha de radicación del documento; no es dato del documento)
+{{RELOJ_RADICADO}}
 
 CONTEXTO
 Una UT es un caso —el núcleo, lo que la unidad dice que acaece, nombrado en su `caso`— junto con sus satélites, los casos de los que la UT habla por su relación con el núcleo, y todas las oraciones que se refieren a ellos.
@@ -75,3 +75,6 @@ Una salida por UT, en el mismo orden de la lista, con su `caso`:
 [TAREA]
 UNIDADES
 {{UNIDADES}}
+
+RELOJES (el «ahora» de esta corrida; no es dato del documento)
+{{RELOJ_SISTEMA}}

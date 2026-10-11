@@ -1,6 +1,6 @@
 [SISTEMA]
-RELOJES (el «ahora» de esta consulta; no es dato de ningún documento)
-{{RELOJES}}
+RELOJES (la fecha de radicación de los documentos del dominio; no es dato del documento)
+{{RELOJ_RADICADO}}
 
 LÓGICA DEL AGENTE ENCARGADO:
 1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.
@@ -20,3 +20,6 @@ CASOS:
 {{CASOS}}
 
 Pregunta: {{PREGUNTA}}
+
+RELOJES (el «ahora» de esta consulta; no es dato de ningún documento)
+{{RELOJ_SISTEMA}}

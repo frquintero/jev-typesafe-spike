@@ -36,9 +36,9 @@ un pendiente declarado, y hoy el cierre lo carga el nombre.
   trabajar se comprueba su **sello** contra la base: si el archivo cambió, eso es otro documento y
   se detiene.
 - **El prompt**: `prompt_UT`, el que esté **vigente en `mvp/prompts/`**. Se lee del archivo; sus
-  huecos son `{{RELOJES}}` —los dos relojes, en el `system`— y `{{TEXTO}}` —el documento, en el
-  `user`—, y se sustituyen con `str.replace` (nunca `str.format`: el texto trae llaves). Es una
-  versión de trabajo: no se afina en cada corrida.
+  huecos son `{{RELOJ_RADICADO}}` —la fecha del radicado, en el `system`—, y `{{TEXTO}}` y
+  `{{RELOJ_SISTEMA}}` —el documento y el «ahora», en el `user`—, y se sustituyen con `str.replace`
+  (nunca `str.format`: el texto trae llaves). Es una versión de trabajo: no se afina en cada corrida.
 
 **El texto entra entero, con sus títulos y subtítulos**: son contexto para interpretar, no
 oraciones. El corte en oraciones lo hace el modelo al devolverlas **literales**, y el código las

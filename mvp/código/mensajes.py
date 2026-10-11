@@ -10,13 +10,14 @@
    unidades, los casos, la pregunta— **y el pedido**.
 3. El `system` es el **prefijo invariante**: es lo que aprovecha el caché (en la familia `responses`
    va como `instructions`). Por eso lo que cambia por llamada **no** va ahí.
-4. **Todo prompt lleva el hueco `{{RELOJES}}` en su `[SISTEMA]`**: el «ahora» de la corrida y la
-   fecha de radicación del documento (`mvp/código/relojes.py`, formato `[día-mes-año: hora]`). Lo
-   llena el acto con lo que aplica: **los dos relojes** cuando la llamada es de un documento (UT,
-   DATOS) y **el del sistema** cuando no lo es (la consulta, que va sobre un dominio).
-5. Los huecos de cada prompt (`{{RELOJES}}`, `{{TEXTO}}`, `{{UNIDADES}}`, `{{CASOS}}`,
-   `{{PREGUNTA}}`) se rellenan con `str.replace` —**nunca** `str.format`: el texto puede traer
-   llaves—.
+4. **Todo prompt lleva los dos relojes**, y cada uno en su lugar (`mvp/código/relojes.py`, formato
+   `[día-mes-año: hora]`): **el del radicado** —`{{RELOJ_RADICADO}}`, invariante por documento— va en
+   el `[SISTEMA]`; **el del sistema** —`{{RELOJ_SISTEMA}}`, que cambia en cada corrida— va en el
+   `[TAREA]`, **después del material**. El acto los llena con lo que aplica: un documento (UT y
+   DATOS) o los documentos del dominio (la consulta).
+5. Los huecos de cada prompt (`{{RELOJ_RADICADO}}`, `{{RELOJ_SISTEMA}}`, `{{TEXTO}}`,
+   `{{UNIDADES}}`, `{{CASOS}}`, `{{PREGUNTA}}`) se rellenan con `str.replace` —**nunca**
+   `str.format`: el texto puede traer llaves—.
 6. El material va **delimitado** (por ejemplo `<texto> … </texto>`), y el pedido va al final del
    `user`.
 

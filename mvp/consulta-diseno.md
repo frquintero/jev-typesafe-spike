@@ -268,14 +268,16 @@ dónde.
 
 ### 4.3. Los relojes
 
-**Dos**, con el mismo formato —`[día-mes-año: hora]`— y en el `system` de **todo** prompt
-(`mvp/código/relojes.py`):
+**Dos**, con el mismo formato —`[día-mes-año: hora]`— y armados por `mvp/código/relojes.py`. Cada
+uno va donde no ensucie el prefijo del caché:
 
-- **el del sistema**: el «ahora» de la corrida. En la consulta se toma una sola vez al abrirla
-  (`orq/anclas.py`) y queda **congelado**: si cambiara entre turnos, rompería el prefijo del caché
-  y la consulta razonaría con dos «ahora» distintos. Queda en la traza.
-- **el del radicado**: cuándo entró el documento a Zettel (`documentos.fecha_radicacion`). Lo llevan
-  las llamadas de un documento (UT y DATOS); la consulta, que va sobre un dominio, no.
+- **el del radicado** (`{{RELOJ_RADICADO}}`): cuándo entró el documento a Zettel
+  (`documentos.fecha_radicacion`). Es **invariante por documento** → va en el **`system`**. En la
+  consulta van los de **todos** los documentos del dominio, una línea por documento.
+- **el del sistema** (`{{RELOJ_SISTEMA}}`): el «ahora» de la corrida, que **cambia** en cada una →
+  va en el **`user`**, después del material. En la consulta se toma una sola vez al abrirla
+  (`orq/anclas.py`) y queda **congelado**: si cambiara entre turnos, rompería el prefijo y la
+  consulta razonaría con dos «ahora» distintos. Queda en la traza.
 
 Van **etiquetados** y **no son datos del documento**, y el prompt lo dice: el del radicado es el que
 resuelve un deíctico del documento («ayer», «en dos días»), y el del sistema, el de la corrida.
@@ -293,7 +295,7 @@ resuelve un deíctico del documento («ayer», «en dos días»), y el del siste
 | 5 | Resolver el dominio | `orq/resolver_dominio.py` | la etiqueta `GENERAL` → sus documentos (pertenencia, sin juicio) |
 | 6 | Listar los casos | `orq/listar_casos.py` | `unidad_id` y `caso`, sin aspectos ni valores |
 | 7 | Armar las herramientas | `orq/armar_herramientas.py` | R ∩ las que existen |
-| 8 | Armar los mensajes | `orq/armar_prompt.py` + `prompt_ORQ.md` | el `system` (los relojes y la lógica) y el `user` (los casos y la pregunta) |
+| 8 | Armar los mensajes | `orq/armar_prompt.py` + `prompt_ORQ.md` | el `system` (radicado y lógica) y el `user` (casos, pregunta, ahora) |
 | 9 | El bucle | `orq/llamar_modelo.py`, `orq/ejecutar_herramienta.py`, `orq/obtener_datos_del_caso.py`, `orq/bucle.py` | llama, ejecuta lo que el agente pide, apila, y termina con la respuesta |
 | 10 | Registrar | `orq/registrar_consulta.py` | la corrida y la respuesta, en la base |
 
@@ -425,8 +427,8 @@ entrega, ni la cobertura, ni que un dato citado exista. El ORQ orquesta; no juzg
 Vive en `mvp/prompts/prompt_ORQ.md`, **un solo archivo** con dos
 partes marcadas: `[SISTEMA]` (lo que se conserva entre turnos) y `[TAREA]` (lo que
 depende del dominio y de la pregunta). `armar_prompt.py` lo parte y devuelve los dos
-mensajes. Los huecos son `{{RELOJES}}`, `{{CASOS}}` y `{{PREGUNTA}}`, rellenados con
-`str.replace` —nunca `str.format`—.
+mensajes. Los huecos son `{{RELOJ_RADICADO}}`, `{{CASOS}}`, `{{PREGUNTA}}` y `{{RELOJ_SISTEMA}}`,
+rellenados con `str.replace` —nunca `str.format`—.
 
 **Prompt 3 y prompt 4.** El prompt del agente es el que Frat llama **prompt 3** —hoy
 `prompt_ORQ.md`—, y de él sale el lector de la entrega (§9). Lo que
@@ -437,14 +439,17 @@ ninguna → número 2) y el valor `no_esta_en_el_corpus` → `no_esta_en_los_dat
 
 ```
 [SISTEMA]
-RELOJES (el «ahora» de esta consulta; no es dato de ningún documento)
-{{RELOJES}}
+RELOJES (la fecha de radicación de los documentos del dominio; no es dato del documento)
+{{RELOJ_RADICADO}}
 
 [TAREA]
 CASOS:
 {{CASOS}}
 
 Pregunta: {{PREGUNTA}}
+
+RELOJES (el «ahora» de esta consulta; no es dato de ningún documento)
+{{RELOJ_SISTEMA}}
 
 LÓGICA DEL AGENTE ENCARGADO:
 1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.

@@ -1,6 +1,6 @@
 [SISTEMA]
-RELOJES (el «ahora» de la corrida y la fecha de radicación del documento; no son datos del documento)
-{{RELOJES}}
+RELOJES (la fecha de radicación del documento; no es dato del documento)
+{{RELOJ_RADICADO}}
 
 TAREA
 Extrae unidades temáticas (UT) de `texto`. Una UT contiene un nombre de subtema y una o varias oraciones literales que desarrollan un mismo asunto específico.
@@ -26,5 +26,8 @@ Antes de responder, verifica: agrupación coherente, oraciones literales, cobert
 <texto>
 {{TEXTO}}
 </texto>
+
+RELOJES (el «ahora» de esta corrida; no es dato del documento)
+{{RELOJ_SISTEMA}}
 
 Extrae las UT del documento anterior. Devuelve únicamente el JSON solicitado.
