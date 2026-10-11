@@ -218,7 +218,7 @@ que A dice (decisión de Frat, 03-10).
 | Término | En el ensayo | En Zettel o en el spike |
 |---|---|---|
 | **Campo** | Alcance común de la articulación (A.1). | Zettel: conjunto de sentencias ancladas pertinentes para una pregunta. |
-| **Dominio** | Posiciones admisibles bajo un aspecto (A.3). | Zettel: conjunto de documentos que el usuario elige consultar. |
+| **Dominio** | Posiciones admisibles bajo un aspecto (A.3). | Zettel: la **etiqueta** que designa el conjunto de documentos que el usuario elige consultar; de él salen los casos que se ofrecen, y con ellos el corpus **acota** qué respuestas puede sostener. **No fija las posiciones admisibles**: eso es del aspecto (A.3). |
 | **Caso** | Lo que acaece (A.2). | En los prompts: caso de estudio (B). |
 | **Valor** | La determinación completa (A.4). | Campo de la ficha: solo la posición (B). |
 | **Variable** | Aspecto en una serie comparable con variación (A.3). | Rondas antiguas (DU/ENC): campo del extractor, hoy fuera de uso. |

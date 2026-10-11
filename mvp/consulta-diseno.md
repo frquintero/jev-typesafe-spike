@@ -291,6 +291,16 @@ palabras clave ni elige documentos. Recibe el dominio elegido (`GENERAL`), lo
 resuelve por pertenencia a la tabla, y le pasa al agente **todos** los casos de ese
 dominio. El que une la pregunta con la base es el **agente**.
 
+**Qué se dice con `dominio` acá.** El sentido de Zettel de la tabla de homónimos
+(`definiciones-del-marco.md`, C): la **etiqueta** que designa el conjunto de documentos
+que el usuario elige consultar; de él salen los casos que se ofrecen, y con ellos el
+corpus **acota** qué respuestas puede sostener. **No fija las posiciones admisibles**: eso
+es del aspecto (A.3). Dos cosas del código, para no leerlo de más: `documentos.dominio`
+lleva **una** etiqueta por documento —los grupos son partición, y una etiqueta sin
+documentos no existe: no hay tabla de grupos—, y el límite lo aplica **la lista de casos**
+(`obtener_datos_del_caso` rechaza un id que no esté), no R: `fuentes_admitidas` es
+declarativa —ningún módulo la lee—.
+
 ---
 
 ## 6. La memoria es del orquestador (el agente es stateless)
