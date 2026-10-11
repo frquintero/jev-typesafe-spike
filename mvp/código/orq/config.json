@@ -1,6 +1,6 @@
 {
   "rutas": {
-    "preguntas": "../../consulta/preguntas_doc8.md",
+    "preguntas": "../../consulta/preguntas_sol.md",
     "r": "../R.json",
     "corpus": "../corpus.db",
     "prompt": "../../prompts/prompt_ORQ.md"
@@ -11,7 +11,7 @@
   },
   "dominio": "GENERAL",
   "modelo": {
-    "alias": "deepseek",
+    "alias": "luna",
     "esfuerzo": "low"
   },
   "guardias": {
