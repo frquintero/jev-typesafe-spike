@@ -1,10 +1,14 @@
 # Memoria de trabajo y pendientes (spike-jev / Zettel)
 
-Estado al 10-10-2026. **Fuente única del estado: solo lo que estamos trabajando y lo que
-hace falta para trabajarlo.** El detalle de cada ronda vive en el `PLAN.md` de su
-proyecto; lo superado, en `historico/`; el vocabulario y los informes sueltos, en
-`otros documentos/`; la casa, la actualización de los tres sitios y los reportes, en
-`política.md`.
+**Para qué es este documento.** Es la **memoria de trabajo** del tramo, y viven acá **dos cosas
+y nada más**: (1) las **lecciones útiles** para lo que se está trabajando y (2) el **todo list**
+—lo que hay que hacer—. **Todo lo demás se va**, y cada cosa a su sitio: lo **decidido**, al
+documento que lo aplica (el diseño, el vocabulario, el prompt, la guía); las **cifras**, a la
+base; la **historia**, a git; y el detalle de cada ronda, al `PLAN.md` de su proyecto. Una cosa
+ya decidida **no se anota acá: sale de acá**.
+
+Estado al 11-10-2026. El vocabulario y los informes sueltos, en `otros documentos/`; la casa, la
+actualización de los tres sitios y los reportes, en `política.md`.
 
 ## Dónde quedamos (leer primero)
 
