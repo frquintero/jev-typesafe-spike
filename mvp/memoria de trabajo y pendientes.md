@@ -10,155 +10,6 @@ ya decidida **no se anota acá: sale de acá**.
 Estado al 11-10-2026. El vocabulario y los informes sueltos, en `otros documentos/`; la casa, la
 actualización de los tres sitios y los reportes, en `política.md`.
 
-## Dónde quedamos (leer primero)
-
-- **Faro.** El objetivo es un ecosistema de unidades temáticas y datos sobre el que operen
-  preguntas y se obtenga información: el cambio en A(Q) al considerar datos conforme a
-  reglas. Recuperar no es responder. Detalle en `README.md`, «Visión», y en
-  `definiciones-del-marco.md`.
-- **Hilo activo: el MVP, `mvp/` — la base es el centro.** El código está en `mvp/código/`:
-  `radicar.py` (radica el documento), `paso1_unidades.py` (UT), `paso2_datos.py` (DATOS), `base.py`
-  (la base y su esquema), `mensajes.py` (parte el prompt en los dos mensajes), `proveedores/` (el
-  transporte) y el orquestador (`orq/`, con `R.json`); los tres prompts de trabajo, en
-  `mvp/prompts/`, cada uno en dos bloques: `[SISTEMA]` lo invariante y `[TAREA]` el material, que es
-  lo que los actos mandan como `system` y como `user`. **El documento de trabajo es `preparacion_cafe`** —las tres dinámicas de extracción;
-  antes se llamaba `preparación del café`—, **radicado el 10-10 06:15:41** (dominio `GENERAL`, sello
-  `3a75bf28…`), y **con UT hecha: 5 unidades, 0 datos** (Haiku `high`, 4,0 s, 326 tokens de
-  pensamiento, prompt `prompt_UT` con hash `8185ce90…`). Ese mismo día la base se **reseteó** (se borró `corpus.db`
-  y volvió a nacer con el esquema) al cambiar `prompt_UT`, porque la UT anterior del café la había
-  hecho el prompt viejo, y el texto se corrigió («inversión» por **«inmersión»**, el término de los
-  métodos por inmersión), por eso el sello es nuevo. **`doc11`** —«La anemia falciforme»— sigue en
-  `mvp/documentos/`, sin radicar: radicarlo otra vez lo devuelve con el mismo sello. Cada etapa es un acto aparte y a mano —radicar, UT, DATOS, la
-  batería en `mvp/consulta/preguntas_<doc>.md` y la consulta—. El diseño y lo abierto están en
-  `mvp/consulta-diseno.md`; los procedimientos, en `mvp/guía_UT.md` y `mvp/guía_DATOS.md`.
-- **`mvp/temp/` es el archivo: no se corre desde ahí, no se lee, no se escribe.** Ahí quedaron los
-  documentos `doc4` y `doc6` con sus baterías (`mvp/temp/documentos/`), el texto, la batería y la
-  extracción de `doc7` (`mvp/temp/pruebas/` y `mvp/temp/extraccion/`), los crudos de las trece
-  corridas de consulta y su medición (`mvp/temp/consulta/`). Nada de eso está radicado.
-- **La base es el centro de datos (08-10).** `mvp/código/corpus.db` **es** la fuente: no se
-  regenera, y **no hay archivos intermedios**. Se escribe con **actos manuales y separados**:
-  **radicar** (`python3 mvp/código/radicar.py <doc>`) pone la fila del documento —nombre, dominio,
-  ubicación y **la fecha y la hora que pone la base**—; **UT** (`paso1_unidades.py`) escribe su
-  corrida y las **unidades** —el caso y los números de oración—; **DATOS** (`paso2_datos.py`)
-  escribe su corrida y los **datos**; y la **consulta** (`orq/registrar_consulta.py`) escribe su
-  corrida y la respuesta (`consultas` + `consulta_casos`). **Una corrida se escribe al terminar y
-  una sola vez**: queda `exitoso`, o `fallido` con su motivo, y **narra la extracción que está en la
-  base** —un reintento fallido no pisa la cita de lo que sigue ahí—. **Todo o nada, en una sola
-  transacción**: si la llamada falla, si la respuesta se cortó o si el JSON no se pudo leer, no se
-  escribe salida y la corrida queda `fallida` con su motivo (lo que volvió, recortado a la cabeza y
-  la cola); y si el intento era un `--rehacer`, **lo anterior vuelve**. La fila del documento no se
-  toca nunca: un documento radicado no se mueve (en pruebas, `radicar.py --rehacer <doc>`). El
-  **sello** es el guardián del texto. La base **impone sus contratos** (`paso`, `estado`, `motivo`
-  si falló, un `n` por documento, y las claves foráneas). **Lo que se lee son solo entradas**: el
-  documento radicado, los prompts, R y la batería. **Cuánto hay radicado hoy, en la primera viñeta**
-  —no se repite acá—. Las tablas se reconstruyeron el 08-10 para imponer los contratos, con la
-  radicación intacta (misma fecha y sello), y el esquema quedó igual a su DDL en
-  `mvp/consulta-diseno.md`.
-- **Las particiones, probadas fuera de la base (08-10).** En el scratch `temp/ut-haiku/` —**sin
-  versionar y sin tocar la base**— un corredor llama a `proveedores.llamar` con el mismo prompt, el
-  mismo documento y la misma verificación que el acto real, y guarda su JSON; otro compara
-  particiones oración por oración. **`doc8`: seis corridas, seis particiones distintas** —DeepSeek
-  `low` ×2 (48-53 s, ~10.500 tokens de salida) y Haiku `high` ×4 (12-22 s, 2.400-3.000)—.
-  Coinciden en 1-4, 11-13 y 18 —y 9-10 en 5 de 6—, y **titubean siempre en los mismos dos cortes**:
-  si la explosión del Cámbrico (5) y la conquista de la tierra firme (6-8) son uno o dos asuntos, y
-  si los arrecifes (17) entran en el cambio del mar (14-16). La cola unida la dieron Haiku y
-  DeepSeek, y la separada también los dos: **la partición no la decide el modelo, la decide la
-  tirada**. Con un ejemplo que **es** el documento, los dos modelos **transcriben** el ejemplo (6,1 s
-  y 6,7 s, nombres incluidos); con un documento nuevo —`doc333`, inventado en `temp/`: la Segunda
-  Guerra Mundial, tres párrafos, 14 oraciones con valores y unidades— **deciden otra vez** y no
-  coinciden: Haiku 6 unidades en 22,3 s, DeepSeek 8 en 45,9 s. Los detalles, en `temp/ut-haiku/`
-  (`comparacion-doc8.md`, `comparacion-doc333.md`, un JSON por corrida).
-- **Prompt 4 (08-10): la sonda de la herramienta de pregunta.** El prompt del agente suma
-  `preguntar_al_usuario`: cuando la pregunta **admite dos o más respuestas plausibles**, el
-  agente pregunta en vez de inventar. En este MVP **el ciclo termina ahí** (D26): el ORQ registra
-  la pregunta en la salida y en el crudo, y no la responde. Es una sonda de **una sola
-  hipótesis**: el `ROL`, el `ALCANCE` y el bloque `ESTRUCTURAS JSON DE SALIDA` que se discutieron
-  quedaron fuera. Las preguntas que la ponen a prueba son de tres clases —dos referentes→
-  preguntar, dato ausente→«no está en los datos», una sola respuesta→responder—; las corridas que
-  las ejercitaron (`doc4`, `doc6`) quedaron archivadas en `mvp/temp/consulta/`, sin evaluar.
-- **doc7 (08-10).** Documento de divulgación, distinto de `doc4` y `doc6`, con sus cinco preguntas:
-  texto, batería (`mvp/temp/pruebas/preguntas_doc7.md`) y extracción completa —6 unidades, 28
-  datos— **archivados en `mvp/temp/`**. Es el material listo si se decide que sea el primero en
-  radicarse. Se corrieron los dos pasos con los corredores: paso 1, 13 oraciones → 6 unidades,
-  **58,3 s**; paso 2 **en tanda** (D27), **24,4 s y 8.759 tokens** contra **52,2 s y 18.481** de a
-  una. Los procedimientos quedaron escritos en `mvp/guía_UT.md` y `mvp/guía_DATOS.md`.
-- **`unidades/`.** La ronda del paso 2 quedó **cerrada el 06-10** con la entrada
-  elegida —**la unidad más las referencias de v9 con sus respaldos**, que aclara sin ampliar y
-  conserva las dudas— y con **v9 congelado**. El conteo, rehecho por
-  ítem sobre las expectativas registradas: recuperación estricta **95,4 % en desarrollo**
-  (agregado DeepSeek + Muse) y **100 % en la reserva** (29/29); fidelidad **98,2 %** en
-  desarrollo y **100 %** en la reserva. **La aceptación no se declara demostrada** (un juez, sin
-  réplicas, reserva no independiente). El informe, la evaluación por ítem, los crudos y costos, la
-  vía utilizable (entrada b, verificación sin API) y los hallazgos de esa ronda quedaron
-  **archivados** con el proyecto, fuera de las fuentes vivas.
-- **Los prompts de trabajo (07-10).** **Paso 1:** `prompt_UT` (`mvp/prompts/prompt_UT.md`) —el 09-10
-  se **reemplazó por `v1`**: cinco definiciones (el subtema como oraciones correlacionadas con una
-  idea, el nombre como frase que describe el contenido), **dos ejemplos** —un texto marino de seis
-  oraciones y `doc9` entero en once unidades— y **sin la sección de `REFERENCIAS EXTERNAS`**; el
-  10-10 se corrigieron dos nombres del primer ejemplo, para que cada uno describa solo lo que dicen
-  sus oraciones ([3] «el origen de la vida en el océano»; [4] «los primeros seres vivos y el tiempo
-  en que el mar fue el único lugar habitado»)—;
-  devuelve `subtemas` con `subtema` y `oraciones` (sin ids: los pone el código). **Paso 2:**
-  `prompt_DATOS` (`mvp/prompts/prompt_DATOS.md`) —recibe **todas las unidades del documento en una
-  sola llamada** (tanda) y devuelve, por unidad, `caso` y `datos` (`aspecto · valor · unidad_valor`). El código arma cada unidad
-  que recibe el paso 2: `caso` = el `subtema` que devolvió el paso 1, `contenido` = sus oraciones
-  unidas en un párrafo y sin numeración. Corridos con Muse: paso 1 sobre `doc5` (v10), `doc4`
-  (v10) y `doc2` (v10); paso 2 sobre las cinco unidades de `doc4`, dos réplicas (`r1`, `r2`).
-  Los dos prompts quedan **como versiones de trabajo**: no se siguen afinando. **08-10: se quitó el
-  campo `dudas` de `prompt_DATOS`** —no lo leía nadie: no entra a la base ni lo ve el agente, y
-  aparecía en 2 de 21 unidades—, **el paso 2 pasó a correr por la API** y **después a la tanda**
-  (una llamada por documento): en `doc7`, 24,4 s y 8.759 tokens contra 52,2 s y 18.481 de a una
-  (D27). El prompt del
-  AGENTE ENCARGADO quedó escrito e implementado
-  (`mvp/prompts/prompt_ORQ.md`); lo que sigue es cómo se lee su entrega
-  (`mvp/consulta-diseno.md`, §9).
-- **El MVP: `mvp/`.** Sin índice de casos previo: alcance por dominio y
-  reidentificación acreditada al consultar (decisión del 05-10). Las mesas de la forma de
-  A(Q), la pieza 1, las pruebas del paso 1 y la ronda cerrada del paso 2 están **archivadas en
-  `mvp/temp/`**. La **pieza mecánica** (la conexión pregunta–dominio–corpus) está construida y
-  corrida; su diseño, reescrito a lo implementado, en `mvp/consulta-diseno.md`; su estructura y su
-  estado, en la primera viñeta. **Sin ejercitar:** el rechazo de un id fuera del dominio (el caso
-  de la mesa, un id de RIBERA en una consulta de MONTAÑA).
-- **La ficha.** `ficha_v1` está congelada y es la base del paso 2; en F5 midió 60/63 dentro
-  de su contrato. F6 se ejecutó y sigue sin evaluar. Detalle en `unidades/PLAN.md`.
-
-- **El tramo de la noche del 10-10 (lo que cambió).** El **cortador de oraciones** partía los
-  números: `250.000` y `5.500` quedaban cortados por la mitad y el paso 2 habría extraído «250» y
-  «5» (commit `6457f07`; solo cambió `sol`, de 18 a 16 oraciones; el café, `doc10` y `doc11`,
-  igual). La base quedó **en cero** —sin filas, con su esquema (`c3d25eb`)— y se **re-radicaron** los
-  dos documentos, con los mismos sellos (`b85511a`). **`sol` pasó por las etapas con Luna `low`**:
-  UT, 5 unidades (`f4db5e3`); DATOS, 24 datos (`b9e8b13`); y las **consultas 1 y 3** —`sol:q1`,
-  `respondida`, leyó `sol:U2` (`96a3552`), y `sol:q3`, `respondida`, leyó `sol:U4` y `sol:U1`
-  (`58cd6fd`)— ya están en la base; **quedan las preguntas 2, 4 y 5**. Para eso entró el **transporte de la
-  familia `responses`** (`proveedores/openai_responses.py`, `06931d6`), que ahora también manda
-  `tools`, y el ORQ quedó apuntado a `mvp/consulta/preguntas_sol.md` con `luna` (`0777b55`).
-  **`prompt_ORQ` pide la entrega solo como JSON** (`747083c`): con Luna `low` entregaba la prosa y
-  la corrida quedaba «sin JSON». Ojo con dos cosas que dicen más arriba: la UT del café de la
-  primera viñeta **ya no vale** (el reseteo se la llevó), y los pendientes que decían «la base está
-  vacía» —el 15 y la nota del paso 2— tampoco: hoy tiene **dos documentos, 5 unidades, 24 datos y 2
-  consultas**.
-
-## 0. Dónde y cómo
-
-- **Carpeta:** `/home/fratquintero/Documentos/Claude/jev-typesafe-spike/` (Linux, máquina
-  de Frat). **Repositorio:** `https://github.com/frquintero/jev-typesafe-spike`, rama
-  `main`; los commits se suben al upstream en el mismo tramo (`política.md` §3).
-- **Continuidad en nube:** ChatGPT Work trabaja desde una copia del repositorio público; lo
-  publicado permite recuperar el trabajo con el PC apagado. Las claves viven en el
-  `~/.bashrc` del PC y no se transfieren.
-- **Roles:** Frat y Cowork planean; el trabajo lo hacen los agentes, y **delega el modelo
-  que Frat designe como ORQUESTADOR** (`AGENTS.md`, «Agentes delegados»). El rol va con la
-  tarea, no con el modelo.
-- **Flujo de una ronda:** se discute y se conjetura; se corre solo si hay conjetura nueva;
-  se escribe el prompt y la sección del `PLAN.md`; el ejecutor corre, reporta sin veredicto
-  y hace commit y push (en el MVP, de la base); Cowork evalúa contra la conjetura y Frat decide.
-- **Aviso de fin de tarea: ntfy (obligatorio).** Los envoltorios publican al terminar en el
-  tema de `~/.config/dsh_tarea/ntfy_topic`; el ORQUESTADOR escucha ese tema o arma el
-  Monitor de Claude. **Nada de `sleep` ni de sondear el repo.** Procedimiento, y la
-  excepción de Codex: `otros documentos/agentes-delegados.md` §3.
-- **Git:** Cowork lo hace con Desktop Commander, no con el shell aislado. Para detener
-  procesos, `kill_process`.
-
 ## 1. Reglas de trabajo
 
 - **Ockham:** empezar con lo que funciona. Cada elemento del prompt tiene que servir a la tarea; quitar lo que no se use.
@@ -320,97 +171,17 @@ DeepSeek `low`) mandadas como el acto real, en dos mensajes.
   clase es («las claves generales», «los factores comunes»); sola, dice qué contiene («la molienda al
   momento y la temperatura ideal del agua») en dos de tres corridas.
 
-## Encargo a otro modelo: documentos y baterías de preguntas para la etapa 2 (10-10)
-
-**Qué se está decidiendo.** Con qué modelo y qué esfuerzo se corre la **etapa 2** —DATOS: de cada
-unidad temática salen datos `aspecto` · `valor` · `unidad_valor`—. Las corridas de prueba viven en el
-scratch `temp/datos-test/` y **no tocan la base**.
-
-**La vara, y lo que no es la vara.** Una unidad es adecuada para una pregunta si **leer su caso y sus
-datos reduce el conjunto de respuestas admisibles** a esa pregunta. No se puntúa por conteo de datos,
-ni por si la extracción conservó las palabras o los constituyentes de la oración: una paráfrasis que
-pierde palabras puede responder, y una transcripción fiel puede no responder nada. Toda la comparación
-entre modelos del 10-10 se hizo con conteo de datos y listas de aspectos esperados, así que **hay que
-rehacerla con preguntas** y las conclusiones de `mvp/proveedores.md` §2 quedan pendientes de
-re-puntuación. Las 29 corridas sobre `preparacion_cafe` están en disco con sus salidas completas:
-re-puntuar no cuesta llamadas nuevas, lo que falta es la batería.
-
-**El encargo.** (a) Escribir documentos de trabajo para el corpus, al estilo de
-`mvp/documentos/preparacion_cafe.md` —prosa expositiva de cuatro párrafos, con cantidades, unidades de
-medida, comparaciones, pronombres con antecedente y modificadores incrustados en el sujeto—. (b)
-Escribir para cada documento una batería de preguntas **que el documento sí responda**, tres o cuatro
-por unidad.
-
-**La restricción que hace válida la batería: a ciegas.** Las preguntas se escriben **viendo solo el
-documento** —y, si hace falta, los nombres de los casos—, **nunca las extracciones**. Quien las
-escriba después de leer las salidas redacta preguntas que ya sabe si pasan o fallan, y la batería
-queda viciada (*HARKing*: formular la hipótesis después de conocer el resultado). Por eso quien
-escribe las preguntas no es quien puntúa.
-
-**Dónde vive qué.** Documentos: `mvp/documentos/`. Prompts de trabajo: `mvp/prompts/`, cada uno en dos
-bloques, `[SISTEMA]` lo invariante y `[TAREA]` el material. El prompt de DATOS que se está probando es
-el scratch `temp/prompt_DATOS_v1.md`. Crudos de las pruebas: `temp/datos-test/*.json`. Baterías de
-consulta del MVP: `mvp/consulta/preguntas_<doc>.md`.
-
-**Cómo se lanzan los modelos.** Las claves viven en `~/.bashrc`; los shells no interactivos no las
-cargan, así que **todo va con `bash -ic '…'`**. Los guiones son idempotentes: si el crudo existe no
-vuelven a llamar, y una réplica nueva lleva un `rN` nuevo.
-
-- Etapa 1 (UT), escribe en la base: `python3 mvp/código/paso1_unidades.py <doc> [--modelo M] [--esfuerzo E] [--prompt UT] [--rehacer]`
-- Etapa 2 (DATOS), escribe en la base: `python3 mvp/código/paso2_datos.py <doc> [--modelo M] [--esfuerzo E] [--rehacer]`
-- Etapa 2 en seco, **no toca la base**: `python3 temp/datos-test/paso2_seco_v1.py <doc> <alias> <esfuerzo> <rN>`
-- Etapa 2 en seco por la familia `responses` de OpenCode Go: `python3 temp/datos-test/paso2_seco_v1_luna.py <doc> <modelo> <esfuerzo> <rN>`
-
-**Modelos disponibles.** Los alias del registro (`mvp/código/proveedores/__init__.py`): `deepseek`
-(deepseek-flash), `glm` (glm-5.3-flash), `haiku` (claude-haiku-5-5) y `grok` (sin créditos de xAI).
-Esfuerzos: `low`, `medium`, `high`, `xhigh`, `max`. Por **OpenCode Go** (clave `OPENCODE_API_KEY`, base
-`https://opencode.ai/zen/go/v1/`) hay tres familias y cada modelo usa una sola: `chat/completions`
-(deepseek, glm, kimi, mimo, longcat…), `messages` (claude-haiku-5-5, minimax, qwen) y `responses`
-(gpt-6-luna, grok, muse-spark). `gpt-6-luna` admite `none`, `low`, `medium`, `high`, `xhigh` y `max`,
-con defecto `medium`; la familia `responses` devuelve otra forma —`output[].content[].text`— y por eso
-tiene corredor aparte. **Muse Spark entrena con los prompts: no se usa.**
-
-**Lo abierto.** Si la unidad de puntuación es la UT por separado —suficiencia local— o el documento
-entero, donde una pregunta puede quedar respondida por datos de dos unidades, que es el caso
-interesante del faro. Decidirlo antes de puntuar.
-
-**`prompt_DATOS` radicado y el acto alineado (10-10).** El prompt con el que corrió todo el banco
-de DATOS vivía sin versionar en `temp/prompt_DATOS_v1.md`: quita el párrafo de reglas explícitas y lo
-reemplaza por un ejemplo de dos casos relacionados —el faro de la isla y el rescate de los
-pescadores— con el formato `caso:` / `satélites:` y cada oración numerada desde [1] en cada caso. Ya
-es `mvp/prompts/prompt_DATOS.md` (hash `5b456379…`). **De las 43 corridas de DATOS sobre
-`preparacion_cafe`, 38 comparten ese hash** —DeepSeek, GLM en tres niveles, Haiku `high` y `max`,
-Sonnet, GPT 6 Luna y MiMo—: ese es el banco comparable. Las otras cinco son de cuando se armaba `v1`
-y **ya son irrecuperables**: sus hashes (`1e986db3`, `2d3c8584`, `7fdc4bc3`) apuntan a textos que el
-archivo actual sobrescribió y que nunca se versionaron; la sexta, `haiku-high-s1` sin `-v1-`, corrió
-con el `prompt_DATOS` viejo. El sufijo `s1`…`s4` de los nombres no era de réplica: era **de versión
-del prompt**, y `s4` es la que se estabilizó.
-
-Con el prompt radicado se vio que **el acto mandaba el material con otra forma que el banco**:
-`paso2_datos.py` lo enviaba como JSON con `caso` y `contenido` —las oraciones unidas en un párrafo
-corrido—, mientras el ejemplo del prompt enseña bloques con satélites numerados. El hueco
-`{{UNIDADES}}` es el mismo, así que el acto no habría fallado: habría corrido en silencio con una
-entrada que ninguna corrida midió. **Ya está alineado**, y se verificó carácter por carácter contra
-el `unidades_enviadas` de un crudo: idénticos. Y los corredores de prueba guardan ahora
-`prompt_texto` además del hash, porque **el hash identifica pero no reconstruye** —fue justo lo que
-dejó irrecuperables a esas cinco corridas—.
-
-**Lo que queda de eso:** la tabla `corridas` de la base guarda `prompt` y `hash_prompt`, **no el
-texto**, así que una corrida de producción tiene la misma fragilidad que tenían los crudos. La base
-está vacía hoy, así que es cambiar el esquema, no migrar (como el pendiente 15). Sin decidir.
-
 ## 3. Pendientes vigentes
 
-**Orden (10-10).** El código, los prompts y los procedimientos están listos; **`sol` ya pasó por las
-tres etapas** —UT, DATOS y sus consultas 1 y 3; ver «El tramo de la noche»— y **`preparacion_cafe` está
-radicado y sin unidades**: lo que sigue es pasarlo por las etapas, cada una como
-acto aparte (punto 0). El material anterior —documentos, baterías,
-extracción y corridas— está archivado en `mvp/temp/`.
+**Orden.** El código, los prompts y los procedimientos están listos; **`sol` ya pasó por las
+tres etapas** —UT, DATOS y las consultas 1 y 3— y **`preparacion_cafe` está radicado y sin
+unidades**: lo que sigue es pasarlo por las etapas, cada una como acto aparte (punto 0). El material
+anterior —documentos, baterías, extracción y corridas— está archivado en `mvp/temp/`.
 0. **`preparacion_cafe`, por las etapas,** en actos sueltos y a mano: **radicado y sin unidades**
-   (el reseteo de la noche le sacó la UT de Haiku `high`); siguen **UT**
+   (el reseteo le sacó la UT de Haiku `high`); siguen **UT**
    (`paso1_unidades.py preparacion_cafe`) y **DATOS** (`paso2_datos.py preparacion_cafe`) —corren
    contra la API real y escriben en la base; el modelo y el esfuerzo son la elección abierta, ver
-   «Encargo a otro modelo»—,
+   `mvp/proveedores.md` (§2) y el pendiente 17—,
    escribir su batería en `mvp/consulta/preguntas_preparacion_cafe.md` y correr la consulta; evaluarla con la vara de los
    números de oración, distinguiendo «no está en los datos extraídos» de «el documento no lo dice»
    (`mvp/consulta-diseno.md`, §12). `doc11` está en `mvp/documentos/`, fuera de la base: vuelve con dos
@@ -431,33 +202,30 @@ extracción y corridas— está archivado en `mvp/temp/`.
 8. **Unidad temática con el eje de `v1`** (decisión de Frat, 02-10; registrada en `definiciones-del-marco.md`, parte B). Los prompts de trabajo (`prompt_UT` y `prompt_DATOS`) producen la unidad con el eje en el asunto: el `subtema` **nombra el núcleo** —el caso de la unidad— y las oraciones que lo desarrollan van juntas. Falta **declarar los satélites**, los casos de los que el texto habla por su relación con el núcleo, que hoy se leen de las relaciones y acciones. Discutirlo antes de escribirlo.
 9. **Adoptar el candidato del paso 2:** `mvp/temp/paso2/prompt_ficha_contexto.md` vive hoy en la carpeta de trabajo; si se adopta, le toca su sitio en `mvp/prompts/` con nombre propio, sin mezclarlo con `ficha_v2`.
 10. **Cerrar la forma del dato del paso 2:** si vuelven el `sostiene` (quién lo sostiene) y el `respaldo` (la ruta al fragmento), y si `unidad_valor` se queda como campo propio o la unidad va dentro del valor. Hoy el dato viaja sin fuente ni ruta.
-11. **El ejemplo de `prompt_UT` (cerrado el 09-10).** Era **un solo ejemplo, y era un documento
-    entero** —el que era `doc8`—: para un documento nuevo enseñaba la forma, pero sobre ese mismo
-    texto el acto **transcribía el ejemplo**. `v1` tiene **dos ejemplos** y **ninguno es el documento
-    que se analiza**: un texto marino de seis oraciones y `doc9` entero. `doc8` sigue fuera de
-    `mvp/documentos/`.
-12. **El scratch.** `temp/` —las pruebas de particiones de UT y de extracción de DATOS, con sus
+11. **El scratch.** `temp/` —las pruebas de particiones de UT y de extracción de DATOS, con sus
     crudos— **no se versiona**: vive solo en el disco. La base, en cambio, sí se commitea.
-13. **Sin decidir: ¿el corpus quiere una partición estable?** Medido el 09-10 sobre `doc11` con
+12. **Sin decidir: ¿el corpus quiere una partición estable?** Medido el 09-10 sobre `doc11` con
     DeepSeek `low` y el mismo documento: el prompt **no** mueve la partición —entre prompts el
     acuerdo es 97-98 %, y dentro de la primera versión de `v1`, 95-100 %—, y con el ejemplo fino el
     acuerdo entre corridas del mismo prompt bajó a **93 %**. Queda la pregunta: agregar por
     co-pertenencia, o quedarse con la tirada que fija el registro.
-14. **Los papeles, al día (09-10).** El diseño (§8 dice que el `system` son las anclas: ya no), las
+13. **Los papeles, al día (09-10).** El diseño (§8 dice que el `system` son las anclas: ya no), las
     dos guías (los actos ahora mandan dos mensajes, y describen el `prompt_UT` viejo —la definición
     de «desarrollo», el ejemplo único, la sección de referencias— que `v1` reemplazó), la estructura
     de los tres prompts, y los desfases que encontró la revisión: el diseño §5/§10/§11 («una unidad
     por turno», las tareas 5 y 6, la columna `corte` que no existe, el desenlace en prosa), y el tú y
-    el vos de `prompt_ORQ`. **Y lo de la noche del 10-10, que también hay que registrar:**
+    el vos de `prompt_ORQ`. **Y lo del 10-10, que también hay que registrar:**
     `proveedores.md` §6 dice que el transporte de la familia `responses` «hoy no existe y el registro
     no tiene alias para él» (existe desde `06931d6`, y ahora manda `tools`), y §4 dice que la etapa 3
     está **abierta** y con defecto `deepseek` —corrió `luna low`—; `consulta-diseno.md` §9 describe el
     JSON llegando con prosa, cuando `prompt_ORQ` pide **solo** el JSON.
-15. **Dónde van las notas de una corrida exitosa.** La verificación de UT (huecos, solapes, rango,
-    enteros) y los avisos de DATOS (dónde va la unidad) se imprimen y no tienen campo en la base:
-    el registro no los guarda. Decidir si se agrega una columna —o un campo en la unidad— antes de
-    que la base crezca: hoy está vacía, así que es cambiar el esquema, no migrar.
-16. **La entrada de la consulta: un JSON con `pregunta` y `dominio` (propuesta, 10-10).** La
+14. **Dónde van las notas de una corrida exitosa —y el texto del prompt—.** La verificación de UT
+    (huecos, solapes, rango, enteros) y los avisos de DATOS (dónde va la unidad) se imprimen y no
+    tienen campo en la base: el registro no los guarda. Y `corridas` guarda `prompt` y su hash,
+    **no el texto**: así se perdieron cinco corridas de prueba, cuyo prompt se sobrescribió y nunca
+    se versionó. Decidir si se agregan columna(s) —o un campo en la unidad— y hacerlo **antes de que
+    la base crezca**: ya tiene dos documentos, cinco unidades y 24 datos, así que ya no es gratis.
+15. **La entrada de la consulta: un JSON con `pregunta` y `dominio` (propuesta, 10-10).** La
     pregunta se da **a mano** —en Zettel habrá un módulo para eso—, así que la entrada sería un JSON
     de dos campos: la `pregunta` y el `dominio`; y el `dominio` puede ser una **etiqueta** que
     identifica una colección de documentos radicados **o el nombre de un documento radicado**.
@@ -477,8 +245,8 @@ extracción y corridas— está archivado en `mvp/temp/`.
     sin referente** y `pregunta_numero` sin fuente si el JSON trae una sola pregunta. Y dos cosas a
     fijar: si el JSON lleva **una** pregunta o una **lista**, y que hoy una «colección» es
     implícita —el `dominio` de los documentos—, sin tabla ni validación.
-17. **La consulta del Sol, a medio correr (10-10, para retomar).** La batería tiene cinco preguntas y
-    van **dos corridas**: la 1 y la 3, las dos `respondida` (ver «El tramo de la noche»). **Faltan la
+16. **La consulta del Sol, a medio correr (10-10, para retomar).** La batería tiene cinco preguntas y
+    van **dos corridas**: la 1 y la 3, las dos `respondida`. **Faltan la
     2, la 4 y la 5**, una por acto: `python3 mvp/código/orq/orquestador.py <n>` —el ORQ ya apunta a
     `mvp/consulta/preguntas_sol.md` y corre con `luna low`—. **Después, evaluarlas**: la vara es la de
     `mvp/consulta-diseno.md` §12 (que la respuesta se sostenga en lo que el documento establece, y
@@ -489,12 +257,17 @@ extracción y corridas— está archivado en `mvp/temp/`.
     y `sol:U1`), **y `sol:U1` sobró** —nada de lo que respondió sale de ahí—; las dos cerraron en **2
     turnos**, sin corte, con el JSON como todo el mensaje; y con `luna low` el modelo gastó **0
     tokens de pensamiento** en los cuatro turnos y el **caché no se reusó** entre turnos
-    (`cached_tokens: 0`). Sigue abierto, además, el pendiente 16 —la entrada como JSON con `pregunta`
+    (`cached_tokens: 0`). Sigue abierto, además, el pendiente 15 —la entrada como JSON con `pregunta`
     y `dominio`—, que es la forma en que Zettel dará la pregunta.
-
-**Cerrado el 08-10: alineación con prompt 3.** El ORQ ubica el JSON del mensaje final donde
-prompt 3 lo ponga (`orq/leer_entrega.py`; `entrega.forma` en `config.json`, que el ORQ valida) y
-la relectura de los crudos guardados deja los 13 con desenlace, sin volver a llamar al modelo.
-En el mismo tramo: el tope de herramientas se respeta de verdad, la causa del corte queda
-registrada, la traza ya no revienta con un JSON que no sea objeto y la salida no confunde «no
-hubo JSON» con «se cortó».
+17. **Re-puntuar el banco de DATOS con preguntas.** La vara no es el conteo de datos: una unidad es
+    adecuada para una pregunta si **leer su caso y sus datos reduce el conjunto de respuestas
+    admisibles** (no se puntúa por contar datos ni por si la extracción conservó las palabras: una
+    paráfrasis puede responder y una transcripción fiel puede no responder nada). Toda la comparación
+    de modelos de DATOS se hizo con conteo, así que hay que rehacerla: las corridas están en disco
+    (`temp/datos-test/`, con sus corredores en seco `paso2_seco_v1.py`, `…_luna.py`, `…_mimo.py`) y
+    **re-puntuar no cuesta llamadas nuevas**; lo que falta es la batería. Se escribe **a ciegas de
+    las extracciones**: quien la escribe después de ver las salidas redacta preguntas que ya sabe si
+    pasan (*HARKing*), y por eso **no es quien puntúa**. Antes de puntuar hay que decidir **la
+    unidad**: la UT sola (suficiencia local) o el documento entero, donde una pregunta puede quedar
+    respondida por datos de dos unidades. Mientras no se re-puntúe, no se cambia el proveedor por
+    defecto de DATOS (`mvp/proveedores.md` §2).
