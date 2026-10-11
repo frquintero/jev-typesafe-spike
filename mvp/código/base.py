@@ -108,6 +108,16 @@ CREATE TABLE IF NOT EXISTS consulta_casos (
   unidad_id   TEXT NOT NULL,             -- el id como texto: rehacer la extracción no rompe el expediente
   PRIMARY KEY (consulta_id, unidad_id)
 );
+CREATE TABLE IF NOT EXISTS consulta_llamadas (   -- la operación: qué herramienta pidió, en qué turno
+  consulta_id TEXT NOT NULL REFERENCES consultas(id) ON DELETE CASCADE,
+  turno       INTEGER NOT NULL,          -- la vuelta del bucle (1..max_turnos)
+  orden       INTEGER NOT NULL,          -- la posición de la llamada dentro del turno (1..n)
+  herramienta TEXT NOT NULL,
+  argumentos  TEXT,                      -- tal como los mandó el modelo (puede no ser JSON válido)
+  ok          INTEGER NOT NULL,          -- 1 la ejecutó · 0 volvió error por el canal `tool`
+  error       TEXT,                      -- qué devolvió el canal `tool` cuando no fue ok
+  PRIMARY KEY (consulta_id, turno, orden)
+);
 """
 
 

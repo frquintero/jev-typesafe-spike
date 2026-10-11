@@ -29,6 +29,7 @@ from llamar_modelo import llamar_modelo
 def bucle(config, mensajes, herramientas, db, casos):
     """Corre el bucle y devuelve el estado de la corrida."""
     cuerpos, respuestas, casos_leidos = [], [], []
+    detalle_llamadas = []  # la operación: qué herramienta, en qué turno, con qué argumentos, y si falló
     entrega = None
     json_entrega = None
     forma_entrega = None
@@ -61,15 +62,18 @@ def bucle(config, mensajes, herramientas, db, casos):
             asistente["reasoning_content"] = mensaje["reasoning_content"]
         mensajes.append(asistente)
 
-        for llamada in pedidas:
+        for orden, llamada in enumerate(pedidas, 1):
             # El tope se mira **antes** de ejecutar: no se pasa del número ofrecido.
             if llamadas >= tope_herramientas:
                 corte = "max_herramientas"
                 break
             llamadas += 1
             nombre = llamada["function"]["name"]
-            texto, ok, objeto = ejecutar_herramienta(nombre, llamada["function"]["arguments"],
-                                                     db, casos)
+            argumentos = llamada["function"]["arguments"]
+            texto, ok, objeto = ejecutar_herramienta(nombre, argumentos, db, casos)
+            detalle_llamadas.append({"turno": turno, "orden": orden, "herramienta": nombre,
+                                     "argumentos": argumentos, "ok": 1 if ok else 0,
+                                     "error": None if ok else texto[:200]})
             if nombre == "obtener_datos_del_caso" and ok:
                 casos_leidos.append(objeto["unidad_id"])
             if nombre == "preguntar_al_usuario" and ok:
@@ -87,4 +91,5 @@ def bucle(config, mensajes, herramientas, db, casos):
             "contenido_final": contenido_final, "pregunta_usuario": pregunta_usuario,
             "cuerpos": cuerpos,
             "respuestas": respuestas, "casos_leidos": casos_leidos, "turnos": turnos,
-            "llamadas": llamadas, "cerrado": cerrado, "corte": corte, "mensajes": mensajes}
+            "llamadas": llamadas, "llamadas_detalle": detalle_llamadas,
+            "cerrado": cerrado, "corte": corte, "mensajes": mensajes}

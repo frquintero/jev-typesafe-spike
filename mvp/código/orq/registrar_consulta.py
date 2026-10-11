@@ -91,5 +91,12 @@ def registrar_consulta(config, corrida, error=None):
     for unidad_id in ((estado or {}).get("casos_leidos") or []):
         db.execute("INSERT OR IGNORE INTO consulta_casos (consulta_id, unidad_id) VALUES (?,?)",
                    (identificador, unidad_id))
+    db.execute("DELETE FROM consulta_llamadas WHERE consulta_id = ?", (identificador,))
+    for llamada in ((estado or {}).get("llamadas_detalle") or []):
+        db.execute("INSERT INTO consulta_llamadas (consulta_id, turno, orden, herramienta, "
+                   "argumentos, ok, error) VALUES (?,?,?,?,?,?,?)",
+                   (identificador, llamada.get("turno"), llamada.get("orden"),
+                    llamada.get("herramienta"), llamada.get("argumentos"),
+                    llamada.get("ok"), llamada.get("error")))
     db.commit()
     return identificador

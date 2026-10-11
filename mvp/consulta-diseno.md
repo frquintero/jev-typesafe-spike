@@ -155,6 +155,17 @@ CREATE TABLE consulta_casos (            -- los casos que el agente leyó
   unidad_id   TEXT NOT NULL,
   PRIMARY KEY (consulta_id, unidad_id)
 );
+
+CREATE TABLE consulta_llamadas (         -- la operación: qué herramienta pidió, en qué turno
+  consulta_id TEXT NOT NULL REFERENCES consultas(id) ON DELETE CASCADE,
+  turno       INTEGER NOT NULL,          -- la vuelta del bucle (1..max_turnos)
+  orden       INTEGER NOT NULL,          -- la posición de la llamada dentro del turno (1..n)
+  herramienta TEXT NOT NULL,
+  argumentos  TEXT,                      -- tal como los mandó el modelo (puede no ser JSON válido)
+  ok          INTEGER NOT NULL,          -- 1 la ejecutó · 0 volvió error por el canal `tool`
+  error       TEXT,                      -- qué devolvió el canal `tool` cuando no fue ok
+  PRIMARY KEY (consulta_id, turno, orden)
+);
 ```
 
 Así se lee una fila (ejemplo del formato):
@@ -492,14 +503,19 @@ Todo lo que produce la consulta queda **en la base**, y nada en archivos:
   tal como vino—. Se reescribe si la pregunta se vuelve a correr: vale la efectiva.
 - **`consulta_casos`**: los casos que el agente leyó: es lo que permite la **traza**, de la
   respuesta a la unidad y al dato.
+- **`consulta_llamadas`**: la **operación** de la corrida, una fila por llamada de herramienta —el
+  turno, el orden dentro del turno, qué herramienta, con qué argumentos, y si volvió error, con lo
+  que dijo el canal `tool`—. Permite auditar **cómo operó** el agente (qué pidió en cada turno, qué
+  repitió, qué inventó) sin guardar su prosa ni su razonamiento. El orden de las lecturas, que antes
+  solo se recuperaba del `rowid` de `consulta_casos` —y por casualidad—, ahora es un dato.
 - **`corridas`**: la cédula de la corrida —modelo, esfuerzo, el prompt y su hash, R y su hash, los
   tokens, los segundos, los turnos, las llamadas, y el `estado` con su motivo—.
 
 **Cómo se lee una respuesta.** Con una consulta, no con un archivo: el ORQ no escribe `salida.md`,
 ni `traza.jsonl`, ni crudos. Quien quiera ver una respuesta la lee de la base —uniendo `consultas`
-con las seis tablas—: `consultas` y `consulta_casos` dan la respuesta y los casos leídos,
-`unidades` y `datos` el corpus, `documentos` el texto radicado y `corridas` la cédula de cada
-llamada.
+con las **siete** tablas—: `consultas`, `consulta_casos` y `consulta_llamadas` dan la respuesta,
+los casos leídos y la operación; `unidades` y `datos` el corpus; `documentos` el texto radicado; y
+`corridas` la cédula de cada llamada.
 
 ---
 
@@ -581,7 +597,7 @@ radicado (las oraciones), y desde ahí se consultan (§3).
 | **D4** | Sin datos derivados en esta versión | decidida |
 | **D5** | R: `solo el documento`, sin mundo del LLM ni anclas como premisa | decidida: R.json con tres claves |
 | **D6** | Nombre y sitio de los archivos | decidida: el código, `R.json` y la base en `mvp/código/` (el orquestador, en `orq/`); los documentos que se radican, en `mvp/documentos/`; las baterías, en `mvp/consulta/preguntas_<doc>.md`; los prompts, en `mvp/prompts/`; y **lo que se produce, en la base**. `mvp/temp/` es archivo: no se corre desde ahí, no se lee, no se escribe (§2–§3) |
-| **D7** | Almacén | decidida: SQLite con **seis tablas** —el corpus (`documentos`, `unidades`, `datos`) y el expediente (`corridas`, `consultas`, `consulta_casos`)—, con claves foráneas y contratos (`paso`, `estado`, `motivo` si falló, un `n` por documento) |
+| **D7** | Almacén | decidida: SQLite con **siete tablas** —el corpus (`documentos`, `unidades`, `datos`) y el expediente (`corridas`, `consultas`, `consulta_casos`, `consulta_llamadas`)—, con claves foráneas y contratos (`paso`, `estado`, `motivo` si falló, un `n` por documento) |
 | **D8** | Derivados | fuera de esta versión |
 | **D9** | Idioma de los `tipo` | obsoleta: no hay tipos |
 | **D10** | Documento R: esbozo + prosa para el agente | reemplazada: R es un JSON que lee el ORQ |
