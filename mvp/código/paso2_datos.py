@@ -176,9 +176,16 @@ def run(doc, modelo, rehacer, esfuerzo=None):
         fallar(db, corrida, motivo, conservar=bool(ya))
         raise SystemExit(f"  {doc}: la corrida falló — {motivo}")
 
-    lista = [{"caso": unidad["subtema"], "contenido": " ".join(oraciones)}
+    # El material va con la forma que el ejemplo del prompt enseña: un bloque por unidad, con su
+    # `caso` y sus `satélites` numerados desde [1] en cada bloque. Oraciones separadas, no un
+    # párrafo corrido: el corte entre oraciones es la pista de dónde hay predicados distintos, y es
+    # la forma con la que se midió el banco de `temp/datos-test/`.
+    lista = [{"caso": unidad["subtema"], "satelites": oraciones}
              for unidad, oraciones in armadas]
-    mensajes = partir(plantilla, ruta_prompt.name, UNIDADES=json.dumps(lista, ensure_ascii=False))
+    bloques = ["caso: " + unidad["caso"] + "\nsatélites:\n"
+               + "\n".join(f"[{k}] {oracion}" for k, oracion in enumerate(unidad["satelites"], 1))
+               for unidad in lista]
+    mensajes = partir(plantilla, ruta_prompt.name, UNIDADES="\n\n".join(bloques))
 
     print(f"  {doc}: una llamada con {len(lista)} unidades "
           f"({[unidad['id'] for unidad, _ in armadas]}) · {config['id']}")
