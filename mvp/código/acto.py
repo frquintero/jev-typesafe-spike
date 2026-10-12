@@ -35,14 +35,26 @@ def abrir(db, paso, prefijo=PREFIJO_CORPUS, **campos):
 def cerrar(db, corrida, estado, motivo=None, escribir=None):
     """Cierra el acto: la fila y —si salió bien— lo que produjo, en una transacción.
 
-    `escribir` es una función `escribir(db, corrida_id)` que inserta los productos del acto.
+    `escribir` es una función `escribir(db, corrida_id)` que inserta los productos del acto. Si
+    algo falla adentro, la transacción vuelve sola; y el intento **no se pierde**: se registra
+    igual como fallido, con el error como motivo, y la excepción sigue su curso.
     """
     campos = dict(corrida)
     campos["estado"] = estado
     campos["motivo"] = motivo
     campos["terminado"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with db:
-        registrar_corrida(db, **campos)
-        if estado == "exitoso" and escribir is not None:
-            escribir(db, corrida["id"])
+    try:
+        with db:
+            registrar_corrida(db, **campos)
+            if estado == "exitoso" and escribir is not None:
+                escribir(db, corrida["id"])
+    except Exception as error:  # noqa: BLE001 (se re-lanza: solo se deja la constancia)
+        try:
+            registrar_corrida(db, **{**campos, "estado": "fallido",
+                                     "motivo": f"error inesperado: {type(error).__name__}: "
+                                               f"{error}"})
+            db.commit()
+        except Exception:  # noqa: BLE001 (si tampoco se puede dejar la cédula, se sigue)
+            db.rollback()
+        raise
     return corrida["id"]

@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS unidad_oraciones (   -- las oraciones de la unidad, c
   PRIMARY KEY (unidad_id, n)
 );
 CREATE TABLE IF NOT EXISTS datos (
-  id           TEXT PRIMARY KEY,         -- <token_DATOS>:D<j>
+  id           TEXT PRIMARY KEY,         -- <token_DATOS>:U<n>:D<j>
   unidad_id    TEXT NOT NULL REFERENCES unidades(id) ON DELETE CASCADE,
   caso         TEXT NOT NULL,
   aspecto      TEXT NOT NULL,

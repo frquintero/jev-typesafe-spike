@@ -136,14 +136,19 @@ def forma(parsed, enviadas):
 
 
 def escribir_datos(armadas, por_posicion):
-    """Lo que el acto produce: los datos, colgando de la corrida y de su unidad."""
+    """Lo que el acto produce: los datos, colgando de la corrida y de su unidad.
+
+    El id lleva **la tanda, la unidad y el orden dentro de la unidad**: `C000002:U1:D1`. Sin la
+    unidad, dos unidades de la misma tanda repetirían el id (el contador `j` empieza de nuevo en
+    cada una) y la tanda entera se caería por la clave primaria.
+    """
     def escribir(db, corrida_id):
         for posicion, (unidad, _) in enumerate(armadas, 1):
             item = por_posicion.get(posicion) or {}
             for j, dato in enumerate(item.get("datos") or [], 1):
                 db.execute("INSERT INTO datos (id, unidad_id, caso, aspecto, valor, unidad_valor, "
                            "corrida_id) VALUES (?,?,?,?,?,?,?)",
-                           (f"{corrida_id}:D{j}", unidad["id"],
+                           (f"{corrida_id}:U{unidad['n']}:D{j}", unidad["id"],
                             unidad["subtema"] or item.get("caso") or "",
                             dato["aspecto"], str(dato["valor"]), dato.get("unidad_valor"),
                             corrida_id))

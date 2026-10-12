@@ -5,8 +5,9 @@
 —qué hay hecho y qué sigue— sigue viviendo en `mvp/memoria de trabajo y pendientes.md`, que es
 la fuente única.
 
-**Estado:** propuesta, para cerrar en **R0**. Nada implementado. Parte del checkout `b9683f9`,
-con las dos bases en cero (`mvp/código/corpus.db` y `mvp/código/almacen.db`).
+**Estado (12-10):** **R0 cerrado** y **R1 hecho**, con los actos de UT, DATOS y el ORQ encima
+(`57eaf4f`); las dos bases están en la versión 1, vacías. **Falta:** `volcar.py` (el acto de la
+etapa I), **R3** (el expediente del ORQ) y **R4** (auditar).
 
 **Es un MVP, y se diseña como tal.** Alcance reducido: lo que hace falta para que la próxima
 etapa corra y para poder **comparar corridas**. No es un producto: nada se pre-construye «por
@@ -172,6 +173,8 @@ guarda el diff **entonces**.
 Los papeles se actualizan en el commit de cada ronda: `consulta-diseno.md` (D6, §4, §10, §11),
 `almacen-diseno.md`, `AGENTS.md` y la memoria (#13, #14, #15a, #18).
 
+**Hecho:** R1 completo, y los actos de UT, DATOS y el ORQ encima (R2 a medias: falta `volcar.py`).
+
 ---
 
 ## 5. La prueba de aceptación
@@ -226,7 +229,7 @@ prompts de trabajo, así que no altera ninguna medición en curso.
 
 ---
 
-## 9. Lo que R0 cierra
+## 9. Lo que cerró R0 (12-10)
 
 1. **Conservar los productos** (A) en vez de identificar sin conservar — recomendación: A.
 2. **Token de 6 dígitos con prefijo de base** (`A`/`C`), por claridad al citarlo — recomendación:

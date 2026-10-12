@@ -158,7 +158,7 @@ CREATE TABLE unidad_oraciones (          -- las oraciones de la unidad, con su t
 );
 
 CREATE TABLE datos (                     -- la salida de DATOS
-  id           TEXT PRIMARY KEY,         -- <token_DATOS>:D4
+  id           TEXT PRIMARY KEY,         -- <token_DATOS>:U1:D4
   unidad_id    TEXT NOT NULL REFERENCES unidades(id) ON DELETE CASCADE,
   caso         TEXT NOT NULL,
   aspecto      TEXT NOT NULL,
@@ -198,8 +198,8 @@ Así se lee una fila (ejemplo del formato):
 
 | id | unidad_id | caso | aspecto | valor | unidad_valor |
 |---|---|---|---|---|---|
-| `<doc>:U1:D1` | `<doc>:U1` | el hecho que trata la unidad | el aspecto del dato | el valor | su unidad |
-| `<doc>:U1:D4` | `<doc>:U1` | … | otro aspecto | otro valor | — |
+| `<token_DATOS>:U1:D1` | `<token_UT>:U1` | el hecho que trata la unidad | el aspecto del dato | el valor | su unidad |
+| `<token_DATOS>:U1:D4` | `<token_UT>:U1` | … | otro aspecto | otro valor | — |
 
 **Qué NO guarda la base, y por qué:**
 
