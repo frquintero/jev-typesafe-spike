@@ -30,24 +30,33 @@ CREATE TABLE documentos (
   ruta_fuente        TEXT,               -- dónde estaba, en el sistema de archivos
   fecha_modificacion TEXT,               -- el mtime que el sistema registra, tomado al volcar
   fecha_radicacion   TEXT NOT NULL DEFAULT (datetime('now','localtime')),  -- la pone la base
-  version_volcado    TEXT NOT NULL,      -- con qué se volcó: prompt + armador, y su versión
   UNIQUE (sello)                          -- el mismo texto no entra dos veces
 );
 
-CREATE TABLE volcados (                  -- la corrida del volcado, como `corridas` en el corpus
-  documento_id  TEXT PRIMARY KEY REFERENCES documentos(id) ON DELETE CASCADE,
-  modelo        TEXT NOT NULL,
-  esfuerzo      TEXT,
-  prompt        TEXT NOT NULL,           -- el nombre del prompt y su hash
-  hash_prompt   TEXT NOT NULL,
+CREATE TABLE volcados (                  -- el intento de volcado: la cédula del acto
+  id             TEXT PRIMARY KEY,       -- el intento, no el documento
+  documento_id   TEXT REFERENCES documentos(id) ON DELETE CASCADE,  -- **nulo si falló**
+  modelo         TEXT NOT NULL,
+  esfuerzo       TEXT,
+  prompt         TEXT NOT NULL,          -- el nombre del prompt
+  hash_prompt    TEXT NOT NULL,
   tokens_entrada INTEGER, tokens_salida INTEGER, tokens_pensando INTEGER, cache_hit INTEGER,
-  segundos      REAL,
-  estado        TEXT NOT NULL CHECK (estado IN ('exitoso', 'fallido')),
-  motivo        TEXT,
-  fecha         TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+  segundos       REAL,
+  estado         TEXT NOT NULL CHECK (estado IN ('exitoso', 'fallido')),
+  motivo         TEXT,
+  fecha          TEXT NOT NULL DEFAULT (datetime('now','localtime')),
   CHECK (estado = 'exitoso' OR motivo IS NOT NULL)
 );
 ```
+
+**Por qué `volcados` tiene id propio y `documento_id` admite nulo:** un volcado **fallido no deja
+documento** —es justo el que más interesa—, así que su fila tiene que poder existir sola. Es el único
+lugar donde la cédula del acto no cuelga de lo que produjo.
+
+**No hay versión del volcado.** El markdown **no tiene versiones**: es el documento. Si un volcado
+produce otro markdown, es **otro documento**, con otro nombre. Y lo que identifica cómo se hizo ya
+está: el `prompt` y su `hash` en la cédula, y **el armador es el commit de git** — el código está
+versionado, y con más verdad que una etiqueta que alguien se acuerde de subir.
 
 **No se guarda el índice.** Los encabezados, sus tramos, las secciones y la jerarquía **se derivan
 del markdown** (las líneas que empiezan con `#`, y su nivel). Guardarlo sería guardar dos veces lo
@@ -106,10 +115,11 @@ Si algo de eso falla, la corrida queda `fallida` con su motivo **y no se escribe
 **Entre archivos no hay claves foráneas.** Así que:
 
 - El **almacén es el dueño** del texto, del sello y de la procedencia.
-- El **corpus conserva una fila fina** de `documentos` —`id`, `coleccion` (hoy `dominio`), `sello`—
-  para que sus propias claves foráneas sigan existiendo y para que el ORQ resuelva un dominio sin
-  abrir dos bases. Es un **espejo**, y el sello es lo que lo ata: si los dos no coinciden, hay algo
-  roto.
+- El **corpus conserva una fila fina** de `documentos` —`id`, `coleccion` (hoy `dominio`), `sello` y
+  `fecha_radicacion`, más la ruta de la fuente **por ahora**— para que sus propias claves foráneas
+  sigan existiendo y para que el ORQ resuelva un dominio y el reloj del radicado funcione sin abrir
+  dos bases. Es un **espejo**, y el sello es lo que lo ata: si los dos no coinciden, hay algo
+  roto. La ruta sale del espejo cuando los actos lean el texto de acá.
 - Los dos escritos van en **una sola transacción** (`ATTACH`), y por eso **ninguna de las dos bases
   usa WAL**: con WAL la escritura entre archivos deja de ser atómica.
 
@@ -125,16 +135,14 @@ Los actos de después leen el texto del **almacén**: `paso1` y `paso2` dejan de
 | **`coleccion` es una etiqueta por documento** | una tabla de colecciones con pertenencia es para cuando un documento tenga que estar en varias; hoy no lo necesita |
 | **el índice no se guarda** | se deriva del markdown: guardarlo sería guardar dos veces lo mismo |
 | **el volcado no normaliza el texto** | el markdown es la fuente + las marcas, y eso es lo que hace verificable el acto |
+| **no hay versión del volcado** | el markdown es el documento y no tiene versiones; y el armador es el commit de git, que ya está |
+| **el volcado no tiene `--rehacer`** | un documento radicado no se mueve: re-volcar con otra cosa es radicar otro documento |
 
 ## 8. Lo abierto
 
 - **La numeración derivada** (`1`, `1.1`, `2`…) no siempre coincide con la que el documento trae
-  (si hay una introducción o unos anexos sin número). No se guarda: es una etiqueta de lectura.
-  ¿Se muestra en el informe del acto? Hoy sí, y conviene decir que es del código.
-- **`--rehacer` sobre un id ya radicado**: re-volcar la misma fuente da el mismo sello (no-op); con
-  una fuente distinta, la salida honesta es **detenerse** y radicar con otro nombre.
-- **La versión del volcado** (`version_volcado`): qué se considera cambio de versión —el prompt, el
-  armador, la forma de contar los niveles— y si un re-volcado con otra versión actualiza la fila o
-  crea otro documento. **Decidir antes de escribir el acto.**
-- **`almacen.db` y las claves**: el acto del volcado llama al modelo, así que lee la clave por la
-  puerta de siempre (`proveedores`). Nada nuevo.
+  (si hay una introducción o unos anexos sin número). No se guarda, y en el informe del acto se
+  muestra **como lo que es: una etiqueta del código**, no una corrección del documento.
+
+Lo demás quedó fijado en la tabla de §7 — incluido lo que había quedado abierto: la versión del
+volcado y el `--rehacer`.
