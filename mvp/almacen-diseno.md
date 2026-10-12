@@ -1,8 +1,9 @@
 # El almacén de documentos (diseño)
 
-**Estado:** diseño. El acto (`volcar.py`) y la base (`almacen.db`) **no están construidos todavía**:
-esto fija qué van a ser. Lo que hoy existe es `mvp/documentos/*.md` + una fila en `documentos` con
-la ruta y el sello, y el texto viviendo en el archivo.
+**Estado:** diseño, con la base construida. La base (`mvp/código/almacen.db`, dos tablas) y el
+módulo (`mvp/código/almacen.py`) **existen**; **falta el acto (`volcar.py`)**, que es la
+radicación. Hasta entonces el texto sigue viviendo en `mvp/documentos/*.md`, con su fila en
+`documentos`: la ruta y el sello.
 
 ## 1. Por qué
 
@@ -25,12 +26,11 @@ CREATE TABLE documentos (
   id                 TEXT PRIMARY KEY,   -- el nombre con que se radica ('sol')
   coleccion          TEXT NOT NULL,      -- la etiqueta que hoy se llama `dominio`
   texto              TEXT NOT NULL,      -- el markdown volcado: el original
-  sello              TEXT NOT NULL,      -- sha256 del texto: es su identidad
-  nombre_fuente      TEXT,               -- el nombre del archivo del que se volcó
-  ruta_fuente        TEXT,               -- dónde estaba, en el sistema de archivos
+  sello              TEXT NOT NULL,      -- sha256 del texto: guardián de que no se tocó
+  nombre_fuente      TEXT,               -- el nombre del archivo del que se volcó (procedencia)
+  ruta_fuente        TEXT,               -- dónde estaba, en el sistema de archivos (procedencia)
   fecha_modificacion TEXT,               -- el mtime que el sistema registra, tomado al volcar
-  fecha_radicacion   TEXT NOT NULL DEFAULT (datetime('now','localtime')),  -- la pone la base
-  UNIQUE (sello)                          -- el mismo texto no entra dos veces
+  fecha_radicacion   TEXT NOT NULL DEFAULT (datetime('now','localtime'))  -- la pone la base
 );
 
 CREATE TABLE volcados (                  -- el intento de volcado: la cédula del acto
@@ -54,7 +54,9 @@ documento** —es justo el que más interesa—, así que su fila tiene que pode
 lugar donde la cédula del acto no cuelga de lo que produjo.
 
 **No hay versión del volcado.** El markdown **no tiene versiones**: es el documento. Si un volcado
-produce otro markdown, es **otro documento**, con otro nombre. Y lo que identifica cómo se hizo ya
+produce otro markdown, es **otro documento**, con otro nombre; y **el mismo markdown, volcado otra
+vez, también**: lo que los distingue es la fecha del volcado. La fuente es **procedencia** —traza—
+y puede repetirse. Y lo que identifica cómo se hizo ya
 está: el `prompt` y su `hash` en la cédula, y **el armador es el commit de git** — el código está
 versionado, y con más verdad que una etiqueta que alguien se acuerde de subir.
 
@@ -69,7 +71,7 @@ mismo; y lo que el volcado tiene que dejar es el texto, no la respuesta del mode
 ## 3. El acto: `volcar.py`
 
 ```
-python3 mvp/código/volcar.py <fuente> [--id NOMBRE] [--coleccion E] [--rehacer]
+python3 mvp/código/volcar.py <fuente> [--id NOMBRE] [--coleccion E]
 ```
 
 1. **Lee la fuente** y su procedencia (nombre, ruta, mtime). Si la fuente ya es markdown, no importa:
@@ -79,8 +81,10 @@ python3 mvp/código/volcar.py <fuente> [--id NOMBRE] [--coleccion E] [--rehacer]
    marcas `#` en las líneas de encabezado.
 4. **Escribe, en una sola transacción**: la fila del almacén, la corrida del volcado, y **el espejo
    en el corpus** (§6).
-5. **Idempotente**: si el id ya está con el **mismo sello**, no hace nada. Si el id ya está con otro
-   texto, **se detiene**: eso es otro documento, y va con otro nombre.
+5. **Idempotente por id**: si el id ya está con el **mismo sello**, no hace nada; si el id ya está
+   con otro texto, **se detiene**: eso es otro documento, y va con otro nombre. **La fuente no es
+   candado**: volver a volcar la misma fuente, con otro id, es otro documento —los distingue la
+   fecha.
 
 **Este acto es la radicación.** `radicar.py` se funde en él: la fecha de radicado, el sello y el
 espejo son los mismos; lo que cambia es que el texto entra a la base y el archivo pasa a ser
@@ -119,7 +123,8 @@ Si algo de eso falla, la corrida queda `fallida` con su motivo **y no se escribe
   `fecha_radicacion`, más la ruta de la fuente **por ahora**— para que sus propias claves foráneas
   sigan existiendo y para que el ORQ resuelva un dominio y el reloj del radicado funcione sin abrir
   dos bases. Es un **espejo**, y el sello es lo que lo ata: si los dos no coinciden, hay algo
-  roto. La ruta sale del espejo cuando los actos lean el texto de acá.
+  roto. La ruta es **traza de la procedencia** —una fuente puede volcarse más de una vez— y sale del
+  espejo cuando los actos lean el texto de acá.
 - Los dos escritos van en **una sola transacción** (`ATTACH`), y por eso **ninguna de las dos bases
   usa WAL**: con WAL la escritura entre archivos deja de ser atómica.
 
@@ -130,7 +135,7 @@ Los actos de después leen el texto del **almacén**: `paso1` y `paso2` dejan de
 
 | decisión | por qué |
 |---|---|
-| **el id es el nombre** que se da al volcar, y **el sello es la identidad** | un id derivado del contenido haría ilegibles las referencias que ya usamos en todas partes (`sol:U1`); y el `UNIQUE (sello)` ya impide que el mismo texto entre dos veces |
+| **el id es el nombre** que se da al volcar, y **la identidad es el volcado y su fecha** | un id derivado del contenido haría ilegibles las referencias que ya usamos en todas partes (`sol:U1`); **el sello es guardián del texto, no identidad**: el mismo texto volcado en otra fecha es otro documento, y la fuente es traza y puede repetirse |
 | **el corpus conserva una fila fina** | sus claves foráneas necesitan un `documentos` vivo, y el ORQ necesita resolver dominios |
 | **`coleccion` es una etiqueta por documento** | una tabla de colecciones con pertenencia es para cuando un documento tenga que estar en varias; hoy no lo necesita |
 | **el índice no se guarda** | se deriva del markdown: guardarlo sería guardar dos veces lo mismo |

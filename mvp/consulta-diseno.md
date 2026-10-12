@@ -99,7 +99,7 @@ CREATE TABLE documentos (
   dominio            TEXT NOT NULL,      -- GENERAL
   fecha_radicacion   TEXT NOT NULL DEFAULT (datetime('now','localtime')),  -- fecha y hora: las pone la base, al radicar
   ubicacion_upstream TEXT NOT NULL,      -- dónde vive en el repo
-  sello              TEXT NOT NULL       -- sha256 de lo radicado: es su identidad
+  sello              TEXT NOT NULL       -- sha256 de lo radicado: guardián de que no cambió
 );
 
 CREATE TABLE corridas (                  -- una fila por corrida de UT, DATOS y el ORQ

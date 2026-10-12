@@ -8,8 +8,8 @@ llamada que lo produjo.
 **El corpus**
 
 - `documentos`: un documento **radicado** por fila —su nombre, su dominio, la fecha y la hora (que
-  pone la base), dónde vive en el repo y su **sello** (sha256 del texto: es su identidad)—. El texto
-  no se guarda: vive en el documento radicado. Un documento radicado no se mueve.
+  pone la base), dónde vive en el repo y su **sello** (sha256 del texto: guardián de que el texto no
+  cambió)—. El texto no se guarda: vive en el documento radicado. Un documento radicado no se mueve.
 - `unidades`: la salida de UT —el nombre de cada unidad y su orden—.
 - `unidad_oraciones`: los tramos de cada unidad —la oración **literal** tal como la devolvió el
   modelo, con su `desde` y su `hasta` sobre el texto del documento radicado—. La literal es la
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS documentos (
   dominio            TEXT NOT NULL,      -- el alcance al que pertenece
   fecha_radicacion   TEXT NOT NULL DEFAULT (datetime('now','localtime')),  -- la pone la base, al radicar
   ubicacion_upstream TEXT NOT NULL,      -- dónde vive en el repo
-  sello              TEXT NOT NULL       -- sha256 del texto radicado: es su identidad
+  sello              TEXT NOT NULL       -- sha256 del texto radicado: guardián de que no cambió
 );
 CREATE TABLE IF NOT EXISTS corridas (
   id              TEXT PRIMARY KEY,      -- <doc>:UT · <doc>:DATOS · <doc>:q<n>

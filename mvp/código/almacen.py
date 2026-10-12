@@ -7,11 +7,12 @@ diseño —qué guarda y por qué— está en `mvp/almacen-diseno.md`.
 
 Tres cosas que hay que tener presentes:
 
-1. **El texto es el original.** Lo que estaba en el sistema de archivos pasa a ser **procedencia**.
-   Y un volcado distinto es **otro documento**, con otro nombre: acá no hay `--rehacer`, porque un
-   documento radicado no se mueve. **El markdown no tiene versiones.**
-2. **El sello es la identidad**: sha256 del markdown. El `UNIQUE (sello)` impide que el mismo texto
-   entre dos veces.
+1. **El texto es el original.** Lo que estaba en el sistema de archivos pasa a ser **procedencia**:
+   el archivo de origen puede repetirse, y es **traza**, no identidad. **El markdown no tiene
+   versiones**, y acá no hay `--rehacer`: un documento radicado no se mueve.
+2. **La identidad es el volcado y su fecha.** El **sello** (sha256 del markdown) es el **guardián**
+   de que el texto guardado no se tocó, no la identidad: dos volcados del mismo texto —otra fecha,
+   y por eso otro documento— **entran los dos**, cada uno con su nombre.
 3. **El corpus guarda un espejo** (`documentos`: id, dominio, sello y —por ahora— la ruta y la fecha
    de radicación) para que sus claves foráneas sigan existiendo. **Entre archivos no hay claves
    foráneas**, así que el espejo se escribe **en la misma transacción**, con `ATTACH`; y por eso
@@ -34,12 +35,11 @@ CREATE TABLE IF NOT EXISTS documentos (
   id                 TEXT PRIMARY KEY,   -- el nombre con que se radica ('sol')
   coleccion          TEXT NOT NULL,      -- la etiqueta que en el corpus se llama `dominio`
   texto              TEXT NOT NULL,      -- el markdown volcado: el original
-  sello              TEXT NOT NULL,      -- sha256 del texto: es su identidad
-  nombre_fuente      TEXT,               -- el nombre del archivo del que se volcó
-  ruta_fuente        TEXT,               -- dónde estaba, en el sistema de archivos
+  sello              TEXT NOT NULL,      -- sha256 del texto: guardián de que no se tocó
+  nombre_fuente      TEXT,               -- el nombre del archivo del que se volcó (procedencia)
+  ruta_fuente        TEXT,               -- dónde estaba, en el sistema de archivos (procedencia)
   fecha_modificacion TEXT,               -- el mtime que el sistema registra, tomado al volcar
-  fecha_radicacion   TEXT NOT NULL DEFAULT (datetime('now','localtime')),  -- la pone la base
-  UNIQUE (sello)                          -- el mismo texto no entra dos veces
+  fecha_radicacion   TEXT NOT NULL DEFAULT (datetime('now','localtime'))  -- la pone la base
 );
 
 CREATE TABLE IF NOT EXISTS volcados (    -- el intento de volcado: la cédula del acto
@@ -110,7 +110,8 @@ def escribir(db, identificador, coleccion, texto, procedencia, volcado):
 
     - Si el id ya está con el **mismo sello**, no hace nada (idempotente).
     - Si el id ya está con **otro texto**, se detiene: eso es otro documento, y va con otro nombre.
-    - Si el **texto ya está** con otro id, se detiene: el mismo documento no entra dos veces.
+    - El **mismo texto bajo otro id** es **otro documento** (la fecha del volcado los distingue):
+      entra. La procedencia puede repetirse: es traza, no identidad.
     """
     sello = hash_texto(texto)
     ya = documento(db, identificador)
@@ -119,10 +120,6 @@ def escribir(db, identificador, coleccion, texto, procedencia, volcado):
             return {"estado": "ya_estaba", "documento": identificador, "sello": sello}
         raise SystemExit(f"'{identificador}' ya está radicado con otro texto (sello "
                          f"{ya['sello'][:12]}…): eso es otro documento. Radicá con otro nombre.")
-    mismo = db.execute("SELECT id FROM documentos WHERE sello = ?", (sello,)).fetchone()
-    if mismo is not None:
-        raise SystemExit(f"ese mismo texto ya está radicado como '{mismo['id']}': el mismo "
-                         f"documento no entra dos veces.")
 
     # `ATTACH` no se puede hacer **dentro** de una transacción: se adjunta antes, y desde ahí las dos
     # escrituras —el almacén y el espejo del corpus— van en la misma transacción.

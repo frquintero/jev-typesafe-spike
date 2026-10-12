@@ -14,8 +14,8 @@ Uso:
     python3 mvp/código/radicar.py --rehacer doc8       ACTO DE PRUEBAS: saca su fila y todo lo suyo
 
 Qué guarda la fila: el nombre; el dominio (GENERAL por defecto); la fecha y la hora, que pone la
-base; dónde vive el documento, en el repo; y su **sello** (sha256 del texto: es la identidad de lo
-radicado, y si el archivo cambia después la extracción se detiene y lo reporta). Del repo no guarda
+base; dónde vive el documento, en el repo; y su **sello** (sha256 del texto: es el guardián —si el
+archivo cambia después, la extracción se detiene y lo reporta—). Del repo no guarda
 nada más.
 
 **Un documento radicado no se mueve**: si su texto cambia, eso es otro documento.
