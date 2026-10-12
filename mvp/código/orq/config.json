@@ -1,15 +1,9 @@
 {
   "rutas": {
-    "preguntas": "../../consulta/preguntas_sol.md",
     "r": "../R.json",
     "corpus": "../corpus.db",
     "prompt": "../../prompts/prompt_ORQ.md"
   },
-  "preguntas": {
-    "desde_archivo": true,
-    "cual": 1
-  },
-  "dominio": "GENERAL",
   "guardias": {
     "max_turnos": 8,
     "max_herramientas": 20

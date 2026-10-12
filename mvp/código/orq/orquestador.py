@@ -3,12 +3,12 @@
 
     python3 orquestador.py [n]
 
-`n` es la pregunta del archivo (1..5). Si no se pasa, se usa `preguntas.cual` de `config.json`.
+`n` es la **pregunta radicada**: su id en la tabla `preguntas` de la base.
 
 El orden, y nada más que el orden —cada paso vive en su archivo—:
 
     1. leer_config          la configuración y las rutas
-    2. leer_pregunta        la pregunta, tal cual, del archivo del usuario
+    2. leer_pregunta        la pregunta radicada, de la base (texto, dominio y fuente)
     3. leer_r               R: el JSON que aplica el orquestador (el agente no lo ve)
     4. abrir_db             la base del corpus, en solo lectura
     5. resolver_dominio     el dominio elegido → sus documentos (pertenencia, sin juicio)
@@ -50,10 +50,8 @@ from resolver_dominio import resolver_dominio  # noqa: E402
 
 def main():
     config = leer_config()
-    if not config["preguntas"]["desde_archivo"]:
-        raise SystemExit("preguntas.desde_archivo está en false y no hay otra entrada todavía")
     resto = sys.argv[1:]
-    numero, modelo_pedido, esfuerzo_pedido = config["preguntas"]["cual"], None, None
+    numero, modelo_pedido, esfuerzo_pedido = None, None, None
     while resto:
         opcion = resto.pop(0)
         if opcion in ("--modelo", "--esfuerzo") and resto:
@@ -64,13 +62,16 @@ def main():
                 esfuerzo_pedido = valor
         else:
             numero = int(opcion)
+    if numero is None:
+        raise SystemExit("uso: python3 orquestador.py <pregunta> [--modelo M] [--esfuerzo E] "
+                         "(la pregunta se radica primero: mvp/código/radicar_pregunta.py)")
 
-    pregunta = leer_pregunta(config["rutas"]["preguntas"], numero)
     r = leer_r(config["rutas"]["r"])
     db = abrir_db(config["rutas"]["corpus"])
+    pregunta = leer_pregunta(db, numero)
     modelo, esfuerzo = resolver_ajuste(db, "ORQ", modelo_pedido, esfuerzo_pedido)
     config["modelo"] = {"alias": modelo, "esfuerzo": esfuerzo}
-    documentos = resolver_dominio(db, config["dominio"])
+    documentos = resolver_dominio(db, pregunta["dominio"])
     casos = listar_casos(db, documentos)
     herramientas = armar_herramientas(r)
     marcas = anclas()
@@ -79,15 +80,17 @@ def main():
     prompt = usar_prompt(db_prompt, "ORQ", config["rutas"]["prompt"])
     db_prompt.close()
     rotulo = f"{prompt['id']} v{prompt['version']}"
-    mensajes = armar_prompt(prompt["texto"], rotulo, pregunta, casos, marcas, documentos)
+    mensajes = armar_prompt(prompt["texto"], rotulo, pregunta["texto"], casos, marcas, documentos)
 
-    print(f"dominio {config['dominio']} · documentos {[d['id'] for d in documentos]} · "
+    print(f"dominio {pregunta['dominio']} · documentos {[d['id'] for d in documentos]} · "
           f"{len(casos)} casos · herramientas {[h['function']['name'] for h in herramientas]}")
-    print(f"plantilla {rotulo} · {modelo} ({esfuerzo}) · pregunta {numero}: {pregunta}\n")
+    print(f"plantilla {rotulo} · {modelo} ({esfuerzo}) · pregunta q{pregunta['id']} "
+          f"({pregunta['fuente']}): {pregunta['texto']}\n")
 
     estado = None
-    corrida = {"anclas": marcas, "documentos": documentos, "pregunta": pregunta,
-               "numero": numero, "casos": casos, "prompt": prompt,
+    corrida = {"anclas": marcas, "documentos": documentos, "pregunta": pregunta["texto"],
+               "pregunta_id": pregunta["id"], "dominio": pregunta["dominio"],
+               "fuente": pregunta["fuente"], "casos": casos, "prompt": prompt,
                "iniciado": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                "herramientas": [h["function"]["name"] for h in herramientas],
                "r": r}

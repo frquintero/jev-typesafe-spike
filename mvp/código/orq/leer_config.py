@@ -6,10 +6,9 @@ configuración se puede mover con el código.
 
 Qué hay en la configuración:
 
-    rutas.*                  dónde está cada entrada: las preguntas, R, la base y el prompt del agente
-    preguntas.desde_archivo  si la pregunta se lee del archivo (la otra vía, todavía no)
-    preguntas.cual           qué pregunta del archivo, si no se pasa por consola
-    dominio                  el dominio elegido para esta consulta (entrada, no se infiere)
+    rutas.*                  dónde está cada entrada: R, la base y el prompt del agente
+    (la pregunta **no** va acá: se lee de la tabla `preguntas`, radicada antes, y el dominio lo
+     lleva ella)
     (el modelo y el esfuerzo **no** van acá: los lee el acto de `ajustes`, en la base)
     guardias.*               topes del bucle: no son R, son guardias del orquestador
     entrega.forma            cómo lee el ORQ la entrega; hoy, solo "json_en_mensaje_final"

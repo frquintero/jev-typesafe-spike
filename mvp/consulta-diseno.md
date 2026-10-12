@@ -102,14 +102,21 @@ CREATE TABLE documentos (
   sello              TEXT NOT NULL       -- sha256 de lo radicado: guardián de que no cambió
 );
 
+CREATE TABLE preguntas (                 -- las preguntas radicadas: la única entrada de la consulta
+  id               INTEGER PRIMARY KEY,  -- el número de la pregunta (1, 2, 3…)
+  dominio          TEXT NOT NULL,        -- el alcance: la unidad semántica donde vive
+  texto            TEXT NOT NULL,
+  fuente           TEXT NOT NULL,        -- 'tecleada', o la ruta del archivo del que se leyó
+  fecha_radicacion TEXT NOT NULL DEFAULT (datetime('now','localtime'))
+);
+
 CREATE TABLE corridas (                  -- una fila por acto: el token, y no se toca
   id              TEXT PRIMARY KEY,      -- el token del acto: C000123
   paso            TEXT NOT NULL CHECK (paso IN ('UT', 'DATOS', 'ORQ')),
   documento_id    TEXT REFERENCES documentos(id) ON DELETE CASCADE,  -- UT y DATOS
   dominio         TEXT,                  -- ORQ: el alcance de la consulta
-  bateria         TEXT,                  -- ORQ: el archivo de preguntas
-  pregunta_numero INTEGER,
-  pregunta_texto  TEXT,
+  pregunta_id     INTEGER REFERENCES preguntas(id),  -- ORQ: la pregunta radicada
+  pregunta_texto  TEXT,                  -- ORQ: el texto tal como se leyó
   prompt_id       TEXT, prompt_version INTEGER,   -- la plantilla y su versión (en `prompts`)
   hash_prompt     TEXT, hash_r TEXT,
   modelo          TEXT NOT NULL, esfuerzo TEXT,
@@ -257,13 +264,15 @@ nada, que no aporta ningún dato. La carga puede avisarlo.
 
 ## 4. Entradas
 
-### 4.1. Archivos de preguntas (es el usuario)
+### 4.1. Las preguntas: se radican, y se leen de la base
 
-Un archivo por documento, **solo el texto de las preguntas, limpias** —sin condiciones, sin
-expectativas, sin pistas—, en `mvp/consulta/preguntas_<doc>.md` (si el documento es `doc8.md`, sus
-preguntas van en `preguntas_doc8.md`). Es lo único que aporta el usuario, junto con el dominio
-elegido, y se fija **antes** de correr: no cambia entre réplicas. El formato es solo eso —las
-preguntas numeradas, limpias—:
+La pregunta entra **siempre por el mismo canal**: la tabla `preguntas` del corpus. Se **radica** —el
+texto, el **dominio** (el alcance, la unidad semántica donde vive: el mismo que llevan los
+documentos), la **fuente** y la fecha y la hora, que pone la base— con
+`mvp/código/radicar_pregunta.py`, y de ahí la lee el ORQ. Lo que cambia es de dónde se **carga** para
+radicarla: de un archivo (`mvp/consulta/preguntas_<doc>.md`, una pregunta por línea) o **tecleada**.
+El archivo es una **fuente**, no el canal. El formato del archivo es solo eso —las preguntas
+numeradas, limpias—:
 
 ```
 1. ¿Quién anunció la medida?
@@ -322,8 +331,8 @@ resuelve un deíctico del documento («ayer», «en dos días»), y el del siste
 
 | # | Paso | Archivo | Qué hace |
 |---|---|---|---|
-| 1 | Leer la configuración | `orq/leer_config.py` | las rutas de entrada, el dominio, el modelo y las guardias |
-| 2 | Leer la pregunta | `orq/leer_pregunta.py` | la pregunta n del archivo, tal cual |
+| 1 | Leer la configuración | `orq/leer_config.py` | las rutas de entrada y las guardias |
+| 2 | Leer la pregunta | `orq/leer_pregunta.py` | la pregunta **radicada**: su texto, su dominio y su fuente |
 | 3 | Leer R | `orq/leer_r.py` | el JSON del orquestador |
 | 4 | Abrir la base | `orq/abrir_db.py` | `corpus.db`, **solo lectura** |
 | 5 | Resolver el dominio | `orq/resolver_dominio.py` | la etiqueta `GENERAL` → sus documentos (pertenencia, sin juicio) |
@@ -552,7 +561,7 @@ lo pida**.
 
 Todo lo que produce la consulta queda **en la base**, y nada en archivos:
 
-- **`consultas`**: una fila por pregunta —el dominio, los documentos ofrecidos, la pregunta y su
+- **`consultas`**: una fila por pregunta (`q<n>`, el id de la pregunta radicada) —el dominio, los documentos ofrecidos, la pregunta y su
   texto, el desenlace (`respondida`, `no está en los datos`, `preguntó al usuario`) y la respuesta,
   tal como vino—. Se reescribe si la pregunta se vuelve a correr: vale la efectiva.
 - **`consulta_casos`**: los casos que el agente leyó: es lo que permite la **traza**, de la
@@ -650,8 +659,8 @@ el texto sobre el que se cuentan está en el documento radicado, sellado. Desde 
 | **D3** | Bucle con herramienta, o todo inyectado en una llamada | decidida: bucle con herramienta |
 | **D4** | Sin datos derivados en esta versión | decidida |
 | **D5** | R: `solo el documento`, sin mundo del LLM ni anclas como premisa | decidida: R.json con tres claves |
-| **D6** | Nombre y sitio de los archivos | decidida: el código, `R.json` y la base en `mvp/código/` (el orquestador, en `orq/`); los documentos que se radican, en `mvp/documentos/`; las baterías, en `mvp/consulta/preguntas_<doc>.md`; **las plantillas de los prompts, en la base** (el `.md` de `mvp/prompts/` es la puerta y se registra sola al primer uso); y **lo que se produce, en la base**. `mvp/temp/` es archivo: no se corre desde ahí, no se lee, no se escribe (§2–§3) |
-| **D7** | Almacén | decidida: SQLite con **once tablas** —el corpus (`documentos`, `unidades`, `unidad_oraciones`, `datos`, `prompts`, `contador`, `ajustes`) y el expediente (`corridas`, `consultas`, `consulta_casos`, `consulta_llamadas`)—, con claves foráneas y contratos (`paso`, `estado`, `motivo` si falló, un `n` por corrida) |
+| **D6** | Nombre y sitio de los archivos | decidida: el código, `R.json` y la base en `mvp/código/` (el orquestador, en `orq/`); los documentos que se radican, en `mvp/documentos/`; las baterías, en `mvp/consulta/preguntas_<doc>.md` —son **fuentes**: se radican en la tabla `preguntas`, y de ahí en más la pregunta vive en la base—; **las plantillas de los prompts, en la base** (el `.md` de `mvp/prompts/` es la puerta y se registra sola al primer uso); y **lo que se produce, en la base**. `mvp/temp/` es archivo: no se corre desde ahí, no se lee, no se escribe (§2–§3) |
+| **D7** | Almacén | decidida: SQLite con **doce tablas** —el corpus (`documentos`, `preguntas`, `unidades`, `unidad_oraciones`, `datos`, `prompts`, `contador`, `ajustes`) y el expediente (`corridas`, `consultas`, `consulta_casos`, `consulta_llamadas`)—, con claves foráneas y contratos (`paso`, `estado`, `motivo` si falló, un `n` por corrida) |
 | **D8** | Derivados | fuera de esta versión |
 | **D9** | Idioma de los `tipo` | obsoleta: no hay tipos |
 | **D10** | Documento R: esbozo + prosa para el agente | reemplazada: R es un JSON que lee el ORQ |

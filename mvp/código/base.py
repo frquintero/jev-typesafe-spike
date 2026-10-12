@@ -48,7 +48,7 @@ import esquema
 
 AQUI = pathlib.Path(__file__).resolve().parent
 DB = AQUI / "corpus.db"
-ESQUEMA_VERSION = 2
+ESQUEMA_VERSION = 3
 
 ESQUEMA = """
 CREATE TABLE IF NOT EXISTS documentos (
@@ -58,14 +58,20 @@ CREATE TABLE IF NOT EXISTS documentos (
   ubicacion_upstream TEXT NOT NULL,      -- dónde vive en el repo
   sello              TEXT NOT NULL       -- sha256 del texto radicado: guardián de que no cambió
 );
+CREATE TABLE IF NOT EXISTS preguntas (   -- las preguntas radicadas: la única entrada de la consulta
+  id               INTEGER PRIMARY KEY,  -- el número de la pregunta (1, 2, 3…)
+  dominio          TEXT NOT NULL,        -- el alcance: la unidad semántica donde vive
+  texto            TEXT NOT NULL,
+  fuente           TEXT NOT NULL,        -- 'tecleada', o la ruta del archivo del que se leyó
+  fecha_radicacion TEXT NOT NULL DEFAULT (datetime('now','localtime'))
+);
 CREATE TABLE IF NOT EXISTS corridas (
   id              TEXT PRIMARY KEY,      -- el token del acto: C000123
   paso            TEXT NOT NULL CHECK (paso IN ('UT', 'DATOS', 'ORQ')),
   documento_id    TEXT REFERENCES documentos(id) ON DELETE CASCADE,  -- UT y DATOS
   dominio         TEXT,                  -- ORQ: el alcance de la consulta
-  bateria         TEXT,                  -- ORQ: el archivo de preguntas
-  pregunta_numero INTEGER,
-  pregunta_texto  TEXT,
+  pregunta_id     INTEGER REFERENCES preguntas(id),  -- ORQ: la pregunta radicada
+  pregunta_texto  TEXT,                  -- ORQ: el texto tal como se leyó
   prompt_id       TEXT,                  -- la plantilla que corrió (en `prompts`)
   prompt_version  INTEGER,
   hash_prompt     TEXT,                  -- sha256 de su texto: guardián
@@ -162,7 +168,7 @@ CREATE TABLE IF NOT EXISTS consulta_llamadas (   -- la operación: qué herramie
 """
 
 COLUMNAS_CORRIDA = (
-    "id", "paso", "documento_id", "dominio", "bateria", "pregunta_numero", "pregunta_texto",
+    "id", "paso", "documento_id", "dominio", "pregunta_id", "pregunta_texto",
     "prompt_id", "prompt_version", "hash_prompt", "hash_r", "modelo", "esfuerzo",
     "reloj_radicado", "reloj_sistema", "corrida_origen", "tokens_entrada", "tokens_salida",
     "tokens_pensando", "cache_hit", "segundos", "turnos", "llamadas", "estado", "motivo",

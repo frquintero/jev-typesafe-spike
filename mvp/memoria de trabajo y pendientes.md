@@ -182,9 +182,9 @@ hecho** (12-10): el token por acto, la conservación de los productos, las plant
 guardia del esquema (`mvp/plan.md`). **Las dos UT y los dos DATOS están hechos** (12-10, con `luna`/`low`, el default de la base):
 `sol` → UT `C000001` (6 unidades, 16 oraciones) y DATOS `C000003` (23 datos); `aviacion` → UT
 `C000002` (11 unidades, 17 oraciones) y DATOS `C000004` (36 datos). Los cuatro actos con el contrato
-y la forma limpios, y las plantillas `UT` y `DATOS` v1 registradas solas. Sigue: **la consulta** (la
-batería del Sol, `mvp/consulta/preguntas_sol.md`), o el volcado de `preparacion_cafe` por las etapas
-(punto 0). El **modelo y el esfuerzo de cada acto se leen del corpus** (`ajustes`, cuatro filas; el almacén va
+y la forma limpios, y las plantillas `UT` y `DATOS` v1 registradas solas. La base está en la **versión 3**: la tabla `preguntas` es la entrada de la consulta y **todavía no
+hay ninguna radicada**. Sigue: radicar la batería del Sol y **correr la consulta**, o el volcado de
+`preparacion_cafe` por las etapas (punto 0). El **modelo y el esfuerzo de cada acto se leen del corpus** (`ajustes`, cuatro filas; el almacén va
 por la **versión 3** y esa tabla no está: la política tiene un solo lugar), hoy `luna` / `low` por
 decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
 0. **`preparacion_cafe`, por las etapas,** en actos sueltos y a mano, **después del volcado**: no está
@@ -238,7 +238,10 @@ decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
     `prompt_version`, así que no se pierde. Falta decidir si las notas de la verificación van a
     alguna columna —o a un campo de la unidad— y hacerlo **antes de que la base crezca**: hoy está
     en cero, así que todavía es gratis.
-15. **La entrada de la consulta: un JSON con `pregunta` y `dominio` (propuesta, 10-10).** La
+15. **La entrada de la consulta (resuelto el 12-10: la pregunta se radica).** El canal es **uno**:
+    la tabla `preguntas` del corpus —texto, **dominio**, fuente y fecha—, y el ORQ la lee de ahí
+    (`mvp/código/radicar_pregunta.py`; el archivo o el chat son solo de dónde se **carga**). Lo de
+    abajo queda como antecedente de la discusión. La
     pregunta se da **a mano** —en Zettel habrá un módulo para eso—, así que la entrada sería un JSON
     de dos campos: la `pregunta` y el `dominio`; y el `dominio` puede ser una **etiqueta** que
     identifica una colección de documentos radicados **o el nombre de un documento radicado**.

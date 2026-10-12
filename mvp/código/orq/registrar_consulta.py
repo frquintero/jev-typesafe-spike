@@ -34,15 +34,9 @@ from proveedores import resolver  # noqa: E402
 from relojes import reloj_radicados, reloj_sistema_de  # noqa: E402
 
 
-def documento_de_la_bateria(bateria):
-    """El documento del que es la batería: `preguntas_doc8.md` → `doc8`."""
-    nombre = pathlib.Path(bateria).stem
-    return nombre[len("preguntas_"):] if nombre.startswith("preguntas_") else nombre
-
-
 def registrar_consulta(config, corrida, error=None):
     """Escribe la corrida y su consulta. Devuelve el token de la corrida."""
-    consulta_id = f"{documento_de_la_bateria(config['rutas']['preguntas'])}:q{corrida['numero']}"
+    consulta_id = f"q{corrida['pregunta_id']}"
     estado = corrida.get("estado")
     respuestas = (estado or {}).get("respuestas") or []
     usos = [(respuesta.get("usage") or {}) for respuesta in respuestas]
@@ -74,9 +68,8 @@ def registrar_consulta(config, corrida, error=None):
     token = token_siguiente(db, PREFIJO_CORPUS)
     registrar_corrida(
         db, id=token, paso="ORQ",
-        dominio=config["dominio"],
-        bateria=pathlib.Path(config["rutas"]["preguntas"]).name,
-        pregunta_numero=corrida["numero"], pregunta_texto=corrida["pregunta"],
+        dominio=corrida["dominio"],
+        pregunta_id=corrida["pregunta_id"], pregunta_texto=corrida["pregunta"],
         prompt_id=prompt["id"], prompt_version=prompt["version"], hash_prompt=prompt["sello"],
         hash_r=hash_de(config["rutas"]["r"]),
         modelo=modelo["id"], esfuerzo=modelo.get("esfuerzo"),
@@ -97,7 +90,7 @@ def registrar_consulta(config, corrida, error=None):
                "dominio=excluded.dominio, documentos=excluded.documentos, "
                "pregunta_texto=excluded.pregunta_texto, desenlace=excluded.desenlace, "
                "respuesta=excluded.respuesta, fecha=datetime('now','localtime')",
-               (consulta_id, token, config["dominio"],
+               (consulta_id, token, corrida["dominio"],
                 ",".join(documento["id"] for documento in corrida["documentos"]),
                 corrida["pregunta"], desenlace, respuesta))
     db.execute("DELETE FROM consulta_casos WHERE consulta_id = ?", (consulta_id,))
