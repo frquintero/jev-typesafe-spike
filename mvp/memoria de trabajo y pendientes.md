@@ -32,7 +32,7 @@ actualización de los tres sitios y los reportes, en `política.md`.
 - **Cada «no va aquí» necesita un «va allá»;** una lista o campo sin forma declarada se inventa distinto en cada réplica; un campo obligatorio no filtra.
 - **Un contrato más explícito estabiliza la forma pero no abarata:** abre decisiones nuevas (en qué lista va cada hecho) y el modelo registra más.
 - **El género pesa más que el modelo:** un prompt preciso en un género puede no serlo en otro; probar siempre en varios géneros.
-- **Al modelo el juicio, al código el cómputo:** numerar oraciones y verificar literalidad lo hace el código.
+- **Al modelo el juicio, al código el cómputo** (corregido el 11-10): el juicio es **dónde se corta y qué se agrupa** —el modelo devuelve las oraciones **literales**—, y el cómputo es ubicarlas en el texto, verificar el contrato y guardar los tramos. La **numeración de oraciones se jubiló**: el número depende de la regla con la que se cortó, y con otra regla dice otra cosa; la referencia es el tramo.
 - **Cada ítem que se espera recuperar prueba una sola cosa** (contenido, identidad externa, condición o duda) y hay que poder señalar el registro que lo satisface: mezclarlos infla los porcentajes.
 - **Lo que un paso no registra no llega al siguiente:** el paso 2 solo usa el contexto que el paso 1 le entrega.
 - **Jev es posterior:** subtemas, inventario global y Jev siguen fuera de las pruebas del núcleo. La detección o recuperación posterior de omisiones no se ha probado aquí.
@@ -209,16 +209,15 @@ anterior —documentos, baterías, extracción y corridas— está archivado en 
     acuerdo es 97-98 %, y dentro de la primera versión de `v1`, 95-100 %—, y con el ejemplo fino el
     acuerdo entre corridas del mismo prompt bajó a **93 %**. Queda la pregunta: agregar por
     co-pertenencia, o quedarse con la tirada que fija el registro.
-13. **Los papeles, al día (09-10).** El diseño (§8 dice que el `system` son las anclas: ya no), las
-    dos guías (los actos ahora mandan dos mensajes, y describen el `prompt_UT` viejo —la definición
-    de «desarrollo», el ejemplo único, la sección de referencias— que `v1` reemplazó), la estructura
-    de los tres prompts, y los desfases que encontró la revisión: el diseño §5/§10/§11 («una unidad
-    por turno», las tareas 5 y 6, la columna `corte` que no existe, el desenlace en prosa), y el tú y
-    el vos de `prompt_ORQ`. **Y lo del 10-10, que también hay que registrar:**
-    `proveedores.md` §6 dice que el transporte de la familia `responses` «hoy no existe y el registro
-    no tiene alias para él» (existe desde `06931d6`, y ahora manda `tools`), y §4 dice que la etapa 3
-    está **abierta** y con defecto `deepseek` —corrió `luna low`—; `consulta-diseno.md` §9 describe el
-    JSON llegando con prosa, cuando `prompt_ORQ` pide **solo** el JSON.
+13. **Los papeles, al día (09-10 · actualizado 11-10).** **Hecho:** el diseño ya dice qué va en cada
+    mensaje y cómo se reparten los relojes (§4.3: el del radicado en el `system`, el del sistema en el
+    `user`); las dos guías ya describen los huecos y los tramos; y `proveedores.md` lleva la regla de
+    los dos mensajes (§8) con las medidas de caché que la sostienen. **Falta:** los desfases que
+    encontró la revisión —el diseño §5/§10/§11 («una unidad por turno», las tareas 5 y 6, la columna
+    `corte` que no existe, el desenlace en prosa)—, el tú y el vos de `prompt_ORQ`, `proveedores.md`
+    §6 (dice que el transporte de la familia `responses` «hoy no existe»: existe desde `06931d6` y
+    ahora manda `tools`) y §4 (la etapa 3 no está abierta: corrió `luna low`), y `consulta-diseno.md`
+    §9 (describe el JSON llegando con prosa, cuando `prompt_ORQ` pide **solo** el JSON).
 14. **Dónde van las notas de una corrida exitosa —y el texto del prompt—.** La verificación de UT
     (huecos, solapes, rango, enteros) y los avisos de DATOS (dónde va la unidad) se imprimen y no
     tienen campo en la base: el registro no los guarda. Y `corridas` guarda `prompt` y su hash,

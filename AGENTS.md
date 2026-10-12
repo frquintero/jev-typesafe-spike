@@ -68,13 +68,14 @@ mover un archivo o de tocar el estado del repo.
   **archivadas en `mvp/temp/`**, que es **archivo: no se corre desde ahí, no se lee, no se escribe**.
   Lo vivo está en `mvp/`: los **documentos que se radican** (`mvp/documentos/`), las **baterías** de
   preguntas (`mvp/consulta/preguntas_<doc>.md`), los **prompts** de trabajo (`mvp/prompts/`:
-  `prompt_UT`, `prompt_DATOS` y `prompt_ORQ`) y el **código** (`mvp/código/`): `radicar.py` (radica
+  `prompt_volcado`, `prompt_UT`, `prompt_DATOS` y `prompt_ORQ`) y el **código** (`mvp/código/`):
+  `radicar.py` (radica
   el documento), `paso1_unidades.py` (UT), `paso2_datos.py` (DATOS), `base.py` (la base y su
   esquema), `proveedores/` (el transporte), `R.json` y el orquestador (`orq/`). **La base
   `mvp/código/corpus.db` es el centro**: lo que producen UT, DATOS y la consulta queda ahí —las
-  **seis tablas**: el corpus (`documentos`, `unidades`, `datos`) y el expediente (`corridas`,
-  `consultas`, `consulta_casos`)—, encadenado para poder hacer la **traza completa**; **no hay
-  archivos intermedios**. Lo único que se lee son entradas: el documento radicado, los prompts, R y
+  **ocho tablas**: el corpus (`documentos`, `unidades`, `unidad_oraciones`, `datos`) y el expediente
+  (`corridas`, `consultas`, `consulta_casos`, `consulta_llamadas`)—, encadenado para poder hacer la
+  **traza completa**; **no hay archivos intermedios**. Lo único que se lee son entradas: el documento radicado, los prompts, R y
   la batería. **Cada etapa es un acto manual y separado, y nada se
   dispara solo**: radicar (`radicar.py <doc>`), UT (`paso1_unidades.py <doc>`), DATOS
   (`paso2_datos.py <doc>`) y consultar. Lo construido y lo abierto está en `mvp/consulta-diseno.md`;
