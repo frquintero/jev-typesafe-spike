@@ -179,8 +179,10 @@ sello) y `aviacion` (`A000002`, sello `e546d95e8b13…`, de `mvp/documentos/avia
 encabezados). Lo demás —`preparacion_cafe`, las baterías y las corridas anteriores— **vive en el
 scratch** (`temp/ut-sin-marcas/out/sol-ut-vieja.db`), no en la base. **El substrato de la traza está
 hecho** (12-10): el token por acto, la conservación de los productos, las plantillas en la base y la
-guardia del esquema (`mvp/plan.md`). Sigue: **UT y DATOS de `sol` o de `aviacion`**, o el volcado de
-`preparacion_cafe` por las etapas (punto 0). El **modelo y el esfuerzo de cada acto se leen del corpus** (`ajustes`, cuatro filas; el almacén va
+guardia del esquema (`mvp/plan.md`). **Las dos UT están hechas** (12-10, con `luna`/`low`, el default
+de la base): `sol` → `C000001` (6 unidades, 16 oraciones) y `aviacion` → `C000002` (11 unidades, 17
+oraciones), las dos con el contrato limpio y la plantilla `UT` v1 registrada sola. Sigue: **DATOS de
+`sol` y de `aviacion`**, o el volcado de `preparacion_cafe` por las etapas (punto 0). El **modelo y el esfuerzo de cada acto se leen del corpus** (`ajustes`, cuatro filas; el almacén va
 por la **versión 3** y esa tabla no está: la política tiene un solo lugar), hoy `luna` / `low` por
 decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
 0. **`preparacion_cafe`, por las etapas,** en actos sueltos y a mano, **después del volcado**: no está
