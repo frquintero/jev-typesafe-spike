@@ -36,6 +36,7 @@ RAIZ = pathlib.Path(__file__).resolve().parent.parent.parent
 AQUI = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 
+from ajustes import resolver as resolver_ajuste  # noqa: E402
 import almacen  # noqa: E402
 from acto import abrir  # noqa: E402
 from armar_volcado import armar  # noqa: E402
@@ -81,6 +82,8 @@ def run(fuente, identificador, coleccion, modelo, esfuerzo=None):
         raise SystemExit(f"'{identificador}' ya está radicado (sello {ya['sello'][:12]}…, "
                          f"radicado {ya['fecha_radicacion']}): un documento radicado no se mueve. "
                          f"Volcá la fuente con otro --id.")
+
+    modelo, esfuerzo = resolver_ajuste(db, "volcado", modelo, esfuerzo)
 
     prompt = usar_prompt(db, "volcado", PROMPTS / "prompt_volcado.md")
     plantilla = prompt["texto"]
@@ -155,7 +158,7 @@ def main(argumentos):
                          "[--coleccion E] [--modelo M] [--esfuerzo E]")
     fuente = argumentos[0]
     identificador = pathlib.Path(fuente).stem
-    coleccion, modelo, esfuerzo = "GENERAL", "deepseek", None
+    coleccion, modelo, esfuerzo = "GENERAL", None, None
     resto = argumentos[1:]
     while resto:
         opcion = resto.pop(0)

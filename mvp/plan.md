@@ -5,9 +5,10 @@
 —qué hay hecho y qué sigue— sigue viviendo en `mvp/memoria de trabajo y pendientes.md`, que es
 la fuente única.
 
-**Estado (12-10):** **R0 cerrado** y **R1 hecho**, con los actos de UT, DATOS y el ORQ encima
-(`57eaf4f`); las dos bases están en la versión 1, vacías. **Falta:** `volcar.py` (el acto de la
-etapa I), **R3** (el expediente del ORQ) y **R4** (auditar).
+**Estado (12-10):** **R0 cerrado**, **R1 hecho** y **el volcado en pie** (`57eaf4f`…`53fbba6`);
+las dos bases están en la **versión 2** y el modelo y el esfuerzo de cada acto se leen de `ajustes`
+(hoy `luna` / `low`). Hay **dos documentos radicados** (`sol`, `aviacion`). **Falta:** la UT y los
+DATOS reales, **R3** (el expediente del ORQ) y **R4** (auditar).
 
 **Es un MVP, y se diseña como tal.** Alcance reducido: lo que hace falta para que la próxima
 etapa corra y para poder **comparar corridas**. No es un producto: nada se pre-construye «por

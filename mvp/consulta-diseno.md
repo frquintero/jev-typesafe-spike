@@ -139,6 +139,13 @@ CREATE TABLE contador (                  -- el token de esta base
   ultimo INTEGER NOT NULL DEFAULT 0
 );
 
+CREATE TABLE ajustes (                   -- el modelo y el esfuerzo de cada acto (la política)
+  paso     TEXT PRIMARY KEY,             -- 'volcado' · 'UT' · 'DATOS' · 'ORQ'
+  modelo   TEXT NOT NULL,                -- un alias del registro de proveedores
+  esfuerzo TEXT,                         -- el escalón, o null para el del alias
+  -- el hecho (con qué corrió) va en `corridas.modelo` / `corridas.esfuerzo`
+);
+
 CREATE TABLE unidades (                  -- la salida de UT
   id           TEXT PRIMARY KEY,         -- <token_UT>:U1
   documento_id TEXT NOT NULL REFERENCES documentos(id) ON DELETE CASCADE,
@@ -644,7 +651,7 @@ el texto sobre el que se cuentan está en el documento radicado, sellado. Desde 
 | **D4** | Sin datos derivados en esta versión | decidida |
 | **D5** | R: `solo el documento`, sin mundo del LLM ni anclas como premisa | decidida: R.json con tres claves |
 | **D6** | Nombre y sitio de los archivos | decidida: el código, `R.json` y la base en `mvp/código/` (el orquestador, en `orq/`); los documentos que se radican, en `mvp/documentos/`; las baterías, en `mvp/consulta/preguntas_<doc>.md`; **las plantillas de los prompts, en la base** (el `.md` de `mvp/prompts/` es la puerta y se registra sola al primer uso); y **lo que se produce, en la base**. `mvp/temp/` es archivo: no se corre desde ahí, no se lee, no se escribe (§2–§3) |
-| **D7** | Almacén | decidida: SQLite con **diez tablas** —el corpus (`documentos`, `unidades`, `unidad_oraciones`, `datos`, `prompts`, `contador`) y el expediente (`corridas`, `consultas`, `consulta_casos`, `consulta_llamadas`)—, con claves foráneas y contratos (`paso`, `estado`, `motivo` si falló, un `n` por corrida) |
+| **D7** | Almacén | decidida: SQLite con **once tablas** —el corpus (`documentos`, `unidades`, `unidad_oraciones`, `datos`, `prompts`, `contador`, `ajustes`) y el expediente (`corridas`, `consultas`, `consulta_casos`, `consulta_llamadas`)—, con claves foráneas y contratos (`paso`, `estado`, `motivo` si falló, un `n` por corrida) |
 | **D8** | Derivados | fuera de esta versión |
 | **D9** | Idioma de los `tipo` | obsoleta: no hay tipos |
 | **D10** | Documento R: esbozo + prosa para el agente | reemplazada: R es un JSON que lee el ORQ |

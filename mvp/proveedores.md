@@ -52,9 +52,13 @@ por una lista de aspectos esperados, y esa no es la vara del proyecto** —la va
 datos bastan para responder una pregunta—. Quedan pendientes de re-puntuación con una batería de
 preguntas escrita a ciegas de las extracciones (ver «Encargo a otro modelo» en
 `mvp/memoria de trabajo y pendientes.md`); el costo y el tiempo sí son medidas directas y se
-sostienen. El proveedor por defecto no se cambia mientras no se re-puntúe.
+sostienen. El default es configurable —vive en la base—, pero elegirlo por calidad sin re-puntuar
+sigue siendo elegir a ciegas.
 
-**Proveedor por defecto: `deepseek` (DeepSeek-V4.1-Flash), esfuerzo `low`.**
+**Proveedor por defecto: el que diga la base.** El modelo y el esfuerzo de cada acto viven en la
+tabla `ajustes` (el corpus para UT, DATOS y el ORQ; el almacén para el volcado) y el código los lee
+de ahí. Precedencia: la línea de comandos (`--modelo`, `--esfuerzo`) **>** la base **>** el código.
+Desde el 12-10 el default es **`luna` (`gpt-6-luna`), esfuerzo `low`**, por decisión de Frat.
 
 ### 2.1 Qué se probó
 
@@ -94,10 +98,10 @@ sobre un solo documento; no se generalizan sin pruebas adicionales.
 
 ## 3. Etapa 1 (extracción de UT): proveedor por defecto
 
-**Proveedor por defecto: `deepseek` (DeepSeek-V4.1-Flash), esfuerzo `low`** (mismo valor por
-defecto de `main()` en `paso1_unidades.py`; no se ha hecho para Etapa 1 la misma batería
-comparativa que para Etapa 2 — la corrida real registrada en la base usó Haiku 5.5 high por
-decisión puntual, no por sustituir este defecto).
+**Proveedor por defecto: el de la base** (tabla `ajustes`, hoy el mismo para las cuatro etapas:
+`luna`/`low`). Ya no hay un default escrito en `main()`. No se ha hecho para la Etapa 1 la misma
+batería comparativa que para la Etapa 2 — la corrida real registrada en la base usó Haiku 5.5 high
+por decisión puntual, no por sustituir un defecto.
 
 ## 4. Etapa 3 (respuesta a consulta/pregunta): proveedor por defecto — abierto
 

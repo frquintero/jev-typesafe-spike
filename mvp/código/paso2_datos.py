@@ -40,6 +40,7 @@ RAIZ = pathlib.Path(__file__).resolve().parent.parent.parent
 AQUI = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 
+from ajustes import resolver as resolver_ajuste  # noqa: E402
 import almacen  # noqa: E402
 from acto import abrir, cerrar  # noqa: E402
 from base import (conectar, datos_vigente, exigir_documento,  # noqa: E402
@@ -159,6 +160,7 @@ def escribir_datos(armadas, por_posicion):
 def run(doc, modelo, rehacer, esfuerzo=None):
     db = conectar()
     fila = exigir_documento(db, doc)
+    modelo, esfuerzo = resolver_ajuste(db, "DATOS", modelo, esfuerzo)
     ut = ut_vigente(db, doc)
     if ut is None:
         raise SystemExit(f"'{doc}' no tiene unidades: el paso 1 va primero "
@@ -262,7 +264,7 @@ def main(argumentos):
     if not argumentos:
         raise SystemExit("uso: python3 mvp/código/paso2_datos.py <doc> [--modelo M] [--esfuerzo E] [--rehacer]")
     doc = argumentos[0]
-    modelo, rehacer, esfuerzo = "deepseek", False, None
+    modelo, rehacer, esfuerzo = None, False, None
     resto = argumentos[1:]
     while resto:
         opcion = resto.pop(0)

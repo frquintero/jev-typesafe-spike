@@ -43,11 +43,12 @@ y lo que estaba sigue ahí.
 import hashlib
 import pathlib
 
+import ajustes
 import esquema
 
 AQUI = pathlib.Path(__file__).resolve().parent
 DB = AQUI / "corpus.db"
-ESQUEMA_VERSION = 1
+ESQUEMA_VERSION = 2
 
 ESQUEMA = """
 CREATE TABLE IF NOT EXISTS documentos (
@@ -128,6 +129,11 @@ CREATE TABLE IF NOT EXISTS contador (    -- el token de esta base
   id     INTEGER PRIMARY KEY CHECK (id = 1),
   ultimo INTEGER NOT NULL DEFAULT 0
 );
+CREATE TABLE IF NOT EXISTS ajustes (     -- el modelo y el esfuerzo de cada acto (la política)
+  paso     TEXT PRIMARY KEY,             -- 'volcado' · 'UT' · 'DATOS' · 'ORQ'
+  modelo   TEXT NOT NULL,                -- un alias del registro de proveedores
+  esfuerzo TEXT                          -- el escalón, o null para el del alias
+);
 CREATE TABLE IF NOT EXISTS consultas (
   id             TEXT PRIMARY KEY,       -- <doc>:q<n>
   corrida_id     TEXT NOT NULL REFERENCES corridas(id),
@@ -165,7 +171,9 @@ COLUMNAS_CORRIDA = (
 
 def conectar():
     """Abre la base (la crea, o la rehace si está vacía y el esquema cambió)."""
-    return esquema.abrir(DB, ESQUEMA, ESQUEMA_VERSION)
+    db = esquema.abrir(DB, ESQUEMA, ESQUEMA_VERSION)
+    ajustes.sembrar(db)
+    return db
 
 
 def hash_de(ruta):

@@ -29,11 +29,12 @@ import sys
 AQUI = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 
+import ajustes  # noqa: E402
 import esquema  # noqa: E402
 from base import DB as CORPUS, hash_texto  # noqa: E402
 
 DB = AQUI / "almacen.db"
-ESQUEMA_VERSION = 1
+ESQUEMA_VERSION = 2
 
 ESQUEMA = """
 CREATE TABLE IF NOT EXISTS documentos (
@@ -83,6 +84,11 @@ CREATE TABLE IF NOT EXISTS contador (    -- el token de esta base
   id     INTEGER PRIMARY KEY CHECK (id = 1),
   ultimo INTEGER NOT NULL DEFAULT 0
 );
+CREATE TABLE IF NOT EXISTS ajustes (     -- el modelo y el esfuerzo de cada acto (la política)
+  paso     TEXT PRIMARY KEY,             -- 'volcado' · 'UT' · 'DATOS' · 'ORQ'
+  modelo   TEXT NOT NULL,                -- un alias del registro de proveedores
+  esfuerzo TEXT                          -- el escalón, o null para el del alias
+);
 """
 
 CAMPOS_VOLCADO = ("modelo", "esfuerzo", "prompt_id", "prompt_version", "hash_prompt",
@@ -92,7 +98,9 @@ CAMPOS_VOLCADO = ("modelo", "esfuerzo", "prompt_id", "prompt_version", "hash_pro
 
 def conectar():
     """Abre el almacén (lo crea, o lo rehace si está vacío y el esquema cambió)."""
-    return esquema.abrir(DB, ESQUEMA, ESQUEMA_VERSION)
+    db = esquema.abrir(DB, ESQUEMA, ESQUEMA_VERSION)
+    ajustes.sembrar(db)
+    return db
 
 
 def documento(db, identificador):

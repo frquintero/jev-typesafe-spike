@@ -74,11 +74,12 @@ mover un archivo o de tocar el estado del repo.
   `volcar.py` (volca la fuente: **es la radicación**), `armar_volcado.py` (del texto y el índice
   al markdown), `paso1_unidades.py` (UT), `paso2_datos.py` (DATOS), `base.py` (la base y su
   esquema), `esquema.py` (la versión del esquema y el token del acto), `acto.py` (abrir y cerrar
-  un acto), `prompts.py` (las plantillas en la base), `proveedores/` (el transporte), `R.json` y
+  un acto), `prompts.py` (las plantillas en la base), `ajustes.py` (el modelo y el esfuerzo de cada acto),
+  `proveedores/` (el transporte), `R.json` y
   el orquestador (`orq/`). **La base
   `mvp/código/corpus.db` es el centro**: lo que producen UT, DATOS y la consulta queda ahí —las
-  **diez tablas**: el corpus (`documentos`, `unidades`, `unidad_oraciones`, `datos`, `prompts`,
-  `contador`) y el expediente
+  **once tablas**: el corpus (`documentos`, `unidades`, `unidad_oraciones`, `datos`, `prompts`,
+  `contador`, `ajustes`) y el expediente
   (`corridas`, `consultas`, `consulta_casos`, `consulta_llamadas`)—, encadenado **por el token de
   cada acto** para poder hacer la
   **traza completa**; **no hay archivos intermedios**. **Y hay un almacén**

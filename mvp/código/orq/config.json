@@ -10,10 +10,6 @@
     "cual": 1
   },
   "dominio": "GENERAL",
-  "modelo": {
-    "alias": "luna",
-    "esfuerzo": "low"
-  },
   "guardias": {
     "max_turnos": 8,
     "max_herramientas": 20

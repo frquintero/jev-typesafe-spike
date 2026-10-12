@@ -31,6 +31,8 @@ from datetime import datetime
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 
 from abrir_db import abrir_db  # noqa: E402
+from ajustes import resolver as resolver_ajuste  # noqa: E402
+
 from anclas import anclas  # noqa: E402
 from armar_herramientas import armar_herramientas  # noqa: E402
 from armar_prompt import armar_prompt  # noqa: E402
@@ -50,11 +52,24 @@ def main():
     config = leer_config()
     if not config["preguntas"]["desde_archivo"]:
         raise SystemExit("preguntas.desde_archivo está en false y no hay otra entrada todavía")
-    numero = int(sys.argv[1]) if len(sys.argv) > 1 else config["preguntas"]["cual"]
+    resto = sys.argv[1:]
+    numero, modelo_pedido, esfuerzo_pedido = config["preguntas"]["cual"], None, None
+    while resto:
+        opcion = resto.pop(0)
+        if opcion in ("--modelo", "--esfuerzo") and resto:
+            valor = resto.pop(0)
+            if opcion == "--modelo":
+                modelo_pedido = valor
+            else:
+                esfuerzo_pedido = valor
+        else:
+            numero = int(opcion)
 
     pregunta = leer_pregunta(config["rutas"]["preguntas"], numero)
     r = leer_r(config["rutas"]["r"])
     db = abrir_db(config["rutas"]["corpus"])
+    modelo, esfuerzo = resolver_ajuste(db, "ORQ", modelo_pedido, esfuerzo_pedido)
+    config["modelo"] = {"alias": modelo, "esfuerzo": esfuerzo}
     documentos = resolver_dominio(db, config["dominio"])
     casos = listar_casos(db, documentos)
     herramientas = armar_herramientas(r)
@@ -68,7 +83,7 @@ def main():
 
     print(f"dominio {config['dominio']} · documentos {[d['id'] for d in documentos]} · "
           f"{len(casos)} casos · herramientas {[h['function']['name'] for h in herramientas]}")
-    print(f"plantilla {rotulo} · pregunta {numero}: {pregunta}\n")
+    print(f"plantilla {rotulo} · {modelo} ({esfuerzo}) · pregunta {numero}: {pregunta}\n")
 
     estado = None
     corrida = {"anclas": marcas, "documentos": documentos, "pregunta": pregunta,

@@ -180,7 +180,9 @@ encabezados). Lo demás —`preparacion_cafe`, las baterías y las corridas ante
 scratch** (`temp/ut-sin-marcas/out/sol-ut-vieja.db`), no en la base. **El substrato de la traza está
 hecho** (12-10): el token por acto, la conservación de los productos, las plantillas en la base y la
 guardia del esquema (`mvp/plan.md`). Sigue: **UT y DATOS de `sol` o de `aviacion`**, o el volcado de
-`preparacion_cafe` por las etapas (punto 0).
+`preparacion_cafe` por las etapas (punto 0). Las dos bases pasaron a la **versión 2** (12-10): el
+**modelo y el esfuerzo de cada acto se leen de la base** (`ajustes`), hoy `luna` / `low` por
+decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
 0. **`preparacion_cafe`, por las etapas,** en actos sueltos y a mano, **después del volcado**: no está
    en la base viva —el reseteo se llevó lo radicado y la UT de Haiku `high`—, así que primero se radica
    con el acto del volcado (punto 18); siguen **UT**

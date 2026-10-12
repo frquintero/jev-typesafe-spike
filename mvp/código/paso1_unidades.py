@@ -43,6 +43,7 @@ RAIZ = pathlib.Path(__file__).resolve().parent.parent.parent
 AQUI = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 
+from ajustes import resolver as resolver_ajuste  # noqa: E402
 import almacen  # noqa: E402
 from acto import abrir, cerrar  # noqa: E402
 from base import conectar, exigir_documento, unidades_de, ut_vigente  # noqa: E402
@@ -84,6 +85,7 @@ def escribir_unidades(doc, unidades, verificacion):
 def run(doc, modelo, prompt_name, rehacer, esfuerzo=None):
     db = conectar()
     fila = exigir_documento(db, doc)
+    modelo, esfuerzo = resolver_ajuste(db, "UT", modelo, esfuerzo)
     vigente = ut_vigente(db, doc)
     if vigente and not rehacer:
         unidades = unidades_de(db, vigente)
@@ -178,7 +180,7 @@ def main(argumentos):
         raise SystemExit("uso: python3 mvp/código/paso1_unidades.py <doc> "
                          "[--modelo M] [--esfuerzo E] [--prompt UT] [--rehacer]")
     doc = argumentos[0]
-    modelo, prompt_name, rehacer, esfuerzo = "deepseek", "UT", False, None
+    modelo, prompt_name, rehacer, esfuerzo = None, "UT", False, None
     resto = argumentos[1:]
     while resto:
         opcion = resto.pop(0)
