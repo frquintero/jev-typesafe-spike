@@ -56,8 +56,8 @@ sostienen. El default es configurable —vive en la base—, pero elegirlo por c
 sigue siendo elegir a ciegas.
 
 **Proveedor por defecto: el que diga la base.** El modelo y el esfuerzo de cada acto viven en la
-tabla `ajustes` (el corpus para UT, DATOS y el ORQ; el almacén para el volcado) y el código los lee
-de ahí. Precedencia: la línea de comandos (`--modelo`, `--esfuerzo`) **>** la base **>** el código.
+tabla `ajustes` del **corpus** (una fila por acto: `volcado`, `UT`, `DATOS`, `ORQ`) y el código los
+lee de ahí. Precedencia: la línea de comandos (`--modelo`, `--esfuerzo`) **>** la base **>** el código.
 Desde el 12-10 el default es **`luna` (`gpt-6-luna`), esfuerzo `low`**, por decisión de Frat.
 
 ### 2.1 Qué se probó

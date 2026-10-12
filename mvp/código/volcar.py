@@ -40,7 +40,7 @@ from ajustes import resolver as resolver_ajuste  # noqa: E402
 import almacen  # noqa: E402
 from acto import abrir  # noqa: E402
 from armar_volcado import armar  # noqa: E402
-from base import hash_texto  # noqa: E402
+from base import conectar as conectar_corpus, hash_texto  # noqa: E402
 from esquema import PREFIJO_ALMACEN  # noqa: E402
 from mensajes import partir  # noqa: E402
 from prompts import usar as usar_prompt  # noqa: E402
@@ -83,7 +83,9 @@ def run(fuente, identificador, coleccion, modelo, esfuerzo=None):
                          f"radicado {ya['fecha_radicacion']}): un documento radicado no se mueve. "
                          f"Volcá la fuente con otro --id.")
 
-    modelo, esfuerzo = resolver_ajuste(db, "volcado", modelo, esfuerzo)
+    db_corpus = conectar_corpus()  # la política —modelo y esfuerzo— vive en el centro
+    modelo, esfuerzo = resolver_ajuste(db_corpus, "volcado", modelo, esfuerzo)
+    db_corpus.close()
 
     prompt = usar_prompt(db, "volcado", PROMPTS / "prompt_volcado.md")
     plantilla = prompt["texto"]

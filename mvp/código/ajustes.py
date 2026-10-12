@@ -8,6 +8,10 @@ La precedencia es de tres escalones: **la línea de comandos > la base > el cód
 se cambia con un `UPDATE` (sin tocar código) y un acto puntual se puede pisar con `--modelo` o
 `--esfuerzo`, sin dejar rastro en la base.
 
+Los cuatro renglones viven en el **corpus**, que es el centro: la **política** tiene un solo lugar.
+El almacén no los necesita: lo suyo es la **evidencia** —el documento, su cédula (que ya registra
+con qué modelo corrió) y la plantilla del volcado—.
+
 La base elige **entre los alias registrados** en `mvp/código/proveedores/`: ahí viven la URL, la
 clave y el nombre real del modelo, que son código. Para estrenar un modelo que no está en el
 registro, primero se declara ahí; después se elige desde acá.
