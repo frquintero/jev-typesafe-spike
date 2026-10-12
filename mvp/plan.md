@@ -5,10 +5,11 @@
 —qué hay hecho y qué sigue— sigue viviendo en `mvp/memoria de trabajo y pendientes.md`, que es
 la fuente única.
 
-**Estado (12-10):** **R0 cerrado**, **R1 hecho** y **el volcado en pie** (`57eaf4f`…`53fbba6`);
-las dos bases están en la **versión 2** y el modelo y el esfuerzo de cada acto se leen de `ajustes`
-(hoy `luna` / `low`). Hay **dos documentos radicados** (`sol`, `aviacion`). **Falta:** la UT y los
-DATOS reales, **R3** (el expediente del ORQ) y **R4** (auditar).
+**Estado (12-10):** **R0 cerrado**, **R1 y R2 hechos** (el volcado en pie, `57eaf4f`…`53fbba6`);
+el corpus está en la **versión 4** y el almacén en la **versión 3**, y el modelo y el esfuerzo de
+cada acto se leen de `ajustes` (hoy `luna` / `low`). Hay **dos documentos radicados** (`sol`,
+`aviacion`), con sus UT y sus DATOS reales. **Falta:** **R3** (el expediente del ORQ) y **R4**
+(auditar).
 
 **Es un MVP, y se diseña como tal.** Alcance reducido: lo que hace falta para que la próxima
 etapa corra y para poder **comparar corridas**. No es un producto: nada se pre-construye «por
@@ -37,7 +38,7 @@ si acaso», y lo que se agrega tiene que pagarse en la ronda en que se usa.
 
 | Etapa | Acto | Producto | Base dueña (asigna el token) |
 |---|---|---|---|
-| **I · volcado** | `volcar.py` (a escribir) | el markdown original, su sello y su procedencia | **almacén** |
+| **I · volcado** | `volcar.py` | el markdown original, su sello y su procedencia | **almacén** |
 | **II · extracción** | `paso1_unidades.py` (UT) | unidades y oraciones con sus tramos | **corpus** |
 | **II · extracción** | `paso2_datos.py` (DATOS) | datos | **corpus** |
 | **III · consulta** | `orq/orquestador.py` (ORQ) | la respuesta, los casos leídos y las llamadas | **corpus** |
@@ -57,16 +58,18 @@ del radicado **es** el del acto. Se registran igual los dos, por simetría.
 
 ## 2. R0-a: qué sobrevive a `--rehacer`
 
-Es la decisión que va primero, porque de ella dependen los ids, el esquema y lo que el
-expediente puede prometer. Hoy **`--rehacer` borra**:
+Es la decisión que fue primero, porque de ella dependen los ids, el esquema y lo que el
+expediente puede prometer. Al cerrar R0, `--rehacer` **borraba**:
 
 - ~~`radicar.py --rehacer`~~: **ya no existe**; lo retiró `volcar.py` (12-10), que no tiene
   `--rehacer`;
-- `paso1 --rehacer` borra las unidades y sus oraciones ([`borrar_unidades`](código/base.py));
-- `paso2 --rehacer` borra los datos;
-- y el ORQ **pisa** la consulta ([`registrar_consulta`](código/orq/registrar_consulta.py)).
+- `paso1 --rehacer` **borraba** las unidades y sus oraciones (`borrar_unidades` en `base.py`, ya
+  retirada);
+- `paso2 --rehacer` **borraba** los datos;
+- y el ORQ **pisa** la consulta ([`registrar_consulta`](código/orq/registrar_consulta.py)) — así
+  sigue: lo retira R3.
 
-| | **A · conservar los productos** (elegida) | B · identificar sin conservar |
+| | **A · conservar los productos** (elegida; en pie desde R1–R2) | B · identificar sin conservar |
 |---|---|---|
 | Qué hace | la corrida nueva **no borra** la anterior; la vigente se **deriva** | se sigue borrando; el acto guarda sello y procedencia de su material |
 | Qué promete | reconstruir la partición y los datos de cualquier intento, y **comparar rondas** | comprobar una reconstrucción, no hacerla |
@@ -174,7 +177,8 @@ guarda el diff **entonces**.
 Los papeles se actualizan en el commit de cada ronda: `consulta-diseno.md` (D6, §4, §10, §11),
 `almacen-diseno.md`, `AGENTS.md` y la memoria (#13, #14, #15a, #18).
 
-**Hecho:** R1 completo, y los actos de UT, DATOS y el ORQ encima (R2 a medias: falta `volcar.py`).
+**Hecho:** R1 y R2 completos: los actos de volcado, UT, DATOS y ORQ, cada uno con su token, su
+plantilla en la base y sus dos relojes.
 
 ---
 
@@ -208,17 +212,18 @@ la ensambló?»— **no se promete** (§3.4).
 
 ---
 
-## 7. Lo que se quema, y lo que se gana
+## 7. Lo que se quemó, y lo que se ganó
 
-**Se quema** (todo sin datos dentro): la forma de `corridas`, el upsert y
-`conservar_efectiva`, `borrar_corridas`, las tres copias de `fallar()`, los ids
-determinísticos de corrida y el `UNIQUE (documento_id, n)`.
+**Se quemó** (todo sin datos dentro): la forma vieja de `corridas`, `conservar_efectiva`,
+`borrar_corridas`, las tres copias de `fallar()`, los ids determinísticos de corrida y el
+`UNIQUE (documento_id, n)`. Lo único que sigue en pie de aquello es el **upsert** de la consulta
+(`registrar_consulta.py`), que lo retira R3.
 
-**Se gana en código, y no es poco:** conservar e insertar **elimina la parte más difícil de los
-actos**. Hoy `--rehacer` borra sin commit y `fallar()` hace `rollback()` para que «lo anterior
-vuelva»; de ahí salen las restauraciones y sus pruebas. Sin borrado no hay restauración: el acto
+**Se ganó en código, y no es poco:** conservar e insertar **eliminó la parte más difícil de los
+actos**. Antes `--rehacer` borraba sin commit y `fallar()` hacía `rollback()` para que «lo anterior
+volviera»; de ahí salían las restauraciones y sus pruebas. Sin borrado no hay restauración: el acto
 es «llamo; si falla, escribo la corrida fallida; si no, escribo corrida y productos en una
-transacción». **Se cae maquinaria, no se agrega.**
+transacción». **Se cayó maquinaria, no se agregó.**
 
 ---
 

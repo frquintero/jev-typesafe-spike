@@ -31,14 +31,17 @@ un pendiente declarado, y hoy el cierre lo carga el nombre.
 
 ## 2. Qué entra
 
-- **El texto**: el **documento radicado**, `mvp/documentos/<doc>.md`. Un documento sintético, de
-  contenido general (divulgación, noticia, nota de servicio), escrito para la prueba. Antes de
-  trabajar se comprueba su **sello** contra la base: si el archivo cambió, eso es otro documento y
-  se detiene.
-- **El prompt**: `prompt_UT`, el que esté **vigente en `mvp/prompts/`**. Se lee del archivo; sus
-  huecos son `{{RELOJ_RADICADO}}` —la fecha del radicado, en el `system`—, y `{{TEXTO}}` y
-  `{{RELOJ_SISTEMA}}` —el documento y el «ahora», en el `user`—, y se sustituyen con `str.replace`
-  (nunca `str.format`: el texto trae llaves). Es una versión de trabajo: no se afina en cada corrida.
+- **El texto**: el **documento radicado**, que vive en el **almacén** (`mvp/código/almacen.db`, tabla
+  `documentos`): el markdown que dejó el acto del volcado. Un documento sintético, de contenido
+  general (divulgación, noticia, nota de servicio), escrito para la prueba. `almacen.texto_de`
+  comprueba su **sello** contra el texto guardado antes de entregarlo; el archivo del que salió
+  (`mvp/documentos/<doc>.md` o `.txt`) quedó como **procedencia**, no como fuente.
+- **El prompt**: `prompt_UT`, el que esté **vigente**. El `.md` de `mvp/prompts/` es la **puerta**: se
+  registra solo en la base la primera vez que corre, con su versión, y el acto lee de ahí la
+  plantilla. Sus huecos son `{{RELOJ_RADICADO}}` —la fecha del radicado, en el `system`—, y
+  `{{TEXTO}}` y `{{RELOJ_SISTEMA}}` —el documento y el «ahora», en el `user`—, y se sustituyen con
+  `str.replace` (nunca `str.format`: el texto trae llaves). Es una versión de trabajo: no se afina en
+  cada corrida.
 
 **El texto entra entero, con sus títulos y subtítulos**: son contexto para interpretar, no
 oraciones. El corte en oraciones lo hace el modelo al devolverlas **literales**, y el código las
@@ -49,9 +52,9 @@ ubica en el texto para quedarse con su tramo.
 - El texto lo escribe la planificación (Frat y Cowork), no el ejecutor. Reglas: sintético, de
   contenido general, y sin ejemplos tomados de los documentos de prueba.
 - El mismo texto entra al corpus como **documento radicado**, en un acto aparte y a mano:
-  `python3 mvp/código/volcar.py <fuente>` —el markdown queda en el almacén, con su sello y su
-  procedencia, y el corpus anota su fila—. El detalle del corpus está en `mvp/consulta-diseno.md`
-  §2–§3.
+  `python3 mvp/código/volcar.py <fuente> [--id NOMBRE] [--coleccion E]` —el markdown queda en el
+  almacén, con su sello y su procedencia, y el corpus anota su fila—. El detalle del corpus está en
+  `mvp/consulta-diseno.md` §2–§3.
 
 ## 4. Cómo se procesa
 
@@ -80,12 +83,11 @@ Lo que hace, en orden:
 6. **Escribe en la base**, en una sola transacción: la fila de la **corrida**, las **unidades** y
    **sus tramos** (§5).
 
-Si el documento **ya tiene unidades**, no llama al modelo. Rehacerlas es un acto explícito:
-`--rehacer` (se rehacen las unidades y los datos que cuelgan de ellas). **Todo o nada:** si la
-llamada falla, si la respuesta se cortó o si el JSON no se pudo leer, la corrida queda **fallida**
-con su motivo y no se escribe ninguna unidad; y si el intento era un `--rehacer`, **lo anterior
-vuelve** —el borrado y la escritura nueva van en una sola transacción—, así que un intento fallido no
-se come la extracción buena.
+Si el documento **ya tiene una UT vigente**, no llama al modelo. Correr otra partición es un acto
+explícito: `--rehacer` —la partición anterior **queda** en la base, con su corrida, y la vigente es
+la última exitosa—. **Todo o nada:** si la llamada falla, si la respuesta se cortó, si el JSON no se
+pudo leer o si la partición no cierra (huecos, solapes, números fuera de rango), la corrida queda
+**fallida** con su motivo y no se escribe ninguna unidad; un intento fallido no toca lo anterior.
 
 **Antecedente.** `doc4` y `doc6` se hicieron por Muse: se pegaba el prompt con el texto ya
 numerado en un mensaje y se le delegaba la tarea a un agente. Lo medido:
@@ -97,12 +99,15 @@ comando directo.
 
 **Dos cosas en la base** (`mvp/código/corpus.db`), y nada en archivos:
 
-**(a) La corrida** — en `corridas`, con el id `<doc>:UT`: el modelo y su esfuerzo, el prompt y su
-hash, los tokens (entrada, salida y pensamiento), los segundos, la fecha, y el `estado`
-(`exitoso`, o `fallido` con su motivo si el JSON no se pudo leer).
+**(a) La corrida** — en `corridas`, con el id **token** del acto (`C000001`…, del contador del
+corpus): el paso (`UT`), el documento, el modelo y su esfuerzo, la plantilla (`prompt_id`,
+`prompt_version`) y su hash, los **dos relojes** tal como entraron al prompt, los tokens (entrada,
+salida y pensamiento), los segundos, el `iniciado` y el `terminado`, y el `estado` (`exitoso`, o
+`fallido` con su motivo si el JSON no se pudo leer).
 
-**(b) Las unidades y sus tramos** — en `unidades`, una por UT: el id `<doc>:Un` y el nombre del
-caso (`subtema`). Y en **`unidad_oraciones`**, una fila por oración: su orden dentro de la unidad,
+**(b) Las unidades y sus tramos** — en `unidades`, una por UT: el id `<token_UT>:U<n>`
+(`C000001:U1`), su `n`, el nombre del caso (`subtema`) y la corrida de la que cuelga
+(`corrida_id`). Y en **`unidad_oraciones`**, una fila por oración: su orden dentro de la unidad,
 su **tramo** (`desde`, `hasta`, en caracteres sobre el texto del documento) y la **oración literal**
 tal como la devolvió el modelo. La literal es la **evidencia** de lo que devolvió el modelo; el
 **tramo** es la referencia, y el sello del documento es el guardián: cortar el texto por el tramo
@@ -124,9 +129,9 @@ marcada como fallida, con su motivo.
 
 ## 6. Cómo se entrega
 
-**Nombre y lugar.** En la base, siempre. El id de la unidad es `<doc>:Un` —la **posición en el
-arreglo** que devolvió el modelo, no el orden de lectura: el corte no es contiguo—, y `oraciones`
-son los números del texto.
+**Nombre y lugar.** En la base, siempre. El id de la unidad es `<token_UT>:U<n>` —`n` es la
+**posición en el arreglo** que devolvió el modelo, no el orden de lectura: el corte no es contiguo—,
+y cada oración se guarda con su **tramo** (`desde`, `hasta`) y su literal.
 
 **Qué pasa después con lo que se entrega.** El paso 2 lee esas unidades **de la base** y escribe
 los datos. Nada se escribe en `mvp/temp/`: ese es el archivo y no se toca.

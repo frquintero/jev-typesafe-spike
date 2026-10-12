@@ -22,18 +22,19 @@ el esfuerzo pedido sobre el de defecto del alias, `low`):
 - **Etapa 2 — extracción de datos (DATOS).** Corredor: `mvp/código/paso2_datos.py`. Misma forma de
   invocación (`--modelo`, `--esfuerzo`, `--rehacer`), mismo patrón de defecto en `main()`.
 - **Etapa 3 — respuesta a la consulta/pregunta.** Corredor: `mvp/código/orq/orquestador.py`
-  (bucle en `bucle.py`, llamada en `llamar_modelo.py`). El modelo no se pasa por línea de comandos:
-  se fija en `mvp/código/orq/config.json`, bajo `modelo.alias` / `modelo.esfuerzo`.
+  (bucle en `bucle.py`, llamada en `llamar_modelo.py`). Se invoca con la pregunta radicada
+  (`python3 mvp/código/orq/orquestador.py <pregunta> [--modelo M] [--esfuerzo E]`); el modelo y el
+  esfuerzo salen de la fila `ORQ` de `ajustes`, y `config.json` solo lleva rutas y guardias.
 
 Además de los hosts de cada proveedor, hay una **puerta de agregación**: **OpenCode Go**
 (suscripción; base `https://opencode.ai/zen/go/v1/`, clave `OPENCODE_API_KEY`), que enruta a modelos
 de varios proveedores con una sola clave. Tiene tres familias de API y cada modelo usa una sola:
 `chat/completions` (forma OpenAI: deepseek, glm, kimi, mimo, longcat…), `messages` (forma Anthropic:
 claude-haiku-5-5, minimax, qwen) y `responses` (Responses API de OpenAI: gpt-6-luna, grok,
-muse-spark). Las dos primeras las parsean los transportes que ya existen; la tercera, no (§6).
+muse-spark). Las tres las parsean los transportes que ya existen (§6–§7).
 
-Modelos probados hasta ahora (todos con alias ya registrado en `ALIAS`, salvo Sonnet 5.5 y
-GPT 6 Luna, que se declaran solo en los corredores de prueba de `temp/datos-test/`):
+Modelos probados hasta ahora (todos con alias ya registrado en `ALIAS`, salvo Sonnet 5.5, que se
+declara solo en los corredores de prueba de `temp/datos-test/`):
 
 | Alias / modelo | Proveedor (API) | Dónde se probó |
 |---|---|---|
@@ -41,7 +42,7 @@ GPT 6 Luna, que se declaran solo en los corredores de prueba de `temp/datos-test
 | `haiku` — Claude Haiku 5.5 | api.anthropic.com | Etapa 1 (real, high), Etapa 2 (pruebas en `temp/`: medium, high, max) |
 | `glm` — GLM-5.3-Flash | api.z.ai | Etapa 2 (pruebas en `temp/`: low, high, max) |
 | Claude Sonnet 5.5 (sin alias fijo en `ALIAS`) | api.anthropic.com | Etapa 2 (pruebas en `temp/`: sin razonamiento, low) |
-| `gpt-6-luna` — GPT 6 Luna (sin alias fijo en `ALIAS`) | OpenCode Go, familia `responses` | Etapa 2 (pruebas en `temp/`: low ×2, high ×2) |
+| `luna` — GPT 6 Luna | OpenCode Go, familia `responses` | Etapa 2 (pruebas en `temp/`: low ×2, high ×2) y default de los cuatro actos (12-10) |
 | `mimo-v2.6-flash` — MiMo-V2.6-Flash (sin alias fijo en `ALIAS`) | OpenCode Go, familia `chat/completions` | Etapa 2 (pruebas en `temp/`: low ×3, medium ×2, high ×3) |
 | `grok` — Grok 4.7 | api.x.ai | Declarado, sin probar (sin créditos en xAI) |
 
@@ -50,7 +51,7 @@ GPT 6 Luna, que se declaran solo en los corredores de prueba de `temp/datos-test
 **Aviso (10-10): las columnas «Cobertura» y «Estabilidad» de §2.1 se puntuaron por conteo de datos y
 por una lista de aspectos esperados, y esa no es la vara del proyecto** —la vara es si el caso y sus
 datos bastan para responder una pregunta—. Quedan pendientes de re-puntuación con una batería de
-preguntas escrita a ciegas de las extracciones (ver «Encargo a otro modelo» en
+preguntas escrita a ciegas de las extracciones (pendiente 17 en
 `mvp/memoria de trabajo y pendientes.md`); el costo y el tiempo sí son medidas directas y se
 sostienen. El default es configurable —vive en la base—, pero elegirlo por calidad sin re-puntuar
 sigue siendo elegir a ciegas.
@@ -105,11 +106,12 @@ por decisión puntual, no por sustituir un defecto.
 
 ## 4. Etapa 3 (respuesta a consulta/pregunta): proveedor por defecto — abierto
 
-`orq/config.json` fija hoy `modelo.alias: "deepseek"`, `modelo.esfuerzo: "low"`, pero **esta
-elección no se ha probado**: ninguna de las pruebas comparativas de esta sesión corrió sobre la
-Etapa 3 (que tiene su propio bucle de herramientas, distinto del paso directo de UT/DATOS). El
-proveedor por defecto para Etapa 3 queda abierto hasta hacer pruebas específicas sobre el
-orquestador.
+El ORQ toma el modelo y el esfuerzo de la fila `ORQ` de `ajustes` (hoy `luna`/`low`, el default de
+la base) y se pueden pisar por llamada (`--modelo`, `--esfuerzo`); `config.json` ya no lleva el
+modelo. Pero **esta elección no se ha probado**: ninguna de las pruebas comparativas de esta sesión
+corrió sobre la Etapa 3 (que tiene su propio bucle de herramientas, distinto del paso directo de
+UT/DATOS). El proveedor por defecto para Etapa 3 queda abierto hasta hacer pruebas específicas
+sobre el orquestador.
 
 Un candidato ya queda descartado para esta etapa sin necesidad de probarlo: **MiMo exige que
 `reasoning_content` se devuelva completo en las rondas siguientes de un diálogo con herramientas, o
@@ -154,8 +156,9 @@ OpenAI), clave `OPENCODE_API_KEY` en `Authorization: Bearer`. Go pide `User-Agen
 `forma()`, sin escribir en la base—. Hace falta porque esta familia devuelve otra forma:
 `output[].content[].text` y `usage.input_tokens` / `output_tokens_details.reasoning_tokens`, no
 `choices[0].message`; `openai_compatible` no la parsea. El `[SISTEMA]` va como `instructions` y el
-`[TAREA]` como `input`. **Si se adopta, le toca un transporte propio** (`openai_responses`) en
-`mvp/código/proveedores/`; hoy no existe y el registro no tiene alias para él.
+`[TAREA]` como `input`. **Adoptado:** el transporte propio está en
+`mvp/código/proveedores/openai_responses.py` (`21be6b1`, y manda `tools` desde `06931d6`), el alias
+es `luna` en `ALIAS`, y por ahí va el ORQ.
 
 **Esfuerzos: `none`, `low`, `medium`, `high`, `xhigh`, `max`.** Lo dijo la propia API al rechazar
 `minimal` con HTTP 400 y enumerar los válidos; la documentación de Go no documenta el parámetro.
@@ -200,10 +203,12 @@ que Luna (§6). Clave `OPENCODE_API_KEY`; correr con `bash -ic '…'`.
 
 **Corredor.** `temp/datos-test/paso2_seco_v1_mimo.py <doc> mimo <esfuerzo> <rN>`, que envuelve a
 `paso2_seco_v1.py` y declara todo en memoria: el alias, el host en `CLAVE_POR_HOST` y la cabecera
-`x-opencode-session`. **Si se adopta**, el registro necesita tres cosas: el alias con la URL de Go,
-`opencode.ai → OPENCODE_API_KEY` en `claves.py`, y **una manera de poner cabeceras por alias** —hoy
-no existe: el `extra` del registro va al cuerpo, no a las cabeceras—. Eso último vale para cualquier
-modelo que se adopte por Go, no solo para mimo.
+`x-opencode-session`. **Si se adopta**, al registro le falta **una** cosa: **poner cabeceras por
+alias** —hoy no existe: el `extra` del registro va al cuerpo, no a las cabeceras—. El alias con la
+URL de Go y `opencode.ai → OPENCODE_API_KEY` en `claves.py` ya están, y la sesión de Go la pone el
+transporte de `responses` (`openai_responses.py`), que es por donde va `luna`; el de
+`chat/completions` (`openai_compatible.py`), por donde iría mimo, no la manda. Eso vale para
+cualquier modelo que se adopte por Go, no solo para mimo.
 
 **Esfuerzos: `none`, `low`, `medium`, `high`.** Rechaza con 400 `minimal`, `xhigh`, `max` y cualquier
 valor inventado. **El contrato hubo que sacarlo enumerando**, porque —a diferencia de Luna— **Go

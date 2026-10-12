@@ -69,9 +69,8 @@ cómo se procesa, qué se entrega y cómo se entrega— está en [guía_DATOS.md
 
 **Radicar es fijar.** Un documento radicado no cambia: si su texto cambia, eso es
 **otro documento**, con su radicación y su fila propias. El `sello` (sha256 de lo
-radicado) es el guardián: si el archivo ya no coincide, la carga de los datos se detiene y
-reporta. Una **mudanza** de archivo es otra cosa —el documento es el mismo y el
-sello no cambia— y se resuelve con una actualización de la base, autorizada.
+radicado) es el guardián: el texto se lee del **almacén** y `almacen.texto_de` lo comprueba antes de
+entregarlo. El archivo del que se volcó es **procedencia**: moverlo o borrarlo no toca al documento.
 
 **El conflicto entre fuentes, sin ejercitar.** Ejercitarlo pide un hecho disputado entre dos
 documentos del mismo dominio. **Abierto.**
@@ -182,7 +181,7 @@ CREATE TABLE datos (                     -- la salida de DATOS
 );
 
 CREATE TABLE consultas (                 -- la respuesta del ORQ
-  id             TEXT PRIMARY KEY,       -- <doc>:q<n>
+  id             TEXT PRIMARY KEY,       -- q<n>: el id de la pregunta radicada
   corrida_id     TEXT NOT NULL REFERENCES corridas(id),
   dominio        TEXT NOT NULL, documentos TEXT NOT NULL,
   pregunta_texto TEXT NOT NULL,
@@ -217,9 +216,9 @@ Así se lee una fila (ejemplo del formato):
 
 **Qué NO guarda la base, y por qué:**
 
-- **El texto del documento**: vive en el documento radicado, que es la **fuente única** (y, cuando el
-  almacén esté, en su base: `mvp/almacen-diseno.md`). De cada oración la base guarda **la literal y
-  su tramo** —el rango sobre el texto—: **no hay números de oración**, porque el número depende de la
+- **El texto del documento**: vive en el **almacén** (`mvp/código/almacen.db`), que es la **fuente
+  única** (`mvp/almacen-diseno.md`). De cada oración la base guarda **la literal y su tramo** —el
+  rango sobre el texto—: **no hay números de oración**, porque el número depende de la
   regla con la que se cortó. El sello es el guardián de que el texto no cambió.
 - **El crudo de las llamadas**: la petición se rearma —el prompt, el texto **tal como está** en el
   documento, y las unidades o los datos que ya están en la base—, y lo que el modelo produjo está en
@@ -343,8 +342,10 @@ resuelve un deíctico del documento («ayer», «en dos días»), y el del siste
 | 10 | Registrar | `orq/registrar_consulta.py` | la corrida y la respuesta, en la base |
 
 `orq/orquestador.py` es el `main`: los llama en ese orden y nada más. Cada paso vive
-en su archivo; `orq/config.json` tiene las rutas de **entrada** (las preguntas, R, la base y el
-prompt), el dominio, el modelo y las guardias. Lo que el ORQ produce no se configura: va a la base.
+en su archivo; `orq/config.json` tiene las rutas de **entrada** (R, la base y el prompt) y las
+guardias. **La pregunta, el dominio y el modelo no van ahí**: la pregunta —con su dominio— se lee de
+la tabla `preguntas`, y el modelo y el esfuerzo, de la fila `ORQ` de `ajustes` (se pueden pisar por
+llamada). Lo que el ORQ produce no se configura: va a la base.
 
 **La petición.** El `system` lleva lo que se conserva entre turnos (los relojes) y el
 `user` los casos del dominio, la tarea y el formato. La **pregunta va dentro de la
@@ -587,13 +588,13 @@ texto radicado; y `corridas` la cédula de cada llamada.
 Las guardias **no son R**: R dice qué se puede usar; esto solo corta si el bucle se
 enreda.
 
-- **Modelo:** alias `deepseek` = `deepseek-flash`, con razonamiento encendido
-  (`thinking: enabled`) y esfuerzo `low` —el de defecto del registro de proveedores, cambiable por
-  alias o por llamada—. El transporte es el del MVP (`mvp/código/proveedores/`, **sin
-  streaming**): la respuesta llega entera y se entrega en la forma de siempre
+- **Modelo:** el acto toma el alias y el esfuerzo de la fila `ORQ` de `ajustes` (hoy `luna` =
+  GPT 6 Luna, por OpenCode Go, familia `responses`, con `reasoning.effort: low`) y se puede pisar
+  por llamada (`--modelo`, `--esfuerzo`). El transporte es el del MVP (`mvp/código/proveedores/`,
+  **sin streaming**): la respuesta llega entera y se entrega en la forma de siempre
   —`choices[0].message` con `content`, `reasoning_content`, `tool_calls` y `finish_reason`—. Los
-  alias declarados son `deepseek`, `glm` (GLM 5.3 Flash) y `haiku` (Claude Haiku 5.5), más `grok`
-  sin créditos.
+  alias declarados son `deepseek` (razonamiento encendido, `thinking: enabled`), `glm` (GLM 5.3
+  Flash), `haiku` (Claude Haiku 5.5), `luna` (GPT 6 Luna, por OpenCode Go) y `grok`, sin créditos.
 - **De a una:** se manda una pregunta; la siguiente, cuando termina la corrida.
 - **Guardias implementadas:** `max_turnos: 8` y `max_herramientas: 20`, y **el tope de
   herramientas se respeta de verdad**: el bucle mira el tope antes de ejecutar y corta la

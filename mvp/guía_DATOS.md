@@ -32,19 +32,22 @@ ve el agente— y aparecía en 2 de 21 unidades.
     no numera nada del texto.
   Van **todas** las unidades del documento: la corrida es todo o nada.
 - **Las oraciones de cada unidad**: salen de `unidad_oraciones`, que las guardó el paso 1 con su
-  tramo. El paso 2 **no corta ni numera nada**. Antes de trabajar se comprueba el **sello** del
-  documento radicado (`mvp/documentos/<doc>.md`), que es sobre cuyo texto se cuentan los tramos.
-- **El prompt**: `prompt_DATOS`, el que esté **vigente en `mvp/prompts/`**. Sus huecos son
-  `{{RELOJ_RADICADO}}` —la fecha del radicado, en el `system`—, y `{{UNIDADES}}` y
-  `{{RELOJ_SISTEMA}}` —las unidades y el «ahora», en el `user`—.
+  tramo. El paso 2 **no corta ni numera nada**. Antes de trabajar comprueba el **sello** del
+  documento radicado con `almacen.texto_de` (el texto está en el **almacén**), que es sobre cuyo
+  texto se cuentan los tramos.
+- **El prompt**: `prompt_DATOS`, el que esté **vigente**. El `.md` de `mvp/prompts/` es la
+  **puerta**: se registra solo en la base la primera vez que corre, con su versión, y el acto lee de
+  ahí la plantilla. Sus huecos son `{{RELOJ_RADICADO}}` —la fecha del radicado, en el `system`—, y
+  `{{UNIDADES}}` y `{{RELOJ_SISTEMA}}` —las unidades y el «ahora», en el `user`—.
 
 ## 3. De dónde viene
 
 - **Las unidades** vienen del paso 1, con su procedimiento en [guía_UT.md](guía_UT.md): el prompt
   las agrupa, el código ubica cada oración en el texto y el resultado queda en la base (`unidades`
   y `unidad_oraciones`).
-- El documento tiene que estar **radicado**: su texto en `mvp/documentos/<doc>.md` y su fila en la
-  base. El detalle está en `mvp/consulta-diseno.md` §2–§3.
+- El documento tiene que estar **radicado**: su texto en el **almacén** (`mvp/código/almacen.db`) y
+  su fila en el corpus (el espejo). El detalle está en `mvp/consulta-diseno.md` §2–§3 y en
+  `mvp/almacen-diseno.md`.
 
 ## 4. Cómo se procesa
 
@@ -62,9 +65,8 @@ Lo que hace:
 1. **Arma la lista** de las unidades que faltan: `caso` = el `subtema`, `contenido` = sus
    oraciones en un párrafo.
 2. **Sustituye** `{{UNIDADES}}` en el prompt.
-3. **Llama al modelo** por `proveedores.llamar` (`mvp/código/proveedores/`; el alias del registro,
-   p. ej. `deepseek`): **una sola
-   llamada** con todas las unidades, sin agente de por medio.
+3. **Llama al modelo** por `proveedores.llamar` (`mvp/código/proveedores/`; el alias que fija
+   `ajustes`, p. ej. `luna`): **una sola llamada** con todas las unidades, sin agente de por medio.
 4. **Lee la respuesta** con `extract_json` (tolera que el JSON venga dentro de una cerca).
 5. **Verifica la forma**: que `unidades` sea una lista, que estén todas las posiciones enviadas,
    y que cada unidad traiga `n`, `caso` y `datos` con `aspecto` y `valor`. **No juzga el
@@ -72,11 +74,11 @@ Lo que hace:
 6. **Escribe en la base**, en una sola transacción: la fila de la **corrida** y los **datos**
    (§5). Si lo que volvió no sirve, no escribe ningún dato y deja la corrida marcada como fallida.
 
-Si el documento **ya tiene datos**, no llama al modelo. Rehacerlos es un acto explícito:
-`--rehacer`. **Todo o nada:** si la llamada falla, si la respuesta se cortó, si lo que volvió no
-sirve o si una unidad no se pudo armar, la corrida queda **fallida** con su motivo y no se escribe
-ningún dato; y si el intento era un `--rehacer`, **lo anterior vuelve** —el borrado y la escritura
-nueva van en una sola transacción—, así que un intento fallido no se come la extracción buena.
+Si el documento **ya tiene una tanda vigente**, no llama al modelo. Correr otra es un acto
+explícito: `--rehacer` —la tanda anterior **queda** en la base, con su corrida, y la vigente es la
+última sobre esa UT—. **Todo o nada:** si la llamada falla, si la respuesta se cortó, si lo que
+volvió no sirve o si una unidad no se pudo armar, la corrida queda **fallida** con su motivo y no se
+escribe ningún dato; un intento fallido no toca lo anterior.
 
 **Por qué en tanda.** Una sola llamada por documento sale más barata y más rápida que una por
 unidad, con los mismos datos salvo **granularidad**: la tanda puede juntar en un valor lo que de a
@@ -91,26 +93,30 @@ unidad; `doc7` fue el primero por la API.
 
 **Dos cosas en la base** (`mvp/código/corpus.db`), y nada en archivos:
 
-**(a) La corrida** — en `corridas`, con el id `<doc>:DATOS`: el modelo y su esfuerzo, el prompt y su
-hash, los tokens, los segundos, la fecha, y el `estado` (`exitoso`, o `fallido` con su motivo).
+**(a) La corrida** — en `corridas`, con el id **token** del acto (`C000003`…, del contador del
+corpus): el paso (`DATOS`), el documento, el modelo y su esfuerzo, la plantilla (`prompt_id`,
+`prompt_version`) y su hash, la **corrida de UT de la que salieron las unidades**
+(`corrida_origen`), los dos relojes, los tokens, los segundos y el `estado` (`exitoso`, o `fallido`
+con su motivo).
 
-**(b) Los datos** — en `datos`, una fila por dato: el id `<doc>:U<n>:D<j>`, la unidad, el `caso`, el
-`aspecto`, el `valor` y la `unidad_valor`. `j` es la **posición en la lista `datos`** que devolvió
-el modelo, no un número que venga del texto.
+**(b) Los datos** — en `datos`, una fila por dato: el id `<token_DATOS>:U<n>:D<j>`
+(`C000003:U1:D1`), la unidad de la que sale, el `caso`, el `aspecto`, el `valor` y la
+`unidad_valor`. `j` es la **posición en la lista `datos`** que devolvió el modelo, no un número que
+venga del texto.
 
 ```sql
 -- así se lee un dato, con su unidad y la corrida que lo produjo
-SELECT d.id, d.caso, d.aspecto, d.valor, d.unidad_valor, u.subtema, u.oraciones,
+SELECT d.id, d.caso, d.aspecto, d.valor, d.unidad_valor, u.id, u.subtema,
        c.modelo, c.tokens_salida
 FROM datos d JOIN unidades u ON u.id = d.unidad_id
 JOIN corridas c ON c.id = d.corrida_id
-WHERE d.id = 'doc8:U1:D1';
+WHERE d.id = 'C000003:U1:D1';
 ```
 
 ## 6. Cómo se entrega
 
-**Nombre y lugar.** En la base, siempre. La unidad es la que ya estaba (`<doc>:U<n>`), y el dato se
-numera por su posición en la lista.
+**Nombre y lugar.** En la base, siempre. La unidad es la que ya estaba (`<token_UT>:U<n>`, la de la
+UT vigente), y el dato se numera por su posición en la lista dentro de su unidad.
 
 **Qué pasa después con lo que se entrega.** No hay paso siguiente: el dato ya está en la base, y de
 ahí lo lee la consulta. Nada se escribe en `mvp/temp/`: ese es el archivo y no se toca.

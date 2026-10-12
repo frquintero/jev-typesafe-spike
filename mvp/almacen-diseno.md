@@ -1,9 +1,9 @@
 # El almacén de documentos (diseño)
 
-**Estado:** diseño, con la base construida. La base (`mvp/código/almacen.db`, dos tablas) y el
-módulo (`mvp/código/almacen.py`) **existen**; **falta el acto (`volcar.py`)**, que es la
-radicación. Hasta entonces el texto sigue viviendo en `mvp/documentos/*.md`, con su fila en
-`documentos`: la ruta y el sello.
+**Estado:** en pie. La base (`mvp/código/almacen.db`, **cuatro tablas** —`documentos`, `volcados`,
+`prompts` y `contador`—, en la **versión 3**), el módulo (`mvp/código/almacen.py`) y el acto
+(`mvp/código/volcar.py`) **existen**: el texto vive acá y los pasos lo leen con `almacen.texto_de`.
+El archivo del que se volcó es **procedencia**, no fuente.
 
 ## 1. Por qué
 
@@ -79,7 +79,7 @@ mismo; y lo que el volcado tiene que dejar es el texto, no la respuesta del mode
 ## 3. El acto: `volcar.py`
 
 ```
-python3 mvp/código/volcar.py <fuente> [--id NOMBRE] [--coleccion E]
+python3 mvp/código/volcar.py <fuente> [--id NOMBRE] [--coleccion E] [--modelo M] [--esfuerzo E]
 ```
 
 1. **Lee la fuente** y su procedencia (nombre, ruta, mtime). Si la fuente ya es markdown, no importa:
