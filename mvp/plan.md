@@ -59,8 +59,8 @@ del radicado **es** el del acto. Se registran igual los dos, por simetría.
 Es la decisión que va primero, porque de ella dependen los ids, el esquema y lo que el
 expediente puede prometer. Hoy **`--rehacer` borra**:
 
-- `radicar.py --rehacer` se lleva el documento **y toda su cascada** (excepción declarada: cae
-  cuando `volcar.py` reemplace a `radicar.py`, porque el volcado no tiene `--rehacer`);
+- ~~`radicar.py --rehacer`~~: **ya no existe**; lo retiró `volcar.py` (12-10), que no tiene
+  `--rehacer`;
 - `paso1 --rehacer` borra las unidades y sus oraciones ([`borrar_unidades`](código/base.py));
 - `paso2 --rehacer` borra los datos;
 - y el ORQ **pisa** la consulta ([`registrar_consulta`](código/orq/registrar_consulta.py)).

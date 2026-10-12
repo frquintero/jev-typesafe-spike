@@ -49,8 +49,8 @@ ubica en el texto para quedarse con su tramo.
 - El texto lo escribe la planificación (Frat y Cowork), no el ejecutor. Reglas: sintético, de
   contenido general, y sin ejemplos tomados de los documentos de prueba.
 - El mismo texto entra al corpus como **documento radicado**, en un acto aparte y a mano:
-  `python3 mvp/código/radicar.py <doc>` —el texto queda en `mvp/documentos/<doc>.md` y la base
-  anota su nombre, su fecha y su hora—. El detalle del corpus está en `mvp/consulta-diseno.md`
+  `python3 mvp/código/volcar.py <fuente>` —el markdown queda en el almacén, con su sello y su
+  procedencia, y el corpus anota su fila—. El detalle del corpus está en `mvp/consulta-diseno.md`
   §2–§3.
 
 ## 4. Cómo se procesa

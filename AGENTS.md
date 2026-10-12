@@ -71,8 +71,8 @@ mover un archivo o de tocar el estado del repo.
   `prompt_volcado`, `prompt_UT`, `prompt_DATOS` y `prompt_ORQ`, que son la **puerta**: cada
   plantilla se registra en la base con su versión la primera vez que corre) y el **código**
   (`mvp/código/`):
-  `radicar.py` (radica
-  el documento), `paso1_unidades.py` (UT), `paso2_datos.py` (DATOS), `base.py` (la base y su
+  `volcar.py` (volca la fuente: **es la radicación**), `armar_volcado.py` (del texto y el índice
+  al markdown), `paso1_unidades.py` (UT), `paso2_datos.py` (DATOS), `base.py` (la base y su
   esquema), `esquema.py` (la versión del esquema y el token del acto), `acto.py` (abrir y cerrar
   un acto), `prompts.py` (las plantillas en la base), `proveedores/` (el transporte), `R.json` y
   el orquestador (`orq/`). **La base
@@ -84,9 +84,9 @@ mover un archivo o de tocar el estado del repo.
   **traza completa**; **no hay archivos intermedios**. **Y hay un almacén**
   (`mvp/código/almacen.db`, diseño en `mvp/almacen-diseno.md`): de él será el **original** —el
   documento volcado en markdown, con su sello y su procedencia—, y su acto (`volcar.py`, que **es la
-  radicación**) está **pendiente**; hasta entonces el texto se lee de `mvp/documentos/`. Lo único que se lee son entradas: el documento radicado, las plantillas de la base, R y
+  radicación**) ya está hecho: el texto se lee del almacén. Lo único que se lee son entradas: el documento radicado, las plantillas de la base, R y
   la batería. **Cada etapa es un acto manual y separado, y nada se
-  dispara solo**: radicar (`radicar.py <doc>`), UT (`paso1_unidades.py <doc>`), DATOS
+  dispara solo**: volcar (`volcar.py <fuente>`), UT (`paso1_unidades.py <doc>`), DATOS
   (`paso2_datos.py <doc>`) y consultar. Lo construido y lo abierto está en `mvp/consulta-diseno.md`;
   los procedimientos, en `mvp/guía_UT.md` (paso 1, unidades temáticas) y `mvp/guía_DATOS.md` (paso 2,
   datos por unidad); y **el estado —qué hay radicado y qué sigue— solo en

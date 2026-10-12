@@ -176,8 +176,7 @@ DeepSeek `low`) mandadas como el acto real, en dos mensajes.
 **Orden.** **La base viva está en cero**: las diez tablas del corpus y las cuatro del almacén. El
 material anterior —`sol` por las tres etapas, `preparacion_cafe` radicado, las baterías, la
 extracción y las corridas— **vive en el scratch** (`temp/ut-sin-marcas/out/sol-ut-vieja.db`), no en la
-base. Así que la radicación vuelve a ser el paso uno, y **radicar ahora es volcar**: el almacén está
-diseñado y su base creada (`mvp/almacen-diseno.md`, punto 18). **El substrato de la traza está
+base. Así que la radicación vuelve a ser el paso uno, y **radicar ahora es volcar**: el volcado está hecho (`mvp/almacen-diseno.md`, punto 18). **El substrato de la traza está
 hecho** (12-10): el token por acto, la conservación de los productos, las plantillas en la base y
 la guardia del esquema (`mvp/plan.md`). Después, `preparacion_cafe` por las
 etapas (punto 0).
@@ -286,9 +285,9 @@ etapas (punto 0).
     `escribir` con el espejo del corpus en la misma transacción, `texto_de` con el sello comprobado,
     `registrar_fallo`). **La identidad del documento es su volcado y su fecha; el sello es guardián y
     la fuente es traza** —el `UNIQUE (sello)` se retiró: el mismo texto volcado en otra fecha es otro
-    documento (`almacen-diseno.md`, §7)—. **Falta:** el acto
+    documento (`almacen-diseno.md`, §7)—. **Hecho (12-10):** el acto
     **`volcar.py`** —fuente → `prompt_volcado` → el índice → la verificación → el markdown → el
-    almacén—, que **es la radicación** (y con él se retira `radicar.py`), y que **`paso1` y `paso2`
-    lean el texto del almacén** en vez del archivo. La cadena del volcado ya está probada en el
-    scratch (`temp/estructura/`: cinco textos —sin marcas, numerado, mixto, `Anexos` pegado y
-    separado— y un prototipo del armador con ida y vuelta e idempotencia).
+    almacén—, que **es la radicación** (y con él se retiró `radicar.py`), y **`paso1` y `paso2` leen
+    el texto del almacén**. La cadena se probó antes en el scratch (`temp/estructura/`: cinco
+    textos —sin marcas, numerado, mixto, `Anexos` pegado y separado—), y el armador quedó en
+    `mvp/código/armar_volcado.py`.

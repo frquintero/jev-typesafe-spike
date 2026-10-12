@@ -43,9 +43,9 @@ RAIZ = pathlib.Path(__file__).resolve().parent.parent.parent
 AQUI = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 
+import almacen  # noqa: E402
 from acto import abrir, cerrar  # noqa: E402
-from base import (conectar, exigir_documento, exigir_sello, unidades_de,  # noqa: E402
-                  ut_vigente)
+from base import conectar, exigir_documento, unidades_de, ut_vigente  # noqa: E402
 from extraer_unidades import roturas, verificar_particion  # noqa: E402
 from mensajes import partir  # noqa: E402
 from prompts import usar as usar_prompt  # noqa: E402
@@ -99,7 +99,9 @@ def run(doc, modelo, prompt_name, rehacer, esfuerzo=None):
         if hueco not in plantilla:
             raise SystemExit(f"la plantilla '{prompt['id']}' v{prompt['version']} no tiene {hueco}")
 
-    texto = exigir_sello(fila)
+    db_almacen = almacen.conectar()
+    texto = almacen.texto_de(db_almacen, doc)  # el original: el markdown del volcado
+    db_almacen.close()
     relojes = {"reloj_radicado": reloj_radicado(fila["fecha_radicacion"]),
                "reloj_sistema": reloj_sistema()}
     rotulo = f"{prompt['id']} v{prompt['version']}"

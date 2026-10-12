@@ -86,12 +86,12 @@ esfuerzo de lo que está en la base, y los tokens (D23).
 
 `mvp/código/corpus.db` (SQLite) **es el centro**: no hay archivos intermedios, y todo lo que los
 pasos producen queda ahí, encadenado, para poder hacer la traza completa. Lo escriben **actos
-manuales y separados**: `radicar.py` pone la fila del documento —su nombre, su dominio, dónde vive
-y **la fecha y la hora, que pone la base** al radicar—; `paso1_unidades.py` (UT) escribe su corrida
+manuales y separados**: `volcar.py` pone el documento **en el almacén** —el markdown, su sello, su
+procedencia y la fecha y la hora— y su fila en el espejo del corpus; `paso1_unidades.py` (UT)
+escribe su corrida
 y las unidades; `paso2_datos.py` (DATOS) escribe su corrida y los datos; y
 `orq/registrar_consulta.py` escribe la corrida del ORQ y la respuesta. **Nunca se toca la fila del
-documento**: un documento radicado no se mueve. En pruebas, `radicar.py --rehacer <doc>` saca su
-fila y todo lo que cuelga de ella.
+documento**: un documento radicado no se mueve, y el volcado no tiene `--rehacer`.
 
 ```sql
 CREATE TABLE documentos (
@@ -673,7 +673,8 @@ el texto sobre el que se cuentan está en el documento radicado, sellado. Desde 
 - `mvp/código/proveedores/`: **el transporte del MVP** —el registro de alias, `llamar` con `prompt`
   o `mensajes` y `tools`, y la única lectura de claves (`claves.py`)—, con la forma de OpenAI como
   contrato; y `mvp/código/respuesta.py`, con `extract_json`.
-- `mvp/código/base.py`, `radicar.py`, `paso1_unidades.py` y `paso2_datos.py`: la base y sus
+- `mvp/código/base.py`, `esquema.py`, `acto.py`, `prompts.py`, `volcar.py`, `armar_volcado.py`,
+  `paso1_unidades.py` y `paso2_datos.py`: la base y sus
   **actos** (§3).
 - `mvp/código/orq/`: el orquestador, un archivo por paso (§5).
 - `mvp/código/orq/leer_entrega.py`: el lector de la entrega —el JSON de prompt 3,

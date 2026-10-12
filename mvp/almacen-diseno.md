@@ -94,7 +94,7 @@ python3 mvp/código/volcar.py <fuente> [--id NOMBRE] [--coleccion E]
    candado**: volver a volcar la misma fuente, con otro id, es otro documento —los distingue la
    fecha.
 
-**Este acto es la radicación.** `radicar.py` se funde en él: la fecha de radicado, el sello y el
+**Este acto es la radicación.** `radicar.py` se fundió en él (12-10): la fecha de radicado, el sello y el
 espejo son los mismos; lo que cambia es que el texto entra a la base y el archivo pasa a ser
 **procedencia**.
 
@@ -136,8 +136,8 @@ Si algo de eso falla, la corrida queda `fallida` con su motivo **y no se escribe
 - Los dos escritos van en **una sola transacción** (`ATTACH`), y por eso **ninguna de las dos bases
   usa WAL**: con WAL la escritura entre archivos deja de ser atómica.
 
-Los actos de después leen el texto del **almacén**: `paso1` y `paso2` dejan de leer
-`mvp/documentos/<doc>.md`, y `exigir_sello` pasa a leer el markdown guardado.
+Los actos de después leen el texto del **almacén** (hecho el 12-10): `paso1` y `paso2` leen con
+`almacen.texto_de`, y `exigir_sello` quedó retirado.
 
 ## 7. Lo que se decidió (y por qué)
 

@@ -40,8 +40,9 @@ RAIZ = pathlib.Path(__file__).resolve().parent.parent.parent
 AQUI = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 
+import almacen  # noqa: E402
 from acto import abrir, cerrar  # noqa: E402
-from base import (conectar, datos_vigente, exigir_documento, exigir_sello,  # noqa: E402
+from base import (conectar, datos_vigente, exigir_documento,  # noqa: E402
                   unidades_vigentes, ut_vigente)
 from mensajes import partir  # noqa: E402
 from prompts import usar as usar_prompt  # noqa: E402
@@ -197,7 +198,9 @@ def run(doc, modelo, rehacer, esfuerzo=None):
         raise SystemExit(f"  {doc}: el acto falló — {motivo}")
 
     # Todo o nada: si una unidad no se puede armar, no se llama al modelo.
-    exigir_sello(fila)  # el texto radicado no cambió: los tramos se cuentan sobre él
+    db_almacen = almacen.conectar()
+    almacen.texto_de(db_almacen, doc)  # el texto no cambió: los tramos se cuentan sobre él
+    db_almacen.close()
     armadas = [(unidad, oraciones_de(db, unidad["id"])) for unidad in unidades]
     sin_armar = [unidad["id"] for unidad, oraciones in armadas if not oraciones]
     if sin_armar:

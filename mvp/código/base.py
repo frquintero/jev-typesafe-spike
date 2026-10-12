@@ -8,8 +8,9 @@ corrida que lo produjo.
 **El corpus**
 
 - `documentos`: un documento **radicado** por fila —su nombre, su dominio, la fecha y la hora (que
-  pone la base), dónde vive en el repo y su **sello** (sha256 del texto: guardián de que el texto no
-  cambió)—. El texto no se guarda: vive en el documento radicado. Un documento radicado no se mueve.
+  pone la base), la procedencia de la fuente y su **sello** (sha256 del texto: guardián de que no
+  cambió)—. Es un **espejo** del almacén, que es el dueño del texto (`mvp/almacen-diseno.md`), y acá
+  viven las claves foráneas. Un documento radicado no se mueve.
 - `unidades`: la salida de UT —el nombre de cada unidad y su orden—. Cada unidad cuelga de **su**
   corrida de UT: dos particiones del mismo documento **conviven**, y la vigente se deriva.
 - `unidad_oraciones`: los tramos de cada unidad —la oración **literal** tal como la devolvió el
@@ -45,9 +46,7 @@ import pathlib
 import esquema
 
 AQUI = pathlib.Path(__file__).resolve().parent
-RAIZ = AQUI.parent.parent
 DB = AQUI / "corpus.db"
-DOCUMENTOS = RAIZ / "mvp" / "documentos"
 ESQUEMA_VERSION = 1
 
 ESQUEMA = """
@@ -189,22 +188,8 @@ def exigir_documento(db, identificador):
     fila = documento(db, identificador)
     if fila is None:
         raise SystemExit(f"'{identificador}' no está radicado: la radicación es el acto que va "
-                         f"primero (python3 mvp/código/radicar.py {identificador})")
+                         f"primero (python3 mvp/código/volcar.py <fuente> --id {identificador})")
     return fila
-
-
-def ruta_documento(fila):
-    """Dónde está el texto radicado, en el repo."""
-    return RAIZ / fila["ubicacion_upstream"]
-
-
-def exigir_sello(fila):
-    """Devuelve el texto radicado, o se detiene si el archivo cambió desde la radicación."""
-    ruta = ruta_documento(fila)
-    if hash_de(ruta) != fila["sello"]:
-        raise SystemExit(f"el texto de '{fila['id']}' cambió desde que se radicó: eso es otro "
-                         f"documento. Se radica de nuevo con otro nombre (o, en pruebas, --rehacer).")
-    return ruta.read_text(encoding="utf-8")
 
 
 def corrida(db, token):

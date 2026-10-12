@@ -145,6 +145,11 @@ def escribir(db, identificador, coleccion, texto, procedencia, volcado):
     # `ATTACH` no se puede hacer **dentro** de una transacción: se adjunta antes, y desde ahí las dos
     # escrituras —el almacén y el espejo del corpus— van en la misma transacción.
     db.execute("ATTACH DATABASE ? AS corpus", (str(CORPUS),))
+    if db.execute("SELECT 1 FROM corpus.sqlite_master WHERE type = 'table' AND "
+                  "name = 'documentos'").fetchone() is None:
+        db.execute("DETACH DATABASE corpus")
+        raise SystemExit(f"el corpus '{CORPUS}' no tiene su esquema: lo crea cualquier acto del "
+                         f"corpus (`mvp/código/volcar.py`, `paso1_unidades.py`) antes de volcar.")
     db.execute("BEGIN")
     db.execute("INSERT INTO documentos (id, coleccion, texto, sello, nombre_fuente, ruta_fuente, "
                "fecha_modificacion) VALUES (?,?,?,?,?,?,?)",
