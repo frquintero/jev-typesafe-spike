@@ -7,7 +7,7 @@ documento que lo aplica (el diseño, el vocabulario, el prompt, la guía); las *
 base; la **historia**, a git; y el detalle de cada ronda, al `PLAN.md` de su proyecto. Una cosa
 ya decidida **no se anota acá: sale de acá**.
 
-Estado al 11-10-2026. El vocabulario y los informes sueltos, en `otros documentos/`; la casa, la
+Estado al 12-10-2026. El vocabulario y los informes sueltos, en `otros documentos/`; la casa, la
 actualización de los tres sitios y los reportes, en `política.md`.
 
 ## 1. Reglas de trabajo
@@ -185,8 +185,9 @@ etapas (punto 0).
    (`paso1_unidades.py preparacion_cafe`) y **DATOS** (`paso2_datos.py preparacion_cafe`) —corren
    contra la API real y escriben en la base; el modelo y el esfuerzo son la elección abierta, ver
    `mvp/proveedores.md` (§2) y el pendiente 17—,
-   escribir su batería en `mvp/consulta/preguntas_preparacion_cafe.md` y correr la consulta; evaluarla con la vara de los
-   el contenido —qué le pasa a A(Q)—, distinguiendo «no está en los datos extraídos» de «el documento no lo dice»
+   su batería ya está escrita (`mvp/consulta/preguntas_preparacion_cafe.md`, 11-10) y falta correr
+   la consulta; evaluarla con la vara del contenido —qué le pasa a A(Q)—, distinguiendo «no está en
+   los datos extraídos» de «el documento no lo dice»
    (`mvp/consulta-diseno.md`, §12). `doc11` está en `mvp/documentos/`, fuera de la base: vuelve con dos
    actos, radicarlo (el sello sale igual) y correrle UT. Las baterías de
    `doc4`/`doc6` están archivadas y **sin evaluar** —el registro de esa ronda, con su medición, en
@@ -227,7 +228,8 @@ etapas (punto 0).
     tienen campo en la base: el registro no los guarda. Y `corridas` guarda `prompt` y su hash,
     **no el texto**: así se perdieron cinco corridas de prueba, cuyo prompt se sobrescribió y nunca
     se versionó. Decidir si se agregan columna(s) —o un campo en la unidad— y hacerlo **antes de que
-    la base crezca**: ya tiene dos documentos, cinco unidades y 24 datos, así que ya no es gratis.
+    la base crezca**: hoy la base viva está en cero —el reseteo se llevó lo anterior—, así que
+    todavía es gratis.
 15. **La entrada de la consulta: un JSON con `pregunta` y `dominio` (propuesta, 10-10).** La
     pregunta se da **a mano** —en Zettel habrá un módulo para eso—, así que la entrada sería un JSON
     de dos campos: la `pregunta` y el `dominio`; y el `dominio` puede ser una **etiqueta** que
@@ -248,14 +250,16 @@ etapas (punto 0).
     sin referente** y `pregunta_numero` sin fuente si el JSON trae una sola pregunta. Y dos cosas a
     fijar: si el JSON lleva **una** pregunta o una **lista**, y que hoy una «colección» es
     implícita —el `dominio` de los documentos—, sin tabla ni validación.
-16. **La consulta del Sol, a medio correr (10-10, para retomar).** La batería tiene cinco preguntas y
-    van **dos corridas**: la 1 y la 3, las dos `respondida`. **Faltan la
-    2, la 4 y la 5**, una por acto: `python3 mvp/código/orq/orquestador.py <n>` —el ORQ ya apunta a
-    `mvp/consulta/preguntas_sol.md` y corre con `luna low`—. **Después, evaluarlas**: la vara es la de
+16. **La consulta del Sol, corrida y sin evaluar (10-10 y 11-10).** La batería tiene cinco preguntas
+    y **las cinco se corrieron** con `luna low`: la 1 y la 3 el 10-10, la 2 el 11-10 05:31
+    (`b3098df`), y la 4 y la 5 el 11-10 05:55 (`1e639dc`, «batería completa: 5/5 respondida»).
+    **Falta evaluarlas**: la vara es la de
     `mvp/consulta-diseno.md` §12 (que la respuesta se sostenga en lo que el documento establece, y
     distinguir «no está en los datos extraídos» de «el documento no lo dice»), y el material para
     juzgar es la batería **con sus respuestas de referencia**, en
-    `mvp/consulta/batería_sol_respuestas.md`, escritas **a ciegas de las extracciones**. **Lo que ya
+    `mvp/consulta/batería_sol_respuestas.md`, escritas **a ciegas de las extracciones**. **Esas
+    corridas no están en la base viva** —el reseteo del 11-10 se las llevó—: viven en el scratch
+    (punto de arriba), así que evaluarlas no pide llamadas nuevas. **Lo que ya
     se vio al correr, para no perderlo:** la q1 leyó **un** caso (`sol:U2`) y la q3 **dos** (`sol:U4`
     y `sol:U1`), **y `sol:U1` sobró** —nada de lo que respondió sale de ahí—; las dos cerraron en **2
     turnos**, sin corte, con el JSON como todo el mensaje; y con `luna low` el modelo gastó **0
@@ -274,10 +278,13 @@ etapas (punto 0).
     unidad**: la UT sola (suficiencia local) o el documento entero, donde una pregunta puede quedar
     respondida por datos de dos unidades. Mientras no se re-puntúe, no se cambia el proveedor por
     defecto de DATOS (`mvp/proveedores.md` §2).
-18. **El almacén: el acto del volcado, y que los pasos lean de ahí.** **Hecho** (11-10): el diseño
-    (`mvp/almacen-diseno.md`), la base (`mvp/código/almacen.db`, dos tablas —`documentos` y
-    `volcados`—, limpia) y el módulo (`mvp/código/almacen.py`: `escribir` con el espejo del corpus en
-    la misma transacción, `texto_de` con el sello comprobado, `registrar_fallo`). **Falta:** el acto
+18. **El almacén: el acto del volcado, y que los pasos lean de ahí.** **Hecho** (11-10; corregido el
+    12-10): el diseño (`mvp/almacen-diseno.md`), la base (`mvp/código/almacen.db`, dos tablas
+    —`documentos` y `volcados`—, limpia) y el módulo (`mvp/código/almacen.py`: `escribir` con el
+    espejo del corpus en la misma transacción, `texto_de` con el sello comprobado, `registrar_fallo`).
+    **La identidad del documento es su volcado y su fecha; el sello es guardián y la fuente es
+    traza** —el `UNIQUE (sello)` se retiró: el mismo texto volcado en otra fecha es otro documento
+    (`almacen-diseno.md`, §7)—. **Falta:** el acto
     **`volcar.py`** —fuente → `prompt_volcado` → el índice → la verificación → el markdown → el
     almacén—, que **es la radicación** (y con él se retira `radicar.py`), y que **`paso1` y `paso2`
     lean el texto del almacén** en vez del archivo. La cadena del volcado ya está probada en el
