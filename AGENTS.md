@@ -121,6 +121,10 @@ mover un archivo o de tocar el estado del repo.
 Los comandos de cada proyecto están en su `PLAN.md` o `README.md` (los de `unidades/`,
 en `unidades/PLAN.md`).
 
+- **Lo que sale de la base, literal y completo.** Cuando se pide un dato —una unidad, una oración, un
+  dato, una cédula, un ajuste, una corrida—, se transcribe **tal cual está en la tabla**, con sus
+  columnas (id, offsets, tokens, estado). **No se parafrasea, no se resume, no se interpreta**: una
+  lectura se contesta con la lectura.
 - Los guiones son idempotentes: si el crudo existe, no vuelven a llamar. **En el MVP no hay
   crudos**: la idempotencia es «si las unidades (o los datos) de ese documento ya están en la base,
   no se llama», y rehacer es un acto explícito (`--rehacer`).
