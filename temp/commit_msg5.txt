@@ -1,0 +1,14 @@
+mvp: paso1 y paso2 reciben --esfuerzo
+
+Los dos corredores usaban siempre el esfuerzo del alias (Haiku y DeepSeek, low): para correr UT en
+high hubo que cambiarlo en memoria desde el scratch. Ahora `--esfuerzo E` lo pasa a resolver() y a
+llamar(), igual que el ORQ lo toma de su config; sin la opcion, queda el del alias. La corrida ya
+guardaba el esfuerzo usado.
+
+Las guias de UT y DATOS y el diseno muestran la opcion en el uso.
+
+Verificado sin API: compila; la opcion se lee y el uso la nombra; resolver('haiku', 'high') da high
+y sin esfuerzo da el del alias.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01TqGMMkAVhFXy7h212qb9oi

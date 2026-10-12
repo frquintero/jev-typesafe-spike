@@ -1,0 +1,175 @@
+{
+  "unidades": [
+    {
+      "n": 1,
+      "caso": "la recuperación del humedal tras el cierre del canal y los datos de la obra",
+      "datos": [
+        {
+          "aspecto": "nombre del humedal",
+          "valor": "La Ciénaga",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "ubicación del humedal",
+          "valor": "al oriente de la ciudad",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "superficie de espejo de agua recuperada",
+          "valor": "doscientas",
+          "unidad_valor": "hectáreas"
+        },
+        {
+          "aspecto": "evento previo a la recuperación",
+          "valor": "el cierre del canal de drenaje",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "responsable de ejecutar la obra",
+          "valor": "el consorcio Agua Viva",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "costo de la obra",
+          "valor": "tres mil millones",
+          "unidad_valor": "pesos"
+        },
+        {
+          "aspecto": "convenio asociado a la obra",
+          "valor": "firmado con la alcaldía en febrero",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "fecha desde la cual el canal desecaba el humedal",
+          "valor": "1995",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "caso": "el plan de restauración presentado, su informe y su contenido",
+      "datos": [
+        {
+          "aspecto": "responsables de presentar el plan",
+          "valor": "La bióloga Marta Ruiz y la coordinadora del parque, Inés Palacio",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "fecha en que se conocerá el informe",
+          "valor": "mayo",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "especies nativas contempladas para sembrar",
+          "valor": "cuarenta y dos",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "acción contemplada sobre los escombros",
+          "valor": "retirar los escombros del borde sur",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "caso": "el aumento del espejo de agua y el registro de aves migratorias",
+      "datos": [
+        {
+          "aspecto": "hectáreas inundadas el año pasado",
+          "valor": "sesenta",
+          "unidad_valor": "hectáreas"
+        },
+        {
+          "aspecto": "hectáreas inundadas este año",
+          "valor": "doscientas",
+          "unidad_valor": "hectáreas"
+        },
+        {
+          "aspecto": "entidad que registró aves migratorias",
+          "valor": "la secretaría de Ambiente",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "aves migratorias registradas en la última temporada",
+          "valor": "ciento treinta",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "aumento de aves migratorias respecto a la temporada anterior",
+          "valor": "cuarenta",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "caso": "las peticiones, promesas y declaraciones sobre beneficios para el barrio El Mirador",
+      "datos": [
+        {
+          "aspecto": "petición de los vecinos del barrio El Mirador",
+          "valor": "un sendero elevado para observar las aves",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "promesa de la empresa",
+          "valor": "contratar a veinte personas del sector",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "declaración del concejal Óscar Medina",
+          "valor": "la recuperación era una deuda histórica con el barrio",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "caso": "la petición de publicar el informe antes de las elecciones",
+      "datos": [
+        {
+          "aspecto": "autora de la petición",
+          "valor": "la personera",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "petición",
+          "valor": "que el informe se publicara antes de las elecciones",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "caso": "el antecedente de la restauración abandonada en el humedal de Tibanica",
+      "datos": [
+        {
+          "aspecto": "año del intento de restauración",
+          "valor": "2018",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "humedal donde se intentó la restauración",
+          "valor": "Tibanica",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "tipo de restauración intentada",
+          "valor": "similar",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "tiempo hasta el abandono",
+          "valor": "dos",
+          "unidad_valor": "años"
+        },
+        {
+          "aspecto": "causa del abandono",
+          "valor": "falta de mantenimiento",
+          "unidad_valor": null
+        }
+      ]
+    }
+  ]
+}

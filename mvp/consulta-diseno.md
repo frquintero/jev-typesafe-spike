@@ -18,7 +18,8 @@ con precisión.
 del paso 2 (el informe de esa ronda, archivado en `mvp/temp/`). **Los tres prompts de trabajo viven
 en
 `mvp/prompts/`:** `prompt_UT.md` (paso 1, unidades temáticas), `prompt_DATOS.md` (paso 2,
-los datos por unidad —una unidad por turno: devuelve `caso` y `datos`
+los datos por unidad, **en tanda**: una sola llamada con todas las unidades del documento, y devuelve
+`caso` y `datos`
 (`aspecto · valor · unidad_valor`)—) y `prompt_ORQ.md` (el agente de la consulta,
 §8). El paso 1 de la ronda cerrada (v9) y el candidato
 `prompt_ficha_contexto.md` quedan congelados: no se reabren ni se adoptan. Sin Jev y
@@ -185,10 +186,11 @@ Así se lee una fila (ejemplo del formato):
 
 **Qué NO guarda la base, y por qué:**
 
-- **El texto del documento ni las oraciones literales**: viven en el documento radicado, que es la
-  **fuente única**; la base guarda los **números** de oración de cada unidad, y el sello es el
-  guardián de que el texto no cambió.
-- **El crudo de las llamadas**: la petición se rearma —el prompt, el texto numerado desde el
+- **El texto del documento**: vive en el documento radicado, que es la **fuente única** (y, cuando el
+  almacén esté, en su base: `mvp/almacen-diseno.md`). De cada oración la base guarda **la literal y
+  su tramo** —el rango sobre el texto—: **no hay números de oración**, porque el número depende de la
+  regla con la que se cortó. El sello es el guardián de que el texto no cambió.
+- **El crudo de las llamadas**: la petición se rearma —el prompt, el texto **tal como está** en el
   documento, y las unidades o los datos que ya están en la base—, y lo que el modelo produjo está en
   la base. Se pierde lo que dijo de más: su razonamiento.
 - **Los reintentos**: una sola fila por paso y documento; la corrida efectiva reescribe la suya.
@@ -554,9 +556,9 @@ enreda.
 - **De a una:** se manda una pregunta; la siguiente, cuando termina la corrida.
 - **Guardias implementadas:** `max_turnos: 8` y `max_herramientas: 20`, y **el tope de
   herramientas se respeta de verdad**: el bucle mira el tope antes de ejecutar y corta la
-  corrida (antes ejecutaba una herramienta más por turno). La causa del corte queda en la fila de
-  la corrida (`corte`: `max_turnos`, `max_herramientas`, `pregunta_al_usuario`, o `null` si el
-  agente cerró), y un corte se registra como **fallido**. **No hay corte por ciclo** (misma acción con los mismos
+  corrida (antes ejecutaba una herramienta más por turno). La causa del corte queda en el `motivo` de
+  la fila de la corrida —**no hay columna `corte`**: el motivo la lleva—, y un corte se registra como
+  **fallido**. **No hay corte por ciclo** (misma acción con los mismos
   argumentos dos veces). **Abierto.**
 - **El consumo de las corridas** (`prompt_tokens = hit + miss`): el **prefijo fijo se cachea** (el
   `hit` aparece desde el segundo turno) y lo que se paga es lo nuevo —cada resultado de herramienta

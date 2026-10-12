@@ -1,0 +1,149 @@
+{
+  "doc": "preparación del café",
+  "documento": "mvp/documentos/preparación del café.md",
+  "alias": "haiku",
+  "modelo": "claude-haiku-5-5",
+  "esfuerzo": "medium",
+  "rN": "n1",
+  "segundos": 3.4,
+  "prompt": "temp/prompt_UT_v1_nombres.md",
+  "hash_prompt": "4c21c9e9ba16d9c9076d7cf705602e1f07759a375f62479ab94a4774514c2d08",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 3033,
+    "completion_tokens": 426,
+    "total_tokens": 3459,
+    "prompt_cache_hit_tokens": 2236,
+    "prompt_cache_miss_tokens": 797,
+    "thinking_tokens": 212,
+    "anthropic": {
+      "input_tokens": 797,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 2236,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 426,
+      "output_tokens_details": {
+        "thinking_tokens": 212
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  },
+  "subtemas": [
+    {
+      "subtema": "las tres dinámicas de extracción del café y los factores comunes que determinan el resultado",
+      "oraciones": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "subtema": "los métodos de inversión: Prensa Francesa y Cold Brew",
+      "oraciones": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "subtema": "los métodos de percolación o goteo: Hario V60 y Chemex",
+      "oraciones": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "subtema": "los métodos de presión: espresso, Moka y AeroPress",
+      "oraciones": [
+        10,
+        11,
+        12
+      ]
+    }
+  ],
+  "verificacion": {
+    "oraciones_del_texto": 12,
+    "huecos": [],
+    "solapes": [],
+    "fuera_de_rango": [],
+    "no_enteros": []
+  },
+  "error_parseo": null,
+  "peticion": {
+    "model": "claude-haiku-5-5",
+    "max_tokens": 64000,
+    "thinking": {
+      "type": "adaptive",
+      "display": "summarized"
+    },
+    "output_config": {
+      "effort": "medium"
+    },
+    "system": [
+      {
+        "type": "text",
+        "text": "TAREA\nAgrupa las oraciones de `texto` en subtemas, según las definiciones y los ejemplos.\nResponde solo con el JSON.\nLa forma es el contrato: no agregues claves fuera de las que define `SALIDA`.\n\nDEFINICIONES\n- Oración: el texto que va de un punto, signo de interrogación o signo de exclamación al siguiente. En `texto` va numerada ([1], [2], …).\n- Subtema: una o varias oraciones asociadas o correlacionadas con una idea o asunto nuclear dentro del `texto` dado.\n- Nombre del subtema: una frase breve que describe por si sola el contenido de las oraciones del subtema\n- Todas y cada una de las oraciones de `texto` van en un solo subtema.\n- Lo que une oraciones bajo un mismo subtema es que forman parte de una misma idea o asunto nuclear.\n\nEJEMPLO 1\nCada subtema junta las oraciones que desarrollan una misma idea.\n\n`texto`\n<<<\n[1] El océano cubre el setenta y uno por ciento de la superficie del planeta. [2] Su profundidad media es de tres mil setecientos metros, y en los fondos abisales la temperatura ronda los dos grados centígrados.\n\n[3] La vida apareció en él hace unos tres mil quinientos millones de años. [4] Los primeros seres vivos fueron microorganismos de unas pocas micras, y durante casi tres mil millones de años el mar fue el único lugar habitado. [5] El océano regula además el clima: absorbe el calor que la atmósfera retiene en el verano. [6] Las corrientes que lo recorren reparten ese calor por el planeta y lo devuelven en el invierno.\n>>>\n{\"subtemas\": [\n  {\"subtema\": \"el océano: su extensión, profundidad y temperatura\", \"oraciones\": [1, 2]},\n  {\"subtema\": \"el origen de la vida en el océano\", \"oraciones\": [3]},\n  {\"subtema\": \"los primeros seres vivos y el tiempo en que el mar fue el único lugar habitado\", \"oraciones\": [4]},\n  {\"subtema\": \"el papel del océano en la regulación del clima\", \"oraciones\": [5, 6]}]}\n\nEJEMPLO 2\nEs el texto completo de un documento. Mirá cuatro cosas en la respuesta: un subtema\ncruza el párrafo ([1] con [5]), otro junta oraciones separadas ([13] con [16]), uno\nes de una sola oración ([4]), y el Sol aparece en dos subtemas distintos (en [1] y\nen [10]).\n\n`texto`\n<<<\n[1] El Sol está a unos ciento cincuenta millones de kilómetros de la Tierra, y su luz tarda ocho minutos y veinte segundos en llegar. [2] Júpiter es el planeta más grande del sistema solar: su diámetro mide ciento cuarenta y tres mil kilómetros, once veces el de la Tierra. [3] Saturno está rodeado por anillos de hielo y polvo que se extienden unos doscientos ochenta mil kilómetros. [4] La Luna se aleja de nosotros casi cuatro centímetros por año, una medida que se comprueba con espejos dejados en su superficie.\n\n[5] El Sol tiene unos cuatro mil seiscientos millones de años y en su núcleo la temperatura alcanza los quince millones de grados centígrados. [6] Cada segundo convierte unos seiscientos millones de toneladas de hidrógeno en helio. [7] De esa energía depende toda la vida en la Tierra, y las plantas la capturan mediante la fotosíntesis. [8] Las estrellas más masivas viven apenas unos pocos millones de años, mientras que las más pequeñas duran decenas de miles de millones.\n\n[9] La Vía Láctea contiene entre cien mil y cuatrocientos mil millones de estrellas. [10] Su disco mide unos cien mil años luz de diámetro, y el Sol completa una vuelta alrededor del centro galáctico cada doscientos treinta millones de años. [11] La galaxia más cercana es Andrómeda, a dos millones y medio de años luz. [12] Las galaxias se alejan unas de otras: el universo se expande desde hace casi catorce mil millones de años.\n\n[13] Los telescopios actuales detectan la luz que salió de galaxias lejanas hace más de trece mil millones de años. [14] El primer planeta fuera del sistema solar se confirmó en mil novecientos noventa y dos, y hoy se conocen más de cinco mil. [15] En dos mil diecinueve se publicó la primera imagen de un agujero negro, obtenida por ocho radiotelescopios coordinados de todo el planeta. [16] La astronomía trabaja con esa luz vieja: mirar lejos es mirar hacia atrás en el tiempo.\n>>>\n{\"subtemas\": [\n  {\"subtema\": \"el Sol: su distancia a la Tierra y la energía que sostiene la vida\", \"oraciones\": [1, 5, 6, 7]},\n  {\"subtema\": \"el tamaño de Júpiter\", \"oraciones\": [2]},\n  {\"subtema\": \"la composición y la extensión de los anillos de Saturno\", \"oraciones\": [3]},\n  {\"subtema\": \"el alejamiento de la Luna respecto de la Tierra\", \"oraciones\": [4]},\n  {\"subtema\": \"la duración de las estrellas según su masa\", \"oraciones\": [8]},\n  {\"subtema\": \"el tamaño de la Vía Láctea y el recorrido del Sol en ella\", \"oraciones\": [9, 10]},\n  {\"subtema\": \"la distancia a la galaxia Andrómeda\", \"oraciones\": [11]},\n  {\"subtema\": \"la expansión del universo\", \"oraciones\": [12]},\n  {\"subtema\": \"la luz vieja que captan los telescopios y lo que revela del pasado\", \"oraciones\": [13, 16]},\n  {\"subtema\": \"fecha de confirmación del primer planeta fuera del sistema solar y la cantidad conocida hoy en día\", \"oraciones\": [14]},\n  {\"subtema\": \"la publicación de la primera imagen de un agujero negro\", \"oraciones\": [15]}]}\n\nSALIDA\nDevuelve únicamente el JSON, con esta estructura:\n\n{\"subtemas\": [\n  {\"subtema\": \"…\", \"oraciones\": [1, 2]},\n  {\"subtema\": \"…\", \"oraciones\": [3]}]}",
+        "cache_control": {
+          "type": "ephemeral"
+        }
+      }
+    ]
+  },
+  "respuesta_cruda": "{\"subtemas\": [\n  {\"subtema\": \"las tres dinámicas de extracción del café y los factores comunes que determinan el resultado\", \"oraciones\": [1, 2, 3]},\n  {\"subtema\": \"los métodos de inversión: Prensa Francesa y Cold Brew\", \"oraciones\": [4, 5, 6]},\n  {\"subtema\": \"los métodos de percolación o goteo: Hario V60 y Chemex\", \"oraciones\": [7, 8, 9]},\n  {\"subtema\": \"los métodos de presión: espresso, Moka y AeroPress\", \"oraciones\": [10, 11, 12]}]}",
+  "razonamiento": "I'm organizing the twelve sentences into four subtopics: classification and common factors, immersion methods like French press and cold brew, percolation methods like V60 and Chemex, and pressure methods like espresso, Moka, and AeroPress.\n\n",
+  "oraciones": [
+    {
+      "n": 1,
+      "oracion": "La preparación de café se divide principalmente en tres dinámicas de extracción según el contacto entre el agua y el grano: inversión, percolación y presión."
+    },
+    {
+      "n": 2,
+      "oracion": "Cada una de estas técnicas modifica radicalmente el cuerpo, la acidez, la amargura y la claridad de la bebida final."
+    },
+    {
+      "n": 3,
+      "oracion": "Para obtener el mejor resultado en cualquier método, es fundamental moler el grano al momento y controlar que el agua se mantenga a una temperatura ideal entre los 90 °C y 93 °C."
+    },
+    {
+      "n": 4,
+      "oracion": "En los métodos de inversión, como la Prensa Francesa y el Cold Brew, el café molido reposa sumergido por completo en el agua durante todo el tiempo de preparación."
+    },
+    {
+      "n": 5,
+      "oracion": "La prensa francesa utiliza agua caliente y una molienda gruesa para entregar una taza densa, con mucho cuerpo y rica en aceites naturales."
+    },
+    {
+      "n": 6,
+      "oracion": "Por el contrario, el cold brew realiza esta infusión en frío durante un periodo de 12 a 24 horas, lo que reduce drásticamente la acidez y resalta la dulzura natural del grano."
+    },
+    {
+      "n": 7,
+      "oracion": "Por otro lado, los métodos de percolación o goteo manual, representados por conos como el Hario V60 y el Chemex, hacen pasar el agua caliente a través de una cama de café y un filtro de papel por gravedad."
+    },
+    {
+      "n": 8,
+      "oracion": "Estas técnicas requieren moliendas medianas y destacan por retener la mayoría de los aceites y sedimentos pesados."
+    },
+    {
+      "n": 9,
+      "oracion": "El resultado es una taza sumamente limpia y ligera que permite apreciar los matices más sutiles, la acidez brillante y las notas florales o frutales de los cafés de especialidad."
+    },
+    {
+      "n": 10,
+      "oracion": "Finalmente, los métodos de presión como la Máquina de Espresso, la Cafetera Moka y el AeroPress empujan con fuerza el agua a través del café para lograr extracciones mucho más rápidas y concentradas."
+    },
+    {
+      "n": 11,
+      "oracion": "Mientras que el espresso ofrece una bebida muy intensa coronada por una densa capa de crema en menos de medio minuto, dispositivos híbridos como el AeroPress combinan una inmersión corta con presión manual."
+    },
+    {
+      "n": 12,
+      "oracion": "Esto último permite jugar de forma muy versátil con los tiempos y las moliendas para equilibrar cuerpo y claridad al gusto."
+    }
+  ]
+}

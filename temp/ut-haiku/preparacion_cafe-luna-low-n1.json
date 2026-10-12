@@ -1,0 +1,127 @@
+{
+  "doc": "preparacion_cafe",
+  "documento": "mvp/documentos/preparacion_cafe.md",
+  "alias": "luna",
+  "modelo": "gpt-6-luna",
+  "esfuerzo": "low",
+  "rN": "n1",
+  "segundos": 4.2,
+  "prompt": "mvp/prompts/prompt_UT.md",
+  "hash_prompt": "8185ce9093d05752c25180f04647d514a8c6475ba1f8b581f9712310bd4ed74e",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 1894,
+    "completion_tokens": 192,
+    "thinking_tokens": 65,
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1894
+  },
+  "subtemas": [
+    {
+      "subtema": "las principales dinámicas de extracción y su efecto en la bebida",
+      "oraciones": [
+        1,
+        2
+      ]
+    },
+    {
+      "subtema": "recomendaciones generales para preparar café",
+      "oraciones": [
+        3
+      ]
+    },
+    {
+      "subtema": "los métodos de inmersión y sus características",
+      "oraciones": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "subtema": "los métodos de percolación y las características de la taza que producen",
+      "oraciones": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "subtema": "los métodos de presión y sus posibilidades de extracción",
+      "oraciones": [
+        10,
+        11,
+        12
+      ]
+    }
+  ],
+  "verificacion": {
+    "oraciones_del_texto": 12,
+    "huecos": [],
+    "solapes": [],
+    "fuera_de_rango": [],
+    "no_enteros": []
+  },
+  "error_parseo": null,
+  "peticion": {
+    "model": "gpt-6-luna",
+    "input": "`texto`\n<<<\n[1] La preparación de café se divide principalmente en tres dinámicas de extracción según el contacto entre el agua y el grano: inmersión, percolación y presión. [2] Cada una de estas técnicas modifica radicalmente el cuerpo, la acidez, la amargura y la claridad de la bebida final. [3] Para obtener el mejor resultado en cualquier método, es fundamental moler el grano al momento y controlar que el agua se mantenga a una temperatura ideal entre los 90 °C y 93 °C.\n\n[4] En los métodos de inmersión, como la Prensa Francesa y el Cold Brew, el café molido reposa sumergido por completo en el agua durante todo el tiempo de preparación. [5] La prensa francesa utiliza agua caliente y una molienda gruesa para entregar una taza densa, con mucho cuerpo y rica en aceites naturales. [6] Por el contrario, el cold brew realiza esta infusión en frío durante un periodo de 12 a 24 horas, lo que reduce drásticamente la acidez y resalta la dulzura natural del grano.\n\n[7] Por otro lado, los métodos de percolación o goteo manual, representados por conos como el Hario V60 y el Chemex, hacen pasar el agua caliente a través de una cama de café y un filtro de papel por gravedad. [8] Estas técnicas requieren moliendas medianas y destacan por retener la mayoría de los aceites y sedimentos pesados. [9] El resultado es una taza sumamente limpia y ligera que permite apreciar los matices más sutiles, la acidez brillante y las notas florales o frutales de los cafés de especialidad.\n\n[10] Finalmente, los métodos de presión como la Máquina de Espresso, la Cafetera Moka y el AeroPress empujan con fuerza el agua a través del café para lograr extracciones mucho más rápidas y concentradas. [11] Mientras que el espresso ofrece una bebida muy intensa coronada por una densa capa de crema en menos de medio minuto, dispositivos híbridos como el AeroPress combinan una inmersión corta con presión manual. [12] Esto último permite jugar de forma muy versátil con los tiempos y las moliendas para equilibrar cuerpo y claridad al gusto.\n>>>",
+    "instructions": "TAREA\nAgrupa las oraciones de `texto` en subtemas, según las definiciones y los ejemplos.\nResponde solo con el JSON.\nLa forma es el contrato: no agregues claves fuera de las que define `SALIDA`.\n\nDEFINICIONES\n- Oración: el texto que va de un punto, signo de interrogación o signo de exclamación al siguiente. En `texto` va numerada ([1], [2], …).\n- Subtema: una o varias oraciones asociadas o correlacionadas con una idea o asunto nuclear dentro del `texto` dado.\n- Nombre del subtema: una frase breve que describe por sí sola el contenido de las oraciones del subtema.\n- Todas y cada una de las oraciones de `texto` van en un solo subtema.\n- Lo que une oraciones bajo un mismo subtema es que forman parte de una misma idea o asunto nuclear.\n\nEJEMPLO 1\nCada subtema junta las oraciones que desarrollan una misma idea.\n\n`texto`\n<<<\n[1] El océano cubre el setenta y uno por ciento de la superficie del planeta. [2] Su profundidad media es de tres mil setecientos metros, y en los fondos abisales la temperatura ronda los dos grados centígrados.\n\n[3] La vida apareció en él hace unos tres mil quinientos millones de años. [4] Los primeros seres vivos fueron microorganismos de unas pocas micras, y durante casi tres mil millones de años el mar fue el único lugar habitado. [5] El océano regula además el clima: absorbe el calor que la atmósfera retiene en el verano. [6] Las corrientes que lo recorren reparten ese calor por el planeta y lo devuelven en el invierno.\n>>>\n{\"subtemas\": [\n  {\"subtema\": \"el océano: su extensión, profundidad y temperatura\", \"oraciones\": [1, 2]},\n  {\"subtema\": \"el origen de la vida en el océano\", \"oraciones\": [3]},\n  {\"subtema\": \"los primeros seres vivos y el tiempo en que el mar fue el único lugar habitado\", \"oraciones\": [4]},\n  {\"subtema\": \"el papel del océano en la regulación del clima\", \"oraciones\": [5, 6]}]}\n\nEJEMPLO 2\nEs el texto completo de un documento. Mira cuatro cosas en la respuesta: un subtema\ncruza el párrafo ([1] con [5]), otro junta oraciones separadas ([13] con [16]), uno\nes de una sola oración ([4]), y el Sol aparece en dos subtemas distintos (en [1] y\nen [10]).\n\n`texto`\n<<<\n[1] El Sol está a unos ciento cincuenta millones de kilómetros de la Tierra, y su luz tarda ocho minutos y veinte segundos en llegar. [2] Júpiter es el planeta más grande del sistema solar: su diámetro mide ciento cuarenta y tres mil kilómetros, once veces el de la Tierra. [3] Saturno está rodeado por anillos de hielo y polvo que se extienden unos doscientos ochenta mil kilómetros. [4] La Luna se aleja de nosotros casi cuatro centímetros por año, una medida que se comprueba con espejos dejados en su superficie.\n\n[5] El Sol tiene unos cuatro mil seiscientos millones de años y en su núcleo la temperatura alcanza los quince millones de grados centígrados. [6] Cada segundo convierte unos seiscientos millones de toneladas de hidrógeno en helio. [7] De esa energía depende toda la vida en la Tierra, y las plantas la capturan mediante la fotosíntesis. [8] Las estrellas más masivas viven apenas unos pocos millones de años, mientras que las más pequeñas duran decenas de miles de millones.\n\n[9] La Vía Láctea contiene entre cien mil y cuatrocientos mil millones de estrellas. [10] Su disco mide unos cien mil años luz de diámetro, y el Sol completa una vuelta alrededor del centro galáctico cada doscientos treinta millones de años. [11] La galaxia más cercana es Andrómeda, a dos millones y medio de años luz. [12] Las galaxias se alejan unas de otras: el universo se expande desde hace casi catorce mil millones de años.\n\n[13] Los telescopios actuales detectan la luz que salió de galaxias lejanas hace más de trece mil millones de años. [14] El primer planeta fuera del sistema solar se confirmó en mil novecientos noventa y dos, y hoy se conocen más de cinco mil. [15] En dos mil diecinueve se publicó la primera imagen de un agujero negro, obtenida por ocho radiotelescopios coordinados de todo el planeta. [16] La astronomía trabaja con esa luz vieja: mirar lejos es mirar hacia atrás en el tiempo.\n>>>\n{\"subtemas\": [\n  {\"subtema\": \"el Sol: su distancia a la Tierra y la energía que sostiene la vida\", \"oraciones\": [1, 5, 6, 7]},\n  {\"subtema\": \"el tamaño de Júpiter\", \"oraciones\": [2]},\n  {\"subtema\": \"la composición y la extensión de los anillos de Saturno\", \"oraciones\": [3]},\n  {\"subtema\": \"el alejamiento de la Luna respecto de la Tierra\", \"oraciones\": [4]},\n  {\"subtema\": \"la duración de las estrellas según su masa\", \"oraciones\": [8]},\n  {\"subtema\": \"el tamaño de la Vía Láctea y el recorrido del Sol en ella\", \"oraciones\": [9, 10]},\n  {\"subtema\": \"la distancia a la galaxia Andrómeda\", \"oraciones\": [11]},\n  {\"subtema\": \"la expansión del universo\", \"oraciones\": [12]},\n  {\"subtema\": \"la luz vieja que captan los telescopios y lo que revela del pasado\", \"oraciones\": [13, 16]},\n  {\"subtema\": \"fecha de confirmación del primer planeta fuera del sistema solar y la cantidad conocida hoy en día\", \"oraciones\": [14]},\n  {\"subtema\": \"la publicación de la primera imagen de un agujero negro\", \"oraciones\": [15]}]}\n\nSALIDA\nDevuelve únicamente el JSON, con esta estructura:\n\n{\"subtemas\": [\n  {\"subtema\": \"…\", \"oraciones\": [1, 2]},\n  {\"subtema\": \"…\", \"oraciones\": [3]}]}",
+    "max_output_tokens": 16000,
+    "reasoning": {
+      "effort": "low"
+    }
+  },
+  "respuesta_cruda": "{\"subtemas\":[{\"subtema\":\"las principales dinámicas de extracción y su efecto en la bebida\",\"oraciones\":[1,2]},{\"subtema\":\"recomendaciones generales para preparar café\",\"oraciones\":[3]},{\"subtema\":\"los métodos de inmersión y sus características\",\"oraciones\":[4,5,6]},{\"subtema\":\"los métodos de percolación y las características de la taza que producen\",\"oraciones\":[7,8,9]},{\"subtema\":\"los métodos de presión y sus posibilidades de extracción\",\"oraciones\":[10,11,12]}]}",
+  "razonamiento": "{\"id\": \"rs_0e0bc09f9623788b006acae6e51fa887d18e8a3eecf6d59797\", \"type\": \"reasoning\", \"encrypted_content\": \"gAAAAABqyubnj9C42LQdJJOZMrmmzcHlOxZLXDpEQ2JqdcgW9-53OsVfWyPSoNjMvB458c8RlaWYdCWJK8OOmakY5THDvo9ooNrdi1VaJN8exSm2PATWJtFteJOCn-6f-TICY1l4SDAuorWKhYmqT2meUGzkfjcMUtohhePnEP2xCOXeYNqe9CMR9Q9smiVdDTLK6s3O_0aKDCyxIkfRlDSMl4i42FIuNwKTgxPHchR0WBPxgptNsB3yuHjM5BA9u3SnoMo0FN8_2TCxxYnI0lf40byv09ZKJG2pX7W8VCVzTDjtUWpV5HqwsKiCmP10maieskoThOEJ_SmjzZXmyofLYuupYj8hzOx7-hn5Dc05fHWkepkvPlMFP-ZbcAsiEZOl4AxGdWds5irL91wprMr4_nUC4iQxw0OQrM-ORjut6yWsRTtJpKCond41mEEzEj1PLciMlYnO5n82N9PbTDrFsgM50JQlQWdKmAv1Bw5IWBUokvcQOHPuSE1LNpm4YpAruECHilFRNqNlv6yx9iKqVxcywky1D8l3vyg43QOPkwvo7jvuy6LQrfxugNAXVjcWhQpcCkin4G3oPW3bpdYaMADLKAb3H4M_8lNLF8En8PFENaEsSqvcCt3RqOf6tWg3Hkfbm92KwvdTxvvS_O-TtMKK6xtzOvNjaJ8TM6CU2bktTxJ0bnL6TaeT9pSZe4_qckemcZLF5-kPiZ2dtHrXEmFeoRqMUI1IphkzREFW0JS0HNlEB2jaHMeFAqH4nBbfQopRdFq4xKMw8EzU76RYXTYkDh82AKMB2pRoQOUPT2xSwHq28baoS6I-LsXfLtx87DSloaA8r4zzE4PLBPp0preeFOiXnHbcx_COgFGjWk8vcdPQVsOvSe2g52x7jUK-jufChv0OztLUdWUC7G7AIY-s_byttAG357D3t-mHIW5F9blQZZi52ZZaXfdMFIvG9yeq-zqQOYCv9pACoKt7UY437qi-Y-J3UqYHN0OHlF-uSa32Zd93yyR4OOEdDkXEIads472zw2NIM_pOqcbP5yuJ56BnmQYPMH5t9YDuKpZPLaBLC81SYHUtH7XtPLRg_7fbJxi1omfSuOJq-K3-tjnce9YvdKMy9HGbEPvK9DUS0N7BtHoAlz7LiMpF2reE47Wsc9tp-wsAyccwy5y-gmdPapiMqAWItU1ipow-sM-5m8cUcqxhmFMmy1p9GtqpCytJ0h0Lj78iaKDlmHygg8Yz0-NJxR3FkaYLoi7kDMnHnMyH8aAgjrSb3rFAxvKt4v58iPuCaAG3AYBo8M56iF1qyRreFs9VoDi5JKkd8uDOa4UgqAU1QWe9qlM-vouTXpmnnYBIvWKY7TtRHSnQhhfJZ1VKBCW3xKiDqcA58O4lTc2dFm78oFDRYANo9MAdIs9I42_eL5mEdtiPGSN73ODBXCJ6cMVasoPm0lywlWVGx56LXDpPk5hc7VduUHxuKG1INOPdaTfMyXX1SFQkJnGTHFy9ciMlkklWG8CVMRjwZYpIiJfvyqQ8ysXVy7nTPvy1-bHsMCeAb_QhXvbfL64B13y8Kf-mTfK5U9MwcZlLc6FaBrI22ALCWqPkEuTSQr18vms4FaoC1rbWwZxmrGgFuapth-9GtCUayWxQPFrBIzrsYN3R5LEZwTieCXntNxnbcqHlTuC62gpGk4iQLWEwRYXmVAck4eNa_bPey-TmWK1CPAJou9slu-pHG9iIPZc2WYrB7aAhjftTB2yO_tMUtszgYOzBZYYfIR_y_7NuayAfTgqJqLY0UCtUh-jr2I9u_HNEvWUYeNvk9ll7o9tDfNCcfpPBXrZIMnkILB_yxS1NdsAJ1hjr_dgU0Fn4G6hmU2aPfRsvEhGDyMzHVCbT13AE6x1k2nTpCLJOJUXme1YAwVcMSnIfKy2uHLz_-SsYkQKoFBvhLZ1ZPCY-qmxsEivl7RV9iG5psJkuH_1r0SvKVmmlo2GjA1r3UkUxnH5bAFVlVI8CTywQGN5BUQEwsp-1EVh1mLFsR-D_klGIh2-NL7UAKKJ5Zu0TXHmlYHBoVtgSRRJDzUu6UihziRB7lO3t4nDOA1YzVcool6WErNUjcC_qXrG3rfa_jQLbYwd6YZdxg8hPUNG1gQ6RV74xfg7nog==\", \"content\": [], \"summary\": []}",
+  "oraciones": [
+    {
+      "n": 1,
+      "oracion": "La preparación de café se divide principalmente en tres dinámicas de extracción según el contacto entre el agua y el grano: inmersión, percolación y presión."
+    },
+    {
+      "n": 2,
+      "oracion": "Cada una de estas técnicas modifica radicalmente el cuerpo, la acidez, la amargura y la claridad de la bebida final."
+    },
+    {
+      "n": 3,
+      "oracion": "Para obtener el mejor resultado en cualquier método, es fundamental moler el grano al momento y controlar que el agua se mantenga a una temperatura ideal entre los 90 °C y 93 °C."
+    },
+    {
+      "n": 4,
+      "oracion": "En los métodos de inmersión, como la Prensa Francesa y el Cold Brew, el café molido reposa sumergido por completo en el agua durante todo el tiempo de preparación."
+    },
+    {
+      "n": 5,
+      "oracion": "La prensa francesa utiliza agua caliente y una molienda gruesa para entregar una taza densa, con mucho cuerpo y rica en aceites naturales."
+    },
+    {
+      "n": 6,
+      "oracion": "Por el contrario, el cold brew realiza esta infusión en frío durante un periodo de 12 a 24 horas, lo que reduce drásticamente la acidez y resalta la dulzura natural del grano."
+    },
+    {
+      "n": 7,
+      "oracion": "Por otro lado, los métodos de percolación o goteo manual, representados por conos como el Hario V60 y el Chemex, hacen pasar el agua caliente a través de una cama de café y un filtro de papel por gravedad."
+    },
+    {
+      "n": 8,
+      "oracion": "Estas técnicas requieren moliendas medianas y destacan por retener la mayoría de los aceites y sedimentos pesados."
+    },
+    {
+      "n": 9,
+      "oracion": "El resultado es una taza sumamente limpia y ligera que permite apreciar los matices más sutiles, la acidez brillante y las notas florales o frutales de los cafés de especialidad."
+    },
+    {
+      "n": 10,
+      "oracion": "Finalmente, los métodos de presión como la Máquina de Espresso, la Cafetera Moka y el AeroPress empujan con fuerza el agua a través del café para lograr extracciones mucho más rápidas y concentradas."
+    },
+    {
+      "n": 11,
+      "oracion": "Mientras que el espresso ofrece una bebida muy intensa coronada por una densa capa de crema en menos de medio minuto, dispositivos híbridos como el AeroPress combinan una inmersión corta con presión manual."
+    },
+    {
+      "n": 12,
+      "oracion": "Esto último permite jugar de forma muy versátil con los tiempos y las moliendas para equilibrar cuerpo y claridad al gusto."
+    }
+  ]
+}

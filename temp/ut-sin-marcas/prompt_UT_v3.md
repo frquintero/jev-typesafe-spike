@@ -1,0 +1,60 @@
+[SISTEMA]
+TAREA
+Extrae unidades temáticas (UT) de `texto`. Una UT contiene un nombre de subtema y una o varias oraciones literales que desarrollan un mismo asunto específico.
+
+CRITERIOS
+1. Agrupa una afirmación con su explicación, los elementos de una comparación o los pasos de un mecanismo o relación causal. Separa asuntos distintos aunque compartan entidad, categoría general o secuencia histórica.
+2. Los títulos y subtítulos aportan contexto y jerarquía, pero no son UT ni se incluyen en `oraciones`. Los encabezados, párrafos y cambios de fecha, persona o cantidad no determinan por sí solos los límites de las UT.
+3. Lee el documento completo para interpretar referencias. Mantén juntas las oraciones necesarias para comprender una relación interna al subtema. Puedes explicitar en `subtema` un referente situado en otra parte del documento, incluidos los encabezados, si es inequívoco. Conserva las ambigüedades del original; no uses información externa.
+4. Nombra cada subtema con una frase breve que identifique el asunto y sus referentes. No copies automáticamente el encabezado ni añadas afirmaciones o amplíes el alcance del texto.
+
+CONSERVACIÓN
+5. Incluye cada aparición de una oración del cuerpo del texto exactamente una vez. Cópiala sin reformularla, corregirla, completarla ni dividirla.
+6. Para esta tarea, una oración es un enunciado completo delimitado por puntuación de cierre. No cortes en dos puntos, punto y coma, abreviaturas o números. Interrogación y exclamación delimitan cuando cierran un enunciado independiente. Si una oración reúne varios asuntos, consérvala entera y nombra su contenido conjunto; no añadas otras oraciones solo por esa mezcla.
+7. Conserva el orden de las oraciones dentro de cada UT y ordena las UT por su primera oración. No fijes un número de unidades.
+
+SALIDA
+Devuelve solo JSON válido, sin bloques Markdown, comentarios ni claves adicionales:
+{"unidades":[{"subtema":"Nombre del subtema","oraciones":["Oración literal."]}]}
+
+EJEMPLO 1
+
+`texto`
+<<<
+# El océano: características, origen de la vida y regulación del clima
+
+El océano cubre el setenta y uno por ciento de la superficie del planeta. Su profundidad media es de tres mil setecientos metros, y en los fondos abisales la temperatura ronda los dos grados centígrados.
+
+La vida apareció en él hace unos tres mil quinientos millones de años. Los primeros seres vivos fueron microorganismos de unas pocas micras, y durante casi tres mil millones de años el mar fue el único lugar habitado.
+
+El océano regula además el clima: absorbe el calor que la atmósfera retiene en el verano. Las corrientes que lo recorren reparten ese calor por el planeta y lo devuelven en el invierno.
+>>>
+{"unidades":[{"subtema":"La proporción de la superficie del planeta cubierta por el océano","oraciones":["El océano cubre el setenta y uno por ciento de la superficie del planeta."]},{"subtema":"La profundidad media del océano y la temperatura de sus fondos abisales","oraciones":["Su profundidad media es de tres mil setecientos metros, y en los fondos abisales la temperatura ronda los dos grados centígrados."]},{"subtema":"La antigüedad de la aparición de la vida en el océano","oraciones":["La vida apareció en él hace unos tres mil quinientos millones de años."]},{"subtema":"Los primeros seres vivos y el período en que el mar fue el único lugar habitado","oraciones":["Los primeros seres vivos fueron microorganismos de unas pocas micras, y durante casi tres mil millones de años el mar fue el único lugar habitado."]},{"subtema":"La regulación del clima mediante la absorción y redistribución de calor por el océano","oraciones":["El océano regula además el clima: absorbe el calor que la atmósfera retiene en el verano.","Las corrientes que lo recorren reparten ese calor por el planeta y lo devuelven en el invierno."]}]}
+
+EJEMPLO 2
+
+`texto`
+<<<
+# La anemia falciforme: causas, herencia y tratamiento
+
+## Causa molecular y descubrimiento de la enfermedad
+
+La anemia falciforme se debe al cambio de una sola letra en el gen de la beta globina, que está en el cromosoma once. En la posición seis de la proteína, un ácido glutámico queda sustituido por una valina. La hemoglobina que resulta, llamada hemoglobina S, se agrupa en fibras rígidas cuando le falta oxígeno. Esas fibras deforman los glóbulos rojos, que pierden su forma de disco y toman la de una hoz. Un glóbulo rojo sano vive unos ciento veinte días; uno falciforme, entre diez y veinte.
+
+La enfermedad se describió hace más de un siglo, en mil novecientos diez, cuando un médico de Chicago observó glóbulos alargados en la sangre de un estudiante. En mil novecientos cuarenta y nueve, Linus Pauling mostró que la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico. Vernon Ingram identificó en mil novecientos cincuenta y siete el aminoácido sustituido. Él la llamó una enfermedad molecular. Ese hallazgo convirtió a la anemia falciforme en la primera enfermedad explicada por un cambio en una proteína.
+
+## Herencia, frecuencia y tratamientos
+
+La herencia es recesiva: quien recibe una sola copia alterada es portador y casi nunca enferma. Si ambos padres son portadores, cada embarazo tiene una probabilidad de uno en cuatro de dar un hijo enfermo. Los portadores, en cambio, resisten mejor la malaria grave. Según los estudios de campo, esa ventaja reduce su riesgo de malaria grave en cerca de un noventa por ciento. Por eso, en algunas regiones de África, hasta uno de cada cuatro habitantes lleva la mutación.
+
+Según la Organización Mundial de la Salud, cada año nacen unos trescientos mil niños con formas graves de la enfermedad. Su tratamiento clásico es la hidroxiurea, que aumenta la hemoglobina fetal, aprobada para adultos en mil novecientos noventa y ocho. En diciembre de dos mil veintitrés se aprobó la primera terapia basada en la edición genética con CRISPR. En el ensayo principal, veintinueve de treinta pacientes pasaron al menos un año sin crisis de dolor. Cada tratamiento cuesta unos dos millones de dólares.
+>>>
+{"unidades":[{"subtema":"La alteración molecular que produce la deformación de los glóbulos rojos en la anemia falciforme","oraciones":["La anemia falciforme se debe al cambio de una sola letra en el gen de la beta globina, que está en el cromosoma once.","En la posición seis de la proteína, un ácido glutámico queda sustituido por una valina.","La hemoglobina que resulta, llamada hemoglobina S, se agrupa en fibras rígidas cuando le falta oxígeno.","Esas fibras deforman los glóbulos rojos, que pierden su forma de disco y toman la de una hoz."]},{"subtema":"La duración de la vida de los glóbulos rojos sanos y falciformes","oraciones":["Un glóbulo rojo sano vive unos ciento veinte días; uno falciforme, entre diez y veinte."]},{"subtema":"La descripción clínica de la anemia falciforme en 1910","oraciones":["La enfermedad se describió hace más de un siglo, en mil novecientos diez, cuando un médico de Chicago observó glóbulos alargados en la sangre de un estudiante."]},{"subtema":"El hallazgo de Pauling sobre la migración eléctrica de la hemoglobina en la anemia falciforme","oraciones":["En mil novecientos cuarenta y nueve, Linus Pauling mostró que la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico."]},{"subtema":"La identificación del aminoácido sustituido y su importancia para la explicación molecular de la anemia falciforme","oraciones":["Vernon Ingram identificó en mil novecientos cincuenta y siete el aminoácido sustituido.","Él la llamó una enfermedad molecular.","Ese hallazgo convirtió a la anemia falciforme en la primera enfermedad explicada por un cambio en una proteína."]},{"subtema":"La herencia recesiva de la anemia falciforme y el riesgo para los hijos de padres portadores","oraciones":["La herencia es recesiva: quien recibe una sola copia alterada es portador y casi nunca enferma.","Si ambos padres son portadores, cada embarazo tiene una probabilidad de uno en cuatro de dar un hijo enfermo."]},{"subtema":"La ventaja frente a la malaria de los portadores de la mutación falciforme y la frecuencia de esa mutación en algunas regiones de África","oraciones":["Los portadores, en cambio, resisten mejor la malaria grave.","Según los estudios de campo, esa ventaja reduce su riesgo de malaria grave en cerca de un noventa por ciento.","Por eso, en algunas regiones de África, hasta uno de cada cuatro habitantes lleva la mutación."]},{"subtema":"Los nacimientos anuales de niños con formas graves de anemia falciforme","oraciones":["Según la Organización Mundial de la Salud, cada año nacen unos trescientos mil niños con formas graves de la enfermedad."]},{"subtema":"El tratamiento de la anemia falciforme con hidroxiurea","oraciones":["Su tratamiento clásico es la hidroxiurea, que aumenta la hemoglobina fetal, aprobada para adultos en mil novecientos noventa y ocho."]},{"subtema":"La aprobación, los resultados y el costo de la terapia con CRISPR para la anemia falciforme","oraciones":["En diciembre de dos mil veintitrés se aprobó la primera terapia basada en la edición genética con CRISPR.","En el ensayo principal, veintinueve de treinta pacientes pasaron al menos un año sin crisis de dolor.","Cada tratamiento cuesta unos dos millones de dólares."]}]}
+
+Antes de responder, verifica: agrupación coherente, oraciones literales, cobertura completa, ninguna aparición duplicada y encabezados excluidos.
+
+[TAREA]
+`texto`
+<<<
+{{TEXTO}}
+>>>

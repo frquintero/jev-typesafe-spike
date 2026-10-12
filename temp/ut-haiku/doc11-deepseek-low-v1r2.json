@@ -1,0 +1,177 @@
+{
+  "doc": "doc11",
+  "documento": "mvp/documentos/doc11.md",
+  "alias": "deepseek",
+  "modelo": "deepseek-flash",
+  "esfuerzo": "low",
+  "rN": "v1r2",
+  "segundos": 26.7,
+  "prompt": "temp/prompt_UT_v1.md",
+  "hash_prompt": "e29c93a665d8b566e871e6274b2a8ec3fd47f76c4cc7a90f23b7ebe85b5a6c64",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 2516,
+    "completion_tokens": 5701,
+    "total_tokens": 8217,
+    "prompt_tokens_details": {
+      "cached_tokens": 2304
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5385
+    },
+    "prompt_cache_hit_tokens": 2304,
+    "prompt_cache_miss_tokens": 212,
+    "thinking_tokens": 5385
+  },
+  "subtemas": [
+    {
+      "subtema": "la base molecular de la anemia falciforme: sustitución en la beta globina, hemoglobina S, deformación y menor duración de los glóbulos rojos",
+      "oraciones": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "subtema": "la descripción inicial de la anemia falciforme y los hallazgos de Pauling e Ingram, incluida su denominación como enfermedad molecular",
+      "oraciones": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "subtema": "la herencia recesiva de la anemia falciforme y la probabilidad de tener un hijo enfermo si ambos padres son portadores",
+      "oraciones": [
+        11,
+        12
+      ]
+    },
+    {
+      "subtema": "la ventaja de los portadores de anemia falciforme frente a la malaria y su alta frecuencia en África",
+      "oraciones": [
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "subtema": "la cantidad anual de niños que nacen con formas graves de anemia falciforme según la Organización Mundial de la Salud",
+      "oraciones": [
+        16
+      ]
+    },
+    {
+      "subtema": "el tratamiento clásico con hidroxiurea y la terapia CRISPR para la anemia falciforme, con resultados del ensayo y costo",
+      "oraciones": [
+        17,
+        18,
+        19,
+        20
+      ]
+    }
+  ],
+  "verificacion": {
+    "oraciones_del_texto": 20,
+    "huecos": [],
+    "solapes": [],
+    "fuera_de_rango": [],
+    "no_enteros": []
+  },
+  "error_parseo": null,
+  "peticion": {
+    "model": "deepseek-flash",
+    "thinking": {
+      "type": "enabled"
+    },
+    "reasoning_effort": "low"
+  },
+  "respuesta_cruda": "{\"subtemas\": [\n  {\"subtema\": \"la base molecular de la anemia falciforme: sustitución en la beta globina, hemoglobina S, deformación y menor duración de los glóbulos rojos\", \"oraciones\": [1, 2, 3, 4, 5]},\n  {\"subtema\": \"la descripción inicial de la anemia falciforme y los hallazgos de Pauling e Ingram, incluida su denominación como enfermedad molecular\", \"oraciones\": [6, 7, 8, 9, 10]},\n  {\"subtema\": \"la herencia recesiva de la anemia falciforme y la probabilidad de tener un hijo enfermo si ambos padres son portadores\", \"oraciones\": [11, 12]},\n  {\"subtema\": \"la ventaja de los portadores de anemia falciforme frente a la malaria y su alta frecuencia en África\", \"oraciones\": [13, 14, 15]},\n  {\"subtema\": \"la cantidad anual de niños que nacen con formas graves de anemia falciforme según la Organización Mundial de la Salud\", \"oraciones\": [16]},\n  {\"subtema\": \"el tratamiento clásico con hidroxiurea y la terapia CRISPR para la anemia falciforme, con resultados del ensayo y costo\", \"oraciones\": [17, 18, 19, 20]}\n]}",
+  "razonamiento": "We need answer only JSON. Need solve grouping subtemas according definitions. Need analyze text. Need produce JSON. Let's inspect.\n\nText Spanish about sickle cell anemia. 20 sentences grouped paragraphs but subtema may cross. Need identify thematic units. Need name concise with external refs if needed.\n\nWe need group sentences into subtemas by nuclear idea. Need all sentences once. Need decide grouping.\n\nLet's parse sentences:\n\n[1] La anemia falciforme se debe al cambio de una sola letra en el gen de la beta globina, que está en el cromosoma once.\n[2] En la posición seis de la proteína, un ácido glutámico queda sustituido por una valina.\n[3] La hemoglobina que resulta, llamada hemoglobina S, se agrupa en fibras rígidas cuando le falta oxígeno.\n[4] Esas fibras deforman los glóbulos rojos, que pierden su forma de disco y toman la de una hoz.\n[5] Un glóbulo rojo sano vive unos ciento veinte días; uno falciforme, entre diez y veinte.\n\nThis paragraph: molecular basis and effect on red blood cells. Could be one subtema: \"la mutación de la beta globina y la formación de hemoglobina S que deforma los glóbulos rojos\" includes 1-5. But maybe [5] about lifespan, could separate? It relates consequence: falciform red cells live shorter. It is effect of deformation. Could group with 1-4 as manifestations? Need decide.\n\n[6] La enfermedad se describió hace más de un siglo, en mil novecientos diez, cuando un médico de Chicago observó glóbulos alargados en la sangre de un estudiante.\n[7] En mil novecientos cuarenta y nueve, Linus Pauling mostró que la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico.\n[8] Vernon Ingram identificó en mil novecientos cincuenta y siete el aminoácido sustituido.\n[9] Él la llamó una enfermedad molecular.\n[10] Ese hallazgo convirtió a la anemia falciforme en la primera enfermedad explicada por un cambio en una proteína.\n\nThis is historical descriptions/discoveries. Could all 6-10 one subtema: \"la descripción histórica y los hallazgos moleculares de la anemia falciforme\" But [9] pronoun \"Él la llamó\" = Vernon Ingram? Actually \"Él\" likely Vernon Ingram, \"la\" anemia falciforme. Need name include \"Vernon Ingram llamó a la anemia falciforme una enfermedad molecular...\" But can group. [10] \"Ese hallazgo\" = identifying amino acid? Converts to first disease explained by protein change. Could group with 6-10. Maybe [7] and [8] are discoveries, [6] first description. Subtema: \"la descripción inicial y los hitos que identificaron la base molecular de la anemia falciforme (Pauling, Ingram)\". Or if split [6] vs [7-10]? Let's examine themes: [6] clinical description; [7-10] molecular history. But [6] is historical too. Definition examples: one subtema can include historical milestones. likely group 6-10.\n\n[11] La herencia es recesiva: quien recibe una sola copia alterada es portador y casi nunca enferma.\n[12] Si ambos padres son portadores, cada embarazo tiene una probabilidad de uno en cuatro de dar un hijo enfermo.\n[13] Los portadores, en cambio, resisten mejor la malaria grave.\n[14] Según los estudios de campo, esa ventaja reduce su riesgo de malaria grave en cerca de un noventa por ciento.\n[15] Por eso, en algunas regiones de África, hasta uno de cada cuatro habitantes lleva la mutación.\n\nThis paragraph: inheritance and malaria advantage. Could be one subtema? [11-12] inheritance; [13-15] malaria resistance/selection. Are they distinct? They are related: recessive inheritance and carrier advantage explaining high frequency. But maybe subtemas: \"el patrón de herencia recesiva de la anemia falciforme\" for 11-12; \"la ventaja de los portadores frente a la malaria y su frecuencia en África\" for 13-15. Need group? The examples often separate distinct ideas even same paragraph. Here [11][12] inheritance, [13][14][15] malaria. The phrase [13] \"Los portadores, en cambio...\" signals contrast, maybe new subtema. \"en cambio\" indicates shift from inheritance risk to advantage. So likely separate 11-12 and 13-15. Need decide.\n\n[16] Según OMS, cada año nacen unos trescientos mil niños con formas graves de la enfermedad.\n[17] Su tratamiento clásico es la hidroxiurea, que aumenta la hemoglobina fetal, aprobada para adultos en mil novecientos noventa y ocho.\n[18] En diciembre de dos mil veintitrés se aprobó la primera terapia basada en la edición genética con CRISPR.\n[19] En el ensayo principal, veintinueve de treinta pacientes pasaron al menos un año sin crisis de dolor.\n[20] Cada tratamiento cuesta unos dos millones de dólares.\n\nThis paragraph: epidemiology and treatments. Could group all? [16] incidence (OMS) maybe separate from treatment? [17-20] treatments. [16] \"cada año nacen...\" global burden. [17] \"Su tratamiento clásico\" refers to disease's treatment. [18-20] new CRISPR therapy and cost. Maybe subtemas:\n- incidencia anual de formas graves según OMS (16)\n- tratamiento clásico con hidroxiurea (17)\n- terapia CRISPR, resultados y costo (18-20)\nBut maybe group [16-20] as \"la carga anual y los tratamientos de la anemia falciforme\" too broad. Need infer typical grouping granularity. Examples: In example 2, [14] exoplanets and [15] black hole grouped as \"los exoplanetas conocidos y la primera imagen de un agujero negro\"; two unrelated astronomy discoveries but grouped? Hmm They put [14] and [15] together as \"los exoplanetas conocidos y la primera imagen de un agujero negro\" even though different topics? Actually both are \"descubrimientos astronómicos recientes\" maybe. [16] with [13] as \"luz vieja\". They grouped by broader thematic in final paragraph. They also grouped [2] Júpiter and [3] Saturno as planets. So granularity moderate: related objects under same paragraph.\n\nFor last paragraph: [16] burden, [17] classic treatment, [18-20] CRISPR therapy/cost. Could all be \"la carga global de la enfermedad, el tratamiento clásico y la nueva terapia génica con CRISPR\" as one subtema? That would combine incidence and treatment. But \"el tratamiento clásico...\" and \"terapia...\" are same theme (tratamientos). [16] is burden, maybe could be separate or combined with treatment? The paragraph starts with incidence and then treatment. Definition: subtema: one or more sentences associated with nuclear idea/asunto within text. The nuclear idea of last paragraph could be \"situación actual: casos anuales y opciones terapéuticas\". But name must say what is said, not just topic. Could name: \"la incidencia anual según la OMS y los tratamientos disponibles (hidroxiurea y CRISPR) para la anemia falciforme\". That includes 16-20. Is that too broad? Maybe acceptable.\n\nNeed consider first paragraph: [1-5] molecular mechanism plus effect. Second paragraph: history. Third: inheritance and malaria. Fourth: burden and treatments. But definitions allow cross-paragraph? Here likely no cross. But maybe [9] \"Él la llamó una enfermedad molecular\" refers Ingram, [10] hallazgo; could be in history. [11] \"La herencia es recesiva\" references disease, need name include \"de la anemia falciforme\". External refs: If a sentence needs expression from another subtema, cite in name. E.g., [2] \"la posición seis de la proteína\" needs which protein? Actually beta globina from [1]? But if group [1-5], name includes beta globina. If split [1] from [2], name for [2] must mention \"beta globina\" or \"proteína de la beta globina\". We can group them together to avoid.\n\nNeed produce only JSON. Need ensure names include antecedents for pronouns:\n- [3] hemoglobina S from [2]/[1].\n- [4] Esas fibras -> fibers from [3], within same group so okay but name can mention.\n- [5] glóbulo falciforme from [4], within same group.\nIf group all 1-5, name can mention mutation, hemoglobin S, deformed red cells, shortened lifespan. Good.\n\nSecond group [6-10]: [9] \"Él la llamó una enfermedad molecular\": \"Él\" Ingram, \"la\" anemia falciforme. In name include \"Vernon Ingram llamó a la anemia falciforme una enfermedad molecular\". [10] \"Ese hallazgo\" refers identifying substituted amino acid. Name can mention.\n\nThird group [11-15]? If one: [11] herencia recesiva of anemia falciforme; [12] both parents carriers; [13] portadores resisten malaria; [14] esa ventaja; [15] por eso frequency. Name can mention \"herencia recesiva de la anemia falciforme, probabilidad en hijos y ventaja de los portadores contra la malaria con alta frecuencia en África\". This covers all. Is there a shift \"en cambio\" but related. If we keep one subtema, maybe less risk of over-splitting. But examples show separate if distinct asuntos. Let's evaluate: [11-12] is about inheritance risk. [13-15] is about evolutionary advantage. Are they \"associated or correlated\" with same nuclear idea? They explain why mutation persists: recessive and carrier advantage. Could be one subtema \"el patrón hereditario y la ventaja de los portadores\" maybe. But \"herencia\" and \"malaria\" are distinct asuntos. The instruction: \"Un subtema junta oraciones que no están seguidas... según el asunto.\" A single subtema can include multiple related asuntos? Example 2: [1,5,6,7,8] combines distance, age, energy, star duration. That's multiple asuntos about Sol/estrellas. So grouping [11-15] is okay if named as related to inheritance/selection. But if there is \"en cambio\", maybe they intended split? Let's look at example 4: [2] and [3] grouped: \"el examen de algunos expedientes por una comisión y las observaciones que entregó al director del archivo\". Different but connected. So [11-12] and [13-15] could be grouped as \"herencia recesiva y ventaja de portadores frente a malaria\" because both about carriers/inheritance. Hmm.\n\nLast [16-20] maybe one subtema. Need decide final grouping.\n\nPotential final:\n1. [1,2,3,4,5] name: \"la mutación en el gen de la beta globina, la hemoglobina S, la deformación de los glóbulos rojos y su menor duración\"\n2. [6,7,8,9,10] name: \"la descripción inicial de la anemia falciforme y los hallazgos de Pauling e Ingram que la mostraron como la primera enfermedad molecular\"\n3. [11,12,13,14,15] name: \"la herencia recesiva de la anemia falciforme, la probabilidad de hijos enfermos y la ventaja de los portadores contra la malaria\"\n4. [16,17,18,19,20] name: \"la incidencia anual según la OMS, el tratamiento clásico con hidroxiurea y la terapia CRISPR con sus resultados y costo\"\n\nBut is [16] and [17-20] one? Name includes incidence and treatments. If want split [16] alone and [17-20], maybe:\n{\"subtema\": \"la incidencia anual de formas graves de la anemia falciforme según la OMS\", \"oraciones\":[16]},\n{\"subtema\": \"el tratamiento clásico con hidroxiurea y la terapia CRISPR para la anemia falciforme, con resultados y costo\", \"oraciones\":[17,18,19,20]}\nThis is plausible. In example 2, [4] alone, [14,15] grouped. They allow single sentence subtema. Last paragraph [16] may be a distinct epidemiological fact, then treatments. The name for [17-20] would need mention \"anemia falciforme\" because \"Su tratamiento\" refers to disease. If group [16] with treatments, no issue. Which is more coherent? The paragraph [16-20]: [16] burden, [17] treatment classic, [18] new therapy, [19] trial, [20] cost. The central idea could be \"situation and treatments\". But if split, [16] incidence is separate from treatment. I'd lean split because examples often separate distinct asuntos within paragraph: [2] Júpiter and [3] Saturno were grouped (both planets), [4] Moon separate. [14] exoplanets and [15] black hole grouped as discoveries? Hmm. [16] \"cada año nacen...\" is not treatment. But it's still about disease burden. The final paragraph has two ideas: burden and treatments. But treatment has classic and CRISPR; could also split classic vs new. Let's inspect wording: [17] \"Su tratamiento clásico es la hidroxiurea... aprobada para adultos en 1998.\" [18] \"En diciembre de 2023 se aprobó la primera terapia basada en edición genética con CRISPR.\" [19] trial results. [20] cost. These all treatment. [16] incidence. Maybe split [16] and [17-20]. However, \"cada año nacen...\" and \"tratamiento\" both under \"impacto y manejo actual\"? Hmm.\n\nNeed infer from task likely expects grouping by subtema. There may be hidden expected? We need maximize. Let's see text structure:\nP1 molecular basis\nP2 history of discovery\nP3 genetics and malaria\nP4 burden and treatment\nBut subtemas may not equal paragraphs. Could be 4 subtemas? The example 2 had 6 subtemas for 4 paragraphs. Example 1 had 2 for one paragraph. So we can create more.\n\nPotential subtemas:\nA [1-4] mutation -> hemoglobin S -> fibers -> deformed red cells\nB [5] lifespan of healthy vs sickle red cells\nC [6] first description\nD [7-10] discoveries Pauling/Ingram and molecular disease\nE [11-12] inheritance recessive and probability\nF [13-15] malaria resistance and frequency\nG [16] annual births\nH [17] hydroxyurea\nI [18-20] CRISPR therapy results cost\n\nBut that seems too granular. Need follow examples: They grouped [1,5,6,7,8] across paragraphs, [9,10,11,12] etc. They combine related facts. They don't split every sentence. Need moderate.\n\nLet's examine sentence [5]: \"Un glóbulo rojo sano vive unos 120 días; uno falciforme, entre 10 y 20.\" This is consequence of deformity, so could be within [1-5]. Name: \"la mutación... y la vida más corta de los glóbulos falciformes\". Good.\n\n[9] \"Él la llamó una enfermedad molecular.\" It is closely with [10] \"Ese hallazgo...\" actually [10] refers to [8] or [9]? \"Ese hallazgo convirtió a la anemia falciforme en la primera enfermedad explicada...\" likely [8]/[9]. Could be same.\n\n[11-15] Could split because [13] \"en cambio\" signals contrast. But [15] \"Por eso...\" refers to [13-14] advantage, not [11-12]. So if split:\n- [11-12]: herencia recesiva y probabilidad de hijo enfermo.\n- [13-15]: ventaja de portadores contra malaria y alta frecuencia en África.\nThis seems coherent and follows contrast. Maybe better than one broad. The example 4 grouped [2][3] because [3] refers to [2] commissions/observations. Here [13] doesn't refer to [11] but \"portadores\" is introduced in [11]. Actually [13] \"Los portadores, en cambio...\" depends on \"portador\" from [11]. So if split, name for [13-15] must cite \"portadores de la anemia falciforme\" to resolve reference. That's okay. The \"en cambio\" contrasts with \"casi nunca enferma\" but is a different advantage. Could be separate subtema. The definitions: if reference needs expression from other subtema, cite in name. So split possible.\n\nLast [16-20] could split [16] and [17-20], maybe also [17] and [18-20]. [17] classic treatment, [18-20] CRISPR therapy. They are distinct treatments. But maybe group all treatments. Example 2 grouped [14] exoplanets and [15] black hole as recent discoveries, but those are not same treatment. Hm.\n\nQuestion: \"Agrupa las oraciones de texto en subtemas, según definiciones y ejemplos.\" They likely expect reasonable thematic grouping. Need not exact? We need produce JSON. There is no automated? We need final.\n\nLet's try to derive ideal grouping by subtema names. Need ensure no missing external references.\n\nMaybe there are 6 subtemas:\n1. [1,2,3,4,5] - molecular defect and effect on red blood cells.\n2. [6,7,8,9,10] - history: description, Pauling, Ingram, molecular disease.\n3. [11,12] - recessive inheritance and probability of affected child.\n4. [13,14,15] - malaria resistance in carriers and high frequency in Africa.\n5. [16,17] - annual births and classic treatment with hydroxyurea? Wait [17] \"Su tratamiento clásico es...\" Could group with [16] as \"burden and classic treatment\"? But [16] just incidence. If group [16,17], name: \"la incidencia anual de formas graves y el tratamiento clásico con hidroxiurea\". That might be odd but okay.\n6. [18,19,20] - CRISPR therapy, results, cost.\n\nCould group [16-20] as \"incidencia y tratamientos\". Which is more likely? The last paragraph has first sentence stats then treatment. In examples, they often split within paragraph if different: Example 2 paragraph 1: [1] Sun, [2] Jupiter, [3] Saturn, [4] Moon -> subtemas [1,5...], [2,3], [4]. So within paragraph, yes. For last paragraph, [16] stats, [17] classic treatment, [18-20] CRISPR could be three subtemas? But [17] and [18-20] both treatments, can group. [16] separate. So maybe [16] and [17-20].\n\nLet's think about \"Nombre del subtema: una frase breve que dice qué se dice de las cosas, no solo cuáles son.\" For [16-20] if one: \"la incidencia anual según la OMS y los tratamientos (hidroxiurea y CRISPR), con sus resultados y costo\" okay. If split: [16] \"la incidencia anual de formas graves de la anemia falciforme según la Organización Mundial de la Salud\"; [17-20] \"el tratamiento de la anemia falciforme con hidroxiurea y la terapia CRISPR, incluidos sus resultados y costo\". That seems clean. I lean split [16] and [17-20]. Should we split [17] and [18-20]? \"tratamiento clásico\" vs \"primera terapia CRISPR\" could be separate. But both are treatments; grouping them under \"tratamientos\" is acceptable. Example 2 grouped exoplanets and black hole, not same object but both recent astronomical milestones. So grouping treatments is fine.\n\nWhat about [11-15]? Could split into [11-12] and [13-15]. That yields 6 subtemas:\n1 [1-5]\n2 [6-10]\n3 [11-12]\n4 [13-15]\n5 [16]\n6 [17-20]\nThis seems balanced. Let's see if any cross-paragraph? None. But examples had cross, not mandatory. Could there be cross between [10] and [11]? No.\n\nMaybe [1] and [2] etc. Could [1] (gen change) and [11] (inheritance) be related? But [11] is inheritance, could be with [1]? No.\n\nLet's evaluate names with references:\n1. \"la mutación en el gen de la beta globina que produce hemoglobina S, deforma los glóbulos rojos y acorta su vida\" This covers 1-5. But [1] says anemia falciforme se debe al cambio; [2] amino acid substitution; [3] hemoglobin S fibers; [4] fibers deform red cells; [5] lifespan. Name: \"la base molecular de la anemia falciforme: sustitución en la beta globina, hemoglobina S, deformación y menor duración de los glóbulos rojos\" Good.\n\n2. \"la descripción inicial de la anemia falciforme y los hallazgos de Pauling e Ingram que la explicaron como enfermedad molecular\" Covers [6-10]. Need mention Vernon Ingram called it molecular disease? Name can include. \"la descripción inicial de la anemia falciforme y los hallazgos de Pauling e Ingram, incluida su denominación como enfermedad molecular\" Good.\n\n3. [11-12]: \"la herencia recesiva de la anemia falciforme y la probabilidad de tener un hijo enfermo si ambos padres son portadores\" This covers. [11] defines carrier; [12] probability.\n\n4. [13-15]: \"la ventaja de los portadores de anemia falciforme frente a la malaria y su alta frecuencia en África\" Covers. Need [14] \"esa ventaja\" refers to [13], within group. [15] \"Por eso...\" within group.\n\n5. [16]: \"la cantidad anual de niños que nacen con formas graves de anemia falciforme según la OMS\" Covers.\n\n6. [17-20]: \"el tratamiento clásico con hidroxiurea y la terapia CRISPR para la anemia falciforme, con resultados del ensayo y costo\" Covers. [17] \"Su tratamiento clásico...\" reference to anemia falciforme; name includes. [18] \"primera terapia...\" includes. [19] trial results. [20] cost.\n\nCould also group [16] with [17-20] to avoid single. But single is allowed. Example 2 [4] single. So okay.\n\nNeed ensure JSON only, no markdown. Use valid JSON. Oraciones arrays numbers.\n\nLet's consider if there is any issue with \"Él la llamó...\" In [9], pronoun \"Él\" = Vernon Ingram? Actually from [8] Vernon Ingram identificó... [9] Él la llamó una enfermedad molecular. He called it (anemia falciforme) a molecular disease. If grouped 6-10, name should mention \"Vernon Ingram llamó a la anemia falciforme una enfermedad molecular\" maybe. Our name \"hallazgos de Pauling e Ingram, incluida su denominación como enfermedad molecular\" resolves. Good.\n\nCould [6] be separate from [7-10]? [6] is first description, [7-10] later molecular discoveries. But name can include both. Fine.\n\nLet's final with 6 subtemas. Need only JSON.\n\nDouble-check all sentences covered: 1-5,6-10,11-12,13-15,16,17-20. Yes.\n\nNeed maybe no capitalization? Fine.\n\nFinal answer JSON.",
+  "oraciones": [
+    {
+      "n": 1,
+      "oracion": "La anemia falciforme se debe al cambio de una sola letra en el gen de la beta globina, que está en el cromosoma once."
+    },
+    {
+      "n": 2,
+      "oracion": "En la posición seis de la proteína, un ácido glutámico queda sustituido por una valina."
+    },
+    {
+      "n": 3,
+      "oracion": "La hemoglobina que resulta, llamada hemoglobina S, se agrupa en fibras rígidas cuando le falta oxígeno."
+    },
+    {
+      "n": 4,
+      "oracion": "Esas fibras deforman los glóbulos rojos, que pierden su forma de disco y toman la de una hoz."
+    },
+    {
+      "n": 5,
+      "oracion": "Un glóbulo rojo sano vive unos ciento veinte días; uno falciforme, entre diez y veinte."
+    },
+    {
+      "n": 6,
+      "oracion": "La enfermedad se describió hace más de un siglo, en mil novecientos diez, cuando un médico de Chicago observó glóbulos alargados en la sangre de un estudiante."
+    },
+    {
+      "n": 7,
+      "oracion": "En mil novecientos cuarenta y nueve, Linus Pauling mostró que la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico."
+    },
+    {
+      "n": 8,
+      "oracion": "Vernon Ingram identificó en mil novecientos cincuenta y siete el aminoácido sustituido."
+    },
+    {
+      "n": 9,
+      "oracion": "Él la llamó una enfermedad molecular."
+    },
+    {
+      "n": 10,
+      "oracion": "Ese hallazgo convirtió a la anemia falciforme en la primera enfermedad explicada por un cambio en una proteína."
+    },
+    {
+      "n": 11,
+      "oracion": "La herencia es recesiva: quien recibe una sola copia alterada es portador y casi nunca enferma."
+    },
+    {
+      "n": 12,
+      "oracion": "Si ambos padres son portadores, cada embarazo tiene una probabilidad de uno en cuatro de dar un hijo enfermo."
+    },
+    {
+      "n": 13,
+      "oracion": "Los portadores, en cambio, resisten mejor la malaria grave."
+    },
+    {
+      "n": 14,
+      "oracion": "Según los estudios de campo, esa ventaja reduce su riesgo de malaria grave en cerca de un noventa por ciento."
+    },
+    {
+      "n": 15,
+      "oracion": "Por eso, en algunas regiones de África, hasta uno de cada cuatro habitantes lleva la mutación."
+    },
+    {
+      "n": 16,
+      "oracion": "Según la Organización Mundial de la Salud, cada año nacen unos trescientos mil niños con formas graves de la enfermedad."
+    },
+    {
+      "n": 17,
+      "oracion": "Su tratamiento clásico es la hidroxiurea, que aumenta la hemoglobina fetal, aprobada para adultos en mil novecientos noventa y ocho."
+    },
+    {
+      "n": 18,
+      "oracion": "En diciembre de dos mil veintitrés se aprobó la primera terapia basada en la edición genética con CRISPR."
+    },
+    {
+      "n": 19,
+      "oracion": "En el ensayo principal, veintinueve de treinta pacientes pasaron al menos un año sin crisis de dolor."
+    },
+    {
+      "n": 20,
+      "oracion": "Cada tratamiento cuesta unos dos millones de dólares."
+    }
+  ]
+}

@@ -75,7 +75,10 @@ mover un archivo o de tocar el estado del repo.
   `mvp/código/corpus.db` es el centro**: lo que producen UT, DATOS y la consulta queda ahí —las
   **ocho tablas**: el corpus (`documentos`, `unidades`, `unidad_oraciones`, `datos`) y el expediente
   (`corridas`, `consultas`, `consulta_casos`, `consulta_llamadas`)—, encadenado para poder hacer la
-  **traza completa**; **no hay archivos intermedios**. Lo único que se lee son entradas: el documento radicado, los prompts, R y
+  **traza completa**; **no hay archivos intermedios**. **Y hay un almacén**
+  (`mvp/código/almacen.db`, diseño en `mvp/almacen-diseno.md`): de él será el **original** —el
+  documento volcado en markdown, con su sello y su procedencia—, y su acto (`volcar.py`, que **es la
+  radicación**) está **pendiente**; hasta entonces el texto se lee de `mvp/documentos/`. Lo único que se lee son entradas: el documento radicado, los prompts, R y
   la batería. **Cada etapa es un acto manual y separado, y nada se
   dispara solo**: radicar (`radicar.py <doc>`), UT (`paso1_unidades.py <doc>`), DATOS
   (`paso2_datos.py <doc>`) y consultar. Lo construido y lo abierto está en `mvp/consulta-diseno.md`;

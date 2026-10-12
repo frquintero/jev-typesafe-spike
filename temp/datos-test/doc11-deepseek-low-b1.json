@@ -1,0 +1,272 @@
+{
+  "doc": "doc11",
+  "documento": "temp/doc11.md",
+  "alias": "deepseek",
+  "modelo": "deepseek-flash",
+  "esfuerzo": "low",
+  "rN": "b1",
+  "unidades_origen": "temp/ut-haiku/doc11-haiku-high-tr1.json",
+  "unidades": [
+    {
+      "caso": "la mutación de una letra del gen de la hemoglobina que deforma los glóbulos rojos y acorta su vida",
+      "contenido": "La anemia falciforme se debe al cambio de una sola letra en el gen de la beta globina, que está en el cromosoma once. En la posición seis de la proteína, un ácido glutámico queda sustituido por una valina. La hemoglobina que resulta, llamada hemoglobina S, se agrupa en fibras rígidas cuando le falta oxígeno. Esas fibras deforman los glóbulos rojos, que pierden su forma de disco y toman la de una hoz. Un glóbulo rojo sano vive unos ciento veinte días; uno falciforme, entre diez y veinte."
+    },
+    {
+      "caso": "la historia del diagnóstico, desde la descripción de 1910 hasta el hallazgo de la proteína alterada",
+      "contenido": "La enfermedad se describió hace más de un siglo, en mil novecientos diez, cuando un médico de Chicago observó glóbulos alargados en la sangre de un estudiante. En mil novecientos cuarenta y nueve, Linus Pauling mostró que la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico. Vernon Ingram identificó en mil novecientos cincuenta y siete el aminoácido sustituido. Él la llamó una enfermedad molecular. Ese hallazgo convirtió a la anemia falciforme en la primera enfermedad explicada por un cambio en una proteína."
+    },
+    {
+      "caso": "la herencia recesiva y la protección que ofrecen los portadores frente a la malaria",
+      "contenido": "La herencia es recesiva: quien recibe una sola copia alterada es portador y casi nunca enferma. Si ambos padres son portadores, cada embarazo tiene una probabilidad de uno en cuatro de dar un hijo enfermo. Los portadores, en cambio, resisten mejor la malaria grave. Según los estudios de campo, esa ventaja reduce su riesgo de malaria grave en cerca de un noventa por ciento. Por eso, en algunas regiones de África, hasta uno de cada cuatro habitantes lleva la mutación."
+    },
+    {
+      "caso": "la cifra anual de niños que nacen con formas graves de la enfermedad",
+      "contenido": "Según la Organización Mundial de la Salud, cada año nacen unos trescientos mil niños con formas graves de la enfermedad."
+    },
+    {
+      "caso": "los tratamientos: la hidroxiurea, la terapia CRISPR aprobada en 2023 y su costo",
+      "contenido": "Su tratamiento clásico es la hidroxiurea, que aumenta la hemoglobina fetal, aprobada para adultos en mil novecientos noventa y ocho. En diciembre de dos mil veintitrés se aprobó la primera terapia basada en la edición genética con CRISPR. En el ensayo principal, veintinueve de treinta pacientes pasaron al menos un año sin crisis de dolor. Cada tratamiento cuesta unos dos millones de dólares."
+    }
+  ],
+  "segundos": 18.1,
+  "prompt": "mvp/prompts/prompt_DATOS.md",
+  "hash_prompt": "3c6fe45f01ee2c5497dddb3dd74dd0d6c7996ebd80c3fea113d66859f25b408d",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 1714,
+    "completion_tokens": 5403,
+    "total_tokens": 7117,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3778
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 946,
+    "thinking_tokens": 3778
+  },
+  "salida": [
+    {
+      "n": 1,
+      "caso": "la mutación de una letra del gen de la hemoglobina que deforma los glóbulos rojos y acorta su vida",
+      "datos": [
+        {
+          "aspecto": "causa de la anemia falciforme",
+          "valor": "el cambio de una sola letra en el gen de la beta globina",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "ubicación del gen de la beta globina",
+          "valor": "el cromosoma once",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "posición en la proteína de la sustitución",
+          "valor": "seis",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "sustitución en la proteína",
+          "valor": "un ácido glutámico queda sustituido por una valina",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "hemoglobina resultante",
+          "valor": "hemoglobina S",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "comportamiento de la hemoglobina S",
+          "valor": "se agrupa en fibras rígidas cuando le falta oxígeno",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "efecto de las fibras en los glóbulos rojos",
+          "valor": "deforman los glóbulos rojos, que pierden su forma de disco y toman la de una hoz",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "vida de un glóbulo rojo sano",
+          "valor": "unos ciento veinte",
+          "unidad_valor": "días"
+        },
+        {
+          "aspecto": "vida de un glóbulo falciforme",
+          "valor": "entre diez y veinte",
+          "unidad_valor": "días"
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "caso": "la historia del diagnóstico, desde la descripción de 1910 hasta el hallazgo de la proteína alterada",
+      "datos": [
+        {
+          "aspecto": "antigüedad de la descripción",
+          "valor": "más de un siglo",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "fecha de la descripción",
+          "valor": "mil novecientos diez",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "autor de la descripción",
+          "valor": "un médico de Chicago",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "observación del médico de Chicago",
+          "valor": "glóbulos alargados en la sangre de un estudiante",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "año del hallazgo de Linus Pauling",
+          "valor": "mil novecientos cuarenta y nueve",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "hallazgo de Linus Pauling",
+          "valor": "la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "año de la identificación de Vernon Ingram",
+          "valor": "mil novecientos cincuenta y siete",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "hallazgo de Vernon Ingram",
+          "valor": "identificó el aminoácido sustituido",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "denominación de Ingram para la enfermedad",
+          "valor": "una enfermedad molecular",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "importancia del hallazgo",
+          "valor": "convirtió a la anemia falciforme en la primera enfermedad explicada por un cambio en una proteína",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "caso": "la herencia recesiva y la protección que ofrecen los portadores frente a la malaria",
+      "datos": [
+        {
+          "aspecto": "tipo de herencia",
+          "valor": "recesiva",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "efecto de recibir una sola copia alterada",
+          "valor": "es portador y casi nunca enferma",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "probabilidad por embarazo si ambos padres son portadores",
+          "valor": "uno en cuatro de dar un hijo enfermo",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "resistencia de los portadores",
+          "valor": "resisten mejor la malaria grave",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "fuente de la ventaja de los portadores",
+          "valor": "los estudios de campo",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "reducción del riesgo de malaria grave en portadores",
+          "valor": "cerca de noventa",
+          "unidad_valor": "por ciento"
+        },
+        {
+          "aspecto": "frecuencia de la mutación en algunas regiones de África",
+          "valor": "hasta uno de cada cuatro habitantes lleva la mutación",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "caso": "la cifra anual de niños que nacen con formas graves de la enfermedad",
+      "datos": [
+        {
+          "aspecto": "fuente de la cifra",
+          "valor": "la Organización Mundial de la Salud",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "periodicidad de los nacimientos",
+          "valor": "cada año",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "cifra de niños que nacen con formas graves de la enfermedad",
+          "valor": "unos trescientos mil",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "caso": "los tratamientos: la hidroxiurea, la terapia CRISPR aprobada en 2023 y su costo",
+      "datos": [
+        {
+          "aspecto": "tratamiento clásico",
+          "valor": "la hidroxiurea",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "efecto de la hidroxiurea",
+          "valor": "aumenta la hemoglobina fetal",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "aprobación de la hidroxiurea",
+          "valor": "para adultos en mil novecientos noventa y ocho",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "aprobación de la primera terapia basada en la edición genética con CRISPR",
+          "valor": "diciembre de dos mil veintitrés",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "resultado del ensayo principal",
+          "valor": "veintinueve de treinta pacientes pasaron al menos un año sin crisis de dolor",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "costo de cada tratamiento",
+          "valor": "unos dos millones",
+          "unidad_valor": "dólares"
+        }
+      ]
+    }
+  ],
+  "verificacion": {
+    "parseo": true,
+    "unidades": 5,
+    "datos": 35,
+    "problemas": []
+  },
+  "error_parseo": null,
+  "peticion": {
+    "model": "deepseek-flash",
+    "thinking": {
+      "type": "enabled"
+    },
+    "reasoning_effort": "low"
+  },
+  "respuesta_cruda": "{\"unidades\": [\n  {\"n\": 1,\n   \"caso\": \"la mutación de una letra del gen de la hemoglobina que deforma los glóbulos rojos y acorta su vida\",\n   \"datos\": [\n     {\"aspecto\": \"causa de la anemia falciforme\",\n      \"valor\": \"el cambio de una sola letra en el gen de la beta globina\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"ubicación del gen de la beta globina\",\n      \"valor\": \"el cromosoma once\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"posición en la proteína de la sustitución\",\n      \"valor\": \"seis\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"sustitución en la proteína\",\n      \"valor\": \"un ácido glutámico queda sustituido por una valina\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"hemoglobina resultante\",\n      \"valor\": \"hemoglobina S\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"comportamiento de la hemoglobina S\",\n      \"valor\": \"se agrupa en fibras rígidas cuando le falta oxígeno\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"efecto de las fibras en los glóbulos rojos\",\n      \"valor\": \"deforman los glóbulos rojos, que pierden su forma de disco y toman la de una hoz\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"vida de un glóbulo rojo sano\",\n      \"valor\": \"unos ciento veinte\",\n      \"unidad_valor\": \"días\"},\n     {\"aspecto\": \"vida de un glóbulo falciforme\",\n      \"valor\": \"entre diez y veinte\",\n      \"unidad_valor\": \"días\"}]},\n  {\"n\": 2,\n   \"caso\": \"la historia del diagnóstico, desde la descripción de 1910 hasta el hallazgo de la proteína alterada\",\n   \"datos\": [\n     {\"aspecto\": \"antigüedad de la descripción\",\n      \"valor\": \"más de un siglo\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"fecha de la descripción\",\n      \"valor\": \"mil novecientos diez\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"autor de la descripción\",\n      \"valor\": \"un médico de Chicago\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"observación del médico de Chicago\",\n      \"valor\": \"glóbulos alargados en la sangre de un estudiante\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"año del hallazgo de Linus Pauling\",\n      \"valor\": \"mil novecientos cuarenta y nueve\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"hallazgo de Linus Pauling\",\n      \"valor\": \"la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"año de la identificación de Vernon Ingram\",\n      \"valor\": \"mil novecientos cincuenta y siete\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"hallazgo de Vernon Ingram\",\n      \"valor\": \"identificó el aminoácido sustituido\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"denominación de Ingram para la enfermedad\",\n      \"valor\": \"una enfermedad molecular\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"importancia del hallazgo\",\n      \"valor\": \"convirtió a la anemia falciforme en la primera enfermedad explicada por un cambio en una proteína\",\n      \"unidad_valor\": null}]},\n  {\"n\": 3,\n   \"caso\": \"la herencia recesiva y la protección que ofrecen los portadores frente a la malaria\",\n   \"datos\": [\n     {\"aspecto\": \"tipo de herencia\",\n      \"valor\": \"recesiva\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"efecto de recibir una sola copia alterada\",\n      \"valor\": \"es portador y casi nunca enferma\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"probabilidad por embarazo si ambos padres son portadores\",\n      \"valor\": \"uno en cuatro de dar un hijo enfermo\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"resistencia de los portadores\",\n      \"valor\": \"resisten mejor la malaria grave\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"fuente de la ventaja de los portadores\",\n      \"valor\": \"los estudios de campo\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"reducción del riesgo de malaria grave en portadores\",\n      \"valor\": \"cerca de noventa\",\n      \"unidad_valor\": \"por ciento\"},\n     {\"aspecto\": \"frecuencia de la mutación en algunas regiones de África\",\n      \"valor\": \"hasta uno de cada cuatro habitantes lleva la mutación\",\n      \"unidad_valor\": null}]},\n  {\"n\": 4,\n   \"caso\": \"la cifra anual de niños que nacen con formas graves de la enfermedad\",\n   \"datos\": [\n     {\"aspecto\": \"fuente de la cifra\",\n      \"valor\": \"la Organización Mundial de la Salud\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"periodicidad de los nacimientos\",\n      \"valor\": \"cada año\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"cifra de niños que nacen con formas graves de la enfermedad\",\n      \"valor\": \"unos trescientos mil\",\n      \"unidad_valor\": null}]},\n  {\"n\": 5,\n   \"caso\": \"los tratamientos: la hidroxiurea, la terapia CRISPR aprobada en 2023 y su costo\",\n   \"datos\": [\n     {\"aspecto\": \"tratamiento clásico\",\n      \"valor\": \"la hidroxiurea\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"efecto de la hidroxiurea\",\n      \"valor\": \"aumenta la hemoglobina fetal\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"aprobación de la hidroxiurea\",\n      \"valor\": \"para adultos en mil novecientos noventa y ocho\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"aprobación de la primera terapia basada en la edición genética con CRISPR\",\n      \"valor\": \"diciembre de dos mil veintitrés\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"resultado del ensayo principal\",\n      \"valor\": \"veintinueve de treinta pacientes pasaron al menos un año sin crisis de dolor\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"costo de cada tratamiento\",\n      \"valor\": \"unos dos millones\",\n      \"unidad_valor\": \"dólares\"}]}]}",
+  "razonamiento": "We need answer only JSON. Need extract data per unit. Need be careful. We need process 5 units. Need output valid JSON with unidades. Need extract aspects/values. We must only from content. Need no external. Need for each unit, list datos. Need decide granularity. We need \"un dato es lo que unidad temática establece acerca de algo bajo un aspecto.\" So extract key facts.\n\nNeed parse Spanish content. Let's enumerate units:\n\n1 caso: \"la mutación de una letra del gen de la hemoglobina que deforma los glóbulos rojos y acorta su vida\"\ncontenido: \"La anemia falciforme se debe al cambio de una sola letra en el gen de la beta globina, que está en el cromosoma once. En la posición seis de la proteína, un ácido glutámico queda sustituido por una valina. La hemoglobina que resulta, llamada hemoglobina S, se agrupa en fibras rígidas cuando le falta oxígeno. Esas fibras deforman los glóbulos rojos, que pierden su forma de disco y toman la de una hoz. Un glóbulo rojo sano vive unos ciento veinte días; uno falciforme, entre diez y veinte.\"\n\nNeed extract:\n- causa de anemia falciforme: cambio de una sola letra en el gen de la beta globina.\n- ubicación gen: cromosoma once.\n- sustitución en posición seis de proteína: ácido glutámico sustituido por valina.\n- hemoglobina resultante: llamada hemoglobina S.\n- comportamiento hemoglobina S: se agrupa en fibras rígidas cuando le falta oxígeno.\n- efecto fibras: deforman glóbulos rojos; pierden forma de disco y toman forma de hoz.\n- vida glóbulo rojo sano: unos ciento veinte días.\n- vida glóbulo falciforme: entre diez y veinte [días? contenido says \"un glóbulo rojo sano vive unos ciento veinte días; uno falciforme, entre diez y veinte.\" likely días implied. Need unidad_valor \"días\" for both? For \"entre diez y veinte\" unidad días. For \"ciento veinte\" unidad días. The aspect \"vida de un glóbulo rojo sano\" valor \"unos ciento veinte\", unidad \"días\". For falciforme valor \"entre diez y veinte\", unidad \"días\".\n\nCould include \"posición\" as value \"seis\" unidad null? aspect \"posición de la sustitución en la proteína\", valor \"seis\", maybe unidad null. Better include as aspect maybe \"posición en la proteína del aminoácido sustituido\" valor \"seis\". Need not overdo? We'll include.\n\n2 caso: \"la historia del diagnóstico, desde la descripción de 1910 hasta el hallazgo de la proteína alterada\"\ncontenido: \"La enfermedad se describió hace más de un siglo, en mil novecientos diez, cuando un médico de Chicago observó glóbulos alargados en la sangre de un estudiante. En mil novecientos cuarenta y nueve, Linus Pauling mostró que la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico. Vernon Ingram identificó en mil novecientos cincuenta y siete el aminoácido sustituido. Él la llamó una enfermedad molecular. Ese hallazgo convirtió a la anemia falciforme en la primera enfermedad explicada por un cambio en una proteína.\"\n\nExtract:\n- descripción: hace más de un siglo, en 1910; por médico de Chicago; observó glóbulos alargados en sangre de un estudiante.\nMaybe separate:\naspect \"fecha de descripción\": valor \"mil novecientos diez\" (or \"1910\" but text says mil novecientos diez). unit null.\naspect \"autor de la descripción\": \"un médico de Chicago\"\naspect \"observación\": \"glóbulos alargados en la sangre de un estudiante\"\naspect \"año del hallazgo de Linus Pauling\": \"mil novecientos cuarenta y nueve\"\naspect \"hallazgo de Linus Pauling\": \"la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico\"\naspect \"año de identificación de Vernon Ingram\": \"mil novecientos cincuenta y siete\"\naspect \"hallazgo de Vernon Ingram\": \"identificó el aminoácido sustituido\"\naspect \"denominación de Ingram\": \"enfermedad molecular\" (Él la llamó una enfermedad molecular)\naspect \"importancia del hallazgo\": \"convirtió a la anemia falciforme en la primera enfermedad explicada por un cambio en una proteína\"\n\nNeed maybe \"hace más de un siglo\" in description. Could aspect \"antigüedad de la descripción\": \"más de un siglo\" unit null. And \"fecha\": \"mil novecientos diez\". Fine.\n\n3 caso: \"la herencia recesiva y la protección que ofrecen los portadores frente a la malaria\"\ncontenido: \"La herencia es recesiva: quien recibe una sola copia alterada es portador y casi nunca enferma. Si ambos padres son portadores, cada embarazo tiene una probabilidad de uno en cuatro de dar un hijo enfermo. Los portadores, en cambio, resisten mejor la malaria grave. Según los estudios de campo, esa ventaja reduce su riesgo de malaria grave en cerca de un noventa por ciento. Por eso, en algunas regiones de África, hasta uno de cada cuatro habitantes lleva la mutación.\"\n\nExtract:\n- tipo de herencia: recesiva.\n- quien recibe una sola copia alterada: es portador y casi nunca enferma.\n- probabilidad si ambos padres portadores: uno en cuatro de dar un hijo enfermo (per embarazo).\n- portadores: resisten mejor la malaria grave.\n- reducción de riesgo de malaria grave: cerca de un noventa por ciento (unidad_valor \"por ciento\"? The value \"noventa\", unit \"por ciento\". But \"cerca de un noventa por ciento\" maybe valor \"cerca de noventa\", unidad \"por ciento\"? The schema has valor and unidad_valor. Could set valor \"cerca de noventa\", unidad_valor \"por ciento\". But in example they separated number and unit. Here \"noventa\" with unit \"por ciento\". Maybe include cualifier in valor? Better: aspecto \"reducción del riesgo de malaria grave en portadores\", valor \"cerca de noventa\", unidad_valor \"por ciento\". Hmm.\n- frecuencia en algunas regiones de África: hasta uno de cada cuatro habitantes lleva la mutación. This is ratio no unit. aspect \"frecuencia de la mutación en algunas regiones de África\": valor \"hasta uno de cada cuatro habitantes\", unidad null.\n- according to field studies: maybe source. aspect \"fuente de la ventaja\": \"estudios de campo\". Could include? It's about data. We'll include perhaps.\n\n4 caso: \"la cifra anual de niños que nacen con formas graves de la enfermedad\"\ncontenido: \"Según la Organización Mundial de la Salud, cada año nacen unos trescientos mil niños con formas graves de la enfermedad.\"\nExtract:\n- fuente: Organización Mundial de la Salud.\n- cifra anual de nacimientos con formas graves: unos trescientos mil niños. aspect \"niños que nacen cada año con formas graves de la enfermedad\", valor \"unos trescientos mil\", unidad_valor null? Could unit \"niños\" but schema unit for value? In examples, \"cuarenta y dos\" with unidad null for species count? Actually aspect \"especies nativas conservadas\", valor \"cuarenta y dos\", unidad null. They didn't use \"especies\". Here maybe \"trescientos mil\" no unit. Could include \"niños\" in valor? \"unos trescientos mil niños\". If aspect already includes niños. Use valor \"unos trescientos mil\", unidad null.\n- frecuencia: cada año. aspect \"periodicidad\", valor \"cada año\", unidad null. Maybe redundant. Could include.\n\n5 caso: \"los tratamientos: la hidroxiurea, la terapia CRISPR aprobada en 2023 y su costo\"\ncontenido: \"Su tratamiento clásico es la hidroxiurea, que aumenta la hemoglobina fetal, aprobada para adultos en mil novecientos noventa y ocho. En diciembre de dos mil veintitrés se aprobó la primera terapia basada en la edición genética con CRISPR. En el ensayo principal, veintinueve de treinta pacientes pasaron al menos un año sin crisis de dolor. Cada tratamiento cuesta unos dos millones de dólares.\"\n\nExtract:\n- tratamiento clásico: hidroxiurea.\n- efecto hidroxiurea: aumenta la hemoglobina fetal.\n- aprobación hidroxiurea: para adultos en 1998 (\"mil novecientos noventa y ocho\").\n- aprobación terapia CRISPR: diciembre de dos mil veintitrés; primera terapia basada en edición genética con CRISPR.\n- resultado ensayo principal: veintinueve de treinta pacientes pasaron al menos un año sin crisis de dolor. Could break: pacientes sin crisis al menos un año: \"veintinueve de treinta\"; duración: \"al menos un año\"; condition: sin crisis de dolor. Or one dato.\n- costo de cada tratamiento: unos dos millones de dólares. aspect \"costo de cada tratamiento\", valor \"unos dos millones\", unidad_valor \"dólares\". Or \"dos millones de dólares\" as value with unit? In examples unit separated. We can set valor \"unos dos millones\", unidad_valor \"dólares\".\n\nNeed ensure JSON valid, no markdown? User says formato de respuesta. We can output raw JSON. Need include n, caso, datos. Need same order. Need exact caso strings.\n\nNeed consider possible issue: \"unidad_valor\": la unidad del valor, or null. If value includes unit in aspect maybe not. We can set for percentages \"por ciento\"; days \"días\"; dollars \"dólares\". For \"año\" if value is \"mil novecientos diez\" no unit? It's a date; could unidad_valor null. If aspect \"fecha\" value \"mil novecientos diez\" not \"año\"? We could set unidad_valor null. For \"duración\" \"un año\" maybe valor \"al menos un año\", unidad null or valor \"al menos uno\", unidad \"año\". Better use schema: aspect \"duración sin crisis de dolor en el ensayo\", valor \"al menos un año\", unidad null. But they separate units. Could set valor \"al menos uno\", unidad_valor \"año\". However phrase \"al menos un año\" more natural. But schema wants unit. For consistency, for \"veintinueve de treinta pacientes\" no unit. For \"cada tratamiento cuesta unos dos millones de dólares\", valor \"unos dos millones\", unidad \"dólares\".\n\nNeed maybe not over-extract? The example extracted all key facts. We should include enough.\n\nLet's craft carefully.\n\nNeed ensure no accents? JSON can include accented chars. Use double quotes.\n\nLet's formulate unit 1:\ndatos:\n1 aspecto \"causa de la anemia falciforme\", valor \"el cambio de una sola letra en el gen de la beta globina\", unidad_valor null.\n2 aspecto \"ubicación del gen de la beta globina\", valor \"el cromosoma once\", unidad null.\n3 aspecto \"posición en la proteína de la sustitución\", valor \"seis\", unidad null.\n4 aspecto \"sustitución en la proteína\", valor \"un ácido glutámico queda sustituido por una valina\", unidad null.\n5 aspecto \"hemoglobina resultante\", valor \"hemoglobina S\", unidad null.\n6 aspecto \"comportamiento de la hemoglobina S\", valor \"se agrupa en fibras rígidas cuando le falta oxígeno\", unidad null.\n7 aspecto \"efecto de las fibras en los glóbulos rojos\", valor \"deforman los glóbulos rojos, que pierden su forma de disco y toman la de una hoz\", unidad null.\n8 aspecto \"vida de un glóbulo rojo sano\", valor \"unos ciento veinte\", unidad \"días\".\n9 aspecto \"vida de un glóbulo falciforme\", valor \"entre diez y veinte\", unidad \"días\".\n\nMaybe \"cromosoma once\" not \"el cromosoma once\"? Content says \"que está en el cromosoma once.\" valor \"el cromosoma once\" okay.\n\nUnit 2:\ndatos:\n1 \"antigüedad de la descripción\", \"más de un siglo\", null.\n2 \"fecha de la descripción\", \"mil novecientos diez\", null.\n3 \"autor de la descripción\", \"un médico de Chicago\", null.\n4 \"observación del médico de Chicago\", \"glóbulos alargados en la sangre de un estudiante\", null.\n5 \"año del hallazgo de Linus Pauling\", \"mil novecientos cuarenta y nueve\", null.\n6 \"hallazgo de Linus Pauling\", \"la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico\", null.\n7 \"año de la identificación de Vernon Ingram\", \"mil novecientos cincuenta y siete\", null.\n8 \"hallazgo de Vernon Ingram\", \"el aminoácido sustituido\", null? \"identificó en mil novecientos cincuenta y siete el aminoácido sustituido.\" Aspect could be \"identificación de Vernon Ingram\", valor \"el aminoácido sustituido\". But that's not a statement? It identified the substituted amino acid. Better \"hallazgo de Vernon Ingram\": \"identificó el aminoácido sustituido\". \n9 \"denominación de Ingram para la enfermedad\", \"una enfermedad molecular\", null.\n10 \"importancia del hallazgo\", \"convirtió a la anemia falciforme en la primera enfermedad explicada por un cambio en una proteína\", null.\n\nMaybe \"Él la llamó una enfermedad molecular\" refers Ingram? \"Él\" might refer Vernon Ingram. We'll say \"denominación de Ingram\". Good.\n\nUnit 3:\ndatos:\n1 \"tipo de herencia\", \"recesiva\", null.\n2 \"efecto de recibir una sola copia alterada\", \"es portador y casi nunca enferma\", null.\n3 \"probabilidad si ambos padres son portadores\", \"uno en cuatro de dar un hijo enfermo por cada embarazo\", null. Maybe aspect \"probabilidad por embarazo si ambos padres son portadores\", valor \"uno en cuatro de dar un hijo enfermo\". \n4 \"resistencia de los portadores\", \"resisten mejor la malaria grave\", null.\n5 \"fuente de la ventaja de los portadores\", \"los estudios de campo\", null.\n6 \"reducción del riesgo de malaria grave en portadores\", \"cerca de noventa\", \"por ciento\".\n7 \"frecuencia de la mutación en algunas regiones de África\", \"hasta uno de cada cuatro habitantes lleva la mutación\", null.\n\nMaybe \"Según los estudios de campo, esa ventaja reduce su riesgo...\" We can combine fuente and reduction? It's okay.\n\nUnit 4:\ndatos:\n1 \"fuente de la cifra\", \"la Organización Mundial de la Salud\", null.\n2 \"periodicidad de los nacimientos\", \"cada año\", null.\n3 \"cifra de niños que nacen con formas graves de la enfermedad\", \"unos trescientos mil\", null. Could unit \"niños\"? The aspect already includes niños. The value is count. In example \"cuarenta y dos\" unit null. So null.\n\nUnit 5:\ndatos:\n1 \"tratamiento clásico\", \"la hidroxiurea\", null.\n2 \"efecto de la hidroxiurea\", \"aumenta la hemoglobina fetal\", null.\n3 \"aprobación de la hidroxiurea\", \"para adultos en mil novecientos noventa y ocho\", null.\n4 \"aprobación de la primera terapia basada en edición genética con CRISPR\", \"diciembre de dos mil veintitrés\", null.\n5 \"resultado del ensayo principal\", \"veintinueve de treinta pacientes pasaron al menos un año sin crisis de dolor\", null.\n6 \"costo de cada tratamiento\", \"unos dos millones\", \"dólares\".\n\nCould also separate \"terapia CRISPR aprobada\" as \"primera terapia basada en edición genética con CRISPR\" aspect. We have.\n\nNeed ensure no extraneous. Output JSON only.\n\nPotential issue: \"unidad_valor\" for \"por ciento\" should maybe \"por ciento\" or \"%\"? Text says \"un noventa por ciento\". Use \"por ciento\". For \"dólares\" use \"dólares\". For \"días\" use \"días\".\n\nNeed final no markdown. Ensure all quotes escaped? None with quotes inside. Use proper commas.\n\nLet's produce."
+}

@@ -1,0 +1,562 @@
+{
+  "doc": "sol",
+  "bateria": "mvp/consulta/preguntas_sol.md",
+  "numero": 1,
+  "pregunta": "Un estudiante afirma que el Sol produce su energía en la superficie visible, a unos 5.500 °C. ¿Cómo corregirías esa explicación indicando el lugar, el proceso y las condiciones de temperatura y presión correspondientes?",
+  "dominio": "GENERAL",
+  "prompt": "temp/orq_luna/prompt_ORQ_triada.md",
+  "documentos": [
+    "preparacion_cafe",
+    "sol"
+  ],
+  "casos": [
+    {
+      "unidad_id": "preparacion_cafe:U1",
+      "caso": "clasificación de los métodos de extracción y su efecto en la bebida"
+    },
+    {
+      "unidad_id": "preparacion_cafe:U2",
+      "caso": "recomendaciones generales para preparar café"
+    },
+    {
+      "unidad_id": "preparacion_cafe:U3",
+      "caso": "características de los métodos de inmersión"
+    },
+    {
+      "unidad_id": "preparacion_cafe:U4",
+      "caso": "características de los métodos de percolación o goteo manual"
+    },
+    {
+      "unidad_id": "preparacion_cafe:U5",
+      "caso": "características de los métodos de extracción por presión"
+    },
+    {
+      "unidad_id": "sol:U1",
+      "caso": "el Sol como fuente de energía y sus características principales"
+    },
+    {
+      "unidad_id": "sol:U2",
+      "caso": "la producción de energía en el interior del Sol y la temperatura de su superficie"
+    },
+    {
+      "unidad_id": "sol:U3",
+      "caso": "la energía solar en las cadenas alimentarias y los ecosistemas"
+    },
+    {
+      "unidad_id": "sol:U4",
+      "caso": "la influencia del calor solar en el ciclo del agua y el clima"
+    },
+    {
+      "unidad_id": "sol:U5",
+      "caso": "las tecnologías que aprovechan la energía solar para producir electricidad y calor"
+    }
+  ],
+  "herramientas": [
+    "obtener_datos_del_caso",
+    "preguntar_al_usuario"
+  ],
+  "anclas": {
+    "fecha": "2026-10-11",
+    "hora": "06:39",
+    "texto": "11 de octubre de 2026, 06:39"
+  },
+  "r": {
+    "fuentes_admitidas": [
+      "solo el documento"
+    ],
+    "herramientas": [
+      "obtener_datos_del_caso",
+      "preguntar_al_usuario"
+    ],
+    "operaciones": []
+  },
+  "modelo": {
+    "alias": "luna",
+    "esfuerzo": "low"
+  },
+  "guardias": {
+    "max_turnos": 8,
+    "max_herramientas": 20
+  },
+  "entrega": {
+    "desenlace": "respondida",
+    "respuesta": "El Sol produce su energía en el núcleo, no en la superficie visible. Allí, la fusión nuclear une núcleos de hidrógeno para formar helio y libera energía. Estas reacciones ocurren a unos 15 millones de °C y una presión de alrededor de 250.000 millones de atmósferas. Los 5.500 °C corresponden a la superficie visible."
+  },
+  "json_entrega": "{\"desenlace\":\"respondida\",\"respuesta\":\"El Sol produce su energía en el núcleo, no en la superficie visible. Allí, la fusión nuclear une núcleos de hidrógeno para formar helio y libera energía. Estas reacciones ocurren a unos 15 millones de °C y una presión de alrededor de 250.000 millones de atmósferas. Los 5.500 °C corresponden a la superficie visible.\"}",
+  "forma_entrega": "todo_el_mensaje",
+  "contenido_final": "{\"desenlace\":\"respondida\",\"respuesta\":\"El Sol produce su energía en el núcleo, no en la superficie visible. Allí, la fusión nuclear une núcleos de hidrógeno para formar helio y libera energía. Estas reacciones ocurren a unos 15 millones de °C y una presión de alrededor de 250.000 millones de atmósferas. Los 5.500 °C corresponden a la superficie visible.\"}",
+  "pregunta_usuario": null,
+  "corte": null,
+  "cerrado": true,
+  "turnos": 2,
+  "llamadas": 1,
+  "casos_leidos": [
+    "sol:U2"
+  ],
+  "cuerpos": [
+    {
+      "model": "gpt-6-luna",
+      "input": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "input_text",
+              "text": "ANCLAS: 11 de octubre de 2026, 06:39 (día y hora del sistema; no es dato del documento)\n\nCASOS:\n- preparacion_cafe:U1 · clasificación de los métodos de extracción y su efecto en la bebida\n- preparacion_cafe:U2 · recomendaciones generales para preparar café\n- preparacion_cafe:U3 · características de los métodos de inmersión\n- preparacion_cafe:U4 · características de los métodos de percolación o goteo manual\n- preparacion_cafe:U5 · características de los métodos de extracción por presión\n- sol:U1 · el Sol como fuente de energía y sus características principales\n- sol:U2 · la producción de energía en el interior del Sol y la temperatura de su superficie\n- sol:U3 · la energía solar en las cadenas alimentarias y los ecosistemas\n- sol:U4 · la influencia del calor solar en el ciclo del agua y el clima\n- sol:U5 · las tecnologías que aprovechan la energía solar para producir electricidad y calor\n\nPregunta: Un estudiante afirma que el Sol produce su energía en la superficie visible, a unos 5.500 °C. ¿Cómo corregirías esa explicación indicando el lugar, el proceso y las condiciones de temperatura y presión correspondientes?"
+            }
+          ]
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "name": "obtener_datos_del_caso",
+          "description": "Devuelve todos los datos de un caso del dominio. Se pide por su id.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "unidad_id": {
+                "type": "string",
+                "description": "El id del caso, tal como figura en la lista de casos."
+              }
+            },
+            "required": [
+              "unidad_id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "type": "function",
+          "name": "preguntar_al_usuario",
+          "description": "Pregunta al usuario cuando la pregunta admite dos o más respuestas plausibles. Poné la situación y las respuestas posibles.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "pregunta": {
+                "type": "string",
+                "description": "La situación, clara, sucinta y autocontenida."
+              },
+              "opciones": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Las dos o más respuestas plausibles."
+              }
+            },
+            "required": [
+              "pregunta",
+              "opciones"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "tool_choice": "auto",
+      "instructions": "LÓGICA DEL AGENTE ENCARGADO:\n1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.\n2. Si no hay casos que cumplan la condición anterior, pasa al punto 6.\n3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.\n4. Analiza los datos: si hay una respuesta plausible, armá la respuesta.\n5. Si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 6.\n6. Diligencia el JSON en RESPUESTA_JSON.\n\nResponde solo con el JSON.\n\nRESPUESTA_JSON:\n{\"desenlace\": \"respondida\", \"respuesta\": \"…\"}\n{\"desenlace\": \"no_esta_en_los_datos\", \"respuesta\": \"\"}",
+      "max_output_tokens": 16000,
+      "reasoning": {
+        "effort": "low"
+      }
+    },
+    {
+      "model": "gpt-6-luna",
+      "input": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "input_text",
+              "text": "ANCLAS: 11 de octubre de 2026, 06:39 (día y hora del sistema; no es dato del documento)\n\nCASOS:\n- preparacion_cafe:U1 · clasificación de los métodos de extracción y su efecto en la bebida\n- preparacion_cafe:U2 · recomendaciones generales para preparar café\n- preparacion_cafe:U3 · características de los métodos de inmersión\n- preparacion_cafe:U4 · características de los métodos de percolación o goteo manual\n- preparacion_cafe:U5 · características de los métodos de extracción por presión\n- sol:U1 · el Sol como fuente de energía y sus características principales\n- sol:U2 · la producción de energía en el interior del Sol y la temperatura de su superficie\n- sol:U3 · la energía solar en las cadenas alimentarias y los ecosistemas\n- sol:U4 · la influencia del calor solar en el ciclo del agua y el clima\n- sol:U5 · las tecnologías que aprovechan la energía solar para producir electricidad y calor\n\nPregunta: Un estudiante afirma que el Sol produce su energía en la superficie visible, a unos 5.500 °C. ¿Cómo corregirías esa explicación indicando el lugar, el proceso y las condiciones de temperatura y presión correspondientes?"
+            }
+          ]
+        },
+        {
+          "type": "function_call",
+          "call_id": "call_7FOPSLHBB4XX23Gj1P9IDh7j",
+          "name": "obtener_datos_del_caso",
+          "arguments": "{\"unidad_id\":\"sol:U2\"}"
+        },
+        {
+          "type": "function_call_output",
+          "call_id": "call_7FOPSLHBB4XX23Gj1P9IDh7j",
+          "output": "{\"unidad_id\": \"sol:U2\", \"caso\": \"la producción de energía en el interior del Sol y la temperatura de su superficie\", \"datos\": [{\"id\": \"sol:U2:D1\", \"aspecto\": \"lugar donde se produce la energía del Sol\", \"valor\": \"el núcleo\", \"unidad_valor\": null}, {\"id\": \"sol:U2:D2\", \"aspecto\": \"temperatura del núcleo del Sol\", \"valor\": \"unos 15 millones\", \"unidad_valor\": \"°C\"}, {\"id\": \"sol:U2:D3\", \"aspecto\": \"presión en el núcleo del Sol\", \"valor\": \"ronda los 250.000 millones\", \"unidad_valor\": \"atmósferas\"}, {\"id\": \"sol:U2:D4\", \"aspecto\": \"proceso que produce energía en el núcleo del Sol\", \"valor\": \"la fusión une núcleos de hidrógeno para formar helio y libera energía\", \"unidad_valor\": null}, {\"id\": \"sol:U2:D5\", \"aspecto\": \"temperatura de la superficie visible del Sol\", \"valor\": \"unos 5.500\", \"unidad_valor\": \"°C\"}]}"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "name": "obtener_datos_del_caso",
+          "description": "Devuelve todos los datos de un caso del dominio. Se pide por su id.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "unidad_id": {
+                "type": "string",
+                "description": "El id del caso, tal como figura en la lista de casos."
+              }
+            },
+            "required": [
+              "unidad_id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "type": "function",
+          "name": "preguntar_al_usuario",
+          "description": "Pregunta al usuario cuando la pregunta admite dos o más respuestas plausibles. Poné la situación y las respuestas posibles.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "pregunta": {
+                "type": "string",
+                "description": "La situación, clara, sucinta y autocontenida."
+              },
+              "opciones": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Las dos o más respuestas plausibles."
+              }
+            },
+            "required": [
+              "pregunta",
+              "opciones"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "tool_choice": "auto",
+      "instructions": "LÓGICA DEL AGENTE ENCARGADO:\n1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.\n2. Si no hay casos que cumplan la condición anterior, pasa al punto 6.\n3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.\n4. Analiza los datos: si hay una respuesta plausible, armá la respuesta.\n5. Si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 6.\n6. Diligencia el JSON en RESPUESTA_JSON.\n\nResponde solo con el JSON.\n\nRESPUESTA_JSON:\n{\"desenlace\": \"respondida\", \"respuesta\": \"…\"}\n{\"desenlace\": \"no_esta_en_los_datos\", \"respuesta\": \"\"}",
+      "max_output_tokens": 16000,
+      "reasoning": {
+        "effort": "low"
+      }
+    }
+  ],
+  "respuestas": [
+    {
+      "id": "resp_0d5b0e2a4b4251a6006acb757847fc87d29da5fe338b59fab4",
+      "object": "chat.completion",
+      "model": "gpt-6-luna",
+      "choices": [
+        {
+          "index": 0,
+          "finish_reason": "tool_calls",
+          "message": {
+            "role": "assistant",
+            "content": null,
+            "tool_calls": [
+              {
+                "id": "call_7FOPSLHBB4XX23Gj1P9IDh7j",
+                "type": "function",
+                "function": {
+                  "name": "obtener_datos_del_caso",
+                  "arguments": "{\"unidad_id\":\"sol:U2\"}"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 621,
+        "completion_tokens": 26,
+        "thinking_tokens": 0,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 621
+      },
+      "_segundos": 2.0,
+      "_respuesta": {
+        "id": "resp_0d5b0e2a4b4251a6006acb757847fc87d29da5fe338b59fab4",
+        "object": "response",
+        "created_at": 1791718776,
+        "completed_at": 1791718777,
+        "status": "completed",
+        "parallel_tool_calls": true,
+        "temperature": 1,
+        "top_p": 0.98,
+        "max_output_tokens": 16000,
+        "previous_response_id": null,
+        "background": false,
+        "truncation": "disabled",
+        "top_logprobs": 0,
+        "max_tool_calls": null,
+        "prompt_cache_retention": "24h",
+        "model": "gpt-6-luna",
+        "error": null,
+        "incomplete_details": null,
+        "output": [
+          {
+            "id": "fc_0d5b0e2a4b4251a6006acb7578e79c87d289ded8c072638cd4",
+            "type": "function_call",
+            "status": "completed",
+            "name": "obtener_datos_del_caso",
+            "call_id": "call_7FOPSLHBB4XX23Gj1P9IDh7j",
+            "arguments": "{\"unidad_id\":\"sol:U2\"}"
+          }
+        ],
+        "usage": {
+          "input_tokens": 621,
+          "output_tokens": 26,
+          "total_tokens": 647,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "instructions": "LÓGICA DEL AGENTE ENCARGADO:\n1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.\n2. Si no hay casos que cumplan la condición anterior, pasa al punto 6.\n3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.\n4. Analiza los datos: si hay una respuesta plausible, armá la respuesta.\n5. Si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 6.\n6. Diligencia el JSON en RESPUESTA_JSON.\n\nResponde solo con el JSON.\n\nRESPUESTA_JSON:\n{\"desenlace\": \"respondida\", \"respuesta\": \"…\"}\n{\"desenlace\": \"no_esta_en_los_datos\", \"respuesta\": \"\"}",
+        "tool_choice": "auto",
+        "tools": [
+          {
+            "type": "function",
+            "name": "obtener_datos_del_caso",
+            "description": "Devuelve todos los datos de un caso del dominio. Se pide por su id.",
+            "strict": true,
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "unidad_id": {
+                  "type": "string",
+                  "description": "El id del caso, tal como figura en la lista de casos."
+                }
+              },
+              "required": [
+                "unidad_id"
+              ],
+              "additionalProperties": false
+            },
+            "output_schema": null
+          },
+          {
+            "type": "function",
+            "name": "preguntar_al_usuario",
+            "description": "Pregunta al usuario cuando la pregunta admite dos o más respuestas plausibles. Poné la situación y las respuestas posibles.",
+            "strict": true,
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "pregunta": {
+                  "type": "string",
+                  "description": "La situación, clara, sucinta y autocontenida."
+                },
+                "opciones": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Las dos o más respuestas plausibles."
+                }
+              },
+              "required": [
+                "pregunta",
+                "opciones"
+              ],
+              "additionalProperties": false
+            },
+            "output_schema": null
+          }
+        ],
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "low",
+          "mode": "standard",
+          "summary": null
+        },
+        "text": {
+          "verbosity": "medium",
+          "format": {
+            "type": "text"
+          }
+        },
+        "moderation": null
+      }
+    },
+    {
+      "id": "resp_0ccf4480b913581d006acb757a277487d2a7e39f33c1167458",
+      "object": "chat.completion",
+      "model": "gpt-6-luna",
+      "choices": [
+        {
+          "index": 0,
+          "finish_reason": "stop",
+          "message": {
+            "role": "assistant",
+            "content": "{\"desenlace\":\"respondida\",\"respuesta\":\"El Sol produce su energía en el núcleo, no en la superficie visible. Allí, la fusión nuclear une núcleos de hidrógeno para formar helio y libera energía. Estas reacciones ocurren a unos 15 millones de °C y una presión de alrededor de 250.000 millones de atmósferas. Los 5.500 °C corresponden a la superficie visible.\"}"
+          }
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 926,
+        "completion_tokens": 95,
+        "thinking_tokens": 0,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 926
+      },
+      "_segundos": 2.5,
+      "_respuesta": {
+        "id": "resp_0ccf4480b913581d006acb757a277487d2a7e39f33c1167458",
+        "object": "response",
+        "created_at": 1791718778,
+        "completed_at": 1791718779,
+        "status": "completed",
+        "parallel_tool_calls": true,
+        "temperature": 1,
+        "top_p": 0.98,
+        "max_output_tokens": 16000,
+        "previous_response_id": null,
+        "background": false,
+        "truncation": "disabled",
+        "top_logprobs": 0,
+        "max_tool_calls": null,
+        "prompt_cache_retention": "24h",
+        "model": "gpt-6-luna",
+        "error": null,
+        "incomplete_details": null,
+        "output": [
+          {
+            "id": "msg_0ccf4480b913581d006acb757acfd087d2b8d47091c553406b",
+            "type": "message",
+            "status": "completed",
+            "role": "assistant",
+            "phase": "final_answer",
+            "content": [
+              {
+                "type": "output_text",
+                "text": "{\"desenlace\":\"respondida\",\"respuesta\":\"El Sol produce su energía en el núcleo, no en la superficie visible. Allí, la fusión nuclear une núcleos de hidrógeno para formar helio y libera energía. Estas reacciones ocurren a unos 15 millones de °C y una presión de alrededor de 250.000 millones de atmósferas. Los 5.500 °C corresponden a la superficie visible.\"}",
+                "annotations": [],
+                "logprobs": []
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "input_tokens": 926,
+          "output_tokens": 95,
+          "total_tokens": 1021,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "instructions": "LÓGICA DEL AGENTE ENCARGADO:\n1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.\n2. Si no hay casos que cumplan la condición anterior, pasa al punto 6.\n3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.\n4. Analiza los datos: si hay una respuesta plausible, armá la respuesta.\n5. Si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 6.\n6. Diligencia el JSON en RESPUESTA_JSON.\n\nResponde solo con el JSON.\n\nRESPUESTA_JSON:\n{\"desenlace\": \"respondida\", \"respuesta\": \"…\"}\n{\"desenlace\": \"no_esta_en_los_datos\", \"respuesta\": \"\"}",
+        "tool_choice": "auto",
+        "tools": [
+          {
+            "type": "function",
+            "name": "obtener_datos_del_caso",
+            "description": "Devuelve todos los datos de un caso del dominio. Se pide por su id.",
+            "strict": true,
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "unidad_id": {
+                  "type": "string",
+                  "description": "El id del caso, tal como figura en la lista de casos."
+                }
+              },
+              "required": [
+                "unidad_id"
+              ],
+              "additionalProperties": false
+            },
+            "output_schema": null
+          },
+          {
+            "type": "function",
+            "name": "preguntar_al_usuario",
+            "description": "Pregunta al usuario cuando la pregunta admite dos o más respuestas plausibles. Poné la situación y las respuestas posibles.",
+            "strict": true,
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "pregunta": {
+                  "type": "string",
+                  "description": "La situación, clara, sucinta y autocontenida."
+                },
+                "opciones": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Las dos o más respuestas plausibles."
+                }
+              },
+              "required": [
+                "pregunta",
+                "opciones"
+              ],
+              "additionalProperties": false
+            },
+            "output_schema": null
+          }
+        ],
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "low",
+          "mode": "standard",
+          "summary": null
+        },
+        "text": {
+          "verbosity": "medium",
+          "format": {
+            "type": "text"
+          }
+        },
+        "moderation": null
+      }
+    }
+  ],
+  "mensajes_finales": [
+    {
+      "role": "system",
+      "content": "LÓGICA DEL AGENTE ENCARGADO:\n1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.\n2. Si no hay casos que cumplan la condición anterior, pasa al punto 6.\n3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.\n4. Analiza los datos: si hay una respuesta plausible, armá la respuesta.\n5. Si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 6.\n6. Diligencia el JSON en RESPUESTA_JSON.\n\nResponde solo con el JSON.\n\nRESPUESTA_JSON:\n{\"desenlace\": \"respondida\", \"respuesta\": \"…\"}\n{\"desenlace\": \"no_esta_en_los_datos\", \"respuesta\": \"\"}"
+    },
+    {
+      "role": "user",
+      "content": "ANCLAS: 11 de octubre de 2026, 06:39 (día y hora del sistema; no es dato del documento)\n\nCASOS:\n- preparacion_cafe:U1 · clasificación de los métodos de extracción y su efecto en la bebida\n- preparacion_cafe:U2 · recomendaciones generales para preparar café\n- preparacion_cafe:U3 · características de los métodos de inmersión\n- preparacion_cafe:U4 · características de los métodos de percolación o goteo manual\n- preparacion_cafe:U5 · características de los métodos de extracción por presión\n- sol:U1 · el Sol como fuente de energía y sus características principales\n- sol:U2 · la producción de energía en el interior del Sol y la temperatura de su superficie\n- sol:U3 · la energía solar en las cadenas alimentarias y los ecosistemas\n- sol:U4 · la influencia del calor solar en el ciclo del agua y el clima\n- sol:U5 · las tecnologías que aprovechan la energía solar para producir electricidad y calor\n\nPregunta: Un estudiante afirma que el Sol produce su energía en la superficie visible, a unos 5.500 °C. ¿Cómo corregirías esa explicación indicando el lugar, el proceso y las condiciones de temperatura y presión correspondientes?"
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "call_7FOPSLHBB4XX23Gj1P9IDh7j",
+          "type": "function",
+          "function": {
+            "name": "obtener_datos_del_caso",
+            "arguments": "{\"unidad_id\":\"sol:U2\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_7FOPSLHBB4XX23Gj1P9IDh7j",
+      "content": "{\"unidad_id\": \"sol:U2\", \"caso\": \"la producción de energía en el interior del Sol y la temperatura de su superficie\", \"datos\": [{\"id\": \"sol:U2:D1\", \"aspecto\": \"lugar donde se produce la energía del Sol\", \"valor\": \"el núcleo\", \"unidad_valor\": null}, {\"id\": \"sol:U2:D2\", \"aspecto\": \"temperatura del núcleo del Sol\", \"valor\": \"unos 15 millones\", \"unidad_valor\": \"°C\"}, {\"id\": \"sol:U2:D3\", \"aspecto\": \"presión en el núcleo del Sol\", \"valor\": \"ronda los 250.000 millones\", \"unidad_valor\": \"atmósferas\"}, {\"id\": \"sol:U2:D4\", \"aspecto\": \"proceso que produce energía en el núcleo del Sol\", \"valor\": \"la fusión une núcleos de hidrógeno para formar helio y libera energía\", \"unidad_valor\": null}, {\"id\": \"sol:U2:D5\", \"aspecto\": \"temperatura de la superficie visible del Sol\", \"valor\": \"unos 5.500\", \"unidad_valor\": \"°C\"}]}"
+    }
+  ],
+  "recorrido": [
+    {
+      "pidio": [
+        {
+          "herramienta": "obtener_datos_del_caso",
+          "argumentos": "{\"unidad_id\":\"sol:U2\"}"
+        }
+      ]
+    },
+    {
+      "volvio": "{\"unidad_id\": \"sol:U2\", \"caso\": \"la producción de energía en el interior del Sol y la temperatura de su superficie\", \"datos\": [{\"id\": \"sol:U2:D1\", \"aspecto\": \"lugar donde se produce la energía del Sol\", \"valor\": \"el núcleo\", \"unidad_valor\": null}, {\"id\": \"sol:U2:D2\", \"aspecto\": \"temperatura del núcleo del Sol\", \"valor\": \"unos 15 millones\", \"unidad_valor\": \"°C\"}, {\"id\": \"sol:U2:D3\", \"aspecto\": \"presión en el núcleo del Sol\", \"valor\": \"ronda los 250.000 millones\", \"unidad_valor\": \"atmósferas\"}, {\"id\": \"sol:U2:D4\", \"aspecto\": \"proceso que produce energía en el núcleo del Sol\", \"valor\": \"la fusión…"
+    }
+  ]
+}

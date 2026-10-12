@@ -1,0 +1,305 @@
+{
+  "doc": "sol",
+  "cuerpo_sha256": "d77a54241483374534df086038b26ee9bb1d40ad4df17049b58019533318fed5",
+  "alias": "haiku",
+  "modelo": "claude-haiku-5-5",
+  "esfuerzo": "high",
+  "rN": "n1",
+  "segundos": 7.2,
+  "prompt": "temp/ut-sin-marcas/prompt_UT_v1.md",
+  "hash_prompt": "8e1cfedd9dfa91a2586ae3f464198f775127495810b395de3963ce4408cb48e1",
+  "prompt_texto": "[SISTEMA]\nTAREA\nCrea unidades temáticas (UT).\nResponde solo con el JSON.\n\nOBSERVACIONES:\n- Las oraciones en las UT son literales, tal como aparecen en `texto`.\n- La forma es el contrato: no agregues claves fuera de las que define `SALIDA`.\n\nDEFINICIONES\n- Una oración es la unidad sintáctica independiente más pequeña capaz de articular una relación de predicación completa.\n- Una unidad temática (UT) es un subtema y una o varias oraciones que proyectan relación de concordancia entre un sujeto y un predicado; no contiene variables no ligadas por cuantificadores ni dependencias deícticas no resueltas. Al poseer todas sus posiciones argumentales saturadas, la UT tiene la capacidad formal de denotar un valor de verdad (Verdadero o Falso) respecto de un modelo o mundo posible.\n- Nombre del subtema: una frase breve que describe por sí sola el contenido de la UT.\n- Todas y cada una de las oraciones de `texto` van en una sola UT.\n\nEJEMPLO 1\nCada UT junta las oraciones que desarrollan una misma idea.\n\n`texto`\n<<<\nEl océano cubre el setenta y uno por ciento de la superficie del planeta. Su profundidad media es de tres mil setecientos metros, y en los fondos abisales la temperatura ronda los dos grados centígrados.\n\nLa vida apareció en él hace unos tres mil quinientos millones de años. Los primeros seres vivos fueron microorganismos de unas pocas micras, y durante casi tres mil millones de años el mar fue el único lugar habitado. El océano regula además el clima: absorbe el calor que la atmósfera retiene en el verano. Las corrientes que lo recorren reparten ese calor por el planeta y lo devuelven en el invierno.\n>>>\n{\"unidades\": [\n  {\"subtema\": \"el océano: su extensión, profundidad y temperatura\", \"oraciones\": [\n    \"El océano cubre el setenta y uno por ciento de la superficie del planeta.\",\n    \"Su profundidad media es de tres mil setecientos metros, y en los fondos abisales la temperatura ronda los dos grados centígrados.\"]},\n  {\"subtema\": \"el origen de la vida en el océano\", \"oraciones\": [\n    \"La vida apareció en él hace unos tres mil quinientos millones de años.\"]},\n  {\"subtema\": \"los primeros seres vivos y el tiempo en que el mar fue el único lugar habitado\", \"oraciones\": [\n    \"Los primeros seres vivos fueron microorganismos de unas pocas micras, y durante casi tres mil millones de años el mar fue el único lugar habitado.\"]},\n  {\"subtema\": \"el papel del océano en la regulación del clima\", \"oraciones\": [\n    \"El océano regula además el clima: absorbe el calor que la atmósfera retiene en el verano.\",\n    \"Las corrientes que lo recorren reparten ese calor por el planeta y lo devuelven en el invierno.\"]}]}\n\nEJEMPLO 2\nEs el texto completo de un documento, en cuatro apuntes. Mira tres cosas en la\nrespuesta: hay UT de una sola oración; el nombre dice **qué se dice**, no de qué se\nhabla; y el mismo caso —la anemia falciforme— aparece en varias UT.\n\n`texto`\n<<<\nLa anemia falciforme se debe al cambio de una sola letra en el gen de la beta globina, que está en el cromosoma once. En la posición seis de la proteína, un ácido glutámico queda sustituido por una valina. La hemoglobina que resulta, llamada hemoglobina S, se agrupa en fibras rígidas cuando le falta oxígeno. Esas fibras deforman los glóbulos rojos, que pierden su forma de disco y toman la de una hoz. Un glóbulo rojo sano vive unos ciento veinte días; uno falciforme, entre diez y veinte.\n\nLa enfermedad se describió hace más de un siglo, en mil novecientos diez, cuando un médico de Chicago observó glóbulos alargados en la sangre de un estudiante. En mil novecientos cuarenta y nueve, Linus Pauling mostró que la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico. Vernon Ingram identificó en mil novecientos cincuenta y siete el aminoácido sustituido. Él la llamó una enfermedad molecular. Ese hallazgo convirtió a la anemia falciforme en la primera enfermedad explicada por un cambio en una proteína.\n\nLa herencia es recesiva: quien recibe una sola copia alterada es portador y casi nunca enferma. Si ambos padres son portadores, cada embarazo tiene una probabilidad de uno en cuatro de dar un hijo enfermo. Los portadores, en cambio, resisten mejor la malaria grave. Según los estudios de campo, esa ventaja reduce su riesgo de malaria grave en cerca de un noventa por ciento. Por eso, en algunas regiones de África, hasta uno de cada cuatro habitantes lleva la mutación.\n\nSegún la Organización Mundial de la Salud, cada año nacen unos trescientos mil niños con formas graves de la enfermedad. Su tratamiento clásico es la hidroxiurea, que aumenta la hemoglobina fetal, aprobada para adultos en mil novecientos noventa y ocho. En diciembre de dos mil veintitrés se aprobó la primera terapia basada en la edición genética con CRISPR. En el ensayo principal, veintinueve de treinta pacientes pasaron al menos un año sin crisis de dolor. Cada tratamiento cuesta unos dos millones de dólares.\n>>>\n{\"unidades\": [\n  {\"subtema\": \"la causa molecular de la anemia falciforme y la deformación de los glóbulos rojos\", \"oraciones\": [\n    \"La anemia falciforme se debe al cambio de una sola letra en el gen de la beta globina, que está en el cromosoma once.\",\n    \"En la posición seis de la proteína, un ácido glutámico queda sustituido por una valina.\",\n    \"La hemoglobina que resulta, llamada hemoglobina S, se agrupa en fibras rígidas cuando le falta oxígeno.\",\n    \"Esas fibras deforman los glóbulos rojos, que pierden su forma de disco y toman la de una hoz.\"]},\n  {\"subtema\": \"la vida de un glóbulo rojo sano y la de uno falciforme\", \"oraciones\": [\n    \"Un glóbulo rojo sano vive unos ciento veinte días; uno falciforme, entre diez y veinte.\"]},\n  {\"subtema\": \"la primera descripción clínica de la enfermedad\", \"oraciones\": [\n    \"La enfermedad se describió hace más de un siglo, en mil novecientos diez, cuando un médico de Chicago observó glóbulos alargados en la sangre de un estudiante.\"]},\n  {\"subtema\": \"la migración distinta de la hemoglobina de los enfermos en un campo eléctrico\", \"oraciones\": [\n    \"En mil novecientos cuarenta y nueve, Linus Pauling mostró que la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico.\"]},\n  {\"subtema\": \"el aminoácido sustituido y la primera enfermedad explicada por un cambio en una proteína\", \"oraciones\": [\n    \"Vernon Ingram identificó en mil novecientos cincuenta y siete el aminoácido sustituido.\",\n    \"Él la llamó una enfermedad molecular.\",\n    \"Ese hallazgo convirtió a la anemia falciforme en la primera enfermedad explicada por un cambio en una proteína.\"]},\n  {\"subtema\": \"la herencia recesiva y la probabilidad de tener un hijo enfermo\", \"oraciones\": [\n    \"La herencia es recesiva: quien recibe una sola copia alterada es portador y casi nunca enferma.\",\n    \"Si ambos padres son portadores, cada embarazo tiene una probabilidad de uno en cuatro de dar un hijo enfermo.\"]},\n  {\"subtema\": \"la resistencia de los portadores a la malaria grave y su frecuencia en África\", \"oraciones\": [\n    \"Los portadores, en cambio, resisten mejor la malaria grave.\",\n    \"Según los estudios de campo, esa ventaja reduce su riesgo de malaria grave en cerca de un noventa por ciento.\",\n    \"Por eso, en algunas regiones de África, hasta uno de cada cuatro habitantes lleva la mutación.\"]},\n  {\"subtema\": \"los niños que nacen cada año con formas graves de la enfermedad\", \"oraciones\": [\n    \"Según la Organización Mundial de la Salud, cada año nacen unos trescientos mil niños con formas graves de la enfermedad.\"]},\n  {\"subtema\": \"el tratamiento clásico con hidroxiurea\", \"oraciones\": [\n    \"Su tratamiento clásico es la hidroxiurea, que aumenta la hemoglobina fetal, aprobada para adultos en mil novecientos noventa y ocho.\"]},\n  {\"subtema\": \"la primera terapia con edición genética y su resultado en el ensayo\", \"oraciones\": [\n    \"En diciembre de dos mil veintitrés se aprobó la primera terapia basada en la edición genética con CRISPR.\",\n    \"En el ensayo principal, veintinueve de treinta pacientes pasaron al menos un año sin crisis de dolor.\"]},\n  {\"subtema\": \"el costo de cada tratamiento\", \"oraciones\": [\n    \"Cada tratamiento cuesta unos dos millones de dólares.\"]}]}\n\nSALIDA\nDevuelve únicamente el JSON, con esta estructura:\n\n{\"unidades\": [\n  {\"subtema\": \"…\", \"oraciones\": [\"…\", \"…\"]},\n  {\"subtema\": \"…\", \"oraciones\": [\"…\"]}]}\n\n[TAREA]\n`texto`\n<<<\n{{TEXTO}}\n>>>\n",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 4039,
+    "completion_tokens": 2024,
+    "total_tokens": 6063,
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 4039,
+    "thinking_tokens": 1089,
+    "anthropic": {
+      "input_tokens": 602,
+      "cache_creation_input_tokens": 3437,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 3437,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 2024,
+      "output_tokens_details": {
+        "thinking_tokens": 1089
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  },
+  "cuerpo_enviado": {
+    "model": "claude-haiku-5-5",
+    "max_tokens": 64000,
+    "thinking": {
+      "type": "adaptive",
+      "display": "summarized"
+    },
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "`texto`\n<<<\nEl Sol es la principal fuente de energía de la Tierra. Situado a unos 150 millones de kilómetros de nuestro planeta, tiene aproximadamente 1,4 millones de kilómetros de diámetro. Aunque está muy lejos, su luz y su calor hacen posible la vida que conocemos.\n\nSu energía se produce en el núcleo, donde la temperatura alcanza unos 15 millones de °C y la presión ronda los 250.000 millones de atmósferas. Allí, la fusión une núcleos de hidrógeno para formar helio y libera energía. La superficie visible es mucho menos caliente: unos 5.500 °C.\n\nEsa energía sostiene las cadenas alimentarias. Mediante la fotosíntesis, las plantas aprovechan la luz para producir su alimento. Los animales que comen plantas reciben parte de esa energía, que también pasa a sus depredadores. Así, el Sol sostiene tanto los cultivos como numerosos ecosistemas.\n\nEl calor solar también impulsa el ciclo del agua: favorece la evaporación, y el vapor puede formar nubes y regresar como lluvia. Además, la superficie terrestre se calienta de manera desigual. Estas diferencias contribuyen al movimiento del aire y del océano, influyendo en el clima.\n\nLas personas aprovechan esta fuente de energía mediante distintas tecnologías. Los paneles fotovoltaicos convierten la luz en electricidad, mientras que los colectores solares permiten calentar agua. Aunque ambos utilizan radiación solar, cumplen funciones diferentes: unos alimentan aparatos eléctricos y otros suministran calor para usos cotidianos.\n>>>"
+          }
+        ]
+      }
+    ],
+    "output_config": {
+      "effort": "high"
+    },
+    "system": [
+      {
+        "type": "text",
+        "text": "TAREA\nCrea unidades temáticas (UT).\nResponde solo con el JSON.\n\nOBSERVACIONES:\n- Las oraciones en las UT son literales, tal como aparecen en `texto`.\n- La forma es el contrato: no agregues claves fuera de las que define `SALIDA`.\n\nDEFINICIONES\n- Una oración es la unidad sintáctica independiente más pequeña capaz de articular una relación de predicación completa.\n- Una unidad temática (UT) es un subtema y una o varias oraciones que proyectan relación de concordancia entre un sujeto y un predicado; no contiene variables no ligadas por cuantificadores ni dependencias deícticas no resueltas. Al poseer todas sus posiciones argumentales saturadas, la UT tiene la capacidad formal de denotar un valor de verdad (Verdadero o Falso) respecto de un modelo o mundo posible.\n- Nombre del subtema: una frase breve que describe por sí sola el contenido de la UT.\n- Todas y cada una de las oraciones de `texto` van en una sola UT.\n\nEJEMPLO 1\nCada UT junta las oraciones que desarrollan una misma idea.\n\n`texto`\n<<<\nEl océano cubre el setenta y uno por ciento de la superficie del planeta. Su profundidad media es de tres mil setecientos metros, y en los fondos abisales la temperatura ronda los dos grados centígrados.\n\nLa vida apareció en él hace unos tres mil quinientos millones de años. Los primeros seres vivos fueron microorganismos de unas pocas micras, y durante casi tres mil millones de años el mar fue el único lugar habitado. El océano regula además el clima: absorbe el calor que la atmósfera retiene en el verano. Las corrientes que lo recorren reparten ese calor por el planeta y lo devuelven en el invierno.\n>>>\n{\"unidades\": [\n  {\"subtema\": \"el océano: su extensión, profundidad y temperatura\", \"oraciones\": [\n    \"El océano cubre el setenta y uno por ciento de la superficie del planeta.\",\n    \"Su profundidad media es de tres mil setecientos metros, y en los fondos abisales la temperatura ronda los dos grados centígrados.\"]},\n  {\"subtema\": \"el origen de la vida en el océano\", \"oraciones\": [\n    \"La vida apareció en él hace unos tres mil quinientos millones de años.\"]},\n  {\"subtema\": \"los primeros seres vivos y el tiempo en que el mar fue el único lugar habitado\", \"oraciones\": [\n    \"Los primeros seres vivos fueron microorganismos de unas pocas micras, y durante casi tres mil millones de años el mar fue el único lugar habitado.\"]},\n  {\"subtema\": \"el papel del océano en la regulación del clima\", \"oraciones\": [\n    \"El océano regula además el clima: absorbe el calor que la atmósfera retiene en el verano.\",\n    \"Las corrientes que lo recorren reparten ese calor por el planeta y lo devuelven en el invierno.\"]}]}\n\nEJEMPLO 2\nEs el texto completo de un documento, en cuatro apuntes. Mira tres cosas en la\nrespuesta: hay UT de una sola oración; el nombre dice **qué se dice**, no de qué se\nhabla; y el mismo caso —la anemia falciforme— aparece en varias UT.\n\n`texto`\n<<<\nLa anemia falciforme se debe al cambio de una sola letra en el gen de la beta globina, que está en el cromosoma once. En la posición seis de la proteína, un ácido glutámico queda sustituido por una valina. La hemoglobina que resulta, llamada hemoglobina S, se agrupa en fibras rígidas cuando le falta oxígeno. Esas fibras deforman los glóbulos rojos, que pierden su forma de disco y toman la de una hoz. Un glóbulo rojo sano vive unos ciento veinte días; uno falciforme, entre diez y veinte.\n\nLa enfermedad se describió hace más de un siglo, en mil novecientos diez, cuando un médico de Chicago observó glóbulos alargados en la sangre de un estudiante. En mil novecientos cuarenta y nueve, Linus Pauling mostró que la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico. Vernon Ingram identificó en mil novecientos cincuenta y siete el aminoácido sustituido. Él la llamó una enfermedad molecular. Ese hallazgo convirtió a la anemia falciforme en la primera enfermedad explicada por un cambio en una proteína.\n\nLa herencia es recesiva: quien recibe una sola copia alterada es portador y casi nunca enferma. Si ambos padres son portadores, cada embarazo tiene una probabilidad de uno en cuatro de dar un hijo enfermo. Los portadores, en cambio, resisten mejor la malaria grave. Según los estudios de campo, esa ventaja reduce su riesgo de malaria grave en cerca de un noventa por ciento. Por eso, en algunas regiones de África, hasta uno de cada cuatro habitantes lleva la mutación.\n\nSegún la Organización Mundial de la Salud, cada año nacen unos trescientos mil niños con formas graves de la enfermedad. Su tratamiento clásico es la hidroxiurea, que aumenta la hemoglobina fetal, aprobada para adultos en mil novecientos noventa y ocho. En diciembre de dos mil veintitrés se aprobó la primera terapia basada en la edición genética con CRISPR. En el ensayo principal, veintinueve de treinta pacientes pasaron al menos un año sin crisis de dolor. Cada tratamiento cuesta unos dos millones de dólares.\n>>>\n{\"unidades\": [\n  {\"subtema\": \"la causa molecular de la anemia falciforme y la deformación de los glóbulos rojos\", \"oraciones\": [\n    \"La anemia falciforme se debe al cambio de una sola letra en el gen de la beta globina, que está en el cromosoma once.\",\n    \"En la posición seis de la proteína, un ácido glutámico queda sustituido por una valina.\",\n    \"La hemoglobina que resulta, llamada hemoglobina S, se agrupa en fibras rígidas cuando le falta oxígeno.\",\n    \"Esas fibras deforman los glóbulos rojos, que pierden su forma de disco y toman la de una hoz.\"]},\n  {\"subtema\": \"la vida de un glóbulo rojo sano y la de uno falciforme\", \"oraciones\": [\n    \"Un glóbulo rojo sano vive unos ciento veinte días; uno falciforme, entre diez y veinte.\"]},\n  {\"subtema\": \"la primera descripción clínica de la enfermedad\", \"oraciones\": [\n    \"La enfermedad se describió hace más de un siglo, en mil novecientos diez, cuando un médico de Chicago observó glóbulos alargados en la sangre de un estudiante.\"]},\n  {\"subtema\": \"la migración distinta de la hemoglobina de los enfermos en un campo eléctrico\", \"oraciones\": [\n    \"En mil novecientos cuarenta y nueve, Linus Pauling mostró que la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico.\"]},\n  {\"subtema\": \"el aminoácido sustituido y la primera enfermedad explicada por un cambio en una proteína\", \"oraciones\": [\n    \"Vernon Ingram identificó en mil novecientos cincuenta y siete el aminoácido sustituido.\",\n    \"Él la llamó una enfermedad molecular.\",\n    \"Ese hallazgo convirtió a la anemia falciforme en la primera enfermedad explicada por un cambio en una proteína.\"]},\n  {\"subtema\": \"la herencia recesiva y la probabilidad de tener un hijo enfermo\", \"oraciones\": [\n    \"La herencia es recesiva: quien recibe una sola copia alterada es portador y casi nunca enferma.\",\n    \"Si ambos padres son portadores, cada embarazo tiene una probabilidad de uno en cuatro de dar un hijo enfermo.\"]},\n  {\"subtema\": \"la resistencia de los portadores a la malaria grave y su frecuencia en África\", \"oraciones\": [\n    \"Los portadores, en cambio, resisten mejor la malaria grave.\",\n    \"Según los estudios de campo, esa ventaja reduce su riesgo de malaria grave en cerca de un noventa por ciento.\",\n    \"Por eso, en algunas regiones de África, hasta uno de cada cuatro habitantes lleva la mutación.\"]},\n  {\"subtema\": \"los niños que nacen cada año con formas graves de la enfermedad\", \"oraciones\": [\n    \"Según la Organización Mundial de la Salud, cada año nacen unos trescientos mil niños con formas graves de la enfermedad.\"]},\n  {\"subtema\": \"el tratamiento clásico con hidroxiurea\", \"oraciones\": [\n    \"Su tratamiento clásico es la hidroxiurea, que aumenta la hemoglobina fetal, aprobada para adultos en mil novecientos noventa y ocho.\"]},\n  {\"subtema\": \"la primera terapia con edición genética y su resultado en el ensayo\", \"oraciones\": [\n    \"En diciembre de dos mil veintitrés se aprobó la primera terapia basada en la edición genética con CRISPR.\",\n    \"En el ensayo principal, veintinueve de treinta pacientes pasaron al menos un año sin crisis de dolor.\"]},\n  {\"subtema\": \"el costo de cada tratamiento\", \"oraciones\": [\n    \"Cada tratamiento cuesta unos dos millones de dólares.\"]}]}\n\nSALIDA\nDevuelve únicamente el JSON, con esta estructura:\n\n{\"unidades\": [\n  {\"subtema\": \"…\", \"oraciones\": [\"…\", \"…\"]},\n  {\"subtema\": \"…\", \"oraciones\": [\"…\"]}]}",
+        "cache_control": {
+          "type": "ephemeral"
+        }
+      }
+    ]
+  },
+  "respuesta_cruda": "{\"unidades\": [\n  {\"subtema\": \"el Sol es la principal fuente de energía de la Tierra, a gran distancia pero con luz y calor que hacen posible la vida\", \"oraciones\": [\n    \"El Sol es la principal fuente de energía de la Tierra.\",\n    \"Situado a unos 150 millones de kilómetros de nuestro planeta, tiene aproximadamente 1,4 millones de kilómetros de diámetro.\",\n    \"Aunque está muy lejos, su luz y su calor hacen posible la vida que conocemos.\"]},\n  {\"subtema\": \"la energía solar se produce en el núcleo por fusión, y la superficie visible es mucho menos caliente\", \"oraciones\": [\n    \"Su energía se produce en el núcleo, donde la temperatura alcanza unos 15 millones de °C y la presión ronda los 250.000 millones de atmósferas.\",\n    \"Allí, la fusión une núcleos de hidrógeno para formar helio y libera energía.\",\n    \"La superficie visible es mucho menos caliente: unos 5.500 °C.\"]},\n  {\"subtema\": \"la energía solar sostiene las cadenas alimentarias, desde las plantas hasta los depredadores\", \"oraciones\": [\n    \"Esa energía sostiene las cadenas alimentarias.\",\n    \"Mediante la fotosíntesis, las plantas aprovechan la luz para producir su alimento.\",\n    \"Los animales que comen plantas reciben parte de esa energía, que también pasa a sus depredadores.\",\n    \"Así, el Sol sostiene tanto los cultivos como numerosos ecosistemas.\"]},\n  {\"subtema\": \"el calor solar impulsa el ciclo del agua y el movimiento del aire y del océano que influye en el clima\", \"oraciones\": [\n    \"El calor solar también impulsa el ciclo del agua: favorece la evaporación, y el vapor puede formar nubes y regresar como lluvia.\",\n    \"Además, la superficie terrestre se calienta de manera desigual.\",\n    \"Estas diferencias contribuyen al movimiento del aire y del océano, influyendo en el clima.\"]},\n  {\"subtema\": \"las tecnologías que aprovechan la energía solar: paneles fotovoltaicos para electricidad y colectores para calor\", \"oraciones\": [\n    \"Las personas aprovechan esta fuente de energía mediante distintas tecnologías.\",\n    \"Los paneles fotovoltaicos convierten la luz en electricidad, mientras que los colectores solares permiten calentar agua.\",\n    \"Aunque ambos utilizan radiación solar, cumplen funciones diferentes: unos alimentan aparatos eléctricos y otros suministran calor para usos cotidianos.\"]}]}",
+  "unidades": [
+    {
+      "subtema": "el Sol es la principal fuente de energía de la Tierra, a gran distancia pero con luz y calor que hacen posible la vida",
+      "oraciones": [
+        "El Sol es la principal fuente de energía de la Tierra.",
+        "Situado a unos 150 millones de kilómetros de nuestro planeta, tiene aproximadamente 1,4 millones de kilómetros de diámetro.",
+        "Aunque está muy lejos, su luz y su calor hacen posible la vida que conocemos."
+      ]
+    },
+    {
+      "subtema": "la energía solar se produce en el núcleo por fusión, y la superficie visible es mucho menos caliente",
+      "oraciones": [
+        "Su energía se produce en el núcleo, donde la temperatura alcanza unos 15 millones de °C y la presión ronda los 250.000 millones de atmósferas.",
+        "Allí, la fusión une núcleos de hidrógeno para formar helio y libera energía.",
+        "La superficie visible es mucho menos caliente: unos 5.500 °C."
+      ]
+    },
+    {
+      "subtema": "la energía solar sostiene las cadenas alimentarias, desde las plantas hasta los depredadores",
+      "oraciones": [
+        "Esa energía sostiene las cadenas alimentarias.",
+        "Mediante la fotosíntesis, las plantas aprovechan la luz para producir su alimento.",
+        "Los animales que comen plantas reciben parte de esa energía, que también pasa a sus depredadores.",
+        "Así, el Sol sostiene tanto los cultivos como numerosos ecosistemas."
+      ]
+    },
+    {
+      "subtema": "el calor solar impulsa el ciclo del agua y el movimiento del aire y del océano que influye en el clima",
+      "oraciones": [
+        "El calor solar también impulsa el ciclo del agua: favorece la evaporación, y el vapor puede formar nubes y regresar como lluvia.",
+        "Además, la superficie terrestre se calienta de manera desigual.",
+        "Estas diferencias contribuyen al movimiento del aire y del océano, influyendo en el clima."
+      ]
+    },
+    {
+      "subtema": "las tecnologías que aprovechan la energía solar: paneles fotovoltaicos para electricidad y colectores para calor",
+      "oraciones": [
+        "Las personas aprovechan esta fuente de energía mediante distintas tecnologías.",
+        "Los paneles fotovoltaicos convierten la luz en electricidad, mientras que los colectores solares permiten calentar agua.",
+        "Aunque ambos utilizan radiación solar, cumplen funciones diferentes: unos alimentan aparatos eléctricos y otros suministran calor para usos cotidianos."
+      ]
+    }
+  ],
+  "informe": {
+    "oraciones_del_texto": 16,
+    "frases": [
+      "El Sol es la principal fuente de energía de la Tierra.",
+      "Situado a unos 150 millones de kilómetros de nuestro planeta, tiene aproximadamente 1,4 millones de kilómetros de diámetro.",
+      "Aunque está muy lejos, su luz y su calor hacen posible la vida que conocemos.",
+      "Su energía se produce en el núcleo, donde la temperatura alcanza unos 15 millones de °C y la presión ronda los 250.000 millones de atmósferas.",
+      "Allí, la fusión une núcleos de hidrógeno para formar helio y libera energía.",
+      "La superficie visible es mucho menos caliente: unos 5.500 °C.",
+      "Esa energía sostiene las cadenas alimentarias.",
+      "Mediante la fotosíntesis, las plantas aprovechan la luz para producir su alimento.",
+      "Los animales que comen plantas reciben parte de esa energía, que también pasa a sus depredadores.",
+      "Así, el Sol sostiene tanto los cultivos como numerosos ecosistemas.",
+      "El calor solar también impulsa el ciclo del agua: favorece la evaporación, y el vapor puede formar nubes y regresar como lluvia.",
+      "Además, la superficie terrestre se calienta de manera desigual.",
+      "Estas diferencias contribuyen al movimiento del aire y del océano, influyendo en el clima.",
+      "Las personas aprovechan esta fuente de energía mediante distintas tecnologías.",
+      "Los paneles fotovoltaicos convierten la luz en electricidad, mientras que los colectores solares permiten calentar agua.",
+      "Aunque ambos utilizan radiación solar, cumplen funciones diferentes: unos alimentan aparatos eléctricos y otros suministran calor para usos cotidianos."
+    ],
+    "unidades": 5,
+    "literales": 16,
+    "no_ubicadas": [],
+    "solapes": [],
+    "cubiertas": 16,
+    "tramos": [
+      [
+        0,
+        54
+      ],
+      [
+        55,
+        178
+      ],
+      [
+        179,
+        256
+      ],
+      [
+        258,
+        400
+      ],
+      [
+        401,
+        477
+      ],
+      [
+        478,
+        539
+      ],
+      [
+        541,
+        587
+      ],
+      [
+        588,
+        670
+      ],
+      [
+        671,
+        768
+      ],
+      [
+        769,
+        836
+      ],
+      [
+        838,
+        966
+      ],
+      [
+        967,
+        1030
+      ],
+      [
+        1031,
+        1121
+      ],
+      [
+        1123,
+        1201
+      ],
+      [
+        1202,
+        1322
+      ],
+      [
+        1323,
+        1474
+      ]
+    ],
+    "por_unidad": [
+      {
+        "subtema": "el Sol es la principal fuente de energía de la Tierra, a gran distancia pero con luz y calor que hacen posible la vida",
+        "oraciones": 3,
+        "tramos": [
+          [
+            0,
+            54
+          ],
+          [
+            55,
+            178
+          ],
+          [
+            179,
+            256
+          ]
+        ],
+        "ausentes": []
+      },
+      {
+        "subtema": "la energía solar se produce en el núcleo por fusión, y la superficie visible es mucho menos caliente",
+        "oraciones": 3,
+        "tramos": [
+          [
+            258,
+            400
+          ],
+          [
+            401,
+            477
+          ],
+          [
+            478,
+            539
+          ]
+        ],
+        "ausentes": []
+      },
+      {
+        "subtema": "la energía solar sostiene las cadenas alimentarias, desde las plantas hasta los depredadores",
+        "oraciones": 4,
+        "tramos": [
+          [
+            541,
+            587
+          ],
+          [
+            588,
+            670
+          ],
+          [
+            671,
+            768
+          ],
+          [
+            769,
+            836
+          ]
+        ],
+        "ausentes": []
+      },
+      {
+        "subtema": "el calor solar impulsa el ciclo del agua y el movimiento del aire y del océano que influye en el clima",
+        "oraciones": 3,
+        "tramos": [
+          [
+            838,
+            966
+          ],
+          [
+            967,
+            1030
+          ],
+          [
+            1031,
+            1121
+          ]
+        ],
+        "ausentes": []
+      },
+      {
+        "subtema": "las tecnologías que aprovechan la energía solar: paneles fotovoltaicos para electricidad y colectores para calor",
+        "oraciones": 3,
+        "tramos": [
+          [
+            1123,
+            1201
+          ],
+          [
+            1202,
+            1322
+          ],
+          [
+            1323,
+            1474
+          ]
+        ],
+        "ausentes": []
+      }
+    ]
+  },
+  "error_parseo": null
+}

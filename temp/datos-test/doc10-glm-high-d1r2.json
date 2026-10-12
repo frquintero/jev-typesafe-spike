@@ -1,0 +1,272 @@
+{
+  "doc": "doc10",
+  "documento": "temp/doc10.md",
+  "alias": "glm",
+  "modelo": "glm-5.3-flash",
+  "esfuerzo": "high",
+  "rN": "d1r2",
+  "unidades_origen": "temp/ut-haiku/doc10-haiku-high-tr1.json",
+  "unidades": [
+    {
+      "caso": "la época y la extensión de la civilización del Indo",
+      "contenido": "La civilización del valle del Indo floreció entre el dos mil seiscientos y el mil novecientos antes de nuestra era, en lo que hoy son Pakistán y el noroeste de la India. Ocupaba cerca de un millón de kilómetros cuadrados, una extensión mayor que la de Egipto y Mesopotamia juntas."
+    },
+    {
+      "caso": "las ciudades de Harappa y Mohenjo-daro y la población de esta última",
+      "contenido": "Sus dos ciudades más estudiadas son Harappa y Mohenjo-daro, separadas por unos seiscientos kilómetros. Según las estimaciones más citadas, Mohenjo-daro llegó a tener unos cuarenta mil habitantes."
+    },
+    {
+      "caso": "el urbanismo: calles en cuadrícula, desagües, ladrillos normalizados y el Gran Baño impermeabilizado",
+      "contenido": "Las calles se trazaban en cuadrícula y casi todas las casas tenían acceso a un desagüe cubierto. Ese sistema no tiene equivalente en otras ciudades de la época. Los ladrillos cocidos guardaban siempre la proporción de uno a dos a cuatro entre grosor, ancho y largo. En el centro de Mohenjo-daro se levanta el llamado Gran Baño, de doce metros por siete y unos dos metros y medio de profundidad. Para impermeabilizarlo, sus constructores sellaron las juntas con betún."
+    },
+    {
+      "caso": "los sellos, la escritura sin descifrar y las pesas como pruebas del comercio",
+      "contenido": "Los comerciantes del Indo usaban sellos de esteatita tallados con animales y signos. Se conocen unas cuatro mil inscripciones, casi todas muy breves, con cerca de cuatrocientos signos distintos. Esa escritura no ha sido descifrada. Textos mesopotámicos mencionan un país llamado Meluhha, de donde llegaban barcos con cornalina y marfil; la mayoría de los historiadores lo identifica con el valle del Indo. Las pesas de piedra seguían un mismo patrón en toda la región: cada una pesaba el doble de la anterior, hasta llegar a sesenta y cuatro veces la más pequeña."
+    },
+    {
+      "caso": "las excavaciones de Marshall y Wheeler y la hipótesis de la invasión",
+      "contenido": "John Marshall anunció el descubrimiento de Mohenjo-daro en mil novecientos veinticuatro y Mortimer Wheeler retomó las excavaciones en los años cuarenta. Él atribuyó el final a una invasión, una idea que hoy casi nadie sostiene."
+    },
+    {
+      "caso": "el abandono de las grandes ciudades y sus causas climáticas",
+      "contenido": "Hacia el mil novecientos antes de nuestra era, las grandes ciudades se fueron vaciando. Los estudios recientes apuntan a un debilitamiento del monzón: si la sequía duró unos doscientos años, como sugieren los sedimentos de los lagos, los campos de cereal no pudieron sostener a las ciudades. Hace unos cuatro mil años, el río Ghaggar-Hakra, que corría al este del Indo, dejó de llevar agua todo el año."
+    }
+  ],
+  "segundos": 118.2,
+  "prompt": "temp/datos-decisiones/prompt_DATOS_decisiones_v7.md",
+  "hash_prompt": "6c362409fdf6225cfff2a3e65abb1c197527a7ca5bcd8ee7d2270625167bd05f",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 8101,
+    "completion_tokens_details": {
+      "reasoning_tokens": 6401
+    },
+    "prompt_tokens": 2012,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 10113,
+    "thinking_tokens": 6401
+  },
+  "salida": [
+    {
+      "n": 1,
+      "caso": "la época y la extensión de la civilización del Indo",
+      "datos": [
+        {
+          "aspecto": "época de florecimiento de la civilización del valle del Indo",
+          "valor": "entre el dos mil seiscientos y el mil novecientos antes de nuestra era",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "territorio donde floreció la civilización del valle del Indo",
+          "valor": "lo que hoy son Pakistán y el noroeste de la India",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "extensión que ocupaba la civilización del valle del Indo",
+          "valor": "cerca de un millón",
+          "unidad_valor": "kilómetros cuadrados"
+        },
+        {
+          "aspecto": "extensión de la civilización del valle del Indo comparada con la de Egipto y Mesopotamia juntas",
+          "valor": "mayor",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "caso": "las ciudades de Harappa y Mohenjo-daro y la población de esta última",
+      "datos": [
+        {
+          "aspecto": "ciudades más estudiadas (las de la civilización del valle del Indo)",
+          "valor": "Harappa y Mohenjo-daro",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "distancia entre Harappa y Mohenjo-daro",
+          "valor": "unos seiscientos",
+          "unidad_valor": "kilómetros"
+        },
+        {
+          "aspecto": "población que llegó a tener Mohenjo-daro",
+          "valor": "unos cuarenta mil, según las estimaciones más citadas",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "caso": "el urbanismo: calles en cuadrícula, desagües, ladrillos normalizados y el Gran Baño impermeabilizado",
+      "datos": [
+        {
+          "aspecto": "trazado de las calles",
+          "valor": "en cuadrícula",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "proporción de casas con acceso a un desagüe cubierto",
+          "valor": "casi todas",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "equivalencia de ese sistema (el de las calles en cuadrícula y el desagüe cubierto) en otras ciudades de la época",
+          "valor": "no tiene equivalente",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "proporción entre grosor, ancho y largo de los ladrillos cocidos",
+          "valor": "uno a dos a cuatro",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "dimensiones del Gran Baño (de Mohenjo-daro)",
+          "valor": "doce metros por siete",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "profundidad del Gran Baño",
+          "valor": "unos dos metros y medio",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "material con que los constructores del Gran Baño sellaron las juntas para impermeabilizarlo",
+          "valor": "betún",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "caso": "los sellos, la escritura sin descifrar y las pesas como pruebas del comercio",
+      "datos": [
+        {
+          "aspecto": "material de los sellos usados por los comerciantes del Indo",
+          "valor": "esteatita",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "motivos con que se tallaban los sellos de los comerciantes del Indo",
+          "valor": "animales y signos",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "número de inscripciones conocidas (de la escritura del Indo)",
+          "valor": "unas cuatro mil",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "brevedad de casi todas las inscripciones conocidas",
+          "valor": "muy breves",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "número de signos distintos en las inscripciones",
+          "valor": "cerca de cuatrocientos",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "estado de desciframiento de esa escritura (la de los sellos e inscripciones)",
+          "valor": "no ha sido descifrada",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "país con que la mayoría de los historiadores identifica a Meluhha (el país mencionado por los textos mesopotámicos)",
+          "valor": "el valle del Indo",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "mercancías que llegaban en barcos desde Meluhha",
+          "valor": "cornalina y marfil",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "peso de cada pesa de piedra comparado con el de la anterior, en toda la región",
+          "valor": "el doble",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "peso de la mayor pesa de piedra comparado con el de la más pequeña, en toda la región",
+          "valor": "sesenta y cuatro veces",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "caso": "las excavaciones de Marshall y Wheeler y la hipótesis de la invasión",
+      "datos": [
+        {
+          "aspecto": "fecha del anuncio del descubrimiento de Mohenjo-daro por John Marshall",
+          "valor": "mil novecientos veinticuatro",
+          "unidad_valor": "años"
+        },
+        {
+          "aspecto": "fecha en que Mortimer Wheeler retomó las excavaciones",
+          "valor": "los años cuarenta",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "autor de la atribución del final (de Mohenjo-daro) a una invasión",
+          "valor": "él (John Marshall o Mortimer Wheeler)",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "aceptación de la idea de que el final se debió a una invasión",
+          "valor": "hoy casi nadie la sostiene",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "caso": "el abandono de las grandes ciudades y sus causas climáticas",
+      "datos": [
+        {
+          "aspecto": "época en que las grandes ciudades se fueron vaciando",
+          "valor": "hacia el mil novecientos antes de nuestra era",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "causa del vaciamiento de las grandes ciudades a la que apuntan los estudios recientes",
+          "valor": "un debilitamiento del monzón",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "duración de la sequía que sugieren los sedimentos de los lagos",
+          "valor": "unos doscientos",
+          "unidad_valor": "años"
+        },
+        {
+          "aspecto": "capacidad de los campos de cereal para sostener a las ciudades",
+          "valor": "no pudieron sostener a las ciudades, si la sequía duró unos doscientos años",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "época en que el río Ghaggar-Hakra dejó de llevar agua todo el año",
+          "valor": "hace unos cuatro mil",
+          "unidad_valor": "años"
+        },
+        {
+          "aspecto": "curso del río Ghaggar-Hakra",
+          "valor": "corría al este del Indo",
+          "unidad_valor": null
+        }
+      ]
+    }
+  ],
+  "verificacion": {
+    "parseo": true,
+    "unidades": 6,
+    "datos": 34,
+    "problemas": []
+  },
+  "error_parseo": null,
+  "peticion": {
+    "model": "glm-5.3-flash",
+    "reasoning_effort": "high"
+  },
+  "respuesta_cruda": "```json\n{\"unidades\": [\n  {\"n\": 1,\n   \"caso\": \"la época y la extensión de la civilización del Indo\",\n   \"datos\": [\n     {\"aspecto\": \"época de florecimiento de la civilización del valle del Indo\",\n      \"valor\": \"entre el dos mil seiscientos y el mil novecientos antes de nuestra era\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"territorio donde floreció la civilización del valle del Indo\",\n      \"valor\": \"lo que hoy son Pakistán y el noroeste de la India\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"extensión que ocupaba la civilización del valle del Indo\",\n      \"valor\": \"cerca de un millón\",\n      \"unidad_valor\": \"kilómetros cuadrados\"},\n     {\"aspecto\": \"extensión de la civilización del valle del Indo comparada con la de Egipto y Mesopotamia juntas\",\n      \"valor\": \"mayor\",\n      \"unidad_valor\": null}]},\n  {\"n\": 2,\n   \"caso\": \"las ciudades de Harappa y Mohenjo-daro y la población de esta última\",\n   \"datos\": [\n     {\"aspecto\": \"ciudades más estudiadas (las de la civilización del valle del Indo)\",\n      \"valor\": \"Harappa y Mohenjo-daro\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"distancia entre Harappa y Mohenjo-daro\",\n      \"valor\": \"unos seiscientos\",\n      \"unidad_valor\": \"kilómetros\"},\n     {\"aspecto\": \"población que llegó a tener Mohenjo-daro\",\n      \"valor\": \"unos cuarenta mil, según las estimaciones más citadas\",\n      \"unidad_valor\": null}]},\n  {\"n\": 3,\n   \"caso\": \"el urbanismo: calles en cuadrícula, desagües, ladrillos normalizados y el Gran Baño impermeabilizado\",\n   \"datos\": [\n     {\"aspecto\": \"trazado de las calles\",\n      \"valor\": \"en cuadrícula\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"proporción de casas con acceso a un desagüe cubierto\",\n      \"valor\": \"casi todas\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"equivalencia de ese sistema (el de las calles en cuadrícula y el desagüe cubierto) en otras ciudades de la época\",\n      \"valor\": \"no tiene equivalente\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"proporción entre grosor, ancho y largo de los ladrillos cocidos\",\n      \"valor\": \"uno a dos a cuatro\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"dimensiones del Gran Baño (de Mohenjo-daro)\",\n      \"valor\": \"doce metros por siete\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"profundidad del Gran Baño\",\n      \"valor\": \"unos dos metros y medio\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"material con que los constructores del Gran Baño sellaron las juntas para impermeabilizarlo\",\n      \"valor\": \"betún\",\n      \"unidad_valor\": null}]},\n  {\"n\": 4,\n   \"caso\": \"los sellos, la escritura sin descifrar y las pesas como pruebas del comercio\",\n   \"datos\": [\n     {\"aspecto\": \"material de los sellos usados por los comerciantes del Indo\",\n      \"valor\": \"esteatita\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"motivos con que se tallaban los sellos de los comerciantes del Indo\",\n      \"valor\": \"animales y signos\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"número de inscripciones conocidas (de la escritura del Indo)\",\n      \"valor\": \"unas cuatro mil\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"brevedad de casi todas las inscripciones conocidas\",\n      \"valor\": \"muy breves\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"número de signos distintos en las inscripciones\",\n      \"valor\": \"cerca de cuatrocientos\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"estado de desciframiento de esa escritura (la de los sellos e inscripciones)\",\n      \"valor\": \"no ha sido descifrada\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"país con que la mayoría de los historiadores identifica a Meluhha (el país mencionado por los textos mesopotámicos)\",\n      \"valor\": \"el valle del Indo\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"mercancías que llegaban en barcos desde Meluhha\",\n      \"valor\": \"cornalina y marfil\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"peso de cada pesa de piedra comparado con el de la anterior, en toda la región\",\n      \"valor\": \"el doble\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"peso de la mayor pesa de piedra comparado con el de la más pequeña, en toda la región\",\n      \"valor\": \"sesenta y cuatro veces\",\n      \"unidad_valor\": null}]},\n  {\"n\": 5,\n   \"caso\": \"las excavaciones de Marshall y Wheeler y la hipótesis de la invasión\",\n   \"datos\": [\n     {\"aspecto\": \"fecha del anuncio del descubrimiento de Mohenjo-daro por John Marshall\",\n      \"valor\": \"mil novecientos veinticuatro\",\n      \"unidad_valor\": \"años\"},\n     {\"aspecto\": \"fecha en que Mortimer Wheeler retomó las excavaciones\",\n      \"valor\": \"los años cuarenta\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"autor de la atribución del final (de Mohenjo-daro) a una invasión\",\n      \"valor\": \"él (John Marshall o Mortimer Wheeler)\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"aceptación de la idea de que el final se debió a una invasión\",\n      \"valor\": \"hoy casi nadie la sostiene\",\n      \"unidad_valor\": null}]},\n  {\"n\": 6,\n   \"caso\": \"el abandono de las grandes ciudades y sus causas climáticas\",\n   \"datos\": [\n     {\"aspecto\": \"época en que las grandes ciudades se fueron vaciando\",\n      \"valor\": \"hacia el mil novecientos antes de nuestra era\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"causa del vaciamiento de las grandes ciudades a la que apuntan los estudios recientes\",\n      \"valor\": \"un debilitamiento del monzón\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"duración de la sequía que sugieren los sedimentos de los lagos\",\n      \"valor\": \"unos doscientos\",\n      \"unidad_valor\": \"años\"},\n     {\"aspecto\": \"capacidad de los campos de cereal para sostener a las ciudades\",\n      \"valor\": \"no pudieron sostener a las ciudades, si la sequía duró unos doscientos años\",\n      \"unidad_valor\": null},\n     {\"aspecto\": \"época en que el río Ghaggar-Hakra dejó de llevar agua todo el año\",\n      \"valor\": \"hace unos cuatro mil\",\n      \"unidad_valor\": \"años\"},\n     {\"aspecto\": \"curso del río Ghaggar-Hakra\",\n      \"valor\": \"corría al este del Indo\",\n      \"unidad_valor\": null}]}\n]}\n```",
+  "razonamiento": "Let me analyze each unit.\n\nUnit 1: \"La civilización del valle del Indo floreció entre el dos mil seiscientos y el mil novecientos antes de nuestra era, en lo que hoy son Pakistán y el noroeste de la India. Ocupaba cerca de un millón de kilómetros cuadrados, una extensión mayor que la de Egipto y Mesopotamia juntas.\"\n\nData:\n- época de florecimiento de la civilización del valle del Indo = entre el dos mil seiscientos y el mil novecientos antes de nuestra era [null]\n- territorio donde floreció la civilización del valle del Indo = lo que hoy son Pakistán y el noroeste de la India [null]\n- extensión que ocupaba la civilización del valle del Indo = cerca de un millón [kilómetros cuadrados]\n- comparación de la extensión de la civilización del valle del Indo con la de Egipto y Mesopotamia juntas = mayor [null] — \"una extensión mayor que la de Egipto y Mesopotamia juntas\" — is this a separate datum? It's an apposition describing the extension. Case 3 says one datum per distinct question. The comparison is a distinct answer? Hmm. \"una extensión mayor que la de Egipto y Mesopotamia juntas\" — this adds a comparison. Could include: extensión de la civilización del valle del Indo comparada con la de Egipto y Mesopotamia juntas = mayor [null]. I'll include it.\n\nUnit 2: \"Sus dos ciudades más estudiadas son Harappa y Mohenjo-daro, separadas por unos seiscientos kilómetros. Según las estimaciones más citadas, Mohenjo-daro llegó a tener unos cuarenta mil habitantes.\"\n\n\"Sus\" refers to \"la civilización del valle del Indo\" (from previous unit). Per case 4: pronoun with one antecedent replaced. The antecedent is in another unit — like case 4's \"Su capital tiene dos puertos\" → \"su capital (la de la isla)\". So: ciudades más estudiadas de la civilización del valle del Indo = Harappa y Mohenjo-daro [null]\n- distancia entre Harappa y Mohenjo-daro = unos seiscientos [kilómetros]\n- población máxima de Mohenjo-daro (llegó a tener) = unos cuarenta mil [null] (habitantes counted, so unit null), \"según las estimaciones más citadas\" — a cota? \"Según las estimaciones más citadas\" is a source attribution — per case 1, \"según la cooperativa\" goes into the value: \"aumento previsto de la cosecha = cerca de un veinte, si llueve en abril, según la cooperativa\". So include \"según las estimaciones más citadas\" in the value. Also \"llegó a tener\" — población que llegó a tener Mohenjo-daro = unos cuarenta mil, según las estimaciones más citadas.\n\nUnit 3: \"Las calles se trazaban en cuadrícula y casi todas las casas tenían acceso a un desagüe cubierto. Ese sistema no tiene equivalente en otras ciudades de la época. Los ladrillos cocidos guardaban siempre la proporción de uno a dos a cuatro entre grosor, ancho y largo. En el centro de Mohenjo-daro se levanta el llamado Gran Baño, de doce metros por siete y unos dos metros y medio de profundidad. Para impermeabilizarlo, sus constructores sellaron las juntas con betún.\"\n\nData:\n- trazado de las calles = en cuadrícula [null]\n- proporción de casas con acceso a un desagüe cubierto = casi todas [null]\n- equivalencia de ese sistema (el de calles en cuadrícula y casas con desagüe cubierto) en otras ciudades de la época = no tiene equivalente [null] — \"Ese sistema\" refers to the desagüe system? Actually \"ese sistema\" likely refers to the drainage/sewer system... Could refer to both. Two possible antecedents? \"Ese sistema\" — could be the grid streets or the drainage. Hmm. Case 4: if two possible antecedents, write both. But \"ese sistema\" is not a pronoun; it's a summary expression → referent in parentheses. The system: probably the drainage system (\"un desagüe cubierto\") — \"Ese sistema no tiene equivalente en otras ciudades\". I'll write: equivalente de ese sistema (el de las calles en cuadrícula y los desagües cubiertos) en otras ciudades de la época = no tiene [null]. Hmm, maybe just the desagüe cubierto. Actually \"sistema\" — the drainage. I'll say (el de los desagües cubiertos). Actually ambiguous; I'll include both to be safe? The phrase \"Ese sistema\" — nearest is the desagüe cubierto. I'll go with (el de las calles en cuadrícula y el desagüe cubierto). Hmm, better: \"el sistema de desagües cubiertos\". Let me write: equivalencia de ese sistema (el de las calles en cuadrícula con desagües cubiertos) en otras ciudades de la época = no tiene equivalente.\n\nWait, rule: \"Fuera de los paréntesis, solo lo que dice el texto.\" So value \"no tiene equivalente\" is fine.\n\n- proporción entre grosor, ancho y largo de los ladrillos cocidos = uno a dos a cuatro [null]\n- dimensiones del Gran Baño (de Mohenjo-daro) = doce metros por siete [metros]? \"de doce metros por siete\" — dimensiones: 12 m por 7 m. Unit could be [metros] but it's compound \"doce metros por siete\". Hmm. \"doce metros por siete\" — the unit applies to both numbers. I could give unit_valor \"metros\" with valor \"doce por siete\"? Risky. Alternatively: valor \"doce metros por siete\", unit null. Or two data: largo=doce metros... Actually \"doce metros por siete\" — I'll make it: dimensiones del Gran Baño = doce por siete [metros]. Hmm, \"doce metros por siete\" — I think cleaner: dimensiones del Gran Baño = doce metros por siete [null]. Following case 2, \"dos horas y cuarto\" combines units → null. Similarly \"doce metros por siete\" combines. I'll use null. Or split: side dimensions. I'll do one datum: \"dimensiones del Gran Baño de Mohenjo-daro = doce metros por siete [null]\". Hmm, but maybe \"metros\" works since both are meters. The value \"doce metros por siete\" already contains meters for the first. Actually to keep consistent, put valor \"doce metros por siete\", unidad null? Or valor \"doce por siete\", unidad \"metros\". I'll choose valor \"doce metros por siete\", unidad_valor null. Hmm... Actually \"metros\" seems fine as single unit. \"doce metros por siete [metros]\". I'll go with unidad \"metros\" and valor \"doce por siete\"? That loses \"metros\" text placement... The rule: cada palabra va a un solo sitio. \"metros\" appears once in text. If unit is \"metros\", then valor \"doce por siete\". That's like case 1 \"cuarenta [metros]\". But \"por\" connects... I'll do valor \"doce metros por siete\" null — safer.\n\n- profundidad del Gran Baño = unos dos metros y medio [null] (combines two units: \"metros y medio\" — actually \"dos metros y medio\" — unit? Case 2 \"dos horas y cuarto\" → null). So null.\n- material con que se sellaron las juntas para impermeabilizar el Gran Baño = betún [null]\n- quiénes sellaron las juntas — \"sus constructores\" — is that a datum? \"sus constructores sellaron las juntas con betún\" — the question answered is with what (betún); \"sus constructores\" acota who did it. Aspecto: material con que los constructores del Gran Baño sellaron las juntas. Hmm, \"sus\" refers to Gran Baño — replace: \"los constructores del Gran Baño\". I'd write aspecto: \"material con que se sellaron las juntas del Gran Baño\" — but \"sus constructores\" is part of what the text says. Actually the aspect includes the agent: \"material con que los constructores del Gran Baño sellaron las juntas\" = betún. That works.\n\nUnit 4: \"Los comerciantes del Indo usaban sellos de esteatita tallados con animales y signos. Se conocen unas cuatro mil inscripciones, casi todas muy breves, con cerca de cuatrocientos signos distintos. Esa escritura no ha sido descifrada. Textos mesopotámicos mencionan un país llamado Meluhha, de donde llegaban barcos con cornalina y marfil; la mayoría de los historiadores lo identifica con el valle del Indo. Las pesas de piedra seguían un mismo patrón en toda la región: cada una pesaba el doble de la anterior, hasta llegar a sesenta y cuatro veces la más pequeña.\"\n\nData:\n- material de los sellos usados por los comerciantes del Indo = esteatita [null]\n- motivos con que se tallaban los sellos de los comerciantes del Indo = animales y signos [null]\n- número de inscripciones conocidas de esa escritura = unas cuatro mil [null] — \"de la escritura del Indo\"? \"inscripciones\" — the script. Aspecto: número de inscripciones conocidas (de la escritura del Indo)? The text just says \"Se conocen unas cuatro mil inscripciones\" — of the writing system implied. I'll write \"número de inscripciones conocidas de la escritura del Indo\". Hmm, \"de la escritura del Indo\" is added — the script of the Indo. It's implied; per rules, additions go in parentheses. Maybe \"número de inscripciones conocidas\" is enough, contextually it's the Indus script. I'll write \"número de inscripciones conocidas de esa escritura (la del Indo)\" — hmm. Simpler: \"número de inscripciones conocidas\". Keep simple.\n- brevedad de las inscripciones = casi todas muy breves [null]? That's a separate datum: extensión de las inscripciones conocidas = casi todas muy breves. Hmm. I'll include: \"extensión de las inscripciones conocidas = casi todas muy breves\".\n- número de signos distintos = cerca de cuatrocientos [null]\n- estado del desciframiento de esa escritura (la de los sellos/inscripciones) = no ha sido descifrada [null]\n- identificación del país mencionado como Meluhha por la mayoría de los historiadores = el valle del Indo [null]\n- productos que llegaban en barcos de Meluhha = cornalina y marfil [null] — \"de donde llegaban barcos con cornalina y marfil\". Aspecto: mercancías que llegaban en barcos desde Meluhha (identificado con el valle del Indo)? Or productos mencionados en los textos mesopotámicos... I'll write: \"mercancías que llegaban en barcos desde el país llamado Meluhha\" = cornalina y marfil.\n- patrón de las pesas de piedra: \"cada una pesaba el doble de la anterior, hasta llegar a sesenta y cuatro veces la más pequeña\". Data: razón entre cada pesa y la anterior = el doble [null]; peso de la pesa mayor comparado con la más pequeña = sesenta y cuatro veces [null]. Aspecto: \"peso de la pesa más grande de piedra comparado con el de la más pequeña\" = sesenta y cuatro veces. And \"peso de cada pesa de piedra comparado con el de la anterior\" = el doble.\n\nUnit 5: \"John Marshall anunció el descubrimiento de Mohenjo-daro en mil novecientos veinticuatro y Mortimer Wheeler retomó las excavaciones en los años cuarenta. Él atribuyó el final a una invasión, una idea que hoy casi nadie sostiene.\"\n\nData:\n- fecha del anuncio del descubrimiento de Mohenjo-daro por John Marshall = mil novecientos veinticuatro [años]? \"en mil novecientos veinticuatro\" — a year. Unit: [años]? Case 1: \"fecha de la inauguración del puente = hace cuarenta [años]\". Hmm, \"hace cuarenta años\" got unit años. A year date — unit \"años\"? A date is a number with unit años? Mil novecientos veinticuatro is a year — unit [años] seems odd but consistent with precedent. I'll use null for a date? Case 1 gave [años] for \"hace cuarenta\". A single year \"en mil novecientos veinticuatro\" — the unit is años. I'll use [años]. Hmm, dates like \"1600\" — unidad? I'll go with null actually... The precedent only covers \"hace cuarenta años\". A calendar year — \"mil novecientos veinticuatro\" is a year number; unit años. I'll use \"años\".\n\n- fecha en que Mortimer Wheeler retomó las excavaciones = los años cuarenta [null]? \"en los años cuarenta\" — valor \"los años cuarenta\", unit? \"años\" is in the value (\"los años cuarenta\"). Hmm. Could be valor \"los años cuarenta\" null. I'll do null since \"años\" is part of the expression. But then mil novecientos veinticuatro... inconsistent. For \"mil novecientos veinticuatro\" there's no explicit unit word, so [años]. For \"los años cuarenta\" the word años is in the text — valor \"los años cuarenta\", unit null. That follows \"cada palabra va a un solo sitio\". OK.\n- autor de la atribución del final de Mohenjo-daro a una invasión = él (John Marshall o Mortimer Wheeler) [null]. \"Él\" has two possible antecedents → both in parentheses. Case 4 precedent exactly.\n- idea que hoy casi nadie sostiene = una invasión (como causa del final)? Hmm — \"una idea que hoy casi nadie sostiene\" — apposition to \"una invasión\". Is it a separate datum? It describes the invasion idea: grado de aceptación actual de la idea de que el final se debió a una invasión = casi nadie la sostiene hoy. Could include: \"aceptación actual de la idea de que el final (de Mohenjo-daro) se debió a una invasión = hoy casi nadie la sostiene\". Value: \"casi nadie\". I'll include: aspecto \"sostén actual de la idea de que el final se debió a una invasión\" = \"hoy casi nadie la sostiene\"? Better: valor \"casi nadie\", aspecto \"personas que hoy sostienen la idea...\". Hmm. I'll write: aspecto: \"aceptación actual de la idea de que el final se debió a una invasión\", valor: \"casi nadie la sostiene\". Simpler: valor \"casi nadie\", aspecto \"personas que hoy sostienen la idea de que el final (de Mohenjo-daro) se debió a una invasión\". I'll go with that.\n\nActually maybe simpler: valor \"hoy casi nadie\", aspecto \"quienes sostienen la idea de que el final se debió a una invasión\". Hmm. I'll do: {\"aspecto\": \"sostenedores actuales de la idea de que el final se debió a una invasión\", \"valor\": \"hoy casi nadie la sostiene\"}. Hmm awkward. Let me use: aspecto \"aceptación de la idea de que el final se debió a una invasión\", valor \"hoy casi nadie la sostiene\". OK.\n\nActually the final answer for such: \"quién sostiene hoy la idea de que el final se debió a una invasión = casi nadie\". That's clean.\n\nUnit 6: \"Hacia el mil novecientos antes de nuestra era, las grandes ciudades se fueron vaciando. Los estudios recientes apuntan a un debilitamiento del monzón: si la sequía duró unos doscientos años, como sugieren los sedimentos de los lagos, los campos de cereal no pudieron sostener a las ciudades. Hace unos cuatro mil años, el río Ghaggar-Hakra, que corría al este del Indo, dejó de llevar agua todo el año.\"\n\nData:\n- época en que las grandes ciudades se fueron vaciando = hacia el mil novecientos antes de nuestra era [años]? Again date. Unit \"años\"? I'll use null for \"antes de nuestra era\"... Hmm. \"mil novecientos antes de nuestra era\" — valor includes \"antes de nuestra era\", unit null. Yes, valor \"hacia el mil novecientos antes de nuestra era\"? The \"hacia\" — acota? It's part of the date approximation. Value: \"hacia el mil novecientos antes de nuestra era\", unit null.\n- causa del vaciamiento de las grandes ciudades a la que apuntan los estudios recientes = un debilitamiento del monzón [null]\n- duración de la sequía según los sedimentos de los lagos = unos doscientos [años] — with condition: \"si la sequía duró... los campos no pudieron sostener a las ciudades\". Per case 1, conditional goes with consequence. But here \"si la sequía duró unos doscientos años\" — the hypothesis is the duración datum with source \"como sugieren los sedimentos de los lagos\". So: duración que sugieren los sedimentos de los lagos para la sequía = unos doscientos [años]. And the consequence: capacidad de los campos de cereal para sostener a las ciudades = no pudieron, si la sequía duró unos doscientos años [null]. Include that.\n- época en que el río Ghaggar-Hakra dejó de llevar agua todo el año = hace unos cuatro mil años [años]? valor \"hace unos cuatro mil\" [años], following case 1 \"hace cuarenta [años]\". Yes.\n- ubicación del río Ghaggar-Hakra = al este del Indo [null]\n- what it stopped doing: caudal/permanencia del agua del río Ghaggar-Hakra = dejó de llevar agua todo el año. Aspecto: \"régimen del río Ghaggar-Hakra\" valor \"dejó de llevar agua todo el año\". Or \"curso... \" I'll write: aspecto \"permanencia del agua del río Ghaggar-Hakra a lo largo del año\", valor \"dejó de llevar agua todo el año\" — redundant. Better: aspecto \"lo que aconteció con el agua del río Ghaggar-Hakra (que corría al este del Indo)\"... Hmm.\n\nSimplest: aspecto \"régimen del río Ghaggar-Hakra\" valor \"dejó de llevar agua todo el año\" — redundant. Alternative: two data: \"época en que dejó de llevar agua todo el año\" = hace unos cuatro mil años; and the fact itself. Maybe: aspecto \"suceso que afectó al río Ghaggar-Hakra\" valor \"dejó de llevar agua todo el año\". I'll include: {\"aspecto\": \"cambio en el caudal del río Ghaggar-Hakra\", \"valor\": \"dejó de llevar agua todo el año\", ...} — \"caudal\" is added knowledge... parentheses? Getting heavy. Perhaps just one datum combining: \"época en que el río Ghaggar-Hakra dejó de llevar agua todo el año = hace unos cuatro mil años\". The fact of stopping is embedded in the aspect. That's acceptable — the question \"¿cuándo dejó de llevar agua todo el año?\" implies the fact. I'll also add the location datum. Good.\n\nNow write JSON.\n\nUnit 1 datos:\n1. época de florecimiento de la civilización del valle del Indo = entre el dos mil seiscientos y el mil novecientos antes de nuestra era, null\n2. territorio donde floreció la civilización del valle del Indo = lo que hoy son Pakistán y el noroeste de la India, null\n3. extensión ocupada por la civilización del valle del Indo = cerca de un millón, kilómetros cuadrados\n4. comparación de la extensión de la civilización del valle del Indo con la de Egipto y Mesopotamia juntas = mayor, null\n\nUnit 2:\n1. ciudades más estudiadas de la civilización del valle del Indo = Harappa y Mohenjo-daro, null — \"Sus\" antecedent is in another unit: \"de la civilización del Indo (nombrada en otra unidad)\"? Case 4: \"su capital (la de la isla)\". Here \"Sus dos ciudades\" — antecedent from previous unit. Write \"ciudades más estudiadas de la civilización del Indo (nombrada en otra unidad)\"? The precedent adds \"(la de la isla)\". I'll add \"(la del valle del Indo)\"... Actually the name is known: \"de la civilización del valle del Indo\". Since the pronoun's antecedent is elsewhere, per precedent: \"su capital (la de la isla)\". So: \"ciudades más estudiadas (las de la civilización del valle del Indo)\". I'll phrase aspecto: \"número de ciudades más estudiadas\"? No — the datum is which cities: \"ciudades más estudiadas (las de la civilización del valle del Indo)\" = Harappa y Mohenjo-daro.\n2. distancia entre Harappa y Mohenjo-daro = unos seiscientos, kilómetros\n3. población que llegó a tener Mohenjo-daro = unos cuarenta mil, según las estimaciones más citadas; unidad null (habitantes counted). Aspecto: \"población que llegó a tener Mohenjo-daro\"; valor \"unos cuarenta mil, según las estimaciones más citadas\".\n\nUnit 3:\n1. trazado de las calles = en cuadrícula\n2. proporción de casas con acceso a un desagüe cubierto = casi todas\n3. equivalencia de ese sistema (el de las calles en cuadrícula y los desagües cubiertos) en otras ciudades de la época = no tiene equivalente\n4. proporción entre grosor, ancho y largo de los ladrillos cocidos = uno a dos a cuatro\n5. dimensiones del Gran Baño (de Mohenjo-daro) = doce metros por siete, null — or unidad \"metros\"? I'll do null. Hmm, reconsider: could split into \"lado mayor = doce metros\"? No. Keep null.\n\nActually maybe split: \"dimensiones del Gran Baño = doce metros por siete [null]\" fine.\n\n6. profundidad del Gran Baño = unos dos metros y medio, null\n7. material con que los constructores del Gran Baño sellaron las juntas para impermeabilizarlo = betún, null. \"sus constructores\" — antecedent Gran Baño (clear single) → replace without parentheses: \"los constructores del Gran Baño\". \"impermeabilizarlo\" — \"lo\" = Gran Baño, replace. So aspecto: \"material con que los constructores del Gran Baño sellaron las juntas para impermeabilizarlo\" — hmm \"impermeabilizarlo\" refers to Gran Baño, single antecedent, replace: \"para impermeabilizar el Gran Baño\".\n\nUnit 4:\n1. material de los sellos usados por los comerciantes del Indo = esteatita\n2. motivos con que se tallaban los sellos de los comerciantes del Indo = animales y signos\n3. número de inscripciones conocidas = unas cuatro mil, null — add \"(de la escritura del Indo)\"? The text doesn't say \"de la escritura\" — the inscriptions belong to the script. I'll write \"número de inscripciones conocidas (de la escritura del Indo)\". Hmm, \"la escritura del Indo\" is added knowledge — parentheses required. OK.\n4. extensión de las inscripciones conocidas = casi todas muy breves, null. Aspecto \"brevedad de las inscripciones conocidas\" = \"casi todas muy breves\". Value: \"muy breves, casi todas\". I'll write valor \"muy breves (casi todas)\". Hmm — keep: valor \"muy breves\", aspecto \"brevedad de casi todas las inscripciones conocidas\". That distributes words fine. But \"casi todas\" is the quantifier — moves to aspect as scoping. Acceptable per rule 2? \"casi todas\" acota which inscriptions. Yes.\n5. número de signos distintos (de esa escritura) = cerca de cuatrocientos. \"distintos\" signos. aspecto \"número de signos distintos de la escritura del Indo\" — hmm \"esa escritura\" mentioned later. \"con cerca de cuatrocientos signos distintos\" — of the inscriptions. aspecto \"número de signos distintos en las inscripciones\" = cerca de cuatrocientos.\n6. estado de desciframiento de esa escritura (la de los sellos e inscripciones) = no ha sido descifrada\n7. identificación de Meluhha (el país mencionado por los textos mesopotámicos) por la mayoría de los historiadores = el valle del Indo. Aspecto: \"país con que la mayoría de los historiadores identifica a Meluhha (el país mencionado en los textos mesopotámicos)\" = \"el valle del Indo\".\n8. mercancías que llegaban en barcos desde Meluhha = cornalina y marfil\n9. relación de peso entre cada pesa de piedra y la anterior = el doble\n10. peso de la mayor pesa de piedra comparado con el de la más pequeña = sesenta y cuatro veces\n\nAlso \"un mismo patrón en toda la región\" — the pattern is described by the following; \"en toda la región\" acota. Included in aspects 9/10: \"en toda la región\". Add to aspecto: \"patrón de las pesas de piedra en toda la región\". I'll fold: aspecto \"razón de peso entre cada pesa de piedra y la anterior en toda la región\" — clunky but ok. I'll add \", en toda la región\" to both? Just mention in the first. Keep it simple: include \"en toda la región\" in aspectos 9 and 10? I'll include in 9 only... Actually both data pertain to the pattern in the whole region. I'll write aspects as \"patrón de las pesas de piedra en toda la región: peso de cada una respecto de la anterior\" — no, keep separate. Fine, I'll append \"en toda la región\" to both aspects.\n\nUnit 5:\n1. fecha del anuncio del descubrimiento de Mohenjo-daro por John Marshall = mil novecientos veinticuatro, años\n2. fecha en que Mortimer Wheeler retomó las excavaciones = los años cuarenta, null\n3. autor de la atribución del final (de Mohenjo-daro) a una invasión = él (John Marshall o Mortimer Wheeler), null\n4. aceptación de la idea de que el final se debió a una invasión = hoy casi nadie la sostiene, null\n\nUnit 6:\n1. época en que las grandes ciudades se fueron vaciando = hacia el mil novecientos antes de nuestra era, null\n2. causa del vaciamiento de las grandes ciudades a la que apuntan los estudios recientes = un debilitamiento del monzón, null\n3. duración de la sequía que sugieren los sedimentos de los lagos = unos doscientos, años\n4. capacidad de los campos de cereal para sostener a las ciudades = no pudieron sostenerlas, si la sequía duró unos doscientos años, null. Valor: \"no pudieron sostener a las ciudades\". Aspecto: \"capacidad de los campos de cereal para sostener a las ciudades\". Hmm \"si la sequía duró unos doscientos años\" — condition in value per case 1. But that duration datum also exists with source. Fine.\n5. época en que el río Ghaggar-Hakra dejó de llevar agua todo el año = hace unos cuatro mil, años\n6. ubicación del río Ghaggar-Hakra = al este del Indo, null — actually the relative clause \"que corría al este del Indo\" — past tense \"corría\". Datum: \"curso del río Ghaggar-Hakra = corría al este del Indo\". I'll use valor \"corría al este del Indo\".\n\nOutput JSON only."
+}

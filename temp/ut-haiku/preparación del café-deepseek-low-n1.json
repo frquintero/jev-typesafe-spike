@@ -1,0 +1,127 @@
+{
+  "doc": "preparación del café",
+  "documento": "mvp/documentos/preparación del café.md",
+  "alias": "deepseek",
+  "modelo": "deepseek-flash",
+  "esfuerzo": "low",
+  "rN": "n1",
+  "segundos": 3.8,
+  "prompt": "temp/prompt_UT_v1_nombres.md",
+  "hash_prompt": "4c21c9e9ba16d9c9076d7cf705602e1f07759a375f62479ab94a4774514c2d08",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 2093,
+    "completion_tokens": 662,
+    "total_tokens": 2755,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 509
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 1837,
+    "thinking_tokens": 509
+  },
+  "subtemas": [
+    {
+      "subtema": "las tres dinámicas de extracción del café y las claves generales para prepararlo",
+      "oraciones": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "subtema": "los métodos de inversión: Prensa Francesa y Cold Brew",
+      "oraciones": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "subtema": "los métodos de percolación o goteo manual y el resultado en taza",
+      "oraciones": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "subtema": "los métodos de presión: espresso, Moka y AeroPress",
+      "oraciones": [
+        10,
+        11,
+        12
+      ]
+    }
+  ],
+  "verificacion": {
+    "oraciones_del_texto": 12,
+    "huecos": [],
+    "solapes": [],
+    "fuera_de_rango": [],
+    "no_enteros": []
+  },
+  "error_parseo": null,
+  "peticion": {
+    "model": "deepseek-flash",
+    "thinking": {
+      "type": "enabled"
+    },
+    "reasoning_effort": "low"
+  },
+  "respuesta_cruda": "{\"subtemas\": [\n  {\"subtema\": \"las tres dinámicas de extracción del café y las claves generales para prepararlo\", \"oraciones\": [1, 2, 3]},\n  {\"subtema\": \"los métodos de inversión: Prensa Francesa y Cold Brew\", \"oraciones\": [4, 5, 6]},\n  {\"subtema\": \"los métodos de percolación o goteo manual y el resultado en taza\", \"oraciones\": [7, 8, 9]},\n  {\"subtema\": \"los métodos de presión: espresso, Moka y AeroPress\", \"oraciones\": [10, 11, 12]}\n]}",
+  "razonamiento": "We need answer only JSON. Need group sentences into subtemas. Need infer. Text about coffee preparation: three extraction dynamics: inversion, percolation, pressure. Need group all 12 sentences. Likely subtemas:\n1 intro/general: [1] three dynamics, [2] each modifies, [3] fundamental grind/temp. Could be one subtopic \"aspectos generales de preparación de café: dinámicas de extracción y recomendaciones\". Or split? Need idea nuclear. [1][2] classification/effects; [3] general best result. Could group [1,2,3] as general principles. Or [1,2] classification and effects; [3] best practices. The examples sometimes one sentence subtopic. Need decide.\n\nThen inversion methods: [4] definition, [5] French press, [6] cold brew. Group [4,5,6].\nPercolation: [7] definition/examples, [8] requirements, [9] result. Group [7,8,9].\nPressure: [10] definition/examples, [11] espresso/AeroPress, [12] versatility. Group [10,11,12].\n\nCould maybe [3] with general [1,2] to avoid orphan. Need all. The structure: first paragraph three sentences: first introduces three dynamics according to contact; second each modifies final; third fundamental for any method. These all relate to general aspects of extraction. So subtema \"las tres dinámicas de extracción y las claves generales para una buena preparación\" [1,2,3]. Alternatively [1,2] and [3]. But \"Todas y cada una... un solo subtema\"; flexible.\n\nNeed produce JSON only. Use exact sentence numbers. Names concise. Ensure no markdown.\n\nFinal JSON: {\"subtemas\":[{\"subtema\":\"las tres dinámicas de extracción del café y las claves generales para prepararlo\",\"oraciones\":[1,2,3]},{\"subtema\":\"los métodos de inversión: Prensa Francesa y Cold Brew\",\"oraciones\":[4,5,6]},{\"subtema\":\"los métodos de percolación o goteo manual y el resultado en taza\",\"oraciones\":[7,8,9]},{\"subtema\":\"los métodos de presión: espresso, Moka y AeroPress\",\"oraciones\":[10,11,12]}]}\n\nNeed only JSON.",
+  "oraciones": [
+    {
+      "n": 1,
+      "oracion": "La preparación de café se divide principalmente en tres dinámicas de extracción según el contacto entre el agua y el grano: inversión, percolación y presión."
+    },
+    {
+      "n": 2,
+      "oracion": "Cada una de estas técnicas modifica radicalmente el cuerpo, la acidez, la amargura y la claridad de la bebida final."
+    },
+    {
+      "n": 3,
+      "oracion": "Para obtener el mejor resultado en cualquier método, es fundamental moler el grano al momento y controlar que el agua se mantenga a una temperatura ideal entre los 90 °C y 93 °C."
+    },
+    {
+      "n": 4,
+      "oracion": "En los métodos de inversión, como la Prensa Francesa y el Cold Brew, el café molido reposa sumergido por completo en el agua durante todo el tiempo de preparación."
+    },
+    {
+      "n": 5,
+      "oracion": "La prensa francesa utiliza agua caliente y una molienda gruesa para entregar una taza densa, con mucho cuerpo y rica en aceites naturales."
+    },
+    {
+      "n": 6,
+      "oracion": "Por el contrario, el cold brew realiza esta infusión en frío durante un periodo de 12 a 24 horas, lo que reduce drásticamente la acidez y resalta la dulzura natural del grano."
+    },
+    {
+      "n": 7,
+      "oracion": "Por otro lado, los métodos de percolación o goteo manual, representados por conos como el Hario V60 y el Chemex, hacen pasar el agua caliente a través de una cama de café y un filtro de papel por gravedad."
+    },
+    {
+      "n": 8,
+      "oracion": "Estas técnicas requieren moliendas medianas y destacan por retener la mayoría de los aceites y sedimentos pesados."
+    },
+    {
+      "n": 9,
+      "oracion": "El resultado es una taza sumamente limpia y ligera que permite apreciar los matices más sutiles, la acidez brillante y las notas florales o frutales de los cafés de especialidad."
+    },
+    {
+      "n": 10,
+      "oracion": "Finalmente, los métodos de presión como la Máquina de Espresso, la Cafetera Moka y el AeroPress empujan con fuerza el agua a través del café para lograr extracciones mucho más rápidas y concentradas."
+    },
+    {
+      "n": 11,
+      "oracion": "Mientras que el espresso ofrece una bebida muy intensa coronada por una densa capa de crema en menos de medio minuto, dispositivos híbridos como el AeroPress combinan una inmersión corta con presión manual."
+    },
+    {
+      "n": 12,
+      "oracion": "Esto último permite jugar de forma muy versátil con los tiempos y las moliendas para equilibrar cuerpo y claridad al gusto."
+    }
+  ]
+}

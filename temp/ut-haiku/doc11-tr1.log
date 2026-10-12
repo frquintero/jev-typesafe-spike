@@ -1,0 +1,9 @@
+bash: cannot set terminal process group (3156): Inappropriate ioctl for device
+bash: no job control in this shell
+  doc11-haiku-high-tr1.json: 5 unidades · 12.0 s · stop · prompt temp/prompt_UT_test.md
+    verificación: {"oraciones_del_texto": 20, "huecos": [], "solapes": [], "fuera_de_rango": [], "no_enteros": []}
+    U1: [1, 2, 3, 4, 5] la mutación de una letra del gen de la hemoglobina que deforma los glóbulos rojos y acorta su vida
+    U2: [6, 7, 8, 9, 10] la historia del diagnóstico, desde la descripción de 1910 hasta el hallazgo de la proteína alterada
+    U3: [11, 12, 13, 14, 15] la herencia recesiva y la protección que ofrecen los portadores frente a la malaria
+    U4: [16] la cifra anual de niños que nacen con formas graves de la enfermedad
+    U5: [17, 18, 19, 20] los tratamientos: la hidroxiurea, la terapia CRISPR aprobada en 2023 y su costo

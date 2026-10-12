@@ -1,0 +1,43 @@
+bash: cannot set terminal process group (3156): Inappropriate ioctl for device
+bash: no job control in this shell
+  doc11: una llamada con 5 unidades · prompt prompt_DATOS_decisiones_v7.md · deepseek-flash (esfuerzo low)
+  doc11-deepseek-low-d1.json: 52.5 s · stop · {"parseo": true, "unidades": 5, "datos": 34, "problemas": []}
+    n=1 · 10 datos · la mutación de una letra del gen de la hemoglobina que deforma los glóbulos rojos y acorta su vida
+      · causa de la anemia falciforme = el cambio de una sola letra en el gen de la beta globina
+      · ubicación del gen de la beta globina = el cromosoma once
+      · aminoácido sustituido en la posición seis de la proteína = un ácido glutámico
+      · aminoácido que sustituye en la posición seis de la proteína = una valina
+      · nombre de la hemoglobina que resulta (del cambio de una sola letra en el gen de la beta globina) = hemoglobina S
+      · comportamiento de la hemoglobina S cuando le falta oxígeno = se agrupa en fibras rígidas
+      · efecto de esas fibras (las fibras rígidas de la hemoglobina S) = deforman los glóbulos rojos
+      · cambio de forma de los glóbulos rojos deformados = pierden su forma de disco y toman la de una hoz
+      · duración de la vida de un glóbulo rojo sano = unos ciento veinte [días]
+      · duración de la vida de un glóbulo rojo falciforme = entre diez y veinte [días]
+    n=2 · 10 datos · la historia del diagnóstico, desde la descripción de 1910 hasta el hallazgo de la proteína alterada
+      · fecha de la descripción de la enfermedad = hace más de un siglo, en mil novecientos diez
+      · autor de la observación de glóbulos alargados en la sangre de un estudiante (en mil novecientos diez) = un médico de Chicago
+      · hallazgo de la observación (en mil novecientos diez) = glóbulos alargados en la sangre de un estudiante
+      · fecha del hallazgo de Linus Pauling (sobre la migración de la hemoglobina de los enfermos) = mil novecientos cuarenta y nueve
+      · autor del hallazgo de que la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico = Linus Pauling
+      · comportamiento de la hemoglobina de los enfermos en un campo eléctrico = migraba de otro modo
+      · fecha de la identificación del aminoácido sustituido = mil novecientos cincuenta y siete
+      · autor de la identificación del aminoácido sustituido = Vernon Ingram
+      · denominación que Vernon Ingram dio a la anemia falciforme = una enfermedad molecular
+      · efecto de ese hallazgo (la identificación del aminoácido sustituido por Vernon Ingram) sobre la anemia falciforme = convirtió a la anemia falciforme en la primera enfermedad explicada por un cambio en una proteína
+    n=3 · 7 datos · la herencia recesiva y la protección que ofrecen los portadores frente a la malaria
+      · tipo de herencia de la enfermedad = recesiva
+      · condición de quien recibe una sola copia alterada = es portador
+      · frecuencia con que enferma quien recibe una sola copia alterada = casi nunca
+      · probabilidad por embarazo de que dos padres portadores tengan un hijo enfermo = uno en cuatro
+      · efecto de ser portador sobre la malaria grave = resisten mejor la malaria grave
+      · reducción del riesgo de malaria grave en los portadores por esa ventaja (la mejor resistencia a la malaria grave) = cerca de un noventa, según los estudios de campo [por ciento]
+      · proporción de habitantes que llevan la mutación en algunas regiones de África = hasta uno de cada cuatro
+    n=4 · 1 datos · la cifra anual de niños que nacen con formas graves de la enfermedad
+      · número anual de niños que nacen con formas graves de la enfermedad = unos trescientos mil, según la Organización Mundial de la Salud
+    n=5 · 6 datos · los tratamientos: la hidroxiurea, la terapia CRISPR aprobada en 2023 y su costo
+      · tratamiento clásico de la anemia falciforme (la enfermedad) = la hidroxiurea
+      · efecto de la hidroxiurea = aumenta la hemoglobina fetal
+      · fecha de aprobación de la hidroxiurea para adultos = mil novecientos noventa y ocho
+      · fecha de aprobación de la primera terapia basada en la edición genética con CRISPR = diciembre de dos mil veintitrés
+      · proporción de pacientes en el ensayo principal que pasaron al menos un año sin crisis de dolor = veintinueve de treinta
+      · costo de cada tratamiento (de la terapia CRISPR) = unos dos millones [dólares]

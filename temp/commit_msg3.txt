@@ -1,0 +1,9 @@
+mvp: el café se llama preparacion_cafe y queda radicado
+
+- mvp/documentos/: «preparación del café.md» pasa a preparacion_cafe.md (sin espacios ni tildes en
+  el id, que viaja a los ids de unidades y datos y a los nombres de archivo).
+- Radicado el 10-10 06:15:41, dominio GENERAL, sello 3a75bf28…, sin unidades ni datos.
+- memoria: el documento de trabajo, su fecha y su sello; el orden y el punto 0 (sigue UT).
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01TqGMMkAVhFXy7h212qb9oi

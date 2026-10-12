@@ -1,0 +1,16 @@
+mvp: prompt_UT con los nombres del primer ejemplo corregidos, y la base de cero
+
+- prompt_UT.md: dos nombres del ejemplo 1 describian lo que no decian sus oraciones. [3] pasa a
+  «el origen de la vida en el océano» (los primeros seres vivos estan en [4]) y [4] a «los primeros
+  seres vivos y el tiempo en que el mar fue el único lugar habitado» (el nombre anterior dejaba
+  fuera los microorganismos). La particion del ejemplo no cambia.
+- La base se reseteo: se borro corpus.db y volvio a nacer con el esquema, las seis tablas en cero.
+  La UT de 'preparacion del cafe' la habia hecho el prompt anterior; su texto y el de doc11 siguen
+  en mvp/documentos/, sin radicar.
+- memoria: el estado (base vacia), la descripcion de prompt_UT, el orden y el punto 0, el 15, y
+  lo verificado en el scratch con seis particiones de 'preparacion del cafe': los cortes estables
+  no se mueven, la oracion que vale para todo el texto es la que duda, y un nombre que junta dos
+  asuntos se vuelve un rotulo.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01TqGMMkAVhFXy7h212qb9oi

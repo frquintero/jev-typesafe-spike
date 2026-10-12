@@ -1,0 +1,11 @@
+mvp: UT de preparacion_cafe con Haiku high, 5 unidades
+
+- La base: la corrida preparacion_cafe:UT (claude-haiku-5-5, esfuerzo high, 4,0 s, 3.036 tokens de
+  entrada, 581 de salida, 326 pensando; prompt_UT con hash 8185ce90…) y 5 unidades: [1, 2] [3]
+  [4, 5, 6] [7, 8, 9] [10, 11, 12], con las 12 oraciones cubiertas una sola vez.
+- paso1_unidades.py no recibe el esfuerzo: se corrio con un envoltorio del scratch que lo cambia
+  en memoria para el alias; la corrida guarda el esfuerzo usado.
+- memoria: el estado y el punto 0 (sigue DATOS).
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01TqGMMkAVhFXy7h212qb9oi

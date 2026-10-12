@@ -1,0 +1,9 @@
+# El cielo, en cuatro apuntes
+
+El Sol está a unos ciento cincuenta millones de kilómetros de la Tierra, y su luz tarda ocho minutos y veinte segundos en llegar. Júpiter es el planeta más grande del sistema solar: su diámetro mide ciento cuarenta y tres mil kilómetros, once veces el de la Tierra. Saturno está rodeado por anillos de hielo y polvo que se extienden unos doscientos ochenta mil kilómetros. La Luna se aleja de nosotros casi cuatro centímetros por año, una medida que se comprueba con espejos dejados en su superficie.
+
+El Sol tiene unos cuatro mil seiscientos millones de años y en su núcleo la temperatura alcanza los quince millones de grados centígrados. Cada segundo convierte unos seiscientos millones de toneladas de hidrógeno en helio. De esa energía depende toda la vida en la Tierra, y las plantas la capturan mediante la fotosíntesis. Las estrellas más masivas viven apenas unos pocos millones de años, mientras que las más pequeñas duran decenas de miles de millones.
+
+La Vía Láctea contiene entre cien mil y cuatrocientos mil millones de estrellas. Su disco mide unos cien mil años luz de diámetro, y el Sol completa una vuelta alrededor del centro galáctico cada doscientos treinta millones de años. La galaxia más cercana es Andrómeda, a dos millones y medio de años luz. Las galaxias se alejan unas de otras: el universo se expande desde hace casi catorce mil millones de años.
+
+Los telescopios actuales detectan la luz que salió de galaxias lejanas hace más de trece mil millones de años. El primer planeta fuera del sistema solar se confirmó en mil novecientos noventa y dos, y hoy se conocen más de cinco mil. En dos mil diecinueve se publicó la primera imagen de un agujero negro, obtenida por ocho radiotelescopios coordinados de todo el planeta. La astronomía trabaja con esa luz vieja: mirar lejos es mirar hacia atrás en el tiempo.

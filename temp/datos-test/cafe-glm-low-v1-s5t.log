@@ -1,0 +1,3 @@
+bash: cannot set terminal process group (3156): Inappropriate ioctl for device
+bash: no job control in this shell
+preparacion_cafe-glm-low-v1-s5t.json: 16.2 s · stop · verificación: {"parseo": true, "unidades": 5, "datos": 28, "problemas": [], "avisos": ["n=2 dato 2: la unidad «°C» también está dentro del valor"]}

@@ -1,0 +1,42 @@
+{
+  "peticion": {
+    "model": "glm-5.3-flash",
+    "messages": [
+      {
+        "role": "user",
+        "content": "qué es una variable en python"
+      }
+    ],
+    "reasoning_effort": "high"
+  },
+  "respuesta": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "# ¿Qué es una variable en Python?\n\nUna **variable** en Python es un **nombre que hace referencia a un valor** almacenado en la memoria. Piénsala como una etiqueta o contenedor que le pones a un dato para poder usarlo después.\n\n## Ejemplo básico\n\n```python\nnombre = \"Ana\"\nedad = 25\naltura = 1.68\nes_estudiante = True\n```\n\n## Puntos clave\n\n### 1. No necesitas declarar el tipo\nPython detecta automáticamente el tipo de dato:\n\n```python\nx = 10        # entero (int)\ny = 3.14      # decimal (float)\nz = \"hola\"    # texto (string)\nactivo = True # booleano (bool)\n```\n\n### 2. Puedes cambiar el valor y el tipo\n```python\nx = 5\nprint(x)    # 5\n\nx = \"hola\"  # ahora guarda texto\nprint(x)    # hola\n```\n\n### 3. Son etiquetas, no cajas\nTécnicamente, la variable apunta al valor, no lo \"contiene\":\n```python\na = 10\nb = a   # b apunta al mismo valor\n```\n\n## Reglas para nombrar variables\n\n✅ **Válido:**\n```python\nmi_variable = 1\nedad2 = 2\n_nombre = 3\n```\n\n❌ **Inválido:**\n```python\n2edad = 1        # no puede empezar con número\nmi-variable = 2  # no puede tener guiones\nmi variable = 3  # no puede tener espacios\n```\n\n⚠️ **No puedes usar palabras reservadas:**\n```python\n# Esto da error:\nclass = \"matemáticas\"\nif = 5\n```\n\n## Convención de nombres\n\nEn Python se usa el estilo **snake_case**:\n```python\nnombre_completo = \"Ana Pérez\"   # ✔️ recomendado\nnombreCompleto = \"Ana Pérez\"    # estilo Java, no recomendado en Python\n```\n\n¿Quieres que te explique algo más sobre variables, como los tipos de datos o cómo funcionan en memoria?",
+          "role": "assistant"
+        }
+      }
+    ],
+    "created": 1791649174,
+    "id": "20261011001923f8c09b5cb8044f65",
+    "model": "glm-5.3-flash",
+    "object": "chat.completion",
+    "request_id": "20261011001923f8c09b5cb8044f65",
+    "usage": {
+      "completion_tokens": 470,
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "prompt_tokens": 18,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "total_tokens": 488,
+      "thinking_tokens": 0
+    },
+    "_segundos": 11.0
+  }
+}

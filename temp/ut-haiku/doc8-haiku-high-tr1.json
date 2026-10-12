@@ -1,0 +1,189 @@
+{
+  "doc": "doc8",
+  "alias": "haiku",
+  "modelo": "claude-haiku-5-5",
+  "esfuerzo": "high",
+  "rN": "tr1",
+  "segundos": 6.1,
+  "prompt": "temp/prompt_UT_test.md",
+  "hash_prompt": "cd4311829b2251d5069b7fdf269b04ca2fa915fc01ff93f527b9188f856e8ecd",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 2645,
+    "completion_tokens": 1025,
+    "total_tokens": 3670,
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 2645,
+    "thinking_tokens": 626,
+    "anthropic": {
+      "input_tokens": 2645,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 1025,
+      "output_tokens_details": {
+        "thinking_tokens": 626
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  },
+  "subtemas": [
+    {
+      "subtema": "el origen de la vida en el océano y los primeros seres vivos",
+      "oraciones": [
+        1,
+        4
+      ]
+    },
+    {
+      "subtema": "la extensión, la profundidad y la temperatura del océano",
+      "oraciones": [
+        2,
+        3
+      ]
+    },
+    {
+      "subtema": "la evolución de los animales desde la explosión del Cámbrico hasta la conquista de la tierra firme",
+      "oraciones": [
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "subtema": "el regreso de algunos linajes al mar, como los antepasados de las ballenas",
+      "oraciones": [
+        9,
+        10
+      ]
+    },
+    {
+      "subtema": "el tamaño, el buceo y la alimentación de las crías de la ballena azul",
+      "oraciones": [
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "subtema": "el cambio actual del mar: el calor que absorbe y la acidificación que afecta a los corales",
+      "oraciones": [
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "subtema": "la extensión y la diversidad de los arrecifes",
+      "oraciones": [
+        17
+      ]
+    },
+    {
+      "subtema": "la ampliación de una reserva marina del Pacífico",
+      "oraciones": [
+        18
+      ]
+    }
+  ],
+  "verificacion": {
+    "oraciones_del_texto": 18,
+    "huecos": [],
+    "solapes": [],
+    "fuera_de_rango": [],
+    "no_enteros": []
+  },
+  "error_parseo": null,
+  "peticion": {
+    "model": "claude-haiku-5-5",
+    "max_tokens": 16384,
+    "thinking": {
+      "type": "adaptive",
+      "display": "summarized"
+    },
+    "output_config": {
+      "effort": "high"
+    }
+  },
+  "respuesta_cruda": "{\"subtemas\": [\n  {\"subtema\": \"el origen de la vida en el océano y los primeros seres vivos\", \"oraciones\": [1, 4]},\n  {\"subtema\": \"la extensión, la profundidad y la temperatura del océano\", \"oraciones\": [2, 3]},\n  {\"subtema\": \"la evolución de los animales desde la explosión del Cámbrico hasta la conquista de la tierra firme\", \"oraciones\": [5, 6, 7, 8]},\n  {\"subtema\": \"el regreso de algunos linajes al mar, como los antepasados de las ballenas\", \"oraciones\": [9, 10]},\n  {\"subtema\": \"el tamaño, el buceo y la alimentación de las crías de la ballena azul\", \"oraciones\": [11, 12, 13]},\n  {\"subtema\": \"el cambio actual del mar: el calor que absorbe y la acidificación que afecta a los corales\", \"oraciones\": [14, 15, 16]},\n  {\"subtema\": \"la extensión y la diversidad de los arrecifes\", \"oraciones\": [17]},\n  {\"subtema\": \"la ampliación de una reserva marina del Pacífico\", \"oraciones\": [18]}\n]}",
+  "razonamiento": "I notice the \"REFERENCIAS EXTERNAS\" section seems to just be definitional context rather than part of the actual output requirements—the real task is grouping sentences into subtemas, and the expected output format is JSON with that structure only.\n\nLet me verify the example grouping makes sense against the rules: sentences 1 and 4 both relate to the origin of life and can be non-adjacent, while 2-3 cover the ocean's physical extent as their own subtema. Checking further groupings (14-16 on current change, 17 on reefs, 18 on reserves) they all look internally consistent and each sentence belongs to exactly one subtema, so I'll reproduce this grouping with appropriate Spanish subtema names describing what each group states.\n\n",
+  "oraciones": [
+    {
+      "n": 1,
+      "oracion": "La vida apareció en el océano hace unos tres mil quinientos millones de años."
+    },
+    {
+      "n": 2,
+      "oracion": "El agua cubre el setenta y uno por ciento de la superficie del planeta y su profundidad media es de tres mil setecientos metros."
+    },
+    {
+      "n": 3,
+      "oracion": "En el fondo abisal la temperatura se mantiene cerca de los dos grados centígrados."
+    },
+    {
+      "n": 4,
+      "oracion": "Los primeros seres vivos fueron microorganismos de unas pocas micras, y durante casi tres mil millones de años el mar fue el único lugar habitado."
+    },
+    {
+      "n": 5,
+      "oracion": "Hace quinientos treinta millones de años ocurrió la explosión del Cámbrico: en veinte millones de años aparecieron la mayoría de los grandes grupos de animales que conocemos."
+    },
+    {
+      "n": 6,
+      "oracion": "Los primeros peces nadaban en el océano hace unos quinientos millones de años."
+    },
+    {
+      "n": 7,
+      "oracion": "Hace trescientos setenta y cinco millones de años, un linaje de peces de aletas carnosas salió del agua y dio origen a los anfibios, que todavía dependían del agua para reproducirse."
+    },
+    {
+      "n": 8,
+      "oracion": "La conquista de la tierra firme fue lenta: los primeros reptiles, con huevos de cáscara dura, aparecieron unos trescientos veinte millones de años después de aquella salida."
+    },
+    {
+      "n": 9,
+      "oracion": "Algunos linajes hicieron el camino de vuelta."
+    },
+    {
+      "n": 10,
+      "oracion": "Los antepasados de las ballenas caminaban sobre la tierra hace cincuenta millones de años y volvieron al mar en unos diez millones de años."
+    },
+    {
+      "n": 11,
+      "oracion": "La ballena azul mide hasta treinta metros y pesa ciento cincuenta toneladas: es el animal más grande que ha existido."
+    },
+    {
+      "n": 12,
+      "oracion": "Puede bucear quinientos metros y aguantar la respiración cuarenta minutos."
+    },
+    {
+      "n": 13,
+      "oracion": "Sus crías beben doscientos litros de leche al día."
+    },
+    {
+      "n": 14,
+      "oracion": "Hoy el mar cambia más rápido que en cualquier otro momento de esa historia."
+    },
+    {
+      "n": 15,
+      "oracion": "Ha absorbido el noventa por ciento del calor extra que retuvo la atmósfera."
+    },
+    {
+      "n": 16,
+      "oracion": "Desde la era preindustrial, la acidez del agua superficial aumentó un treinta por ciento, y eso altera a los corales, que crecen apenas un centímetro al año."
+    },
+    {
+      "n": 17,
+      "oracion": "Los arrecifes ocupan menos del uno por ciento del fondo marino y albergan cerca de la cuarta parte de las especies marinas."
+    },
+    {
+      "n": 18,
+      "oracion": "Una reserva del Pacífico pasó de mil quinientas a doce mil hectáreas en dos años."
+    }
+  ]
+}

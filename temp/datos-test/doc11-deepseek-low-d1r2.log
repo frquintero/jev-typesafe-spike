@@ -1,0 +1,40 @@
+bash: cannot set terminal process group (3156): Inappropriate ioctl for device
+bash: no job control in this shell
+  doc11: una llamada con 5 unidades · prompt prompt_DATOS_decisiones_v7.md · deepseek-flash (esfuerzo low)
+  doc11-deepseek-low-d1r2.json: 41.6 s · stop · {"parseo": true, "unidades": 5, "datos": 31, "problemas": []}
+    n=1 · 8 datos · la mutación de una letra del gen de la hemoglobina que deforma los glóbulos rojos y acorta su vida
+      · causa de la anemia falciforme = el cambio de una sola letra en el gen de la beta globina
+      · ubicación del gen de la beta globina = en el cromosoma once
+      · sustitución en la posición seis de la proteína = un ácido glutámico por una valina
+      · nombre de la hemoglobina que resulta = hemoglobina S
+      · comportamiento de la hemoglobina S cuando le falta oxígeno = se agrupa en fibras rígidas
+      · efecto de las fibras de hemoglobina S sobre los glóbulos rojos = los deforman, hacen que pierdan su forma de disco y tomen la de una hoz
+      · duración de un glóbulo rojo sano = unos ciento veinte [días]
+      · duración de un glóbulo rojo falciforme = entre diez y veinte [días]
+    n=2 · 9 datos · la historia del diagnóstico, desde la descripción de 1910 hasta el hallazgo de la proteína alterada
+      · fecha de la descripción inicial de la enfermedad = hace más de un siglo, en mil novecientos diez
+      · autor de la observación de glóbulos alargados en la descripción inicial de la enfermedad = un médico de Chicago
+      · hallazgo del médico de Chicago en mil novecientos diez = glóbulos alargados en la sangre de un estudiante
+      · fecha en que Linus Pauling mostró que la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico = mil novecientos cuarenta y nueve
+      · migración de la hemoglobina de los enfermos en un campo eléctrico según Linus Pauling = de otro modo
+      · autor de la identificación del aminoácido sustituido = Vernon Ingram
+      · fecha de la identificación del aminoácido sustituido = mil novecientos cincuenta y siete
+      · nombre que él (Linus Pauling o Vernon Ingram) dio a la anemia falciforme = una enfermedad molecular
+      · efecto de ese hallazgo (la identificación del aminoácido sustituido por Vernon Ingram) sobre la anemia falciforme = la convirtió en la primera enfermedad explicada por un cambio en una proteína
+    n=3 · 6 datos · la herencia recesiva y la protección que ofrecen los portadores frente a la malaria
+      · tipo de herencia de la enfermedad = recesiva
+      · condición de quien recibe una sola copia alterada = es portador y casi nunca enferma
+      · probabilidad por embarazo de tener un hijo enfermo si ambos padres son portadores = uno en cuatro
+      · efecto de ser portador frente a la malaria grave = resisten mejor la malaria grave
+      · reducción del riesgo de malaria grave en portadores por esa ventaja (resistir mejor la malaria grave), según los estudios de campo = cerca de un noventa [por ciento]
+      · proporción de habitantes que llevan la mutación en algunas regiones de África = hasta uno de cada cuatro habitantes
+    n=4 · 1 datos · la cifra anual de niños que nacen con formas graves de la enfermedad
+      · número de niños que nacen cada año con formas graves de la enfermedad, según la Organización Mundial de la Salud = unos trescientos mil
+    n=5 · 7 datos · los tratamientos: la hidroxiurea, la terapia CRISPR aprobada en 2023 y su costo
+      · tratamiento clásico de la enfermedad = la hidroxiurea
+      · efecto de la hidroxiurea = aumenta la hemoglobina fetal
+      · población para la que fue aprobada la hidroxiurea = adultos
+      · fecha de aprobación de la hidroxiurea para adultos = mil novecientos noventa y ocho
+      · fecha de aprobación de la primera terapia basada en la edición genética con CRISPR = diciembre de dos mil veintitrés
+      · número de pacientes que pasaron al menos un año sin crisis de dolor en el ensayo principal de la terapia CRISPR = veintinueve de treinta
+      · costo de cada tratamiento = unos dos millones [dólares]

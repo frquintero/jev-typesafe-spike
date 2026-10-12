@@ -1,0 +1,3 @@
+muse: workspace root: /home/fratquintero/Documentos/Claude/jev-typesafe-spike (cwd default)
+muse: workspace trust: trusted source=user-config
+muse: warning: rules file at /home/fratquintero/Documentos/Claude/jev-typesafe-spike/CLAUDE.md is ignored this session because AGENTS.md takes precedence in that directory; merge still-applicable guidance into AGENTS.md or remove one of the two files

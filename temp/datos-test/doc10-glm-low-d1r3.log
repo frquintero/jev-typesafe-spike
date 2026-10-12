@@ -1,0 +1,39 @@
+bash: cannot set terminal process group (3156): Inappropriate ioctl for device
+bash: no job control in this shell
+  doc10: una llamada con 6 unidades · prompt prompt_DATOS_decisiones_v7.md · glm-5.3-flash (esfuerzo low)
+  doc10-glm-low-d1r3.json: 17.1 s · stop · {"parseo": true, "unidades": 6, "datos": 29, "problemas": [], "avisos": []}
+    n=1 · 3 datos · la época y la extensión de la civilización del Indo
+      · época de florecimiento de la civilización del valle del Indo = entre el dos mil seiscientos y el mil novecientos antes de nuestra era
+      · ubicación de la civilización del valle del Indo = lo que hoy son Pakistán y el noroeste de la India
+      · extensión de la civilización del valle del Indo = cerca de un millón, una extensión mayor que la de Egipto y Mesopotamia juntas [kilómetros cuadrados]
+    n=2 · 3 datos · las ciudades de Harappa y Mohenjo-daro y la población de esta última
+      · número de ciudades más estudiadas de la civilización del valle del Indo = dos (Harappa y Mohenjo-daro)
+      · distancia entre Harappa y Mohenjo-daro = unos seiscientos [kilómetros]
+      · número de habitantes que llegó a tener Mohenjo-daro, según las estimaciones más citadas = unos cuarenta mil
+    n=3 · 7 datos · el urbanismo: calles en cuadrícula, desagües, ladrillos normalizados y el Gran Baño impermeabilizado
+      · trazado de las calles de las ciudades del Indo = en cuadrícula
+      · acceso a un desagüe cubierto de las casas de las ciudades del Indo = casi todas las casas tenían acceso
+      · equivalente del sistema de desagües cubiertos en otras ciudades de la época = no tiene equivalente
+      · proporción entre grosor, ancho y largo de los ladrillos cocidos = de uno a dos a cuatro
+      · dimensiones del Gran Baño de Mohenjo-daro = doce metros por siete
+      · profundidad del Gran Baño de Mohenjo-daro = unos dos metros y medio
+      · método usado para impermeabilizar el Gran Baño de Mohenjo-daro = sus constructores sellaron las juntas con betún
+    n=4 · 8 datos · los sellos, la escritura sin descifrar y las pesas como pruebas del comercio
+      · material y decoración de los sellos usados por los comerciantes del Indo = de esteatita tallados con animales y signos
+      · número de inscripciones conocidas de la escritura del Indo = unas cuatro mil
+      · extensión de las inscripciones de la escritura del Indo = casi todas muy breves
+      · número de signos distintos de la escritura del Indo = cerca de cuatrocientos
+      · estado de desciframiento de la escritura del Indo (esa escritura) = no ha sido descifrada
+      · origen de los barcos con cornalina y marfil que llegaban a Mesopotamia = un país llamado Meluhha
+      · identificación de Meluhha por la mayoría de los historiadores = el valle del Indo
+      · patrón de las pesas de piedra en toda la región del Indo = cada una pesaba el doble de la anterior, hasta llegar a sesenta y cuatro veces la más pequeña
+    n=5 · 3 datos · las excavaciones de Marshall y Wheeler y la hipótesis de la invasión
+      · fecha del anuncio del descubrimiento de Mohenjo-daro por John Marshall = mil novecientos veinticuatro
+      · fecha en que Mortimer Wheeler retomó las excavaciones de Mohenjo-daro = los años cuarenta
+      · causa del final de la civilización según Mortimer Wheeler (él) = una invasión, una idea que hoy casi nadie sostiene
+    n=6 · 5 datos · el abandono de las grandes ciudades y sus causas climáticas
+      · fecha del vaciado de las grandes ciudades = hacia el mil novecientos antes de nuestra era
+      · causa del abandono de las grandes ciudades según los estudios recientes = un debilitamiento del monzón
+      · duración de la sequía según los sedimentos de los lagos = unos doscientos [años]
+      · consecuencia de la sequía (si duró unos doscientos años) = los campos de cereal no pudieron sostener a las ciudades
+      · fecha en que el río Ghaggar-Hakra (que corría al este del Indo) dejó de llevar agua todo el año = hace unos cuatro mil [años]

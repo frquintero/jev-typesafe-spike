@@ -1,0 +1,255 @@
+{
+  "doc": "doc11",
+  "documento": "temp/doc11.md",
+  "alias": "sonnet",
+  "modelo": "claude-sonnet-5-5",
+  "esfuerzo": "medium",
+  "rN": "d1",
+  "unidades_origen": "temp/ut-haiku/doc11-haiku-high-tr1.json",
+  "unidades": [
+    {
+      "caso": "la mutación de una letra del gen de la hemoglobina que deforma los glóbulos rojos y acorta su vida",
+      "contenido": "La anemia falciforme se debe al cambio de una sola letra en el gen de la beta globina, que está en el cromosoma once. En la posición seis de la proteína, un ácido glutámico queda sustituido por una valina. La hemoglobina que resulta, llamada hemoglobina S, se agrupa en fibras rígidas cuando le falta oxígeno. Esas fibras deforman los glóbulos rojos, que pierden su forma de disco y toman la de una hoz. Un glóbulo rojo sano vive unos ciento veinte días; uno falciforme, entre diez y veinte."
+    },
+    {
+      "caso": "la historia del diagnóstico, desde la descripción de 1910 hasta el hallazgo de la proteína alterada",
+      "contenido": "La enfermedad se describió hace más de un siglo, en mil novecientos diez, cuando un médico de Chicago observó glóbulos alargados en la sangre de un estudiante. En mil novecientos cuarenta y nueve, Linus Pauling mostró que la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico. Vernon Ingram identificó en mil novecientos cincuenta y siete el aminoácido sustituido. Él la llamó una enfermedad molecular. Ese hallazgo convirtió a la anemia falciforme en la primera enfermedad explicada por un cambio en una proteína."
+    },
+    {
+      "caso": "la herencia recesiva y la protección que ofrecen los portadores frente a la malaria",
+      "contenido": "La herencia es recesiva: quien recibe una sola copia alterada es portador y casi nunca enferma. Si ambos padres son portadores, cada embarazo tiene una probabilidad de uno en cuatro de dar un hijo enfermo. Los portadores, en cambio, resisten mejor la malaria grave. Según los estudios de campo, esa ventaja reduce su riesgo de malaria grave en cerca de un noventa por ciento. Por eso, en algunas regiones de África, hasta uno de cada cuatro habitantes lleva la mutación."
+    },
+    {
+      "caso": "la cifra anual de niños que nacen con formas graves de la enfermedad",
+      "contenido": "Según la Organización Mundial de la Salud, cada año nacen unos trescientos mil niños con formas graves de la enfermedad."
+    },
+    {
+      "caso": "los tratamientos: la hidroxiurea, la terapia CRISPR aprobada en 2023 y su costo",
+      "contenido": "Su tratamiento clásico es la hidroxiurea, que aumenta la hemoglobina fetal, aprobada para adultos en mil novecientos noventa y ocho. En diciembre de dos mil veintitrés se aprobó la primera terapia basada en la edición genética con CRISPR. En el ensayo principal, veintinueve de treinta pacientes pasaron al menos un año sin crisis de dolor. Cada tratamiento cuesta unos dos millones de dólares."
+    }
+  ],
+  "segundos": 11.1,
+  "prompt": "temp/datos-decisiones/prompt_DATOS_decisiones_v7.md",
+  "hash_prompt": "6c362409fdf6225cfff2a3e65abb1c197527a7ca5bcd8ee7d2270625167bd05f",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 3002,
+    "completion_tokens": 2065,
+    "total_tokens": 5067,
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3002,
+    "thinking_tokens": 0,
+    "anthropic": {
+      "input_tokens": 3002,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 2065,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  },
+  "salida": [
+    {
+      "n": 1,
+      "caso": "la mutación de una letra del gen de la hemoglobina que deforma los glóbulos rojos y acorta su vida",
+      "datos": [
+        {
+          "aspecto": "causa de la anemia falciforme",
+          "valor": "el cambio de una sola letra en el gen de la beta globina",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "cromosoma en el que está el gen de la beta globina",
+          "valor": "el once",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "posición de la proteína (de la beta globina) en la que un ácido glutámico queda sustituido por una valina",
+          "valor": "seis",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "sustitución en la posición seis de la proteína",
+          "valor": "un ácido glutámico queda sustituido por una valina",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "nombre de la hemoglobina que resulta de la sustitución (la del ácido glutámico por una valina)",
+          "valor": "hemoglobina S",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "comportamiento de la hemoglobina S cuando le falta oxígeno",
+          "valor": "se agrupa en fibras rígidas",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "efecto de las fibras rígidas de hemoglobina S sobre los glóbulos rojos",
+          "valor": "los deforman: pierden su forma de disco y toman la de una hoz",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "duración de la vida de un glóbulo rojo sano",
+          "valor": "unos ciento veinte días",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "duración de la vida de un glóbulo rojo falciforme",
+          "valor": "entre diez y veinte días",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "caso": "la historia del diagnóstico, desde la descripción de 1910 hasta el hallazgo de la proteína alterada",
+      "datos": [
+        {
+          "aspecto": "fecha de la descripción de la enfermedad (la anemia falciforme)",
+          "valor": "hace más de un siglo, en mil novecientos diez",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "autor de la descripción de la enfermedad en 1910",
+          "valor": "un médico de Chicago",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "observación del médico de Chicago en la sangre de un estudiante",
+          "valor": "glóbulos alargados",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "año en que Linus Pauling mostró que la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico",
+          "valor": "mil novecientos cuarenta y nueve",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "año en que Vernon Ingram identificó el aminoácido sustituido",
+          "valor": "mil novecientos cincuenta y siete",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "autor de la denominación de la anemia falciforme como enfermedad molecular",
+          "valor": "él (Linus Pauling o Vernon Ingram)",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "lugar de la anemia falciforme entre las enfermedades explicadas por un cambio en una proteína, por ese hallazgo (el de Ingram del aminoácido sustituido)",
+          "valor": "la primera",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "caso": "la herencia recesiva y la protección que ofrecen los portadores frente a la malaria",
+      "datos": [
+        {
+          "aspecto": "tipo de herencia de la enfermedad (la anemia falciforme)",
+          "valor": "recesiva",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "situación de quien recibe una sola copia alterada",
+          "valor": "es portador y casi nunca enferma",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "probabilidad por embarazo de dar un hijo enfermo, si ambos padres son portadores",
+          "valor": "uno en cuatro",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "resistencia de los portadores a la malaria grave",
+          "valor": "resisten mejor",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "reducción del riesgo de malaria grave de los portadores por esa ventaja (la mejor resistencia), según los estudios de campo",
+          "valor": "cerca de un noventa",
+          "unidad_valor": "por ciento"
+        },
+        {
+          "aspecto": "proporción de habitantes que lleva la mutación en algunas regiones de África",
+          "valor": "hasta uno de cada cuatro",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "caso": "la cifra anual de niños que nacen con formas graves de la enfermedad",
+      "datos": [
+        {
+          "aspecto": "número anual de niños que nacen con formas graves de la enfermedad (la anemia falciforme), según la Organización Mundial de la Salud",
+          "valor": "unos trescientos mil",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "caso": "los tratamientos: la hidroxiurea, la terapia CRISPR aprobada en 2023 y su costo",
+      "datos": [
+        {
+          "aspecto": "tratamiento clásico de la enfermedad (la anemia falciforme)",
+          "valor": "la hidroxiurea",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "efecto de la hidroxiurea",
+          "valor": "aumenta la hemoglobina fetal",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "año de aprobación de la hidroxiurea para adultos",
+          "valor": "mil novecientos noventa y ocho",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "fecha de aprobación de la primera terapia basada en la edición genética con CRISPR",
+          "valor": "diciembre de dos mil veintitrés",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "número de pacientes que pasaron al menos un año sin crisis de dolor en el ensayo principal",
+          "valor": "veintinueve de treinta",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "costo de cada tratamiento (el de la terapia con CRISPR)",
+          "valor": "unos dos millones",
+          "unidad_valor": "dólares"
+        }
+      ]
+    }
+  ],
+  "verificacion": {
+    "parseo": true,
+    "unidades": 5,
+    "datos": 29,
+    "problemas": []
+  },
+  "error_parseo": null,
+  "peticion": {
+    "model": "claude-sonnet-5-5",
+    "max_tokens": 32000,
+    "thinking": {
+      "type": "adaptive",
+      "display": "summarized"
+    },
+    "output_config": {
+      "effort": "medium"
+    }
+  },
+  "respuesta_cruda": "{\"unidades\":[\n{\"n\":1,\"caso\":\"la mutación de una letra del gen de la hemoglobina que deforma los glóbulos rojos y acorta su vida\",\"datos\":[\n{\"aspecto\":\"causa de la anemia falciforme\",\"valor\":\"el cambio de una sola letra en el gen de la beta globina\",\"unidad_valor\":null},\n{\"aspecto\":\"cromosoma en el que está el gen de la beta globina\",\"valor\":\"el once\",\"unidad_valor\":null},\n{\"aspecto\":\"posición de la proteína (de la beta globina) en la que un ácido glutámico queda sustituido por una valina\",\"valor\":\"seis\",\"unidad_valor\":null},\n{\"aspecto\":\"sustitución en la posición seis de la proteína\",\"valor\":\"un ácido glutámico queda sustituido por una valina\",\"unidad_valor\":null},\n{\"aspecto\":\"nombre de la hemoglobina que resulta de la sustitución (la del ácido glutámico por una valina)\",\"valor\":\"hemoglobina S\",\"unidad_valor\":null},\n{\"aspecto\":\"comportamiento de la hemoglobina S cuando le falta oxígeno\",\"valor\":\"se agrupa en fibras rígidas\",\"unidad_valor\":null},\n{\"aspecto\":\"efecto de las fibras rígidas de hemoglobina S sobre los glóbulos rojos\",\"valor\":\"los deforman: pierden su forma de disco y toman la de una hoz\",\"unidad_valor\":null},\n{\"aspecto\":\"duración de la vida de un glóbulo rojo sano\",\"valor\":\"unos ciento veinte días\",\"unidad_valor\":null},\n{\"aspecto\":\"duración de la vida de un glóbulo rojo falciforme\",\"valor\":\"entre diez y veinte días\",\"unidad_valor\":null}]},\n{\"n\":2,\"caso\":\"la historia del diagnóstico, desde la descripción de 1910 hasta el hallazgo de la proteína alterada\",\"datos\":[\n{\"aspecto\":\"fecha de la descripción de la enfermedad (la anemia falciforme)\",\"valor\":\"hace más de un siglo, en mil novecientos diez\",\"unidad_valor\":null},\n{\"aspecto\":\"autor de la descripción de la enfermedad en 1910\",\"valor\":\"un médico de Chicago\",\"unidad_valor\":null},\n{\"aspecto\":\"observación del médico de Chicago en la sangre de un estudiante\",\"valor\":\"glóbulos alargados\",\"unidad_valor\":null},\n{\"aspecto\":\"año en que Linus Pauling mostró que la hemoglobina de los enfermos migraba de otro modo en un campo eléctrico\",\"valor\":\"mil novecientos cuarenta y nueve\",\"unidad_valor\":null},\n{\"aspecto\":\"año en que Vernon Ingram identificó el aminoácido sustituido\",\"valor\":\"mil novecientos cincuenta y siete\",\"unidad_valor\":null},\n{\"aspecto\":\"autor de la denominación de la anemia falciforme como enfermedad molecular\",\"valor\":\"él (Linus Pauling o Vernon Ingram)\",\"unidad_valor\":null},\n{\"aspecto\":\"lugar de la anemia falciforme entre las enfermedades explicadas por un cambio en una proteína, por ese hallazgo (el de Ingram del aminoácido sustituido)\",\"valor\":\"la primera\",\"unidad_valor\":null}]},\n{\"n\":3,\"caso\":\"la herencia recesiva y la protección que ofrecen los portadores frente a la malaria\",\"datos\":[\n{\"aspecto\":\"tipo de herencia de la enfermedad (la anemia falciforme)\",\"valor\":\"recesiva\",\"unidad_valor\":null},\n{\"aspecto\":\"situación de quien recibe una sola copia alterada\",\"valor\":\"es portador y casi nunca enferma\",\"unidad_valor\":null},\n{\"aspecto\":\"probabilidad por embarazo de dar un hijo enfermo, si ambos padres son portadores\",\"valor\":\"uno en cuatro\",\"unidad_valor\":null},\n{\"aspecto\":\"resistencia de los portadores a la malaria grave\",\"valor\":\"resisten mejor\",\"unidad_valor\":null},\n{\"aspecto\":\"reducción del riesgo de malaria grave de los portadores por esa ventaja (la mejor resistencia), según los estudios de campo\",\"valor\":\"cerca de un noventa\",\"unidad_valor\":\"por ciento\"},\n{\"aspecto\":\"proporción de habitantes que lleva la mutación en algunas regiones de África\",\"valor\":\"hasta uno de cada cuatro\",\"unidad_valor\":null}]},\n{\"n\":4,\"caso\":\"la cifra anual de niños que nacen con formas graves de la enfermedad\",\"datos\":[\n{\"aspecto\":\"número anual de niños que nacen con formas graves de la enfermedad (la anemia falciforme), según la Organización Mundial de la Salud\",\"valor\":\"unos trescientos mil\",\"unidad_valor\":null}]},\n{\"n\":5,\"caso\":\"los tratamientos: la hidroxiurea, la terapia CRISPR aprobada en 2023 y su costo\",\"datos\":[\n{\"aspecto\":\"tratamiento clásico de la enfermedad (la anemia falciforme)\",\"valor\":\"la hidroxiurea\",\"unidad_valor\":null},\n{\"aspecto\":\"efecto de la hidroxiurea\",\"valor\":\"aumenta la hemoglobina fetal\",\"unidad_valor\":null},\n{\"aspecto\":\"año de aprobación de la hidroxiurea para adultos\",\"valor\":\"mil novecientos noventa y ocho\",\"unidad_valor\":null},\n{\"aspecto\":\"fecha de aprobación de la primera terapia basada en la edición genética con CRISPR\",\"valor\":\"diciembre de dos mil veintitrés\",\"unidad_valor\":null},\n{\"aspecto\":\"número de pacientes que pasaron al menos un año sin crisis de dolor en el ensayo principal\",\"valor\":\"veintinueve de treinta\",\"unidad_valor\":null},\n{\"aspecto\":\"costo de cada tratamiento (el de la terapia con CRISPR)\",\"valor\":\"unos dos millones\",\"unidad_valor\":\"dólares\"}]}\n]}",
+  "razonamiento": null
+}

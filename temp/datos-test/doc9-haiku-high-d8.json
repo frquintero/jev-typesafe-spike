@@ -1,0 +1,270 @@
+{
+  "doc": "doc9",
+  "documento": "temp/doc9.md",
+  "alias": "haiku",
+  "modelo": "claude-haiku-5-5",
+  "esfuerzo": "high",
+  "rN": "d8",
+  "unidades_origen": "temp/ut-haiku/doc9-haiku-high-tr1.json",
+  "unidades": [
+    {
+      "caso": "la distancia del Sol, su edad, su energía y la vida de las estrellas",
+      "contenido": "El Sol está a unos ciento cincuenta millones de kilómetros de la Tierra, y su luz tarda ocho minutos y veinte segundos en llegar. El Sol tiene unos cuatro mil seiscientos millones de años y en su núcleo la temperatura alcanza los quince millones de grados centígrados. Cada segundo convierte unos seiscientos millones de toneladas de hidrógeno en helio. De esa energía depende toda la vida en la Tierra, y las plantas la capturan mediante la fotosíntesis. Las estrellas más masivas viven apenas unos pocos millones de años, mientras que las más pequeñas duran decenas de miles de millones."
+    },
+    {
+      "caso": "el tamaño de Júpiter y los anillos de Saturno",
+      "contenido": "Júpiter es el planeta más grande del sistema solar: su diámetro mide ciento cuarenta y tres mil kilómetros, once veces el de la Tierra. Saturno está rodeado por anillos de hielo y polvo que se extienden unos doscientos ochenta mil kilómetros."
+    },
+    {
+      "caso": "el alejamiento de la Luna respecto de la Tierra",
+      "contenido": "La Luna se aleja de nosotros casi cuatro centímetros por año, una medida que se comprueba con espejos dejados en su superficie."
+    },
+    {
+      "caso": "la Vía Láctea, la galaxia Andrómeda y la expansión del universo",
+      "contenido": "La Vía Láctea contiene entre cien mil y cuatrocientos mil millones de estrellas. Su disco mide unos cien mil años luz de diámetro, y el Sol completa una vuelta alrededor del centro galáctico cada doscientos treinta millones de años. La galaxia más cercana es Andrómeda, a dos millones y medio de años luz. Las galaxias se alejan unas de otras: el universo se expande desde hace casi catorce mil millones de años."
+    },
+    {
+      "caso": "la luz antigua que captan los telescopios y lo que revela sobre el pasado",
+      "contenido": "Los telescopios actuales detectan la luz que salió de galaxias lejanas hace más de trece mil millones de años. La astronomía trabaja con esa luz vieja: mirar lejos es mirar hacia atrás en el tiempo."
+    },
+    {
+      "caso": "los exoplanetas conocidos y la primera imagen de un agujero negro",
+      "contenido": "El primer planeta fuera del sistema solar se confirmó en mil novecientos noventa y dos, y hoy se conocen más de cinco mil. En dos mil diecinueve se publicó la primera imagen de un agujero negro, obtenida por ocho radiotelescopios coordinados de todo el planeta."
+    }
+  ],
+  "segundos": 44.8,
+  "prompt": "temp/datos-decisiones/prompt_DATOS_decisiones_v3.md",
+  "hash_prompt": "4ac869df66aadc4a71c8835896530274573a3ed147e95f87bac647b2ef0d19a3",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 3177,
+    "completion_tokens": 12100,
+    "total_tokens": 15277,
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3177,
+    "thinking_tokens": 9997,
+    "anthropic": {
+      "input_tokens": 3177,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 12100,
+      "output_tokens_details": {
+        "thinking_tokens": 9997
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  },
+  "salida": [
+    {
+      "n": 1,
+      "caso": "la distancia del Sol, su edad, su energía y la vida de las estrellas",
+      "datos": [
+        {
+          "aspecto": "distancia del Sol a la Tierra",
+          "valor": "unos ciento cincuenta millones",
+          "unidad_valor": "kilómetros"
+        },
+        {
+          "aspecto": "tiempo que tarda la luz del Sol en llegar a la Tierra",
+          "valor": "ocho minutos y veinte segundos",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "edad del Sol",
+          "valor": "unos cuatro mil seiscientos millones",
+          "unidad_valor": "años"
+        },
+        {
+          "aspecto": "temperatura en el núcleo del Sol",
+          "valor": "quince millones",
+          "unidad_valor": "grados centígrados"
+        },
+        {
+          "aspecto": "cantidad de hidrógeno que el Sol convierte en helio cada segundo",
+          "valor": "unos seiscientos millones",
+          "unidad_valor": "toneladas"
+        },
+        {
+          "aspecto": "dependencia de toda la vida en la Tierra respecto de esa energía (la que produce la conversión de hidrógeno en helio)",
+          "valor": "toda",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "procedimiento con que las plantas capturan esa energía (la que produce la conversión de hidrógeno en helio)",
+          "valor": "la fotosíntesis",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "duración de la vida de las estrellas más masivas",
+          "valor": "apenas unos pocos millones",
+          "unidad_valor": "años"
+        },
+        {
+          "aspecto": "duración de la vida de las estrellas más pequeñas",
+          "valor": "decenas de miles de millones",
+          "unidad_valor": "años"
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "caso": "el tamaño de Júpiter y los anillos de Saturno",
+      "datos": [
+        {
+          "aspecto": "posición de Júpiter por tamaño entre los planetas del sistema solar",
+          "valor": "el más grande",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "diámetro de Júpiter",
+          "valor": "ciento cuarenta y tres mil",
+          "unidad_valor": "kilómetros"
+        },
+        {
+          "aspecto": "diámetro de Júpiter comparado con el de la Tierra",
+          "valor": "once veces",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "composición de los anillos de Saturno",
+          "valor": "hielo y polvo",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "extensión de los anillos de Saturno",
+          "valor": "unos doscientos ochenta mil",
+          "unidad_valor": "kilómetros"
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "caso": "el alejamiento de la Luna respecto de la Tierra",
+      "datos": [
+        {
+          "aspecto": "alejamiento de la Luna respecto de la Tierra",
+          "valor": "casi cuatro",
+          "unidad_valor": "centímetros por año"
+        },
+        {
+          "aspecto": "medio con que se comprueba el alejamiento de la Luna respecto de la Tierra",
+          "valor": "espejos dejados en la superficie de la Luna",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "caso": "la Vía Láctea, la galaxia Andrómeda y la expansión del universo",
+      "datos": [
+        {
+          "aspecto": "número de estrellas de la Vía Láctea",
+          "valor": "entre cien mil y cuatrocientos mil millones",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "diámetro del disco de la Vía Láctea",
+          "valor": "unos cien mil",
+          "unidad_valor": "años luz"
+        },
+        {
+          "aspecto": "periodo de una vuelta del Sol alrededor del centro galáctico",
+          "valor": "doscientos treinta millones",
+          "unidad_valor": "años"
+        },
+        {
+          "aspecto": "galaxia más cercana a la Vía Láctea",
+          "valor": "Andrómeda",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "distancia de Andrómeda a la Vía Láctea",
+          "valor": "dos millones y medio",
+          "unidad_valor": "años luz"
+        },
+        {
+          "aspecto": "movimiento de las galaxias unas respecto de otras",
+          "valor": "alejándose unas de otras",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "tiempo transcurrido desde que el universo se expande",
+          "valor": "casi catorce mil millones",
+          "unidad_valor": "años"
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "caso": "la luz antigua que captan los telescopios y lo que revela sobre el pasado",
+      "datos": [
+        {
+          "aspecto": "tiempo transcurrido desde que salió la luz de galaxias lejanas que detectan los telescopios actuales",
+          "valor": "más de trece mil millones",
+          "unidad_valor": "años"
+        },
+        {
+          "aspecto": "dirección en el tiempo a la que se mira al observar lo lejano",
+          "valor": "hacia atrás",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "caso": "los exoplanetas conocidos y la primera imagen de un agujero negro",
+      "datos": [
+        {
+          "aspecto": "año en que se confirmó el primer planeta fuera del sistema solar",
+          "valor": "mil novecientos noventa y dos",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "número de exoplanetas conocidos hoy",
+          "valor": "más de cinco mil",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "año de publicación de la primera imagen de un agujero negro",
+          "valor": "dos mil diecinueve",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "número de radiotelescopios que obtuvieron la primera imagen de un agujero negro",
+          "valor": "ocho",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "tipo de instrumento con que se obtuvo la primera imagen de un agujero negro",
+          "valor": "radiotelescopios coordinados de todo el planeta",
+          "unidad_valor": null
+        }
+      ]
+    }
+  ],
+  "verificacion": {
+    "parseo": true,
+    "unidades": 6,
+    "datos": 30,
+    "problemas": []
+  },
+  "error_parseo": null,
+  "peticion": {
+    "model": "claude-haiku-5-5",
+    "max_tokens": 16384,
+    "thinking": {
+      "type": "adaptive",
+      "display": "summarized"
+    },
+    "output_config": {
+      "effort": "high"
+    }
+  },
+  "respuesta_cruda": "{\"unidades\": [\n  {\"n\": 1,\n   \"caso\": \"la distancia del Sol, su edad, su energía y la vida de las estrellas\",\n   \"datos\": [\n     {\"aspecto\": \"distancia del Sol a la Tierra\", \"valor\": \"unos ciento cincuenta millones\", \"unidad_valor\": \"kilómetros\"},\n     {\"aspecto\": \"tiempo que tarda la luz del Sol en llegar a la Tierra\", \"valor\": \"ocho minutos y veinte segundos\", \"unidad_valor\": null},\n     {\"aspecto\": \"edad del Sol\", \"valor\": \"unos cuatro mil seiscientos millones\", \"unidad_valor\": \"años\"},\n     {\"aspecto\": \"temperatura en el núcleo del Sol\", \"valor\": \"quince millones\", \"unidad_valor\": \"grados centígrados\"},\n     {\"aspecto\": \"cantidad de hidrógeno que el Sol convierte en helio cada segundo\", \"valor\": \"unos seiscientos millones\", \"unidad_valor\": \"toneladas\"},\n     {\"aspecto\": \"dependencia de toda la vida en la Tierra respecto de esa energía (la que produce la conversión de hidrógeno en helio)\", \"valor\": \"toda\", \"unidad_valor\": null},\n     {\"aspecto\": \"procedimiento con que las plantas capturan esa energía (la que produce la conversión de hidrógeno en helio)\", \"valor\": \"la fotosíntesis\", \"unidad_valor\": null},\n     {\"aspecto\": \"duración de la vida de las estrellas más masivas\", \"valor\": \"apenas unos pocos millones\", \"unidad_valor\": \"años\"},\n     {\"aspecto\": \"duración de la vida de las estrellas más pequeñas\", \"valor\": \"decenas de miles de millones\", \"unidad_valor\": \"años\"}\n   ]},\n  {\"n\": 2,\n   \"caso\": \"el tamaño de Júpiter y los anillos de Saturno\",\n   \"datos\": [\n     {\"aspecto\": \"posición de Júpiter por tamaño entre los planetas del sistema solar\", \"valor\": \"el más grande\", \"unidad_valor\": null},\n     {\"aspecto\": \"diámetro de Júpiter\", \"valor\": \"ciento cuarenta y tres mil\", \"unidad_valor\": \"kilómetros\"},\n     {\"aspecto\": \"diámetro de Júpiter comparado con el de la Tierra\", \"valor\": \"once veces\", \"unidad_valor\": null},\n     {\"aspecto\": \"composición de los anillos de Saturno\", \"valor\": \"hielo y polvo\", \"unidad_valor\": null},\n     {\"aspecto\": \"extensión de los anillos de Saturno\", \"valor\": \"unos doscientos ochenta mil\", \"unidad_valor\": \"kilómetros\"}\n   ]},\n  {\"n\": 3,\n   \"caso\": \"el alejamiento de la Luna respecto de la Tierra\",\n   \"datos\": [\n     {\"aspecto\": \"alejamiento de la Luna respecto de la Tierra\", \"valor\": \"casi cuatro\", \"unidad_valor\": \"centímetros por año\"},\n     {\"aspecto\": \"medio con que se comprueba el alejamiento de la Luna respecto de la Tierra\", \"valor\": \"espejos dejados en la superficie de la Luna\", \"unidad_valor\": null}\n   ]},\n  {\"n\": 4,\n   \"caso\": \"la Vía Láctea, la galaxia Andrómeda y la expansión del universo\",\n   \"datos\": [\n     {\"aspecto\": \"número de estrellas de la Vía Láctea\", \"valor\": \"entre cien mil y cuatrocientos mil millones\", \"unidad_valor\": null},\n     {\"aspecto\": \"diámetro del disco de la Vía Láctea\", \"valor\": \"unos cien mil\", \"unidad_valor\": \"años luz\"},\n     {\"aspecto\": \"periodo de una vuelta del Sol alrededor del centro galáctico\", \"valor\": \"doscientos treinta millones\", \"unidad_valor\": \"años\"},\n     {\"aspecto\": \"galaxia más cercana a la Vía Láctea\", \"valor\": \"Andrómeda\", \"unidad_valor\": null},\n     {\"aspecto\": \"distancia de Andrómeda a la Vía Láctea\", \"valor\": \"dos millones y medio\", \"unidad_valor\": \"años luz\"},\n     {\"aspecto\": \"movimiento de las galaxias unas respecto de otras\", \"valor\": \"alejándose unas de otras\", \"unidad_valor\": null},\n     {\"aspecto\": \"tiempo transcurrido desde que el universo se expande\", \"valor\": \"casi catorce mil millones\", \"unidad_valor\": \"años\"}\n   ]},\n  {\"n\": 5,\n   \"caso\": \"la luz antigua que captan los telescopios y lo que revela sobre el pasado\",\n   \"datos\": [\n     {\"aspecto\": \"tiempo transcurrido desde que salió la luz de galaxias lejanas que detectan los telescopios actuales\", \"valor\": \"más de trece mil millones\", \"unidad_valor\": \"años\"},\n     {\"aspecto\": \"dirección en el tiempo a la que se mira al observar lo lejano\", \"valor\": \"hacia atrás\", \"unidad_valor\": null}\n   ]},\n  {\"n\": 6,\n   \"caso\": \"los exoplanetas conocidos y la primera imagen de un agujero negro\",\n   \"datos\": [\n     {\"aspecto\": \"año en que se confirmó el primer planeta fuera del sistema solar\", \"valor\": \"mil novecientos noventa y dos\", \"unidad_valor\": null},\n     {\"aspecto\": \"número de exoplanetas conocidos hoy\", \"valor\": \"más de cinco mil\", \"unidad_valor\": null},\n     {\"aspecto\": \"año de publicación de la primera imagen de un agujero negro\", \"valor\": \"dos mil diecinueve\", \"unidad_valor\": null},\n     {\"aspecto\": \"número de radiotelescopios que obtuvieron la primera imagen de un agujero negro\", \"valor\": \"ocho\", \"unidad_valor\": null},\n     {\"aspecto\": \"tipo de instrumento con que se obtuvo la primera imagen de un agujero negro\", \"valor\": \"radiotelescopios coordinados de todo el planeta\", \"unidad_valor\": null}\n   ]}\n]}",
+  "razonamiento": "I'm working through the six units, extracting data points like the Sun's distance from Earth and how light travel time factors into the values and units for each sentence.\n\nContinuing through the remaining facts: the Sun's age (~4.6 billion years), core temperature (fifteen million degrees Celsius), and the rate of hydrogen-to-helium conversion (about six hundred million tons per second). I'm also working through how to frame \"all life on Earth depends on that energy\" as an aspect with value \"toda\" referencing solar energy.\n\nI'll resolve \"esa energía\" as referring to the energy produced by the hydrogen-to-helium conversion, clarifying it parenthetically since the unit doesn't name it directly. Then I'll move to the next sentence about plants capturing that energy through photosynthesis, framing it as an aspect of capture.\n\nContinuing with the small stars' lifespan datum, I pair \"decenas de miles de millones\" with \"años\" as the unit. Then moving to Júpiter, I note its rank as the largest planet in the solar system, and I'm about to extract the diameter figure of ciento cuarenta y tres mil kilómetros as another datum.\n\nI then separate out the comparative diameter fact—\"once veces el de la Tierra\"—as its own datum distinct from the raw kilometer value, treating \"veces\" as part of the value itself rather than a separate unit, and I'm about to move on to another measurement involving minutes.\n\nFor Saturn, I'm noting the rings' composition (ice and dust) and their extent of roughly 280,000 kilometers as two separate aspects. Moving to the Moon, I'm identifying its yearly drift of nearly four centimeters as an aspect with \"centimeters per year\" as the compound unit.\n\nI also note that mirrors left on the Moon's surface serve as the means of verifying that drift, resolving \"su\" to refer back to the Moon. Then shifting to the Milky Way, I'm working out the aspect of its star count, with \"between one hundred billion and four hundred billion\" as the value and \"stars\" as the unit of comparison.\n\nI continue with the disk's diameter at around one hundred thousand light years, resolving \"su\" back to the Milky Way, then the Sun's orbital period around the galactic center at two hundred thirty million years. Next I'm looking at Andromeda as the nearest galaxy, working out whether its distance of two and a half million light years should be measured relative to Earth or to the Milky Way.\n\nI'll settle on \"a la Vía Láctea\" for the distance reference since that's the galaxy under discussion. For the galaxies moving apart, I'm treating this as a separate fact about direction of movement—aspecto \"movimiento de las galaxias entre sí\", valor \"se alejan unas de otras\"—distinct from the expansion timeframe of nearly fourteen billion years.\n\nSettling on \"tiempo transcurrido desde que el universo se expande\" with value \"casi catorce mil millones\" and unit \"años\". Moving to unit 5 on telescopes, I'll extract the datum about light detected from distant galaxies dating back more than thirteen billion years, then note the claim that looking far into space means looking back in time as another data point to capture.\n\nI'm debating whether the \"astronomy works with old light\" phrase deserves its own separate datum or if it's redundant with the \"mirar hacia atrás en el tiempo\" one. I think I'll skip it to avoid duplicating the same idea, since the earlier datum already captures the reference to \"esa luz vieja.\"\n\nMoving to unit six on exoplanets, I'm extracting data points: the confirmation of the first exoplanet in 1992, the current count of over five thousand known exoplanets, the 2019 publication of the first black hole image, and the instrument used for that image (eight coordinated radiotelescopes around the planet).\n\nI'm deciding to split the black hole datum into two separate items — the number of radiotelescopes (\"ocho\") and the type of instrument (\"radiotelescopios coordinados de todo el planeta\") — following the pattern from earlier examples that distinguish count from means. I also note the Sun's light-travel time datum (\"ocho minutos y veinte segundos\") should stay as a single value, and I'm moving on to recheck the photosynthesis datum in unit one.\n\nFor the photosynthesis sentence, I'm working through how to handle the pronoun \"la,\" which refers back to \"esa energía\" produced by the hydrogen-to-helium conversion. I decide to keep the phrasing close to the original by replacing the pronoun with its antecedent rather than forcing an awkward parenthetical, landing on \"procedimiento con que las plantas capturan la energía que produce la conversión de hidrógeno en helio\" as the aspecto, with \"la fotosíntesis\" as the valor.\n\nFor the dependency datum, I frame the aspecto as all life on Earth depending on that same solar energy, with \"toda\" serving as the valor expressing the extent of dependence.\n\nMoving to the Sun's conversion rate, I set the aspecto as the amount of hydrogen converted to helium per second, with valor \"unos seiscientos millones\" and unidad \"toneladas,\" folding \"cada segundo\" into the aspect as a time scale. Then I start on the core temperature datum, noting \"su\" clearly refers back to the Sun as the sole antecedent.\n\nI continue building out the remaining data points across the whole document—core temperature, age, Earth distance, light travel time, stellar lifespans for massive versus small stars, Jupiter's size ranking and diameter, Saturn's rings, the Moon's recession rate and the mirror evidence for it, the Milky Way's star count and disk diameter, the Sun's galactic orbit period, Andromeda's distance, the universe's expansion duration, and how looking far away means looking back in time, each broken into aspecto/valor/unidad triples with appropriate null handling for unitless values. Once all these are captured, I prepare to output everything as a clean JSON object following the specified format, in Spanish, with no extra commentary.\n\n"
+}

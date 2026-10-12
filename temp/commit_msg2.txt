@@ -1,0 +1,11 @@
+mvp: prompt_UT con la tilde y el tú; el café dice «inmersión»
+
+- prompt_UT.md: «por si sola» pasa a «por sí sola», con su punto final, y «Mirá» a «Mira»: el
+  prompt va entero en tú.
+- preparación del café.md: «inversión» pasa a «inmersión» en las dos oraciones que nombran la
+  dinámica ([1] y [4]): el texto describe el café sumergido, y el párrafo de presión ya decía
+  «inmersión corta». El documento no está radicado; cuando se radique, sale con un sello nuevo.
+- memoria: la corrección del texto y que el sello del café cambia (doc11 vuelve con el mismo).
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01TqGMMkAVhFXy7h212qb9oi

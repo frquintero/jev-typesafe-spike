@@ -1,0 +1,8 @@
+bash: cannot set terminal process group (3156): Inappropriate ioctl for device
+bash: no job control in this shell
+  preparación del café-haiku-low-n1r2.json: 4 unidades · 1.7 s · stop · prompt temp/prompt_UT_v1_nombres.md
+    verificación: {"oraciones_del_texto": 12, "huecos": [], "solapes": [], "fuera_de_rango": [], "no_enteros": []}
+    U1: [1, 2, 3] las tres dinámicas de extracción del café y el control de temperatura y molienda
+    U2: [4, 5, 6] los métodos de inversión y sus efectos en el cuerpo y la acidez
+    U3: [7, 8, 9] los métodos de percolación y la claridad de la taza resultante
+    U4: [10, 11, 12] los métodos de presión y la versatilidad del AeroPress

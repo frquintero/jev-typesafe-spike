@@ -1,0 +1,28 @@
+{
+  "rutas": {
+    "preguntas": "../../mvp/corpus/consulta/preguntas-doc6.md",
+    "r": "../../mvp/corpus/consulta/R.json",
+    "corpus": "../../mvp/corpus/corpus.db",
+    "prompt": "../../mvp/prompts/prompt_ORQ.md",
+    "salida": "out/salida-deepseek.md",
+    "traza": "out/traza-deepseek.jsonl",
+    "crudos": "out/cache"
+  },
+  "preguntas": {
+    "desde_archivo": true,
+    "cual": 1
+  },
+  "dominio": "GENERAL",
+  "modelo": {
+    "version": "v2",
+    "alias": "deepseek"
+  },
+  "guardias": {
+    "max_turnos": 8,
+    "max_herramientas": 20
+  },
+  "entrega": {
+    "forma": "json_en_mensaje_final"
+  },
+  "etiqueta": "consulta-doc6-q{numero}-deepseek-medido"
+}

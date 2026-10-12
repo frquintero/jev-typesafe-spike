@@ -1,0 +1,42 @@
+{
+  "peticion": {
+    "model": "glm-5.3-flash",
+    "messages": [
+      {
+        "role": "user",
+        "content": "qué es una variable en python"
+      }
+    ],
+    "reasoning_effort": "low"
+  },
+  "respuesta": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "# Variable en Python\n\nUna **variable** es un nombre que hace referencia a un valor almacenado en la memoria. Es como una \"etiqueta\" que usas para guardar datos y usarlos después.\n\n## Ejemplos básicos\n\n```python\nedad = 25\nnombre = \"Ana\"\nprecio = 19.99\nes_estudiante = True\n```\n\n## Características importantes\n\n**1. No necesitas declarar el tipo** — Python lo infiere automáticamente:\n```python\nx = 5        # entero (int)\ny = \"hola\"   # texto (str)\nz = 3.14     # decimal (float)\n```\n\n**2. Puedes cambiar el valor y el tipo** (tipado dinámico):\n```python\nx = 10\nx = \"ahora soy texto\"  # ¡Válido en Python!\n```\n\n**3. Puedes asignar múltiples variables a la vez**:\n```python\na, b, c = 1, 2, 3\n```\n\n## Reglas para nombrar variables\n\n- Pueden contener letras, números y guiones bajos: `mi_variable_1` ✅\n- No pueden empezar con número: `1variable` ❌\n- Son sensibles a mayúsculas: `edad` y `Edad` son distintas\n- No pueden ser palabras reservadas: `if`, `for`, `class` ❌\n\n## Convención de nombres\n\nEn Python se usa **snake_case** (minúsculas con guiones bajos):\n```python\nnombre_completo = \"Ana García\"\ntotal_a_pagar = 150.50\n```\n\n¿Quieres saber más sobre algún tipo de dato en particular?",
+          "role": "assistant"
+        }
+      }
+    ],
+    "created": 1791649095,
+    "id": "20261011001808524fa8db06c94594",
+    "model": "glm-5.3-flash",
+    "object": "chat.completion",
+    "request_id": "20261011001808524fa8db06c94594",
+    "usage": {
+      "completion_tokens": 373,
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "prompt_tokens": 18,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "total_tokens": 391,
+      "thinking_tokens": 0
+    },
+    "_segundos": 7.8
+  }
+}

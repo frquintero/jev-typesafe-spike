@@ -1,0 +1,244 @@
+{
+  "doc": "preparacion_cafe",
+  "alias": "sonnet",
+  "modelo": "claude-sonnet-5-5",
+  "esfuerzo": "medium",
+  "rN": "s4r2",
+  "segundos": 9.9,
+  "prompt": "temp/prompt_DATOS_v1.md",
+  "hash_prompt": "5b45637914172f60654acb3273f7285ffc8732025c4ed190f47355bf3e73edbf",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 2873,
+    "completion_tokens": 1826,
+    "total_tokens": 4699,
+    "prompt_cache_hit_tokens": 1905,
+    "prompt_cache_miss_tokens": 968,
+    "thinking_tokens": 0,
+    "anthropic": {
+      "input_tokens": 968,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1905,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 1826,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  },
+  "unidades_enviadas": "caso: las tres dinámicas de extracción del café y su efecto en la bebida\nsatélites:\n[1] La preparación de café se divide principalmente en tres dinámicas de extracción según el contacto entre el agua y el grano: inmersión, percolación y presión.\n[2] Cada una de estas técnicas modifica radicalmente el cuerpo, la acidez, la amargura y la claridad de la bebida final.\n\ncaso: la molienda y la temperatura del agua como factores comunes a todo método\nsatélites:\n[1] Para obtener el mejor resultado en cualquier método, es fundamental moler el grano al momento y controlar que el agua se mantenga a una temperatura ideal entre los 90 °C y 93 °C.\n\ncaso: los métodos de inmersión: Prensa Francesa y Cold Brew\nsatélites:\n[1] En los métodos de inmersión, como la Prensa Francesa y el Cold Brew, el café molido reposa sumergido por completo en el agua durante todo el tiempo de preparación.\n[2] La prensa francesa utiliza agua caliente y una molienda gruesa para entregar una taza densa, con mucho cuerpo y rica en aceites naturales.\n[3] Por el contrario, el cold brew realiza esta infusión en frío durante un periodo de 12 a 24 horas, lo que reduce drásticamente la acidez y resalta la dulzura natural del grano.\n\ncaso: los métodos de percolación o goteo: conos como el Hario V60 y el Chemex\nsatélites:\n[1] Por otro lado, los métodos de percolación o goteo manual, representados por conos como el Hario V60 y el Chemex, hacen pasar el agua caliente a través de una cama de café y un filtro de papel por gravedad.\n[2] Estas técnicas requieren moliendas medianas y destacan por retener la mayoría de los aceites y sedimentos pesados.\n[3] El resultado es una taza sumamente limpia y ligera que permite apreciar los matices más sutiles, la acidez brillante y las notas florales o frutales de los cafés de especialidad.\n\ncaso: los métodos de presión: espresso, Moka y AeroPress\nsatélites:\n[1] Finalmente, los métodos de presión como la Máquina de Espresso, la Cafetera Moka y el AeroPress empujan con fuerza el agua a través del café para lograr extracciones mucho más rápidas y concentradas.\n[2] Mientras que el espresso ofrece una bebida muy intensa coronada por una densa capa de crema en menos de medio minuto, dispositivos híbridos como el AeroPress combinan una inmersión corta con presión manual.\n[3] Esto último permite jugar de forma muy versátil con los tiempos y las moliendas para equilibrar cuerpo y claridad al gusto.",
+  "salida": {
+    "unidades": [
+      {
+        "n": 1,
+        "caso": "las tres dinámicas de extracción del café y su efecto en la bebida",
+        "datos": [
+          {
+            "aspecto": "número de dinámicas de extracción en que se divide la preparación de café",
+            "valor": "tres",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "criterio de división de las dinámicas de extracción",
+            "valor": "el contacto entre el agua y el grano",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "dinámicas de extracción de la preparación de café",
+            "valor": "inmersión, percolación y presión",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "efecto de cada técnica de extracción sobre la bebida final",
+            "valor": "modifica radicalmente el cuerpo, la acidez, la amargura y la claridad",
+            "unidad_valor": null
+          }
+        ]
+      },
+      {
+        "n": 2,
+        "caso": "la molienda y la temperatura del agua como factores comunes a todo método",
+        "datos": [
+          {
+            "aspecto": "momento en que conviene moler el grano en cualquier método",
+            "valor": "al momento",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "temperatura ideal del agua en cualquier método",
+            "valor": "entre 90 y 93",
+            "unidad_valor": "°C"
+          }
+        ]
+      },
+      {
+        "n": 3,
+        "caso": "los métodos de inmersión: Prensa Francesa y Cold Brew",
+        "datos": [
+          {
+            "aspecto": "estado del café molido durante la preparación en los métodos de inmersión",
+            "valor": "reposa sumergido por completo en el agua durante todo el tiempo de preparación",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "temperatura del agua de la prensa francesa",
+            "valor": "caliente",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "tipo de molienda de la prensa francesa",
+            "valor": "gruesa",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "características de la taza de la prensa francesa",
+            "valor": "densa, con mucho cuerpo y rica en aceites naturales",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "temperatura de la infusión del cold brew",
+            "valor": "en frío",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "duración de la infusión del cold brew",
+            "valor": "de 12 a 24",
+            "unidad_valor": "horas"
+          },
+          {
+            "aspecto": "efecto de la infusión en frío del cold brew sobre la acidez",
+            "valor": "la reduce drásticamente",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "efecto de la infusión en frío del cold brew sobre la dulzura natural del grano",
+            "valor": "la resalta",
+            "unidad_valor": null
+          }
+        ]
+      },
+      {
+        "n": 4,
+        "caso": "los métodos de percolación o goteo: conos como el Hario V60 y el Chemex",
+        "datos": [
+          {
+            "aspecto": "conos representativos de los métodos de percolación o goteo manual",
+            "valor": "Hario V60 y Chemex",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "recorrido del agua caliente en los métodos de percolación",
+            "valor": "a través de una cama de café y un filtro de papel",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "fuerza que hace pasar el agua en los métodos de percolación",
+            "valor": "la gravedad",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "tipo de molienda que requieren las técnicas de percolación",
+            "valor": "mediana",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "lo que retienen las técnicas de percolación",
+            "valor": "la mayoría de los aceites y sedimentos pesados",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "características de la taza de percolación",
+            "valor": "sumamente limpia y ligera",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "matices que permite apreciar la taza de percolación en los cafés de especialidad",
+            "valor": "los matices más sutiles, la acidez brillante y las notas florales o frutales",
+            "unidad_valor": null
+          }
+        ]
+      },
+      {
+        "n": 5,
+        "caso": "los métodos de presión: espresso, Moka y AeroPress",
+        "datos": [
+          {
+            "aspecto": "métodos de presión",
+            "valor": "Máquina de Espresso, Cafetera Moka y AeroPress",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "modo de operar de los métodos de presión",
+            "valor": "empujan con fuerza el agua a través del café",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "características de las extracciones de los métodos de presión",
+            "valor": "mucho más rápidas y concentradas",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "intensidad de la bebida del espresso",
+            "valor": "muy intensa",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "cobertura de la bebida del espresso",
+            "valor": "una densa capa de crema",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "tiempo de extracción del espresso",
+            "valor": "menos de medio minuto",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "tipo de dispositivos como el AeroPress",
+            "valor": "híbrido",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "combinación del AeroPress",
+            "valor": "una inmersión corta con presión manual",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "variables con las que permite jugar el AeroPress",
+            "valor": "los tiempos y las moliendas, de forma muy versátil",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "propósito de jugar con los tiempos y las moliendas del AeroPress",
+            "valor": "equilibrar cuerpo y claridad al gusto",
+            "unidad_valor": null
+          }
+        ]
+      }
+    ]
+  },
+  "verificacion": {
+    "parseo": true,
+    "unidades": 5,
+    "datos": 31,
+    "problemas": [],
+    "avisos": []
+  },
+  "error_parseo": null,
+  "peticion": {
+    "model": "claude-sonnet-5-5",
+    "max_tokens": 32000,
+    "thinking": {
+      "type": "between_tools"
+    },
+    "output_config": {
+      "effort": "medium"
+    }
+  },
+  "respuesta_cruda": "{\"unidades\":[{\"n\":1,\"caso\":\"las tres dinámicas de extracción del café y su efecto en la bebida\",\"datos\":[{\"aspecto\":\"número de dinámicas de extracción en que se divide la preparación de café\",\"valor\":\"tres\",\"unidad_valor\":null},{\"aspecto\":\"criterio de división de las dinámicas de extracción\",\"valor\":\"el contacto entre el agua y el grano\",\"unidad_valor\":null},{\"aspecto\":\"dinámicas de extracción de la preparación de café\",\"valor\":\"inmersión, percolación y presión\",\"unidad_valor\":null},{\"aspecto\":\"efecto de cada técnica de extracción sobre la bebida final\",\"valor\":\"modifica radicalmente el cuerpo, la acidez, la amargura y la claridad\",\"unidad_valor\":null}]},{\"n\":2,\"caso\":\"la molienda y la temperatura del agua como factores comunes a todo método\",\"datos\":[{\"aspecto\":\"momento en que conviene moler el grano en cualquier método\",\"valor\":\"al momento\",\"unidad_valor\":null},{\"aspecto\":\"temperatura ideal del agua en cualquier método\",\"valor\":\"entre 90 y 93\",\"unidad_valor\":\"°C\"}]},{\"n\":3,\"caso\":\"los métodos de inmersión: Prensa Francesa y Cold Brew\",\"datos\":[{\"aspecto\":\"estado del café molido durante la preparación en los métodos de inmersión\",\"valor\":\"reposa sumergido por completo en el agua durante todo el tiempo de preparación\",\"unidad_valor\":null},{\"aspecto\":\"temperatura del agua de la prensa francesa\",\"valor\":\"caliente\",\"unidad_valor\":null},{\"aspecto\":\"tipo de molienda de la prensa francesa\",\"valor\":\"gruesa\",\"unidad_valor\":null},{\"aspecto\":\"características de la taza de la prensa francesa\",\"valor\":\"densa, con mucho cuerpo y rica en aceites naturales\",\"unidad_valor\":null},{\"aspecto\":\"temperatura de la infusión del cold brew\",\"valor\":\"en frío\",\"unidad_valor\":null},{\"aspecto\":\"duración de la infusión del cold brew\",\"valor\":\"de 12 a 24\",\"unidad_valor\":\"horas\"},{\"aspecto\":\"efecto de la infusión en frío del cold brew sobre la acidez\",\"valor\":\"la reduce drásticamente\",\"unidad_valor\":null},{\"aspecto\":\"efecto de la infusión en frío del cold brew sobre la dulzura natural del grano\",\"valor\":\"la resalta\",\"unidad_valor\":null}]},{\"n\":4,\"caso\":\"los métodos de percolación o goteo: conos como el Hario V60 y el Chemex\",\"datos\":[{\"aspecto\":\"conos representativos de los métodos de percolación o goteo manual\",\"valor\":\"Hario V60 y Chemex\",\"unidad_valor\":null},{\"aspecto\":\"recorrido del agua caliente en los métodos de percolación\",\"valor\":\"a través de una cama de café y un filtro de papel\",\"unidad_valor\":null},{\"aspecto\":\"fuerza que hace pasar el agua en los métodos de percolación\",\"valor\":\"la gravedad\",\"unidad_valor\":null},{\"aspecto\":\"tipo de molienda que requieren las técnicas de percolación\",\"valor\":\"mediana\",\"unidad_valor\":null},{\"aspecto\":\"lo que retienen las técnicas de percolación\",\"valor\":\"la mayoría de los aceites y sedimentos pesados\",\"unidad_valor\":null},{\"aspecto\":\"características de la taza de percolación\",\"valor\":\"sumamente limpia y ligera\",\"unidad_valor\":null},{\"aspecto\":\"matices que permite apreciar la taza de percolación en los cafés de especialidad\",\"valor\":\"los matices más sutiles, la acidez brillante y las notas florales o frutales\",\"unidad_valor\":null}]},{\"n\":5,\"caso\":\"los métodos de presión: espresso, Moka y AeroPress\",\"datos\":[{\"aspecto\":\"métodos de presión\",\"valor\":\"Máquina de Espresso, Cafetera Moka y AeroPress\",\"unidad_valor\":null},{\"aspecto\":\"modo de operar de los métodos de presión\",\"valor\":\"empujan con fuerza el agua a través del café\",\"unidad_valor\":null},{\"aspecto\":\"características de las extracciones de los métodos de presión\",\"valor\":\"mucho más rápidas y concentradas\",\"unidad_valor\":null},{\"aspecto\":\"intensidad de la bebida del espresso\",\"valor\":\"muy intensa\",\"unidad_valor\":null},{\"aspecto\":\"cobertura de la bebida del espresso\",\"valor\":\"una densa capa de crema\",\"unidad_valor\":null},{\"aspecto\":\"tiempo de extracción del espresso\",\"valor\":\"menos de medio minuto\",\"unidad_valor\":null},{\"aspecto\":\"tipo de dispositivos como el AeroPress\",\"valor\":\"híbrido\",\"unidad_valor\":null},{\"aspecto\":\"combinación del AeroPress\",\"valor\":\"una inmersión corta con presión manual\",\"unidad_valor\":null},{\"aspecto\":\"variables con las que permite jugar el AeroPress\",\"valor\":\"los tiempos y las moliendas, de forma muy versátil\",\"unidad_valor\":null},{\"aspecto\":\"propósito de jugar con los tiempos y las moliendas del AeroPress\",\"valor\":\"equilibrar cuerpo y claridad al gusto\",\"unidad_valor\":null}]}]}",
+  "razonamiento": null
+}

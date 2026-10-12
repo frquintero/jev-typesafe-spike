@@ -1,0 +1,123 @@
+{
+  "doc": "aviones_numerado",
+  "texto_sha256": "6c3557f93342bcceabd07a53197f497a3a2efebb95b21f22e3f4c3a849f3ca56",
+  "alias": "luna",
+  "modelo": "gpt-6-luna",
+  "esfuerzo": "low",
+  "rN": "n1",
+  "segundos": 3.1,
+  "prompt": "temp/estructura/prompt_volcado.md",
+  "hash_prompt": "344d3bf9a38f17b509c55978d95d5218b73ff808f62db4f283498f2cff964801",
+  "prompt_texto": "[SISTEMA]\nRELOJES (la fecha de radicación del documento; no es dato del documento)\n{{RELOJ_RADICADO}}\n\nTAREA\nExtrae los encabezados de `texto` y di de cuál encabezado cuelga cada uno.\n\nQUÉ ES UN ENCABEZADO\nUn encabezado nombra un asunto y lo separa del resto: es una línea corta, sin\npuntuación de cierre y que no desarrolla nada por sí sola. Las oraciones de\ndesarrollo no son encabezados.\n\nDE QUÉ CUELGA CADA ENCABEZADO\n1. Numera los encabezados 1, 2, 3… en el orden en que aparecen.\n2. A cada uno le asignas `padre`: el número de un encabezado anterior del cual\n   depende, o 0 si no depende de ninguno.\n3. Un encabezado depende de otro cuando trata un aspecto del asunto que el otro\n   nombra. Si abre un asunto propio, su padre es 0.\n4. Un documento puede tener varios encabezados con padre 0. No supongas que el\n   primero es el título del documento, ni que es el único de su rango.\n5. El padre es siempre un encabezado anterior: nunca uno posterior, nunca él mismo.\n6. Si el encabezado trae marcador explícito (`1.`, `1.1`, `I.`, `A.`), el marcador\n   decide: `1.1 X` cuelga de `1. Y`.\n\nTÍTULO LITERAL\nConserva el título tal como aparece: no lo reformules, no le cambies las\nmayúsculas ni le agregues signos.\n\nSALIDA\nDevuelve solo JSON válido, sin bloques Markdown, comentarios ni claves de más:\n{\"indice\":[{\"n\":1,\"titulo\":\"Un asunto\",\"padre\":0},\n           {\"n\":2,\"titulo\":\"Un aspecto suyo\",\"padre\":1}]}\n\nAntes de responder, verifica: cada título está en el texto tal cual, en el orden\ndel documento, no falta ninguno, y todo `padre` es 0 o un número menor que `n`.\n\n[TAREA]\n<texto>\n{{TEXTO}}\n</texto>\n\nRELOJES (el «ahora» de esta corrida; no es dato del documento)\n{{RELOJ_SISTEMA}}\n\nExtrae los encabezados del documento anterior. Devuelve únicamente el JSON solicitado.\n",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 915,
+    "completion_tokens": 182,
+    "thinking_tokens": 58,
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 915
+  },
+  "cuerpo_enviado": {
+    "model": "gpt-6-luna",
+    "input": "<texto>\n1. Aviones más eficientes\n\n1.1 Largo alcance\n\nEl Airbus A350-900 vuela hasta 15 000 km sin escalas y el Boeing 787-9, unos 14 100 km. Qantas planea la ruta Sídney-Londres, de cerca de 17 000 km y unas 20 horas de vuelo. Ambos modelos usan estructuras de materiales compuestos, que reducen el peso y el consumo.\n\n1.2 Consumo y motores\n\nLos motores turbofán actuales alcanzan relaciones de derivación cercanas a 10:1. Airbus declara cerca de 25 % menos combustible por plaza que en la generación anterior. En crucero, a 11 000 m de altitud, la temperatura exterior ronda los -56 °C y la densidad del aire baja a 0,36 kg/m³, frente a 1,225 kg/m³ al nivel del mar.\n\n2. Nuevas formas de volar\n\n2.1 Combustibles alternativos\n\nEl combustible sostenible de aviación (SAF) puede reducir hasta 80 % las emisiones de CO2 durante su ciclo de vida. El queroseno convencional tiene una densidad de unos 800 kg/m³. El hidrógeno líquido, almacenado a -253 °C, aporta 120 MJ/kg frente a 43 MJ/kg del queroseno, pero su densidad es de solo 71 kg/m³ y exige tanques mayores.\n\n2.2 Movilidad y velocidad\n\nLos aviones eléctricos de despegue vertical (eVTOL) apuntan a trayectos urbanos. Joby declara una velocidad máxima de 320 km/h y un alcance de 240 km. En el otro extremo, Boom Supersonic proyecta su Overture a Mach 1,7, unos 1 800 km/h, a cerca de 18 000 m de altitud.\n</texto>\n\nRELOJES (el «ahora» de esta corrida; no es dato del documento)\nsistema: [11-10-2026: 20:59]\n\nExtrae los encabezados del documento anterior. Devuelve únicamente el JSON solicitado.",
+    "instructions": "RELOJES (la fecha de radicación del documento; no es dato del documento)\nradicado: [11-10-2026: 20:59]\n\nTAREA\nExtrae los encabezados de `texto` y di de cuál encabezado cuelga cada uno.\n\nQUÉ ES UN ENCABEZADO\nUn encabezado nombra un asunto y lo separa del resto: es una línea corta, sin\npuntuación de cierre y que no desarrolla nada por sí sola. Las oraciones de\ndesarrollo no son encabezados.\n\nDE QUÉ CUELGA CADA ENCABEZADO\n1. Numera los encabezados 1, 2, 3… en el orden en que aparecen.\n2. A cada uno le asignas `padre`: el número de un encabezado anterior del cual\n   depende, o 0 si no depende de ninguno.\n3. Un encabezado depende de otro cuando trata un aspecto del asunto que el otro\n   nombra. Si abre un asunto propio, su padre es 0.\n4. Un documento puede tener varios encabezados con padre 0. No supongas que el\n   primero es el título del documento, ni que es el único de su rango.\n5. El padre es siempre un encabezado anterior: nunca uno posterior, nunca él mismo.\n6. Si el encabezado trae marcador explícito (`1.`, `1.1`, `I.`, `A.`), el marcador\n   decide: `1.1 X` cuelga de `1. Y`.\n\nTÍTULO LITERAL\nConserva el título tal como aparece: no lo reformules, no le cambies las\nmayúsculas ni le agregues signos.\n\nSALIDA\nDevuelve solo JSON válido, sin bloques Markdown, comentarios ni claves de más:\n{\"indice\":[{\"n\":1,\"titulo\":\"Un asunto\",\"padre\":0},\n           {\"n\":2,\"titulo\":\"Un aspecto suyo\",\"padre\":1}]}\n\nAntes de responder, verifica: cada título está en el texto tal cual, en el orden\ndel documento, no falta ninguno, y todo `padre` es 0 o un número menor que `n`.",
+    "max_output_tokens": 16000,
+    "reasoning": {
+      "effort": "low"
+    }
+  },
+  "respuesta_cruda": "{\"indice\":[{\"n\":1,\"titulo\":\"1. Aviones más eficientes\",\"padre\":0},{\"n\":2,\"titulo\":\"1.1 Largo alcance\",\"padre\":1},{\"n\":3,\"titulo\":\"1.2 Consumo y motores\",\"padre\":1},{\"n\":4,\"titulo\":\"2. Nuevas formas de volar\",\"padre\":0},{\"n\":5,\"titulo\":\"2.1 Combustibles alternativos\",\"padre\":4},{\"n\":6,\"titulo\":\"2.2 Movilidad y velocidad\",\"padre\":4}]}",
+  "formato": "padres",
+  "indice": [
+    {
+      "n": 1,
+      "titulo": "1. Aviones más eficientes",
+      "padre": 0
+    },
+    {
+      "n": 2,
+      "titulo": "1.1 Largo alcance",
+      "padre": 1
+    },
+    {
+      "n": 3,
+      "titulo": "1.2 Consumo y motores",
+      "padre": 1
+    },
+    {
+      "n": 4,
+      "titulo": "2. Nuevas formas de volar",
+      "padre": 0
+    },
+    {
+      "n": 5,
+      "titulo": "2.1 Combustibles alternativos",
+      "padre": 4
+    },
+    {
+      "n": 6,
+      "titulo": "2.2 Movilidad y velocidad",
+      "padre": 4
+    }
+  ],
+  "filas": [
+    {
+      "n": 1,
+      "titulo": "1. Aviones más eficientes",
+      "desde": 0,
+      "hasta": 25,
+      "seccion_desde": 0,
+      "seccion_hasta": 662
+    },
+    {
+      "n": 2,
+      "titulo": "1.1 Largo alcance",
+      "desde": 27,
+      "hasta": 44,
+      "seccion_desde": 27,
+      "seccion_hasta": 312
+    },
+    {
+      "n": 3,
+      "titulo": "1.2 Consumo y motores",
+      "desde": 312,
+      "hasta": 333,
+      "seccion_desde": 312,
+      "seccion_hasta": 662
+    },
+    {
+      "n": 4,
+      "titulo": "2. Nuevas formas de volar",
+      "desde": 662,
+      "hasta": 687,
+      "seccion_desde": 662,
+      "seccion_hasta": 1352
+    },
+    {
+      "n": 5,
+      "titulo": "2.1 Combustibles alternativos",
+      "desde": 689,
+      "hasta": 718,
+      "seccion_desde": 689,
+      "seccion_hasta": 1057
+    },
+    {
+      "n": 6,
+      "titulo": "2.2 Movilidad y velocidad",
+      "desde": 1057,
+      "hasta": 1082,
+      "seccion_desde": 1057,
+      "seccion_hasta": 1352
+    }
+  ],
+  "numeracion": [
+    "1",
+    "1.1",
+    "1.2",
+    "2",
+    "2.1",
+    "2.2"
+  ],
+  "roturas": [],
+  "error_parseo": null
+}

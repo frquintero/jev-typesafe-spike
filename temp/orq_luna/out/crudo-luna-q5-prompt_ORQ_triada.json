@@ -1,0 +1,1091 @@
+{
+  "doc": "sol",
+  "bateria": "mvp/consulta/preguntas_sol.md",
+  "numero": 5,
+  "pregunta": "¿Qué tienen en común la fotosíntesis de las plantas y el funcionamiento de un panel fotovoltaico, y en qué se diferencian sus resultados?",
+  "dominio": "GENERAL",
+  "prompt": "temp/orq_luna/prompt_ORQ_triada.md",
+  "documentos": [
+    "preparacion_cafe",
+    "sol"
+  ],
+  "casos": [
+    {
+      "unidad_id": "preparacion_cafe:U1",
+      "caso": "clasificación de los métodos de extracción y su efecto en la bebida"
+    },
+    {
+      "unidad_id": "preparacion_cafe:U2",
+      "caso": "recomendaciones generales para preparar café"
+    },
+    {
+      "unidad_id": "preparacion_cafe:U3",
+      "caso": "características de los métodos de inmersión"
+    },
+    {
+      "unidad_id": "preparacion_cafe:U4",
+      "caso": "características de los métodos de percolación o goteo manual"
+    },
+    {
+      "unidad_id": "preparacion_cafe:U5",
+      "caso": "características de los métodos de extracción por presión"
+    },
+    {
+      "unidad_id": "sol:U1",
+      "caso": "el Sol como fuente de energía y sus características principales"
+    },
+    {
+      "unidad_id": "sol:U2",
+      "caso": "la producción de energía en el interior del Sol y la temperatura de su superficie"
+    },
+    {
+      "unidad_id": "sol:U3",
+      "caso": "la energía solar en las cadenas alimentarias y los ecosistemas"
+    },
+    {
+      "unidad_id": "sol:U4",
+      "caso": "la influencia del calor solar en el ciclo del agua y el clima"
+    },
+    {
+      "unidad_id": "sol:U5",
+      "caso": "las tecnologías que aprovechan la energía solar para producir electricidad y calor"
+    }
+  ],
+  "herramientas": [
+    "obtener_datos_del_caso",
+    "preguntar_al_usuario"
+  ],
+  "anclas": {
+    "fecha": "2026-10-11",
+    "hora": "06:39",
+    "texto": "11 de octubre de 2026, 06:39"
+  },
+  "r": {
+    "fuentes_admitidas": [
+      "solo el documento"
+    ],
+    "herramientas": [
+      "obtener_datos_del_caso",
+      "preguntar_al_usuario"
+    ],
+    "operaciones": []
+  },
+  "modelo": {
+    "alias": "luna",
+    "esfuerzo": "low"
+  },
+  "guardias": {
+    "max_turnos": 8,
+    "max_herramientas": 20
+  },
+  "entrega": {
+    "desenlace": "respondida",
+    "respuesta": "Ambos aprovechan la energía de la luz solar. En la fotosíntesis, las plantas la usan para producir su alimento, almacenándola como energía química; un panel fotovoltaico convierte la luz directamente en electricidad. Así, sus resultados son distintos: alimento y energía química en las plantas, electricidad en el panel."
+  },
+  "json_entrega": "{\"desenlace\":\"respondida\",\"respuesta\":\"Ambos aprovechan la energía de la luz solar. En la fotosíntesis, las plantas la usan para producir su alimento, almacenándola como energía química; un panel fotovoltaico convierte la luz directamente en electricidad. Así, sus resultados son distintos: alimento y energía química en las plantas, electricidad en el panel.\"}",
+  "forma_entrega": "todo_el_mensaje",
+  "contenido_final": "{\"desenlace\":\"respondida\",\"respuesta\":\"Ambos aprovechan la energía de la luz solar. En la fotosíntesis, las plantas la usan para producir su alimento, almacenándola como energía química; un panel fotovoltaico convierte la luz directamente en electricidad. Así, sus resultados son distintos: alimento y energía química en las plantas, electricidad en el panel.\"}",
+  "pregunta_usuario": null,
+  "corte": null,
+  "cerrado": true,
+  "turnos": 4,
+  "llamadas": 3,
+  "casos_leidos": [
+    "sol:U1",
+    "sol:U3",
+    "sol:U5"
+  ],
+  "cuerpos": [
+    {
+      "model": "gpt-6-luna",
+      "input": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "input_text",
+              "text": "ANCLAS: 11 de octubre de 2026, 06:39 (día y hora del sistema; no es dato del documento)\n\nCASOS:\n- preparacion_cafe:U1 · clasificación de los métodos de extracción y su efecto en la bebida\n- preparacion_cafe:U2 · recomendaciones generales para preparar café\n- preparacion_cafe:U3 · características de los métodos de inmersión\n- preparacion_cafe:U4 · características de los métodos de percolación o goteo manual\n- preparacion_cafe:U5 · características de los métodos de extracción por presión\n- sol:U1 · el Sol como fuente de energía y sus características principales\n- sol:U2 · la producción de energía en el interior del Sol y la temperatura de su superficie\n- sol:U3 · la energía solar en las cadenas alimentarias y los ecosistemas\n- sol:U4 · la influencia del calor solar en el ciclo del agua y el clima\n- sol:U5 · las tecnologías que aprovechan la energía solar para producir electricidad y calor\n\nPregunta: ¿Qué tienen en común la fotosíntesis de las plantas y el funcionamiento de un panel fotovoltaico, y en qué se diferencian sus resultados?"
+            }
+          ]
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "name": "obtener_datos_del_caso",
+          "description": "Devuelve todos los datos de un caso del dominio. Se pide por su id.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "unidad_id": {
+                "type": "string",
+                "description": "El id del caso, tal como figura en la lista de casos."
+              }
+            },
+            "required": [
+              "unidad_id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "type": "function",
+          "name": "preguntar_al_usuario",
+          "description": "Pregunta al usuario cuando la pregunta admite dos o más respuestas plausibles. Poné la situación y las respuestas posibles.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "pregunta": {
+                "type": "string",
+                "description": "La situación, clara, sucinta y autocontenida."
+              },
+              "opciones": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Las dos o más respuestas plausibles."
+              }
+            },
+            "required": [
+              "pregunta",
+              "opciones"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "tool_choice": "auto",
+      "instructions": "LÓGICA DEL AGENTE ENCARGADO:\n1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.\n2. Si no hay casos que cumplan la condición anterior, pasa al punto 6.\n3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.\n4. Analiza los datos: si hay una respuesta plausible, armá la respuesta.\n5. Si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 6.\n6. Diligencia el JSON en RESPUESTA_JSON.\n\nResponde solo con el JSON.\n\nRESPUESTA_JSON:\n{\"desenlace\": \"respondida\", \"respuesta\": \"…\"}\n{\"desenlace\": \"no_esta_en_los_datos\", \"respuesta\": \"\"}",
+      "max_output_tokens": 16000,
+      "reasoning": {
+        "effort": "low"
+      }
+    },
+    {
+      "model": "gpt-6-luna",
+      "input": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "input_text",
+              "text": "ANCLAS: 11 de octubre de 2026, 06:39 (día y hora del sistema; no es dato del documento)\n\nCASOS:\n- preparacion_cafe:U1 · clasificación de los métodos de extracción y su efecto en la bebida\n- preparacion_cafe:U2 · recomendaciones generales para preparar café\n- preparacion_cafe:U3 · características de los métodos de inmersión\n- preparacion_cafe:U4 · características de los métodos de percolación o goteo manual\n- preparacion_cafe:U5 · características de los métodos de extracción por presión\n- sol:U1 · el Sol como fuente de energía y sus características principales\n- sol:U2 · la producción de energía en el interior del Sol y la temperatura de su superficie\n- sol:U3 · la energía solar en las cadenas alimentarias y los ecosistemas\n- sol:U4 · la influencia del calor solar en el ciclo del agua y el clima\n- sol:U5 · las tecnologías que aprovechan la energía solar para producir electricidad y calor\n\nPregunta: ¿Qué tienen en común la fotosíntesis de las plantas y el funcionamiento de un panel fotovoltaico, y en qué se diferencian sus resultados?"
+            }
+          ]
+        },
+        {
+          "type": "function_call",
+          "call_id": "call_mpy8YolhJPBkU4f2hUfCGUo0",
+          "name": "obtener_datos_del_caso",
+          "arguments": "{\"unidad_id\":\"sol:U1\"}"
+        },
+        {
+          "type": "function_call_output",
+          "call_id": "call_mpy8YolhJPBkU4f2hUfCGUo0",
+          "output": "{\"unidad_id\": \"sol:U1\", \"caso\": \"el Sol como fuente de energía y sus características principales\", \"datos\": [{\"id\": \"sol:U1:D1\", \"aspecto\": \"importancia del Sol como fuente de energía de la Tierra\", \"valor\": \"la principal\", \"unidad_valor\": null}, {\"id\": \"sol:U1:D2\", \"aspecto\": \"distancia del Sol a la Tierra\", \"valor\": \"unos 150 millones\", \"unidad_valor\": \"kilómetros\"}, {\"id\": \"sol:U1:D3\", \"aspecto\": \"diámetro del Sol\", \"valor\": \"aproximadamente 1,4 millones\", \"unidad_valor\": \"kilómetros\"}, {\"id\": \"sol:U1:D4\", \"aspecto\": \"efecto de la luz y el calor del Sol\", \"valor\": \"hacen posible la vida que conocemos\", \"unidad_valor\": null}]}"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "name": "obtener_datos_del_caso",
+          "description": "Devuelve todos los datos de un caso del dominio. Se pide por su id.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "unidad_id": {
+                "type": "string",
+                "description": "El id del caso, tal como figura en la lista de casos."
+              }
+            },
+            "required": [
+              "unidad_id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "type": "function",
+          "name": "preguntar_al_usuario",
+          "description": "Pregunta al usuario cuando la pregunta admite dos o más respuestas plausibles. Poné la situación y las respuestas posibles.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "pregunta": {
+                "type": "string",
+                "description": "La situación, clara, sucinta y autocontenida."
+              },
+              "opciones": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Las dos o más respuestas plausibles."
+              }
+            },
+            "required": [
+              "pregunta",
+              "opciones"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "tool_choice": "auto",
+      "instructions": "LÓGICA DEL AGENTE ENCARGADO:\n1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.\n2. Si no hay casos que cumplan la condición anterior, pasa al punto 6.\n3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.\n4. Analiza los datos: si hay una respuesta plausible, armá la respuesta.\n5. Si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 6.\n6. Diligencia el JSON en RESPUESTA_JSON.\n\nResponde solo con el JSON.\n\nRESPUESTA_JSON:\n{\"desenlace\": \"respondida\", \"respuesta\": \"…\"}\n{\"desenlace\": \"no_esta_en_los_datos\", \"respuesta\": \"\"}",
+      "max_output_tokens": 16000,
+      "reasoning": {
+        "effort": "low"
+      }
+    },
+    {
+      "model": "gpt-6-luna",
+      "input": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "input_text",
+              "text": "ANCLAS: 11 de octubre de 2026, 06:39 (día y hora del sistema; no es dato del documento)\n\nCASOS:\n- preparacion_cafe:U1 · clasificación de los métodos de extracción y su efecto en la bebida\n- preparacion_cafe:U2 · recomendaciones generales para preparar café\n- preparacion_cafe:U3 · características de los métodos de inmersión\n- preparacion_cafe:U4 · características de los métodos de percolación o goteo manual\n- preparacion_cafe:U5 · características de los métodos de extracción por presión\n- sol:U1 · el Sol como fuente de energía y sus características principales\n- sol:U2 · la producción de energía en el interior del Sol y la temperatura de su superficie\n- sol:U3 · la energía solar en las cadenas alimentarias y los ecosistemas\n- sol:U4 · la influencia del calor solar en el ciclo del agua y el clima\n- sol:U5 · las tecnologías que aprovechan la energía solar para producir electricidad y calor\n\nPregunta: ¿Qué tienen en común la fotosíntesis de las plantas y el funcionamiento de un panel fotovoltaico, y en qué se diferencian sus resultados?"
+            }
+          ]
+        },
+        {
+          "type": "function_call",
+          "call_id": "call_mpy8YolhJPBkU4f2hUfCGUo0",
+          "name": "obtener_datos_del_caso",
+          "arguments": "{\"unidad_id\":\"sol:U1\"}"
+        },
+        {
+          "type": "function_call_output",
+          "call_id": "call_mpy8YolhJPBkU4f2hUfCGUo0",
+          "output": "{\"unidad_id\": \"sol:U1\", \"caso\": \"el Sol como fuente de energía y sus características principales\", \"datos\": [{\"id\": \"sol:U1:D1\", \"aspecto\": \"importancia del Sol como fuente de energía de la Tierra\", \"valor\": \"la principal\", \"unidad_valor\": null}, {\"id\": \"sol:U1:D2\", \"aspecto\": \"distancia del Sol a la Tierra\", \"valor\": \"unos 150 millones\", \"unidad_valor\": \"kilómetros\"}, {\"id\": \"sol:U1:D3\", \"aspecto\": \"diámetro del Sol\", \"valor\": \"aproximadamente 1,4 millones\", \"unidad_valor\": \"kilómetros\"}, {\"id\": \"sol:U1:D4\", \"aspecto\": \"efecto de la luz y el calor del Sol\", \"valor\": \"hacen posible la vida que conocemos\", \"unidad_valor\": null}]}"
+        },
+        {
+          "type": "function_call",
+          "call_id": "call_Fsyzz6zdOoUJ90FhyayWe0ot",
+          "name": "obtener_datos_del_caso",
+          "arguments": "{\"unidad_id\":\"sol:U3\"}"
+        },
+        {
+          "type": "function_call_output",
+          "call_id": "call_Fsyzz6zdOoUJ90FhyayWe0ot",
+          "output": "{\"unidad_id\": \"sol:U3\", \"caso\": \"la energía solar en las cadenas alimentarias y los ecosistemas\", \"datos\": [{\"id\": \"sol:U3:D1\", \"aspecto\": \"función de la energía solar en las cadenas alimentarias\", \"valor\": \"las sostiene\", \"unidad_valor\": null}, {\"id\": \"sol:U3:D2\", \"aspecto\": \"uso que hacen las plantas de la luz solar mediante la fotosíntesis\", \"valor\": \"la aprovechan para producir su alimento\", \"unidad_valor\": null}, {\"id\": \"sol:U3:D3\", \"aspecto\": \"energía que reciben los animales que comen plantas\", \"valor\": \"parte de esa energía\", \"unidad_valor\": null}, {\"id\": \"sol:U3:D4\", \"aspecto\": \"transmisión de la energía de las plantas a sus depredadores\", \"valor\": \"también pasa a sus depredadores\", \"unidad_valor\": null}, {\"id\": \"sol:U3:D5\", \"aspecto\": \"función del Sol en los cultivos y los ecosistemas\", \"valor\": \"sostiene tanto los cultivos como numerosos ecosistemas\", \"unidad_valor\": null}]}"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "name": "obtener_datos_del_caso",
+          "description": "Devuelve todos los datos de un caso del dominio. Se pide por su id.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "unidad_id": {
+                "type": "string",
+                "description": "El id del caso, tal como figura en la lista de casos."
+              }
+            },
+            "required": [
+              "unidad_id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "type": "function",
+          "name": "preguntar_al_usuario",
+          "description": "Pregunta al usuario cuando la pregunta admite dos o más respuestas plausibles. Poné la situación y las respuestas posibles.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "pregunta": {
+                "type": "string",
+                "description": "La situación, clara, sucinta y autocontenida."
+              },
+              "opciones": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Las dos o más respuestas plausibles."
+              }
+            },
+            "required": [
+              "pregunta",
+              "opciones"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "tool_choice": "auto",
+      "instructions": "LÓGICA DEL AGENTE ENCARGADO:\n1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.\n2. Si no hay casos que cumplan la condición anterior, pasa al punto 6.\n3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.\n4. Analiza los datos: si hay una respuesta plausible, armá la respuesta.\n5. Si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 6.\n6. Diligencia el JSON en RESPUESTA_JSON.\n\nResponde solo con el JSON.\n\nRESPUESTA_JSON:\n{\"desenlace\": \"respondida\", \"respuesta\": \"…\"}\n{\"desenlace\": \"no_esta_en_los_datos\", \"respuesta\": \"\"}",
+      "max_output_tokens": 16000,
+      "reasoning": {
+        "effort": "low"
+      }
+    },
+    {
+      "model": "gpt-6-luna",
+      "input": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "input_text",
+              "text": "ANCLAS: 11 de octubre de 2026, 06:39 (día y hora del sistema; no es dato del documento)\n\nCASOS:\n- preparacion_cafe:U1 · clasificación de los métodos de extracción y su efecto en la bebida\n- preparacion_cafe:U2 · recomendaciones generales para preparar café\n- preparacion_cafe:U3 · características de los métodos de inmersión\n- preparacion_cafe:U4 · características de los métodos de percolación o goteo manual\n- preparacion_cafe:U5 · características de los métodos de extracción por presión\n- sol:U1 · el Sol como fuente de energía y sus características principales\n- sol:U2 · la producción de energía en el interior del Sol y la temperatura de su superficie\n- sol:U3 · la energía solar en las cadenas alimentarias y los ecosistemas\n- sol:U4 · la influencia del calor solar en el ciclo del agua y el clima\n- sol:U5 · las tecnologías que aprovechan la energía solar para producir electricidad y calor\n\nPregunta: ¿Qué tienen en común la fotosíntesis de las plantas y el funcionamiento de un panel fotovoltaico, y en qué se diferencian sus resultados?"
+            }
+          ]
+        },
+        {
+          "type": "function_call",
+          "call_id": "call_mpy8YolhJPBkU4f2hUfCGUo0",
+          "name": "obtener_datos_del_caso",
+          "arguments": "{\"unidad_id\":\"sol:U1\"}"
+        },
+        {
+          "type": "function_call_output",
+          "call_id": "call_mpy8YolhJPBkU4f2hUfCGUo0",
+          "output": "{\"unidad_id\": \"sol:U1\", \"caso\": \"el Sol como fuente de energía y sus características principales\", \"datos\": [{\"id\": \"sol:U1:D1\", \"aspecto\": \"importancia del Sol como fuente de energía de la Tierra\", \"valor\": \"la principal\", \"unidad_valor\": null}, {\"id\": \"sol:U1:D2\", \"aspecto\": \"distancia del Sol a la Tierra\", \"valor\": \"unos 150 millones\", \"unidad_valor\": \"kilómetros\"}, {\"id\": \"sol:U1:D3\", \"aspecto\": \"diámetro del Sol\", \"valor\": \"aproximadamente 1,4 millones\", \"unidad_valor\": \"kilómetros\"}, {\"id\": \"sol:U1:D4\", \"aspecto\": \"efecto de la luz y el calor del Sol\", \"valor\": \"hacen posible la vida que conocemos\", \"unidad_valor\": null}]}"
+        },
+        {
+          "type": "function_call",
+          "call_id": "call_Fsyzz6zdOoUJ90FhyayWe0ot",
+          "name": "obtener_datos_del_caso",
+          "arguments": "{\"unidad_id\":\"sol:U3\"}"
+        },
+        {
+          "type": "function_call_output",
+          "call_id": "call_Fsyzz6zdOoUJ90FhyayWe0ot",
+          "output": "{\"unidad_id\": \"sol:U3\", \"caso\": \"la energía solar en las cadenas alimentarias y los ecosistemas\", \"datos\": [{\"id\": \"sol:U3:D1\", \"aspecto\": \"función de la energía solar en las cadenas alimentarias\", \"valor\": \"las sostiene\", \"unidad_valor\": null}, {\"id\": \"sol:U3:D2\", \"aspecto\": \"uso que hacen las plantas de la luz solar mediante la fotosíntesis\", \"valor\": \"la aprovechan para producir su alimento\", \"unidad_valor\": null}, {\"id\": \"sol:U3:D3\", \"aspecto\": \"energía que reciben los animales que comen plantas\", \"valor\": \"parte de esa energía\", \"unidad_valor\": null}, {\"id\": \"sol:U3:D4\", \"aspecto\": \"transmisión de la energía de las plantas a sus depredadores\", \"valor\": \"también pasa a sus depredadores\", \"unidad_valor\": null}, {\"id\": \"sol:U3:D5\", \"aspecto\": \"función del Sol en los cultivos y los ecosistemas\", \"valor\": \"sostiene tanto los cultivos como numerosos ecosistemas\", \"unidad_valor\": null}]}"
+        },
+        {
+          "type": "function_call",
+          "call_id": "call_cUN2a5gl3sSzUJISMs9I3bTM",
+          "name": "obtener_datos_del_caso",
+          "arguments": "{\"unidad_id\":\"sol:U5\"}"
+        },
+        {
+          "type": "function_call_output",
+          "call_id": "call_cUN2a5gl3sSzUJISMs9I3bTM",
+          "output": "{\"unidad_id\": \"sol:U5\", \"caso\": \"las tecnologías que aprovechan la energía solar para producir electricidad y calor\", \"datos\": [{\"id\": \"sol:U5:D1\", \"aspecto\": \"medio por el que las personas aprovechan la energía solar\", \"valor\": \"mediante distintas tecnologías\", \"unidad_valor\": null}, {\"id\": \"sol:U5:D2\", \"aspecto\": \"función de los paneles fotovoltaicos\", \"valor\": \"convierten la luz en electricidad\", \"unidad_valor\": null}, {\"id\": \"sol:U5:D3\", \"aspecto\": \"función de los colectores solares\", \"valor\": \"permiten calentar agua\", \"unidad_valor\": null}, {\"id\": \"sol:U5:D4\", \"aspecto\": \"fuente de energía utilizada por los paneles fotovoltaicos y los colectores solares\", \"valor\": \"radiación solar\", \"unidad_valor\": null}, {\"id\": \"sol:U5:D5\", \"aspecto\": \"función de los paneles fotovoltaicos en los usos cotidianos\", \"valor\": \"alimentan aparatos eléctricos\", \"unidad_valor\": null}, {\"id\": \"sol:U5:D6\", \"aspecto\": \"función de los colectores solares en los usos cotidianos\", \"valor\": \"suministran calor\", \"unidad_valor\": null}]}"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "name": "obtener_datos_del_caso",
+          "description": "Devuelve todos los datos de un caso del dominio. Se pide por su id.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "unidad_id": {
+                "type": "string",
+                "description": "El id del caso, tal como figura en la lista de casos."
+              }
+            },
+            "required": [
+              "unidad_id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "type": "function",
+          "name": "preguntar_al_usuario",
+          "description": "Pregunta al usuario cuando la pregunta admite dos o más respuestas plausibles. Poné la situación y las respuestas posibles.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "pregunta": {
+                "type": "string",
+                "description": "La situación, clara, sucinta y autocontenida."
+              },
+              "opciones": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Las dos o más respuestas plausibles."
+              }
+            },
+            "required": [
+              "pregunta",
+              "opciones"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "tool_choice": "auto",
+      "instructions": "LÓGICA DEL AGENTE ENCARGADO:\n1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.\n2. Si no hay casos que cumplan la condición anterior, pasa al punto 6.\n3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.\n4. Analiza los datos: si hay una respuesta plausible, armá la respuesta.\n5. Si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 6.\n6. Diligencia el JSON en RESPUESTA_JSON.\n\nResponde solo con el JSON.\n\nRESPUESTA_JSON:\n{\"desenlace\": \"respondida\", \"respuesta\": \"…\"}\n{\"desenlace\": \"no_esta_en_los_datos\", \"respuesta\": \"\"}",
+      "max_output_tokens": 16000,
+      "reasoning": {
+        "effort": "low"
+      }
+    }
+  ],
+  "respuestas": [
+    {
+      "id": "resp_041b5b4f6a269b33006acb757cc7e887d2a60dafd421460177",
+      "object": "chat.completion",
+      "model": "gpt-6-luna",
+      "choices": [
+        {
+          "index": 0,
+          "finish_reason": "tool_calls",
+          "message": {
+            "role": "assistant",
+            "content": null,
+            "tool_calls": [
+              {
+                "id": "call_mpy8YolhJPBkU4f2hUfCGUo0",
+                "type": "function",
+                "function": {
+                  "name": "obtener_datos_del_caso",
+                  "arguments": "{\"unidad_id\":\"sol:U1\"}"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 609,
+        "completion_tokens": 26,
+        "thinking_tokens": 0,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 609
+      },
+      "_segundos": 1.6,
+      "_respuesta": {
+        "id": "resp_041b5b4f6a269b33006acb757cc7e887d2a60dafd421460177",
+        "object": "response",
+        "created_at": 1791718780,
+        "completed_at": 1791718781,
+        "status": "completed",
+        "parallel_tool_calls": true,
+        "temperature": 1,
+        "top_p": 0.98,
+        "max_output_tokens": 16000,
+        "previous_response_id": null,
+        "background": false,
+        "truncation": "disabled",
+        "top_logprobs": 0,
+        "max_tool_calls": null,
+        "prompt_cache_retention": "24h",
+        "model": "gpt-6-luna",
+        "error": null,
+        "incomplete_details": null,
+        "output": [
+          {
+            "id": "fc_041b5b4f6a269b33006acb757d415487d292fe000abab2436e",
+            "type": "function_call",
+            "status": "completed",
+            "name": "obtener_datos_del_caso",
+            "call_id": "call_mpy8YolhJPBkU4f2hUfCGUo0",
+            "arguments": "{\"unidad_id\":\"sol:U1\"}"
+          }
+        ],
+        "usage": {
+          "input_tokens": 609,
+          "output_tokens": 26,
+          "total_tokens": 635,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "instructions": "LÓGICA DEL AGENTE ENCARGADO:\n1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.\n2. Si no hay casos que cumplan la condición anterior, pasa al punto 6.\n3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.\n4. Analiza los datos: si hay una respuesta plausible, armá la respuesta.\n5. Si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 6.\n6. Diligencia el JSON en RESPUESTA_JSON.\n\nResponde solo con el JSON.\n\nRESPUESTA_JSON:\n{\"desenlace\": \"respondida\", \"respuesta\": \"…\"}\n{\"desenlace\": \"no_esta_en_los_datos\", \"respuesta\": \"\"}",
+        "tool_choice": "auto",
+        "tools": [
+          {
+            "type": "function",
+            "name": "obtener_datos_del_caso",
+            "description": "Devuelve todos los datos de un caso del dominio. Se pide por su id.",
+            "strict": true,
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "unidad_id": {
+                  "type": "string",
+                  "description": "El id del caso, tal como figura en la lista de casos."
+                }
+              },
+              "required": [
+                "unidad_id"
+              ],
+              "additionalProperties": false
+            },
+            "output_schema": null
+          },
+          {
+            "type": "function",
+            "name": "preguntar_al_usuario",
+            "description": "Pregunta al usuario cuando la pregunta admite dos o más respuestas plausibles. Poné la situación y las respuestas posibles.",
+            "strict": true,
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "pregunta": {
+                  "type": "string",
+                  "description": "La situación, clara, sucinta y autocontenida."
+                },
+                "opciones": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Las dos o más respuestas plausibles."
+                }
+              },
+              "required": [
+                "pregunta",
+                "opciones"
+              ],
+              "additionalProperties": false
+            },
+            "output_schema": null
+          }
+        ],
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "low",
+          "mode": "standard",
+          "summary": null
+        },
+        "text": {
+          "verbosity": "medium",
+          "format": {
+            "type": "text"
+          }
+        },
+        "moderation": null
+      }
+    },
+    {
+      "id": "resp_01cf674344c9f85b006acb757e636487d28d0db716a7691c43",
+      "object": "chat.completion",
+      "model": "gpt-6-luna",
+      "choices": [
+        {
+          "index": 0,
+          "finish_reason": "tool_calls",
+          "message": {
+            "role": "assistant",
+            "content": null,
+            "tool_calls": [
+              {
+                "id": "call_Fsyzz6zdOoUJ90FhyayWe0ot",
+                "type": "function",
+                "function": {
+                  "name": "obtener_datos_del_caso",
+                  "arguments": "{\"unidad_id\":\"sol:U3\"}"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 854,
+        "completion_tokens": 26,
+        "thinking_tokens": 0,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 854
+      },
+      "_segundos": 1.8,
+      "_respuesta": {
+        "id": "resp_01cf674344c9f85b006acb757e636487d28d0db716a7691c43",
+        "object": "response",
+        "created_at": 1791718782,
+        "completed_at": 1791718783,
+        "status": "completed",
+        "parallel_tool_calls": true,
+        "temperature": 1,
+        "top_p": 0.98,
+        "max_output_tokens": 16000,
+        "previous_response_id": null,
+        "background": false,
+        "truncation": "disabled",
+        "top_logprobs": 0,
+        "max_tool_calls": null,
+        "prompt_cache_retention": "24h",
+        "model": "gpt-6-luna",
+        "error": null,
+        "incomplete_details": null,
+        "output": [
+          {
+            "id": "fc_01cf674344c9f85b006acb757ee68887d28be7476223a40e5e",
+            "type": "function_call",
+            "status": "completed",
+            "name": "obtener_datos_del_caso",
+            "call_id": "call_Fsyzz6zdOoUJ90FhyayWe0ot",
+            "arguments": "{\"unidad_id\":\"sol:U3\"}"
+          }
+        ],
+        "usage": {
+          "input_tokens": 854,
+          "output_tokens": 26,
+          "total_tokens": 880,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "instructions": "LÓGICA DEL AGENTE ENCARGADO:\n1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.\n2. Si no hay casos que cumplan la condición anterior, pasa al punto 6.\n3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.\n4. Analiza los datos: si hay una respuesta plausible, armá la respuesta.\n5. Si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 6.\n6. Diligencia el JSON en RESPUESTA_JSON.\n\nResponde solo con el JSON.\n\nRESPUESTA_JSON:\n{\"desenlace\": \"respondida\", \"respuesta\": \"…\"}\n{\"desenlace\": \"no_esta_en_los_datos\", \"respuesta\": \"\"}",
+        "tool_choice": "auto",
+        "tools": [
+          {
+            "type": "function",
+            "name": "obtener_datos_del_caso",
+            "description": "Devuelve todos los datos de un caso del dominio. Se pide por su id.",
+            "strict": true,
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "unidad_id": {
+                  "type": "string",
+                  "description": "El id del caso, tal como figura en la lista de casos."
+                }
+              },
+              "required": [
+                "unidad_id"
+              ],
+              "additionalProperties": false
+            },
+            "output_schema": null
+          },
+          {
+            "type": "function",
+            "name": "preguntar_al_usuario",
+            "description": "Pregunta al usuario cuando la pregunta admite dos o más respuestas plausibles. Poné la situación y las respuestas posibles.",
+            "strict": true,
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "pregunta": {
+                  "type": "string",
+                  "description": "La situación, clara, sucinta y autocontenida."
+                },
+                "opciones": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Las dos o más respuestas plausibles."
+                }
+              },
+              "required": [
+                "pregunta",
+                "opciones"
+              ],
+              "additionalProperties": false
+            },
+            "output_schema": null
+          }
+        ],
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "low",
+          "mode": "standard",
+          "summary": null
+        },
+        "text": {
+          "verbosity": "medium",
+          "format": {
+            "type": "text"
+          }
+        },
+        "moderation": null
+      }
+    },
+    {
+      "id": "resp_0c60c07f779c6228006acb7580345487d2be1384e84f33c0f1",
+      "object": "chat.completion",
+      "model": "gpt-6-luna",
+      "choices": [
+        {
+          "index": 0,
+          "finish_reason": "tool_calls",
+          "message": {
+            "role": "assistant",
+            "content": null,
+            "tool_calls": [
+              {
+                "id": "call_cUN2a5gl3sSzUJISMs9I3bTM",
+                "type": "function",
+                "function": {
+                  "name": "obtener_datos_del_caso",
+                  "arguments": "{\"unidad_id\":\"sol:U5\"}"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 1165,
+        "completion_tokens": 26,
+        "thinking_tokens": 0,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1165
+      },
+      "_segundos": 1.8,
+      "_respuesta": {
+        "id": "resp_0c60c07f779c6228006acb7580345487d2be1384e84f33c0f1",
+        "object": "response",
+        "created_at": 1791718784,
+        "completed_at": 1791718785,
+        "status": "completed",
+        "parallel_tool_calls": true,
+        "temperature": 1,
+        "top_p": 0.98,
+        "max_output_tokens": 16000,
+        "previous_response_id": null,
+        "background": false,
+        "truncation": "disabled",
+        "top_logprobs": 0,
+        "max_tool_calls": null,
+        "prompt_cache_retention": "24h",
+        "model": "gpt-6-luna",
+        "error": null,
+        "incomplete_details": null,
+        "output": [
+          {
+            "id": "fc_0c60c07f779c6228006acb7581053487d2b44181ef900ba32f",
+            "type": "function_call",
+            "status": "completed",
+            "name": "obtener_datos_del_caso",
+            "call_id": "call_cUN2a5gl3sSzUJISMs9I3bTM",
+            "arguments": "{\"unidad_id\":\"sol:U5\"}"
+          }
+        ],
+        "usage": {
+          "input_tokens": 1165,
+          "output_tokens": 26,
+          "total_tokens": 1191,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 1162
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "instructions": "LÓGICA DEL AGENTE ENCARGADO:\n1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.\n2. Si no hay casos que cumplan la condición anterior, pasa al punto 6.\n3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.\n4. Analiza los datos: si hay una respuesta plausible, armá la respuesta.\n5. Si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 6.\n6. Diligencia el JSON en RESPUESTA_JSON.\n\nResponde solo con el JSON.\n\nRESPUESTA_JSON:\n{\"desenlace\": \"respondida\", \"respuesta\": \"…\"}\n{\"desenlace\": \"no_esta_en_los_datos\", \"respuesta\": \"\"}",
+        "tool_choice": "auto",
+        "tools": [
+          {
+            "type": "function",
+            "name": "obtener_datos_del_caso",
+            "description": "Devuelve todos los datos de un caso del dominio. Se pide por su id.",
+            "strict": true,
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "unidad_id": {
+                  "type": "string",
+                  "description": "El id del caso, tal como figura en la lista de casos."
+                }
+              },
+              "required": [
+                "unidad_id"
+              ],
+              "additionalProperties": false
+            },
+            "output_schema": null
+          },
+          {
+            "type": "function",
+            "name": "preguntar_al_usuario",
+            "description": "Pregunta al usuario cuando la pregunta admite dos o más respuestas plausibles. Poné la situación y las respuestas posibles.",
+            "strict": true,
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "pregunta": {
+                  "type": "string",
+                  "description": "La situación, clara, sucinta y autocontenida."
+                },
+                "opciones": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Las dos o más respuestas plausibles."
+                }
+              },
+              "required": [
+                "pregunta",
+                "opciones"
+              ],
+              "additionalProperties": false
+            },
+            "output_schema": null
+          }
+        ],
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "low",
+          "mode": "standard",
+          "summary": null
+        },
+        "text": {
+          "verbosity": "medium",
+          "format": {
+            "type": "text"
+          }
+        },
+        "moderation": null
+      }
+    },
+    {
+      "id": "resp_0e2acacde5897195006acb7582141887d281298259c99a8a93",
+      "object": "chat.completion",
+      "model": "gpt-6-luna",
+      "choices": [
+        {
+          "index": 0,
+          "finish_reason": "stop",
+          "message": {
+            "role": "assistant",
+            "content": "{\"desenlace\":\"respondida\",\"respuesta\":\"Ambos aprovechan la energía de la luz solar. En la fotosíntesis, las plantas la usan para producir su alimento, almacenándola como energía química; un panel fotovoltaico convierte la luz directamente en electricidad. Así, sus resultados son distintos: alimento y energía química en las plantas, electricidad en el panel.\"}"
+          }
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 1512,
+        "completion_tokens": 81,
+        "thinking_tokens": 0,
+        "prompt_cache_hit_tokens": 1162,
+        "prompt_cache_miss_tokens": 350
+      },
+      "_segundos": 2.1,
+      "_respuesta": {
+        "id": "resp_0e2acacde5897195006acb7582141887d281298259c99a8a93",
+        "object": "response",
+        "created_at": 1791718786,
+        "completed_at": 1791718787,
+        "status": "completed",
+        "parallel_tool_calls": true,
+        "temperature": 1,
+        "top_p": 0.98,
+        "max_output_tokens": 16000,
+        "previous_response_id": null,
+        "background": false,
+        "truncation": "disabled",
+        "top_logprobs": 0,
+        "max_tool_calls": null,
+        "prompt_cache_retention": "24h",
+        "model": "gpt-6-luna",
+        "error": null,
+        "incomplete_details": null,
+        "output": [
+          {
+            "id": "msg_0e2acacde5897195006acb75828d4c87d28aaea2b38f6648de",
+            "type": "message",
+            "status": "completed",
+            "role": "assistant",
+            "phase": "final_answer",
+            "content": [
+              {
+                "type": "output_text",
+                "text": "{\"desenlace\":\"respondida\",\"respuesta\":\"Ambos aprovechan la energía de la luz solar. En la fotosíntesis, las plantas la usan para producir su alimento, almacenándola como energía química; un panel fotovoltaico convierte la luz directamente en electricidad. Así, sus resultados son distintos: alimento y energía química en las plantas, electricidad en el panel.\"}",
+                "annotations": [],
+                "logprobs": []
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "input_tokens": 1512,
+          "output_tokens": 81,
+          "total_tokens": 1593,
+          "input_tokens_details": {
+            "cached_tokens": 1162,
+            "cache_write_tokens": 347
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "instructions": "LÓGICA DEL AGENTE ENCARGADO:\n1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.\n2. Si no hay casos que cumplan la condición anterior, pasa al punto 6.\n3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.\n4. Analiza los datos: si hay una respuesta plausible, armá la respuesta.\n5. Si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 6.\n6. Diligencia el JSON en RESPUESTA_JSON.\n\nResponde solo con el JSON.\n\nRESPUESTA_JSON:\n{\"desenlace\": \"respondida\", \"respuesta\": \"…\"}\n{\"desenlace\": \"no_esta_en_los_datos\", \"respuesta\": \"\"}",
+        "tool_choice": "auto",
+        "tools": [
+          {
+            "type": "function",
+            "name": "obtener_datos_del_caso",
+            "description": "Devuelve todos los datos de un caso del dominio. Se pide por su id.",
+            "strict": true,
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "unidad_id": {
+                  "type": "string",
+                  "description": "El id del caso, tal como figura en la lista de casos."
+                }
+              },
+              "required": [
+                "unidad_id"
+              ],
+              "additionalProperties": false
+            },
+            "output_schema": null
+          },
+          {
+            "type": "function",
+            "name": "preguntar_al_usuario",
+            "description": "Pregunta al usuario cuando la pregunta admite dos o más respuestas plausibles. Poné la situación y las respuestas posibles.",
+            "strict": true,
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "pregunta": {
+                  "type": "string",
+                  "description": "La situación, clara, sucinta y autocontenida."
+                },
+                "opciones": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Las dos o más respuestas plausibles."
+                }
+              },
+              "required": [
+                "pregunta",
+                "opciones"
+              ],
+              "additionalProperties": false
+            },
+            "output_schema": null
+          }
+        ],
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "low",
+          "mode": "standard",
+          "summary": null
+        },
+        "text": {
+          "verbosity": "medium",
+          "format": {
+            "type": "text"
+          }
+        },
+        "moderation": null
+      }
+    }
+  ],
+  "mensajes_finales": [
+    {
+      "role": "system",
+      "content": "LÓGICA DEL AGENTE ENCARGADO:\n1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.\n2. Si no hay casos que cumplan la condición anterior, pasa al punto 6.\n3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.\n4. Analiza los datos: si hay una respuesta plausible, armá la respuesta.\n5. Si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 6.\n6. Diligencia el JSON en RESPUESTA_JSON.\n\nResponde solo con el JSON.\n\nRESPUESTA_JSON:\n{\"desenlace\": \"respondida\", \"respuesta\": \"…\"}\n{\"desenlace\": \"no_esta_en_los_datos\", \"respuesta\": \"\"}"
+    },
+    {
+      "role": "user",
+      "content": "ANCLAS: 11 de octubre de 2026, 06:39 (día y hora del sistema; no es dato del documento)\n\nCASOS:\n- preparacion_cafe:U1 · clasificación de los métodos de extracción y su efecto en la bebida\n- preparacion_cafe:U2 · recomendaciones generales para preparar café\n- preparacion_cafe:U3 · características de los métodos de inmersión\n- preparacion_cafe:U4 · características de los métodos de percolación o goteo manual\n- preparacion_cafe:U5 · características de los métodos de extracción por presión\n- sol:U1 · el Sol como fuente de energía y sus características principales\n- sol:U2 · la producción de energía en el interior del Sol y la temperatura de su superficie\n- sol:U3 · la energía solar en las cadenas alimentarias y los ecosistemas\n- sol:U4 · la influencia del calor solar en el ciclo del agua y el clima\n- sol:U5 · las tecnologías que aprovechan la energía solar para producir electricidad y calor\n\nPregunta: ¿Qué tienen en común la fotosíntesis de las plantas y el funcionamiento de un panel fotovoltaico, y en qué se diferencian sus resultados?"
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "call_mpy8YolhJPBkU4f2hUfCGUo0",
+          "type": "function",
+          "function": {
+            "name": "obtener_datos_del_caso",
+            "arguments": "{\"unidad_id\":\"sol:U1\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_mpy8YolhJPBkU4f2hUfCGUo0",
+      "content": "{\"unidad_id\": \"sol:U1\", \"caso\": \"el Sol como fuente de energía y sus características principales\", \"datos\": [{\"id\": \"sol:U1:D1\", \"aspecto\": \"importancia del Sol como fuente de energía de la Tierra\", \"valor\": \"la principal\", \"unidad_valor\": null}, {\"id\": \"sol:U1:D2\", \"aspecto\": \"distancia del Sol a la Tierra\", \"valor\": \"unos 150 millones\", \"unidad_valor\": \"kilómetros\"}, {\"id\": \"sol:U1:D3\", \"aspecto\": \"diámetro del Sol\", \"valor\": \"aproximadamente 1,4 millones\", \"unidad_valor\": \"kilómetros\"}, {\"id\": \"sol:U1:D4\", \"aspecto\": \"efecto de la luz y el calor del Sol\", \"valor\": \"hacen posible la vida que conocemos\", \"unidad_valor\": null}]}"
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "call_Fsyzz6zdOoUJ90FhyayWe0ot",
+          "type": "function",
+          "function": {
+            "name": "obtener_datos_del_caso",
+            "arguments": "{\"unidad_id\":\"sol:U3\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_Fsyzz6zdOoUJ90FhyayWe0ot",
+      "content": "{\"unidad_id\": \"sol:U3\", \"caso\": \"la energía solar en las cadenas alimentarias y los ecosistemas\", \"datos\": [{\"id\": \"sol:U3:D1\", \"aspecto\": \"función de la energía solar en las cadenas alimentarias\", \"valor\": \"las sostiene\", \"unidad_valor\": null}, {\"id\": \"sol:U3:D2\", \"aspecto\": \"uso que hacen las plantas de la luz solar mediante la fotosíntesis\", \"valor\": \"la aprovechan para producir su alimento\", \"unidad_valor\": null}, {\"id\": \"sol:U3:D3\", \"aspecto\": \"energía que reciben los animales que comen plantas\", \"valor\": \"parte de esa energía\", \"unidad_valor\": null}, {\"id\": \"sol:U3:D4\", \"aspecto\": \"transmisión de la energía de las plantas a sus depredadores\", \"valor\": \"también pasa a sus depredadores\", \"unidad_valor\": null}, {\"id\": \"sol:U3:D5\", \"aspecto\": \"función del Sol en los cultivos y los ecosistemas\", \"valor\": \"sostiene tanto los cultivos como numerosos ecosistemas\", \"unidad_valor\": null}]}"
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "call_cUN2a5gl3sSzUJISMs9I3bTM",
+          "type": "function",
+          "function": {
+            "name": "obtener_datos_del_caso",
+            "arguments": "{\"unidad_id\":\"sol:U5\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_cUN2a5gl3sSzUJISMs9I3bTM",
+      "content": "{\"unidad_id\": \"sol:U5\", \"caso\": \"las tecnologías que aprovechan la energía solar para producir electricidad y calor\", \"datos\": [{\"id\": \"sol:U5:D1\", \"aspecto\": \"medio por el que las personas aprovechan la energía solar\", \"valor\": \"mediante distintas tecnologías\", \"unidad_valor\": null}, {\"id\": \"sol:U5:D2\", \"aspecto\": \"función de los paneles fotovoltaicos\", \"valor\": \"convierten la luz en electricidad\", \"unidad_valor\": null}, {\"id\": \"sol:U5:D3\", \"aspecto\": \"función de los colectores solares\", \"valor\": \"permiten calentar agua\", \"unidad_valor\": null}, {\"id\": \"sol:U5:D4\", \"aspecto\": \"fuente de energía utilizada por los paneles fotovoltaicos y los colectores solares\", \"valor\": \"radiación solar\", \"unidad_valor\": null}, {\"id\": \"sol:U5:D5\", \"aspecto\": \"función de los paneles fotovoltaicos en los usos cotidianos\", \"valor\": \"alimentan aparatos eléctricos\", \"unidad_valor\": null}, {\"id\": \"sol:U5:D6\", \"aspecto\": \"función de los colectores solares en los usos cotidianos\", \"valor\": \"suministran calor\", \"unidad_valor\": null}]}"
+    }
+  ],
+  "recorrido": [
+    {
+      "pidio": [
+        {
+          "herramienta": "obtener_datos_del_caso",
+          "argumentos": "{\"unidad_id\":\"sol:U1\"}"
+        }
+      ]
+    },
+    {
+      "volvio": "{\"unidad_id\": \"sol:U1\", \"caso\": \"el Sol como fuente de energía y sus características principales\", \"datos\": [{\"id\": \"sol:U1:D1\", \"aspecto\": \"importancia del Sol como fuente de energía de la Tierra\", \"valor\": \"la principal\", \"unidad_valor\": null}, {\"id\": \"sol:U1:D2\", \"aspecto\": \"distancia del Sol a la Tierra\", \"valor\": \"unos 150 millones\", \"unidad_valor\": \"kilómetros\"}, {\"id\": \"sol:U1:D3\", \"aspecto\": \"diámetro del Sol\", \"valor\": \"aproximadamente 1,4 millones\", \"unidad_valor\": \"kilómetros\"}, {\"id\": \"sol:U1:D4\", \"aspecto\": \"efecto de la luz y el calor del Sol\", \"valor\": \"hacen posible la vida que…"
+    },
+    {
+      "pidio": [
+        {
+          "herramienta": "obtener_datos_del_caso",
+          "argumentos": "{\"unidad_id\":\"sol:U3\"}"
+        }
+      ]
+    },
+    {
+      "volvio": "{\"unidad_id\": \"sol:U3\", \"caso\": \"la energía solar en las cadenas alimentarias y los ecosistemas\", \"datos\": [{\"id\": \"sol:U3:D1\", \"aspecto\": \"función de la energía solar en las cadenas alimentarias\", \"valor\": \"las sostiene\", \"unidad_valor\": null}, {\"id\": \"sol:U3:D2\", \"aspecto\": \"uso que hacen las plantas de la luz solar mediante la fotosíntesis\", \"valor\": \"la aprovechan para producir su alimento\", \"unidad_valor\": null}, {\"id\": \"sol:U3:D3\", \"aspecto\": \"energía que reciben los animales que comen plantas\", \"valor\": \"parte de esa energía\", \"unidad_valor\": null}, {\"id\": \"sol:U3:D4\", \"aspecto\": \"trans…"
+    },
+    {
+      "pidio": [
+        {
+          "herramienta": "obtener_datos_del_caso",
+          "argumentos": "{\"unidad_id\":\"sol:U5\"}"
+        }
+      ]
+    },
+    {
+      "volvio": "{\"unidad_id\": \"sol:U5\", \"caso\": \"las tecnologías que aprovechan la energía solar para producir electricidad y calor\", \"datos\": [{\"id\": \"sol:U5:D1\", \"aspecto\": \"medio por el que las personas aprovechan la energía solar\", \"valor\": \"mediante distintas tecnologías\", \"unidad_valor\": null}, {\"id\": \"sol:U5:D2\", \"aspecto\": \"función de los paneles fotovoltaicos\", \"valor\": \"convierten la luz en electricidad\", \"unidad_valor\": null}, {\"id\": \"sol:U5:D3\", \"aspecto\": \"función de los colectores solares\", \"valor\": \"permiten calentar agua\", \"unidad_valor\": null}, {\"id\": \"sol:U5:D4\", \"aspecto\": \"fuente de energí…"
+    }
+  ]
+}

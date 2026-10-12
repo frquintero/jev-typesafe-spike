@@ -1,0 +1,22 @@
+{"caso": "el corte de agua anunciado en el barrio San Jorge para el jueves, su duración de catorce horas y los usuarios afectados",
+ "datos": [
+   {"aspecto": "anunciante del corte",
+    "valor": "la empresa de acueducto",
+    "unidad_valor": null},
+   {"aspecto": "lugar del corte",
+    "valor": "el barrio San Jorge",
+    "unidad_valor": null},
+   {"aspecto": "fecha del corte",
+    "valor": "el jueves",
+    "unidad_valor": null},
+   {"aspecto": "duración del corte",
+    "valor": "catorce",
+    "unidad_valor": "horas"},
+   {"aspecto": "hora de inicio del corte",
+    "valor": "desde las seis de la mañana",
+    "unidad_valor": null},
+   {"aspecto": "afectados por el corte",
+    "valor": "unos tres mil usuarios",
+    "unidad_valor": null}],
+ "dudas": []}
+

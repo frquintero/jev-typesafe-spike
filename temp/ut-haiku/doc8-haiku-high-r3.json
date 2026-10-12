@@ -1,0 +1,187 @@
+{
+  "doc": "doc8",
+  "alias": "haiku",
+  "modelo": "claude-haiku-5-5",
+  "esfuerzo": "high",
+  "rN": "r3",
+  "segundos": 21.8,
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 3092,
+    "completion_tokens": 2753,
+    "total_tokens": 5845,
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3092,
+    "thinking_tokens": 2399,
+    "anthropic": {
+      "input_tokens": 3092,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 2753,
+      "output_tokens_details": {
+        "thinking_tokens": 2399
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  },
+  "subtemas": [
+    {
+      "subtema": "la aparición de la vida en el mar",
+      "oraciones": [
+        1,
+        4
+      ]
+    },
+    {
+      "subtema": "la extensión, la profundidad y la temperatura del océano",
+      "oraciones": [
+        2,
+        3
+      ]
+    },
+    {
+      "subtema": "la aparición de los grandes grupos animales y de los primeros peces",
+      "oraciones": [
+        5,
+        6
+      ]
+    },
+    {
+      "subtema": "la salida de los animales a tierra firme y el regreso de algunos linajes al mar",
+      "oraciones": [
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "subtema": "las características de la ballena azul",
+      "oraciones": [
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "subtema": "el mar absorbe el calor extra y cambia más rápido que antes",
+      "oraciones": [
+        14,
+        15
+      ]
+    },
+    {
+      "subtema": "la acidez del agua y sus efectos sobre los arrecifes",
+      "oraciones": [
+        16,
+        17
+      ]
+    },
+    {
+      "subtema": "el aumento de la reserva marina del Pacífico",
+      "oraciones": [
+        18
+      ]
+    }
+  ],
+  "verificacion": {
+    "oraciones_del_texto": 18,
+    "huecos": [],
+    "solapes": [],
+    "fuera_de_rango": [],
+    "no_enteros": []
+  },
+  "error_parseo": null,
+  "peticion": {
+    "model": "claude-haiku-5-5",
+    "max_tokens": 16384,
+    "thinking": {
+      "type": "adaptive",
+      "display": "summarized"
+    },
+    "output_config": {
+      "effort": "high"
+    }
+  },
+  "respuesta_cruda": "{\"subtemas\": [\n  {\"subtema\": \"la aparición de la vida en el mar\", \"oraciones\": [1, 4]},\n  {\"subtema\": \"la extensión, la profundidad y la temperatura del océano\", \"oraciones\": [2, 3]},\n  {\"subtema\": \"la aparición de los grandes grupos animales y de los primeros peces\", \"oraciones\": [5, 6]},\n  {\"subtema\": \"la salida de los animales a tierra firme y el regreso de algunos linajes al mar\", \"oraciones\": [7, 8, 9, 10]},\n  {\"subtema\": \"las características de la ballena azul\", \"oraciones\": [11, 12, 13]},\n  {\"subtema\": \"el mar absorbe el calor extra y cambia más rápido que antes\", \"oraciones\": [14, 15]},\n  {\"subtema\": \"la acidez del agua y sus efectos sobre los arrecifes\", \"oraciones\": [16, 17]},\n  {\"subtema\": \"el aumento de la reserva marina del Pacífico\", \"oraciones\": [18]}]}",
+  "razonamiento": "I'm grouping these ocean facts into subtopics - noting that sentences about life first appearing in the ocean roughly 3.5 billion years ago and microorganisms being the only inhabitants for nearly 3 billion years naturally cluster together as the \"origin of life\" theme, separate from the physical stats about ocean coverage and depth.\n\nThen I'm tracking the evolutionary timeline that follows: the Cambrian explosion around 530 million years ago spawning most animal groups, the first fish appearing roughly 500 million years ago, lobe-finned fish leaving the water around 375 million years ago to eventually give rise to amphibians, and the slow conquest of land culminating in the first reptiles appearing some 320 million years later. These seem to form a connected \"evolution from sea to land\" subtopic group.\n\nFrom there I'm considering the lineages that later returned to the ocean, like the ancestors of whales who walked on land before going back to sea, and then whether blue whale details—its massive size, 500-meter dives, 40-minute breath holds, and calves drinking 200 liters of milk daily—form a separate subtopic since they describe a specific modern species rather than continuing the evolutionary return narrative.\n\nI'm also weighing how to group the sections on today's ocean changes: rising heat absorption, a 30% jump in acidity affecting coral growth, reefs covering under 1% of seafloor yet hosting a quarter of marine species, and a Pacific reserve expanding dramatically in two years—deciding whether the acidity and reef sections belong together since one explains coral stress and the other reef importance, while the conservation reserve item stands alone as a distinct subject. I'm settling on final Spanish-language subtopic names and preparing to output everything as JSON.\n\n",
+  "oraciones": [
+    {
+      "n": 1,
+      "oracion": "La vida apareció en el océano hace unos tres mil quinientos millones de años."
+    },
+    {
+      "n": 2,
+      "oracion": "El agua cubre el setenta y uno por ciento de la superficie del planeta y su profundidad media es de tres mil setecientos metros."
+    },
+    {
+      "n": 3,
+      "oracion": "En el fondo abisal la temperatura se mantiene cerca de los dos grados centígrados."
+    },
+    {
+      "n": 4,
+      "oracion": "Los primeros seres vivos fueron microorganismos de unas pocas micras, y durante casi tres mil millones de años el mar fue el único lugar habitado."
+    },
+    {
+      "n": 5,
+      "oracion": "Hace quinientos treinta millones de años ocurrió la explosión del Cámbrico: en veinte millones de años aparecieron la mayoría de los grandes grupos de animales que conocemos."
+    },
+    {
+      "n": 6,
+      "oracion": "Los primeros peces nadaban en el océano hace unos quinientos millones de años."
+    },
+    {
+      "n": 7,
+      "oracion": "Hace trescientos setenta y cinco millones de años, un linaje de peces de aletas carnosas salió del agua y dio origen a los anfibios, que todavía dependían del agua para reproducirse."
+    },
+    {
+      "n": 8,
+      "oracion": "La conquista de la tierra firme fue lenta: los primeros reptiles, con huevos de cáscara dura, aparecieron unos trescientos veinte millones de años después de aquella salida."
+    },
+    {
+      "n": 9,
+      "oracion": "Algunos linajes hicieron el camino de vuelta."
+    },
+    {
+      "n": 10,
+      "oracion": "Los antepasados de las ballenas caminaban sobre la tierra hace cincuenta millones de años y volvieron al mar en unos diez millones de años."
+    },
+    {
+      "n": 11,
+      "oracion": "La ballena azul mide hasta treinta metros y pesa ciento cincuenta toneladas: es el animal más grande que ha existido."
+    },
+    {
+      "n": 12,
+      "oracion": "Puede bucear quinientos metros y aguantar la respiración cuarenta minutos."
+    },
+    {
+      "n": 13,
+      "oracion": "Sus crías beben doscientos litros de leche al día."
+    },
+    {
+      "n": 14,
+      "oracion": "Hoy el mar cambia más rápido que en cualquier otro momento de esa historia."
+    },
+    {
+      "n": 15,
+      "oracion": "Ha absorbido el noventa por ciento del calor extra que retuvo la atmósfera."
+    },
+    {
+      "n": 16,
+      "oracion": "Desde la era preindustrial, la acidez del agua superficial aumentó un treinta por ciento, y eso altera a los corales, que crecen apenas un centímetro al año."
+    },
+    {
+      "n": 17,
+      "oracion": "Los arrecifes ocupan menos del uno por ciento del fondo marino y albergan cerca de la cuarta parte de las especies marinas."
+    },
+    {
+      "n": 18,
+      "oracion": "Una reserva del Pacífico pasó de mil quinientas a doce mil hectáreas en dos años."
+    }
+  ]
+}

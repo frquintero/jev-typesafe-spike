@@ -1,0 +1,10 @@
+mvp: proveedores documenta el razonamiento de GLM-5.3-Flash tal como se observa
+
+En el alias glm queda escrito que la documentacion de z.ai (razonamiento siempre activo; low, high
+y max; max por defecto) no coincide con lo medido: el 09-10 low razono 516 y 877 tokens sobre doc10,
+y el 10-10 low dio 0 en todas las pruebas (el cafe, doc10 repetido, una pregunta suelta, tambien por
+curl directo con max_tokens 256 y 8.000), high 0 o 5 y solo max razono. El transporte no es la causa.
+Sin cambios de comportamiento: solo el comentario.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01TqGMMkAVhFXy7h212qb9oi

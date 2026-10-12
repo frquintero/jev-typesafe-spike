@@ -1,0 +1,35 @@
+bash: cannot set terminal process group (3156): Inappropriate ioctl for device
+bash: no job control in this shell
+  doc11: una llamada con 5 unidades · prompt prompt_DATOS_decisiones_v7.md · claude-haiku-5-5 (esfuerzo low)
+  doc11-haiku-low-d1r2.json: 17.0 s · stop · {"parseo": true, "unidades": 5, "datos": 26, "problemas": []}
+    n=1 · 8 datos · la mutación de una letra del gen de la hemoglobina que deforma los glóbulos rojos y acorta su vida
+      · causa genética de la anemia falciforme = cambio de una sola letra en el gen de la beta globina
+      · cromosoma en el que está el gen de la beta globina alterado = cromosoma once
+      · aminoácido sustituido en la posición seis de la proteína de la hemoglobina = una valina, que reemplaza a un ácido glutámico
+      · nombre de la hemoglobina que resulta de la mutación = hemoglobina S
+      · comportamiento de la hemoglobina S cuando le falta oxígeno = se agrupa en fibras rígidas
+      · forma que toman los glóbulos rojos falciformes al perder su forma de disco = la de una hoz
+      · duración de la vida de un glóbulo rojo sano = unos ciento veinte [días]
+      · duración de la vida de un glóbulo rojo falciforme = entre diez y veinte [días]
+    n=2 · 6 datos · la historia del diagnóstico, desde la descripción de 1910 hasta el hallazgo de la proteína alterada
+      · año de la primera descripción de la enfermedad = mil novecientos diez
+      · hallazgo en la sangre de un estudiante que observó un médico de Chicago en 1910 = glóbulos alargados
+      · qué mostró Linus Pauling en mil novecientos cuarenta y nueve sobre la hemoglobina de los enfermos = que migraba de otro modo en un campo eléctrico
+      · aminoácido sustituido que identificó Vernon Ingram en mil novecientos cincuenta y siete = el aminoácido sustituido (el ácido glutámico reemplazado por una valina)
+      · nombre que dio Vernon Ingram a la enfermedad = enfermedad molecular
+      · significado del hallazgo de Vernon Ingram para la anemia falciforme = la convirtió en la primera enfermedad explicada por un cambio en una proteína
+    n=3 · 6 datos · la herencia recesiva y la protección que ofrecen los portadores frente a la malaria
+      · tipo de herencia de la anemia falciforme = recesiva
+      · frecuencia con que enferma quien recibe una sola copia alterada = casi nunca
+      · probabilidad de que cada embarazo dé un hijo enfermo cuando ambos padres son portadores = uno en cuatro
+      · protección de los portadores frente a la malaria grave = resisten mejor la malaria grave
+      · reducción del riesgo de malaria grave de los portadores según los estudios de campo = cerca de un noventa [por ciento]
+      · proporción de habitantes que lleva la mutación en algunas regiones de África = hasta uno de cada cuatro
+    n=4 · 1 datos · la cifra anual de niños que nacen con formas graves de la enfermedad
+      · número anual de niños que nacen con formas graves de la enfermedad, según la Organización Mundial de la Salud = unos trescientos mil
+    n=5 · 5 datos · los tratamientos: la hidroxiurea, la terapia CRISPR aprobada en 2023 y su costo
+      · tratamiento clásico de la anemia falciforme = la hidroxiurea, que aumenta la hemoglobina fetal
+      · año de aprobación de la hidroxiurea para adultos = mil novecientos noventa y ocho
+      · fecha de aprobación de la primera terapia basada en edición genética con CRISPR (para la anemia falciforme) = diciembre de dos mil veintitrés
+      · pacientes del ensayo principal de la terapia CRISPR que pasaron al menos un año sin crisis de dolor = veintinueve de treinta
+      · costo de cada tratamiento para la anemia falciforme = unos dos millones [dólares]

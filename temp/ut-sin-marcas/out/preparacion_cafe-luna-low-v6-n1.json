@@ -1,0 +1,182 @@
+{
+  "doc": "preparacion_cafe",
+  "cuerpo_sha256": "c64d0f50fcdcf6306f8a2165b6ed71303bb831dbf4675f367fbb2a19ffe03623",
+  "alias": "luna",
+  "modelo": "gpt-6-luna",
+  "esfuerzo": "low",
+  "rN": "n1",
+  "segundos": 6.0,
+  "prompt": "temp/ut-sin-marcas/prompt_UT_v6.md",
+  "hash_prompt": "3ad251313e50b383b23439ce384cc42149c263a3902d84a83e350eec459d5c5d",
+  "prompt_texto": "[SISTEMA]\n\nTAREA\n\nExtrae unidades temáticas (UT) de `texto`. Una UT contiene un nombre de subtema y una o varias oraciones literales que desarrollan un mismo asunto específico.\n\nCRITERIOS\n\n1. Agrupa una afirmación con su explicación, los elementos de una comparación o los pasos de un mecanismo o relación causal. Separa asuntos distintos aunque compartan entidad, categoría general o secuencia histórica.\n2. Los títulos y subtítulos aportan contexto y jerarquía, pero no son UT ni se incluyen en `oraciones`. Los encabezados, párrafos y cambios de fecha, persona o cantidad no determinan por sí solos los límites de las UT.\n3. Lee el documento completo para interpretar referencias. Mantén juntas las oraciones necesarias para comprender una relación interna al subtema. Puedes explicitar en `subtema` un referente situado en otra parte del documento, incluidos los encabezados, si es inequívoco. Conserva las ambigüedades del original; no uses información externa.\n4. Nombra cada subtema con una frase breve que identifique el asunto y sus referentes. No copies automáticamente el encabezado ni añadas afirmaciones o amplíes el alcance del texto.\n\nCONSERVACIÓN\n\n5. Incluye cada aparición de una oración del cuerpo del texto exactamente una vez. Cópiala sin reformularla, corregirla, completarla ni dividirla.\n6. Para esta tarea, una oración es un enunciado completo delimitado por puntuación de cierre. No cortes por dos puntos, punto y coma ni puntos de abreviaturas o números. Interrogación y exclamación delimitan cuando cierran un enunciado independiente. Si una oración reúne varios asuntos, consérvala entera y nombra su contenido conjunto; no añadas otras oraciones solo por esa mezcla.\n7. Conserva el orden de las oraciones dentro de cada UT y ordena las UT por su primera oración. No fijes un número de unidades.\n\nSALIDA\n\nDevuelve solo JSON válido, sin bloques Markdown, comentarios ni claves adicionales:\n\n{\"unidades\":[{\"subtema\":\"Nombre del subtema\",\"oraciones\":[\"Oración literal.\"]}]}\n\nAntes de responder, verifica: agrupación coherente, oraciones literales, cobertura completa, ninguna aparición duplicada y encabezados excluidos.\n\nEJEMPLO DE ENTRADA\n\n<texto>\n# El océano: características, origen de la vida y regulación del clima\n\nEl océano cubre el setenta y uno por ciento de la superficie del planeta. Su profundidad media es de tres mil setecientos metros, y en los fondos abisales la temperatura ronda los dos grados centígrados.\n\nLa vida apareció en él hace unos tres mil quinientos millones de años. Los primeros seres vivos fueron microorganismos de unas pocas micras, y durante casi tres mil millones de años el mar fue el único lugar habitado.\n\nEl océano regula además el clima: absorbe el calor que la atmósfera retiene en el verano. Las corrientes que lo recorren reparten ese calor por el planeta y lo devuelven en el invierno.\n</texto>\n\nEJEMPLO DE SALIDA\n\n{\n  \"unidades\": [\n    {\n      \"subtema\": \"La proporción de la superficie del planeta cubierta por el océano\",\n      \"oraciones\": [\n        \"El océano cubre el setenta y uno por ciento de la superficie del planeta.\"\n      ]\n    },\n    {\n      \"subtema\": \"La profundidad media del océano y la temperatura de sus fondos abisales\",\n      \"oraciones\": [\n        \"Su profundidad media es de tres mil setecientos metros, y en los fondos abisales la temperatura ronda los dos grados centígrados.\"\n      ]\n    },\n    {\n      \"subtema\": \"La antigüedad de la aparición de la vida en el océano\",\n      \"oraciones\": [\n        \"La vida apareció en él hace unos tres mil quinientos millones de años.\"\n      ]\n    },\n    {\n      \"subtema\": \"Los primeros seres vivos y el período en que el mar fue el único lugar habitado\",\n      \"oraciones\": [\n        \"Los primeros seres vivos fueron microorganismos de unas pocas micras, y durante casi tres mil millones de años el mar fue el único lugar habitado.\"\n      ]\n    },\n    {\n      \"subtema\": \"La regulación del clima mediante la absorción y redistribución de calor por el océano\",\n      \"oraciones\": [\n        \"El océano regula además el clima: absorbe el calor que la atmósfera retiene en el verano.\",\n        \"Las corrientes que lo recorren reparten ese calor por el planeta y lo devuelven en el invierno.\"\n      ]\n    }\n  ]\n}\n\n[USUARIO]\n\n<texto>\n{{TEXTO}}\n</texto>\n\nExtrae las UT del documento anterior. Devuelve únicamente el JSON solicitado.\n",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 1468,
+    "completion_tokens": 708,
+    "thinking_tokens": 141,
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1468
+  },
+  "cuerpo_enviado": {
+    "model": "gpt-6-luna",
+    "input": "<texto>\n# preparación del café\n\nLa preparación de café se divide principalmente en tres dinámicas de extracción según el contacto entre el agua y el grano: inmersión, percolación y presión. Cada una de estas técnicas modifica radicalmente el cuerpo, la acidez, la amargura y la claridad de la bebida final. Para obtener el mejor resultado en cualquier método, es fundamental moler el grano al momento y controlar que el agua se mantenga a una temperatura ideal entre los 90 °C y 93 °C.\n\nEn los métodos de inmersión, como la Prensa Francesa y el Cold Brew, el café molido reposa sumergido por completo en el agua durante todo el tiempo de preparación. La prensa francesa utiliza agua caliente y una molienda gruesa para entregar una taza densa, con mucho cuerpo y rica en aceites naturales. Por el contrario, el cold brew realiza esta infusión en frío durante un periodo de 12 a 24 horas, lo que reduce drásticamente la acidez y resalta la dulzura natural del grano.\n\nPor otro lado, los métodos de percolación o goteo manual, representados por conos como el Hario V60 y el Chemex, hacen pasar el agua caliente a través de una cama de café y un filtro de papel por gravedad. Estas técnicas requieren moliendas medianas y destacan por retener la mayoría de los aceites y sedimentos pesados. El resultado es una taza sumamente limpia y ligera que permite apreciar los matices más sutiles, la acidez brillante y las notas florales o frutales de los cafés de especialidad.\n\nFinalmente, los métodos de presión como la Máquina de Espresso, la Cafetera Moka y el AeroPress empujan con fuerza el agua a través del café para lograr extracciones mucho más rápidas y concentradas. Mientras que el espresso ofrece una bebida muy intensa coronada por una densa capa de crema en menos de medio minuto, dispositivos híbridos como el AeroPress combinan una inmersión corta con presión manual. Esto último permite jugar de forma muy versátil con los tiempos y las moliendas para equilibrar cuerpo y claridad al gusto.\n</texto>\n\nExtrae las UT del documento anterior. Devuelve únicamente el JSON solicitado.",
+    "instructions": "TAREA\n\nExtrae unidades temáticas (UT) de `texto`. Una UT contiene un nombre de subtema y una o varias oraciones literales que desarrollan un mismo asunto específico.\n\nCRITERIOS\n\n1. Agrupa una afirmación con su explicación, los elementos de una comparación o los pasos de un mecanismo o relación causal. Separa asuntos distintos aunque compartan entidad, categoría general o secuencia histórica.\n2. Los títulos y subtítulos aportan contexto y jerarquía, pero no son UT ni se incluyen en `oraciones`. Los encabezados, párrafos y cambios de fecha, persona o cantidad no determinan por sí solos los límites de las UT.\n3. Lee el documento completo para interpretar referencias. Mantén juntas las oraciones necesarias para comprender una relación interna al subtema. Puedes explicitar en `subtema` un referente situado en otra parte del documento, incluidos los encabezados, si es inequívoco. Conserva las ambigüedades del original; no uses información externa.\n4. Nombra cada subtema con una frase breve que identifique el asunto y sus referentes. No copies automáticamente el encabezado ni añadas afirmaciones o amplíes el alcance del texto.\n\nCONSERVACIÓN\n\n5. Incluye cada aparición de una oración del cuerpo del texto exactamente una vez. Cópiala sin reformularla, corregirla, completarla ni dividirla.\n6. Para esta tarea, una oración es un enunciado completo delimitado por puntuación de cierre. No cortes por dos puntos, punto y coma ni puntos de abreviaturas o números. Interrogación y exclamación delimitan cuando cierran un enunciado independiente. Si una oración reúne varios asuntos, consérvala entera y nombra su contenido conjunto; no añadas otras oraciones solo por esa mezcla.\n7. Conserva el orden de las oraciones dentro de cada UT y ordena las UT por su primera oración. No fijes un número de unidades.\n\nSALIDA\n\nDevuelve solo JSON válido, sin bloques Markdown, comentarios ni claves adicionales:\n\n{\"unidades\":[{\"subtema\":\"Nombre del subtema\",\"oraciones\":[\"Oración literal.\"]}]}\n\nAntes de responder, verifica: agrupación coherente, oraciones literales, cobertura completa, ninguna aparición duplicada y encabezados excluidos.\n\nEJEMPLO DE ENTRADA\n\n<texto>\n# El océano: características, origen de la vida y regulación del clima\n\nEl océano cubre el setenta y uno por ciento de la superficie del planeta. Su profundidad media es de tres mil setecientos metros, y en los fondos abisales la temperatura ronda los dos grados centígrados.\n\nLa vida apareció en él hace unos tres mil quinientos millones de años. Los primeros seres vivos fueron microorganismos de unas pocas micras, y durante casi tres mil millones de años el mar fue el único lugar habitado.\n\nEl océano regula además el clima: absorbe el calor que la atmósfera retiene en el verano. Las corrientes que lo recorren reparten ese calor por el planeta y lo devuelven en el invierno.\n</texto>\n\nEJEMPLO DE SALIDA\n\n{\n  \"unidades\": [\n    {\n      \"subtema\": \"La proporción de la superficie del planeta cubierta por el océano\",\n      \"oraciones\": [\n        \"El océano cubre el setenta y uno por ciento de la superficie del planeta.\"\n      ]\n    },\n    {\n      \"subtema\": \"La profundidad media del océano y la temperatura de sus fondos abisales\",\n      \"oraciones\": [\n        \"Su profundidad media es de tres mil setecientos metros, y en los fondos abisales la temperatura ronda los dos grados centígrados.\"\n      ]\n    },\n    {\n      \"subtema\": \"La antigüedad de la aparición de la vida en el océano\",\n      \"oraciones\": [\n        \"La vida apareció en él hace unos tres mil quinientos millones de años.\"\n      ]\n    },\n    {\n      \"subtema\": \"Los primeros seres vivos y el período en que el mar fue el único lugar habitado\",\n      \"oraciones\": [\n        \"Los primeros seres vivos fueron microorganismos de unas pocas micras, y durante casi tres mil millones de años el mar fue el único lugar habitado.\"\n      ]\n    },\n    {\n      \"subtema\": \"La regulación del clima mediante la absorción y redistribución de calor por el océano\",\n      \"oraciones\": [\n        \"El océano regula además el clima: absorbe el calor que la atmósfera retiene en el verano.\",\n        \"Las corrientes que lo recorren reparten ese calor por el planeta y lo devuelven en el invierno.\"\n      ]\n    }\n  ]\n}",
+    "max_output_tokens": 16000,
+    "reasoning": {
+      "effort": "low"
+    }
+  },
+  "respuesta_cruda": "{\"unidades\":[{\"subtema\":\"Las dinámicas de extracción del café y sus efectos en la bebida\",\"oraciones\":[\"La preparación de café se divide principalmente en tres dinámicas de extracción según el contacto entre el agua y el grano: inmersión, percolación y presión.\",\"Cada una de estas técnicas modifica radicalmente el cuerpo, la acidez, la amargura y la claridad de la bebida final.\"]},{\"subtema\":\"La molienda y la temperatura del agua para preparar café\",\"oraciones\":[\"Para obtener el mejor resultado en cualquier método, es fundamental moler el grano al momento y controlar que el agua se mantenga a una temperatura ideal entre los 90 °C y 93 °C.\"]},{\"subtema\":\"La inmersión y las características de la Prensa Francesa y el Cold Brew\",\"oraciones\":[\"En los métodos de inmersión, como la Prensa Francesa y el Cold Brew, el café molido reposa sumergido por completo en el agua durante todo el tiempo de preparación.\",\"La prensa francesa utiliza agua caliente y una molienda gruesa para entregar una taza densa, con mucho cuerpo y rica en aceites naturales.\",\"Por el contrario, el cold brew realiza esta infusión en frío durante un periodo de 12 a 24 horas, lo que reduce drásticamente la acidez y resalta la dulzura natural del grano.\"]},{\"subtema\":\"La percolación manual y las características de la taza resultante\",\"oraciones\":[\"Por otro lado, los métodos de percolación o goteo manual, representados por conos como el Hario V60 y el Chemex, hacen pasar el agua caliente a través de una cama de café y un filtro de papel por gravedad.\",\"Estas técnicas requieren moliendas medianas y destacan por retener la mayoría de los aceites y sedimentos pesados.\",\"El resultado es una taza sumamente limpia y ligera que permite apreciar los matices más sutiles, la acidez brillante y las notas florales o frutales de los cafés de especialidad.\"]},{\"subtema\":\"La extracción por presión y las características del espresso y el AeroPress\",\"oraciones\":[\"Finalmente, los métodos de presión como la Máquina de Espresso, la Cafetera Moka y el AeroPress empujan con fuerza el agua a través del café para lograr extracciones mucho más rápidas y concentradas.\",\"Mientras que el espresso ofrece una bebida muy intensa coronada por una densa capa de crema en menos de medio minuto, dispositivos híbridos como el AeroPress combinan una inmersión corta con presión manual.\",\"Esto último permite jugar de forma muy versátil con los tiempos y las moliendas para equilibrar cuerpo y claridad al gusto.\"]}]}",
+  "unidades": [
+    {
+      "subtema": "Las dinámicas de extracción del café y sus efectos en la bebida",
+      "oraciones": [
+        "La preparación de café se divide principalmente en tres dinámicas de extracción según el contacto entre el agua y el grano: inmersión, percolación y presión.",
+        "Cada una de estas técnicas modifica radicalmente el cuerpo, la acidez, la amargura y la claridad de la bebida final."
+      ]
+    },
+    {
+      "subtema": "La molienda y la temperatura del agua para preparar café",
+      "oraciones": [
+        "Para obtener el mejor resultado en cualquier método, es fundamental moler el grano al momento y controlar que el agua se mantenga a una temperatura ideal entre los 90 °C y 93 °C."
+      ]
+    },
+    {
+      "subtema": "La inmersión y las características de la Prensa Francesa y el Cold Brew",
+      "oraciones": [
+        "En los métodos de inmersión, como la Prensa Francesa y el Cold Brew, el café molido reposa sumergido por completo en el agua durante todo el tiempo de preparación.",
+        "La prensa francesa utiliza agua caliente y una molienda gruesa para entregar una taza densa, con mucho cuerpo y rica en aceites naturales.",
+        "Por el contrario, el cold brew realiza esta infusión en frío durante un periodo de 12 a 24 horas, lo que reduce drásticamente la acidez y resalta la dulzura natural del grano."
+      ]
+    },
+    {
+      "subtema": "La percolación manual y las características de la taza resultante",
+      "oraciones": [
+        "Por otro lado, los métodos de percolación o goteo manual, representados por conos como el Hario V60 y el Chemex, hacen pasar el agua caliente a través de una cama de café y un filtro de papel por gravedad.",
+        "Estas técnicas requieren moliendas medianas y destacan por retener la mayoría de los aceites y sedimentos pesados.",
+        "El resultado es una taza sumamente limpia y ligera que permite apreciar los matices más sutiles, la acidez brillante y las notas florales o frutales de los cafés de especialidad."
+      ]
+    },
+    {
+      "subtema": "La extracción por presión y las características del espresso y el AeroPress",
+      "oraciones": [
+        "Finalmente, los métodos de presión como la Máquina de Espresso, la Cafetera Moka y el AeroPress empujan con fuerza el agua a través del café para lograr extracciones mucho más rápidas y concentradas.",
+        "Mientras que el espresso ofrece una bebida muy intensa coronada por una densa capa de crema en menos de medio minuto, dispositivos híbridos como el AeroPress combinan una inmersión corta con presión manual.",
+        "Esto último permite jugar de forma muy versátil con los tiempos y las moliendas para equilibrar cuerpo y claridad al gusto."
+      ]
+    }
+  ],
+  "informe": {
+    "caracteres": 1990,
+    "caracteres_no_blancos": 1629,
+    "cubiertos_no_blancos": 1629,
+    "huecos": [],
+    "unidades": 5,
+    "literales": 12,
+    "no_ubicadas": [],
+    "solapes": [],
+    "orden_en_unidades": true,
+    "orden_entre_unidades": true,
+    "por_unidad": [
+      {
+        "n": 1,
+        "subtema": "Las dinámicas de extracción del café y sus efectos en la bebida",
+        "oraciones": 2,
+        "tramos": [
+          [
+            24,
+            181
+          ],
+          [
+            182,
+            298
+          ]
+        ],
+        "no_ubicadas": [],
+        "orden": true,
+        "primera": 24
+      },
+      {
+        "n": 2,
+        "subtema": "La molienda y la temperatura del agua para preparar café",
+        "oraciones": 1,
+        "tramos": [
+          [
+            299,
+            477
+          ]
+        ],
+        "no_ubicadas": [],
+        "orden": true,
+        "primera": 299
+      },
+      {
+        "n": 3,
+        "subtema": "La inmersión y las características de la Prensa Francesa y el Cold Brew",
+        "oraciones": 3,
+        "tramos": [
+          [
+            479,
+            642
+          ],
+          [
+            643,
+            781
+          ],
+          [
+            782,
+            957
+          ]
+        ],
+        "no_ubicadas": [],
+        "orden": true,
+        "primera": 479
+      },
+      {
+        "n": 4,
+        "subtema": "La percolación manual y las características de la taza resultante",
+        "oraciones": 3,
+        "tramos": [
+          [
+            959,
+            1164
+          ],
+          [
+            1165,
+            1279
+          ],
+          [
+            1280,
+            1458
+          ]
+        ],
+        "no_ubicadas": [],
+        "orden": true,
+        "primera": 959
+      },
+      {
+        "n": 5,
+        "subtema": "La extracción por presión y las características del espresso y el AeroPress",
+        "oraciones": 3,
+        "tramos": [
+          [
+            1460,
+            1659
+          ],
+          [
+            1660,
+            1866
+          ],
+          [
+            1867,
+            1990
+          ]
+        ],
+        "no_ubicadas": [],
+        "orden": true,
+        "primera": 1460
+      }
+    ]
+  },
+  "error_parseo": null
+}

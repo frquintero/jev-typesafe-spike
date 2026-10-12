@@ -173,17 +173,20 @@ DeepSeek `low`) mandadas como el acto real, en dos mensajes.
 
 ## 3. Pendientes vigentes
 
-**Orden.** El código, los prompts y los procedimientos están listos; **`sol` ya pasó por las
-tres etapas** —UT, DATOS y las consultas 1 y 3— y **`preparacion_cafe` está radicado y sin
-unidades**: lo que sigue es pasarlo por las etapas, cada una como acto aparte (punto 0). El material
-anterior —documentos, baterías, extracción y corridas— está archivado en `mvp/temp/`.
-0. **`preparacion_cafe`, por las etapas,** en actos sueltos y a mano: **radicado y sin unidades**
-   (el reseteo le sacó la UT de Haiku `high`); siguen **UT**
+**Orden.** **La base viva está en cero**: las ocho tablas del corpus y las dos del almacén. El
+material anterior —`sol` por las tres etapas, `preparacion_cafe` radicado, las baterías, la
+extracción y las corridas— **vive en el scratch** (`temp/ut-sin-marcas/out/sol-ut-vieja.db`), no en la
+base. Así que la radicación vuelve a ser el paso uno, y **radicar ahora es volcar**: el almacén está
+diseñado y su base creada (`mvp/almacen-diseno.md`, punto 18). Después, `preparacion_cafe` por las
+etapas (punto 0).
+0. **`preparacion_cafe`, por las etapas,** en actos sueltos y a mano, **después del volcado**: no está
+   en la base viva —el reseteo se llevó lo radicado y la UT de Haiku `high`—, así que primero se radica
+   con el acto del volcado (punto 18); siguen **UT**
    (`paso1_unidades.py preparacion_cafe`) y **DATOS** (`paso2_datos.py preparacion_cafe`) —corren
    contra la API real y escriben en la base; el modelo y el esfuerzo son la elección abierta, ver
    `mvp/proveedores.md` (§2) y el pendiente 17—,
    escribir su batería en `mvp/consulta/preguntas_preparacion_cafe.md` y correr la consulta; evaluarla con la vara de los
-   números de oración, distinguiendo «no está en los datos extraídos» de «el documento no lo dice»
+   el contenido —qué le pasa a A(Q)—, distinguiendo «no está en los datos extraídos» de «el documento no lo dice»
    (`mvp/consulta-diseno.md`, §12). `doc11` está en `mvp/documentos/`, fuera de la base: vuelve con dos
    actos, radicarlo (el sello sale igual) y correrle UT. Las baterías de
    `doc4`/`doc6` están archivadas y **sin evaluar** —el registro de esa ronda, con su medición, en
@@ -212,12 +215,13 @@ anterior —documentos, baterías, extracción y corridas— está archivado en 
 13. **Los papeles, al día (09-10 · actualizado 11-10).** **Hecho:** el diseño ya dice qué va en cada
     mensaje y cómo se reparten los relojes (§4.3: el del radicado en el `system`, el del sistema en el
     `user`); las dos guías ya describen los huecos y los tramos; y `proveedores.md` lleva la regla de
-    los dos mensajes (§8) con las medidas de caché que la sostienen. **Falta:** los desfases que
-    encontró la revisión —el diseño §5/§10/§11 («una unidad por turno», las tareas 5 y 6, la columna
-    `corte` que no existe, el desenlace en prosa)—, el tú y el vos de `prompt_ORQ`, `proveedores.md`
-    §6 (dice que el transporte de la familia `responses` «hoy no existe»: existe desde `06931d6` y
-    ahora manda `tools`) y §4 (la etapa 3 no está abierta: corrió `luna low`), y `consulta-diseno.md`
-    §9 (describe el JSON llegando con prosa, cuando `prompt_ORQ` pide **solo** el JSON).
+    los dos mensajes (§8) con las medidas de caché que la sostienen. **Y el 11-10:** el diseño ya dice
+    que el paso 2 va **en tanda** (§5) y que la base **sí** guarda la literal de cada oración con su
+    tramo (§2), y que la causa de un corte va en `motivo`, que es la columna que existe (§11).
+    **Falta:** el tú y el vos de `prompt_ORQ`, `proveedores.md` §6 (dice que el transporte de la
+    familia `responses` «hoy no existe»: existe desde `06931d6` y ahora manda `tools`) y §4 (la etapa
+    3 no está abierta: corrió `luna low`); y el desenlace en prosa del §10. Lo que §9 describe —el
+    JSON tolerando prosa— **no es un desfase**: es la decisión D20, y el ORQ lo ubica.
 14. **Dónde van las notas de una corrida exitosa —y el texto del prompt—.** La verificación de UT
     (huecos, solapes, rango, enteros) y los avisos de DATOS (dónde va la unidad) se imprimen y no
     tienen campo en la base: el registro no los guarda. Y `corridas` guarda `prompt` y su hash,
@@ -270,3 +274,12 @@ anterior —documentos, baterías, extracción y corridas— está archivado en 
     unidad**: la UT sola (suficiencia local) o el documento entero, donde una pregunta puede quedar
     respondida por datos de dos unidades. Mientras no se re-puntúe, no se cambia el proveedor por
     defecto de DATOS (`mvp/proveedores.md` §2).
+18. **El almacén: el acto del volcado, y que los pasos lean de ahí.** **Hecho** (11-10): el diseño
+    (`mvp/almacen-diseno.md`), la base (`mvp/código/almacen.db`, dos tablas —`documentos` y
+    `volcados`—, limpia) y el módulo (`mvp/código/almacen.py`: `escribir` con el espejo del corpus en
+    la misma transacción, `texto_de` con el sello comprobado, `registrar_fallo`). **Falta:** el acto
+    **`volcar.py`** —fuente → `prompt_volcado` → el índice → la verificación → el markdown → el
+    almacén—, que **es la radicación** (y con él se retira `radicar.py`), y que **`paso1` y `paso2`
+    lean el texto del almacén** en vez del archivo. La cadena del volcado ya está probada en el
+    scratch (`temp/estructura/`: cinco textos —sin marcas, numerado, mixto, `Anexos` pegado y
+    separado— y un prototipo del armador con ida y vuelta e idempotencia).

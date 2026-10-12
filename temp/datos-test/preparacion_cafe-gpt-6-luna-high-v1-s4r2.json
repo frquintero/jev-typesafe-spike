@@ -1,0 +1,320 @@
+{
+  "doc": "preparacion_cafe",
+  "alias": "luna",
+  "modelo": "gpt-6-luna",
+  "esfuerzo": "high",
+  "rN": "s4r2",
+  "ruta": "opencode-go/responses",
+  "segundos": 26.8,
+  "prompt": "temp/prompt_DATOS_v1.md",
+  "hash_prompt": "5b45637914172f60654acb3273f7285ffc8732025c4ed190f47355bf3e73edbf",
+  "status": "completed",
+  "incomplete_details": null,
+  "usage": {
+    "input_tokens": 1842,
+    "output_tokens": 2955,
+    "total_tokens": 4797,
+    "input_tokens_details": {
+      "cached_tokens": 1839,
+      "cache_write_tokens": 0
+    },
+    "output_tokens_details": {
+      "reasoning_tokens": 1359
+    }
+  },
+  "costo_estimado_usd": 0.001496,
+  "reasoning_devuelto": {
+    "context": "all_turns",
+    "effort": "high",
+    "mode": "standard",
+    "summary": null
+  },
+  "text_devuelto": {
+    "verbosity": "medium",
+    "format": {
+      "type": "text"
+    }
+  },
+  "unidades_enviadas": "caso: las tres dinámicas de extracción del café y su efecto en la bebida\nsatélites:\n[1] La preparación de café se divide principalmente en tres dinámicas de extracción según el contacto entre el agua y el grano: inmersión, percolación y presión.\n[2] Cada una de estas técnicas modifica radicalmente el cuerpo, la acidez, la amargura y la claridad de la bebida final.\n\ncaso: la molienda y la temperatura del agua como factores comunes a todo método\nsatélites:\n[1] Para obtener el mejor resultado en cualquier método, es fundamental moler el grano al momento y controlar que el agua se mantenga a una temperatura ideal entre los 90 °C y 93 °C.\n\ncaso: los métodos de inmersión: Prensa Francesa y Cold Brew\nsatélites:\n[1] En los métodos de inmersión, como la Prensa Francesa y el Cold Brew, el café molido reposa sumergido por completo en el agua durante todo el tiempo de preparación.\n[2] La prensa francesa utiliza agua caliente y una molienda gruesa para entregar una taza densa, con mucho cuerpo y rica en aceites naturales.\n[3] Por el contrario, el cold brew realiza esta infusión en frío durante un periodo de 12 a 24 horas, lo que reduce drásticamente la acidez y resalta la dulzura natural del grano.\n\ncaso: los métodos de percolación o goteo: conos como el Hario V60 y el Chemex\nsatélites:\n[1] Por otro lado, los métodos de percolación o goteo manual, representados por conos como el Hario V60 y el Chemex, hacen pasar el agua caliente a través de una cama de café y un filtro de papel por gravedad.\n[2] Estas técnicas requieren moliendas medianas y destacan por retener la mayoría de los aceites y sedimentos pesados.\n[3] El resultado es una taza sumamente limpia y ligera que permite apreciar los matices más sutiles, la acidez brillante y las notas florales o frutales de los cafés de especialidad.\n\ncaso: los métodos de presión: espresso, Moka y AeroPress\nsatélites:\n[1] Finalmente, los métodos de presión como la Máquina de Espresso, la Cafetera Moka y el AeroPress empujan con fuerza el agua a través del café para lograr extracciones mucho más rápidas y concentradas.\n[2] Mientras que el espresso ofrece una bebida muy intensa coronada por una densa capa de crema en menos de medio minuto, dispositivos híbridos como el AeroPress combinan una inmersión corta con presión manual.\n[3] Esto último permite jugar de forma muy versátil con los tiempos y las moliendas para equilibrar cuerpo y claridad al gusto.",
+  "salida": {
+    "unidades": [
+      {
+        "n": 1,
+        "caso": "las tres dinámicas de extracción del café y su efecto en la bebida",
+        "datos": [
+          {
+            "aspecto": "número de dinámicas principales de extracción del café",
+            "valor": "tres",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "criterio que distingue las dinámicas de extracción del café",
+            "valor": "el contacto entre el agua y el grano",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "dinámicas principales de extracción del café",
+            "valor": "inmersión, percolación y presión",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "efecto de cada dinámica de extracción sobre el cuerpo de la bebida final",
+            "valor": "lo modifica radicalmente",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "efecto de cada dinámica de extracción sobre la acidez de la bebida final",
+            "valor": "la modifica radicalmente",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "efecto de cada dinámica de extracción sobre la amargura de la bebida final",
+            "valor": "la modifica radicalmente",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "efecto de cada dinámica de extracción sobre la claridad de la bebida final",
+            "valor": "la modifica radicalmente",
+            "unidad_valor": null
+          }
+        ]
+      },
+      {
+        "n": 2,
+        "caso": "la molienda y la temperatura del agua como factores comunes a todo método",
+        "datos": [
+          {
+            "aspecto": "momento recomendado para moler el grano de café en cualquier método",
+            "valor": "al momento",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "temperatura ideal del agua para cualquier método",
+            "valor": "entre 90 y 93",
+            "unidad_valor": "°C"
+          }
+        ]
+      },
+      {
+        "n": 3,
+        "caso": "los métodos de inmersión: Prensa Francesa y Cold Brew",
+        "datos": [
+          {
+            "aspecto": "métodos de inmersión mencionados",
+            "valor": "Prensa Francesa y Cold Brew",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "durante cuánto tiempo permanece el café molido sumergido en los métodos de inmersión",
+            "valor": "durante todo el tiempo de preparación",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "grado de inmersión del café molido en los métodos de inmersión",
+            "valor": "completamente sumergido en el agua",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "temperatura del agua que utiliza la Prensa Francesa",
+            "valor": "caliente",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "grosor de la molienda que utiliza la Prensa Francesa",
+            "valor": "gruesa",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "densidad de la taza de Prensa Francesa",
+            "valor": "densa",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "cantidad de cuerpo de la taza de Prensa Francesa",
+            "valor": "mucho",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "contenido de aceites naturales en la taza de Prensa Francesa",
+            "valor": "rica en aceites naturales",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "temperatura de la infusión de Cold Brew",
+            "valor": "fría",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "duración de la infusión de Cold Brew",
+            "valor": "de 12 a 24",
+            "unidad_valor": "horas"
+          },
+          {
+            "aspecto": "efecto de la infusión de Cold Brew sobre la acidez",
+            "valor": "la reduce drásticamente",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "efecto de la infusión de Cold Brew sobre la dulzura natural del grano",
+            "valor": "la resalta",
+            "unidad_valor": null
+          }
+        ]
+      },
+      {
+        "n": 4,
+        "caso": "los métodos de percolación o goteo: conos como el Hario V60 y el Chemex",
+        "datos": [
+          {
+            "aspecto": "métodos de percolación o goteo manual mencionados",
+            "valor": "conos como el Hario V60 y el Chemex",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "temperatura del agua que atraviesa el café en los métodos de percolación o goteo manual",
+            "valor": "caliente",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "recorrido del agua en los métodos de percolación o goteo manual",
+            "valor": "a través de una cama de café",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "filtro utilizado en los métodos de percolación o goteo manual",
+            "valor": "de papel",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "fuerza que hace pasar el agua a través del café en los métodos de percolación o goteo manual",
+            "valor": "la gravedad",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "grosor de la molienda requerido en los métodos de percolación o goteo manual",
+            "valor": "mediano",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "proporción de aceites retenida por los métodos de percolación o goteo manual",
+            "valor": "la mayoría",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "proporción de sedimentos pesados retenida por los métodos de percolación o goteo manual",
+            "valor": "la mayoría",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "limpieza de la taza obtenida con los métodos de percolación o goteo manual",
+            "valor": "sumamente limpia",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "ligereza de la taza obtenida con los métodos de percolación o goteo manual",
+            "valor": "ligera",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "matices que permite apreciar la taza de percolación o goteo manual",
+            "valor": "los más sutiles",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "acidez de la taza obtenida con los métodos de percolación o goteo manual",
+            "valor": "brillante",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "notas que permite apreciar la taza de percolación o goteo manual en los cafés de especialidad",
+            "valor": "florales o frutales",
+            "unidad_valor": null
+          }
+        ]
+      },
+      {
+        "n": 5,
+        "caso": "los métodos de presión: espresso, Moka y AeroPress",
+        "datos": [
+          {
+            "aspecto": "métodos de presión mencionados",
+            "valor": "Máquina de Espresso, Cafetera Moka y AeroPress",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "mecanismo de extracción de los métodos de presión",
+            "valor": "empujan con fuerza el agua a través del café",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "rapidez de las extracciones de los métodos de presión en comparación con otros métodos",
+            "valor": "mucho más rápidas",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "concentración de las extracciones de los métodos de presión en comparación con otros métodos",
+            "valor": "mucho más concentradas",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "intensidad de la bebida de espresso",
+            "valor": "muy intensa",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "capa de crema que corona el espresso",
+            "valor": "densa",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "tiempo en que se prepara el espresso",
+            "valor": "menos de medio",
+            "unidad_valor": "minuto"
+          },
+          {
+            "aspecto": "tipo de dispositivo que es el AeroPress",
+            "valor": "híbrido",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "procesos que combina el AeroPress",
+            "valor": "una inmersión corta y presión manual",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "elementos con los que se puede jugar de forma versátil usando el AeroPress",
+            "valor": "los tiempos y las moliendas",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "propiedades que se pueden equilibrar con el AeroPress",
+            "valor": "cuerpo y claridad",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "criterio para equilibrar el cuerpo y la claridad con el AeroPress",
+            "valor": "al gusto",
+            "unidad_valor": null
+          }
+        ]
+      }
+    ]
+  },
+  "verificacion": {
+    "parseo": true,
+    "unidades": 5,
+    "datos": 46,
+    "problemas": [],
+    "avisos": []
+  },
+  "error_parseo": null,
+  "peticion": {
+    "model": "gpt-6-luna",
+    "reasoning": {
+      "effort": "high"
+    },
+    "max_output_tokens": 16000
+  },
+  "respuesta_cruda": "{\"unidades\":[{\"n\":1,\"caso\":\"las tres dinámicas de extracción del café y su efecto en la bebida\",\"datos\":[{\"aspecto\":\"número de dinámicas principales de extracción del café\",\"valor\":\"tres\",\"unidad_valor\":null},{\"aspecto\":\"criterio que distingue las dinámicas de extracción del café\",\"valor\":\"el contacto entre el agua y el grano\",\"unidad_valor\":null},{\"aspecto\":\"dinámicas principales de extracción del café\",\"valor\":\"inmersión, percolación y presión\",\"unidad_valor\":null},{\"aspecto\":\"efecto de cada dinámica de extracción sobre el cuerpo de la bebida final\",\"valor\":\"lo modifica radicalmente\",\"unidad_valor\":null},{\"aspecto\":\"efecto de cada dinámica de extracción sobre la acidez de la bebida final\",\"valor\":\"la modifica radicalmente\",\"unidad_valor\":null},{\"aspecto\":\"efecto de cada dinámica de extracción sobre la amargura de la bebida final\",\"valor\":\"la modifica radicalmente\",\"unidad_valor\":null},{\"aspecto\":\"efecto de cada dinámica de extracción sobre la claridad de la bebida final\",\"valor\":\"la modifica radicalmente\",\"unidad_valor\":null}]},{\"n\":2,\"caso\":\"la molienda y la temperatura del agua como factores comunes a todo método\",\"datos\":[{\"aspecto\":\"momento recomendado para moler el grano de café en cualquier método\",\"valor\":\"al momento\",\"unidad_valor\":null},{\"aspecto\":\"temperatura ideal del agua para cualquier método\",\"valor\":\"entre 90 y 93\",\"unidad_valor\":\"°C\"}]},{\"n\":3,\"caso\":\"los métodos de inmersión: Prensa Francesa y Cold Brew\",\"datos\":[{\"aspecto\":\"métodos de inmersión mencionados\",\"valor\":\"Prensa Francesa y Cold Brew\",\"unidad_valor\":null},{\"aspecto\":\"durante cuánto tiempo permanece el café molido sumergido en los métodos de inmersión\",\"valor\":\"durante todo el tiempo de preparación\",\"unidad_valor\":null},{\"aspecto\":\"grado de inmersión del café molido en los métodos de inmersión\",\"valor\":\"completamente sumergido en el agua\",\"unidad_valor\":null},{\"aspecto\":\"temperatura del agua que utiliza la Prensa Francesa\",\"valor\":\"caliente\",\"unidad_valor\":null},{\"aspecto\":\"grosor de la molienda que utiliza la Prensa Francesa\",\"valor\":\"gruesa\",\"unidad_valor\":null},{\"aspecto\":\"densidad de la taza de Prensa Francesa\",\"valor\":\"densa\",\"unidad_valor\":null},{\"aspecto\":\"cantidad de cuerpo de la taza de Prensa Francesa\",\"valor\":\"mucho\",\"unidad_valor\":null},{\"aspecto\":\"contenido de aceites naturales en la taza de Prensa Francesa\",\"valor\":\"rica en aceites naturales\",\"unidad_valor\":null},{\"aspecto\":\"temperatura de la infusión de Cold Brew\",\"valor\":\"fría\",\"unidad_valor\":null},{\"aspecto\":\"duración de la infusión de Cold Brew\",\"valor\":\"de 12 a 24\",\"unidad_valor\":\"horas\"},{\"aspecto\":\"efecto de la infusión de Cold Brew sobre la acidez\",\"valor\":\"la reduce drásticamente\",\"unidad_valor\":null},{\"aspecto\":\"efecto de la infusión de Cold Brew sobre la dulzura natural del grano\",\"valor\":\"la resalta\",\"unidad_valor\":null}]},{\"n\":4,\"caso\":\"los métodos de percolación o goteo: conos como el Hario V60 y el Chemex\",\"datos\":[{\"aspecto\":\"métodos de percolación o goteo manual mencionados\",\"valor\":\"conos como el Hario V60 y el Chemex\",\"unidad_valor\":null},{\"aspecto\":\"temperatura del agua que atraviesa el café en los métodos de percolación o goteo manual\",\"valor\":\"caliente\",\"unidad_valor\":null},{\"aspecto\":\"recorrido del agua en los métodos de percolación o goteo manual\",\"valor\":\"a través de una cama de café\",\"unidad_valor\":null},{\"aspecto\":\"filtro utilizado en los métodos de percolación o goteo manual\",\"valor\":\"de papel\",\"unidad_valor\":null},{\"aspecto\":\"fuerza que hace pasar el agua a través del café en los métodos de percolación o goteo manual\",\"valor\":\"la gravedad\",\"unidad_valor\":null},{\"aspecto\":\"grosor de la molienda requerido en los métodos de percolación o goteo manual\",\"valor\":\"mediano\",\"unidad_valor\":null},{\"aspecto\":\"proporción de aceites retenida por los métodos de percolación o goteo manual\",\"valor\":\"la mayoría\",\"unidad_valor\":null},{\"aspecto\":\"proporción de sedimentos pesados retenida por los métodos de percolación o goteo manual\",\"valor\":\"la mayoría\",\"unidad_valor\":null},{\"aspecto\":\"limpieza de la taza obtenida con los métodos de percolación o goteo manual\",\"valor\":\"sumamente limpia\",\"unidad_valor\":null},{\"aspecto\":\"ligereza de la taza obtenida con los métodos de percolación o goteo manual\",\"valor\":\"ligera\",\"unidad_valor\":null},{\"aspecto\":\"matices que permite apreciar la taza de percolación o goteo manual\",\"valor\":\"los más sutiles\",\"unidad_valor\":null},{\"aspecto\":\"acidez de la taza obtenida con los métodos de percolación o goteo manual\",\"valor\":\"brillante\",\"unidad_valor\":null},{\"aspecto\":\"notas que permite apreciar la taza de percolación o goteo manual en los cafés de especialidad\",\"valor\":\"florales o frutales\",\"unidad_valor\":null}]},{\"n\":5,\"caso\":\"los métodos de presión: espresso, Moka y AeroPress\",\"datos\":[{\"aspecto\":\"métodos de presión mencionados\",\"valor\":\"Máquina de Espresso, Cafetera Moka y AeroPress\",\"unidad_valor\":null},{\"aspecto\":\"mecanismo de extracción de los métodos de presión\",\"valor\":\"empujan con fuerza el agua a través del café\",\"unidad_valor\":null},{\"aspecto\":\"rapidez de las extracciones de los métodos de presión en comparación con otros métodos\",\"valor\":\"mucho más rápidas\",\"unidad_valor\":null},{\"aspecto\":\"concentración de las extracciones de los métodos de presión en comparación con otros métodos\",\"valor\":\"mucho más concentradas\",\"unidad_valor\":null},{\"aspecto\":\"intensidad de la bebida de espresso\",\"valor\":\"muy intensa\",\"unidad_valor\":null},{\"aspecto\":\"capa de crema que corona el espresso\",\"valor\":\"densa\",\"unidad_valor\":null},{\"aspecto\":\"tiempo en que se prepara el espresso\",\"valor\":\"menos de medio\",\"unidad_valor\":\"minuto\"},{\"aspecto\":\"tipo de dispositivo que es el AeroPress\",\"valor\":\"híbrido\",\"unidad_valor\":null},{\"aspecto\":\"procesos que combina el AeroPress\",\"valor\":\"una inmersión corta y presión manual\",\"unidad_valor\":null},{\"aspecto\":\"elementos con los que se puede jugar de forma versátil usando el AeroPress\",\"valor\":\"los tiempos y las moliendas\",\"unidad_valor\":null},{\"aspecto\":\"propiedades que se pueden equilibrar con el AeroPress\",\"valor\":\"cuerpo y claridad\",\"unidad_valor\":null},{\"aspecto\":\"criterio para equilibrar el cuerpo y la claridad con el AeroPress\",\"valor\":\"al gusto\",\"unidad_valor\":null}]}]}",
+  "razonamiento": "{\"id\": \"rs_0a1e814b341aca24006acab3c5bef487d1a29423de3c45a66d\", \"type\": \"reasoning\", \"encrypted_content\": \"gAAAAABqyrPfX8ysgpwMUt7R_zOsz4JnsW9-JK_EJ0fjPsuxCyVRd0dPXn3INRRk75rJxAfGg5VfMZzKe5q-Ui_OFlBuPB1rNSAmjfjM8sOYY3S81__LGUWgnfxNNg-IH7Vc47YSRIigUZnIz9QEvjJrrfrSW5l16CqoImA7DaGq6fv7WH_M0KIiCv3iU1CHq3Xf0IdHCCReTfNDjp1lwSrJXr9NSK1-dxJkhsFjtI4iWFkAOc82kYX3ZnZz8lXVc8HaJZTpTUiqGB_Jtty7ZuO9eWR9LW_qN7-mZw0QfaKUErwQKtgCcdNEfaKdG-gkJ5Pm5THkkA0B8vHMAaO23her3U9yiMHCx-1QFFg3gZn1faEOjvisENPhiNkN7DWKyJa6H729mhk6lWD3B-7WrPtf-8tN9TVtl7Sossw4E4FH8o-hcpGJ0BleDoCyKVimojKYG6TgC5HL-5eKFIcWDoc11KuyTtq-ThCVjvy1O03I8UtFFsTnpJXZEBPrQKkp_dSRHPWhHhzm34SUcTTHCG6I8mi8xliUfP5AwqOx3kNJ8V5397K79nxgL5ECk0gadt6sNClcpne2K61de5GgjrU8zoL7wQ0CZd70TnGJ3EgzSh-lcDhUgH9kgmCoYUObD4iqTJSzfIS3MCjHTMJSTdufBBXtZpHTbckZ8oDYxLxYIqLS4CAK3qnjCa-_9n3-TqAilM_DZ1LhdYok97GRrQMdNUgJVqjvHvX2LZQsZNIWWw5GgaFbJZAxklrYXXySAkMXTOMOP9QJMG28ehpr0KhiePMywK5PQ2GdUlfvdFcfsjggGl1uiEsVXdE9hh9f7d78zR6K-qK_vlG1Zwm23rY4Gc0hNnwrghEdgbfUpM2v5-h3nzznLLUpDVqJ8mJfgxcfuJ_RTAV73yqzvIQDg7o1n0IMJcv76K27XYeC_khq95PbBw2D2oi2MjuJmxIeLx4cESZded4a_5lVFIGgjpigEXYQrI1SD7CQwCl9im_aAbFSQ9J2AQBDABdjSQ-8aAJRYEArwNzppzVMuiQSAmpmu3Gk7Fl_-o6xHwpPdYsFzSeidbHrWkTn4DRQj0wfYhESrsVXSQ7yci25yjF6avJP4s1lucunAb1w2R023QHDr4HOQEIni1o47TtcdpSOqG0iEuGeYsxNgEYwwTzSRZddeAwM2ciKvhmKKoLj29RXc6gIFI8fQhG8PxtncRVXGUgbf6rJXAnxne3x4uDD0JnO2OGVsBGrg9kYzoqM6TBthQEdx1LHDT_h2TB1VYCKokwZYR_-1ANxVWteWJP2vnvzt0Yulq6LK6tKyoGEDaXuurNAsoAVMCECV4MJ3mr6S6OxUdMccmKHiwwmJ8KqqHLVSMlqPYJDZdYSrbhgavPdeO2bFEB5sjpPlyKjIi1C6w4pe00hZyYK5mcnrPeqsX5oaoYk0ZNZFABuGYGEABi8sUXfUUb_NvWaKh-CpCbqXWTPvkxQ7dAToxrbbsnttWcfo9U3_z0Kb8yljm2cS-HEOJGp7pKcKILJsy0fPYmXW7EhML_FXWJBi8YzLCuqPHB3Zoyf7x4Q9dci5iqDIuRgVK14jdB6_pykY3p6g8wdJVX-GsfkSsPMsx0WBA5eV9-dulDPclGkPoOxjcNYoz-aNbyA4PcaJsj4cIYikTMnvX26EW3IjvmVi56_LfJpypDyNrC_xXccb7GLZERDUKG80HQ_tKASmFkoHa2f6te88qApq13ZwrS9sn2Ck1Q_G-uoh5-uMg__unjWmIQsj2Imh8rHoLUZJ72RO4IPGimDQ03VRqFMxpzEy8jr38N8IVVgrEqJJZJznM-ZFuAuO9Awnks48Vsy7DTZaScLcf8OKBjVKqlHe6GaP7cox1xg5tv0u6ov94pTBEEYOqTT08uPEDWtx6jJon_rKEk0WvlELN1Hl-5lARQKk86l6VYCP0fsiQ4h-mXYskxpu57CuY5ZWHVLrCqF7znb6AuZtQKGZjxmHynnDDW3E4XJWJQPQ7xC9ABhUT3XF8yNHFIxCa9Z2RafKboi_d-WE_37m7vXLPH_SzbXzuMNAM_uwUXsM53ZX-7-QnGRh3Ob2NVL_PtzbDCaMQI8X-IoIKeqoYsCq6JONw2T3SZ-9CK-PbuUSMTQyWHjniyJqOWDxq0a3cekAcCBqiiHVD_9u3SJUw9l_TbgVzofnBnlBRB2mkRE7f8RVkQBglVE9voqPOIk8CzhJokJ76JgMMeUbT8t-nLThowdS8oQWHx5QGrr_lGS1S46XFRG1ibgZBjJ36PIZJVG4qI2fsB9Unqq4rjQXYxtl-hBtVDJyZcmcM4rV8mLMTZoUebKlL-4jYye45Z5zeEILJ6Qp6N6LnH9X45r4IIbXt2E1KTiHILKEyX0QYJ9Caj-YaiyewBdOAE7nmMTMVgQah2ZmGNT9N5Nh6GhLFKa7aXRKC_azZxgrBXDslqg_FZ1WJ5u0l9bzatxc-GyK_SeQeZToOjtzjRqXLKcKKRVlj7_4-5wq8a9Uia4__Z-CY7h02_ITbMIRdqeIgaClx1d_NeTxZrqfsgh0Hzttf9VyRldDm5raN4MCoclCx0owLswU6WX2r2v8hegPQjp0dSaHGLPo0P5MCF1D8mFusqKJDQ4WWTZKayRN9EeBA0NgtuA7xg2nHtL26091WeKW5gordUME6uBwSN5Yro2AvA86GOeMwhmwV9lbpCXSCaPN_BDYn9NK8jUqPFBGBisAA4Y5Zcgs2sP0pp7IPMAyngXG9YGonjx6GIHk2apLJW8A8x4aOHoKAXXbxHhKv1dDEnbYN0OvZZfztJpL_BOf7WPN-IaVfyL-IadNvUbhv7g1k_-4Qr_sTz9JJQhF90hrGXZyJ5X10al2Ik_SWkafdY47L-1rV1h3wrRrpMLoUM9LFrfjQrjgTrCHVIYb58l-qqh_EHA89A-JqZMxVbX8g2t0zVL8IN5kt6GZ2KoD7TVLEYah7vtlM3IJrwWqRNyjTZFCBc026gJTuZ_is-9y5viU7iNLh46d8WBkNnq47sbbJfPHU8VXairoP42lNwxlwAGYIALrPdaLhxELOt5AJFAX8ZGDx8cBbZ9TJ9wOlbkjiK1As2a0tHS2mjqGMWAwWnEFw0qsROzqjYOkL5oVPIYMRmadakC8G4mCsj5MsLYzZurRJxYc5CD2nLD9EVf5LYGD-VYJFlCs-xWTHQ9N_CZkVj3tlgtq9qzjDnnWMG226qPUsvaFrf6Lo6kxW9nd34Ki9SODjrsrb7IkhSqxs-bKOejOZ4dkRRdNBV7rbw-mR61FuI5Qg0hsOYf_Aq5C_krbMs-7nqgYk5AyD331IwwIhjafPwfvVob0ESuaIH4oRs5wDMnQ5rHwWb2nwu1Z3Tf1ZbpqGYoXccDBwH2pGcYe-MYgfmgzOiQwXoEtC5DiJo8qJjWGQ1jtyU9V57T5Agw3v7QdKo6OSszfkCWyJClYQnl8N-cVoVNkUGylPV1l08506iFarTKmlQ3QGaN2W8W7cBa1i25TUymeYKH9Qp-bfldkukLlr16Xk61iG595j2RcHVi1ADKrdPQ6HZayQHyg_DPGblT4Z5JdpQQIRSUzdEgFvx7JvE9ccPQYUNM9n8stdr5Gpi2r1fWubqrOA6KaT-jdfY01NnMKM3Al5F-G33JMS4yZ6VISTsd1kUsUcgnTZpvU1fK-kzznsCIWgIzoyHfcMM15pFUACuwOMH1dWbl4Fb56_kKTtm_LiD0pFb0jBjA1SVMOHiKCyaGDKwbdOSyGciXyLiiI7oK9uhCYhst6QEEQGjvWKkpGj7YeB-kvwen-90kJlMSE3V5nGpyDGRfPglZVyLN-58GAvtg_vpC4ChijmbQAHNatRus6sJ6Zgeaow_EOii5J4RcyLfmxLmak3g2puWmJl16NfUopXPjtAtygQTCY4ZNmQPlYVCoIyZfXZEjoiEAMixF6I9ZT4738ReoTdIHmBaO0BxM6cGrrK_nFD8_EFoWbvS-IcZ9jkj4IpzMRC1ep9Jvhx4J89LFv_QO877rbinlx2RnR9DT2EUH2Yp-TeMgy2d6j_sZ17iYMi98FtiO4Efua6_tK7oUprVi4x99zmGN8vvuZOljBzcgjKFlI4xN1Nd8AIGxUEq0GAkf-0XsnVQ5Tth8BN6ceL4i8LYwSfRSO3ZitMV9XeUuLtWzk6-FEbINMbVswuOE6MUH60bvrUIusuLGa9DG-33Xg5QlohCUzdcBUSmdjEm74aVmH_4rkH1xBXA2opA-q1QDw-9j4lNw9vjbRrnk3FibFpj_-sUJP4zhGi2fJURYUn5oAsNPueGY3QqeRBs8CDMHLComgGZetsAHYFqz44htC1YACtbUEmCbS5DDWmrchwFLeCcypBfzTQSbdeswQQaeAZg6VQtMlphxpUUVbFRthGZ-O-rKPqcZBUqeEdz_n0Eb3im26Fxo8Sl2jQ6y2RhEZMuG3_kcE0KsKWIZaDoMG0jsrwRr_IL9OuY-EffrLEDRbsr0-5YPLiYeU9zxXvSyBjGVcE8nzRz1s4oMqj9uuCkmXfAkeZpe5znqa8Gd_CMDmMqjfZALy3kFfS4R5a5dRZR6T0wwsI9fCSQTuPbqBa2Ys7syK4GtQudg4tZB7UKcdkLeJm9w-ja6A0F2aQi_WlCWwyGqsqA4LBBF2E_8rX9p2YpaRIMJmdcsvGHWGnR-rHExQgXLNwhxSAdBtWL8QHMjNOMS8BEj6gDiFqk9n7GxxNdB7fScbaDzArkxNqlYUt2RV9tZZ5jtU_8xu9po6mKkSYEh1kwj9PNq7q5Xoyp8vePPr89cra1kfbdRt-ctd90KWe4dr1jf74gDANXYL26iZJJlG2NYZ92J2IuXfVActWezV_nXwT0z6lq23zXhC7miLxYsm-mPXBQpArjWZvNEnkJettADMvehF-hRyOqhlu2W3aTXy15fYZFvOGtLyLMN30r3YIPIg6VFh825NFKpkVY1fTtKw9JaTp8YJMOEvvaCJx-Xwo0AZXFqo4m4T3IRrshoF1J-UtKcsyh685T3bhXU6Qhrb0hlQgxa-GHmwaq4WiGDYgVlRB5NtcYDbiTZK5qNYgxAC2qaEt4hQ2lP0jDtrKFHiXXjfTYOUnBpS5QF4L5jSxhXNxKBQFC8xKBMs8qNnh7ZnllnW6bDJ50Eno2yXqpoX6EviDb_RosU1hN7fAjOXbXumIBfs0QnznAC9MIU5svX4WbCA8Tl7yMaLQoR7VB8s8wdONCK-imnMUi5vzTYyKNDEDE6F0bevP2Ry261Xi2bd6KkALs-eR7Qg2MPVcqlgaC5CjsPsEbWIdzXp3UIdLisL3h2Q8KscQYdr_G9in8wRWID3IaqlYCfgZ4HBlGOcEfnNp85faFtE0nwUri6eSdT0pC-vy7bmI1Nb3Bxq4SrENHj-srRPAH1UWWuyk7wnucEvRJN1mCfTqYP2mDILv5zLXn6G7SpyLJezuJnQruGqsmF1uwDx0AynNRp7Q0IxW-NAsecgrk0z-ywEErMzzxsUiWAa-Xp8LsR0v3s14i7SNwAyvrYsr--mV3AKIfzbONPvLQpkqPpse_xBRu9_q3Alq8aLAl1ZkBpwsbcpKLsCmDDqXhUsidXMebDddWQLo3fkL5mVX5IRkNfsTAOrh6ip-qSIpdCIZ8qXSu6ql84Ys4PG2PGzE_RdofDjz5yQmbo0OKEfM35GtBml8epMdO_TJgS2nZ-ZgduKQjVA2ZCw8gToYkGWm0MG13exABAlZyGHTey1lanio01nC59sMrsxzgr4wHx8zR-RkHhBQq5zhZulPNgfzTITlXmY3NHyQEJUC56juzmZAsD63lRUnkRZujF9kdzXKQwH_g8Yd5KAf4vwh-7FkudfZvFm3MNIntZlEkDUqEcCjXNDo4uaG9xepmYZtvxPowNAZRwSqXkpM6_BLRd1FDKktChuV9C0aw7xz06KPzEPwZ6snK1ptuMmeiN_miH-o4mHnaSVdyCHRnpqqQsAsDUqktYFYCPlFY5RgCRwFrb1MgUAUAS-Pn728wQmImRFUwz-uKRLSv3s6RTagCQ971AsJBWcMHEBWhKn_eAJFC5K-vnVZ_yKDKC5OTLP_e5E2POt2T2kt6ZvRrBsPE3IeY3YfW3IO2piQ2-q4UgMQ19M_zFQzE3rjnv5oYK3mg5b5Bz2IIvdm86Heu01RjlrmYLUen5egKHMEc8WuPIZMWvk5ayYOMXNSHCsFDCpYsmDA9jUxq4vIGY96Sgm-3vbwKfSb7ul7l-rDOv6KV-gpaEpa5sG1ZJT5P64Z4m9RcGMfJDV2QsdGaLGmNzc_8dj-hyWlr3urjSr0epE3KN3Aggm5wKOiYtcrbcuS1saiOJ9Saf0LGkJNCqbMquHH0XtG7kBgzy4D2813L8ttHZQmN7COYHm8pTdqSQZWlvpMAxMJilYuz9yNaqnchBT9imMeUr0ErRE4UQ9VtQ1AGuaNEPXqUHMyyYfuIiMaZfeJyLIgYsCMJtC4VpRWYqOuIQApr2TaYC5e_r3UcJdwZaTKUnGRHsV4AFSKnAAPTTeQNn6lJKDUtIMza2Ag93BAhVPFRoOgA9ZXnYagnvVPpwdJkndxV1_0axz78E4oS3W95zj7vjoif1PQBIwEBa-AnrsPEJsf_EvQIIxTFlpI_alxSgk6019c4YDUr4qLRCxdpQOHQQ43ins91PuKy5tCWdChV6nuiFghizQBv6hCLjAfPG6VsQH_plGy_m211fuF2AGq0aY4v2rpNecz_iaOuVWd5-Ry4C1Yx8l6do3mU1X515AxJDw9g6xsUXGTAsrwVI9OpUq9ZMqQEceF_dNkSse1hpDf6wi4tEneVhFrpVZge72IVFI1-2iDwS6r64Mjp6tlWjiDbevkRpRfh2blgh3KQP8w3H-lqGUdAW0F4k5TsqwtMMiCg6tkGZORriUBKqFXSikqOc55mjttdYX5MhZ6qkVCQXsE5evtBEiFV1OOfCT2WWmaD4KJtwAFAcAl9HxAbk6bPA_ISU30Ij2Wr_c1lK_FPk6266at6q-Qg_XF3TPjwtcsbO47I4MgUlW-rrmoWNiVOKzqyEwpxWsURW8hqoWn3yRw9HBVCbuBvqT1ld1aicQsLV6Sn03x3-faY47DjfaA_66bwFH1NK_3q9PPjykrSBpCiKqvqAc5PV4yJ8mE_A5IJXDFCQt5FH2sC7_wtsJxeo_OT65fkKqxjOhirmhjXBO5fjAPdrJxqT5aQxgn6czzHN76E1mh4yv5YhL6iJa8eOjl_1i2lYy-c1xN5tWsEonofSmciQyouIgqxSzWF3VSxMhLwjZjWacRZjlAOSrXGNIK9QGuOMH5yUofrrfAAJk8p5Zr_PUI3uRomHj7EVtWEarB0vokVmCgKV_nfkzWcWusgpbeQuRBgdU8QjjpabhFEi3XfQINXAUQA5UmIOPtNt0H0dN-oXvdefLEhNJ_GFdEf1PICPVFGc6iuDm_wLk_0CDxInKVpm5WWSzdS9AXThPyLCf69g4ZGOXTphmlmvhqBE6oD6LrxTjEbRFHHGoa1ys3pzA2TGcpb5wffTla_0ehQD5_qg1Ab3Ih_QsxJBPolmPO-ENFLYdgTuNiH7xIfPdLA-0J7jCfjKDmaeVA3MK4CeGwCt1XaVHlWItIh-Dd8BnAz2wqmhnBNszi1SxOQ-9paeDP7apUvUmmPFDkcSW7xowDgHh18pv8906g_I9ioxc2ms97YvSu-PzP5dxpBzt-ChT0zt-tp1AvOCDgWEMnN18mvUzlywZX5ZhNIuVy8dX9HrbI7J7argjrNqQC-__zckG7qvdlSTRKgDhgOtYkfbtyghk1w3GhYT4n97gx1ogfg5uSEDOjPDzbjynHCFmMhB1zCJluYp-pioGwtgOU1XIsSlug13emOulvrBIly8uCrA2tzWLJp-gwuz0J_xZ_hSTYcGDgy7GInI2GI2i3q5-l2Qutwphz-4fR4BnaoLkyrBkmaSiBxPi1eFGReIUYJh8Shv5pJ6GPMz7t99A0SiwraAyR0IbCG1KeT_gR6FfcWdqH59mEFe-QRJcwSOKzfRoMpKfzLrAD56mhg_qu73qR2ZZlKnr3-3diDz8Gzlg14oeDgthq0tlPYd60SiWk0NdppFEfGnq3Rqk6qgi149-HJMDyO8aHbQITUsIL199AANhntUUiAyKk4GQPT6Y59yjDEsb8UBpKCf2lrE4ge7qYOzI0YySd0vJa_kI6ZnTaflrefMpyH4pYtUzsAJ5crNykQ31umKzImKKwsMcczfaZgv-nhlfYKj02I67ZaEvLJk4iczCQ==\", \"content\": [], \"summary\": []}\n{\"id\": \"rs_0a1e814b341aca24006acab3cb4ae487d196f2f8f62d783b97\", \"type\": \"reasoning\", \"encrypted_content\": \"gAAAAABqyrPfovk6MU2uzLMrv4kPGUOcC7kQ2OhmT_0OGuqbTlbCHKCeHqOOcGaO9Oh27Oyh1B2d51uQhsE6NFPgI5SGb6S_9FWq_pBcWCuZ5DsRhycSEeH-c2Ofs58MpHLHLgzwp96cPdUhLxCesIdCC7JDytTcVjR8-X9oKj2yN9rlyYpcxxT3b6IvH6rtkK1pG9JtR1mUvDrIey4OBgmy9mWmPYVvnM9bfjQgy5fdHu7Fqa-PtLua_C90GlKIW9b-CILHomK-DVl44-hQnzRaFCFkqhYE3UEIvywvLgmPzD1AAZc-VsKi2-xcKOQgmAtTxuaAOJESOP06wYX6L76hUszruIF6HdEeKBIAQPPCqw6pKYatHvIMC5oVOeRddghLEPhbb9MPiiPeBP9ReO3BUxkPZpydmdg_9Jpap-DLFIng4ZnyTk2Z1A_2jTkCKCiXb6TzdbvgDg6BTu1DR8KR08VjYuC0JxahZ556lxz6qUyCvSgm-qWLdgsNtajpYtwWAc0WU3SdKY6YzaQIBSnbPVvV6Ggp_LTPOqa-L7ZlAvFxBgwfADZtpdAFUuqAkSV3a56c_mJZIYJRF3ry0HK5atPIqlrAJbPKt7y46NvaBTXJZD3rmFO7ch5iUl1v5IDx0nXymfPeZTfif_vhLwjvolYCvcqG4hs-ywZWFaT7btCB4b8h8NcDlrmPYVZYZuIzpaP8hsxDYKJSzhFn_4WnpEegKHIa2C-7zavJFk9A_aE3BKgDU_Dp35MeciegpVKHvb19Qg5FKKar7Tw2hHHYP7GO0SrNJesif1DFSV8a2sIXf-3GZ0PHqt0ThSgxiEIuRymj9V_Oo7XKRA-oXxe1UGLFIOVq7YeddCjDTeLTLS_mJsGCHnJIWJHfLopPijHsF3P8EPUeKp3PbkPG1ClwVJiUWD0HURaLknRhY53AMbeG5i2JCMXG9WJkLASGuRegKOaud_ouy6f18WMb0UHc0fuNgcdeWZFn8hL2Pk-Xl6hP33rQVBh8HqqCemcYp-nzopmhT5WUUGwG4EEdDidfhkWtoWirteA8KN0768mmj-vDej3C7uDK1n_SMC1PInFm8gaPUkuIgb5QZCM68PmzbRmTn8ir9ZdJyZkgWJ3ZhuhAqP5EuWSRTamxiG-tjYsJiVlo_zqkLgYdWdZuqHNw96SRf_3bHB9u5iEE7RkAQXWSwgoJX1-LPiVlRzmMbKRmfPYI4T8kGh4HIOcWdbs23UUxAX9btm2HEPjZIkG9ugBGYf6muObe1NVbDKmOBG3C1TZWNmR7ih8hQ0qEmK87CMmlQgfsMZI-eCcJfdZIuSHc2XoeRrM5plBHeevhYcZbtFCt4U3lnEtEJAkVIfWbRKZ4QyDQ1hr0nf99sE2QTKD_AOGRNr7WUaZj2JJd_NAUCJZ5mDL42-iXr5RF-uTeuJX_LVRQswnBPdpKe1rah7FDVg8EEs56H-NRUb9QbLyqK4FgGAed6x1L_MuzpmsRwvuf5BwOBeg_JQYvYSeDhTTmBLghHu4JOwFEP4a0Iwb2brDNTKKByg8eSRnjXeS3aiIivexoUOcBKwJlkHAD6L3VyKVNNllCu1Fwl6TwCSJ9eJkic05-V_bNnojyWAaArzF4vUNSa3og5M0lrT7BxfzBN3Xc1DXpFJJbrRD_ukXg7PuR6v7QJultK46i_oZwNdB64gTjSVuitaUk-4qqTVzDfdiSWY7J6ziWUZR0ble5qqCERvLcpb_dbN4PXlr6IsOt1k8i2ufhTr_lkaUFN9iitQ_ZY-bRjnSLoj1v-MS1PqBA2090rZhsRrP-Fl683DVoIOQe0m5qTvfiH9t9YMj7UZcgmUB5cEBXNh5WaLp0XE7pa5j-YPamRDe-f5OnECGw79n6CwPmaclxJ0wUsEw7LEtzKN_E-kGzsWey5RtFhAMnwvslxoIdOu54oQD7AITXdI_8IvbcmTofw5jxPP1SuZE-HOaGWoxJ3lHDEJPL4KvzWHSsp8aHDopJuTDuq5zeKlNCiuPhnLLNz0AAmI8JIoo_QaXJvM6SRyFVUFI3zNogJkpYSJa0OHiJN3ZqQQolaZJnztDLvYZgCboSiyQsFLw-xE3KOvuaORHGMVdKQtltpojSky6T5lfN4av_KbEjV417I_-mgL57uV8Jirxpwb3gZ7Il31SU9x6paPIBahUmwS8XD_oohzlrF6tYinzloBg9UNafbSFAjHUaTeQ-D3XuXKi2dHzjUDq13z3r4j7A-qX8Z7kRJhke0wmU0PyL0irE8081lIitYJ5cLBxFcRl7v4YDcGpcEbGoZkb3LfE0iNvVnpd1n_wruf0UzpgAPb7YbTfLUVEcLqFLPGhdZh9tA9Y8HN5cjjMgx0skNAbL2fpfkzO4tw5yRltwmvz8Pdt7Jd4hsZq6oJC9FbnaBZk1aISeKAb4u39VB2Su0v0d1tMbZq-sWL6K8pOfNSAOI6ybSa6S5AC6fF72GKdymlkJbsl9MH5ScyX5JFgKs_UnjHhgA9kTrtUrysk3B_reMMo1pf-8b9lTSYPO4j58GHqPtJTOVlG_IMMej_2zuYwvZiQAsX3AV4i2m_P3LBCJqp5AWkTXA-gu1tj-SdtVmc2Z__3ixM6paBd3AXNW2NeCoEUVB8jBHJ2qOg9opmAurHhMQUj_JxpiExZGgrgSKiPh4Fzi3OPFUu-Xse88oQzIpvIDvRyoR4nm7sw7cxog38QIHU69cx-nDBtfyJ7CKh1usAvYmbVnJweezDfzHtfkH27SEO4XcQ-xHmxnilXDfvuZYSOY5IW66mR46ojs7AHjNNoGqJXkbtamnjT0O7LgR1BHa8ifqSonUpFEaNpHlCRYj43Lk-O5L1QNPi6WSqg_hulrIDNqasFo6SXdnCmkOdxEapAC42J9FgoKaZYEj4anENZ9VW0xxATedrvSk7WvXjbGdjd0aWt6zuKWOwGKV3qD33cbC7c3AnWAWPPZvEAx_AmwxcIm2ui-eftjmMnuCd0KUFL5Oq_SAfpIVw3mly9NnW5ikDHWNIjPtK83w3FiZXfawjTecDzYVjW47QdOlv1c669DQu_ohMk9ogXXTtsibkoxKFf4u3v3goOiksCcJI4rOhyM-3l3xXG8Zkbui8gSa1X2aHmHvAloHK_WvxPmz99E_79cUZxlW1UUBPwwciRUIOotJKx6uPCQoMlL9CN6d-khkhusRRQ92RltS6lKpEd179YbkOJYiLC-qYj9CP6q5Q7BroAmIai8WiHBTRTpBjsrVn13Ji_G7qKfruy1IelfqhksicHsTY8JC9F7LyWR2E18MSvAqZXubn5x4AUiafPOZw8qoMs-QkwZ0ZFKIeiUAV8faGN7nV6aS6loMICDdgRik7Nj0Jm4lTGcg-CBCd-da9mBAGiSZVT1_1LE1o1S-U6m12H9Sil5yGTeFGGUVeVI4iFpYfjh5Z1alX9-ICk8lwCmoYSJTCfZ4thl7o9dN-_g0059k8cJl5BUJsuNIeLBgvEjiq5ltsa2_Ei-yGPr0dy80rw4ASCmUHv7TTgvLPjOYlOZoO_xojL-BeGzB7vzX0-nQ3ujR9VcmEkdqsznJY73IFmk7uK28WPg7i13yvrnfQ3shgA_ysI8rrnL2w-F3EghQ5CISD2agGLJj9_iv04GOAALOVoRxsOERiEA0V5RVIgZq7VfI4hltgxEScb2NeflU7ty1ba58wp29Xa2TLW8FEQjVXBHQ9WdspQN2an-equuI-bsMmfNo4TCJk7WCHhEp5YVUDrK6ne5rbYSyJz5U3j_TdYex_EFYKXaZf3gbFvHQDppB5zlqqAf2EYhtarBiQjH-8qG2cHYmWRB7JjKr9D-u7_H8R1JPtHfRvzzjoO2nZsdcJAwkkxmviLL6pIV8bzBXnApK5yj8DBOIPLVNDlFyfXVEYe_fxrEEJDfWC7lCdjAXJ4qAQGtsXRBi_j_qmcpyJ3_xEREsE4d3sndFJG8c8e0JWPMQy7af92JY5WECzpwt6SZo18G9fHiO3VD4xNqLUewOWx4X5tejn_PE34XC2NAfv9XEUzR9XgKgmuDSND5Z6-nsr36ipKA0zsDZw-nSTTL_Zysw-87LnFdm-heAFIuc-UQTlKVE6vtaxx1GMJ3EzeCBXcg3Uizs0fKmHed-4kxBSPBheTp-fJ5pGdNoi0ocBrN01BNBKx52QimZv7Kr2nreUG6QScN4Uk31kPCzKjVOftGXe4dTbkniMdXz-Z8LV4kYvkfNGmTNw-i62z0oqgr2AxIPQ-MgPKEPnf_IgrCjXV8wsJLin9rC5SfBKI4ak9n-H7m651fOUZzHv6MeoPidFjg5YI2tZa6blRIUo_2-38Sk1De9UAeQ0XEuul4GXQ3VhURjxskVxsVZrCLL9AWAgc__JZf7iW6r3yO8d0qH2pS8eSX6saUkuseYBZrtUPHVP5zDJXjEidKeTZzaKVfPxmVaIxl-JtxYCOSoYGx_HADSqqPceQSmAUaMwo6pgY8dVb-IW_xSrmUJoI-4Z_SjEGHpOf3UBVBjYcapxxbRIqH-TEpboBRbMT3ZO-zwHK5QbBPoWrBG_zpegewV7vA4nL_DYxEIw9Gb6lvIHdCcfgwBQAp9_55NdiBS1bNTvmKQvMWmKBJM2QFJNAXnIg3T-CrbIsc6SNn4GXFRgvf8NYpjD8zjitYA0B3OZTVTqpkjC-BND0q3-kgBaDa9fnHQhU1S7f7_-BzWZrovwKiFszr5wUrn1AZgW5IJxcD5Swp3-EsPZ7XZ5b0eRO87ghwrQVmbxdXy6vZQAMzvhU3i3AtQKDQ7hkTqRFU11boysELbQg6-Thimhep30MgxdVCoO76xHuor4kFr6r-685PCBrfattFuj-jbVQ02e7M7nahvxUWd1hzTSSn-w2hLM266d7Cq9ryYg4S_3IlilysuitXIyAe-1BPzb0W2LnnYwXESEWyAzGJQFRyw8MsghtOmRiohb0B1Hi9pscYiCnx2PtY4jSGyuMNGRuGFdQq8I3gfphRZYOi9DWjuKdCJNfDPa7zQANVfv474N1IEBs5ZoaEv8n6BpuieDUrxbqpOjhCIYk_quBRSVmvH-QY01-fUCrlxak0U_NlMvpwvJ7TqlOQ9LmiCvYrFJ8CC96On8ZdAGNDu4aNytPXHkrn9_O15ojtw2W48LzWsnAKnGks1eB9QDHEGeGx4mwamSuNj4cNvDRwTceQYQc6L0FTM3QCArHu-TeNRry4TG8krgVGafmJIoFyNUUeSnJcrqhS1owgEhJoo_EHMRRJiVhXcXUsoSq7ucw-bqBjdX38Xfizcwoi8WhD6iKIn7cSCw-H60QrGgExcp8SDHtizo5sRB4_HZiw1j1hHotnCiXvKcGuD8a9TcVd_RrfgmkNXC6V2LlObhRdvw7Q2cFsYZ1KZDNtpDf6cpW5REJOvt7MEQqbeb873Y-7QuKrhDQur9A4clN5xCRq_U6C4Ij0bR0SOc-D5zjv5h39p_P8ZknCCbBjHKO5-oPyFZQ17j86cSYGiVo5as5NVn7vMLn9YVB_TdTy6zv7ie6RmE_kiISxmx8_Bk3ZdSie5fg7E3YaFjvHHqqOtmAv4RlfDX7YFcIV8TY7Ke1vM-MPo7IekcqDwiSeVkHdM8oOxP7xZmNVtehe_3-bW-uj0VakpfpzEgcAIyN8_aBnvu1sJsGCB5KD8Wz7GMPLdYjGPBtw2At5D96lYUDo3dD5yU-6GMQoAhtnIAaKj8rvMMHgWv877J0G1Bsrwt5WSBc7FGfA_XWHyEjYhTzylcOuFWrT3pCLQ5qoiWExeMCBYg3_ZnzL65hfPuQSX6jVYOktODMbvWzFTJXMug7Eo8bY8QCa-9e7iaurHwfI1H0HIw8xlia1QPHA_980WPu1dUbEHh9y7zS7QbvZmpU2qJ3MUlurQ_F4lNojNhhaEuVyQDX_pftBcIAEjVZz0BFmrT9-dMCANve0hnkj1bWMQl3A9z1NzdIK63DgCkH0oTF1mXc8NGVYT4JFgTp7ThYSlaczIqQhOIHMRk_WLCsI_LwoVwpocNXMm2zpvpg-h8mcC5guf7tDbzXGeDxIm3G7wCvPsWf9OY68MP9eTATFaoi1YIV0LPbBR5hGVkvDLTjfVUAYcd2jZfTmtYEO2KqTx-msgI5VTJm3V5DtVs1I1s6R8yqZxzxXqi8IVVj-qoSVDgw5SsKVAFpnF0pGiGcBR7m4q6nejPFGTScVGGPm068hZouzXI8WIaJ1H-lgcfzSmyU9m5a1bBAsRAHPvNsw7JS_kTIVJJOQOuofI6_QQLosDldxZAgR5fEyPCAeTrtHSbcsX5nmAB8Bo_vwgvarz38rrZq8BcWF6hVVkbD-_wIUgap1NV9zSj2GLy6ROrVRnTo_yJ5hfEd0QJARUWRGx4DCK-1guKddrmpRWskGpUTiVDfxPG115AGtzk0MXrflyiWA8GVbiWQW592DcqAk64W9hHDbLvL5LvM9TlEnYtqU5rP9tvAc7IXt4GuJqzdsNV0NGKIEZRd1uTJshtdEIcrCuzJE3ivlULm7piwHdDlDXZdZSR86keff640o4ooAg6IPCPe56H4uNT23M7SkyefF-wm4gtCi8RxHDzJwFKbg5VFnhsZYxoXOyEto6ND_psAU8eCHwPZSTpXe6JxDx3xz2FC1FOI5l0rxP-_7zQ8U8RZdGCpZjqYi1JRmJWrQaJDVfPg-eSD1ijSgu7u3SmEypPCH2BK73wAfqcthaqDtev4cDYJ7hN7P6Gg537zGKLny6Zlm2b8ew5UfvlVSAt8iOITVvHUvGksuVbPFrH-DS6y-LzpIIAXX69WO0sgQZD-mZKjYsy5Q3VSvIldsJ9XqmNx6lKKVFOBEn_PLmH7kVaHTuerWTyP1oE18xAbm7bLw9HV6v-mkVAgjCWxdfoQjdORhSQDbEm-Z2vhzUspm86IgNNfFs2LCU52JACIUg6K4kU0WbTIXs6ZyrnlLlpTKyuPjqv_Wo8IWaJ2GomWPJPe1gCXazPq0_KM4WCI-eiVvojJyxYd0TxpW0Bra7V3loyo_8RTWSTuT6yufo7nOvCjlDTv7FMmXFO0sXukt2T-vpFpStMOJbBkX4OZiZ_ibafxj_DwD_xGEbiTz3lJgBI1jvQcXhX3U2Ah8Fw4xIbqFz6C9P_3RbloVPhcCJxy8Yan2SGCikyy9AhanoRu3tJd8dHUBym3fgNpaET8mVO3_3-eUOowZdXoCpPfCMbSSsEe-GjN41H_3HCxngZIkv2d13zcEl2yEDQXJqs5BQfOyxEj__e3yvGVPhz5U4J0_HSbK9H9dBDmXcEQkyAiJ7oQOTWXq3Bi4FGt4lgo6fbF6a8H2DKMQwJskPHFS61o7uL7pXgyNq-IGU5OVUSoGyfcoev19aCGY_rfjgl18dqVuYSNv2AXPcKyOUJ7FmJIuqD-iOQi4jEVPbCK2yowl2-3vuSARl0TOKCIRMeHs-IgGoLixcJab_e1NL--fbahxRM8RL5WiRh0JUXB0LizYrkw_H9YBy_01OffvXdVcHGEElxd9Q0QlVirJmhWxSKBmhSHgyCwsLd7eWnXCaqddpNNE0W_aNbbZwnrj7vQ6mOHRG2j9iddobnMAX17_1Rw-a1J9C5bjs-zEJgE7Holrp5UGj1LbsQ12eu1_7-ujNpXq6PHjZB91SlI-UBuCx0Yxyg4xhe2YOm06RzkrEDFBUiJmhT8QrO-CSy8T1ChDE-cc8vxVR_nXpzmhJF9ShZkYuDpn0XY7dFYDmB9k49asGCjIloPVWSAC3gglIV2IT8mOOpRm22gIRjkhlHDTH4XLbpG178WMGcE4yx5w4ldsKuBNn8dRwNJyhDD9x0WBq3kwdjewNtgZuSiRBgXd9Tqxh4zrNIMHUMyi5eabIAuoOe6-hFWGA47RXKXRwioQmFNnLwWAXQgYdJUdxZJ6G99RiZf8q4kOAoMppsu24fJlQpBUzkmJE5d4xsp_5rvyNsB4Dmg1SA4BdJw3LBVp1nSC22QGIKGbR5JJsPo7DDWjxNqJcEskejj0xjyWUYMOMVORNnbaFeBfsdu1cGk=\", \"content\": [], \"summary\": []}\n{\"id\": \"rs_0a1e814b341aca24006acab3d0bdb087d18e5dca4d8f7bcdb4\", \"type\": \"reasoning\", \"encrypted_content\": \"gAAAAABqyrPfoANbnBqExZU5eK40elzBxQVlW0UtBvtYUVMwR3xSbFCqAAmqPw_MLNIVjkgHunby7cLppC5bskQ_oiqMkatttoH44koyM7qJxDuhTRqJluHuX9PofciCBltVOIBaYscQkwUseO6B1qR0g2STU1g2ntb3jidAit_DJH9Ujeee7hEEmJRgrROlnoJWdpVz2pA7BAIylJkF5hCu-VLyxNUIYUvkeAuRYlfu3NbcS5Zs_mjeUqsQfv68KD2rWgEK4iqwntn1d8n2ksoMBulr8qbb_1ph7qVmqaqoUIQdpGLpwL7B6YHXQbrvpJ3fuZm8BfqqNX9L4zNF45vn7iLvuhkIYkPmbz8Bn_pEG-s1ZTNm-Ij8v-VDdKQahHSQNvGkgNFPvNnZDw-Zys4rrROH4NHWAKTqZCRuy21guOiwlLjKXcpgyLm9zy7TeMiZmi3smlZKKDpoWp8QzEPmyiFdHSqaZ_6Vlt9_pGpmVG4brW3Tjh54zeAnQd8Uhxmxbk7cHis5EsVD7bye01MRtqDYC2PhpVkT-4DFS2WfiqkZkDAVXDzCOmkrKFcL0H_NbR9rgDshdvPK95hGvdRb9we7Dp8DoLgc_fjOyuqJsy7qOeK5M_azj4ZUp4J7gLU0cR9y3FSyCqVEFxq3fkDNW1MkSp05roiPE70uwmKplYkTyXx8NJw5aqudpg--wwMz0G_eTRRgV-tWX-YPOxMH7X0R6XgtH1OCvpXRzPN7RUPK5255nlvc9sK0vlwX6U6jdr7-0RYO4I_T1HDsGWew7kOptjOU7vfxqWMxfx2JxXHIKcgxK3RRghKxl1_1xmSmuxFmnRSlt7nCGW8WtwOjiNpYZpRxptZ7qw89QTwpJXVqTvBGAbFRFREygpkiFl0wyjt0Gih887hnRKSm9Oj6K6ONB461vp0bBeZCTLriooG853nD5XTPXOawbckKwDR0oGIYIktUTC6oocJmVUMW5gDYJnAMG-mmlqbcLMaD8qqrci3p7w2WLSHdMpUxZYzhAyP5zSCTLBY_-2WTxZ8wfY9Me5yPePXTfMCvYb1tRuihF_7tbImaOLwOFqOhCnTm9h4dQ2t4Q9bQrSeFHQP6SI9VA6SMXNaI4NNQBh-7bX4k1G5fhkHwJyAZ4dHKQEoNgOXhDza4fRh6yms_IzqkFHDXNmpbha78yTIr04j9QGVe2_ZDI16-c8N1fO8MIdPE6PdRF1m4r8wY3fB7W_SKDiNEH4f4AC_Fydb87LeCTylmUIlDW9ajRd-6A5Uv-bAp3gKYIY9n41eb5v4VVGMdP2zD1AZ4d-va4RQuKkTE6Y5spEb6wpX1dSiFom8aa77UjvHkYhVNNNBBC6533OUEShza_2GdhltCCWDQj7yYmEQhw1DyN4bBxRfUhQJNt8UarRXuHef0eA2eaTwdJiXTwwRu7mUnvYSCT-0JXyAdftyj5067TBct5rcFFXonWI6KqqW4CyVzSn0uwGL_-BK3GEFcMtdJwzwfqeX6EIkG4d7gO8R8HCK_rCUlaEBFumE2GtWheG9g-WdK8ExQcKb_R_sMho99nbsyGRxGGacrqJ1QTSW5cMKpQL3mIBuRCwKv6e5I-EUUPq0eGmNV0RWz4JbokeK2KNsR_rHPAj-OcOWc0Z0RxaonYSKIoNxvcCC2tReiySq9LBeQ0slRYLtixJDeHy6YrFMiyELefNfwFnnPn1h9mck1uH_8Jj5encO2IHUhu56ypasz5gENTIbS2XC3lsU572mvuBuOvyTN4H16faEC7Ynzgp09CE2lxyeDmWGrF1KIfy0fstHOE3I6EfmrvnS_7HmLYZ7avxTh54r8pH3N08Z2_9Y6D8joeA4o8lsp6kbEBGSRJCHHFxMtXt92fNG_YrEfUP-VlbGC_-vUlBo0bv5nuoKMEd47MPmitwnX0yYVIihfWpbx0bSux75wJmShcpwvKuNjPVg7gWyS1lgim5BU3_DXFQTy5llc7181Ku_OLXRlJt8xWGpY5_bCvybqhwwmQSV_LisaOHkTJSOzGhXV53wqIgPkx-GFVdUnpt_hmzAFJfocGmJafm24J74rkCWtxIxca03Gf-XucgVfNSbHym5XIdt-7mMokZS3nqyVqiHq3RBCBbST3_VVqTwmm-aY00nnyf9wt3iEkx7AeswdYYKyxUVj7b8IDc_5To1s8CwV6ILbLNDMfTChgUh0g89u3KxlLdZthU3jvOyV6OsS7-wA9g59kuceazD557PyufyU0UrV4er6t0B-4g-G_bFe-0mNn1Cn9btatHGh-VS7L2QZP4gx7bR9rZDOsidgV4mMRCs31uPblH9ZR1vIBkGMf7MBrsro5l3DPUNyqJMnmJfjN5VQ3yGJ66yjIXo2XNQbqk6biaN2uSEyNutIl8hrzW5U9DOr8jafmC2vKg-IFCSXCZXdqieJKxpvYAsOeEi39TL9_WqeC3YJ2PkNZ-VSdVxvUJVhiyTW7teZGdc92SlXtvxd7nt-HdVvsgNZMYa_kPSabGnHqJ7l3fdbSLPzwqhcHd3WsbyAnzXn8F6QD6MDvFs-zUNtYXWM-CxbciALrgd67bl_hyPfvQtYFERjce5YK1ApejoANxYzFVlZLiEWZ40xKGg4yB07DOgDk-AKCZCSM2101oEz6bsm_QUYxHjJyTpZqBzi13spABBXUTxVej449tE5YObHqwaJ7KGTw2n38yKpvRZOGgydUvl83ja7MUfDhMMjSlkjaXj4MmA5aARrZyEJ9LSdeCwVh22YF0IkNBJoajzuG-wMv3IYBlEKxbYCyyBrniaXp5G3162Xkmlf-cdb9ZKiyUfkPcM4P52TzWxo5QQGF9XI3GYIcBmQ8S8iUrZIbq273e36SzD4qJpd-EVZ9E2PVLPeNWFpsuEfLcuLZg8tQD_dxWyWo0RUa0hMc9aEuxKzuFKsEA3V_YNhX-A9z_SyNCWSDlnMjzNE-8f3dY5cFmzkF2GkN5ELgPZ8ZHLKv_fU4CjJDs3o_Higv4agweU_ZnRFgoJF3Xujg3k3-LdM6CACikInIxxc1fYr0TgMDnKvUDSDbSjzmMnUCiflkdYBEalHNxEP8FYtWfJEV-pMBCidsqFQ5bs5WLELhNeDvIy3BmYcNZ6x8XHPZvZHjfLPb0H7T23KYykRyLoGQJuMywGjTp5ySMeM3w4CHjlIMgZjYONPwsrIW4m0Y_Y4rioZQ7yTFs81uRWuEPqSwmqlL6vs33R800QNh0QH3C64V8mxaiym52IlUY9xDH8a8P-JAcQ2RsxRlLZnJsL2F7nLC9NXVDGGzGwSwfeLmtYBXKBuWu_HUrk29hYJdgs946VPkNpVzZyAUt8V0V_YGc7cg_925U8X1Hmk4wCKz1MY2NW54R2t1J--F_11lQ823l2JfjQq6_ijZGOEzUaavGceTTckvQxUTzncYLYsEpQVjwH03ls4cB2HXaazbZSwMO7V1cmfLFM06YCcuiX-9RT2wX93M8BU3LHdOh8eSOqZ13y4pkybUB7R6USmwonC1RqG_IejF1mkFKhbm05XQm-s3QMyVB2s4YMnikvmbkwkQCRT0b7WneacUXJiwtFRufRGE5dpx1wlSPCj791qawKe6L8fpRtvXc2RDDOF4rI3TB9RpaxnzQ3H-ATXqV53mnj9OtUlthT3Kg6-RxXaRYYkjkp4cS3Y6JMjl2sxl2kA0lbr5Au7iFNqqx4tx4Dh06D8CzNrYxzx4y3Ph0nGTsBPkbaMfxnCkqLKspjsRUQ4dzHqIQaUyMtttRPA7O6z5nF-tBmaK6BnJAlMUxgDeGEHOZHmnbFWslDIreNs5tc-0RmQ0X5GJCX78p7-bcUPFr3GoNBaxZv-iiPJOmOA9W9dhWvDdjIlRUMR1KNO8DY3lohiiYJxYVmWkzizDCfZHzjpiFOz1WxhXKLpeozGxwcmnsJncwlIwmCa0N6SlGmvsnwKYqldxulgyAO4P7HmTxFsBmi7DbcDg3y0q477mhSfzSl8MXfi1bcvNUm01FxXeLRT7ZKeYDRIClg7XapXNf20QnFgkPbq27lBtief7PMkKq5ju2YqznpYb204YpzD5V6fIYMRaoyFkeL3T5DqVSibWpSJfmXAz_ApavSGC761OMePBQua1RFqGaQeXosNjecllbuyc6hRiu51JiXCAo1e2MDdLoBunPbZ8fyMe7f-7XMnxlTiE-sEWucS_oUbOsSuLSGGX2WuFqu9yCMN2aKfetjHDjLfgeQUHx5UF83OaZMSfLSXpAB7_ViU8oAb3-YkuBA8tjvpOSbqguaGVnVhRRxhC7WZud2J0Iq6jas6-JLPMt6xssM0TYwv_K64DDu3nFvucowHgzC-OlpNeBmCv1pSYj3SjJYlpSuZSRN0dTPgeTsk7cSElm40wI3Z-NQF7agu1k2aZ9ccWsvXXdDY8IugwZs7Z0TA4iLxmUpymPoCs0Ao2Q9R65eNgc3GviRsIBV3cnirnIITxZbIID0MRZ99wpGa6DrP46QFganOm4VSzmKND7cxY8NB2LHzSdgCdGLeF1xsZRdqgThed7Y-AkpSOdlzAuVT8Hajntzi0Xokfls4gMEOGnajoqwoeVAeq2ZIy7qlvKCBhW_S5lciJCvGopxK-aQSWV9GaCdvf9nJpRU5NhjhFVtvWyW-jjj5ACkuNOSchgumjxWjyh78m879m_xW1DWqVGkr70zUciGL_O7kkt3iy1jzgqDvQ3JglJhgaBMnHmqjHF06Bbxe7EKlH91ZDBbRY0kfi8gGIeOnuNr-syK4QZvAVpRMPD_TYhJseXkiyL7_4wkuLnHP9UzdAxjho9vWm7IjqJFkU6fi8Z3ST5sWdUnq7Unnc81ManFqFMyG4ONc40PIj_V0kUMba2wPwEDtkw69KF_LKc65FTBuRYPwEq-XAMhiXbNudsDryhFHY0Af1a5ZyJD-sqM-_Urarjj0NR6WLAk9zt3eypalovJ9dUjiQXkvsW8RKa3Wfx0VJWAEJv651VRdfC1Izqu9SvqNZCNTejbsiya7TH_-l-dZ33MKzO3yQnVaYmIs3On-I_qI3p_ZDnIAozt3h2F_gp25AkuSM3_psby3u-JVoGCDH56FlNwaiNiix2hpeqADdxRr31X4Gc606d6nst3Wg1mtEawr-VZweCNcLWaBzj7x5HUee9axBtrFKPHnlAPGu8TEz5s4NKmLD3Z38j7MY2wuRqTR6PxnzfIVu5qyVVfCjTxnV-S3xta3arErQHHoBUhSpt4jm72WQ-8jEyGpzTT7SCaGXEoAAvebfy5HjbvW2dAwAgoM9g6tJHBNKdythM_17DJqJXczyKCuy3IaBhWL6S8at3iFVqEh9HdxVIK6Q_nqaI-FrgkT_pbzNiJU6Wb8OENbGRNdJvC8Fg7y5kVh3HOrm2-zIRfDS2NLemw1cX2HWJ3a0Tx73qoXkwoCOuQVFC2OHzmmKKNtJtJl-0qtUbuko1VGeoD8t-1HEaGaolS1k3Oo7i54oxH4bAapZwqCFBb7BETu35V0RjU5a7U704hb9trVMTiY5Jvp5U-Fy9okf-aBw_WH8g9w3p2cPjfTeWv2PJkWO6wlcrn5qqvE5Ie1J2AU9y2OP7w-pxR6VAjy9FckKYi4X0c=\", \"content\": [], \"summary\": []}"
+}

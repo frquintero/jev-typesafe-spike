@@ -1,0 +1,270 @@
+{
+  "doc": "doc10",
+  "documento": "temp/doc10.md",
+  "alias": "haiku",
+  "modelo": "claude-haiku-5-5",
+  "esfuerzo": "low",
+  "rN": "d1",
+  "unidades_origen": "temp/ut-haiku/doc10-haiku-high-tr1.json",
+  "unidades": [
+    {
+      "caso": "la época y la extensión de la civilización del Indo",
+      "contenido": "La civilización del valle del Indo floreció entre el dos mil seiscientos y el mil novecientos antes de nuestra era, en lo que hoy son Pakistán y el noroeste de la India. Ocupaba cerca de un millón de kilómetros cuadrados, una extensión mayor que la de Egipto y Mesopotamia juntas."
+    },
+    {
+      "caso": "las ciudades de Harappa y Mohenjo-daro y la población de esta última",
+      "contenido": "Sus dos ciudades más estudiadas son Harappa y Mohenjo-daro, separadas por unos seiscientos kilómetros. Según las estimaciones más citadas, Mohenjo-daro llegó a tener unos cuarenta mil habitantes."
+    },
+    {
+      "caso": "el urbanismo: calles en cuadrícula, desagües, ladrillos normalizados y el Gran Baño impermeabilizado",
+      "contenido": "Las calles se trazaban en cuadrícula y casi todas las casas tenían acceso a un desagüe cubierto. Ese sistema no tiene equivalente en otras ciudades de la época. Los ladrillos cocidos guardaban siempre la proporción de uno a dos a cuatro entre grosor, ancho y largo. En el centro de Mohenjo-daro se levanta el llamado Gran Baño, de doce metros por siete y unos dos metros y medio de profundidad. Para impermeabilizarlo, sus constructores sellaron las juntas con betún."
+    },
+    {
+      "caso": "los sellos, la escritura sin descifrar y las pesas como pruebas del comercio",
+      "contenido": "Los comerciantes del Indo usaban sellos de esteatita tallados con animales y signos. Se conocen unas cuatro mil inscripciones, casi todas muy breves, con cerca de cuatrocientos signos distintos. Esa escritura no ha sido descifrada. Textos mesopotámicos mencionan un país llamado Meluhha, de donde llegaban barcos con cornalina y marfil; la mayoría de los historiadores lo identifica con el valle del Indo. Las pesas de piedra seguían un mismo patrón en toda la región: cada una pesaba el doble de la anterior, hasta llegar a sesenta y cuatro veces la más pequeña."
+    },
+    {
+      "caso": "las excavaciones de Marshall y Wheeler y la hipótesis de la invasión",
+      "contenido": "John Marshall anunció el descubrimiento de Mohenjo-daro en mil novecientos veinticuatro y Mortimer Wheeler retomó las excavaciones en los años cuarenta. Él atribuyó el final a una invasión, una idea que hoy casi nadie sostiene."
+    },
+    {
+      "caso": "el abandono de las grandes ciudades y sus causas climáticas",
+      "contenido": "Hacia el mil novecientos antes de nuestra era, las grandes ciudades se fueron vaciando. Los estudios recientes apuntan a un debilitamiento del monzón: si la sequía duró unos doscientos años, como sugieren los sedimentos de los lagos, los campos de cereal no pudieron sostener a las ciudades. Hace unos cuatro mil años, el río Ghaggar-Hakra, que corría al este del Indo, dejó de llevar agua todo el año."
+    }
+  ],
+  "segundos": 7.6,
+  "prompt": "temp/datos-decisiones/prompt_DATOS_decisiones_v5.md",
+  "hash_prompt": "774749b8ba66935c38eab817561d885678b4438234ccd68f3c81f5a1270afde5",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 3983,
+    "completion_tokens": 2204,
+    "total_tokens": 6187,
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3983,
+    "thinking_tokens": 0,
+    "anthropic": {
+      "input_tokens": 3983,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 2204,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  },
+  "salida": [
+    {
+      "n": 1,
+      "caso": "la época y la extensión de la civilización del Indo",
+      "datos": [
+        {
+          "aspecto": "época en que floreció la civilización del valle del Indo",
+          "valor": "entre el dos mil seiscientos y el mil novecientos antes de nuestra era",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "ubicación actual de la civilización del valle del Indo",
+          "valor": "Pakistán y el noroeste de la India",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "extensión de la civilización del valle del Indo",
+          "valor": "cerca de un millón",
+          "unidad_valor": "kilómetros cuadrados"
+        },
+        {
+          "aspecto": "comparación de la extensión de la civilización del valle del Indo con la de Egipto y Mesopotamia juntas",
+          "valor": "mayor",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "caso": "las ciudades de Harappa y Mohenjo-daro y la población de esta última",
+      "datos": [
+        {
+          "aspecto": "distancia entre Harappa y Mohenjo-daro",
+          "valor": "unos seiscientos",
+          "unidad_valor": "kilómetros"
+        },
+        {
+          "aspecto": "población máxima de Mohenjo-daro según las estimaciones más citadas",
+          "valor": "unos cuarenta mil",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "caso": "el urbanismo: calles en cuadrícula, desagües, ladrillos normalizados y el Gran Baño impermeabilizado",
+      "datos": [
+        {
+          "aspecto": "trazado de las calles de las ciudades del valle del Indo",
+          "valor": "en cuadrícula",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "proporción de las casas con acceso a un desagüe cubierto en las ciudades del valle del Indo",
+          "valor": "casi todas",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "equivalencia del sistema de desagües de las ciudades del valle del Indo en otras ciudades de la época",
+          "valor": "no tiene equivalente",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "proporción entre grosor, ancho y largo de los ladrillos cocidos del valle del Indo",
+          "valor": "uno a dos a cuatro",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "dimensiones del Gran Baño de Mohenjo-daro",
+          "valor": "doce por siete",
+          "unidad_valor": "metros"
+        },
+        {
+          "aspecto": "profundidad del Gran Baño de Mohenjo-daro",
+          "valor": "unos dos y medio",
+          "unidad_valor": "metros"
+        },
+        {
+          "aspecto": "material con que se impermeabilizó el Gran Baño de Mohenjo-daro",
+          "valor": "betún",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "caso": "los sellos, la escritura sin descifrar y las pesas como pruebas del comercio",
+      "datos": [
+        {
+          "aspecto": "material de los sellos usados por los comerciantes del Indo",
+          "valor": "esteatita",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "número de inscripciones conocidas de la civilización del Indo",
+          "valor": "unas cuatro mil",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "número de signos distintos en la escritura del Indo",
+          "valor": "cerca de cuatrocientos",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "estado de descifrado de la escritura del valle del Indo",
+          "valor": "no ha sido descifrada",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "identificación del país Meluhha mencionado en textos mesopotámicos (el país llamado Meluhha)",
+          "valor": "el valle del Indo, según la mayoría de los historiadores",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "mercancías que llegaban de Meluhha",
+          "valor": "cornalina y marfil",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "patrón de peso de las pesas de piedra del valle del Indo",
+          "valor": "cada una pesaba el doble de la anterior",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "peso de la pesa mayor en relación con la más pequeña",
+          "valor": "sesenta y cuatro veces",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "caso": "las excavaciones de Marshall y Wheeler y la hipótesis de la invasión",
+      "datos": [
+        {
+          "aspecto": "año en que John Marshall anunció el descubrimiento de Mohenjo-daro",
+          "valor": "mil novecientos veinticuatro",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "época en que Mortimer Wheeler retomó las excavaciones de Mohenjo-daro",
+          "valor": "los años cuarenta",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "causa del final de Mohenjo-daro según Mortimer Wheeler",
+          "valor": "una invasión",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "vigencia actual de la hipótesis de la invasión como causa del final de Mohenjo-daro",
+          "valor": "casi nadie la sostiene hoy",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "caso": "el abandono de las grandes ciudades y sus causas climáticas",
+      "datos": [
+        {
+          "aspecto": "época en que se fueron vaciando las grandes ciudades del Indo",
+          "valor": "hacia el mil novecientos antes de nuestra era",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "causa climática del abandono de las grandes ciudades según los estudios recientes",
+          "valor": "un debilitamiento del monzón",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "duración de la sequía que habría causado el abandono de las grandes ciudades, según los sedimentos de los lagos",
+          "valor": "unos doscientos",
+          "unidad_valor": "años"
+        },
+        {
+          "aspecto": "época en que el río Ghaggar-Hakra dejó de llevar agua todo el año",
+          "valor": "hace unos cuatro mil años",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "posición del río Ghaggar-Hakra respecto del Indo",
+          "valor": "al este del Indo",
+          "unidad_valor": null
+        }
+      ]
+    }
+  ],
+  "verificacion": {
+    "parseo": true,
+    "unidades": 6,
+    "datos": 30,
+    "problemas": []
+  },
+  "error_parseo": null,
+  "peticion": {
+    "model": "claude-haiku-5-5",
+    "max_tokens": 32000,
+    "thinking": {
+      "type": "adaptive",
+      "display": "summarized"
+    },
+    "output_config": {
+      "effort": "low"
+    }
+  },
+  "respuesta_cruda": "{\"unidades\": [\n  {\"n\": 1,\n   \"caso\": \"la época y la extensión de la civilización del Indo\",\n   \"datos\": [\n     {\"aspecto\": \"época en que floreció la civilización del valle del Indo\", \"valor\": \"entre el dos mil seiscientos y el mil novecientos antes de nuestra era\", \"unidad_valor\": null},\n     {\"aspecto\": \"ubicación actual de la civilización del valle del Indo\", \"valor\": \"Pakistán y el noroeste de la India\", \"unidad_valor\": null},\n     {\"aspecto\": \"extensión de la civilización del valle del Indo\", \"valor\": \"cerca de un millón\", \"unidad_valor\": \"kilómetros cuadrados\"},\n     {\"aspecto\": \"comparación de la extensión de la civilización del valle del Indo con la de Egipto y Mesopotamia juntas\", \"valor\": \"mayor\", \"unidad_valor\": null}]},\n  {\"n\": 2,\n   \"caso\": \"las ciudades de Harappa y Mohenjo-daro y la población de esta última\",\n   \"datos\": [\n     {\"aspecto\": \"distancia entre Harappa y Mohenjo-daro\", \"valor\": \"unos seiscientos\", \"unidad_valor\": \"kilómetros\"},\n     {\"aspecto\": \"población máxima de Mohenjo-daro según las estimaciones más citadas\", \"valor\": \"unos cuarenta mil\", \"unidad_valor\": null}]},\n  {\"n\": 3,\n   \"caso\": \"el urbanismo: calles en cuadrícula, desagües, ladrillos normalizados y el Gran Baño impermeabilizado\",\n   \"datos\": [\n     {\"aspecto\": \"trazado de las calles de las ciudades del valle del Indo\", \"valor\": \"en cuadrícula\", \"unidad_valor\": null},\n     {\"aspecto\": \"proporción de las casas con acceso a un desagüe cubierto en las ciudades del valle del Indo\", \"valor\": \"casi todas\", \"unidad_valor\": null},\n     {\"aspecto\": \"equivalencia del sistema de desagües de las ciudades del valle del Indo en otras ciudades de la época\", \"valor\": \"no tiene equivalente\", \"unidad_valor\": null},\n     {\"aspecto\": \"proporción entre grosor, ancho y largo de los ladrillos cocidos del valle del Indo\", \"valor\": \"uno a dos a cuatro\", \"unidad_valor\": null},\n     {\"aspecto\": \"dimensiones del Gran Baño de Mohenjo-daro\", \"valor\": \"doce por siete\", \"unidad_valor\": \"metros\"},\n     {\"aspecto\": \"profundidad del Gran Baño de Mohenjo-daro\", \"valor\": \"unos dos y medio\", \"unidad_valor\": \"metros\"},\n     {\"aspecto\": \"material con que se impermeabilizó el Gran Baño de Mohenjo-daro\", \"valor\": \"betún\", \"unidad_valor\": null}]},\n  {\"n\": 4,\n   \"caso\": \"los sellos, la escritura sin descifrar y las pesas como pruebas del comercio\",\n   \"datos\": [\n     {\"aspecto\": \"material de los sellos usados por los comerciantes del Indo\", \"valor\": \"esteatita\", \"unidad_valor\": null},\n     {\"aspecto\": \"número de inscripciones conocidas de la civilización del Indo\", \"valor\": \"unas cuatro mil\", \"unidad_valor\": null},\n     {\"aspecto\": \"número de signos distintos en la escritura del Indo\", \"valor\": \"cerca de cuatrocientos\", \"unidad_valor\": null},\n     {\"aspecto\": \"estado de descifrado de la escritura del valle del Indo\", \"valor\": \"no ha sido descifrada\", \"unidad_valor\": null},\n     {\"aspecto\": \"identificación del país Meluhha mencionado en textos mesopotámicos (el país llamado Meluhha)\", \"valor\": \"el valle del Indo, según la mayoría de los historiadores\", \"unidad_valor\": null},\n     {\"aspecto\": \"mercancías que llegaban de Meluhha\", \"valor\": \"cornalina y marfil\", \"unidad_valor\": null},\n     {\"aspecto\": \"patrón de peso de las pesas de piedra del valle del Indo\", \"valor\": \"cada una pesaba el doble de la anterior\", \"unidad_valor\": null},\n     {\"aspecto\": \"peso de la pesa mayor en relación con la más pequeña\", \"valor\": \"sesenta y cuatro veces\", \"unidad_valor\": null}]},\n  {\"n\": 5,\n   \"caso\": \"las excavaciones de Marshall y Wheeler y la hipótesis de la invasión\",\n   \"datos\": [\n     {\"aspecto\": \"año en que John Marshall anunció el descubrimiento de Mohenjo-daro\", \"valor\": \"mil novecientos veinticuatro\", \"unidad_valor\": null},\n     {\"aspecto\": \"época en que Mortimer Wheeler retomó las excavaciones de Mohenjo-daro\", \"valor\": \"los años cuarenta\", \"unidad_valor\": null},\n     {\"aspecto\": \"causa del final de Mohenjo-daro según Mortimer Wheeler\", \"valor\": \"una invasión\", \"unidad_valor\": null},\n     {\"aspecto\": \"vigencia actual de la hipótesis de la invasión como causa del final de Mohenjo-daro\", \"valor\": \"casi nadie la sostiene hoy\", \"unidad_valor\": null}]},\n  {\"n\": 6,\n   \"caso\": \"el abandono de las grandes ciudades y sus causas climáticas\",\n   \"datos\": [\n     {\"aspecto\": \"época en que se fueron vaciando las grandes ciudades del Indo\", \"valor\": \"hacia el mil novecientos antes de nuestra era\", \"unidad_valor\": null},\n     {\"aspecto\": \"causa climática del abandono de las grandes ciudades según los estudios recientes\", \"valor\": \"un debilitamiento del monzón\", \"unidad_valor\": null},\n     {\"aspecto\": \"duración de la sequía que habría causado el abandono de las grandes ciudades, según los sedimentos de los lagos\", \"valor\": \"unos doscientos\", \"unidad_valor\": \"años\"},\n     {\"aspecto\": \"época en que el río Ghaggar-Hakra dejó de llevar agua todo el año\", \"valor\": \"hace unos cuatro mil años\", \"unidad_valor\": null},\n     {\"aspecto\": \"posición del río Ghaggar-Hakra respecto del Indo\", \"valor\": \"al este del Indo\", \"unidad_valor\": null}]}\n]}",
+  "razonamiento": null
+}

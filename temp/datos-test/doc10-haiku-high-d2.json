@@ -1,0 +1,305 @@
+{
+  "doc": "doc10",
+  "documento": "temp/doc10.md",
+  "alias": "haiku",
+  "modelo": "claude-haiku-5-5",
+  "esfuerzo": "high",
+  "rN": "d2",
+  "unidades_origen": "temp/ut-haiku/doc10-haiku-high-tr1.json",
+  "unidades": [
+    {
+      "caso": "la época y la extensión de la civilización del Indo",
+      "contenido": "La civilización del valle del Indo floreció entre el dos mil seiscientos y el mil novecientos antes de nuestra era, en lo que hoy son Pakistán y el noroeste de la India. Ocupaba cerca de un millón de kilómetros cuadrados, una extensión mayor que la de Egipto y Mesopotamia juntas."
+    },
+    {
+      "caso": "las ciudades de Harappa y Mohenjo-daro y la población de esta última",
+      "contenido": "Sus dos ciudades más estudiadas son Harappa y Mohenjo-daro, separadas por unos seiscientos kilómetros. Según las estimaciones más citadas, Mohenjo-daro llegó a tener unos cuarenta mil habitantes."
+    },
+    {
+      "caso": "el urbanismo: calles en cuadrícula, desagües, ladrillos normalizados y el Gran Baño impermeabilizado",
+      "contenido": "Las calles se trazaban en cuadrícula y casi todas las casas tenían acceso a un desagüe cubierto. Ese sistema no tiene equivalente en otras ciudades de la época. Los ladrillos cocidos guardaban siempre la proporción de uno a dos a cuatro entre grosor, ancho y largo. En el centro de Mohenjo-daro se levanta el llamado Gran Baño, de doce metros por siete y unos dos metros y medio de profundidad. Para impermeabilizarlo, sus constructores sellaron las juntas con betún."
+    },
+    {
+      "caso": "los sellos, la escritura sin descifrar y las pesas como pruebas del comercio",
+      "contenido": "Los comerciantes del Indo usaban sellos de esteatita tallados con animales y signos. Se conocen unas cuatro mil inscripciones, casi todas muy breves, con cerca de cuatrocientos signos distintos. Esa escritura no ha sido descifrada. Textos mesopotámicos mencionan un país llamado Meluhha, de donde llegaban barcos con cornalina y marfil; la mayoría de los historiadores lo identifica con el valle del Indo. Las pesas de piedra seguían un mismo patrón en toda la región: cada una pesaba el doble de la anterior, hasta llegar a sesenta y cuatro veces la más pequeña."
+    },
+    {
+      "caso": "las excavaciones de Marshall y Wheeler y la hipótesis de la invasión",
+      "contenido": "John Marshall anunció el descubrimiento de Mohenjo-daro en mil novecientos veinticuatro y Mortimer Wheeler retomó las excavaciones en los años cuarenta. Él atribuyó el final a una invasión, una idea que hoy casi nadie sostiene."
+    },
+    {
+      "caso": "el abandono de las grandes ciudades y sus causas climáticas",
+      "contenido": "Hacia el mil novecientos antes de nuestra era, las grandes ciudades se fueron vaciando. Los estudios recientes apuntan a un debilitamiento del monzón: si la sequía duró unos doscientos años, como sugieren los sedimentos de los lagos, los campos de cereal no pudieron sostener a las ciudades. Hace unos cuatro mil años, el río Ghaggar-Hakra, que corría al este del Indo, dejó de llevar agua todo el año."
+    }
+  ],
+  "segundos": 120.6,
+  "prompt": "temp/datos-decisiones/prompt_DATOS_decisiones_v5.md",
+  "hash_prompt": "774749b8ba66935c38eab817561d885678b4438234ccd68f3c81f5a1270afde5",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 3983,
+    "completion_tokens": 31592,
+    "total_tokens": 35575,
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3983,
+    "thinking_tokens": 29028,
+    "anthropic": {
+      "input_tokens": 3983,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 31592,
+      "output_tokens_details": {
+        "thinking_tokens": 29028
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  },
+  "salida": [
+    {
+      "n": 1,
+      "caso": "la época y la extensión de la civilización del Indo",
+      "datos": [
+        {
+          "aspecto": "período de floración de la civilización del valle del Indo",
+          "valor": "entre el dos mil seiscientos y el mil novecientos antes de nuestra era",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "ubicación de la civilización del valle del Indo",
+          "valor": "en lo que hoy son Pakistán y el noroeste de la India",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "extensión ocupada por la civilización del valle del Indo",
+          "valor": "cerca de un millón",
+          "unidad_valor": "kilómetros cuadrados"
+        },
+        {
+          "aspecto": "extensión de la civilización del valle del Indo comparada con la de Egipto y Mesopotamia juntas",
+          "valor": "mayor",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "caso": "las ciudades de Harappa y Mohenjo-daro y la población de esta última",
+      "datos": [
+        {
+          "aspecto": "ciudades más estudiadas de sus",
+          "valor": "Harappa y Mohenjo-daro",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "distancia entre Harappa y Mohenjo-daro",
+          "valor": "unos seiscientos",
+          "unidad_valor": "kilómetros"
+        },
+        {
+          "aspecto": "población máxima de Mohenjo-daro",
+          "valor": "unos cuarenta mil, según las estimaciones más citadas",
+          "unidad_valor": "habitantes"
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "caso": "el urbanismo: calles en cuadrícula, desagües, ladrillos normalizados y el Gran Baño impermeabilizado",
+      "datos": [
+        {
+          "aspecto": "trazado de las calles",
+          "valor": "en cuadrícula",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "proporción de las casas con acceso a un desagüe cubierto",
+          "valor": "casi todas",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "equivalente de ese sistema (el trazado de las calles en cuadrícula y los desagües cubiertos) en otras ciudades de la época",
+          "valor": "ninguno",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "proporción entre grosor, ancho y largo que siempre guardaban los ladrillos cocidos",
+          "valor": "uno a dos a cuatro",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "dimensiones del Gran Baño de Mohenjo-daro",
+          "valor": "doce por siete",
+          "unidad_valor": "metros"
+        },
+        {
+          "aspecto": "ubicación del Gran Baño de Mohenjo-daro",
+          "valor": "en el centro de Mohenjo-daro",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "profundidad del Gran Baño de Mohenjo-daro",
+          "valor": "unos dos metros y medio",
+          "unidad_valor": "metros"
+        },
+        {
+          "aspecto": "método para impermeabilizar el Gran Baño de Mohenjo-daro",
+          "valor": "sellar las juntas con betún",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "caso": "los sellos, la escritura sin descifrar y las pesas como pruebas del comercio",
+      "datos": [
+        {
+          "aspecto": "material de los sellos de los comerciantes del Indo",
+          "valor": "esteatita",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "motivos tallados en los sellos de los comerciantes del Indo",
+          "valor": "animales y signos",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "número de inscripciones conocidas de la escritura del Indo",
+          "valor": "unas cuatro mil",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "longitud de casi todas las inscripciones conocidas de la escritura del Indo",
+          "valor": "muy breves",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "número de signos distintos de la escritura del Indo",
+          "valor": "cerca de cuatrocientos",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "si esa escritura (la de las inscripciones conocidas) ha sido descifrada",
+          "valor": "no",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "nombre de un país mencionado en textos mesopotámicos",
+          "valor": "Meluhha",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "cargamento de los barcos que llegaban de Meluhha",
+          "valor": "cornalina y marfil",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "identificación de Meluhha",
+          "valor": "el valle del Indo, según la mayoría de los historiadores",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "relación entre el peso de cada pesa de piedra y el de la pesa anterior, en toda la región",
+          "valor": "el doble",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "peso de la pesa de piedra más grande comparado con el de la más pequeña",
+          "valor": "sesenta y cuatro veces",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "caso": "las excavaciones de Marshall y Wheeler y la hipótesis de la invasión",
+      "datos": [
+        {
+          "aspecto": "fecha del anuncio del descubrimiento de Mohenjo-daro por John Marshall",
+          "valor": "mil novecientos veinticuatro",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "época en que Mortimer Wheeler retomó las excavaciones de Mohenjo-daro",
+          "valor": "los años cuarenta",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "autor de la atribución del final a una invasión",
+          "valor": "él (John Marshall o Mortimer Wheeler)",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "causa atribuida al final",
+          "valor": "una invasión",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "quiénes sostienen hoy la idea de que el final se debió a una invasión",
+          "valor": "casi nadie",
+          "unidad_valor": null
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "caso": "el abandono de las grandes ciudades y sus causas climáticas",
+      "datos": [
+        {
+          "aspecto": "época en que se fueron vaciando las grandes ciudades",
+          "valor": "hacia el mil novecientos antes de nuestra era",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "causa del vaciado de las grandes ciudades",
+          "valor": "un debilitamiento del monzón, según los estudios recientes",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "duración de la sequía",
+          "valor": "unos doscientos, si fue así, según los sedimentos de los lagos",
+          "unidad_valor": "años"
+        },
+        {
+          "aspecto": "si los campos de cereal pudieron sostener a las grandes ciudades durante la sequía",
+          "valor": "no, si la sequía duró unos doscientos años, según los sedimentos de los lagos",
+          "unidad_valor": null
+        },
+        {
+          "aspecto": "época en que el río Ghaggar-Hakra dejó de llevar agua todo el año",
+          "valor": "hace unos cuatro mil",
+          "unidad_valor": "años"
+        },
+        {
+          "aspecto": "ubicación del río Ghaggar-Hakra",
+          "valor": "al este del Indo",
+          "unidad_valor": null
+        }
+      ]
+    }
+  ],
+  "verificacion": {
+    "parseo": true,
+    "unidades": 6,
+    "datos": 37,
+    "problemas": []
+  },
+  "error_parseo": null,
+  "peticion": {
+    "model": "claude-haiku-5-5",
+    "max_tokens": 32000,
+    "thinking": {
+      "type": "adaptive",
+      "display": "summarized"
+    },
+    "output_config": {
+      "effort": "high"
+    }
+  },
+  "respuesta_cruda": "{\"unidades\": [\n  {\"n\": 1,\n   \"caso\": \"la época y la extensión de la civilización del Indo\",\n   \"datos\": [\n     {\"aspecto\": \"período de floración de la civilización del valle del Indo\", \"valor\": \"entre el dos mil seiscientos y el mil novecientos antes de nuestra era\", \"unidad_valor\": null},\n     {\"aspecto\": \"ubicación de la civilización del valle del Indo\", \"valor\": \"en lo que hoy son Pakistán y el noroeste de la India\", \"unidad_valor\": null},\n     {\"aspecto\": \"extensión ocupada por la civilización del valle del Indo\", \"valor\": \"cerca de un millón\", \"unidad_valor\": \"kilómetros cuadrados\"},\n     {\"aspecto\": \"extensión de la civilización del valle del Indo comparada con la de Egipto y Mesopotamia juntas\", \"valor\": \"mayor\", \"unidad_valor\": null}]},\n  {\"n\": 2,\n   \"caso\": \"las ciudades de Harappa y Mohenjo-daro y la población de esta última\",\n   \"datos\": [\n     {\"aspecto\": \"ciudades más estudiadas de sus\", \"valor\": \"Harappa y Mohenjo-daro\", \"unidad_valor\": null},\n     {\"aspecto\": \"distancia entre Harappa y Mohenjo-daro\", \"valor\": \"unos seiscientos\", \"unidad_valor\": \"kilómetros\"},\n     {\"aspecto\": \"población máxima de Mohenjo-daro\", \"valor\": \"unos cuarenta mil, según las estimaciones más citadas\", \"unidad_valor\": \"habitantes\"}]},\n  {\"n\": 3,\n   \"caso\": \"el urbanismo: calles en cuadrícula, desagües, ladrillos normalizados y el Gran Baño impermeabilizado\",\n   \"datos\": [\n     {\"aspecto\": \"trazado de las calles\", \"valor\": \"en cuadrícula\", \"unidad_valor\": null},\n     {\"aspecto\": \"proporción de las casas con acceso a un desagüe cubierto\", \"valor\": \"casi todas\", \"unidad_valor\": null},\n     {\"aspecto\": \"equivalente de ese sistema (el trazado de las calles en cuadrícula y los desagües cubiertos) en otras ciudades de la época\", \"valor\": \"ninguno\", \"unidad_valor\": null},\n     {\"aspecto\": \"proporción entre grosor, ancho y largo que siempre guardaban los ladrillos cocidos\", \"valor\": \"uno a dos a cuatro\", \"unidad_valor\": null},\n     {\"aspecto\": \"dimensiones del Gran Baño de Mohenjo-daro\", \"valor\": \"doce por siete\", \"unidad_valor\": \"metros\"},\n     {\"aspecto\": \"ubicación del Gran Baño de Mohenjo-daro\", \"valor\": \"en el centro de Mohenjo-daro\", \"unidad_valor\": null},\n     {\"aspecto\": \"profundidad del Gran Baño de Mohenjo-daro\", \"valor\": \"unos dos metros y medio\", \"unidad_valor\": \"metros\"},\n     {\"aspecto\": \"método para impermeabilizar el Gran Baño de Mohenjo-daro\", \"valor\": \"sellar las juntas con betún\", \"unidad_valor\": null}]},\n  {\"n\": 4,\n   \"caso\": \"los sellos, la escritura sin descifrar y las pesas como pruebas del comercio\",\n   \"datos\": [\n     {\"aspecto\": \"material de los sellos de los comerciantes del Indo\", \"valor\": \"esteatita\", \"unidad_valor\": null},\n     {\"aspecto\": \"motivos tallados en los sellos de los comerciantes del Indo\", \"valor\": \"animales y signos\", \"unidad_valor\": null},\n     {\"aspecto\": \"número de inscripciones conocidas de la escritura del Indo\", \"valor\": \"unas cuatro mil\", \"unidad_valor\": null},\n     {\"aspecto\": \"longitud de casi todas las inscripciones conocidas de la escritura del Indo\", \"valor\": \"muy breves\", \"unidad_valor\": null},\n     {\"aspecto\": \"número de signos distintos de la escritura del Indo\", \"valor\": \"cerca de cuatrocientos\", \"unidad_valor\": null},\n     {\"aspecto\": \"si esa escritura (la de las inscripciones conocidas) ha sido descifrada\", \"valor\": \"no\", \"unidad_valor\": null},\n     {\"aspecto\": \"nombre de un país mencionado en textos mesopotámicos\", \"valor\": \"Meluhha\", \"unidad_valor\": null},\n     {\"aspecto\": \"cargamento de los barcos que llegaban de Meluhha\", \"valor\": \"cornalina y marfil\", \"unidad_valor\": null},\n     {\"aspecto\": \"identificación de Meluhha\", \"valor\": \"el valle del Indo, según la mayoría de los historiadores\", \"unidad_valor\": null},\n     {\"aspecto\": \"relación entre el peso de cada pesa de piedra y el de la pesa anterior, en toda la región\", \"valor\": \"el doble\", \"unidad_valor\": null},\n     {\"aspecto\": \"peso de la pesa de piedra más grande comparado con el de la más pequeña\", \"valor\": \"sesenta y cuatro veces\", \"unidad_valor\": null}]},\n  {\"n\": 5,\n   \"caso\": \"las excavaciones de Marshall y Wheeler y la hipótesis de la invasión\",\n   \"datos\": [\n     {\"aspecto\": \"fecha del anuncio del descubrimiento de Mohenjo-daro por John Marshall\", \"valor\": \"mil novecientos veinticuatro\", \"unidad_valor\": null},\n     {\"aspecto\": \"época en que Mortimer Wheeler retomó las excavaciones de Mohenjo-daro\", \"valor\": \"los años cuarenta\", \"unidad_valor\": null},\n     {\"aspecto\": \"autor de la atribución del final a una invasión\", \"valor\": \"él (John Marshall o Mortimer Wheeler)\", \"unidad_valor\": null},\n     {\"aspecto\": \"causa atribuida al final\", \"valor\": \"una invasión\", \"unidad_valor\": null},\n     {\"aspecto\": \"quiénes sostienen hoy la idea de que el final se debió a una invasión\", \"valor\": \"casi nadie\", \"unidad_valor\": null}]},\n  {\"n\": 6,\n   \"caso\": \"el abandono de las grandes ciudades y sus causas climáticas\",\n   \"datos\": [\n     {\"aspecto\": \"época en que se fueron vaciando las grandes ciudades\", \"valor\": \"hacia el mil novecientos antes de nuestra era\", \"unidad_valor\": null},\n     {\"aspecto\": \"causa del vaciado de las grandes ciudades\", \"valor\": \"un debilitamiento del monzón, según los estudios recientes\", \"unidad_valor\": null},\n     {\"aspecto\": \"duración de la sequía\", \"valor\": \"unos doscientos, si fue así, según los sedimentos de los lagos\", \"unidad_valor\": \"años\"},\n     {\"aspecto\": \"si los campos de cereal pudieron sostener a las grandes ciudades durante la sequía\", \"valor\": \"no, si la sequía duró unos doscientos años, según los sedimentos de los lagos\", \"unidad_valor\": null},\n     {\"aspecto\": \"época en que el río Ghaggar-Hakra dejó de llevar agua todo el año\", \"valor\": \"hace unos cuatro mil\", \"unidad_valor\": \"años\"},\n     {\"aspecto\": \"ubicación del río Ghaggar-Hakra\", \"valor\": \"al este del Indo\", \"unidad_valor\": null}]}\n]}",
+  "razonamiento": "I'm working through the first unit about the Indus Valley civilization, noting its timeframe between 2600 and 1900 BCE and its territorial extent across modern Pakistan and northwest India, comparing its size to Egypt and Mesopotamia combined.\n\nAlso the location \"en lo que hoy son Pakistán y el noroeste de la India\" should be its own aspecto, like \"ubicación de la civilización del Indo\" since \"dónde\" delimits the question. That means the temporal phrase likely belongs under a \"cuándo\" aspecto too, following the same rule — so I should split this into separate location and period data entries rather than merging them.\n\nI'll keep \"en lo que hoy son\" with the location value since it conveys the present-day framing, similar to how \"hace\" stayed attached to the date value earlier. For extension, I'm treating \"ocupaba\" as the aspect verb and keeping \"cerca de un millón\" as the value with \"kilómetros cuadrados\" as the unit.\n\nFor the comparison with Egypt and Mesopotamia, I'll fold \"comparada con la de Egipto y Mesopotamia juntas\" into the aspect, keeping \"mayor\" as the value alone, consistent with how the tower-height comparison was structured earlier.\n\nNow I'm moving to the second unit about Harappa and Mohenjo-daro — starting to extract data points like the most-studied cities of the Indus civilization, the distance separating them, and Mohenjo-daro's estimated population.\n\nI keep going back and forth, but since the unit itself doesn't name what \"sus\" refers to, I should just leave the pronoun untouched rather than inventing an antecedent, even if the phrasing feels a bit awkward.\n\nI keep second-guessing the \"sus\" without a clear antecedent in the unit, but I'll settle on something simple that works without overcomplicating it: \"cuáles son las dos ciudades más estudiadas de sus\".\n\nI'll settle on keeping valor as \"Harappa y Mohenjo-daro\" with aspecto \"ciudades más estudiadas de sus,\" leaving \"dos\" folded into the description since the count question is handled separately. Next I need to address the distance between them, noted as separated by roughly six hundred kilometers.\n\nFor population, I'm framing the aspect as \"población máxima alcanzada por Mohenjo-daro,\" with valor \"unos cuarenta mil, según las estimaciones más citadas\" and unidad \"habitantes,\" since \"llegó a tener\" naturally captures the peak estimate framing. Moving into urbanismo now, starting with the grid layout of the streets as the next aspect to define.\n\nFor \"casi todas las casas tenían acceso a un desagüe cubierto,\" I'm weighing how to split aspecto and valor — leaning toward aspecto \"acceso de las casas a un desagüe cubierto\" with valor capturing the \"casi todas\" proportion, since the core question is about how many houses had this access.\n\nNow there's \"ese sistema no tiene equivalente en otras ciudades de la época\" — \"ese sistema\" resumes the earlier mention of the grid and drainage system, so I'll leave it with a parenthetical note. The dato here is the nonexistence of an equivalent system elsewhere at the time.\n\nNow for the bricks: the fired bricks always kept a ratio of one to two to four among thickness, width, and length. So the aspect is the proportion between grosor, ancho, and largo of the ladrillos cocidos, with value \"uno a dos a cuatro\", no unit — and I'm weighing whether \"siempre\" should be treated as a qualifying scope marker.\n\nI'll settle on \"proporción entre grosor, ancho y largo de los ladrillos cocidos, que siempre se mantenía\" with value \"uno a dos a cuatro\" and no unit, since it's a ratio rather than a measurement. Now I'm moving to the Gran Baño entry, noting its dimensions of twelve by seven meters at the center of Mohenjo-daro.\n\nI'll standardize the name as \"Gran Baño de Mohenjo-daro\" throughout, and for location I'll use aspecto \"ubicación del Gran Baño de Mohenjo-daro\" with valor \"centro de Mohenjo-daro\", stripping out connecting words like \"en\" and \"se levanta\" that don't belong in the value itself.\n\nFor depth, I'll record aspecto \"profundidad del Gran Baño de Mohenjo-daro\" with valor \"unos dos metros y medio\" and unidad \"metros\". For waterproofing, I'm working out the aspecto describing how the joints were sealed to waterproof the structure, with \"betún\" as the value for the question of how it was waterproofed.\n\nNow for the Indus merchants' seals: material is steatite, and separately the decoration includes animals and signs — these look like two distinct data points worth recording separately since both details stand on their own.\n\nThen for the next sentence about roughly four thousand inscriptions with about four hundred distinct signs, I need to pull out the count of known inscriptions of the Indus script as its own data point.\n\nI need to be careful not to over-specify \"del Indo\" if the unit doesn't explicitly tie the inscriptions to that script by name — I should stick closer to what's literally stated rather than inferring the connection myself.\n\nFor the count, \"unas cuatro mil\" inscriptions should get a null unit, following the pattern used for other counted items like passengers or hikers. For \"casi todas muy breves,\" I'm treating \"muy breves\" as the value while \"casi todas\" works as a qualifier narrowing which inscriptions the length applies to, rather than as a separate aspect.\n\nFor \"cerca de cuatrocientos signos distintos,\" I'm setting the aspect as the number of distinct signs in the Indus script, keeping \"cerca de\" in the value and using null for the unit. For \"Esa escritura no ha sido descifrada,\" I'm deciding whether \"Esa escritura\" should be treated as a resuming expression referring back to the inscriptions/signs mentioned earlier, which would mean leaving it as a parenthetical rather than folding it directly into the aspect phrasing — trying to keep this consistent with how I've already named the aspect using \"escritura del Indo.\"\n\nI'll settle on aspecto \"si esa escritura (la de las inscripciones conocidas) ha sido descifrada\" with valor \"no\", keeping consistency with how I handled \"ese sistema\" earlier. Moving to Meluhha, I'm working out the aspecto as the name used by Mesopotamian texts for that country.\n\nFor the ships, I'm framing it as \"cargamento de los barcos que llegaban desde Meluhha\" with valor \"cornalina y marfil,\" treating \"con\" as a connector. For the identification, I'm noting the aspecto as how most historians identify Meluhha, pointing to the Indus Valley as the value.\n\nMoving to the stone weights example, I'm pulling out the pattern aspect—each weight doubling the previous up to sixty-four times the smallest—framed as the consistent pattern followed by the stone weights across the region.\n\nThen finishing the thought: \"hasta llegar a\" marks the endpoint, so I'll frame it as aspecto \"peso de la pesa de piedra mayor comparado con la menor\" valor \"sesenta y cuatro veces\", treating \"la mayor\" as the implied final stone in the sequence.\n\nNow I'm weighing whether \"mismo patrón en toda la región\" deserves its own aspect separate from the doubling rule, since both describe the pattern of the stones' weights. To avoid duplicating the same fact, I'll fold \"en toda la región\" into the pattern aspect as a qualifier, giving something like aspecto \"patrón de peso de las pesas de piedra en la región\" valor \"cada pesa el doble de la anterior, consistente en toda la región\".\n\nThen for the comparison between the largest and smallest stones I'll make a separate aspect capturing the ratio of sesenta y cuatro veces, keeping it distinct from the doubling pattern since one is a multiplicative relationship across the whole set and the other is a ratio between extremes.\n\nMoving to the excavation section, I need an aspect for the year John Marshall announced the Mohenjo-daro discovery, replacing the vague pronoun reference with the full phrase \"fecha del anuncio del descubrimiento de Mohenjo-daro por John Marshall\" and setting the value to mil novecientos veinticuatro with no unit.\n\nThen for Mortimer Wheeler resuming the excavations in the forties, I'm treating \"las excavaciones\" as implicitly referring to Mohenjo-daro based on the prior sentence, so I'll name the aspect as the period when Wheeler resumed the Mohenjo-daro excavations, with the value being \"en los años cuarenta.\"\n\nNext, looking at \"Él atribuyó el final a una invasión\" — the pronoun \"Él\" could refer back to either Marshall or Wheeler, so this is a case with two possible antecedents that needs to be flagged accordingly.\n\nSince the unit never names what exactly comes to an end, I need to decide whether to leave it bare or attach \"Mohenjo-daro\" as the implied referent — but adding that risks inferring something the unit doesn't explicitly state. I'll settle on something close to the literal wording, attributing the cause of \"the end\" to John Marshall or Mortimer Wheeler without inventing a more specific object than the unit provides.\n\n\"El final\" is a definite noun, not a pronoun, so I'll leave it as-is: aspecto \"autor de la atribución del final a una invasión\" with valor \"él (John Marshall o Mortimer Wheeler)\", following the precedent from the mayor/councilman case where ambiguous pronouns keep both possible referents in parentheses. I'm also considering whether \"una invasión\" should be its own separate data point answering \"¿a qué atribuyó el final?\".\n\nI'm separating this into two distinct questions: who made the attribution, and what cause was attributed, treating authorship and causation as separate aspects rather than merging them. For the phrase about \"una idea que hoy casi nadie sostiene,\" I'm tracking that \"una idea\" refers back to the invasion hypothesis, and deciding whether \"hoy\" should be folded into the aspect (as a temporal qualifier on whether the idea still holds) or treated as part of the value itself.\n\nWait, I miscounted — there are actually six units, not five. I had grouped excavations and abandonment causes together, but they're separate: unit 5 covers the Marshall and Wheeler excavations, and unit 6 covers the abandonment and its climatic causes. I still need to work out unit 6.\n\nFor unit 6, the data points to the cities emptying around 1900 BCE, likely due to a monsoon weakening lasting roughly two hundred years as shown by lake sediment records, which would have crippled the grain fields sustaining the cities. Around four thousand years ago, the Ghaggar-Hakra river east of the Indus stopped flowing year-round. I'm working through how to phrase the aspect \"época en que se fueron vaciando las grandes ciudades\" with the value \"hacia el mil novecientos antes de nuestra era,\" keeping the phrasing about the cities emptying as given.\n\nFor the next part, I'm figuring out how to split \"los estudios recientes apuntan a un debilitamiento del monzón\" — treating \"según los estudios recientes\" as attribution that belongs with the value rather than the aspect name, so the aspect becomes something like \"causa del vaciado de las grandes ciudades\" with the value \"un debilitamiento del monzón, según los estudios recientes.\"\n\nNow I'm working through the drought duration sentence: \"si la sequía duró unos doscientos años, como sugieren los sedimentos de los lagos...\" I want to treat this like the Caso 2 pattern where conditional \"si\" clauses and attribution clauses both fold into the valor — so aspecto \"duración de la sequía\" with valor \"unos doscientos, según los sedimentos de los lagos\" and unidad \"años,\" since the \"si\" here functions as a hypothetical framing rather than a true condition.\n\nI'll settle on keeping the conditional structure: the drought's duration (about 200 years) according to lake sediments, framed as a hypothesis, then separately note how that duration relates to whether cereal fields could sustain the cities—keeping that link conditional rather than asserting it as fact.\n\nFor dato b, I'm wondering whether to repeat the same conditional structure: aspecto on whether cereal fields could sustain the cities during the drought, with value \"no pudieron\" but still carrying the \"si duró doscientos años\" condition tied to the lake sediment evidence. I'm debating whether to fold that condition into the value itself or keep it as a separate qualifier, since both data points share the same conditional premise.\n\nConfirming \"las ciudades\" should expand to \"las grandes ciudades\" since it's an ordinary noun, and noting \"los sedimentos de los lagos\" belongs as a source detail in the value. Now moving to the Ghaggar-Hakra river: I need to build a dato for when it stopped carrying water year-round, using \"hace unos cuatro mil años\" as the value, following the same date-unit pattern as the earlier \"hace cuarenta años\" case.\n\nI'm also working out its location — \"que corría al este del Indo\" — framing it as an aspect about the river's position relative to the Indo, with \"al este del Indo\" as the value.\n\nFor the abandonment case, the aspect is the era when the great cities emptied out, with \"hacia el mil novecientos antes de nuestra era\" as the value and no unit since it's a date. I'm applying the same logic across other date ranges like \"entre el dos mil seiscientos y el mil novecientos antes de nuestra era\" — treating these as dates with null unit, while keeping \"años\" as the unit only when it's a duration phrase like \"hace cuarenta años\".\n\nFor the population and distance figures, I'm keeping approximations like \"unos\" intact — population at \"unos cuarenta mil habitantes\" and the distance between Harappa and Mohenjo-daro at \"unos seiscientos kilómetros\". For the territorial extension, I'm using \"kilómetros cuadrados\" as the unit with \"cerca de un millón\" as the value, and standardizing on \"civilización del valle del Indo\" as the consistent name throughout rather than mixing it with \"civilización del Indo\".\n\nFor the comparison aspect, I'm noting the extension was \"mayor\" than Egypt and Mesopotamia combined. For location, I'm keeping \"en lo que hoy son Pakistán y el noroeste de la India\" as the value rather than splitting out \"hoy\" separately. For the flourishing period, I'm setting the aspect as the civilization's period of flourishing with the value being the full date range between 2600 and 1900 BCE, with no unit needed.\n\nFor the Great Bath, I'm capturing its dimensions as twelve by seven meters, and noting \"lo\" refers back to the Great Bath itself when discussing waterproofing. For the brick proportions, I'm setting the aspect as the ratio always maintained between thickness, width, and length of the fired bricks, with the value being one to two to four and no unit. For the grid layout and covered drains system, I'm framing the aspect as whether an equivalent existed in other cities of that era, with the value being that there was none.\n\nThen I move to street layout as its own data point — grid pattern — keeping the aspect phrased simply as \"trazado de las calles\" since it stands alone fine. Moving to unit 4 on seals, I'm starting to note the material used — steatite — carved with animal figures and symbols.\n\nFor the seals I continue naming the aspect as \"motivos tallados en los sellos de los comerciantes del Indo\" with value \"animales y signos,\" then move to inscriptions: noting the known count (around four thousand), their brevity, and the roughly four hundred distinct signs used in the Indus script.\n\nI note the script remains undeciphered as its own aspect. For Meluhha, I extract an aspect naming the country mentioned in Mesopotamian texts as \"Meluhha,\" and another aspect describing the cargo (cornelian and ivory) carried by ships arriving from Meluhha, resolving the \"de donde\" reference back to Meluhha as the antecedent.\n\nFor identification, I treat \"identificación de Meluhha\" as the aspect with value \"el valle del Indo, según la mayoría de los historiadores,\" since \"según\" is part of the value rather than a connector.\n\nFor the stone weights, I'm resolving \"cada una pesaba el doble de la anterior\" by replacing \"una\" with \"pesa\" to form the aspect about the weight pattern across the region, with the value being that each weight was double the previous one.\n\nThen I'm working on the largest-to-smallest weight comparison, aiming for an aspect like \"peso de la pesa de piedra más grande comparado con el de la más pequeña\" with value \"sesenta y cuatro veces.\"\n\nMoving to Unit 5, I'm setting the first item: date of John Marshall's announcement of the Mohenjo-daro discovery, valued as 1924. Then I start on the next aspect about when Mortimer Wheeler resumed the excavations.\n\nFor the attribution of the site's end to an invasion, \"él\" has two possible antecedents, Marshall and Wheeler, so following the rule for ambiguous pronouns I include both as the author of that attribution, then move to pairing that aspect with its value, \"una invasión.\"\n\nFor unit 6, I'm working through the timeline and causes for the abandonment of the great cities around 1900 BCE, attributing it to a weakening of the monsoon per recent studies, and noting the roughly two-hundred-year drought duration suggested by lake sediment evidence, making sure to keep the hedging language (\"si fue así\") intact.\n\nI'm also addressing whether grain fields could have sustained the cities through that drought (no), and then moving to when the Ghaggar-Hakra river stopped flowing year-round, around four thousand years ago.\n\nStill working out location: the river lay east of the Indus, and I'm deciding how to phrase the \"two most studied cities\" as a single aspect-value pair, debating whether to keep the count \"two\" within the aspect itself.\n\nFor Mohenjo-daro, the aspect is its maximum population, and for the civilization overall, the aspect is its period of flourishing. I'm also confirming that the Great Bath entry already covers dimensions, location, depth, and waterproofing, with its name treated separately rather than as its own data point.\n\nNow I'm finalizing the remaining extracted facts — the grid layout of the streets, the proportion of houses with covered drains, the fired bricks, and the weight of each unit — before assembling the full JSON array with the exact case strings as given. I'm writing out the entries for unit one now, covering the civilization's flourishing period, its location, and its territorial extent, keeping each as a clean aspecto/valor/unidad_valor object.\n\nI'm comparing its size to Egypt and Mesopotamia combined, then moving to unit two: the two most-studied cities, the distance between Harappa and Mohenjo-daro, and Mohenjo-daro's estimated peak population, formatting each as a consistent JSON entry.\n\nNow I'm extracting details for unit three: the grid layout of the streets, the near-universal coverage of covered drains, the fact that no contemporary city had anything comparable, the fixed 1:2:4 brick ratio, and the Great Bath's dimensions, central location, depth, and bitumen-sealed waterproofing.\n\nFor unit four, I'm capturing facts about the steatite seals carved with animals and signs, the roughly four thousand known Indus inscriptions (mostly very short, using about four hundred distinct signs, still undeciphered), and the Mesopotamian references to Meluhha and its carnelian and ivory cargo.\n\nMoving to units five and six, I'm pulling together the dates: Marshall's 1924 Mohenjo-daro announcement, Wheeler's 1940s excavations, the now-discredited invasion theory, the drying of the great cities around 1900 BCE linked to monsoon weakening, the roughly two-hundred-year drought suggested by lake sediments, and the Ghaggar-Hakra river losing its year-round flow about four thousand years ago east of the Indus. I'm now assembling all these into the final JSON entries, double-checking quoting and formatting before output.\n\n"
+}

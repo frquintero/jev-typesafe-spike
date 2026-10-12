@@ -1,0 +1,267 @@
+{
+  "doc": "preparacion_cafe",
+  "alias": "mimo",
+  "modelo": "mimo-v2.6-flash",
+  "esfuerzo": "low",
+  "rN": "m1r4",
+  "segundos": 70.9,
+  "prompt": "temp/prompt_DATOS_v1.md",
+  "hash_prompt": "5b45637914172f60654acb3273f7285ffc8732025c4ed190f47355bf3e73edbf",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 2066,
+    "completion_tokens": 5459,
+    "total_tokens": 7525,
+    "prompt_tokens_details": {
+      "cached_tokens": 2048
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3798
+    },
+    "thinking_tokens": 3798
+  },
+  "unidades_enviadas": "caso: las tres dinámicas de extracción del café y su efecto en la bebida\nsatélites:\n[1] La preparación de café se divide principalmente en tres dinámicas de extracción según el contacto entre el agua y el grano: inmersión, percolación y presión.\n[2] Cada una de estas técnicas modifica radicalmente el cuerpo, la acidez, la amargura y la claridad de la bebida final.\n\ncaso: la molienda y la temperatura del agua como factores comunes a todo método\nsatélites:\n[1] Para obtener el mejor resultado en cualquier método, es fundamental moler el grano al momento y controlar que el agua se mantenga a una temperatura ideal entre los 90 °C y 93 °C.\n\ncaso: los métodos de inmersión: Prensa Francesa y Cold Brew\nsatélites:\n[1] En los métodos de inmersión, como la Prensa Francesa y el Cold Brew, el café molido reposa sumergido por completo en el agua durante todo el tiempo de preparación.\n[2] La prensa francesa utiliza agua caliente y una molienda gruesa para entregar una taza densa, con mucho cuerpo y rica en aceites naturales.\n[3] Por el contrario, el cold brew realiza esta infusión en frío durante un periodo de 12 a 24 horas, lo que reduce drásticamente la acidez y resalta la dulzura natural del grano.\n\ncaso: los métodos de percolación o goteo: conos como el Hario V60 y el Chemex\nsatélites:\n[1] Por otro lado, los métodos de percolación o goteo manual, representados por conos como el Hario V60 y el Chemex, hacen pasar el agua caliente a través de una cama de café y un filtro de papel por gravedad.\n[2] Estas técnicas requieren moliendas medianas y destacan por retener la mayoría de los aceites y sedimentos pesados.\n[3] El resultado es una taza sumamente limpia y ligera que permite apreciar los matices más sutiles, la acidez brillante y las notas florales o frutales de los cafés de especialidad.\n\ncaso: los métodos de presión: espresso, Moka y AeroPress\nsatélites:\n[1] Finalmente, los métodos de presión como la Máquina de Espresso, la Cafetera Moka y el AeroPress empujan con fuerza el agua a través del café para lograr extracciones mucho más rápidas y concentradas.\n[2] Mientras que el espresso ofrece una bebida muy intensa coronada por una densa capa de crema en menos de medio minuto, dispositivos híbridos como el AeroPress combinan una inmersión corta con presión manual.\n[3] Esto último permite jugar de forma muy versátil con los tiempos y las moliendas para equilibrar cuerpo y claridad al gusto.",
+  "salida": {
+    "unidades": [
+      {
+        "n": 1,
+        "caso": "las tres dinámicas de extracción del café y su efecto en la bebida",
+        "datos": [
+          {
+            "aspecto": "número de dinámicas de extracción del café",
+            "valor": "tres",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "tipos de dinámicas de extracción del café",
+            "valor": "inmersión, percolación y presión",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "criterio según el cual se dividen las dinámicas de extracción del café",
+            "valor": "el contacto entre el agua y el grano",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "características de la bebida que modifica cada técnica de extracción",
+            "valor": "el cuerpo, la acidez, la amargura y la claridad",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "grado en que cada técnica modifica esas características de la bebida final",
+            "valor": "radicalmente",
+            "unidad_valor": null
+          }
+        ]
+      },
+      {
+        "n": 2,
+        "caso": "la molienda y la temperatura del agua como factores comunes a todo método",
+        "datos": [
+          {
+            "aspecto": "momento ideal para moler el grano de café",
+            "valor": "al momento",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "temperatura ideal del agua en cualquier método",
+            "valor": "entre los 90 y 93",
+            "unidad_valor": "°C"
+          }
+        ]
+      },
+      {
+        "n": 3,
+        "caso": "los métodos de inmersión: Prensa Francesa y Cold Brew",
+        "datos": [
+          {
+            "aspecto": "métodos de inmersión de café",
+            "valor": "la Prensa Francesa y el Cold Brew",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "situación del café molido en métodos de inmersión",
+            "valor": "reposa sumergido por completo en el agua",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "duración de la sumersión del café molido en métodos de inmersión",
+            "valor": "durante todo el tiempo de preparación",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "tipo de agua utilizada en la prensa francesa",
+            "valor": "agua caliente",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "molienda para la prensa francesa",
+            "valor": "gruesa",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "densidad de la taza de la prensa francesa",
+            "valor": "densa",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "cuerpo de la taza de la prensa francesa",
+            "valor": "mucho cuerpo",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "riqueza en aceites de la taza de la prensa francesa",
+            "valor": "rica en aceites naturales",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "tipo de infusión del cold brew",
+            "valor": "en frío",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "periodo de infusión del cold brew",
+            "valor": "12 a 24",
+            "unidad_valor": "horas"
+          },
+          {
+            "aspecto": "efecto del cold brew en la acidez",
+            "valor": "reduce drásticamente",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "efecto del cold brew en la dulzura",
+            "valor": "resalta la dulzura natural del grano",
+            "unidad_valor": null
+          }
+        ]
+      },
+      {
+        "n": 4,
+        "caso": "los métodos de percolación o goteo: conos como el Hario V60 y el Chemex",
+        "datos": [
+          {
+            "aspecto": "métodos de percolación o goteo manual",
+            "valor": "conos como el Hario V60 y el Chemex",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "tipo de agua utilizada en métodos de percolación",
+            "valor": "agua caliente",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "medio por el que pasa el agua en métodos de percolación",
+            "valor": "una cama de café y un filtro de papel",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "mecanismo de paso del agua en métodos de percolación",
+            "valor": "por gravedad",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "molienda requerida en métodos de percolación",
+            "valor": "mediana",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "aceites y sedimentos que retienen los métodos de percolación",
+            "valor": "la mayoría de los aceites y sedimentos pesados",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "resultado de los métodos de percolación",
+            "valor": "una taza sumamente limpia y ligera",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "acidez de la taza con métodos de percolación",
+            "valor": "brillante",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "notas de la taza con métodos de percolación",
+            "valor": "florales o frutales",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "tipo de cafés con los que se aprecian esas notas",
+            "valor": "café de especialidad",
+            "unidad_valor": null
+          }
+        ]
+      },
+      {
+        "n": 5,
+        "caso": "los métodos de presión: espresso, Moka y AeroPress",
+        "datos": [
+          {
+            "aspecto": "métodos de presión de café",
+            "valor": "la Máquina de Espresso, la Cafetera Moka y el AeroPress",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "mecanismo de los métodos de presión",
+            "valor": "empujan con fuerza el agua a través del café",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "resultado de los métodos de presión",
+            "valor": "extracciones mucho más rápidas y concentradas",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "intensidad de la bebida del espresso",
+            "valor": "muy intensa",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "capa de crema del espresso",
+            "valor": "densa capa de crema",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "tiempo de preparación del espresso",
+            "valor": "menos de medio",
+            "unidad_valor": "minuto"
+          },
+          {
+            "aspecto": "tipo de dispositivos como el AeroPress",
+            "valor": "híbridos",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "combinación del AeroPress",
+            "valor": "inmersión corta con presión manual",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "versatilidad del AeroPress con los tiempos y las moliendas",
+            "valor": "muy versátil",
+            "unidad_valor": null
+          },
+          {
+            "aspecto": "lo que permite equilibrar el AeroPress al gusto",
+            "valor": "cuerpo y claridad",
+            "unidad_valor": null
+          }
+        ]
+      }
+    ]
+  },
+  "verificacion": {
+    "parseo": true,
+    "unidades": 5,
+    "datos": 39,
+    "problemas": [],
+    "avisos": []
+  },
+  "error_parseo": null,
+  "peticion": {
+    "model": "mimo-v2.6-flash",
+    "reasoning_effort": "low"
+  },
+  "respuesta_cruda": "```json\n{\"unidades\": [\n  {\n    \"n\": 1,\n    \"caso\": \"las tres dinámicas de extracción del café y su efecto en la bebida\",\n    \"datos\": [\n      {\"aspecto\": \"número de dinámicas de extracción del café\", \"valor\": \"tres\", \"unidad_valor\": null},\n      {\"aspecto\": \"tipos de dinámicas de extracción del café\", \"valor\": \"inmersión, percolación y presión\", \"unidad_valor\": null},\n      {\"aspecto\": \"criterio según el cual se dividen las dinámicas de extracción del café\", \"valor\": \"el contacto entre el agua y el grano\", \"unidad_valor\": null},\n      {\"aspecto\": \"características de la bebida que modifica cada técnica de extracción\", \"valor\": \"el cuerpo, la acidez, la amargura y la claridad\", \"unidad_valor\": null},\n      {\"aspecto\": \"grado en que cada técnica modifica esas características de la bebida final\", \"valor\": \"radicalmente\", \"unidad_valor\": null}\n    ]\n  },\n  {\n    \"n\": 2,\n    \"caso\": \"la molienda y la temperatura del agua como factores comunes a todo método\",\n    \"datos\": [\n      {\"aspecto\": \"momento ideal para moler el grano de café\", \"valor\": \"al momento\", \"unidad_valor\": null},\n      {\"aspecto\": \"temperatura ideal del agua en cualquier método\", \"valor\": \"entre los 90 y 93\", \"unidad_valor\": \"°C\"}\n    ]\n  },\n  {\n    \"n\": 3,\n    \"caso\": \"los métodos de inmersión: Prensa Francesa y Cold Brew\",\n    \"datos\": [\n      {\"aspecto\": \"métodos de inmersión de café\", \"valor\": \"la Prensa Francesa y el Cold Brew\", \"unidad_valor\": null},\n      {\"aspecto\": \"situación del café molido en métodos de inmersión\", \"valor\": \"reposa sumergido por completo en el agua\", \"unidad_valor\": null},\n      {\"aspecto\": \"duración de la sumersión del café molido en métodos de inmersión\", \"valor\": \"durante todo el tiempo de preparación\", \"unidad_valor\": null},\n      {\"aspecto\": \"tipo de agua utilizada en la prensa francesa\", \"valor\": \"agua caliente\", \"unidad_valor\": null},\n      {\"aspecto\": \"molienda para la prensa francesa\", \"valor\": \"gruesa\", \"unidad_valor\": null},\n      {\"aspecto\": \"densidad de la taza de la prensa francesa\", \"valor\": \"densa\", \"unidad_valor\": null},\n      {\"aspecto\": \"cuerpo de la taza de la prensa francesa\", \"valor\": \"mucho cuerpo\", \"unidad_valor\": null},\n      {\"aspecto\": \"riqueza en aceites de la taza de la prensa francesa\", \"valor\": \"rica en aceites naturales\", \"unidad_valor\": null},\n      {\"aspecto\": \"tipo de infusión del cold brew\", \"valor\": \"en frío\", \"unidad_valor\": null},\n      {\"aspecto\": \"periodo de infusión del cold brew\", \"valor\": \"12 a 24\", \"unidad_valor\": \"horas\"},\n      {\"aspecto\": \"efecto del cold brew en la acidez\", \"valor\": \"reduce drásticamente\", \"unidad_valor\": null},\n      {\"aspecto\": \"efecto del cold brew en la dulzura\", \"valor\": \"resalta la dulzura natural del grano\", \"unidad_valor\": null}\n    ]\n  },\n  {\n    \"n\": 4,\n    \"caso\": \"los métodos de percolación o goteo: conos como el Hario V60 y el Chemex\",\n    \"datos\": [\n      {\"aspecto\": \"métodos de percolación o goteo manual\", \"valor\": \"conos como el Hario V60 y el Chemex\", \"unidad_valor\": null},\n      {\"aspecto\": \"tipo de agua utilizada en métodos de percolación\", \"valor\": \"agua caliente\", \"unidad_valor\": null},\n      {\"aspecto\": \"medio por el que pasa el agua en métodos de percolación\", \"valor\": \"una cama de café y un filtro de papel\", \"unidad_valor\": null},\n      {\"aspecto\": \"mecanismo de paso del agua en métodos de percolación\", \"valor\": \"por gravedad\", \"unidad_valor\": null},\n      {\"aspecto\": \"molienda requerida en métodos de percolación\", \"valor\": \"mediana\", \"unidad_valor\": null},\n      {\"aspecto\": \"aceites y sedimentos que retienen los métodos de percolación\", \"valor\": \"la mayoría de los aceites y sedimentos pesados\", \"unidad_valor\": null},\n      {\"aspecto\": \"resultado de los métodos de percolación\", \"valor\": \"una taza sumamente limpia y ligera\", \"unidad_valor\": null},\n      {\"aspecto\": \"acidez de la taza con métodos de percolación\", \"valor\": \"brillante\", \"unidad_valor\": null},\n      {\"aspecto\": \"notas de la taza con métodos de percolación\", \"valor\": \"florales o frutales\", \"unidad_valor\": null},\n      {\"aspecto\": \"tipo de cafés con los que se aprecian esas notas\", \"valor\": \"café de especialidad\", \"unidad_valor\": null}\n    ]\n  },\n  {\n    \"n\": 5,\n    \"caso\": \"los métodos de presión: espresso, Moka y AeroPress\",\n    \"datos\": [\n      {\"aspecto\": \"métodos de presión de café\", \"valor\": \"la Máquina de Espresso, la Cafetera Moka y el AeroPress\", \"unidad_valor\": null},\n      {\"aspecto\": \"mecanismo de los métodos de presión\", \"valor\": \"empujan con fuerza el agua a través del café\", \"unidad_valor\": null},\n      {\"aspecto\": \"resultado de los métodos de presión\", \"valor\": \"extracciones mucho más rápidas y concentradas\", \"unidad_valor\": null},\n      {\"aspecto\": \"intensidad de la bebida del espresso\", \"valor\": \"muy intensa\", \"unidad_valor\": null},\n      {\"aspecto\": \"capa de crema del espresso\", \"valor\": \"densa capa de crema\", \"unidad_valor\": null},\n      {\"aspecto\": \"tiempo de preparación del espresso\", \"valor\": \"menos de medio\", \"unidad_valor\": \"minuto\"},\n      {\"aspecto\": \"tipo de dispositivos como el AeroPress\", \"valor\": \"híbridos\", \"unidad_valor\": null},\n      {\"aspecto\": \"combinación del AeroPress\", \"valor\": \"inmersión corta con presión manual\", \"unidad_valor\": null},\n      {\"aspecto\": \"versatilidad del AeroPress con los tiempos y las moliendas\", \"valor\": \"muy versátil\", \"unidad_valor\": null},\n      {\"aspecto\": \"lo que permite equilibrar el AeroPress al gusto\", \"valor\": \"cuerpo y claridad\", \"unidad_valor\": null}\n    ]\n  }\n]}\n```",
+  "razonamiento": "Let me extract all DATOS from each UT.\n\n**UT 1: las tres dinámicas de extracción del café y su efecto en la bebida**\n\n[1] - número de dinámicas de extracción del café = tres [null]\n[1] - dinámicas de extracción del café = inmersión, percolación y presión [null]\n[1] - criterio de división de las dinámicas de extracción del café = el contacto entre el agua y el grano [null]\n[2] - características de la bebida que modifican las técnicas de extracción = cuerpo, acidez, amargura y claridad [null]\n[2] - efecto de cada técnica en la bebida final = radicalmente [null]\n\nWait, let me reconsider. The aspecto should be a fragment of information, and the valor what value it has.\n\nLet me redo:\n\nUT 1:\n- número de dinámicas de extracción del café = tres [null]\n- dinámicas de extracción del café = inmersión, percolación y presión [null]\n- criterio según el cual se dividen las dinámicas de extracción del café = el contacto entre el agua y el grano [null]\n- características de la bebida que modifica cada técnica = cuerpo, la acidez, la amargura y la claridad [null]\n- intensidad del efecto de cada técnica en la bebida final = radicalmente [null]\n\nHmm, but \"radicalmente\" is more about degree. Let me think about what's a good \"aspecto\".\n\nActually, looking at the examples more carefully:\n\n- \"altura del faro de la isla\" = \"cuarenta\" [metros]\n- \"autor del cambio de la lámpara del faro de la isla\" = \"la alcaldía\" [null]\n\nSo aspecto is what's being measured/described, valor is the value.\n\nUT 1:\n- número de dinámicas de extracción del café = tres [null]\n- tipos de dinámicas de extracción del café = inmersión, percolación y presión [null]\n- criterio de clasificación de las dinámicas de extracción del café = el contacto entre el agua y el grano [null]\n- características de la bebida que modifica cada dinámica de extracción = cuerpo, acidez, amargura y claridad [null]\n- grado de modificación que produce cada dinámica en la bebida = radicalmente [null]\n\nActually \"radicalmente\" is not really a value per se. Let me think... It's more like describing the degree of effect. I'll include it as a value with null unit.\n\n**UT 2: la molienda y la temperatura del agua como factores comunes a todo método**\n\n[1] - momento ideal para moler el grano = al momento (al momento de preparar) [null]\n[1] - temperatura ideal del agua = entre los 90 °C y 93 °C → I should split this.\n- temperatura ideal del agua = entre 90 y 93 [°C]\n\nActually looking at the examples, values like \"dos horas y cuarto\" and \"catorce\" [grados centígrados] are kept as written or as numbers. Let me check... \"catorce grados centígrados\" → valor: \"catorce\", unidad: \"grados centígrados\". But also \"dos horas y cuarto\" as valor with null unit.\n\nSo for temperature: valor could be \"entre los 90 y 93\" with unidad \"°C\" or \"entre los 90 y 93 grados Celsius\" with null.\n\nLet me go with: valor: \"entre los 90 y 93\" [°C]\n\nActually wait, looking at examples: \"hace ciento veinte\" [años] - they keep the number expression. \"dos mil diez\" [null]. Let me keep the format natural.\n\nUT 2:\n- momento ideal para moler el grano de café = al momento [null]\n- temperatura ideal del agua = entre los 90 y 93 [°C]\n\n**UT 3: los métodos de inmersión: Prensa Francesa y Cold Brew**\n\n[1] - métodos de inmersión = la Prensa Francesa y el Cold Brew [null]\n[1] - estado del café molido durante la preparación en métodos de inmersión = reposa sumergido por completo en el agua durante todo el tiempo de preparación [null]\n\nHmm, \"estado del café molido en métodos de inmersión\" = \"reposa sumergido por completo en el agua\" [null]. And \"duración de la inmersión\" = \"durante todo el tiempo de preparación\" [null]? The second is implied by the first.\n\nActually, let me re-read: \"el café molido reposa sumergido por completo en el agua durante todo el tiempo de preparación\" - this is one sentence. The key data points:\n- estado del café molido en métodos de inmersión = reposa sumergido por completo en el agua [null]\n- duración del sumergimiento en métodos de inmersión = durante todo el tiempo de preparación [null]\n\nHmm, maybe simpler:\n- situación del café molido en métodos de inmersión = reposa sumergido por completo en el agua durante todo el tiempo de preparación [null]\n\nActually, I think one DATO here is sufficient: what happens to the coffee.\n\nBut let me be thorough like the examples. Looking at the examples, each sentence typically yields 1-4 datos.\n\n[1]: \n- métodos de inmersión de café = la Prensa Francesa y el Cold Brew [null]\n- situación del café molido durante la preparación en métodos de inmersión = reposa sumergido por completo en el agua durante todo el tiempo de preparación [null]\n\nOr split into two:\n- situación del café molido en métodos de inmersión = reposa sumergido por completo en el agua [null]\n- duración de la inmersión en métodos de inmersión = durante todo el tiempo de preparación [null]\n\nI think splitting is better for clarity.\n\n[2]:\n- agua utilizada en la prensa francesa = agua caliente [null]\n- molienda utilizada en la prensa francesa = gruesa [null]\n- cuerpo de la taza de la prensa francesa = denso (mucho cuerpo) [null]\n- riqueza en aceites de la taza de la prensa francesa = rica en aceites naturales [null]\n\nHmm, let me phrase them better:\n- tipo de agua utilizada en la prensa francesa = agua caliente [null]\n- molienda para la prensa francesa = gruesa [null]\n- resultado de la prensa francesa = una taza densa, con mucho cuerpo y rica en aceites naturales [null]\n\nActually, let me think about what constitutes a separate DATO. Each distinct aspect=value pair.\n\n- tipo de agua utilizada en la prensa francesa = agua caliente [null]\n- molienda para la prensa francesa = gruesa [null]\n- cuerpo de la taza obtenida con la prensa francesa = denso [null]\n- riqueza en aceites de la taza obtenida con la prensa francesa = rica en aceites naturales [null]\n\nHmm, but \"una taza densa, con mucho cuerpo y rica en aceites naturales\" is one result. Maybe:\n- resultado de la prensa francesa = una taza densa, con mucho cuerpo y rica en aceites naturales [null]\n\nThat might be too much in one value. Let me split:\n- cuerpo de la taza de la prensa francesa = mucho [null]\n- densidad de la taza de la prensa francesa = denso [null]\n- aceites en la taza de la prensa francesa = rica en aceites naturales [null]\n\nOr more naturally:\n- tipo de agua utilizada en la prensa francesa = agua caliente [null]\n- molienda para la prensa francesa = gruesa [null]\n- densidad de la taza de la prensa francesa = denso [null]\n- cuerpo de la taza de la prensa francesa = mucho [null]\n- aceites naturales en la taza de la prensa francesa = sí, rica en aceites naturales [null]\n\nI think I'm overcomplicating. Let me keep it reasonable:\n\n- tipo de agua utilizada en la prensa francesa = agua caliente [null]\n- molienda para la prensa francesa = gruesa [null]\n- resultado de la prensa francesa = una taza densa, con mucho cuerpo y rica en aceites naturales [null]\n\n[3]:\n- tipo de infusión del cold brew = en frío [null]\n- periodo de infusión del cold brew = 12 a 24 [horas]\n- efecto del cold brew en la acidez = reduce drásticamente [null]\n- efecto del cold brew en la dulzura = resalta la dulzura natural del grano [null]\n\nLet me now do all four UTs properly.\n\n**UT 1: las tres dinámicas de extracción del café y su efecto en la bebida**\n\n- número de dinámicas de extracción del café = tres [null]\n- tipos de dinámicas de extracción del café = inmersión, percolación y presión [null]\n- criterio para dividir las dinámicas de extracción del café = el contacto entre el agua y el grano [null]\n- características de la bebida que modifica cada técnica de extracción = cuerpo, acidez, amargura y claridad [null]\n- grado de modificación de cada técnica en la bebida final = radicalmente [null]\n\n**UT 2: la molienda y la temperatura del agua como factores comunes a todo método**\n\n- momento ideal para moler el grano de café = al momento [null]\n- temperatura ideal del agua = entre los 90 y 93 [°C]\n\n**UT 3: los métodos de inmersión: Prensa Francesa y Cold Brew**\n\n- métodos de inmersión de café = la Prensa Francesa y el Cold Brew [null]\n- situación del café molido en métodos de inmersión = reposa sumergido por completo en el agua [null]\n- duración de la sumersión en métodos de inmersión = durante todo el tiempo de preparación [null]\n- tipo de agua utilizada en la prensa francesa = agua caliente [null]\n- molienda para la prensa francesa = gruesa [null]\n- densidad de la taza de la prensa francesa = denso [null]\n- cuerpo de la taza de la prensa francesa = mucho [null]\n- aceites naturales en la taza de la prensa francesa = rica en aceites naturales [null]\n- tipo de infusión del cold brew = en frío [null]\n- periodo de infusión del cold brew = 12 a 24 [horas]\n- efecto del cold brew en la acidez = reduce drásticamente [null]\n- efecto del cold brew en la dulzura = resalta la dulzura natural del grano [null]\n\n**UT 4: los métodos de percolación o goteo: conos como el Hario V60 y el Chemex**\n\n- métodos de percolación o goteo manual = conos como el Hario V60 y el Chemex [null]\n- tipo de agua utilizada en métodos de percolación = agua caliente [null]\n- mecanismo de paso del agua en métodos de percolación = por gravedad [null]\n- medio por el que pasa el agua en métodos de percolación = una cama de café y un filtro de papel [null]\n- molienda requerida en métodos de percolación = mediana [null]\n- aceites y sedimentos que retienen los métodos de percolación = la mayoría [null]\n- resultado de los métodos de percolación = una taza sumamente limpia y ligera [null]\n- acidez de la taza con métodos de percolación = acidez brillante [null]\n- notas de la taza con métodos de percolación = notas florales o frutales [null]\n- tipo de cafés con los que se aprecian estos matices = cafés de especialidad [null]\n\nHmm, let me be more careful. Let me re-read each sentence.\n\n[1] \"los métodos de percolación o goteo manual, representados por conos como el Hario V60 y el Chemex, hacen pasar el agua caliente a través de una cama de café y un filtro de papel por gravedad\"\n\n- tipos de métodos de percolación = conos como el Hario V60 y el Chemex [null]\n- otro nombre de los métodos de percolación = goteo manual [null] — hmm, this might not be a DATO per se.\n- tipo de agua utilizada en métodos de percolación = agua caliente [null]\n- medio por el que pasa el agua en métodos de percolación = una cama de café y un filtro de papel [null]\n- mecanismo de paso del agua en métodos de percolación = por gravedad [null]\n\n[2] \"requieren moliendas medianas y destacan por retener la mayoría de los aceites y sedimentos pesados\"\n\n- molienda requerida en métodos de percolación = mediana [null]\n- aceites y sedimentos que retienen = la mayoría de los aceites y sedimentos pesados [null]\n\n[3] \"una taza sumamente limpia y ligera que permite apreciar los matices más sutiles, la acidez brillante y las notas florales o frutales de los cafés de especialidad\"\n\n- resultado de los métodos de percolación = una taza sumamente limpia y ligera [null]\n- acidez en la taza de métodos de percolación = brillante [null]\n- notas en la taza de métodos de percolación = florales o frutales [null]\n- tipo de cafés con los que se aprecian las notas florales o frutales = cafés de especialidad [null]\n\n**UT 5: los métodos de presión: espresso, Moka y AeroPress**\n\n[1] \"los métodos de presión como la Máquina de Espresso, la Cafetera Moka y el AeroPress empujan con fuerza el agua a través del café para lograr extracciones mucho más rápidas y concentradas\"\n\n- métodos de presión = la Máquina de Espresso, la Cafetera Moka y el AeroPress [null]\n- mecanismo de los métodos de presión = empujan con fuerza el agua a través del café [null]\n- resultado de los métodos de presión = extracciones mucho más rápidas y concentradas [null]\n\n[2] \"el espresso ofrece una bebida muy intensa coronada por una densa capa de crema en menos de medio minuto, dispositivos híbridos como el AeroPress combinan una inmersión corta con presión manual\"\n\n- intensidad de la bebida del espresso = muy intensa [null]\n- capa de crema del espresso = densa capa de crema [null]\n- tiempo de preparación del espresso = menos de medio [minuto]\n- tipo de dispositivos como el AeroPress = híbridos [null]\n- combinación del AeroPress = inmersión corta con presión manual [null]\n\n[3] \"permite jugar de forma muy versátil con los tiempos y las moliendas para equilibrar cuerpo y claridad al gusto\"\n\n- versatilidad del AeroPress con tiempos y moliendas = muy versátil [null]\n- lo que permite equilibrar el AeroPress al gusto = cuerpo y claridad [null]\n\nLet me compile all of this into the JSON format now.\n\nLet me reconsider some values:\n\nFor UT 1, \"radicalmente\" as a value - is that a good DATO? The aspect would be \"grado de modificación de las técnicas en la bebida\" and the value \"radicalmente\". I think it works.\n\nActually, re-reading: \"Cada una de estas técnicas modifica radicalmente el cuerpo, la acidez, la amargura y la claridad de la bebida final.\"\n\nThe datos from this:\n- características de la bebida que modifica cada técnica de extracción = el cuerpo, la acidez, la amargura y la claridad [null]\n- grado en que cada técnica modifica estas características = radicalmente [null]\n\nOK let me finalize."
+}

@@ -1,0 +1,9 @@
+bash: cannot set terminal process group (3156): Inappropriate ioctl for device
+bash: no job control in this shell
+  preparación del café-haiku-high-n1r2.json: 5 unidades · 4.0 s · stop · prompt temp/prompt_UT_v1_nombres.md
+    verificación: {"oraciones_del_texto": 12, "huecos": [], "solapes": [], "fuera_de_rango": [], "no_enteros": []}
+    U1: [1, 2] las tres dinámicas de extracción del café y su efecto en la taza
+    U2: [3] la molienda al momento y la temperatura ideal del agua
+    U3: [4, 5, 6] los métodos de inversión: Prensa Francesa y Cold Brew
+    U4: [7, 8, 9] los métodos de percolación o goteo: Hario V60 y Chemex
+    U5: [10, 11, 12] los métodos de presión: espresso, Moka y AeroPress
