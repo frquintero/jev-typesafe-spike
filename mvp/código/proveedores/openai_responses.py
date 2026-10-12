@@ -30,11 +30,10 @@ registra en su motivo.
 
 import json
 import time
-import urllib.error
 import urllib.request
 import uuid
 
-from .claves import ErrorDeLlamada, cabeceras, exigir
+from .claves import cabeceras, exigir, pedir_json
 
 TIMEOUT = 900  # segundos: una sola espera, como el resto del MVP
 
@@ -166,11 +165,6 @@ def llamar(cfg, mensajes, herramientas, conv_id=None):
         url, data=json.dumps(cuerpo, ensure_ascii=False).encode(),
         headers=cabeceras_http, method="POST")
     t0 = time.time()
-    try:
-        with urllib.request.urlopen(peticion, timeout=TIMEOUT) as respuesta_http:
-            datos = json.loads(respuesta_http.read())
-    except urllib.error.HTTPError as error:
-        raise ErrorDeLlamada(f"la API contestó {error.code} ({cfg['id']}): "
-                             f"{error.read().decode('utf-8', 'replace')[:800]}")
+    datos = pedir_json(peticion, cfg, TIMEOUT)
 
     return cuerpo, traducir(datos, round(time.time() - t0, 1))

@@ -24,10 +24,9 @@ en el crudo). El esfuerzo va en `output_config.effort`; `budget_tokens` no se us
 
 import json
 import time
-import urllib.error
 import urllib.request
 
-from .claves import ErrorDeLlamada, cabeceras, exigir
+from .claves import cabeceras, exigir, pedir_json
 
 TIMEOUT = 900
 
@@ -150,12 +149,7 @@ def llamar(cfg, mensajes, herramientas, conv_id=None):
         url, data=json.dumps(cuerpo, ensure_ascii=False).encode(),
         headers=cabeceras("anthropic", url, conv_id), method="POST")
     t0 = time.time()
-    try:
-        with urllib.request.urlopen(peticion, timeout=TIMEOUT) as respuesta_http:
-            datos = json.loads(respuesta_http.read())
-    except urllib.error.HTTPError as error:
-        raise ErrorDeLlamada(f"la API contestó {error.code} ({cfg['id']}): "
-                             f"{error.read().decode('utf-8', 'replace')[:800]}")
+    datos = pedir_json(peticion, cfg, TIMEOUT)
 
     respuesta = _respuesta(datos)
     respuesta["_segundos"] = round(time.time() - t0, 1)

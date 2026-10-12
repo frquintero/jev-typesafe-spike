@@ -4,12 +4,16 @@ Se leen por host (`CLAVE_POR_HOST`) y van en la cabecera que cada proveedor usa:
 Bearer` en los compatibles con OpenAI, `x-api-key` + `anthropic-version` en Anthropic. El cuerpo
 que se devuelve **no lleva cabeceras**: la clave no entra en ningún archivo ni en la base.
 
-Acá vive también `ErrorDeLlamada`: lo que impidió completar una llamada —una clave que falta o una
-respuesta de la API—. Los corredores lo atrapan, dejan la corrida marcada como fallida con su motivo
-y se detienen: un fallo no se pierde.
+Acá vive también `ErrorDeLlamada` —lo que impidió completar una llamada: una clave que falta, un
+error de la API, la red caída o un cuerpo que no es JSON— y **el POST que lo produce**
+(`pedir_json`): así los tres proveedores fallan igual. Los corredores lo atrapan, dejan la corrida
+marcada como fallida con su motivo y se detienen: un fallo no se pierde.
 """
 
+import json
 import os
+import urllib.error
+import urllib.request
 
 CLAVE_POR_HOST = {
     "api.deepseek.com": "DEEPSEEK_API_KEY",
@@ -60,3 +64,26 @@ def cabeceras(proveedor, url, conv_id=None):
         if conv_id and url.split("/")[2] == "api.x.ai":
             cabeceras["x-grok-conv-id"] = conv_id
     return cabeceras
+
+
+def pedir_json(peticion, cfg, timeout):
+    """Hace el POST y devuelve el JSON. **Ningún fallo de la llamada se escapa como traceback.**
+
+    Un error HTTP —con el cuerpo que devolvió la API—, la red caída, el plazo vencido y un cuerpo
+    que no es JSON salen como `ErrorDeLlamada`, para que el corredor los registre con su motivo.
+    """
+    try:
+        with urllib.request.urlopen(peticion, timeout=timeout) as respuesta_http:
+            crudo = respuesta_http.read()
+    except urllib.error.HTTPError as error:
+        raise ErrorDeLlamada(f"la API contestó {error.code} ({cfg['id']}): "
+                             f"{error.read().decode('utf-8', 'replace')[:800]}")
+    except urllib.error.URLError as error:
+        raise ErrorDeLlamada(f"la red falló ({cfg['id']}): {error.reason}")
+    except OSError as error:  # incluye TimeoutError
+        raise ErrorDeLlamada(f"la llamada se cortó ({cfg['id']}): {error}")
+    try:
+        return json.loads(crudo)
+    except json.JSONDecodeError as error:
+        raise ErrorDeLlamada(f"la API contestó algo que no es JSON ({cfg['id']}): {error} · "
+                             f"«{crudo[:200].decode('utf-8', 'replace')}»")
