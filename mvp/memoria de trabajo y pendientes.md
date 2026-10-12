@@ -173,13 +173,14 @@ DeepSeek `low`) mandadas como el acto real, en dos mensajes.
 
 ## 3. Pendientes vigentes
 
-**Orden.** **La base viva está en cero**: las diez tablas del corpus y las cuatro del almacén. El
-material anterior —`sol` por las tres etapas, `preparacion_cafe` radicado, las baterías, la
-extracción y las corridas— **vive en el scratch** (`temp/ut-sin-marcas/out/sol-ut-vieja.db`), no en la
-base. Así que la radicación vuelve a ser el paso uno, y **radicar ahora es volcar**: el volcado está hecho (`mvp/almacen-diseno.md`, punto 18). **El substrato de la traza está
-hecho** (12-10): el token por acto, la conservación de los productos, las plantillas en la base y
-la guardia del esquema (`mvp/plan.md`). Después, `preparacion_cafe` por las
-etapas (punto 0).
+**Orden.** **La base viva tiene un documento radicado**: `sol`, volcado el 12-10 con el acto nuevo
+(token `A000001`, sello `c9c3de7534d3…` — el **mismo texto** que estaba radicado antes, mismo
+sello), en las diez tablas del corpus y las cuatro del almacén. Lo demás —`preparacion_cafe`, las
+baterías y las corridas anteriores— **vive en el scratch** (`temp/ut-sin-marcas/out/sol-ut-vieja.db`),
+no en la base, y **radicar ahora es volcar** (hecho; `mvp/almacen-diseno.md`, punto 18). **El
+substrato de la traza está hecho** (12-10): el token por acto, la conservación de los productos, las
+plantillas en la base y la guardia del esquema (`mvp/plan.md`). Sigue: **UT y DATOS de `sol`**, o el
+volcado de `preparacion_cafe` por las etapas (punto 0).
 0. **`preparacion_cafe`, por las etapas,** en actos sueltos y a mano, **después del volcado**: no está
    en la base viva —el reseteo se llevó lo radicado y la UT de Haiku `high`—, así que primero se radica
    con el acto del volcado (punto 18); siguen **UT**
