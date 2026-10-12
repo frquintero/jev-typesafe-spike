@@ -31,6 +31,16 @@ commit; si un proyecto se cierra o se suspende, quítalo.
 (raíz, `otros documentos/`, `utiliarios/`) está en `política.md`. Se lee antes de
 mover un archivo o de tocar el estado del repo.
 
+## Autorización
+
+**Nada se modifica sin un pedido directo y expreso de Frat.** Leer, revisar, analizar y proponer no
+piden permiso; **modificar** —el código, la base, los documentos, el estado del repo— sí.
+
+Un hallazgo de una auditoría, una recomendación de otro agente o una idea propia **no son una
+orden**: se traen, se explican, y se espera el «adelante». Y cuando Frat autoriza algo, la
+autorización alcanza **solo a eso**: no se extiende a los arreglos que aparezcan en el camino ni a
+lo que esté al lado y parezca obvio.
+
 ## Arranque de cada sesión
 
 1. `git status --short` + `git log --oneline -5` (rama de trabajo: `main`).
