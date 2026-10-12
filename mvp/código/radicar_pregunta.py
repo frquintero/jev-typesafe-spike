@@ -72,10 +72,15 @@ def main(argumentos):
                              f"--dominio E · radicar_pregunta.py --texto \"…\" --dominio E")
     if dominio is None:
         raise SystemExit("falta --dominio: la pregunta vive en un dominio (la unidad semántica)")
+    if not dominio.strip():
+        raise SystemExit("el dominio está vacío: la pregunta vive en un dominio (la unidad semántica)")
+    dominio = dominio.strip()
     if (origen is None) == (texto is None):
         raise SystemExit("hay que pasar un archivo **o** --texto, no los dos ni ninguno")
 
     if texto is not None:
+        if not texto.strip():
+            raise SystemExit("la pregunta está vacía: una pregunta sin texto no se radica")
         filas = [(texto.strip(), "tecleada")]
     else:
         ruta = pathlib.Path(origen)

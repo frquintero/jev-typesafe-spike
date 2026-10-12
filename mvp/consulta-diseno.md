@@ -104,8 +104,8 @@ CREATE TABLE documentos (
 
 CREATE TABLE preguntas (                 -- las preguntas radicadas: la única entrada de la consulta
   id               INTEGER PRIMARY KEY,  -- el número de la pregunta (1, 2, 3…)
-  dominio          TEXT NOT NULL,        -- el alcance: la unidad semántica donde vive
-  texto            TEXT NOT NULL,
+  dominio          TEXT NOT NULL CHECK (trim(dominio) <> ''),  -- el alcance: la unidad semántica
+  texto            TEXT NOT NULL CHECK (trim(texto) <> ''),    -- sin texto no hay pregunta
   fuente           TEXT NOT NULL,        -- 'tecleada', o la ruta del archivo del que se leyó
   fecha_radicacion TEXT NOT NULL DEFAULT (datetime('now','localtime'))
 );

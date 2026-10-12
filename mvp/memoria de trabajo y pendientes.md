@@ -182,7 +182,8 @@ hecho** (12-10): el token por acto, la conservación de los productos, las plant
 guardia del esquema (`mvp/plan.md`). **Las dos UT y los dos DATOS están hechos** (12-10, con `luna`/`low`, el default de la base):
 `sol` → UT `C000001` (6 unidades, 16 oraciones) y DATOS `C000003` (23 datos); `aviacion` → UT
 `C000002` (11 unidades, 17 oraciones) y DATOS `C000004` (36 datos). Los cuatro actos con el contrato
-y la forma limpios, y las plantillas `UT` y `DATOS` v1 registradas solas. La base está en la **versión 3**: la tabla `preguntas` es la entrada de la consulta y **todavía no
+y la forma limpios, y las plantillas `UT` y `DATOS` v1 registradas solas. La base está en la **versión 4**: la tabla `preguntas` es la entrada de la consulta —y no acepta
+preguntas vacías: lo valida el acto y lo impone la base— y **todavía no
 hay ninguna radicada**. Sigue: radicar la batería del Sol y **correr la consulta**, o el volcado de
 `preparacion_cafe` por las etapas (punto 0). El **modelo y el esfuerzo de cada acto se leen del corpus** (`ajustes`, cuatro filas; el almacén va
 por la **versión 3** y esa tabla no está: la política tiene un solo lugar), hoy `luna` / `low` por
