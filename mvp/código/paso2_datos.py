@@ -8,25 +8,26 @@ Uso:
 
 Qué hace, y nada más:
 
-1. **Lee las unidades de la base** (las escribió el paso 1) con **sus tramos**: la oración literal
+1. **Lee la UT vigente de la base** (la escribió el paso 1) con **sus tramos**: la oración literal
    que el modelo devolvió en cada una, en orden. El paso 2 **no corta ni numera nada**.
-2. **Una sola llamada** —la tanda— con **todas** las unidades del documento y **los dos mensajes**:
-   el prompt (reglas, casos y formato) va como `system`, y las unidades como `user`. La respuesta se
-   reparte por la **posición en la lista enviada**.
+2. **Una sola llamada** —la tanda— con **todas** las unidades de esa UT y **los dos mensajes**: la
+   **plantilla** (de la base, con su versión) como `system`, y las unidades como `user`. La
+   respuesta se reparte por la **posición en la lista enviada**.
 3. **Verifica la forma** de lo que volvió: que estén todas las posiciones y que cada dato traiga
    aspecto y valor. No juzga el contenido.
-4. **Escribe en la base**, en una sola transacción: la fila de la **corrida** y los **datos**.
+4. **Cierra el acto**: la corrida con su token y los datos, en una sola transacción. La corrida
+   guarda **de qué UT** salieron las unidades (`corrida_origen`).
 
-**Todo o nada.** Si alguna unidad no tiene oraciones guardadas, no se llama al modelo: la corrida
-falla con ese motivo. Si la llamada falla, si la respuesta se cortó o si
-lo que volvió no sirve, **no se escribe ningún dato**. En los dos casos la corrida queda `fallida`
-con su motivo —lo que volvió, recortado a la cabeza y la cola— y, si el intento era un `--rehacer`,
-**lo anterior vuelve**: lo que estaba en la base no se pierde por un intento fallido. La fila de la
-corrida **narra lo que está en la base**.
+**Un acto, una fila.** Los datos cuelgan de su corrida y llevan su token en el id, así que una
+tanda nueva **no pisa** la anterior: la vigente es la última exitosa **sobre la UT vigente**.
+
+La fila se escribe al cerrar, con su `estado` y su `motivo`: un fallo controlado deja su corrida
+fallida; una muerte abrupta antes de cerrar no deja constancia, y eso está declarado.
 
 Nada queda en archivos: `mvp/temp/` no se toca.
 
-Idempotente: si el documento ya tiene datos, no vuelve a llamar. Para rehacerlos: `--rehacer`.
+Idempotente: si el documento ya tiene su tanda de DATOS sobre la UT vigente, no vuelve a llamar.
+Para correr otra tanda: `--rehacer`.
 """
 
 import json
@@ -39,9 +40,11 @@ RAIZ = pathlib.Path(__file__).resolve().parent.parent.parent
 AQUI = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 
-from base import (borrar_datos, conectar, datos_de, exigir_documento,  # noqa: E402
-                  exigir_sello, hash_texto, registrar_corrida, unidades_de)
+from acto import abrir, cerrar  # noqa: E402
+from base import (conectar, datos_vigente, exigir_documento, exigir_sello,  # noqa: E402
+                  unidades_vigentes, ut_vigente)
 from mensajes import partir  # noqa: E402
+from prompts import usar as usar_prompt  # noqa: E402
 from proveedores import ErrorDeLlamada, llamar, resolver  # noqa: E402
 from relojes import reloj_radicado, reloj_sistema  # noqa: E402
 from respuesta import extract_json  # noqa: E402
@@ -132,71 +135,88 @@ def forma(parsed, enviadas):
             "avisos": avisos}
 
 
-def fallar(db, corrida, motivo, conservar):
-    """Deja la corrida fallida con su motivo, sin tocar la que ya narra lo que hay en la base."""
-    db.rollback()  # vuelve lo que se hubiera borrado en un --rehacer
-    registrar_corrida(db, conservar_efectiva=conservar, estado="fallido", motivo=motivo, **corrida)
-    db.commit()
+def escribir_datos(armadas, por_posicion):
+    """Lo que el acto produce: los datos, colgando de la corrida y de su unidad."""
+    def escribir(db, corrida_id):
+        for posicion, (unidad, _) in enumerate(armadas, 1):
+            item = por_posicion.get(posicion) or {}
+            for j, dato in enumerate(item.get("datos") or [], 1):
+                db.execute("INSERT INTO datos (id, unidad_id, caso, aspecto, valor, unidad_valor, "
+                           "corrida_id) VALUES (?,?,?,?,?,?,?)",
+                           (f"{corrida_id}:D{j}", unidad["id"],
+                            unidad["subtema"] or item.get("caso") or "",
+                            dato["aspecto"], str(dato["valor"]), dato.get("unidad_valor"),
+                            corrida_id))
+    return escribir
 
 
 def run(doc, modelo, rehacer, esfuerzo=None):
     db = conectar()
     fila = exigir_documento(db, doc)
-    unidades = unidades_de(db, doc)
-    if not unidades:
+    ut = ut_vigente(db, doc)
+    if ut is None:
         raise SystemExit(f"'{doc}' no tiene unidades: el paso 1 va primero "
                          f"(python3 mvp/código/paso1_unidades.py {doc})")
+    unidades = unidades_vigentes(db, doc)
+    if not unidades:
+        raise SystemExit(f"la UT vigente de '{doc}' ({ut}) no tiene unidades: se rehace el paso 1")
 
-    ya = datos_de(db, doc)
-    if ya and not rehacer:
-        print(f"  {doc}: ya tiene {ya} datos cargados — no se llama al modelo. "
-              f"(Para rehacerlos: --rehacer)")
+    tanda = datos_vigente(db, doc)
+    if tanda and not rehacer:
+        cuantos = db.execute("SELECT COUNT(*) FROM datos WHERE corrida_id = ?",
+                             (tanda,)).fetchone()[0]
+        print(f"  {doc}: ya tiene su tanda de DATOS sobre la UT vigente ({tanda}, {cuantos} "
+              f"datos) — no se llama al modelo. (Para correr otra tanda: --rehacer)")
         return
-    if ya:
-        print(f"  {doc}: ACTO explícito — se rehacen los datos de {len(unidades)} unidades")
-        borrar_datos(db, doc)  # sin commit: si algo falla, lo anterior vuelve
+    if tanda:
+        print(f"  {doc}: ACTO explícito — se corre otra tanda sobre la UT {ut}; "
+              f"la vigente ({tanda}) queda")
 
-    ruta_prompt = PROMPTS / "prompt_DATOS.md"
-    plantilla = ruta_prompt.read_text(encoding="utf-8")
-    if "{{UNIDADES}}" not in plantilla or "{{RELOJ_RADICADO}}" not in plantilla \
-            or "{{RELOJ_SISTEMA}}" not in plantilla:
-        raise SystemExit(f"el prompt '{ruta_prompt.name}' no tiene {{{{UNIDADES}}}}, "
-                         f"{{{{RELOJ_RADICADO}}}} o {{{{RELOJ_SISTEMA}}}}")
+    prompt = usar_prompt(db, "DATOS", PROMPTS / "prompt_DATOS.md")
+    plantilla = prompt["texto"]
+    for hueco in ("{{UNIDADES}}", "{{RELOJ_RADICADO}}", "{{RELOJ_SISTEMA}}"):
+        if hueco not in plantilla:
+            raise SystemExit(f"la plantilla '{prompt['id']}' v{prompt['version']} no tiene {hueco}")
+
+    relojes = {"reloj_radicado": reloj_radicado(fila["fecha_radicacion"]),
+               "reloj_sistema": reloj_sistema()}
     config = resolver(modelo, esfuerzo)
-    corrida = dict(id=f"{doc}:DATOS", paso="DATOS", documento_id=doc, prompt=ruta_prompt.name,
-                   hash_prompt=hash_texto(plantilla), modelo=config["id"],
-                   esfuerzo=config.get("esfuerzo"))
+    corrida = abrir(db, "DATOS", documento_id=doc, prompt_id=prompt["id"],
+                    prompt_version=prompt["version"], hash_prompt=prompt["sello"],
+                    modelo=config["id"], esfuerzo=config.get("esfuerzo"),
+                    corrida_origen=ut, **relojes)
+
+    def fallar(motivo):
+        """Cierra el acto como fallido y se detiene: el fallo controlado deja su fila."""
+        cerrar(db, corrida, "fallido", motivo)
+        raise SystemExit(f"  {doc}: el acto falló — {motivo}")
 
     # Todo o nada: si una unidad no se puede armar, no se llama al modelo.
-    exigir_sello(fila)  # el texto radicado no cambió: los tramos de las unidades se cuentan sobre él
+    exigir_sello(fila)  # el texto radicado no cambió: los tramos se cuentan sobre él
     armadas = [(unidad, oraciones_de(db, unidad["id"])) for unidad in unidades]
     sin_armar = [unidad["id"] for unidad, oraciones in armadas if not oraciones]
     if sin_armar:
-        motivo = f"no se pudieron armar sus oraciones: {', '.join(sin_armar)}"
-        fallar(db, corrida, motivo, conservar=bool(ya))
-        raise SystemExit(f"  {doc}: la corrida falló — {motivo}")
+        fallar(f"no se pudieron armar sus oraciones: {', '.join(sin_armar)}")
 
     # El material va con la forma que el ejemplo del prompt enseña: un bloque por unidad, con su
-    # `caso` y sus `satélites` numerados desde [1] en cada bloque. Oraciones separadas, no un
-    # párrafo corrido: el corte entre oraciones es la pista de dónde hay predicados distintos, y es
-    # la forma con la que se midió el banco de `temp/datos-test/`.
+    # `caso` y sus `satélites` numerados desde [1] en cada bloque.
     lista = [{"caso": unidad["subtema"], "satelites": oraciones}
              for unidad, oraciones in armadas]
     bloques = ["caso: " + unidad["caso"] + "\nsatélites:\n"
                + "\n".join(f"[{k}] {oracion}" for k, oracion in enumerate(unidad["satelites"], 1))
                for unidad in lista]
-    mensajes = partir(plantilla, ruta_prompt.name, UNIDADES="\n\n".join(bloques),
-                      RELOJ_RADICADO=reloj_radicado(fila["fecha_radicacion"]),
-                      RELOJ_SISTEMA=reloj_sistema())
+    rotulo = f"{prompt['id']} v{prompt['version']}"
+    mensajes = partir(plantilla, rotulo, UNIDADES="\n\n".join(bloques),
+                      RELOJ_RADICADO=relojes["reloj_radicado"],
+                      RELOJ_SISTEMA=relojes["reloj_sistema"])
 
-    print(f"  {doc}: una llamada con {len(lista)} unidades "
-          f"({[unidad['id'] for unidad, _ in armadas]}) · {config['id']}")
+    print(f"  {doc}: una llamada con {len(lista)} unidades de la UT {ut} "
+          f"({[unidad['id'] for unidad, _ in armadas]}) · {config['id']} · plantilla {rotulo}")
     t0 = time.time()
     try:
         _, respuesta = llamar(modelo, mensajes=mensajes, esfuerzo=esfuerzo)
     except ErrorDeLlamada as error:
-        fallar(db, corrida, str(error), conservar=bool(ya))
-        raise SystemExit(f"  {doc}: la corrida falló — {error}")
+        fallar(str(error))
 
     segundos = round(time.time() - t0, 1)
     uso = respuesta.get("usage") or {}
@@ -207,41 +227,27 @@ def run(doc, modelo, rehacer, esfuerzo=None):
     terminó = respuesta["choices"][0].get("finish_reason")
     contenido = respuesta["choices"][0]["message"]["content"] or ""
     if terminó != "stop":
-        fallar(db, corrida, f"la respuesta se cortó ({terminó})", conservar=bool(ya))
-        raise SystemExit(f"  {doc}: la corrida falló — la respuesta se cortó ({terminó})")
+        fallar(f"la respuesta se cortó ({terminó})")
 
     parsed, venia_con_cerca, error = extract_json(contenido)
     verificacion = forma(parsed, lista)
     if parsed is None or verificacion["problemas"]:
         motivo = (f"sin JSON: {error} · respuesta: «{extracto(contenido)}»" if parsed is None
                   else "; ".join(verificacion["problemas"]))
-        fallar(db, corrida, motivo, conservar=bool(ya))
-        print(f"  {doc}: la corrida falló — {motivo}")
-        print("    queda registrada como fallida; no se escribió ningún dato")
-        return
+        fallar(motivo)
 
     por_posicion = {item["n"]: item for item in parsed["unidades"]
                     if isinstance(item.get("n"), int)}
-    registrar_corrida(db, estado="exitoso", **corrida)
-    cargados = 0
-    for posicion, (unidad, _) in enumerate(armadas, 1):
-        item = por_posicion.get(posicion) or {}
-        for j, dato in enumerate(item.get("datos") or [], 1):
-            db.execute("INSERT INTO datos (id, unidad_id, caso, aspecto, valor, unidad_valor, "
-                       "corrida_id) VALUES (?,?,?,?,?,?,?)",
-                       (f"{unidad['id']}:D{j}", unidad["id"],
-                        unidad["subtema"] or item.get("caso") or "",
-                        dato["aspecto"], str(dato["valor"]), dato.get("unidad_valor"),
-                        f"{doc}:DATOS"))
-            cargados += 1
-    db.commit()
+    token = cerrar(db, corrida, "exitoso", escribir=escribir_datos(armadas, por_posicion))
+    cargados = sum(len((por_posicion.get(posicion) or {}).get("datos") or [])
+                   for posicion in range(1, len(armadas) + 1))
 
-    print(f"  {doc}: {len(armadas)} unidades · {cargados} datos · {segundos} s · "
-          f"{config['id']} (esfuerzo {config.get('esfuerzo')})")
+    print(f"  {doc}: acto {token} · {len(armadas)} unidades de la UT {ut} · {cargados} datos · "
+          f"{segundos} s · {config['id']} (esfuerzo {config.get('esfuerzo')}) · plantilla {rotulo}")
     print(f"    verificación: {json.dumps(verificacion, ensure_ascii=False)}")
     for aviso in verificacion["avisos"]:
         print(f"    aviso: {aviso}")
-    print(f"    -> la base: la corrida {doc}:DATOS y {cargados} datos")
+    print(f"    -> la base: la corrida {token} y {cargados} datos")
 
 
 def main(argumentos):

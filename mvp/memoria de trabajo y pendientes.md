@@ -173,11 +173,13 @@ DeepSeek `low`) mandadas como el acto real, en dos mensajes.
 
 ## 3. Pendientes vigentes
 
-**Orden.** **La base viva está en cero**: las ocho tablas del corpus y las dos del almacén. El
+**Orden.** **La base viva está en cero**: las diez tablas del corpus y las cuatro del almacén. El
 material anterior —`sol` por las tres etapas, `preparacion_cafe` radicado, las baterías, la
 extracción y las corridas— **vive en el scratch** (`temp/ut-sin-marcas/out/sol-ut-vieja.db`), no en la
 base. Así que la radicación vuelve a ser el paso uno, y **radicar ahora es volcar**: el almacén está
-diseñado y su base creada (`mvp/almacen-diseno.md`, punto 18). Después, `preparacion_cafe` por las
+diseñado y su base creada (`mvp/almacen-diseno.md`, punto 18). **El substrato de la traza está
+hecho** (12-10): el token por acto, la conservación de los productos, las plantillas en la base y
+la guardia del esquema (`mvp/plan.md`). Después, `preparacion_cafe` por las
 etapas (punto 0).
 0. **`preparacion_cafe`, por las etapas,** en actos sueltos y a mano, **después del volcado**: no está
    en la base viva —el reseteo se llevó lo radicado y la UT de Haiku `high`—, así que primero se radica
@@ -225,11 +227,11 @@ etapas (punto 0).
     JSON tolerando prosa— **no es un desfase**: es la decisión D20, y el ORQ lo ubica.
 14. **Dónde van las notas de una corrida exitosa —y el texto del prompt—.** La verificación de UT
     (huecos, solapes, rango, enteros) y los avisos de DATOS (dónde va la unidad) se imprimen y no
-    tienen campo en la base: el registro no los guarda. Y `corridas` guarda `prompt` y su hash,
-    **no el texto**: así se perdieron cinco corridas de prueba, cuyo prompt se sobrescribió y nunca
-    se versionó. Decidir si se agregan columna(s) —o un campo en la unidad— y hacerlo **antes de que
-    la base crezca**: hoy la base viva está en cero —el reseteo se llevó lo anterior—, así que
-    todavía es gratis.
+    tienen campo en la base: el registro no los guarda. **El texto de la plantilla ya está en la
+    base** (12-10): `prompts` guarda cada versión y `corridas` apunta a su `prompt_id` y
+    `prompt_version`, así que no se pierde. Falta decidir si las notas de la verificación van a
+    alguna columna —o a un campo de la unidad— y hacerlo **antes de que la base crezca**: hoy está
+    en cero, así que todavía es gratis.
 15. **La entrada de la consulta: un JSON con `pregunta` y `dominio` (propuesta, 10-10).** La
     pregunta se da **a mano** —en Zettel habrá un módulo para eso—, así que la entrada sería un JSON
     de dos campos: la `pregunta` y el `dominio`; y el `dominio` puede ser una **etiqueta** que
@@ -279,12 +281,12 @@ etapas (punto 0).
     respondida por datos de dos unidades. Mientras no se re-puntúe, no se cambia el proveedor por
     defecto de DATOS (`mvp/proveedores.md` §2).
 18. **El almacén: el acto del volcado, y que los pasos lean de ahí.** **Hecho** (11-10; corregido el
-    12-10): el diseño (`mvp/almacen-diseno.md`), la base (`mvp/código/almacen.db`, dos tablas
-    —`documentos` y `volcados`—, limpia) y el módulo (`mvp/código/almacen.py`: `escribir` con el
-    espejo del corpus en la misma transacción, `texto_de` con el sello comprobado, `registrar_fallo`).
-    **La identidad del documento es su volcado y su fecha; el sello es guardián y la fuente es
-    traza** —el `UNIQUE (sello)` se retiró: el mismo texto volcado en otra fecha es otro documento
-    (`almacen-diseno.md`, §7)—. **Falta:** el acto
+    12-10): el diseño (`mvp/almacen-diseno.md`), la base (`mvp/código/almacen.db`, cuatro tablas
+    —`documentos`, `volcados`, `prompts` y `contador`—, limpia) y el módulo (`mvp/código/almacen.py`:
+    `escribir` con el espejo del corpus en la misma transacción, `texto_de` con el sello comprobado,
+    `registrar_fallo`). **La identidad del documento es su volcado y su fecha; el sello es guardián y
+    la fuente es traza** —el `UNIQUE (sello)` se retiró: el mismo texto volcado en otra fecha es otro
+    documento (`almacen-diseno.md`, §7)—. **Falta:** el acto
     **`volcar.py`** —fuente → `prompt_volcado` → el índice → la verificación → el markdown → el
     almacén—, que **es la radicación** (y con él se retira `radicar.py`), y que **`paso1` y `paso2`
     lean el texto del almacén** en vez del archivo. La cadena del volcado ya está probada en el

@@ -2,8 +2,9 @@
 """El almacén de documentos: **el original de Zettel**, en su propia base.
 
 `mvp/código/almacen.db` guarda **el texto volcado** (el markdown), su **sello**, su **procedencia**
-(el nombre, la ruta y el mtime de la fuente) y su **radicación**; más la cédula de cada volcado. El
-diseño —qué guarda y por qué— está en `mvp/almacen-diseno.md`.
+(el nombre, la ruta y el mtime de la fuente) y su **radicación**; más la cédula de cada volcado, la
+**plantilla** con la que se volcó y su **contador**. El diseño —qué guarda y por qué— está en
+`mvp/almacen-diseno.md`.
 
 Tres cosas que hay que tener presentes:
 
@@ -17,18 +18,22 @@ Tres cosas que hay que tener presentes:
    de radicación) para que sus claves foráneas sigan existiendo. **Entre archivos no hay claves
    foráneas**, así que el espejo se escribe **en la misma transacción**, con `ATTACH`; y por eso
    **ninguna de las dos bases usa WAL**.
+
+La cédula del volcado y la plantilla viven **acá**, en la base del acto: si el corpus se resetea,
+el almacén se sigue explicando solo.
 """
 
 import pathlib
-import sqlite3
 import sys
 
 AQUI = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 
+import esquema  # noqa: E402
 from base import DB as CORPUS, hash_texto  # noqa: E402
 
 DB = AQUI / "almacen.db"
+ESQUEMA_VERSION = 1
 
 ESQUEMA = """
 CREATE TABLE IF NOT EXISTS documentos (
@@ -43,12 +48,16 @@ CREATE TABLE IF NOT EXISTS documentos (
 );
 
 CREATE TABLE IF NOT EXISTS volcados (    -- el intento de volcado: la cédula del acto
-  id             TEXT PRIMARY KEY,       -- el intento, no el documento
+  id             TEXT PRIMARY KEY,       -- el token del acto: A000123
   documento_id   TEXT REFERENCES documentos(id) ON DELETE CASCADE,  -- nulo si falló
   modelo         TEXT NOT NULL,
   esfuerzo       TEXT,
-  prompt         TEXT NOT NULL,          -- el nombre del prompt
+  prompt_id      TEXT NOT NULL,          -- la plantilla que corrió ('volcado')
+  prompt_version INTEGER NOT NULL,
   hash_prompt    TEXT NOT NULL,
+  reloj_radicado TEXT,                   -- los relojes, tal como entraron al prompt
+  reloj_sistema  TEXT,
+  sello_fuente   TEXT,                   -- sha256 de la fuente: identificada, no conservada
   tokens_entrada INTEGER,
   tokens_salida  INTEGER,                -- incluye el pensamiento
   tokens_pensando INTEGER,               -- detalle de lo anterior
@@ -56,22 +65,34 @@ CREATE TABLE IF NOT EXISTS volcados (    -- el intento de volcado: la cédula de
   segundos       REAL,
   estado         TEXT NOT NULL CHECK (estado IN ('exitoso', 'fallido')),
   motivo         TEXT,
-  fecha          TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+  iniciado       TEXT,
+  terminado      TEXT,
   CHECK (estado = 'exitoso' OR motivo IS NOT NULL)
+);
+
+CREATE TABLE IF NOT EXISTS prompts (     -- las plantillas del volcado, con su versión
+  id       TEXT NOT NULL,                -- 'volcado'
+  version  INTEGER NOT NULL,
+  texto    TEXT NOT NULL,
+  sello    TEXT NOT NULL,                -- sha256 del texto: guardián
+  fecha    TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+  PRIMARY KEY (id, version)
+);
+
+CREATE TABLE IF NOT EXISTS contador (    -- el token de esta base
+  id     INTEGER PRIMARY KEY CHECK (id = 1),
+  ultimo INTEGER NOT NULL DEFAULT 0
 );
 """
 
-CAMPOS_VOLCADO = ("modelo", "esfuerzo", "prompt", "hash_prompt", "tokens_entrada", "tokens_salida",
-                  "tokens_pensando", "cache_hit", "segundos")
+CAMPOS_VOLCADO = ("modelo", "esfuerzo", "prompt_id", "prompt_version", "hash_prompt",
+                  "reloj_radicado", "reloj_sistema", "sello_fuente", "tokens_entrada",
+                  "tokens_salida", "tokens_pensando", "cache_hit", "segundos")
 
 
 def conectar():
-    """Abre el almacén (lo crea si no está), con las tablas y las claves foráneas encendidas."""
-    db = sqlite3.connect(DB)
-    db.row_factory = sqlite3.Row
-    db.execute("PRAGMA foreign_keys = ON")
-    db.executescript(ESQUEMA)
-    return db
+    """Abre el almacén (lo crea, o lo rehace si está vacío y el esquema cambió)."""
+    return esquema.abrir(DB, ESQUEMA, ESQUEMA_VERSION)
 
 
 def documento(db, identificador):
@@ -129,10 +150,7 @@ def escribir(db, identificador, coleccion, texto, procedencia, volcado):
                "fecha_modificacion) VALUES (?,?,?,?,?,?,?)",
                (identificador, coleccion, texto, sello, procedencia.get("nombre"),
                 procedencia.get("ruta"), procedencia.get("fecha_modificacion")))
-    db.execute("INSERT INTO volcados (id, documento_id, " + ", ".join(CAMPOS_VOLCADO) + ", "
-               "estado, motivo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-               (volcado["id"], identificador, *[volcado.get(campo) for campo in CAMPOS_VOLCADO],
-                volcado.get("estado", "exitoso"), volcado.get("motivo")))
+    _insertar_volcado(db, volcado, identificador)
     db.execute("INSERT INTO corpus.documentos (id, dominio, ubicacion_upstream, sello) "
                "VALUES (?,?,?,?)",
                (identificador, coleccion, procedencia.get("ruta") or "", sello))
@@ -146,9 +164,19 @@ def registrar_fallo(db, volcado, motivo, documento_id=None):
 
     Es el único caso en que una cédula existe sola: es la única traza que queda del intento.
     """
-    db.execute("INSERT INTO volcados (id, documento_id, " + ", ".join(CAMPOS_VOLCADO) + ", "
-               "estado, motivo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-               (volcado["id"], documento_id, *[volcado.get(campo) for campo in CAMPOS_VOLCADO],
-                "fallido", motivo))
+    _insertar_volcado(db, volcado, documento_id, estado="fallido", motivo=motivo)
     db.commit()
     return volcado["id"]
+
+
+def _insertar_volcado(db, volcado, documento_id, estado=None, motivo=None):
+    """La fila de la cédula: el token, sus campos y cómo terminó."""
+    columnas = ("id", "documento_id") + CAMPOS_VOLCADO + ("estado", "motivo", "iniciado",
+                                                          "terminado")
+    valores = (volcado["id"], documento_id,
+               *[volcado.get(campo) for campo in CAMPOS_VOLCADO],
+               estado or volcado.get("estado", "exitoso"),
+               motivo if motivo is not None else volcado.get("motivo"),
+               volcado.get("iniciado"), volcado.get("terminado"))
+    db.execute(f"INSERT INTO volcados ({', '.join(columnas)}) "
+               f"VALUES ({', '.join('?' * len(columnas))})", valores)

@@ -10,31 +10,31 @@ Qué hace, y nada más:
 
 1. **Verifica el documento**: lee `mvp/documentos/<doc>.md` y comprueba su sello contra la base; si
    el archivo cambió, se detiene (eso es otro documento).
-2. **Arma los dos mensajes**: el prompt —reglas y ejemplos— va como `system`, y **el texto del
-   documento, entero** (títulos incluidos), como `user`. Así la regla viaja como instrucción y el
-   documento como dato, y el prefijo invariante queda estable entre documentos. **El texto no se
-   numera ni se marca**: los bordes de las oraciones los pone el modelo al devolverlas literales.
+2. **Arma los dos mensajes**: la **plantilla** —que vive en la base, con su versión; el `.md` es la
+   puerta y se registra sola la primera vez— va como `system`, y **el texto del documento, entero**
+   (títulos incluidos), como `user`. Así la regla viaja como instrucción y el documento como dato, y
+   el prefijo invariante queda estable entre documentos.
 3. **Llama al modelo** por `proveedores.llamar`: una sola llamada de texto a JSON.
-4. **Lee la respuesta** con `extract_json` (tolera la cerca de código) y **ubica cada oración en el
-   texto** para quedarse con su tramo, verificando el contrato —literalidad, cobertura del cuerpo,
-   asignación exclusiva y orden—: solo reporta, no corrige.
-5. **Escribe en la base**, en una sola transacción: la fila de la **corrida** (modelo, esfuerzo,
-   prompt y su hash, tokens, segundos), las **unidades** —el nombre del caso— y **sus tramos**: la
-   oración literal con su `desde` y su `hasta` sobre el texto radicado.
+4. **Lee la respuesta** con `extract_json` y **ubica cada oración en el texto** para quedarse con su
+   tramo, verificando el contrato —literalidad, cobertura del cuerpo, asignación exclusiva y
+   orden—: solo reporta, no corrige.
+5. **Cierra el acto**: la corrida con su token, y las **unidades** con sus tramos, en una sola
+   transacción.
 
-**Todo o nada, y una sola transacción.** Si la llamada falla, si la respuesta se cortó o si el JSON
-no se pudo leer, **no se escribe ninguna unidad**: la corrida queda `fallida` con su motivo —lo que
-volvió, recortado a la cabeza y la cola, para poder diagnosticar— y, si el intento era un
-`--rehacer`, **lo anterior vuelve**: lo que estaba en la base no se pierde por un intento fallido.
-La fila de la corrida **narra lo que está en la base**: un reintento fallido no pisa la cita de la
-extracción que sigue ahí.
+**Un acto, una fila.** La corrida lleva su **token** y los productos cuelgan de ella. Rehacer es
+**correr otra vez**: la partición anterior queda en la base y la vigente es la última exitosa, así
+que dos particiones del mismo documento se pueden comparar.
+
+La fila **narra lo que está en la base**: se escribe al cerrar, con el `estado` y el `motivo` de lo
+que pasó. Un fallo controlado —la llamada, el corte, el JSON, el contrato— deja su corrida fallida;
+una muerte abrupta antes de cerrar no deja constancia, y eso está declarado.
 
 Nada queda en archivos: `mvp/temp/` no se toca.
 
-Idempotente: si el documento ya tiene unidades, no vuelve a llamar. Para rehacerlas: `--rehacer`.
+Idempotente: si el documento ya tiene una UT exitosa, no vuelve a llamar. Para correr otra
+partición: `--rehacer`.
 """
 
-import json
 import pathlib
 import sys
 import time
@@ -43,13 +43,15 @@ RAIZ = pathlib.Path(__file__).resolve().parent.parent.parent
 AQUI = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 
-from base import (borrar_corridas, borrar_unidades, conectar, exigir_documento,  # noqa: E402
-                  exigir_sello, hash_texto, registrar_corrida, unidades_de)
+from acto import abrir, cerrar  # noqa: E402
+from base import (conectar, exigir_documento, exigir_sello, unidades_de,  # noqa: E402
+                  ut_vigente)
+from extraer_unidades import roturas, verificar_particion  # noqa: E402
 from mensajes import partir  # noqa: E402
+from prompts import usar as usar_prompt  # noqa: E402
 from proveedores import ErrorDeLlamada, llamar, resolver  # noqa: E402
 from relojes import reloj_radicado, reloj_sistema  # noqa: E402
 from respuesta import extract_json  # noqa: E402
-from extraer_unidades import roturas, verificar_particion  # noqa: E402
 
 PROMPTS = RAIZ / "mvp" / "prompts"
 EXTRACTO = 100  # caracteres de la cabeza y de la cola que se guardan de una respuesta ilegible
@@ -63,48 +65,62 @@ def extracto(contenido):
     return f"{limpio[:EXTRACTO]} … {limpio[-EXTRACTO:]}"
 
 
-def fallar(db, corrida, motivo, conservar):
-    """Deja la corrida fallida con su motivo, sin tocar la que ya narra lo que hay en la base."""
-    db.rollback()  # vuelve lo que se hubiera borrado en un --rehacer
-    registrar_corrida(db, conservar_efectiva=conservar, estado="fallido", motivo=motivo, **corrida)
-    db.commit()
+def escribir_unidades(doc, unidades, verificacion):
+    """Lo que el acto produce: las unidades con sus tramos, colgando de la corrida."""
+    def escribir(db, corrida_id):
+        for posicion, unidad in enumerate(unidades, 1):
+            identificador = f"{corrida_id}:U{posicion}"
+            db.execute("INSERT INTO unidades (id, documento_id, n, subtema, corrida_id) "
+                       "VALUES (?,?,?,?,?)",
+                       (identificador, doc, posicion, unidad.get("subtema") or "", corrida_id))
+            tramos = verificacion["por_unidad"][posicion - 1]["tramos"]
+            for orden, (literal, (desde, hasta)) in enumerate(
+                    zip(unidad.get("oraciones") or [], tramos), 1):
+                db.execute("INSERT INTO unidad_oraciones (unidad_id, n, desde, hasta, texto) "
+                           "VALUES (?,?,?,?,?)", (identificador, orden, desde, hasta, literal))
+    return escribir
 
 
 def run(doc, modelo, prompt_name, rehacer, esfuerzo=None):
     db = conectar()
     fila = exigir_documento(db, doc)
-    ya = unidades_de(db, doc)
-    if ya and not rehacer:
-        print(f"  {doc}: ya tiene {len(ya)} unidades cargadas — no se llama al modelo. "
-              f"(Para rehacerlas: --rehacer)")
+    vigente = ut_vigente(db, doc)
+    if vigente and not rehacer:
+        unidades = unidades_de(db, vigente)
+        print(f"  {doc}: ya tiene una UT vigente ({vigente}, {len(unidades)} unidades) — no se "
+              f"llama al modelo. (Para correr otra partición: --rehacer)")
         return
-    if ya:
-        print(f"  {doc}: ACTO explícito — se rehacen sus {len(ya)} unidades "
-              f"(y los datos que cuelgan de ellas)")
-        borrar_unidades(db, doc)
-        borrar_corridas(db, doc)  # sin commit: si algo falla, lo anterior vuelve
+    if vigente:
+        print(f"  {doc}: ACTO explícito — se corre otra UT; la vigente ({vigente}) queda")
 
-    texto = exigir_sello(fila)
-    ruta_prompt = PROMPTS / f"prompt_{prompt_name}.md"
-    plantilla = ruta_prompt.read_text(encoding="utf-8")
+    prompt = usar_prompt(db, prompt_name, PROMPTS / f"prompt_{prompt_name}.md")
+    plantilla = prompt["texto"]
     for hueco in ("{{TEXTO}}", "{{RELOJ_RADICADO}}", "{{RELOJ_SISTEMA}}"):
         if hueco not in plantilla:
-            raise SystemExit(f"el prompt '{ruta_prompt.name}' no tiene {hueco}")
+            raise SystemExit(f"la plantilla '{prompt['id']}' v{prompt['version']} no tiene {hueco}")
 
-    mensajes = partir(plantilla, ruta_prompt.name, TEXTO=texto,
-                      RELOJ_RADICADO=reloj_radicado(fila["fecha_radicacion"]),
-                      RELOJ_SISTEMA=reloj_sistema())
+    texto = exigir_sello(fila)
+    relojes = {"reloj_radicado": reloj_radicado(fila["fecha_radicacion"]),
+               "reloj_sistema": reloj_sistema()}
+    rotulo = f"{prompt['id']} v{prompt['version']}"
+    mensajes = partir(plantilla, rotulo, TEXTO=texto,
+                      RELOJ_RADICADO=relojes["reloj_radicado"],
+                      RELOJ_SISTEMA=relojes["reloj_sistema"])
     config = resolver(modelo, esfuerzo)
-    corrida = dict(id=f"{doc}:UT", paso="UT", documento_id=doc, prompt=ruta_prompt.name,
-                   hash_prompt=hash_texto(plantilla), modelo=config["id"],
-                   esfuerzo=config.get("esfuerzo"))
+    corrida = abrir(db, "UT", documento_id=doc, prompt_id=prompt["id"],
+                    prompt_version=prompt["version"], hash_prompt=prompt["sello"],
+                    modelo=config["id"], esfuerzo=config.get("esfuerzo"), **relojes)
+
+    def fallar(motivo):
+        """Cierra el acto como fallido y se detiene: el fallo controlado deja su fila."""
+        cerrar(db, corrida, "fallido", motivo)
+        raise SystemExit(f"  {doc}: el acto falló — {motivo}")
 
     t0 = time.time()
     try:
         _, respuesta = llamar(modelo, mensajes=mensajes, esfuerzo=esfuerzo)
     except ErrorDeLlamada as error:
-        fallar(db, corrida, str(error), conservar=bool(ya))
-        raise SystemExit(f"  {doc}: la corrida falló — {error}")
+        fallar(str(error))
 
     segundos = round(time.time() - t0, 1)
     uso = respuesta.get("usage") or {}
@@ -115,39 +131,34 @@ def run(doc, modelo, prompt_name, rehacer, esfuerzo=None):
     terminó = respuesta["choices"][0].get("finish_reason")
     contenido = respuesta["choices"][0]["message"]["content"] or ""
     if terminó != "stop":
-        fallar(db, corrida, f"la respuesta se cortó ({terminó})", conservar=bool(ya))
-        raise SystemExit(f"  {doc}: la corrida falló — la respuesta se cortó ({terminó})")
+        fallar(f"la respuesta se cortó ({terminó})")
 
     parsed, venia_con_cerca, error = extract_json(contenido)
     if parsed is None:
-        motivo = f"sin JSON: {error} · respuesta: «{extracto(contenido)}»"
-        fallar(db, corrida, motivo, conservar=bool(ya))
-        print(f"  {doc}: la corrida falló — el JSON no se pudo leer ({error})")
-        print(f"    queda registrada como fallida; no se escribió ninguna unidad")
-        return
+        fallar(f"sin JSON: {error} · respuesta: «{extracto(contenido)}»")
+    if not isinstance(parsed, dict) or not isinstance(parsed.get("unidades"), list):
+        fallar(f"el JSON no trae una lista 'unidades' · respuesta: «{extracto(contenido)}»")
 
-    unidades = parsed.get("unidades") or []
+    unidades = parsed["unidades"] or []
+    for posicion, unidad in enumerate(unidades, 1):
+        if not isinstance(unidad, dict):
+            fallar(f"la unidad {posicion} no es un objeto · respuesta: «{extracto(contenido)}»")
+        oraciones = unidad.get("oraciones")
+        if oraciones is not None and (not isinstance(oraciones, list)
+                                      or not all(isinstance(x, str) for x in oraciones)):
+            fallar(f"las oraciones de la unidad {posicion} no son una lista de textos")
+
     verificacion = verificar_particion(texto, unidades)
     rotas = roturas(verificacion)
     if rotas:
-        motivo = "la partición no cierra — " + " · ".join(rotas)
-        fallar(db, corrida, motivo, conservar=bool(ya))
-        raise SystemExit(f"  {doc}: la corrida falló — {motivo}")
-    registrar_corrida(db, estado="exitoso", **corrida)
-    for posicion, unidad in enumerate(unidades, 1):
-        identificador = f"{doc}:U{posicion}"
-        db.execute("INSERT INTO unidades (id, documento_id, n, subtema, corrida_id) "
-                   "VALUES (?,?,?,?,?)",
-                   (identificador, doc, posicion, unidad.get("subtema") or "", f"{doc}:UT"))
-        tramos = verificacion["por_unidad"][posicion - 1]["tramos"]
-        for orden, (literal, (desde, hasta)) in enumerate(
-                zip(unidad.get("oraciones") or [], tramos), 1):
-            db.execute("INSERT INTO unidad_oraciones (unidad_id, n, desde, hasta, texto) "
-                       "VALUES (?,?,?,?,?)", (identificador, orden, desde, hasta, literal))
-    db.commit()
+        fallar("la partición no cierra — " + " · ".join(rotas))
 
-    print(f"  {doc}: {verificacion['literales']} oraciones · {len(unidades)} unidades · "
-          f"{segundos} s · {config['id']} (esfuerzo {config.get('esfuerzo')})")
+    token = cerrar(db, corrida, "exitoso", escribir=escribir_unidades(doc, unidades,
+                                                                     verificacion))
+
+    print(f"  {doc}: acto {token} · {verificacion['literales']} oraciones · {len(unidades)} "
+          f"unidades · {segundos} s · {config['id']} (esfuerzo {config.get('esfuerzo')}) · "
+          f"plantilla {rotulo}")
     print(f"    contrato: sin ubicar {len(verificacion['no_ubicadas'])} · "
           f"sin cubrir {len(verificacion['huecos'])} · solapes {len(verificacion['solapes'])} · "
           f"cuerpo cubierto {verificacion['cubiertos_no_blancos']}/"
@@ -157,7 +168,7 @@ def run(doc, modelo, prompt_name, rehacer, esfuerzo=None):
         for literal, (desde, hasta) in zip(unidad.get("oraciones") or [],
                                            verificacion["por_unidad"][posicion - 1]["tramos"]):
             print(f"      {desde:>7}–{hasta:>3}   {literal}")
-    print(f"    -> la base: la corrida {doc}:UT, {len(unidades)} unidades y sus tramos")
+    print(f"    -> la base: la corrida {token}, {len(unidades)} unidades y sus tramos")
 
 
 def main(argumentos):

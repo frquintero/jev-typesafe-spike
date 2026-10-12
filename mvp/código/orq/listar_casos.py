@@ -4,17 +4,29 @@
 Es lo único del corpus que viaja en el prompt antes de leer: **nombres para ubicar**, sin
 aspectos y sin valores. Un caso por unidad, aunque dos unidades compartan el nombre.
 
-Los casos salen de `unidades` —el nombre es el `subtema`—, no de `datos`: una unidad sin datos
-sigue siendo un caso, y la pertenencia al dominio se resuelve por `documento_id`.
+Los casos salen de la **UT vigente** de cada documento —el nombre es el `subtema`—, no de `datos`:
+una unidad sin datos sigue siendo un caso. Y cada caso viaja con **la tanda de DATOS que se le
+ofreció** (`datos_token`): con dos tandas sobre la misma UT, el catálogo tiene que decir cuál se
+leyó.
+
+La vigencia se resuelve **una sola vez, acá**, al abrir la consulta: es donde se congela, como la
+hora en `anclas`.
 """
+
+import pathlib
+import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
+
+from base import datos_vigente, unidades_vigentes  # noqa: E402
 
 
 def listar_casos(db, documentos):
-    """Devuelve [{'unidad_id', 'caso'}] de los documentos admitidos, ordenado por id."""
-    marcas = ",".join("?" * len(documentos))
-    filas = db.execute(
-        f"SELECT id AS unidad_id, subtema AS caso FROM unidades "
-        f"WHERE documento_id IN ({marcas}) ORDER BY id",
-        tuple(documento["id"] for documento in documentos),
-    ).fetchall()
-    return [{"unidad_id": fila["unidad_id"], "caso": fila["caso"]} for fila in filas]
+    """Devuelve [{'unidad_id', 'caso', 'datos_token'}] de los documentos admitidos."""
+    casos = []
+    for documento in documentos:
+        tanda = datos_vigente(db, documento["id"])
+        for unidad in unidades_vigentes(db, documento["id"]):
+            casos.append({"unidad_id": unidad["id"], "caso": unidad["subtema"],
+                          "datos_token": tanda})
+    return casos

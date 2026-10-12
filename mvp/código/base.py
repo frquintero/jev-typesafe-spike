@@ -1,47 +1,54 @@
 """La base del corpus: el registro (SQLite), en un solo lugar.
 
 `mvp/código/corpus.db` **es el centro**: no hay archivos intermedios que leer para seguir. Todo lo
-que los pasos producen —y lo que la consulta responde— queda acá, encadenado, para poder hacer la
+que los actos producen —y lo que la consulta responde— queda acá, encadenado, para poder hacer la
 **traza completa**: de una respuesta al dato, a la unidad, a la oración del documento, y a la
-llamada que lo produjo.
+corrida que lo produjo.
 
 **El corpus**
 
 - `documentos`: un documento **radicado** por fila —su nombre, su dominio, la fecha y la hora (que
   pone la base), dónde vive en el repo y su **sello** (sha256 del texto: guardián de que el texto no
   cambió)—. El texto no se guarda: vive en el documento radicado. Un documento radicado no se mueve.
-- `unidades`: la salida de UT —el nombre de cada unidad y su orden—.
+- `unidades`: la salida de UT —el nombre de cada unidad y su orden—. Cada unidad cuelga de **su**
+  corrida de UT: dos particiones del mismo documento **conviven**, y la vigente se deriva.
 - `unidad_oraciones`: los tramos de cada unidad —la oración **literal** tal como la devolvió el
   modelo, con su `desde` y su `hasta` sobre el texto del documento radicado—. La literal es la
   **evidencia** de lo que el modelo devolvió; el **tramo** es la referencia, y el sello del
   documento es el guardián: cortar el texto por el tramo tiene que devolver la literal, palabra por
   palabra. **No hay números de oración** (un número depende de la regla con la que se cortó).
-- `datos`: la salida de DATOS —caso, aspecto, valor y unidad del valor—.
+- `datos`: la salida de DATOS —caso, aspecto, valor y unidad del valor—, colgando de **su** corrida.
 
 **El expediente**
 
-- `corridas`: **una fila por corrida** de UT, DATOS o el ORQ: modelo, esfuerzo, prompt (y su hash),
-  tokens, segundos, y `estado` (`exitoso` / `fallido`) con su `motivo`. Se escribe **al terminar**,
-  una sola vez, y **narra la extracción que está en la base**: si un reintento falla, la fila
-  efectiva no se toca (salvo que no hubiera ninguna, y ahí el fallo queda para debug).
+- `corridas`: **una fila por acto** (volcado, UT, DATOS, ORQ), con su **token** (`C000123`): modelo,
+  esfuerzo, **plantilla y versión**, los **relojes que se inyectaron**, los tokens, segundos,
+  `iniciado` y `terminado`, y `estado` (`exitoso` / `fallido`) con su `motivo`. Se escribe una sola
+  vez, **al cerrar el acto**: **una corrida no se toca** y cada intento es su fila, así que rehacer
+  no pisa el intento anterior y las rondas se pueden comparar.
+- `prompts`: las **plantillas** con su versión. La registra el acto que las usa; editar una
+  plantilla es una versión nueva, nunca un `UPDATE`.
+- `contador`: de acá sale el token de esta base.
 - `consultas` + `consulta_casos`: la pregunta y su respuesta, con los casos que el agente leyó.
 
 Los contratos que la base **impone** (además de las claves foráneas): `paso` y `estado` solo toman
 sus valores; UT y DATOS son de un documento y el ORQ de un dominio; una corrida fallida dice su
-motivo; y no hay dos unidades con el mismo número en un documento.
+motivo; y no hay dos unidades con el mismo número **en una misma corrida**.
 
-Ningún acto borra ni vacía nada por su cuenta: lo que entra, queda. Los `--rehacer` son actos
-explícitos, y los usa la prueba.
+Ningún acto borra ni vacía nada por su cuenta: lo que entra, queda. Rehacer es **correr otra vez**,
+y lo que estaba sigue ahí.
 """
 
 import hashlib
 import pathlib
-import sqlite3
+
+import esquema
 
 AQUI = pathlib.Path(__file__).resolve().parent
 RAIZ = AQUI.parent.parent
 DB = AQUI / "corpus.db"
 DOCUMENTOS = RAIZ / "mvp" / "documentos"
+ESQUEMA_VERSION = 1
 
 ESQUEMA = """
 CREATE TABLE IF NOT EXISTS documentos (
@@ -52,18 +59,22 @@ CREATE TABLE IF NOT EXISTS documentos (
   sello              TEXT NOT NULL       -- sha256 del texto radicado: guardián de que no cambió
 );
 CREATE TABLE IF NOT EXISTS corridas (
-  id              TEXT PRIMARY KEY,      -- <doc>:UT · <doc>:DATOS · <doc>:q<n>
+  id              TEXT PRIMARY KEY,      -- el token del acto: C000123
   paso            TEXT NOT NULL CHECK (paso IN ('UT', 'DATOS', 'ORQ')),
   documento_id    TEXT REFERENCES documentos(id) ON DELETE CASCADE,  -- UT y DATOS
   dominio         TEXT,                  -- ORQ: el alcance de la consulta
   bateria         TEXT,                  -- ORQ: el archivo de preguntas
   pregunta_numero INTEGER,
   pregunta_texto  TEXT,
-  prompt          TEXT,                  -- el archivo del prompt que corrió
-  hash_prompt     TEXT,                  -- sha256 de su contenido
+  prompt_id       TEXT,                  -- la plantilla que corrió (en `prompts`)
+  prompt_version  INTEGER,
+  hash_prompt     TEXT,                  -- sha256 de su texto: guardián
   hash_r          TEXT,                  -- ORQ: sha256 de R.json
   modelo          TEXT NOT NULL,         -- el id del modelo
   esfuerzo        TEXT,
+  reloj_radicado  TEXT,                  -- los relojes, tal como entraron al prompt
+  reloj_sistema   TEXT,
+  corrida_origen  TEXT REFERENCES corridas(id),  -- DATOS: la corrida de UT que usó
   tokens_entrada  INTEGER,
   tokens_salida   INTEGER,               -- incluye el pensamiento: no se suma aparte
   tokens_pensando INTEGER,               -- detalle de lo anterior
@@ -73,18 +84,19 @@ CREATE TABLE IF NOT EXISTS corridas (
   llamadas        INTEGER,
   estado          TEXT NOT NULL CHECK (estado IN ('exitoso', 'fallido')),
   motivo          TEXT,                  -- si falló: sin JSON · cortada por… · error de la API
-  fecha           TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+  iniciado        TEXT,                  -- cuándo empezó el acto
+  terminado       TEXT,                  -- cuándo cerró
   CHECK (estado = 'exitoso' OR motivo IS NOT NULL),                    -- un fallo dice por qué
   CHECK ((paso = 'ORQ' AND dominio IS NOT NULL AND documento_id IS NULL)
       OR (paso <> 'ORQ' AND documento_id IS NOT NULL))                 -- el alcance de cada paso
 );
 CREATE TABLE IF NOT EXISTS unidades (
-  id           TEXT PRIMARY KEY,         -- <doc>:U<n>
+  id           TEXT PRIMARY KEY,         -- <token_UT>:U<n>
   documento_id TEXT NOT NULL REFERENCES documentos(id) ON DELETE CASCADE,
   n            INTEGER NOT NULL,
   subtema      TEXT NOT NULL,            -- el nombre del caso
   corrida_id   TEXT NOT NULL REFERENCES corridas(id),
-  UNIQUE (documento_id, n)
+  UNIQUE (corrida_id, n)                 -- una partición por corrida; las anteriores conviven
 );
 CREATE TABLE IF NOT EXISTS unidad_oraciones (   -- las oraciones de la unidad, con su tramo
   unidad_id    TEXT NOT NULL REFERENCES unidades(id) ON DELETE CASCADE,
@@ -95,7 +107,7 @@ CREATE TABLE IF NOT EXISTS unidad_oraciones (   -- las oraciones de la unidad, c
   PRIMARY KEY (unidad_id, n)
 );
 CREATE TABLE IF NOT EXISTS datos (
-  id           TEXT PRIMARY KEY,         -- <doc>:U<n>:D<j>
+  id           TEXT PRIMARY KEY,         -- <token_DATOS>:D<j>
   unidad_id    TEXT NOT NULL REFERENCES unidades(id) ON DELETE CASCADE,
   caso         TEXT NOT NULL,
   aspecto      TEXT NOT NULL,
@@ -104,6 +116,19 @@ CREATE TABLE IF NOT EXISTS datos (
   corrida_id   TEXT NOT NULL REFERENCES corridas(id)
 );
 CREATE INDEX IF NOT EXISTS idx_datos_unidad ON datos(unidad_id);
+CREATE TABLE IF NOT EXISTS prompts (     -- las plantillas, con su versión
+  id       TEXT NOT NULL,                -- 'volcado' · 'UT' · 'DATOS' · 'ORQ'
+  version  INTEGER NOT NULL,
+  texto    TEXT NOT NULL,
+  sello    TEXT NOT NULL,                -- sha256 del texto: guardián
+  fecha    TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+  PRIMARY KEY (id, version)
+);
+CREATE INDEX IF NOT EXISTS idx_prompts_sello ON prompts(sello);
+CREATE TABLE IF NOT EXISTS contador (    -- el token de esta base
+  id     INTEGER PRIMARY KEY CHECK (id = 1),
+  ultimo INTEGER NOT NULL DEFAULT 0
+);
 CREATE TABLE IF NOT EXISTS consultas (
   id             TEXT PRIMARY KEY,       -- <doc>:q<n>
   corrida_id     TEXT NOT NULL REFERENCES corridas(id),
@@ -116,7 +141,7 @@ CREATE TABLE IF NOT EXISTS consultas (
 );
 CREATE TABLE IF NOT EXISTS consulta_casos (
   consulta_id TEXT NOT NULL REFERENCES consultas(id) ON DELETE CASCADE,
-  unidad_id   TEXT NOT NULL,             -- el id como texto: rehacer la extracción no rompe el expediente
+  unidad_id   TEXT NOT NULL,             -- el id de la unidad: <token_UT>:U<n>
   PRIMARY KEY (consulta_id, unidad_id)
 );
 CREATE TABLE IF NOT EXISTS consulta_llamadas (   -- la operación: qué herramienta pidió, en qué turno
@@ -131,14 +156,17 @@ CREATE TABLE IF NOT EXISTS consulta_llamadas (   -- la operación: qué herramie
 );
 """
 
+COLUMNAS_CORRIDA = (
+    "id", "paso", "documento_id", "dominio", "bateria", "pregunta_numero", "pregunta_texto",
+    "prompt_id", "prompt_version", "hash_prompt", "hash_r", "modelo", "esfuerzo",
+    "reloj_radicado", "reloj_sistema", "corrida_origen", "tokens_entrada", "tokens_salida",
+    "tokens_pensando", "cache_hit", "segundos", "turnos", "llamadas", "estado", "motivo",
+    "iniciado", "terminado")
+
 
 def conectar():
-    """Abre la base (la crea si no está), con las tablas y las claves foráneas encendidas."""
-    db = sqlite3.connect(DB)
-    db.row_factory = sqlite3.Row
-    db.execute("PRAGMA foreign_keys = ON")
-    db.executescript(ESQUEMA)
-    return db
+    """Abre la base (la crea, o la rehace si está vacía y el esquema cambió)."""
+    return esquema.abrir(DB, ESQUEMA, ESQUEMA_VERSION)
 
 
 def hash_de(ruta):
@@ -179,55 +207,66 @@ def exigir_sello(fila):
     return ruta.read_text(encoding="utf-8")
 
 
-def unidades_de(db, identificador):
-    """Las unidades del documento, en orden."""
-    return db.execute("SELECT * FROM unidades WHERE documento_id = ? ORDER BY n",
+def corrida(db, token):
+    """La fila de una corrida, o None."""
+    return db.execute("SELECT * FROM corridas WHERE id = ?", (token,)).fetchone()
+
+
+def corridas_de(db, identificador):
+    """Las corridas de un documento, en orden."""
+    return db.execute("SELECT * FROM corridas WHERE documento_id = ? ORDER BY id",
                       (identificador,)).fetchall()
 
 
-def datos_de(db, identificador):
-    """Cuántas filas de datos tiene cargadas ese documento."""
-    prefijo = f"{identificador}:U"
-    return db.execute("SELECT COUNT(*) FROM datos WHERE substr(unidad_id, 1, ?) = ?",
-                      (len(prefijo), prefijo)).fetchone()[0]
+def unidades_de(db, corrida_id):
+    """Las unidades de una corrida de UT, en orden."""
+    return db.execute("SELECT * FROM unidades WHERE corrida_id = ? ORDER BY n",
+                      (corrida_id,)).fetchall()
 
 
-def borrar_datos(db, identificador):
-    """Saca las filas de datos del documento. No toca su fila: el documento no se mueve."""
-    prefijo = f"{identificador}:U"
-    db.execute("DELETE FROM datos WHERE substr(unidad_id, 1, ?) = ?", (len(prefijo), prefijo))
+def ut_vigente(db, identificador):
+    """El token de la última UT **exitosa** del documento, o None.
 
-
-def borrar_unidades(db, identificador):
-    """Saca las unidades del documento (y sus datos, que cuelgan de ellas)."""
-    borrar_datos(db, identificador)
-    db.execute("DELETE FROM unidades WHERE documento_id = ?", (identificador,))
-
-
-def borrar_corridas(db, identificador):
-    """Saca las corridas de UT y DATOS de ese documento (el expediente del ORQ no se toca)."""
-    db.execute("DELETE FROM corridas WHERE documento_id = ?", (identificador,))
-
-
-def registrar_corrida(db, conservar_efectiva=False, **campos):
-    """Escribe la fila de una corrida **cuando el proceso terminó**.
-
-    Una sola fila por paso y documento (o por pregunta, en el ORQ): si se reintenta, se reescribe.
-    Con `conservar_efectiva=True` —el reintento que falló— la fila que ya estaba **no se toca**,
-    porque narra la extracción que sigue en la base. Devuelve True si escribió.
+    Los tokens son una secuencia de ancho fijo, así que el orden del id es el orden de los actos.
     """
-    if conservar_efectiva and db.execute("SELECT 1 FROM corridas WHERE id = ?",
-                                         (campos.get("id"),)).fetchone():
-        return False
-    columnas = ["id", "paso", "documento_id", "dominio", "bateria", "pregunta_numero",
-                "pregunta_texto", "prompt", "hash_prompt", "hash_r", "modelo", "esfuerzo",
-                "tokens_entrada", "tokens_salida", "tokens_pensando", "cache_hit", "segundos",
-                "turnos", "llamadas", "estado", "motivo"]
-    valores = [campos.get(columna) for columna in columnas]
-    db.execute(
-        f"INSERT INTO corridas ({', '.join(columnas)}) VALUES ({', '.join('?' * len(columnas))}) "
-        f"ON CONFLICT(id) DO UPDATE SET "
-        + ", ".join(f"{columna} = excluded.{columna}" for columna in columnas[1:])
-        + ", fecha = datetime('now','localtime')",
-        valores)
-    return True
+    fila = db.execute(
+        "SELECT id FROM corridas WHERE documento_id = ? AND paso = 'UT' AND estado = 'exitoso' "
+        "ORDER BY id DESC LIMIT 1", (identificador,)).fetchone()
+    return fila["id"] if fila else None
+
+
+def datos_vigente(db, identificador):
+    """El token de la última tanda DATOS exitosa **sobre la UT vigente**, o None.
+
+    Si la UT se rehízo después de la última tanda, no hay datos vigentes: los de la tanda
+    anterior son de otra partición.
+    """
+    ut = ut_vigente(db, identificador)
+    if ut is None:
+        return None
+    fila = db.execute(
+        "SELECT id FROM corridas WHERE documento_id = ? AND paso = 'DATOS' "
+        "AND estado = 'exitoso' AND corrida_origen = ? ORDER BY id DESC LIMIT 1",
+        (identificador, ut)).fetchone()
+    return fila["id"] if fila else None
+
+
+def unidades_vigentes(db, identificador):
+    """Las unidades de la UT vigente del documento (vacío si no hay)."""
+    ut = ut_vigente(db, identificador)
+    return unidades_de(db, ut) if ut else []
+
+
+def datos_de(db, identificador):
+    """Cuántos datos tiene la tanda DATOS vigente del documento."""
+    token = datos_vigente(db, identificador)
+    if token is None:
+        return 0
+    return db.execute("SELECT COUNT(*) FROM datos WHERE corrida_id = ?", (token,)).fetchone()[0]
+
+
+def registrar_corrida(db, **campos):
+    """Escribe la fila de un acto. **Una corrida no se toca**: cada intento es su fila."""
+    valores = [campos.get(columna) for columna in COLUMNAS_CORRIDA]
+    db.execute(f"INSERT INTO corridas ({', '.join(COLUMNAS_CORRIDA)}) "
+               f"VALUES ({', '.join('?' * len(COLUMNAS_CORRIDA))})", valores)

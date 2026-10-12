@@ -24,7 +24,7 @@ nada más.
 import pathlib
 import sys
 
-from base import DOCUMENTOS, RAIZ, conectar, datos_de, hash_de, unidades_de
+from base import DOCUMENTOS, RAIZ, conectar, datos_de, hash_de, unidades_vigentes
 
 
 def radicar(identificador, dominio, origen):
@@ -68,7 +68,8 @@ def rehacer(identificador):
     if not db.execute("SELECT 1 FROM documentos WHERE id = ?", (identificador,)).fetchone():
         raise SystemExit(f"'{identificador}' no está radicado: no hay nada que rehacer")
     print(f"  {identificador}: ACTO DE PRUEBAS — se saca su fila y todo lo suyo "
-          f"({len(unidades_de(db, identificador))} unidades · {datos_de(db, identificador)} datos)")
+          f"({len(unidades_vigentes(db, identificador))} unidades · "
+          f"{datos_de(db, identificador)} datos)")
     db.execute("DELETE FROM documentos WHERE id = ?", (identificador,))
     db.commit()
     print("    (el texto en mvp/documentos/ queda: se puede radicar de nuevo)")
@@ -83,7 +84,8 @@ def estado():
         return
     for fila in filas:
         print(f"  {fila['id']}: radicado {fila['fecha_radicacion']} · {fila['dominio']} · "
-              f"{len(unidades_de(db, fila['id']))} unidades · {datos_de(db, fila['id'])} datos · "
+              f"{len(unidades_vigentes(db, fila['id']))} unidades · "
+              f"{datos_de(db, fila['id'])} datos · "
               f"{fila['ubicacion_upstream']} · sello {fila['sello'][:12]}…")
 
 

@@ -102,33 +102,50 @@ CREATE TABLE documentos (
   sello              TEXT NOT NULL       -- sha256 de lo radicado: guardián de que no cambió
 );
 
-CREATE TABLE corridas (                  -- una fila por corrida de UT, DATOS y el ORQ
-  id              TEXT PRIMARY KEY,      -- <doc>:UT · <doc>:DATOS · <doc>:q<n>
+CREATE TABLE corridas (                  -- una fila por acto: el token, y no se toca
+  id              TEXT PRIMARY KEY,      -- el token del acto: C000123
   paso            TEXT NOT NULL CHECK (paso IN ('UT', 'DATOS', 'ORQ')),
   documento_id    TEXT REFERENCES documentos(id) ON DELETE CASCADE,  -- UT y DATOS
   dominio         TEXT,                  -- ORQ: el alcance de la consulta
   bateria         TEXT,                  -- ORQ: el archivo de preguntas
   pregunta_numero INTEGER,
   pregunta_texto  TEXT,
-  prompt          TEXT, hash_prompt TEXT, hash_r TEXT,
+  prompt_id       TEXT, prompt_version INTEGER,   -- la plantilla y su versión (en `prompts`)
+  hash_prompt     TEXT, hash_r TEXT,
   modelo          TEXT NOT NULL, esfuerzo TEXT,
+  reloj_radicado  TEXT, reloj_sistema TEXT,       -- los relojes, tal como entraron al prompt
+  corrida_origen  TEXT REFERENCES corridas(id),   -- DATOS: la corrida de UT que usó
   tokens_entrada INTEGER, tokens_salida INTEGER, tokens_pensando INTEGER, cache_hit INTEGER,
   segundos        REAL, turnos INTEGER, llamadas INTEGER,
   estado          TEXT NOT NULL CHECK (estado IN ('exitoso', 'fallido')),
   motivo          TEXT,                  -- cortada por… · sin JSON · error de la API
-  fecha           TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+  iniciado        TEXT, terminado TEXT,
   CHECK (estado = 'exitoso' OR motivo IS NOT NULL),                   -- un fallo dice por qué
   CHECK ((paso = 'ORQ' AND dominio IS NOT NULL AND documento_id IS NULL)
       OR (paso <> 'ORQ' AND documento_id IS NOT NULL))                -- el alcance de cada paso
 );
 
+CREATE TABLE prompts (                   -- las plantillas, con su versión
+  id       TEXT NOT NULL,                -- 'volcado' · 'UT' · 'DATOS' · 'ORQ'
+  version  INTEGER NOT NULL,
+  texto    TEXT NOT NULL,
+  sello    TEXT NOT NULL,                -- sha256 del texto: guardián
+  fecha    TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+  PRIMARY KEY (id, version)
+);
+
+CREATE TABLE contador (                  -- el token de esta base
+  id     INTEGER PRIMARY KEY CHECK (id = 1),
+  ultimo INTEGER NOT NULL DEFAULT 0
+);
+
 CREATE TABLE unidades (                  -- la salida de UT
-  id           TEXT PRIMARY KEY,         -- <doc>:U1
+  id           TEXT PRIMARY KEY,         -- <token_UT>:U1
   documento_id TEXT NOT NULL REFERENCES documentos(id) ON DELETE CASCADE,
   n            INTEGER NOT NULL,
   subtema      TEXT NOT NULL,            -- el nombre del caso
   corrida_id   TEXT NOT NULL REFERENCES corridas(id),
-  UNIQUE (documento_id, n)
+  UNIQUE (corrida_id, n)                 -- una partición por corrida; las anteriores conviven
 );
 
 CREATE TABLE unidad_oraciones (          -- las oraciones de la unidad, con su tramo
@@ -141,7 +158,7 @@ CREATE TABLE unidad_oraciones (          -- las oraciones de la unidad, con su t
 );
 
 CREATE TABLE datos (                     -- la salida de DATOS
-  id           TEXT PRIMARY KEY,         -- <doc>:U1:D4
+  id           TEXT PRIMARY KEY,         -- <token_DATOS>:D4
   unidad_id    TEXT NOT NULL REFERENCES unidades(id) ON DELETE CASCADE,
   caso         TEXT NOT NULL,
   aspecto      TEXT NOT NULL,
@@ -193,7 +210,15 @@ Así se lee una fila (ejemplo del formato):
 - **El crudo de las llamadas**: la petición se rearma —el prompt, el texto **tal como está** en el
   documento, y las unidades o los datos que ya están en la base—, y lo que el modelo produjo está en
   la base. Se pierde lo que dijo de más: su razonamiento.
-- **Los reintentos**: una sola fila por paso y documento; la corrida efectiva reescribe la suya.
+- **Los reintentos**: cada intento es **su** fila —el token, insert-only—; la extracción vigente no
+  se guarda, se **deriva** (la última corrida exitosa; en DATOS, la última sobre esa UT). Rehacer es
+  **correr otra vez**: la anterior queda y las dos se pueden comparar.
+
+**El token y la conservación.** Cada acto escribe **una** fila con su token y sus productos apuntan
+a ella (`unidades.corrida_id`, `datos.corrida_id`, `consultas.corrida_id`): no hay `UPDATE` de
+corridas ni borrado de productos, y por eso dos particiones del mismo documento conviven. La
+vigencia se deriva, y el acto la resuelve una vez al abrir. El plan de esta línea —con sus rondas y
+su prueba de aceptación— está en `mvp/plan.md`.
 
 **Por qué SQLite.** La forma se elige por **forma de acceso**, y acá lo que manda es
 leer un caso entero y filtrar por dominio y por caso: eso pide claves, foráneas y
@@ -618,8 +643,8 @@ el texto sobre el que se cuentan está en el documento radicado, sellado. Desde 
 | **D3** | Bucle con herramienta, o todo inyectado en una llamada | decidida: bucle con herramienta |
 | **D4** | Sin datos derivados en esta versión | decidida |
 | **D5** | R: `solo el documento`, sin mundo del LLM ni anclas como premisa | decidida: R.json con tres claves |
-| **D6** | Nombre y sitio de los archivos | decidida: el código, `R.json` y la base en `mvp/código/` (el orquestador, en `orq/`); los documentos que se radican, en `mvp/documentos/`; las baterías, en `mvp/consulta/preguntas_<doc>.md`; los prompts, en `mvp/prompts/`; y **lo que se produce, en la base**. `mvp/temp/` es archivo: no se corre desde ahí, no se lee, no se escribe (§2–§3) |
-| **D7** | Almacén | decidida: SQLite con **ocho tablas** —el corpus (`documentos`, `unidades`, `unidad_oraciones`, `datos`) y el expediente (`corridas`, `consultas`, `consulta_casos`, `consulta_llamadas`)—, con claves foráneas y contratos (`paso`, `estado`, `motivo` si falló, un `n` por documento) |
+| **D6** | Nombre y sitio de los archivos | decidida: el código, `R.json` y la base en `mvp/código/` (el orquestador, en `orq/`); los documentos que se radican, en `mvp/documentos/`; las baterías, en `mvp/consulta/preguntas_<doc>.md`; **las plantillas de los prompts, en la base** (el `.md` de `mvp/prompts/` es la puerta y se registra sola al primer uso); y **lo que se produce, en la base**. `mvp/temp/` es archivo: no se corre desde ahí, no se lee, no se escribe (§2–§3) |
+| **D7** | Almacén | decidida: SQLite con **diez tablas** —el corpus (`documentos`, `unidades`, `unidad_oraciones`, `datos`, `prompts`, `contador`) y el expediente (`corridas`, `consultas`, `consulta_casos`, `consulta_llamadas`)—, con claves foráneas y contratos (`paso`, `estado`, `motivo` si falló, un `n` por corrida) |
 | **D8** | Derivados | fuera de esta versión |
 | **D9** | Idioma de los `tipo` | obsoleta: no hay tipos |
 | **D10** | Documento R: esbozo + prosa para el agente | reemplazada: R es un JSON que lee el ORQ |

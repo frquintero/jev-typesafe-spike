@@ -34,30 +34,38 @@ CREATE TABLE documentos (
 );
 
 CREATE TABLE volcados (                  -- el intento de volcado: la cédula del acto
-  id             TEXT PRIMARY KEY,       -- el intento, no el documento
+  id             TEXT PRIMARY KEY,       -- el token del acto: A000123
   documento_id   TEXT REFERENCES documentos(id) ON DELETE CASCADE,  -- **nulo si falló**
   modelo         TEXT NOT NULL,
   esfuerzo       TEXT,
-  prompt         TEXT NOT NULL,          -- el nombre del prompt
+  prompt_id      TEXT NOT NULL,          -- la plantilla del volcado, con su versión
+  prompt_version INTEGER NOT NULL,
   hash_prompt    TEXT NOT NULL,
+  reloj_radicado TEXT, reloj_sistema TEXT,  -- los relojes, tal como entraron al prompt
+  sello_fuente   TEXT,                   -- sha256 de la fuente: identificada, no conservada
   tokens_entrada INTEGER, tokens_salida INTEGER, tokens_pensando INTEGER, cache_hit INTEGER,
   segundos       REAL,
   estado         TEXT NOT NULL CHECK (estado IN ('exitoso', 'fallido')),
   motivo         TEXT,
-  fecha          TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+  iniciado       TEXT, terminado TEXT,
   CHECK (estado = 'exitoso' OR motivo IS NOT NULL)
 );
 ```
 
 **Por qué `volcados` tiene id propio y `documento_id` admite nulo:** un volcado **fallido no deja
 documento** —es justo el que más interesa—, así que su fila tiene que poder existir sola. Es el único
-lugar donde la cédula del acto no cuelga de lo que produjo.
+lugar donde la cédula del acto no cuelga de lo que produjo. Su id es el **token del acto**
+(`A000123`), del contador de esta base.
+
+**La plantilla del volcado y el contador viven acá**, en la base del acto (`prompts`, `contador`):
+si el corpus se resetea, el almacén se sigue explicando solo.
 
 **No hay versión del volcado.** El markdown **no tiene versiones**: es el documento. Si un volcado
 produce otro markdown, es **otro documento**, con otro nombre; y **el mismo markdown, volcado otra
 vez, también**: lo que los distingue es la fecha del volcado. La fuente es **procedencia** —traza—
 y puede repetirse. Y lo que identifica cómo se hizo ya
-está: el `prompt` y su `hash` en la cédula, y **el armador es el commit de git** — el código está
+está: la **plantilla y su versión** en la cédula (`prompt_id`, `prompt_version`, y el hash de su
+texto), y **el armador es el commit de git** — el código está
 versionado, y con más verdad que una etiqueta que alguien se acuerde de subir.
 
 **No se guarda el índice.** Los encabezados, sus tramos, las secciones y la jerarquía **se derivan
