@@ -30,8 +30,9 @@ corrida que lo produjo.
   `iniciado` y `terminado`, y `estado` (`exitoso` / `fallido`) con su `motivo`. Se escribe una sola
   vez, **al cerrar el acto**: **una corrida no se toca** y cada intento es su fila, así que rehacer
   no pisa el intento anterior y las rondas se pueden comparar.
-- `prompts`: las **plantillas** con su versión. La registra el acto que las usa; editar una
-  plantilla es una versión nueva, nunca un `UPDATE`.
+- `prompts`: las **plantillas** con su versión. El acto que corre **lee de acá la última versión
+  inscrita**; inscribir una nueva es un acto aparte (`prompts.py`), y editar una plantilla no la
+  toca: inscribe otra.
 - `contador`: de acá sale el token de esta base.
 - `consultas` + `consulta_casos` + `consulta_llamadas`: la respuesta y su operación —los casos que
   el agente leyó y las herramientas que pidió—, y **existen solo si el ciclo entregó**.
@@ -52,7 +53,7 @@ import esquema
 
 AQUI = pathlib.Path(__file__).resolve().parent
 DB = AQUI / "corpus.db"
-ESQUEMA_VERSION = 4
+ESQUEMA_VERSION = 5
 
 ESQUEMA = """
 CREATE TABLE IF NOT EXISTS documentos (
@@ -78,7 +79,6 @@ CREATE TABLE IF NOT EXISTS corridas (
   pregunta_texto  TEXT,                  -- ORQ: el texto tal como se leyó
   prompt_id       TEXT,                  -- la plantilla que corrió (en `prompts`)
   prompt_version  INTEGER,
-  hash_prompt     TEXT,                  -- sha256 de su texto: guardián
   hash_r          TEXT,                  -- ORQ: sha256 de R.json
   modelo          TEXT NOT NULL,         -- el id del modelo
   esfuerzo        TEXT,
@@ -127,14 +127,12 @@ CREATE TABLE IF NOT EXISTS datos (
 );
 CREATE INDEX IF NOT EXISTS idx_datos_unidad ON datos(unidad_id);
 CREATE TABLE IF NOT EXISTS prompts (     -- las plantillas, con su versión
-  id       TEXT NOT NULL,                -- 'volcado' · 'UT' · 'DATOS' · 'ORQ'
+  id       TEXT NOT NULL,                -- 'UT' · 'DATOS' · 'ORQ' (la del volcado vive en el almacén)
   version  INTEGER NOT NULL,
-  texto    TEXT NOT NULL,
-  sello    TEXT NOT NULL,                -- sha256 del texto: guardián
+  texto    TEXT NOT NULL,                -- el texto de la plantilla: es su identidad
   fecha    TEXT NOT NULL DEFAULT (datetime('now','localtime')),
   PRIMARY KEY (id, version)
 );
-CREATE INDEX IF NOT EXISTS idx_prompts_sello ON prompts(sello);
 CREATE TABLE IF NOT EXISTS contador (    -- el token de esta base
   id     INTEGER PRIMARY KEY CHECK (id = 1),
   ultimo INTEGER NOT NULL DEFAULT 0
@@ -173,7 +171,7 @@ CREATE TABLE IF NOT EXISTS consulta_llamadas (   -- la operación: qué herramie
 
 COLUMNAS_CORRIDA = (
     "id", "paso", "documento_id", "dominio", "pregunta_id", "pregunta_texto",
-    "prompt_id", "prompt_version", "hash_prompt", "hash_r", "modelo", "esfuerzo",
+    "prompt_id", "prompt_version", "hash_r", "modelo", "esfuerzo",
     "reloj_radicado", "reloj_sistema", "corrida_origen", "tokens_entrada", "tokens_salida",
     "tokens_pensando", "cache_hit", "segundos", "turnos", "llamadas", "estado", "motivo",
     "iniciado", "terminado")

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Lee la entrega: el JSON de RESPUESTA_JSON, donde el prompt del agente lo ponga.
 
-El prompt del agente (`mvp/prompts/prompt_ORQ.md`, congelado) pide, **en el mismo mensaje
+El prompt del agente (la plantilla `ORQ` de la base) pide, **en el mismo mensaje
 final**: la respuesta corta de la tarea 5 y, en la tarea 6, «diligencia el JSON en
 RESPUESTA_JSON». Así, el JSON puede venir de cuatro formas, todas legítimas:
 

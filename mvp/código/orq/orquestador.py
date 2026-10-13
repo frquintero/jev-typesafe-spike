@@ -22,7 +22,7 @@ El orden, y nada más que el orden —cada paso vive en su archivo—:
     9. bucle                llama, ejecuta y termina con la entrega (sin juzgarla)
    10. registrar_consulta   la corrida y —si hubo entrega— la pregunta y la respuesta
 
-La **plantilla** sale de la base —el `.md` es la puerta y se registra sola la primera vez—, y la
+La **plantilla** sale de la base —su última versión inscrita—, y la
 consulta **congela** los casos y su tanda de DATOS al abrir: lo que leyó queda en la traza.
 
 Nada se escribe en archivos: `mvp/temp/` no se toca.
@@ -97,8 +97,8 @@ def main():
     herramientas = armar_herramientas(r)
     marcas = anclas()
 
-    db_prompt = conectar()  # la plantilla se registra sola, la primera vez que corre
-    prompt = usar_prompt(db_prompt, "ORQ", config["rutas"]["prompt"])
+    db_prompt = conectar()  # la plantilla vigente se lee de la base
+    prompt = usar_prompt(db_prompt, "ORQ")
     db_prompt.close()
     rotulo = f"{prompt['id']} v{prompt['version']}"
     mensajes = armar_prompt(prompt["texto"], rotulo, texto, casos, marcas, documentos)

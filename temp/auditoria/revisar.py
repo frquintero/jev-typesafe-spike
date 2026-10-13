@@ -91,16 +91,23 @@ def main():
     print("=" * 92)
     print("3. LOS PROMPTS: HUECOS Y QUIÉN LOS LLENA")
     actos = {
-        "prompt_volcado.md": "mvp/código/volcar.py (todavía no existe)",
-        "prompt_UT.md": "mvp/código/paso1_unidades.py",
-        "prompt_DATOS.md": "mvp/código/paso2_datos.py",
-        "prompt_ORQ.md": "mvp/código/orq/armar_prompt.py",
+        "volcado": ("almacen", "mvp/código/volcar.py"),
+        "UT": ("corpus", "mvp/código/paso1_unidades.py"),
+        "DATOS": ("corpus", "mvp/código/paso2_datos.py"),
+        "ORQ": ("corpus", "mvp/código/orq/armar_prompt.py"),
     }
-    for prompt, acto in actos.items():
-        texto = (MVP / "prompts" / prompt).read_text(encoding="utf-8")
+    for prompt, (base, acto) in actos.items():
+        con = sqlite3.connect(MVP / "código" / f"{base}.db")
+        fila = con.execute("SELECT version, texto FROM prompts WHERE id = ? "
+                           "ORDER BY version DESC LIMIT 1", (prompt,)).fetchone()
+        con.close()
+        if fila is None:
+            print(f"   {prompt:<22} NO está en la base")
+            continue
+        version, texto = fila
         huecos = sorted(set(re.findall(r"\{\{(\w+)\}\}", texto)))
         sistema = texto.split("[TAREA]")[0] if "[TAREA]" in texto else texto
-        print(f"   {prompt:<22} huecos: {', '.join(huecos) or 'ninguno'}")
+        print(f"   {prompt:<22} v{version} ({len(texto)} car) huecos: {', '.join(huecos) or 'ninguno'}")
         print(f"   {'':<22} radicado en el system: {'{{RELOJ_RADICADO}}' in sistema} · "
               f"sistema en el user: {{RELOJ_SISTEMA}} en el user: "
               f"{'{{RELOJ_SISTEMA}}' in texto.split('[TAREA]')[1] if '[TAREA]' in texto else False}")

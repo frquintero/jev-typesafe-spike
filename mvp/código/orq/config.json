@@ -1,8 +1,7 @@
 {
   "rutas": {
     "r": "../R.json",
-    "corpus": "../corpus.db",
-    "prompt": "../../prompts/prompt_ORQ.md"
+    "corpus": "../corpus.db"
   },
   "guardias": {
     "max_turnos": 8,

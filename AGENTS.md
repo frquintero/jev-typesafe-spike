@@ -78,14 +78,15 @@ lo que esté al lado y parezca obvio.
   **archivadas en `mvp/temp/`**, que es **archivo: no se corre desde ahí, no se lee, no se escribe**.
   Lo vivo está en `mvp/`: los **documentos que se radican** (`mvp/documentos/`), las **baterías** de
   preguntas (`mvp/consulta/preguntas_<doc>.md`, que son **fuentes**: el acto carga una y la radica
-  **al cerrar con entrega**, en la tabla `preguntas`), los **prompts** de trabajo (`mvp/prompts/`:
-  `prompt_volcado`, `prompt_UT`, `prompt_DATOS` y `prompt_ORQ`, que son la **puerta**: cada
-  plantilla se registra en la base con su versión la primera vez que corre) y el **código**
+  **al cerrar con entrega**, en la tabla `preguntas`), los **prompts** de trabajo (`prompt_volcado`,
+  `prompt_UT`, `prompt_DATOS` y `prompt_ORQ`: **plantillas de la base**, en la tabla `prompts` de la
+  base de su acto —la del volcado, en el almacén—; el acto lee de ahí la última versión inscrita, y
+  una plantilla nueva se inscribe con `mvp/código/prompts.py`) y el **código**
   (`mvp/código/`):
   `volcar.py` (volca la fuente: **es la radicación**), `armar_volcado.py` (del texto y el índice
   al markdown), `paso1_unidades.py` (UT), `paso2_datos.py` (DATOS), `base.py` (la base y su
   esquema), `esquema.py` (la versión del esquema y el token del acto), `acto.py` (abrir y cerrar
-  un acto), `prompts.py` (las plantillas en la base), `ajustes.py` (el modelo y el esfuerzo de cada acto),
+  un acto), `prompts.py` (las plantillas en la base: leer la vigente e inscribir una nueva), `ajustes.py` (el modelo y el esfuerzo de cada acto),
   `cargar_pregunta.py` (carga la pregunta: un archivo o el chat; la radica el acto, al entregar),
   `proveedores/` (el transporte), `R.json` y
   el orquestador (`orq/`). **La base

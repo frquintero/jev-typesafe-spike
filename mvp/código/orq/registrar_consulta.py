@@ -96,7 +96,7 @@ def registrar_consulta(config, corrida, error=None):
             db, id=token, paso="ORQ",
             dominio=corrida["dominio"],
             pregunta_id=pregunta_id, pregunta_texto=corrida["pregunta"],
-            prompt_id=prompt["id"], prompt_version=prompt["version"], hash_prompt=prompt["sello"],
+            prompt_id=prompt["id"], prompt_version=prompt["version"],
             hash_r=hash_de(config["rutas"]["r"]),
             modelo=modelo["id"], esfuerzo=modelo.get("esfuerzo"),
             reloj_radicado=reloj_radicados(corrida["documentos"]),

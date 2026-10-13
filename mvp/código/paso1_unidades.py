@@ -3,7 +3,7 @@
 
 Uso:
 
-    python3 mvp/código/paso1_unidades.py <doc> [--modelo M] [--esfuerzo E] [--prompt UT] [--rehacer]
+    python3 mvp/código/paso1_unidades.py <doc> [--modelo M] [--esfuerzo E] [--rehacer]
     python3 mvp/código/paso1_unidades.py doc8
 
 Qué hace, y nada más:
@@ -39,7 +39,6 @@ import pathlib
 import sys
 import time
 
-RAIZ = pathlib.Path(__file__).resolve().parent.parent.parent
 AQUI = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 
@@ -54,7 +53,6 @@ from proveedores import ErrorDeLlamada, llamar, resolver  # noqa: E402
 from relojes import reloj_radicado, reloj_sistema  # noqa: E402
 from respuesta import extract_json  # noqa: E402
 
-PROMPTS = RAIZ / "mvp" / "prompts"
 EXTRACTO = 100  # caracteres de la cabeza y de la cola que se guardan de una respuesta ilegible
 
 
@@ -82,7 +80,7 @@ def escribir_unidades(doc, unidades, verificacion):
     return escribir
 
 
-def run(doc, modelo, prompt_name, rehacer, esfuerzo=None):
+def run(doc, modelo, rehacer, esfuerzo=None):
     db = conectar()
     fila = exigir_documento(db, doc)
     modelo, esfuerzo = resolver_ajuste(db, "UT", modelo, esfuerzo)
@@ -95,7 +93,7 @@ def run(doc, modelo, prompt_name, rehacer, esfuerzo=None):
     if vigente:
         print(f"  {doc}: ACTO explícito — se corre otra UT; la vigente ({vigente}) queda")
 
-    prompt = usar_prompt(db, prompt_name, PROMPTS / f"prompt_{prompt_name}.md")
+    prompt = usar_prompt(db, "UT")
     plantilla = prompt["texto"]
     for hueco in ("{{TEXTO}}", "{{RELOJ_RADICADO}}", "{{RELOJ_SISTEMA}}"):
         if hueco not in plantilla:
@@ -112,7 +110,7 @@ def run(doc, modelo, prompt_name, rehacer, esfuerzo=None):
                       RELOJ_SISTEMA=relojes["reloj_sistema"])
     config = resolver(modelo, esfuerzo)
     corrida = abrir(db, "UT", documento_id=doc, prompt_id=prompt["id"],
-                    prompt_version=prompt["version"], hash_prompt=prompt["sello"],
+                    prompt_version=prompt["version"],
                     modelo=config["id"], esfuerzo=config.get("esfuerzo"), **relojes)
 
     def fallar(motivo):
@@ -178,26 +176,24 @@ def run(doc, modelo, prompt_name, rehacer, esfuerzo=None):
 def main(argumentos):
     if not argumentos:
         raise SystemExit("uso: python3 mvp/código/paso1_unidades.py <doc> "
-                         "[--modelo M] [--esfuerzo E] [--prompt UT] [--rehacer]")
+                         "[--modelo M] [--esfuerzo E] [--rehacer]")
     doc = argumentos[0]
-    modelo, prompt_name, rehacer, esfuerzo = None, "UT", False, None
+    modelo, rehacer, esfuerzo = None, False, None
     resto = argumentos[1:]
     while resto:
         opcion = resto.pop(0)
         if opcion == "--rehacer":
             rehacer = True
-        elif opcion in ("--modelo", "--esfuerzo", "--prompt") and resto:
+        elif opcion in ("--modelo", "--esfuerzo") and resto:
             valor = resto.pop(0)
             if opcion == "--modelo":
                 modelo = valor
-            elif opcion == "--esfuerzo":
-                esfuerzo = valor
             else:
-                prompt_name = valor
+                esfuerzo = valor
         else:
             raise SystemExit(f"no entiendo '{opcion}'. Uso: paso1_unidades.py <doc> "
-                             f"[--modelo M] [--esfuerzo E] [--prompt UT] [--rehacer]")
-    run(doc, modelo, prompt_name, rehacer, esfuerzo)
+                             f"[--modelo M] [--esfuerzo E] [--rehacer]")
+    run(doc, modelo, rehacer, esfuerzo)
 
 
 if __name__ == "__main__":

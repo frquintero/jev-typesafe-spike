@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Arma los mensajes de la consulta: el `system` (la regla) y el `user` (el material).
 
-La **plantilla** llega de la base (con su versión): el `.md` de `mvp/prompts/` es la puerta y el
-acto la registra sola la primera vez. Viene en dos partes marcadas por `mensajes.partir`:
+La **plantilla** llega de la base (con su versión), que es donde vive: el acto lee de ahí la última
+versión inscrita. Viene en dos partes marcadas por `mensajes.partir`:
 
     [SISTEMA]   la fecha de radicación de los documentos del dominio (invariante) y la LÓGICA DEL
                 AGENTE ENCARGADO con la forma de la respuesta JSON

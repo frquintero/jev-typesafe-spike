@@ -61,7 +61,7 @@ actualización de los tres sitios y los reportes, en `política.md`.
   razonamiento, y si no es reconstruible se dice.
 - **`reasoning_tokens` viene dentro de `completion_tokens`:** no se suma dos veces.
 - **La base y el documento tienen que permitir re-verificar sin API:** con lo producido en la base
-  y el texto radicado (y el prompt en `mvp/prompts/`), la
+  y el texto radicado (y el prompt en la base), la
   verificación de literales se recompone (`mvp/temp/paso2/comparacion.py verificar-todos`; 69/69 sin
   diferencias al 06-10).
 
@@ -256,7 +256,7 @@ decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
    **Lo que queda:** compararlo por calidad con la batería si se lo quiere para algún acto —el default
    de los cuatro sigue en `luna`/`low`—.
 8. **Unidad temática con el eje de `v1`** (decisión de Frat, 02-10; registrada en `definiciones-del-marco.md`, parte B). Los prompts de trabajo (`prompt_UT` y `prompt_DATOS`) producen la unidad con el eje en el asunto: el `subtema` **nombra el núcleo** —el caso de la unidad— y las oraciones que lo desarrollan van juntas. Falta **declarar los satélites**, los casos de los que el texto habla por su relación con el núcleo, que hoy se leen de las relaciones y acciones. Discutirlo antes de escribirlo.
-9. **Adoptar el candidato del paso 2:** `mvp/temp/paso2/prompt_ficha_contexto.md` vive hoy en la carpeta de trabajo; si se adopta, le toca su sitio en `mvp/prompts/` con nombre propio, sin mezclarlo con `ficha_v2`.
+9. **Adoptar el candidato del paso 2:** `mvp/temp/paso2/prompt_ficha_contexto.md` vive hoy en la carpeta de trabajo; si se adopta, se **inscribe** como versión nueva de `DATOS` en la base (`mvp/código/prompts.py inscribir DATOS <archivo>`), sin mezclarlo con `ficha_v2`.
 10. **Cerrar la forma del dato del paso 2:** si vuelven el `sostiene` (quién lo sostiene) y el `respaldo` (la ruta al fragmento), y si `unidad_valor` se queda como campo propio o la unidad va dentro del valor. Hoy el dato viaja sin fuente ni ruta.
 11. **El scratch.** `temp/` —las pruebas de particiones de UT y de extracción de DATOS, con sus
     crudos— **no se versiona**: vive solo en el disco. La base, en cambio, sí se commitea.

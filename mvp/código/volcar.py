@@ -9,8 +9,7 @@ Uso:
 Qué hace, y nada más:
 
 1. **Lee la fuente** y su procedencia (nombre, ruta, mtime). Eso pasa a ser **traza**, no identidad.
-2. **Toma la plantilla** de la base (`prompt_volcado`): el `.md` de `mvp/prompts/` es la puerta y se
-   registra solo la primera vez, con su versión.
+2. **Toma la plantilla** de la base (`prompt_volcado`, su última versión inscrita).
 3. **Pide el índice** al modelo —los encabezados, con su `padre`— en una sola llamada.
 4. **Verifica y arma el markdown**: ubica cada título y le inserta el marcador canónico. Nada del
    texto se reescribe, y quitar las marcas devuelve la fuente tal cual.
@@ -32,7 +31,6 @@ import sys
 import time
 from datetime import datetime
 
-RAIZ = pathlib.Path(__file__).resolve().parent.parent.parent
 AQUI = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 
@@ -48,7 +46,6 @@ from proveedores import ErrorDeLlamada, llamar, resolver  # noqa: E402
 from relojes import reloj_radicado, reloj_sistema  # noqa: E402
 from respuesta import extract_json  # noqa: E402
 
-PROMPTS = RAIZ / "mvp" / "prompts"
 EXTRACTO = 100  # caracteres de la cabeza y de la cola que se guardan de una respuesta ilegible
 
 
@@ -87,7 +84,7 @@ def run(fuente, identificador, coleccion, modelo, esfuerzo=None):
     modelo, esfuerzo = resolver_ajuste(db_corpus, "volcado", modelo, esfuerzo)
     db_corpus.close()
 
-    prompt = usar_prompt(db, "volcado", PROMPTS / "prompt_volcado.md")
+    prompt = usar_prompt(db, "volcado")
     plantilla = prompt["texto"]
     for hueco in ("{{TEXTO}}", "{{RELOJ_RADICADO}}", "{{RELOJ_SISTEMA}}"):
         if hueco not in plantilla:
@@ -104,7 +101,7 @@ def run(fuente, identificador, coleccion, modelo, esfuerzo=None):
     config = resolver(modelo, esfuerzo)
     volcado = abrir(db, "volcado", prefijo=PREFIJO_ALMACEN, modelo=config["id"],
                     esfuerzo=config.get("esfuerzo"), prompt_id=prompt["id"],
-                    prompt_version=prompt["version"], hash_prompt=prompt["sello"],
+                    prompt_version=prompt["version"],
                     sello_fuente=hash_texto(texto), **relojes)
 
     def fallar(motivo):

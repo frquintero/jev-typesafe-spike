@@ -6,7 +6,8 @@ configuración se puede mover con el código.
 
 Qué hay en la configuración:
 
-    rutas.*                  dónde está cada entrada: R, la base y el prompt del agente
+    rutas.*                  dónde está cada entrada: R y la base (la plantilla del agente se lee
+                             de la base: `prompts`, con su versión)
     (la pregunta **no** va acá: la recibe el acto —de un archivo o del chat— y se radica **al cerrar
      con entrega**; el dominio se pide por línea de comandos)
     (el modelo y el esfuerzo **no** van acá: los lee el acto de `ajustes`, en la base)

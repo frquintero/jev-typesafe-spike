@@ -71,6 +71,11 @@ del almacén (`almacen.texto_de`, que comprueba el sello antes de entregarlo).
 con su radicación y su fila propias. Y si el texto guardado no coincide con su **sello**, el acto **se
 detiene y reporta**.
 
+**Cuándo se guarda un sello.** Cuando el texto vive **fuera de la base** —R, que es un archivo— o
+cuando **el mismo hecho vive en dos sitios** y hay que atarlos: el del documento empareja el espejo
+del corpus con el original del almacén. El de la plantilla **no se guarda**: su texto es la fila que
+la identifica (`id` y versión), y una versión inscrita no se toca.
+
 **Qué no guarda el corpus, y por qué:**
 
 - **El texto del documento**: vive en el almacén. De cada oración guarda **la literal y su tramo**;
@@ -226,9 +231,9 @@ parte de ese mecanismo**: nombra el núcleo y **trae su antecedente**.
   otra de sus oraciones o en el nombre del caso—, la unidad cierra; si no, queda abierta.
 
 **Qué entra.** El **documento radicado** —el texto se lee del almacén, entero, con sus títulos y
-subtítulos: son contexto para interpretar, no oraciones— y la plantilla `prompt_UT` **vigente** (el
-`.md` de `mvp/prompts/` es la **puerta**: se registra solo en la base la primera vez que corre, con su
-versión, y el acto lee de ahí la plantilla). Sus huecos son `{{RELOJ_RADICADO}}`,
+subtítulos: son contexto para interpretar, no oraciones— y la plantilla `prompt_UT` **vigente**: la
+última versión inscrita en la base (`prompts`), que es donde vive y de donde el acto la lee. Sus
+huecos son `{{RELOJ_RADICADO}}`,
 `{{TEXTO}}` y `{{RELOJ_SISTEMA}}`.
 
 **Cómo se procesa.** Un comando, desde la raíz del repo:
@@ -252,7 +257,7 @@ Si el documento **ya tiene una UT vigente**, no llama al modelo. Correr otra par
 **Qué entrega.** Dos cosas en la base, y nada en archivos:
 
 - **La corrida** (`corridas`), con el token del acto (`C000001`…): el paso (`UT`), el documento, el
-  modelo y su esfuerzo, la plantilla y su versión, su hash, los **dos relojes** tal como entraron al
+  modelo y su esfuerzo, la plantilla y su versión, los **dos relojes** tal como entraron al
   prompt, los tokens, los segundos, `iniciado` y `terminado`, y el `estado`.
 - **Las unidades y sus tramos**: en `unidades`, una por UT —id `<token_UT>:U<n>`, su `n`, el `subtema`
   y su `corrida_id`—; y en `unidad_oraciones`, una fila por oración con su orden, su **tramo**
@@ -427,7 +432,7 @@ el `user`, después del material, y queda en la traza.
 | 5 | Resolver el dominio | `orq/resolver_dominio.py` | la etiqueta → sus documentos (pertenencia, sin juicio) |
 | 6 | Listar los casos | `orq/listar_casos.py` | `unidad_id` y `caso`, sin aspectos ni valores |
 | 7 | Armar las herramientas | `orq/armar_herramientas.py` | R ∩ las que existen |
-| 8 | Armar los mensajes | `orq/armar_prompt.py` + `prompt_ORQ.md` | el `system` (radicados y lógica) y el `user` (casos, pregunta, ahora) |
+| 8 | Armar los mensajes | `orq/armar_prompt.py` + la plantilla `ORQ` | el `system` (radicados y lógica) y el `user` (casos, pregunta, ahora) |
 | 9 | El bucle | `orq/llamar_modelo.py`, `ejecutar_herramienta.py`, `obtener_datos_del_caso.py`, `bucle.py` | llama, ejecuta lo que el agente pide, apila, y termina con la respuesta |
 | 10 | Registrar | `orq/registrar_consulta.py` | la corrida y la respuesta, en la base |
 
@@ -515,12 +520,12 @@ juzga.
 
 ### 7.6. El prompt del agente
 
-Vive en `mvp/prompts/prompt_ORQ.md`, **un solo archivo** con dos partes marcadas: `[SISTEMA]` (lo que
-se conserva entre turnos) y `[TAREA]` (lo que depende del dominio y de la pregunta). `armar_prompt.py`
-lo parte y devuelve los dos mensajes. Los huecos son `{{RELOJ_RADICADO}}`, `{{CASOS}}`, `{{PREGUNTA}}`
+Vive en la base —la plantilla `ORQ`, con su versión—, **un solo texto** con dos partes marcadas:
+`[SISTEMA]` (lo que se conserva entre turnos) y `[TAREA]` (lo que depende del dominio y de la
+pregunta). `armar_prompt.py` lo parte y devuelve los dos mensajes. Los huecos son `{{RELOJ_RADICADO}}`, `{{CASOS}}`, `{{PREGUNTA}}`
 y `{{RELOJ_SISTEMA}}`, rellenados con `str.replace`.
 
-**Prompt 3 y prompt 4.** El prompt del agente es el que Frat llama **prompt 3** —hoy `prompt_ORQ.md`—,
+**Prompt 3 y prompt 4.** El prompt del agente es el que Frat llama **prompt 3** —hoy la plantilla `ORQ`—,
 y de él sale el lector de la entrega (§7.7). Lo que sigue es **prompt 4**, la sonda de
 `preguntar_al_usuario`: sobre prompt 3 cambian la pregunta —sale de la tarea 1 y va en su línea—, el
 nombre del bloque (`TAREAS` → `LÓGICA DEL AGENTE ENCARGADO`), la tarea 4 (la tríada: una respuesta →
@@ -628,7 +633,7 @@ Todo lo que produce la consulta queda **en la base**, y nada en archivos:
   dijo el canal `tool`—. Permite auditar **cómo operó** el agente sin guardar su prosa ni su
   razonamiento; el orden de las lecturas, que antes solo se recuperaba del `rowid` de `consulta_casos`
   y por casualidad, ahora es un dato.
-- **`corridas`**: la cédula —modelo, esfuerzo, el prompt y su hash, R y su hash, los tokens, los
+- **`corridas`**: la cédula —modelo, esfuerzo, el prompt y su versión, R y su hash, los tokens, los
   segundos, los turnos, las llamadas, y el `estado` con su motivo—.
 
 **Cómo se lee una respuesta.** Con una consulta, no con un archivo: el ORQ no escribe `salida.md`, ni
@@ -742,7 +747,6 @@ CREATE TABLE corridas (
   pregunta_texto  TEXT,                  -- ORQ: el texto tal como se leyó
   prompt_id       TEXT,                  -- la plantilla que corrió (en `prompts`)
   prompt_version  INTEGER,
-  hash_prompt     TEXT,                  -- sha256 de su texto: guardián
   hash_r          TEXT,                  -- ORQ: sha256 de R.json
   modelo          TEXT NOT NULL,         -- el id del modelo
   esfuerzo        TEXT,
@@ -768,8 +772,7 @@ CREATE TABLE corridas (
 CREATE TABLE prompts (     -- las plantillas del corpus, con su versión: 'UT' · 'DATOS' · 'ORQ'
   id       TEXT NOT NULL,
   version  INTEGER NOT NULL,
-  texto    TEXT NOT NULL,
-  sello    TEXT NOT NULL,                -- sha256 del texto: guardián
+  texto    TEXT NOT NULL,                -- el texto de la plantilla: es su identidad
   fecha    TEXT NOT NULL DEFAULT (datetime('now','localtime')),
   PRIMARY KEY (id, version)
 );
@@ -863,7 +866,6 @@ CREATE TABLE volcados (    -- el intento de volcado: la cédula del acto
   esfuerzo       TEXT,
   prompt_id      TEXT NOT NULL,          -- la plantilla que corrió ('volcado')
   prompt_version INTEGER NOT NULL,
-  hash_prompt    TEXT NOT NULL,
   reloj_radicado TEXT,                   -- los relojes, tal como entraron al prompt
   reloj_sistema  TEXT,
   sello_fuente   TEXT,                   -- sha256 de la fuente: identificada, no conservada
@@ -882,8 +884,7 @@ CREATE TABLE volcados (    -- el intento de volcado: la cédula del acto
 CREATE TABLE prompts (     -- las plantillas del volcado, con su versión: 'volcado'
   id       TEXT NOT NULL,
   version  INTEGER NOT NULL,
-  texto    TEXT NOT NULL,
-  sello    TEXT NOT NULL,
+  texto    TEXT NOT NULL,                -- el texto de la plantilla: es su identidad
   fecha    TEXT NOT NULL DEFAULT (datetime('now','localtime')),
   PRIMARY KEY (id, version)
 );
@@ -911,7 +912,7 @@ lugar donde la cédula del acto no cuelga de lo que produjo.
 | # | Qué | Criterio de aceptación |
 |---|---|---|
 | **R0** | Cerrar las decisiones. Sin código. | las respuestas escritas y el plan actualizado |
-| **R1 · la fuente** | token, conservación con los ids nuevos, `prompts` con registro perezoso, `contador` y `user_version` | `leer_prompt(db,'UT')` devuelve el texto vivo; una UT deja su corrida con los dos relojes, plantilla y versión, y un token; una segunda UT sobre el mismo documento **no borra** la primera |
+| **R1 · la fuente** | token, conservación con los ids nuevos, `prompts` con la inscripción, `contador` y `user_version` | `leer_prompt(db,'UT')` devuelve el texto vivo; una UT deja su corrida con los dos relojes, plantilla y versión, y un token; una segunda UT sobre el mismo documento **no borra** la primera |
 | **R2 · los actos** | `acto.py` (`abrir()` → token e inicio; `cerrar()` → estado, motivo y fin); `paso1` y `paso2` lo usan; `volcar.py` nace con todo | las etapas I y II corren con el modelo simulado, cada acto imprime su token, y DATOS queda encadenado a su corrida y a la de UT |
 | **R3 · la consulta** | registrar **la extracción que se leyó** y lo ofrecido; la radicación al cerrar | rehacer **solo DATOS** y comprobar que la consulta anterior sigue mostrando **exactamente** los datos que leyó |
 | **R4 · auditar** | las preguntas de abajo | — |
@@ -927,10 +928,12 @@ y de repetir la consulta:
 Las tres se responden sobre la corrida vieja, no sobre la última. La cuarta —«¿qué código la
 ensambló?»— **no se promete**.
 
-**El registro de las plantillas es perezoso**: el acto que usa una plantilla la registra. Antes de
-llamar, hashea el texto y, **si ese sello no está, la guarda como versión nueva** (patrón de
-contenido: idempotente, sin acto manual). El `.md` queda como **borrador y puerta**; la base es la
-fuente de lo que corrió. Editar la plantilla = sello nuevo = **versión nueva**; nunca un `UPDATE`.
+**La plantilla se inscribe.** El acto que corre la **lee de la base**: la vigente es la última versión
+inscrita. Una nueva se inscribe con un acto aparte
+(`python3 mvp/código/prompts.py inscribir <id> <archivo>`), que lee el texto de un borrador —un
+archivo que vive donde se esté escribiendo, no en el repo— y deja la versión con su fecha. Es
+idempotente por texto: si es el mismo texto, no agrega nada. **Una versión inscrita no se toca**:
+editarla es inscribir otra.
 
 **Los papeles se actualizan en el commit de cada ronda**: `AGENTS.md`, `README.md`, esta sección y la
 memoria.
@@ -942,7 +945,7 @@ memoria.
 | `mvp/código/base.py` | el corpus: el registro, el esquema y las consultas |
 | `mvp/código/esquema.py` | la versión del esquema y el token del acto |
 | `mvp/código/acto.py` | abrir y cerrar un acto: token, tiempos, estado y motivo |
-| `mvp/código/prompts.py` | las plantillas en la base, con su registro perezoso |
+| `mvp/código/prompts.py` | las plantillas de la base: leer la vigente e inscribir una versión nueva |
 | `mvp/código/ajustes.py` | el modelo y el esfuerzo de cada acto, leídos de la base |
 | `mvp/código/almacen.py` | el almacén: `escribir` (con el espejo, en una transacción), `texto_de` (con el sello comprobado), `registrar_fallo` |
 | `mvp/código/volcar.py` | el acto del volcado: **es la radicación** |
@@ -972,7 +975,7 @@ El mapa de los alias de modelo y sus APIs está en `mvp/proveedores.md`.
 | **D3** | Bucle con herramienta, no todo inyectado en una llamada |
 | **D4** | Sin datos derivados en esta versión |
 | **D5** | R: `solo el documento`, sin mundo del LLM ni anclas como premisa |
-| **D6** | Nombre y sitio de los archivos: el código, `R.json` y la base en `mvp/código/` (`orq/` el orquestador); los documentos que se radican, en `mvp/documentos/`; las baterías, en `mvp/consulta/preguntas_<doc>.md` —son fuentes—; las plantillas, en la base (el `.md` de `mvp/prompts/` es la puerta); y lo que se produce, en la base. `mvp/temp/` es archivo |
+| **D6** | Nombre y sitio de los archivos: el código, `R.json` y la base en `mvp/código/` (`orq/` el orquestador); los documentos que se radican, en `mvp/documentos/`; las baterías, en `mvp/consulta/preguntas_<doc>.md` —son fuentes—; las plantillas, en la base (`prompts`, con su versión); y lo que se produce, en la base. `mvp/temp/` es archivo |
 | **D7** | Las dos bases con claves foráneas y contratos (`paso`, `estado`, `motivo` si falló, un `n` por corrida) |
 | **D8** | Derivados: fuera de esta versión |
 | **D11** | Compactación del historial: no implementada (§9) |
@@ -987,7 +990,7 @@ El mapa de los alias de modelo y sus APIs está en `mvp/proveedores.md`.
 | **D20** | El ORQ ubica el JSON del mensaje final donde prompt 3 lo ponga (§7.7) |
 | **D21** | Las condiciones que el código no puede aplicar — **abierta**: no están escritas (§9) |
 | **D22** | `documento_id` en `datos`, en vez del prefijo del id — **abierta** (§9) |
-| **D23** | La declaración del esquema (partición, prompt, hash, modelo) va en la fila de `corridas` |
+| **D23** | La declaración del esquema (partición, prompt y versión, modelo) va en la fila de `corridas` |
 | **D24** | El sostén en la respuesta: diferido hasta que el usuario pida ver la fuente (§9) |
 | **D25** | Tope y corte: el de herramientas se respeta y la causa se registra; **no hay corte por repetición** (§9) |
 | **D26** | Con `preguntar_al_usuario` el ciclo termina: no se reanuda y el acto no radica pregunta |
@@ -1004,8 +1007,7 @@ ORQ).
 y [el hilo sobre JSON y SQLite](https://github.com/kody-w/rappterbook/discussions/3742) —elegir por
 forma de acceso—; [`PRAGMA user_version`](https://sqlite.org/pragma.html#pragma_user_version) y
 [migraciones sin framework](https://levlaz.org/sqlite-db-migrations-with-pragma_user_version/);
-[almacenamiento por contenido](https://limitsystems.ai/platform/storage) para el registro perezoso; y
-[atomicidad entre archivos con `ATTACH`](https://sqlite.org/lang_attach.html) —y por qué ninguna de
+y [atomicidad entre archivos con `ATTACH`](https://sqlite.org/lang_attach.html) —y por qué ninguna de
 las dos bases usa WAL—.
 
 **De la operación del agente:** [12-Factor Agents](https://github.com/humanlayer/12-factor-agents)

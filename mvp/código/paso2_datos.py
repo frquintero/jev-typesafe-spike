@@ -36,7 +36,6 @@ import sys
 import time
 import unicodedata
 
-RAIZ = pathlib.Path(__file__).resolve().parent.parent.parent
 AQUI = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 
@@ -51,7 +50,6 @@ from proveedores import ErrorDeLlamada, llamar, resolver  # noqa: E402
 from relojes import reloj_radicado, reloj_sistema  # noqa: E402
 from respuesta import extract_json  # noqa: E402
 
-PROMPTS = RAIZ / "mvp" / "prompts"
 EXTRACTO = 100  # caracteres de la cabeza y de la cola que se guardan de una respuesta ilegible
 
 
@@ -180,7 +178,7 @@ def run(doc, modelo, rehacer, esfuerzo=None):
         print(f"  {doc}: ACTO explícito — se corre otra tanda sobre la UT {ut}; "
               f"la vigente ({tanda}) queda")
 
-    prompt = usar_prompt(db, "DATOS", PROMPTS / "prompt_DATOS.md")
+    prompt = usar_prompt(db, "DATOS")
     plantilla = prompt["texto"]
     for hueco in ("{{UNIDADES}}", "{{RELOJ_RADICADO}}", "{{RELOJ_SISTEMA}}"):
         if hueco not in plantilla:
@@ -190,7 +188,7 @@ def run(doc, modelo, rehacer, esfuerzo=None):
                "reloj_sistema": reloj_sistema()}
     config = resolver(modelo, esfuerzo)
     corrida = abrir(db, "DATOS", documento_id=doc, prompt_id=prompt["id"],
-                    prompt_version=prompt["version"], hash_prompt=prompt["sello"],
+                    prompt_version=prompt["version"],
                     modelo=config["id"], esfuerzo=config.get("esfuerzo"),
                     corrida_origen=ut, **relojes)
 

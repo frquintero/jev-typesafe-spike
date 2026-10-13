@@ -33,7 +33,7 @@ import esquema  # noqa: E402
 from base import DB as CORPUS, hash_texto  # noqa: E402
 
 DB = AQUI / "almacen.db"
-ESQUEMA_VERSION = 3
+ESQUEMA_VERSION = 4
 
 ESQUEMA = """
 CREATE TABLE IF NOT EXISTS documentos (
@@ -54,7 +54,6 @@ CREATE TABLE IF NOT EXISTS volcados (    -- el intento de volcado: la cédula de
   esfuerzo       TEXT,
   prompt_id      TEXT NOT NULL,          -- la plantilla que corrió ('volcado')
   prompt_version INTEGER NOT NULL,
-  hash_prompt    TEXT NOT NULL,
   reloj_radicado TEXT,                   -- los relojes, tal como entraron al prompt
   reloj_sistema  TEXT,
   sello_fuente   TEXT,                   -- sha256 de la fuente: identificada, no conservada
@@ -70,11 +69,10 @@ CREATE TABLE IF NOT EXISTS volcados (    -- el intento de volcado: la cédula de
   CHECK (estado = 'exitoso' OR motivo IS NOT NULL)
 );
 
-CREATE TABLE IF NOT EXISTS prompts (     -- las plantillas del volcado, con su versión
+CREATE TABLE IF NOT EXISTS prompts (     -- la plantilla del volcado, con su versión
   id       TEXT NOT NULL,                -- 'volcado'
   version  INTEGER NOT NULL,
-  texto    TEXT NOT NULL,
-  sello    TEXT NOT NULL,                -- sha256 del texto: guardián
+  texto    TEXT NOT NULL,                -- el texto de la plantilla: es su identidad
   fecha    TEXT NOT NULL DEFAULT (datetime('now','localtime')),
   PRIMARY KEY (id, version)
 );
@@ -85,7 +83,7 @@ CREATE TABLE IF NOT EXISTS contador (    -- el token de esta base
 );
 """
 
-CAMPOS_VOLCADO = ("modelo", "esfuerzo", "prompt_id", "prompt_version", "hash_prompt",
+CAMPOS_VOLCADO = ("modelo", "esfuerzo", "prompt_id", "prompt_version",
                   "reloj_radicado", "reloj_sistema", "sello_fuente", "tokens_entrada",
                   "tokens_salida", "tokens_pensando", "cache_hit", "segundos")
 
