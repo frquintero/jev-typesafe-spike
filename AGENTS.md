@@ -176,8 +176,10 @@ en `unidades/PLAN.md`).
   (api.anthropic.com) y `GEMINI_API_KEY` (Google AI Studio), más `OPENCODE_API_KEY` (OpenCode Go).
   **Cada una vive en su archivo, en modo 600**: `~/.config/<proveedor>/api_key.env` (`typesafe`,
   `deepseek`, `xai`, `voyage`, `inception`, `therouter`, `anthropic`, `zai`, `gemini`, `exa`,
-  `opencode-console`, `meta_model`, y `~/.config/mistral.env`); el `~/.bashrc` solo los sourcea.
-  Los shells no interactivos no las cargan solos: correr con `bash -ic '…'`.
+  `opencode-console`, `meta` y `meta_model`, más `~/.config/mistral.env`); el `~/.bashrc` los sourcea
+  —`meta` queda sin cargar a propósito, por la regla de Muse—, **y el procedimiento para agregar o
+  cambiar una clave está comentado ahí mismo**, al inicio de la zona que las carga. Los shells no
+  interactivos no las cargan solos: correr con `bash -ic '…'`.
 - **El respaldo del entorno** —el `~/.bashrc` y esos archivos, más el tema de ntfy y la clave SSH—
   vive **cifrado** en el repo **privado** `frquintero/entorno` (copia local en
   `~/Documentos/Claude/entorno`): se guarda con `./guardar.sh` y se restaura con `./restaurar.sh`.
