@@ -1,0 +1,225 @@
+{
+  "request": {
+    "model": "jev-1.13.0",
+    "state": {
+      "pregunta": "¿Qué tienen en común la fotosíntesis de las plantas y el funcionamiento de un panel fotovoltaico, y en qué se diferencian sus resultados?",
+      "casos": [
+        {
+          "id": "C000002:U1",
+          "caso": "Alcance del informe y procedencia de las cifras"
+        },
+        {
+          "id": "C000002:U2",
+          "caso": "Alcance de los aviones de largo recorrido y ruta Sídney-Londres"
+        },
+        {
+          "id": "C000002:U3",
+          "caso": "Materiales compuestos de los aviones de largo alcance"
+        },
+        {
+          "id": "C000002:U4",
+          "caso": "Relación de derivación de los motores turbofán"
+        },
+        {
+          "id": "C000002:U5",
+          "caso": "Reducción del consumo de combustible por plaza"
+        },
+        {
+          "id": "C000002:U6",
+          "caso": "Temperatura y densidad del aire en crucero"
+        },
+        {
+          "id": "C000002:U7",
+          "caso": "Reducción de emisiones con combustible sostenible de aviación"
+        },
+        {
+          "id": "C000002:U8",
+          "caso": "Densidad y contenido energético del queroseno y el hidrógeno líquido"
+        },
+        {
+          "id": "C000002:U9",
+          "caso": "Movilidad y velocidad de los eVTOL y el avión supersónico Overture"
+        },
+        {
+          "id": "C000002:U10",
+          "caso": "Unidades de altitud y velocidad y conversión a nudos"
+        },
+        {
+          "id": "C000002:U11",
+          "caso": "Condiciones de referencia para las densidades"
+        },
+        {
+          "id": "C000001:U1",
+          "caso": "El Sol como fuente de energía y sus características"
+        },
+        {
+          "id": "C000001:U2",
+          "caso": "Producción de energía y temperatura del Sol"
+        },
+        {
+          "id": "C000001:U3",
+          "caso": "La energía solar en las cadenas alimentarias"
+        },
+        {
+          "id": "C000001:U4",
+          "caso": "El calor solar y el ciclo del agua"
+        },
+        {
+          "id": "C000001:U5",
+          "caso": "El calentamiento desigual de la Tierra y el clima"
+        },
+        {
+          "id": "C000001:U6",
+          "caso": "Tecnologías solares para producir electricidad y calor"
+        }
+      ]
+    },
+    "questions": {
+      "noul_1": {
+        "type": "noul",
+        "instructions": "`casos[0]` está relacionado con `pregunta`"
+      },
+      "noul_2": {
+        "type": "noul",
+        "instructions": "`casos[1]` está relacionado con `pregunta`"
+      },
+      "noul_3": {
+        "type": "noul",
+        "instructions": "`casos[2]` está relacionado con `pregunta`"
+      },
+      "noul_4": {
+        "type": "noul",
+        "instructions": "`casos[3]` está relacionado con `pregunta`"
+      },
+      "noul_5": {
+        "type": "noul",
+        "instructions": "`casos[4]` está relacionado con `pregunta`"
+      },
+      "noul_6": {
+        "type": "noul",
+        "instructions": "`casos[5]` está relacionado con `pregunta`"
+      },
+      "noul_7": {
+        "type": "noul",
+        "instructions": "`casos[6]` está relacionado con `pregunta`"
+      },
+      "noul_8": {
+        "type": "noul",
+        "instructions": "`casos[7]` está relacionado con `pregunta`"
+      },
+      "noul_9": {
+        "type": "noul",
+        "instructions": "`casos[8]` está relacionado con `pregunta`"
+      },
+      "noul_10": {
+        "type": "noul",
+        "instructions": "`casos[9]` está relacionado con `pregunta`"
+      },
+      "noul_11": {
+        "type": "noul",
+        "instructions": "`casos[10]` está relacionado con `pregunta`"
+      },
+      "noul_12": {
+        "type": "noul",
+        "instructions": "`casos[11]` está relacionado con `pregunta`"
+      },
+      "noul_13": {
+        "type": "noul",
+        "instructions": "`casos[12]` está relacionado con `pregunta`"
+      },
+      "noul_14": {
+        "type": "noul",
+        "instructions": "`casos[13]` está relacionado con `pregunta`"
+      },
+      "noul_15": {
+        "type": "noul",
+        "instructions": "`casos[14]` está relacionado con `pregunta`"
+      },
+      "noul_16": {
+        "type": "noul",
+        "instructions": "`casos[15]` está relacionado con `pregunta`"
+      },
+      "noul_17": {
+        "type": "noul",
+        "instructions": "`casos[16]` está relacionado con `pregunta`"
+      }
+    }
+  },
+  "response": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "noul_1": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "noul_2": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "noul_3": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "noul_4": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "noul_5": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "noul_6": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "noul_7": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "noul_8": {
+        "type": "noul",
+        "noul": 0.05
+      },
+      "noul_9": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "noul_10": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "noul_11": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "noul_12": {
+        "type": "noul",
+        "noul": 0.51
+      },
+      "noul_13": {
+        "type": "noul",
+        "noul": 0.62
+      },
+      "noul_14": {
+        "type": "noul",
+        "noul": 0.52
+      },
+      "noul_15": {
+        "type": "noul",
+        "noul": 0.48
+      },
+      "noul_16": {
+        "type": "noul",
+        "noul": 0.55
+      },
+      "noul_17": {
+        "type": "noul",
+        "noul": 0.58
+      }
+    },
+    "usage": {
+      "input_tokens": 1342,
+      "output_tokens": 335
+    }
+  }
+}
