@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Pide la clave de API de xAI (Grok) y la deja como variable global en ~/.bashrc
-# (export XAI_API_KEY=...), igual que TYPESAFE_API_KEY, ZAI_API_KEY y DEEPSEEK_API_KEY.
+# Pide la clave de API de xAI (Grok) y la deja en ~/.config/xai/api_key.env (modo 600), que es
+# donde el ~/.bashrc la busca —igual que las demás claves (ZAI, Anthropic, Gemini…)—.
 # La clave no se muestra al escribirla ni queda en el historial.
 #
 # Uso:  bash utiliarios/configurar_clave_xai.sh
-# Después: source ~/.bashrc  y reiniciar el proxy local (lee las claves al arrancar).
+# Después: source ~/.bashrc
 
 set -euo pipefail
 
@@ -15,14 +15,22 @@ if [ -z "$clave" ]; then
   exit 1
 fi
 
-bashrc="$HOME/.bashrc"
-touch "$bashrc"
-tmp="$(mktemp)"
-grep -v '^export XAI_API_KEY=' "$bashrc" > "$tmp" || true
-printf "export XAI_API_KEY='%s'\n" "$clave" >> "$tmp"
-cat "$tmp" > "$bashrc"
-rm -f "$tmp"
-unset clave
+destino="$HOME/.config/xai/api_key.env"
+mkdir -p "$(dirname "$destino")"
+umask 077
+printf "export XAI_API_KEY='%s'\n" "$clave" > "$destino"
+chmod 600 "$destino"
 
-echo "Listo: XAI_API_KEY quedó en $bashrc."
-echo "Ahora: source ~/.bashrc  y reinicia el proxy local."
+# Si quedó la línea vieja dentro del ~/.bashrc (de antes del 13-10-2026), se retira: la clave
+# vive en un solo lugar.
+if grep -q '^export XAI_API_KEY=' "$HOME/.bashrc" 2>/dev/null; then
+  tmp="$(mktemp)"
+  grep -v '^export XAI_API_KEY=' "$HOME/.bashrc" > "$tmp" || true
+  cat "$tmp" > "$HOME/.bashrc"
+  rm -f "$tmp"
+  echo "Se retiró la línea vieja de ~/.bashrc."
+fi
+
+unset clave
+echo "Listo: XAI_API_KEY quedó en $destino (600)."
+echo "Ahora: source ~/.bashrc"

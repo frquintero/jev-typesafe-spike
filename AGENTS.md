@@ -172,14 +172,21 @@ en `unidades/PLAN.md`).
   `niveles/`—. Las dos leen la clave del entorno según el host: `Authorization: Bearer` en los
   compatibles con OpenAI, `x-api-key` en Anthropic. **Ningún otro código lee claves.**
 - Claves: `TYPESAFE_API_KEY` (api.typesafe.ai), `ZAI_API_KEY` (api.z.ai),
-  `DEEPSEEK_API_KEY` (api.deepseek.com), `XAI_API_KEY` (api.x.ai) y `ANTHROPIC_API_KEY`
-  (api.anthropic.com). Viven en
-  `~/.bashrc` (ZAI en `~/.config/zai/api_key.env`); los shells no
-  interactivos no las cargan solos: correr con `bash -ic '…'`.
+  `DEEPSEEK_API_KEY` (api.deepseek.com), `XAI_API_KEY` (api.x.ai), `ANTHROPIC_API_KEY`
+  (api.anthropic.com) y `GEMINI_API_KEY` (Google AI Studio), más `OPENCODE_API_KEY` (OpenCode Go).
+  **Cada una vive en su archivo, en modo 600**: `~/.config/<proveedor>/api_key.env` (`typesafe`,
+  `deepseek`, `xai`, `voyage`, `inception`, `therouter`, `anthropic`, `zai`, `gemini`, `exa`,
+  `opencode-console`, `meta_model`, y `~/.config/mistral.env`); el `~/.bashrc` solo los sourcea.
+  Los shells no interactivos no las cargan solos: correr con `bash -ic '…'`.
+- **El respaldo del entorno** —el `~/.bashrc` y esos archivos, más el tema de ntfy y la clave SSH—
+  vive **cifrado** en el repo **privado** `frquintero/entorno` (copia local en
+  `~/Documentos/Claude/entorno`): se guarda con `./guardar.sh` y se restaura con `./restaurar.sh`.
+  **No va nunca al repo público del spike.**
 - **Una clave nunca se imprime, ni se escribe en crudos, reportes, logs o
   mensajes.** Los crudos guardan el cuerpo de la petición, no las cabeceras.
 - Verificar presencia sin imprimir valores:
-  `bash -ic 'for v in TYPESAFE_API_KEY ZAI_API_KEY DEEPSEEK_API_KEY XAI_API_KEY ANTHROPIC_API_KEY; do
+  `bash -ic 'for v in TYPESAFE_API_KEY ZAI_API_KEY DEEPSEEK_API_KEY XAI_API_KEY ANTHROPIC_API_KEY
+  OPENCODE_API_KEY GEMINI_API_KEY; do
   [ -n "${!v}" ] && echo "$v: SET" || echo "$v: MISSING"; done'`
 - **Muse usa la suscripción Muse Code Everyday, nunca pago por uso:** no
   cargar ni pasarle `META_API_KEY`. Cómo se arranca y se delega:
