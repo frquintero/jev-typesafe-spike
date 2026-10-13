@@ -183,7 +183,9 @@ en `unidades/PLAN.md`).
 - **El respaldo del entorno** —el `~/.bashrc` y esos archivos, más el tema de ntfy y la clave SSH—
   vive **cifrado** en el repo **privado** `frquintero/entorno` (copia local en
   `~/Documentos/Claude/entorno`): se guarda con `./guardar.sh` y se restaura con `./restaurar.sh`.
-  **No va nunca al repo público del spike.**
+  **No va nunca al repo público del spike.** Y **cada vez que cambie una clave o el `~/.bashrc` se
+  vuelve a correr `./guardar.sh`** —el paquete es una foto: si no se corre, queda viejo—; la misma
+  regla está comentada en el `~/.bashrc`, al inicio de la zona de claves.
 - **Una clave nunca se imprime, ni se escribe en crudos, reportes, logs o
   mensajes.** Los crudos guardan el cuerpo de la petición, no las cabeceras.
 - Verificar presencia sin imprimir valores:
