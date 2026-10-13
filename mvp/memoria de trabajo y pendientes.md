@@ -215,13 +215,13 @@ hecho** (12-10): el token por acto, la conservación de los productos, las plant
 guardia del esquema (`mvp/diseño-mvp.md` §3). **Las dos UT y los dos DATOS están hechos** (12-10, con `luna`/`low`, el default de la base):
 `sol` → UT `C000001` (6 unidades, 16 oraciones) y DATOS `C000003` (23 datos); `aviacion` → UT
 `C000002` (11 unidades, 17 oraciones) y DATOS `C000004` (36 datos). Los cuatro actos con el contrato
-y la forma limpios, y las plantillas `UT` y `DATOS` v1 registradas solas. La base está en la **versión 4**, y la consulta **ya corrió en la base viva** (12-10): cuatro actos ORQ,
+y la forma limpios, y las plantillas `UT` y `DATOS` v1 registradas solas. La base está en la **versión 5**, y la consulta **ya corrió en la base viva** (12-10): cuatro actos ORQ,
 `C000005`…`C000008`, todos `exitoso` y todos con su pregunta radicada al cerrar —tres **réplicas de
 la batería 1** (`q1` y `q3` con `luna low`, `q4` con `deepseek-flash low`) y **una tecleada** que no
 está en la batería (`q2`)—; las preguntas 2 a 5 de la batería **no** corrieron sobre la base viva.
 Sigue: **evaluar** esas cuatro con la vara de §8 del diseño —no pide llamadas nuevas—, o el volcado de
 `preparacion_cafe` por las etapas (punto 0). El **modelo y el esfuerzo de cada acto se leen del corpus** (`ajustes`, cuatro filas; el almacén va
-por la **versión 3** y esa tabla no está: la política tiene un solo lugar), hoy `luna` / `low` por
+por la **versión 4** y esa tabla no está: la política tiene un solo lugar), hoy `luna` / `low` por
 decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
 0. **`preparacion_cafe`, por las etapas,** en actos sueltos y a mano, **después del volcado**: no está
    en la base viva —el reseteo se llevó lo radicado y la UT de Haiku `high`—, así que primero se radica

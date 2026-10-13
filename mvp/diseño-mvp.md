@@ -23,7 +23,7 @@ convierten en **unidades** y **datos** en el corpus; el ORQ recibe una **pregunt
 python3 mvp/código/volcar.py <fuente> [--id NOMBRE] [--coleccion E] [--modelo M] [--esfuerzo E]
 python3 mvp/código/paso1_unidades.py <doc> [--modelo M] [--esfuerzo E] [--prompt UT] [--rehacer]
 python3 mvp/código/paso2_datos.py <doc> [--modelo M] [--esfuerzo E] [--rehacer]
-python3 mvp/código/orq/orquestador.py (--texto "…" | <archivo> [--numero N]) --dominio E
+python3 mvp/código/orq/orquestador.py (--texto "…" | <archivo> [--numero N]) --dominio E [--modelo M] [--esfuerzo E]
 ```
 
 **El token es del acto, no de la etapa.** La etapa II tiene dos actos y cada uno inyecta su propio
@@ -31,7 +31,8 @@ reloj: con un token por etapa, «¿qué hora se inyectó?» devolvería dos. Cad
 al cerrar (`paso1 doc11 · corrida C000123`).
 
 **Cada base numera sus tokens** (`A` el almacén, `C` el corpus): el prefijo no hace falta para que no
-colisionen —no hay espejo—, sino para poder **citar un token sin ambigüedad**.
+colisionen —no hay espejo de las **corridas** del volcado—, sino para poder **citar un token sin
+ambigüedad**.
 
 **Un acto, una fila.** Cada ejecución deja su corrida y su token: no se pisa ni se borra, y los
 productos apuntan al acto que los produjo. **Cada etapa es un acto manual y separado, y nada se
@@ -84,8 +85,8 @@ la identifica (`id` y versión), y una versión inscrita no se toca.
   el modelo dijo de más: su razonamiento.
 - **Los reintentos**: cada intento es su fila. La extracción **vigente no se guarda, se deriva** —la
   última corrida exitosa; en DATOS, la última sobre esa UT—.
-- **La vigencia**: ni puntero, ni columna, ni índice parcial. La consulta la resuelve **una vez** y la
-  registra, como el acto congela la hora.
+- **La vigencia**: ni puntero, ni columna, ni índice parcial. Se **deriva** —la última corrida exitosa;
+  en DATOS, la última sobre esa UT—, y el acto la resuelve una vez al abrir y la usa para leer (§9).
 
 **Por qué SQLite.** La forma se elige por **forma de acceso**, y acá lo que manda es leer un caso
 entero y filtrar por dominio y por caso: eso pide claves, foráneas y consultas, no un molde único.
@@ -138,10 +139,11 @@ la implementa es `mvp/código/mensajes.py` (`partir`).
 2. **Qué va en cada uno.** El `system` lleva la tarea, las reglas, el formato de salida **y los
    ejemplos** —todo lo que no cambia de una llamada a otra—. El `user` lleva **el material de esta
    llamada** —el documento, las unidades, los casos, la pregunta— **y el pedido, al final**.
-3. **Por qué así.** El `system` es el **prefijo invariante**, y es lo que aprovecha el caché: con Luna
-   el prefijo entró entero y con MiMo también, sin mandar nada por un campo aparte (las cifras, en la
-   memoria). Poner en el `system` algo que cambia por llamada se paga en cada corrida. En la familia
-   `responses` viaja como `instructions`, y en las otras dos como el primer mensaje del sistema.
+3. **Por qué así.** El `system` es el **prefijo invariante**, y es lo que se puede cachear (el reparto
+   medido está en la memoria). Poner en el `system` algo que cambia por llamada se paga en cada
+   corrida. En la familia `responses` viaja como `instructions`, y en las otras dos como el primer
+   mensaje del sistema. **En las corridas de la base el `hit` aparece solo con DeepSeek; con Luna es 0
+   en todas** (§9).
 4. **Los relojes, en todo prompt, y cada uno en su lugar.** Dos, con el mismo formato
    —`[día-mes-año: hora]`—, armados por `mvp/código/relojes.py`:
    - **el del radicado** (`{{RELOJ_RADICADO}}`): cuándo entró el documento a Zettel
@@ -239,7 +241,7 @@ huecos son `{{RELOJ_RADICADO}}`,
 **Cómo se procesa.** Un comando, desde la raíz del repo:
 
 ```bash
-python3 mvp/código/paso1_unidades.py <doc>        # por ejemplo: paso1_unidades.py doc8
+python3 mvp/código/paso1_unidades.py <doc>        # por ejemplo: paso1_unidades.py sol
 ```
 
 1. **Toma el texto** del documento radicado, entero, sin numerar y sin marcar.
@@ -271,7 +273,7 @@ SELECT u.id, u.subtema, o.n, o.desde, o.hasta, o.texto, c.modelo, c.tokens_salid
 FROM unidades u
 JOIN unidad_oraciones o ON o.unidad_id = u.id
 JOIN corridas c ON c.id = u.corrida_id
-WHERE u.documento_id = 'doc8'
+WHERE u.documento_id = 'sol'
 ORDER BY u.n, o.n;
 ```
 
@@ -304,10 +306,11 @@ plantilla `prompt_DATOS` vigente, con los huecos `{{RELOJ_RADICADO}}`, `{{UNIDAD
 **Cómo se procesa:**
 
 ```bash
-python3 mvp/código/paso2_datos.py <doc>           # por ejemplo: paso2_datos.py doc8
+python3 mvp/código/paso2_datos.py <doc>           # por ejemplo: paso2_datos.py sol
 ```
 
-1. **Arma la lista** de las unidades que faltan: `caso` = el `subtema`, `contenido` = sus oraciones.
+1. **Arma la lista** de **todas** las unidades del documento —la corrida es todo o nada—: `caso` = el
+   `subtema`, `contenido` = sus oraciones.
 2. **Sustituye** `{{UNIDADES}}` en el prompt.
 3. **Llama al modelo** por `proveedores.llamar`: **una sola llamada** con todas las unidades.
 4. **Lee la respuesta** con `extract_json`.
@@ -441,9 +444,10 @@ el `user`, después del material, y queda en la traza.
 no van ahí: la pregunta se carga, el dominio lo lleva el comando, y el modelo y el esfuerzo salen de
 la fila `ORQ` de `ajustes`—. Lo que el ORQ produce no se configura: va a la base.
 
-**La petición.** El `system` lleva lo que se conserva entre turnos; el `user`, los casos del dominio,
-la tarea y el formato. La **pregunta va dentro de la tarea 1**, en el `user`. En cada turno siguiente
-el historial crece con el `assistant` y los mensajes `tool`:
+**La petición.** El `system` lleva lo que no cambia entre turnos: los radicados, la lógica del agente y
+la forma de la respuesta. El `user`, el material de la consulta: los casos del dominio, la pregunta y
+el «ahora», al final. En cada turno siguiente el historial crece con el `assistant` y los mensajes
+`tool`:
 
 ```
 turno 1: ['system', 'user']
@@ -502,8 +506,10 @@ respuestas plausibles**:
      "additionalProperties": false}}}
 ```
 
-El ORQ la registra y **el ciclo termina ahí**: no la responde (D26). No ejecuta nada ni toca la base
-—la respuesta del usuario sería K de la consulta, no un dato del corpus—.
+**El ciclo termina ahí** (D26): no la responde y no ejecuta nada —la respuesta del usuario sería K de
+la consulta, no un dato del corpus—. **La pregunta no queda registrada**: sin entrega no hay fila en
+`consultas` ni en `consulta_llamadas`, y del pedido del agente queda solo el `motivo` de la cédula
+(§9).
 
 **No hay herramienta de entrega**: la respuesta es el **mensaje final** del agente, y el ORQ la lee de
 ahí (§7.7).
@@ -525,17 +531,28 @@ Vive en la base —la plantilla `ORQ`, con su versión—, **un solo texto** con
 pregunta). `armar_prompt.py` lo parte y devuelve los dos mensajes. Los huecos son `{{RELOJ_RADICADO}}`, `{{CASOS}}`, `{{PREGUNTA}}`
 y `{{RELOJ_SISTEMA}}`, rellenados con `str.replace`.
 
-**Prompt 3 y prompt 4.** El prompt del agente es el que Frat llama **prompt 3** —hoy la plantilla `ORQ`—,
-y de él sale el lector de la entrega (§7.7). Lo que sigue es **prompt 4**, la sonda de
-`preguntar_al_usuario`: sobre prompt 3 cambian la pregunta —sale de la tarea 1 y va en su línea—, el
-nombre del bloque (`TAREAS` → `LÓGICA DEL AGENTE ENCARGADO`), la tarea 4 (la tríada: una respuesta →
-responder · dos o más → herramienta · ninguna → número 2) y el valor `no_esta_en_el_corpus` →
-`no_esta_en_los_datos`.
+**Prompt 3 y prompt 4.** El prompt del agente es el que Frat llama **prompt 3**: la plantilla `ORQ` v1,
+la única inscrita, que es la que corre y la que se cita abajo. **Prompt 4** —la sonda de
+`preguntar_al_usuario`— **no está inscrito**: no es lo que corre, y su reparto era otro (la lógica al
+final del `[TAREA]`, después del «ahora»).
 
 ```
 [SISTEMA]
 RELOJES (la fecha de radicación de los documentos del dominio; no es dato del documento)
 {{RELOJ_RADICADO}}
+
+LÓGICA DEL AGENTE ENCARGADO:
+1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.
+2. Si no hay casos que cumplan la condición anterior, pasa al punto 5.
+3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.
+4. Analiza los datos: si hay una respuesta plausible, armá la respuesta; si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 5.
+5. Diligencia el JSON en RESPUESTA_JSON.
+
+Responde solo con el JSON.
+
+RESPUESTA_JSON:
+{"desenlace": "respondida", "respuesta": "…"}
+{"desenlace": "no_esta_en_los_datos", "respuesta": ""}
 
 [TAREA]
 CASOS:
@@ -545,17 +562,6 @@ Pregunta: {{PREGUNTA}}
 
 RELOJES (el «ahora» de esta consulta; no es dato de ningún documento)
 {{RELOJ_SISTEMA}}
-
-LÓGICA DEL AGENTE ENCARGADO:
-1. Escoge los id de los casos que con probabilidad mayor al 80% contengan la respuesta a la pregunta.
-2. Si no hay casos que cumplan la condición anterior, pasa al punto 5.
-3. Utiliza la HERRAMIENTA obtener_datos_del_caso para obtener los datos de los casos seleccionados. Podés pedir varios casos en un mismo turno.
-4. Analiza los datos: si hay una respuesta plausible, armá la respuesta; si hay dos o más respuestas plausibles, usá la HERRAMIENTA preguntar_al_usuario; si no hay ninguna, pasa al punto 5.
-5. Diligencia el JSON en RESPUESTA_JSON.
-
-RESPUESTA_JSON:
-{"desenlace": "respondida", "respuesta": "…"}
-{"desenlace": "no_esta_en_los_datos", "respuesta": ""}
 ```
 
 **Lo que el prompt no lleva, a propósito:** no hay bloques `ROL`, `REGLAS` ni `ALCANCE`; no lleva R (la
@@ -576,17 +582,18 @@ El agente entrega un JSON con dos estados:
 {"desenlace": "no_esta_en_los_datos", "respuesta": ""}
 ```
 
-El segundo valor se llama `no_esta_en_los_datos` desde prompt 4; **el lector acepta también el viejo**
-(`no_esta_en_el_corpus`), que es el que traían los crudos de la primera ronda (`orq/leer_entrega.py`,
-`ESTADOS`).
+El valor es `no_esta_en_los_datos` (así lo trae la plantilla `ORQ` vigente); **el lector acepta también
+el viejo** (`no_esta_en_el_corpus`), que es el que traían los crudos de la primera ronda
+(`orq/leer_entrega.py`, `ESTADOS`).
 
 **El JSON no tiene campo propio**: como no hay herramienta de entrega, vive **dentro** del mensaje
-final, junto a lo que el agente escriba alrededor. Prompt 3 lo pide así, de modo que el JSON llega de
-cuatro formas: solo, dentro de una cerca de código, detrás de la etiqueta `RESPUESTA_JSON:` o al
-final, después de la prosa. **El ORQ lo ubica** (`orq/leer_entrega.py`: recorre los tramos `{…}`
-balanceados y se queda con el que sigue a la etiqueta, o con el último que traiga un `desenlace` de
-los dos estados). No es juzgar: es leer. La forma de lectura está declarada en `config.json`
-(`entrega.forma`) y el ORQ se detiene si no la conoce.
+final. En la superficie puede venir solo, dentro de una cerca de código, detrás de la etiqueta
+`RESPUESTA_JSON:` o al final, después de la prosa; el lector no distingue esas cuatro formas, sino
+**dos**: `todo_el_mensaje` —el mensaje es el JSON— y `dentro_del_mensaje` —está adentro, con lo que
+venga alrededor—. Recorre los tramos `{…}` balanceados y se queda con el que sigue a la etiqueta, o
+con el último que traiga un `desenlace` de los dos estados. No es juzgar: es leer. La forma de lectura
+está declarada en `config.json` (`entrega.forma`, hoy `json_en_mensaje_final`) y el ORQ se detiene si
+no la conoce.
 
 Si el mensaje no trae ningún JSON, la salida escribe el mensaje tal cual y dice que no hubo JSON; si
 la corrida la cortó una guardia, dice cuál —no que «el agente no contestó»—. **Sin JSON no hay
@@ -614,17 +621,18 @@ Las guardias **no son R**: R dice qué se puede usar; esto solo corta si el bucl
   corte queda en el `motivo` de la fila de la corrida —**no hay columna `corte`**— y un corte se
   registra como **fallido**. **No hay corte por ciclo** (misma acción con los mismos argumentos dos
   veces); el agente repite lecturas y eso gasta turnos (§9).
-- **El consumo** (`prompt_tokens = hit + miss`): el **prefijo fijo se cachea** —el `hit` aparece desde
-  el segundo turno— y lo que se paga es lo nuevo: cada resultado de herramienta y cada mensaje del
-  asistente. El precio se calcula con la tarifa publicada el día de la corrida y se registra; no se
-  estima a ojo. Los totales de cada corrida están en `corridas`.
-- **El prompt no se muestra antes de correr:** se guarda con la corrida y se muestra cuando se pide.
+- **El consumo** (`prompt_tokens = hit + miss`): el precio se calcula con la tarifa publicada el día de
+  la corrida y se registra; no se estima a ojo. Los totales de cada corrida están en `corridas`. **El
+  caché no se puede dar por hecho**: en las corridas de la base el `hit` aparece con DeepSeek y con
+  Luna es 0 en todas (§9).
+- **La plantilla no se resuelve ni se guarda**: la corrida apunta a su `prompt_id` y su
+  `prompt_version`, y el prompt se re-arma cuando se pide.
 
 ### 7.9. Salidas
 
 Todo lo que produce la consulta queda **en la base**, y nada en archivos:
 
-- **`consultas`**: una fila por acto **con entrega** (`<doc>:q<n>`) —el dominio, los documentos
+- **`consultas`**: una fila por acto **con entrega** (`q<n>`: el número de la pregunta radicada) —el dominio, los documentos
   ofrecidos, la pregunta y su texto, el desenlace y la respuesta, tal como vino—. **No se reescribe.**
 - **`consulta_casos`**: los casos que el agente leyó: es lo que permite la **traza**, de la respuesta a
   la unidad y al dato.
@@ -637,10 +645,11 @@ Todo lo que produce la consulta queda **en la base**, y nada en archivos:
   segundos, los turnos, las llamadas, y el `estado` con su motivo—.
 
 **Cómo se lee una respuesta.** Con una consulta, no con un archivo: el ORQ no escribe `salida.md`, ni
-`traza.jsonl`, ni crudos. Quien quiera ver una respuesta la lee de la base —uniendo `consultas` con
-las **ocho** tablas—: `consultas`, `consulta_casos` y `consulta_llamadas` dan la respuesta, los casos
-leídos y la operación; `unidades`, `unidad_oraciones` y `datos` el corpus; `documentos` el texto
-radicado; y `corridas` la cédula de cada llamada.
+`traza.jsonl`, ni crudos. Quien quiera ver una respuesta la lee de la base —las ocho tablas del corpus
+y el almacén—: `consultas`, `consulta_casos` y `consulta_llamadas` dan la respuesta, los casos leídos
+y la operación; `unidades`, `unidad_oraciones` y `datos` el corpus; `corridas` la cédula de cada
+llamada; y **el texto radicado, del almacén** (`almacen.documentos`; el corpus solo guarda el espejo,
+con el sello).
 
 ## 8. Cómo se evalúa
 
@@ -687,17 +696,29 @@ lo que el documento establece, y si lo que no se puede establecer se dice con pr
   se muestra **como lo que es: una etiqueta del código**, no una corrección del documento.
 - **El alcance por documento**: `resolver_dominio` solo sabe de etiquetas (`WHERE dominio = ?`); la
   entrada de la pregunta como JSON con `pregunta` y `dominio` es la forma prevista.
+- **La extracción que leyó una consulta no se registra.** `listar_casos` fija el `datos_token` de cada
+  documento al abrir y de ahí lee `obtener_datos_del_caso`, pero `consulta_casos` guarda solo
+  `unidad_id`: «qué datos leyó esa consulta» se **deriva** —la última tanda exitosa sobre esa UT con
+  token anterior al de la consulta— y no hay columna que lo diga. Decidir si se guarda.
+- **El pedido de `preguntar_al_usuario` no se registra.** Sin entrega no hay `consultas` ni
+  `consulta_llamadas`: la pregunta y las opciones que formuló el agente quedan solo en el `motivo`.
+- **El caché con Luna**: `cache_hit` es 0 en todas sus corridas, y con DeepSeek hubo hit. Sin explicar.
+- **El `usage` de la familia `responses`**: una corrida de un turno y cero lecturas (`q2`, `C000006`)
+  registró 100 tokens de entrada donde las otras rondan 980 por turno. O el agregador declara solo lo
+  nuevo —y entonces `cache_hit` no es de fiar—, o el prompt salió casi vacío: sin crudos, los totales
+  no lo distinguen.
 - **El reloj del radicado y los tres tiempos.** Los prompts rotulan el radicado «no es dato del
   documento», y §4 le hace además resolver un deíctico **del texto** («ayer»); pero la fecha propia del
   documento —si la declara— es un **dato**, y el `fecha_modificacion` de la fuente es **procedencia**,
   que hoy ningún prompt usa. Las tres cosas están mezcladas: decidir cuál resuelve qué, y escribirlo.
 - **La evaluación, pendiente**: las corridas de la base viva están sin juzgar con la vara de §8; y una
-  entregó **sin leer ningún caso** y quedó `respondida`.
+  entregó **sin leer ningún caso** y quedó `respondida` —la respuesta coincide con una oración de `sol`,
+  pero el prompt no lleva el texto: no salió del corpus—.
 
 ## 10. Lo que no se construye
 
-- Nada de **espejo del volcado** en el corpus, ni prefijos para evitar colisiones: cada base numera lo
-  suyo y la vista unificada se hace cuando haga falta.
+- Nada de **espejo de las corridas del volcado** en el corpus, ni prefijos para evitar colisiones: cada
+  base numera lo suyo y la vista unificada se hace cuando haga falta.
 - Nada de **vigencia almacenada** (puntero o columna) ni índice parcial: se deriva.
 - Nada de **sello del material**, **efecto** ni **versión del código** guardados: el material se
   reconstruye, «qué cambió» es un `COUNT` por token, y el instrumento que se compara es la plantilla
@@ -719,7 +740,7 @@ lo que el documento establece, y si lo que no se puede establecer se dice con pr
 
 ## Apéndice A · Esquema de las dos bases
 
-**El corpus** (`mvp/código/corpus.db`, versión 4): ocho tablas del corpus y cuatro del expediente.
+**El corpus** (`mvp/código/corpus.db`, versión 5): ocho tablas del corpus y cuatro del expediente.
 
 ```sql
 CREATE TABLE documentos (
@@ -815,14 +836,15 @@ CREATE TABLE datos (                     -- la salida de DATOS
   unidad_valor TEXT,
   corrida_id   TEXT NOT NULL REFERENCES corridas(id)
 );
+CREATE INDEX idx_datos_unidad ON datos(unidad_id);
 
 CREATE TABLE consultas (
-  id             TEXT PRIMARY KEY,       -- <doc>:q<n>
+  id             TEXT PRIMARY KEY,       -- q<n>
   corrida_id     TEXT NOT NULL REFERENCES corridas(id),
   dominio        TEXT NOT NULL,
   documentos     TEXT NOT NULL,          -- los documentos del dominio que se ofrecieron
   pregunta_texto TEXT NOT NULL,
-  desenlace      TEXT,                   -- respondida · no está en los datos · preguntó al usuario
+  desenlace      TEXT,                   -- respondida · no_esta_en_los_datos (los dos de la plantilla ORQ)
   respuesta      TEXT,                   -- la respuesta, tal como vino
   fecha          TEXT NOT NULL DEFAULT (datetime('now','localtime'))
 );
@@ -845,7 +867,7 @@ CREATE TABLE consulta_llamadas (         -- la operación: qué herramienta pidi
 );
 ```
 
-**El almacén** (`mvp/código/almacen.db`, versión 3):
+**El almacén** (`mvp/código/almacen.db`, versión 4):
 
 ```sql
 CREATE TABLE documentos (
@@ -905,7 +927,7 @@ lugar donde la cédula del acto no cuelga de lo que produjo.
 |---|---|
 | `<token_UT>:U<n>` | la unidad: la corrida de UT que la produjo, y su posición en el arreglo |
 | `<token_DATOS>:U<n>:D<j>` | el dato: su corrida, su unidad y su posición en la lista |
-| `<doc>:q<n>` | la consulta: el documento y el número de la pregunta radicada |
+| `q<n>` | la consulta: el número de la pregunta radicada |
 
 ## Apéndice B · Las rondas y la prueba de aceptación
 
@@ -917,9 +939,10 @@ lugar donde la cédula del acto no cuelga de lo que produjo.
 | **R3 · la consulta** | registrar **la extracción que se leyó** y lo ofrecido; la radicación al cerrar | rehacer **solo DATOS** y comprobar que la consulta anterior sigue mostrando **exactamente** los datos que leyó |
 | **R4 · auditar** | las preguntas de abajo | — |
 
+**R3 y R4 siguen abiertas**: lo que falta está en §9.
+
 **La prueba de aceptación.** Sobre una corrida **vieja**, después de rehacer DATOS (con la UT intacta)
 y de repetir la consulta:
-
 1. «¿Con qué plantilla y versión corrió?» — y el material se reconstruye exacto.
 2. «¿Qué hora se inyectó en el prompt?»
 3. «¿Qué datos leyó esa consulta?» — y siguen siendo **los mismos**, aunque DATOS se haya rehecho
@@ -993,7 +1016,7 @@ El mapa de los alias de modelo y sus APIs está en `mvp/proveedores.md`.
 | **D23** | La declaración del esquema (partición, prompt y versión, modelo) va en la fila de `corridas` |
 | **D24** | El sostén en la respuesta: diferido hasta que el usuario pida ver la fuente (§9) |
 | **D25** | Tope y corte: el de herramientas se respeta y la causa se registra; **no hay corte por repetición** (§9) |
-| **D26** | Con `preguntar_al_usuario` el ciclo termina: no se reanuda y el acto no radica pregunta |
+| **D26** | Con `preguntar_al_usuario` el ciclo termina: no se reanuda, el acto no radica pregunta y la pregunta no se registra (queda el `motivo`) |
 | **D27** | El paso 2 va **en tanda**, una llamada por documento (§6.2; la medición, en la memoria) |
 | **D28** | La pregunta se radica **al cerrar con entrega**, en la misma transacción que la corrida y la respuesta (§7.2) |
 

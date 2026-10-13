@@ -103,7 +103,7 @@ lo que esté al lado y parezca obvio.
   dispara solo**: volcar
   (`volcar.py <fuente>`), UT (`paso1_unidades.py <doc>`), DATOS
   (`paso2_datos.py <doc>`) y consultar —el ORQ carga la pregunta (`orquestador.py --texto "…" |
-  <archivo> [--numero N] --dominio E`) y la radica al cerrar, con la entrega—. **El diseño —las dos
+  <archivo> [--numero N] --dominio E [--modelo M] [--esfuerzo E]`) y la radica al cerrar, con la entrega—. **El diseño —las dos
   bases, los cuatro actos, la consulta completa y cómo se juzga, con los procedimientos y el
   esquema— está en `mvp/diseño-mvp.md`**; el mapa de los alias de modelo y sus APIs, en
   `mvp/proveedores.md`; y **el estado —qué hay radicado y qué sigue— solo en
