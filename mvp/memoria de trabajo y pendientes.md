@@ -171,6 +171,18 @@ DeepSeek `low`) mandadas como el acto real, en dos mensajes.
   clase es («las claves generales», «los factores comunes»); sola, dice qué contiene («la molienda al
   momento y la temperatura ideal del agua») en dos de tres corridas.
 
+**Verificadas con la sonda de Gemini (12-10) y el alias en el registro (13-10).**
+
+- **La vía no cambia el tiempo; la pregunta sí.** La misma pregunta por `generateContent` y por la
+  fachada compatible-OpenAI del mismo host contestó igual y tardó lo mismo (4,7 s y 4,1 s); otra
+  pregunta, por la misma fachada, tardó 87,8 s. Una medición sola no dice nada: manda el pensamiento
+  que pide la pregunta, no la puerta.
+- **El pensamiento de Gemini se cobra por las dos vías y solo una lo declara:** mismo
+  `total_tokens` (318) por las dos —`thoughtsTokenCount` 285 en `generateContent`, y en la fachada
+  compatible un `usage` sin desglose (19 + 16)—, así que normalizar `thinking_tokens` por esa vía no
+  lo ve. Y el `tool_calls` trae un `extra_content.google.thought_signature` que hay que devolver tal
+  cual.
+
 ## 3. Pendientes vigentes
 
 **Orden.** **La base viva tiene dos documentos radicados**, los dos por el acto del volcado (12-10):
@@ -302,3 +314,10 @@ decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
     el texto del almacén**. La cadena se probó antes en el scratch (`temp/estructura/`: cinco
     textos —sin marcas, numerado, mixto, `Anexos` pegado y separado—), y el armador quedó en
     `mvp/código/armar_volcado.py`.
+19. **Gemini: declarado, sin etapa y sin corrida real.** Entró al registro el 13-10 (alias `gemini`
+    → `gemini-3.8-flash`, por la fachada compatible-OpenAI de Google AI Studio; la clave,
+    `GEMINI_API_KEY`, mapeada por host en `mvp/código/proveedores/claves.py`). Probado desde
+    `proveedores.llamar`: texto (ok, 2,5 s), herramientas (`finish_reason: tool_calls`) y sin clave,
+    que falla limpio. Falta **una corrida real del ORQ** —ahí se prueba que el `thought_signature`
+    vuelva en el segundo turno— y decidir si algún acto lo usa: los cuatro siguen en `luna`/`low`, y
+    elegirlo es un `UPDATE` en `ajustes`.

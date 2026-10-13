@@ -45,6 +45,7 @@ declara solo en los corredores de prueba de `temp/datos-test/`):
 | `luna` — GPT 6 Luna | OpenCode Go, familia `responses` | Etapa 2 (pruebas en `temp/`: low ×2, high ×2) y default de los cuatro actos (12-10) |
 | `mimo-v2.6-flash` — MiMo-V2.6-Flash (sin alias fijo en `ALIAS`) | OpenCode Go, familia `chat/completions` | Etapa 2 (pruebas en `temp/`: low ×3, medium ×2, high ×3) |
 | `grok` — Grok 4.7 | api.x.ai | Declarado, sin probar (sin créditos en xAI) |
+| `gemini` — Gemini 3.8 Flash | generativelanguage.googleapis.com, fachada compatible con OpenAI | Declarado (13-10); probado con `proveedores.llamar` (texto y herramientas), sin etapa asignada |
 
 ## 2. Etapa 2 (extracción de DATOS): resultados de las pruebas y proveedor por defecto
 

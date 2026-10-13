@@ -23,6 +23,9 @@ CLAVE_POR_HOST = {
     # OpenCode Go: la puerta de agregación (Luna, MiMo y los demás). Vive en
     # ~/.config/opencode-console/api_key.env, que carga ~/.bashrc: correr con `bash -ic`.
     "opencode.ai": "OPENCODE_API_KEY",
+    # Google AI Studio (Gemini). La clave va en `Authorization: Bearer`, que es lo que la
+    # fachada compatible con OpenAI de `generativelanguage.googleapis.com` acepta.
+    "generativelanguage.googleapis.com": "GEMINI_API_KEY",
 }
 
 UA = "spike-jev/1.0"

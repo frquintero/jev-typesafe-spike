@@ -1,4 +1,5 @@
-"""El proveedor **OpenAI-compatible**: DeepSeek, GLM (z.ai) y Grok (x.ai).
+"""El proveedor **OpenAI-compatible**: DeepSeek, GLM (z.ai), Grok (x.ai) y Gemini (Google AI
+Studio, por la fachada compatible de `generativelanguage.googleapis.com`).
 
 Hablan el mismo cuerpo y la misma respuesta que el resto del MVP ya consume —`messages`, `tools`
 anidadas, y de vuelta `choices[0].message` con `content`, `reasoning_content` y `tool_calls`—, así

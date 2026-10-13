@@ -68,6 +68,17 @@ ALIAS = {
         "url": "https://api.x.ai/v1/chat/completions",
         "esfuerzo": "low",
     },
+    # Gemini Flash (Google AI Studio), por la fachada compatible con OpenAI del mismo host:
+    # caminos probados el 12-10 —`generateContent` y esta fachada contestan igual, y la misma
+    # pregunta tardó lo mismo por las dos—. Ojo con el pensamiento en esta vía: se cobra pero
+    # no se declara aparte (`usage` viene sin desglose; `total_tokens` lo incluye), así que la
+    # normalización de `thinking_tokens` de `openai_compatible` no lo ve.
+    "gemini": {
+        "proveedor": "openai_compatible",
+        "id": "gemini-3.8-flash",
+        "url": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+        "esfuerzo": "low",
+    },
 }
 
 _PROVEEDORES = {"openai_compatible": openai_compatible, "anthropic": anthropic,
