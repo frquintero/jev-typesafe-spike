@@ -300,13 +300,14 @@ decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
     el JSON como todo el mensaje; y con `luna low` el modelo gastó **0 tokens de pensamiento** en los
     cuatro turnos y el **caché no se reusó** entre turnos (`cached_tokens: 0`).
     En la **base viva** hay otras **cuatro** (12-10, `C000005`…`C000008`): las tres réplicas de la
-    batería 1 —`luna low` ×2 y `deepseek-flash low`— y la tecleada. **Falta evaluarlas**: la vara es
-    `mvp/diseño-mvp.md` §8 (que la respuesta se sostenga en lo que el documento establece, y
-    distinguir «no está en los datos extraídos» de «el documento no lo dice»), el material para
-    juzgar es la batería **con sus respuestas de referencia**
-    (`mvp/consulta/batería_sol_respuestas.md`, escritas **a ciegas de las extracciones**), y evaluar
-    no pide llamadas nuevas. **Lo primero que hay que mirar:** la tecleada (`q2`) **entregó sin leer
-    un solo caso** y quedó `respondida` (ver §2). Y las preguntas 2 a 5 de la batería **no** se
+    batería 1 —`luna low` ×2 y `deepseek-flash low`— y la tecleada. **La evidencia para juzgarlas
+    está escrita** (`mvp/consulta/evaluacion-consultas-1.md`, 13-10): la vara de
+    `mvp/diseño-mvp.md` §8, la fila literal de cada consulta, lo que leyó y el sostén en el documento;
+    **falta el juicio, que es de Frat**, y no pide llamadas nuevas. El material de referencia es la
+    batería **con sus respuestas de referencia**
+    (`mvp/consulta/batería_sol_respuestas.md`, escritas **a ciegas de las extracciones**). **Lo
+    primero que hay que mirar:** la tecleada (`q2`) **entregó sin leer un solo caso** y quedó
+    `respondida` (ver §2). Y las preguntas 2 a 5 de la batería **no** se
     corrieron sobre la base viva: si lo que se quiere es la batería en la base, eso falta.
 17. **Re-puntuar el banco de DATOS con preguntas.** La vara no es el conteo de datos: una unidad es
     adecuada para una pregunta si **leer su caso y sus datos reduce el conjunto de respuestas
