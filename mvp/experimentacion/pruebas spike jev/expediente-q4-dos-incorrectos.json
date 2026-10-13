@@ -1,0 +1,83 @@
+{
+  "pregunta": "Un estudiante afirma que el Sol produce su energía en la superficie visible, a unos 5.500 °C. ¿Cómo corregirías esa explicación indicando el lugar, el proceso y las condiciones de temperatura y presión correspondientes?",
+  "casos": [
+    {
+      "id": "C000002:U1",
+      "caso": "Alcance del informe y procedencia de las cifras"
+    },
+    {
+      "id": "C000002:U2",
+      "caso": "Alcance de los aviones de largo recorrido y ruta Sídney-Londres"
+    },
+    {
+      "id": "C000002:U3",
+      "caso": "Materiales compuestos de los aviones de largo alcance"
+    },
+    {
+      "id": "C000002:U4",
+      "caso": "Relación de derivación de los motores turbofán"
+    },
+    {
+      "id": "C000002:U5",
+      "caso": "Reducción del consumo de combustible por plaza"
+    },
+    {
+      "id": "C000002:U6",
+      "caso": "Temperatura y densidad del aire en crucero"
+    },
+    {
+      "id": "C000002:U7",
+      "caso": "Reducción de emisiones con combustible sostenible de aviación"
+    },
+    {
+      "id": "C000002:U8",
+      "caso": "Densidad y contenido energético del queroseno y el hidrógeno líquido"
+    },
+    {
+      "id": "C000002:U9",
+      "caso": "Movilidad y velocidad de los eVTOL y el avión supersónico Overture"
+    },
+    {
+      "id": "C000002:U10",
+      "caso": "Unidades de altitud y velocidad y conversión a nudos"
+    },
+    {
+      "id": "C000002:U11",
+      "caso": "Condiciones de referencia para las densidades"
+    },
+    {
+      "id": "C000001:U1",
+      "caso": "El Sol como fuente de energía y sus características"
+    },
+    {
+      "id": "C000001:U2",
+      "caso": "Producción de energía y temperatura del Sol"
+    },
+    {
+      "id": "C000001:U3",
+      "caso": "La energía solar en las cadenas alimentarias"
+    },
+    {
+      "id": "C000001:U4",
+      "caso": "El calor solar y el ciclo del agua"
+    },
+    {
+      "id": "C000001:U5",
+      "caso": "El calentamiento desigual de la Tierra y el clima"
+    },
+    {
+      "id": "C000001:U6",
+      "caso": "Tecnologías solares para producir electricidad y calor"
+    }
+  ],
+  "elegidos": [
+    {
+      "id": "C000002:U4",
+      "caso": "Relación de derivación de los motores turbofán"
+    },
+    {
+      "id": "C000002:U10",
+      "caso": "Unidades de altitud y velocidad y conversión a nudos"
+    }
+  ]
+}
