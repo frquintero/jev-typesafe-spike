@@ -56,4 +56,4 @@ alias: salvo `luna`, los alias de arriba van a sus hosts directos.
   y guardias.
 
 Sin `--modelo`/`--esfuerzo`, el acto usa su fila de `ajustes`. Cómo se arma el `system` y el `user`
-de cada llamada: `mvp/mensajes.md`.
+de cada llamada: `mvp/diseño-mvp.md` §4.

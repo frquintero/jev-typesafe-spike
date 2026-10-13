@@ -59,13 +59,13 @@ con lo que se está haciendo.
 ## Proyectos en curso
 
 Solo los proyectos que se trabajan, una línea cada uno; el detalle vive en el
-README y el `PLAN.md` de su carpeta. No es bitácora.
+`README.md`/`PLAN.md` de su carpeta o en el documento de diseño del proyecto. No es bitácora.
 
 - Fecha: 2026-10-01 · Proyecto: ficha de datos con DeepSeek (`unidades/`); pendientes: la
   evaluación de F6 y la adopción del candidato (`unidades/PLAN.md`).
 - Fecha: 2026-10-08 · Proyecto: MVP de Zettel (`mvp/`): la extracción, los actos de la base y el
-  orquestador (`mvp/código/`), los prompts (`mvp/prompts/`) y el diseño de la consulta
-  (`mvp/consulta-diseno.md`). **El estado y lo que sigue, solo en
+  orquestador (`mvp/código/`), los prompts (`mvp/prompts/`) y el diseño completo
+  (`mvp/diseño-mvp.md`). **El estado y lo que sigue, solo en
   `mvp/memoria de trabajo y pendientes.md`.**
 
 ## Frentes cerrados: lecciones e ideas rescatables
@@ -170,7 +170,7 @@ Jev. **Arquitectura propuesta para después (no decidida):** oraciones
   `unidades/cache/`.
 - Prompts del trabajo activo (paso 1, paso 2 y el agente de la consulta):
   `mvp/prompts/` —`prompt_UT.md`, `prompt_DATOS.md` y `prompt_ORQ.md`—; el
-  procedimiento del paso 1 está en `mvp/guía_UT.md`.
+  procedimiento de los pasos está en `mvp/diseño-mvp.md` §6.
 - Enfoque anterior: `unidades/extraer_datos_doc.py` (cadena subtemas → datos)
   y `prototipos/` (batería de ejemplos prototípicos, `prototipos/PLAN.md`).
 - Reglas del ejecutor (red, claves, comandos, reportes): `AGENTS.md`.

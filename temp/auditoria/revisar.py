@@ -4,7 +4,7 @@
 Comprueba, sin escribir nada:
 
 1. **Las bases**: tablas y filas (deben estar limpias).
-2. **El diseño contra la base**: los `CREATE TABLE` de `consulta-diseno.md` y `almacen-diseno.md`
+2. **El diseño contra la base**: los `CREATE TABLE` de `mvp/diseño-mvp.md`
    contra el esquema real —tablas y columnas.
 3. **Los prompts contra los actos**: qué huecos tiene cada prompt y quién los llena.
 4. **Los relojes**: cada prompt, con qué reloj y en qué mensaje.
@@ -68,12 +68,15 @@ def main():
 
     print("=" * 92)
     print("2. EL DISEÑO CONTRA LA BASE")
-    for diseno, base in (("consulta-diseno.md", "corpus"), ("almacen-diseno.md", "almacen")):
-        texto = (MVP / diseno).read_text(encoding="utf-8")
-        real = esquema_real(MVP / "código" / f"{base}.db")
-        print(f"   --- {diseno} vs {base}.db")
+    texto = (MVP / "diseño-mvp.md").read_text(encoding="utf-8")
+    reales = {base: esquema_real(MVP / "código" / f"{base}.db") for base in ("corpus", "almacen")}
+    # el diseño trae las dos bases en un solo archivo: el corpus primero, el almacén al final
+    corte = texto.rindex("**El almacén**")
+    textos = {"corpus": texto[:corte], "almacen": texto[corte:]}
+    for base, real in reales.items():
+        print(f"   --- diseño-mvp.md vs {base}.db")
         for tabla, columnas in real.items():
-            declaradas = columnas_del_diseno(texto, tabla)
+            declaradas = columnas_del_diseno(textos[base], tabla)
             if declaradas is None:
                 print(f"      {tabla}: está en la base y NO en el diseño")
                 continue
@@ -81,9 +84,9 @@ def main():
             sobran = [c for c in declaradas if c not in columnas]
             aviso = "ok" if not faltan and not sobran else f"faltan {faltan} · sobran {sobran}"
             print(f"      {tabla}: {len(columnas)} columnas · {aviso}")
-        for tabla in re.findall(r"CREATE TABLE (?:IF NOT EXISTS )?(\w+)", texto):
-            if tabla not in real:
-                print(f"      {tabla}: está en el diseño y NO en la base")
+    en_las_bases = set().union(*(set(real) for real in reales.values()))
+    for tabla in set(re.findall(r"CREATE TABLE (?:IF NOT EXISTS )?(\w+)", texto)) - en_las_bases:
+        print(f"      {tabla}: está en el diseño y NO en la base")
 
     print("=" * 92)
     print("3. LOS PROMPTS: HUECOS Y QUIÉN LOS LLENA")

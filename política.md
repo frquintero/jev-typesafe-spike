@@ -19,10 +19,11 @@ operativo (comandos, claves, modelos, reportes) está en `AGENTS.md`.
 - **Los «siguiente» de los tres sitios tienen que decir lo mismo.** Si uno cambia
   de paso, se corrigen los tres; el desajuste entre ellos ya obligó a corregir dos
   veces.
-- **El detalle de cada ronda no va a los tres sitios:** vive en el `PLAN.md` o
-  `README.md` del proyecto, y los tres sitios solo lo apuntan.
+- **El detalle de cada ronda no va a los tres sitios:** vive en el documento de diseño
+  del proyecto —o en su `PLAN.md`/`README.md`—, y los tres sitios solo lo apuntan.
 - **Proyecto cerrado o suspendido:** sale de la lista del `README.md`; su carpeta y
-  su `PLAN.md` se conservan como antecedente.
+  el documento que lo describe (`PLAN.md`, o el diseño del proyecto) se conservan como
+  antecedente.
 - **Nada de duplicar el estado** en otros archivos: si un dato de estado aparece en
   otro sitio, es una copia que hay que quitar.
 

@@ -95,18 +95,17 @@ lo que esté al lado y parezca obvio.
   (`corridas`, `consultas`, `consulta_casos`, `consulta_llamadas`)—, encadenado **por el token de
   cada acto** para poder hacer la
   **traza completa**; **no hay archivos intermedios**. **Y hay un almacén**
-  (`mvp/código/almacen.db`, diseño en `mvp/almacen-diseno.md`): de él será el **original** —el
+  (`mvp/código/almacen.db`, diseño en `mvp/diseño-mvp.md` §2 y §5): de él será el **original** —el
   documento volcado en markdown, con su sello y su procedencia—, y su acto (`volcar.py`, que **es la
   radicación**) ya está hecho: el texto se lee del almacén. Lo único que se lee son entradas: el documento radicado, las plantillas de la base, R y
   la batería. **Cada etapa es un acto manual y separado, y nada se
   dispara solo**: volcar
   (`volcar.py <fuente>`), UT (`paso1_unidades.py <doc>`), DATOS
   (`paso2_datos.py <doc>`) y consultar —el ORQ carga la pregunta (`orquestador.py --texto "…" |
-  <archivo> [--numero N] --dominio E`) y la radica al cerrar, con la entrega—. Lo construido y lo abierto está en `mvp/consulta-diseno.md`;
-  el mapa de los alias de modelo y sus APIs, en `mvp/proveedores.md`; y la regla de cómo se arma
-  cada llamada —el `system` y el `user`, con los relojes—, en `mvp/mensajes.md`;
-  los procedimientos, en `mvp/guía_UT.md` (paso 1, unidades temáticas) y `mvp/guía_DATOS.md` (paso 2,
-  datos por unidad); y **el estado —qué hay radicado y qué sigue— solo en
+  <archivo> [--numero N] --dominio E`) y la radica al cerrar, con la entrega—. **El diseño —las dos
+  bases, los cuatro actos, la consulta completa y cómo se juzga, con los procedimientos y el
+  esquema— está en `mvp/diseño-mvp.md`**; el mapa de los alias de modelo y sus APIs, en
+  `mvp/proveedores.md`; y **el estado —qué hay radicado y qué sigue— solo en
   `mvp/memoria de trabajo y pendientes.md`**, que es la fuente única: los demás sitios no repiten los
   números.
 - `test_tool_calling/`: la mecánica del bucle con herramientas en DeepSeek

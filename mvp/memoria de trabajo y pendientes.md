@@ -44,6 +44,10 @@ actualización de los tres sitios y los reportes, en `política.md`.
   `permission-denied`. Y el **400** «Incorrect API key provided» es otra cosa todavía: la clave **no
   es de esa puerta** —las `grok_…` de agente que emite la consola no las acepta `api.x.ai`, que pide
   las `xai-…` de inferencia—.
+- **El prefijo invariante se cachea entero:** con Luna el `system` entró casi todo en la segunda
+  llamada —**1.839 de 1.842** tokens de entrada— y con MiMo **2.048 de 2.066**, sin mandar nada por
+  un campo aparte (13-10). Por eso las reglas y los ejemplos van en el `system`, y lo que cambia por
+  llamada, al final del `user`.
 
 **Verificadas en el cierre del paso 2 (06-10).**
 
@@ -95,10 +99,10 @@ actualización de los tres sitios y los reportes, en `política.md`.
   no llamó la herramienta. El campo `herramientas` del crudo dice con cuál se hizo cada una.
 - **El agente nunca pidió todos los casos:** filtra por el umbral del 80 % sobre el nombre
   del caso (leyó de 1 a 4 de los 19); un aspecto que el nombre no anuncia no lo mira
-  (`consulta-diseno.md`, §8).
+  (`mvp/diseño-mvp.md` §7.6).
 - **Repite lecturas y no hay corte por ciclo:** `doc6` q2 pidió `doc6:U4` dos veces y gastó
   6 turnos y 5 llamadas; la guardia corta por número de turnos y de llamadas, no por
-  repetición (`consulta-diseno.md`, §11, D25).
+  repetición (`mvp/diseño-mvp.md` §7.8, D25).
 
 **Verificadas con las pruebas de partición (08-10).**
 
@@ -208,14 +212,14 @@ sello) y `aviacion` (`A000002`, sello `e546d95e8b13…`, de `mvp/documentos/avia
 encabezados). Lo demás —`preparacion_cafe`, las baterías y las corridas anteriores— **vive en el
 scratch** (`temp/ut-sin-marcas/out/sol-ut-vieja.db`), no en la base. **El substrato de la traza está
 hecho** (12-10): el token por acto, la conservación de los productos, las plantillas en la base y la
-guardia del esquema (`mvp/plan.md`). **Las dos UT y los dos DATOS están hechos** (12-10, con `luna`/`low`, el default de la base):
+guardia del esquema (`mvp/diseño-mvp.md` §3). **Las dos UT y los dos DATOS están hechos** (12-10, con `luna`/`low`, el default de la base):
 `sol` → UT `C000001` (6 unidades, 16 oraciones) y DATOS `C000003` (23 datos); `aviacion` → UT
 `C000002` (11 unidades, 17 oraciones) y DATOS `C000004` (36 datos). Los cuatro actos con el contrato
 y la forma limpios, y las plantillas `UT` y `DATOS` v1 registradas solas. La base está en la **versión 4**, y la consulta **ya corrió en la base viva** (12-10): cuatro actos ORQ,
 `C000005`…`C000008`, todos `exitoso` y todos con su pregunta radicada al cerrar —tres **réplicas de
 la batería 1** (`q1` y `q3` con `luna low`, `q4` con `deepseek-flash low`) y **una tecleada** que no
 está en la batería (`q2`)—; las preguntas 2 a 5 de la batería **no** corrieron sobre la base viva.
-Sigue: **evaluar** esas cuatro con la vara del §12 —no pide llamadas nuevas—, o el volcado de
+Sigue: **evaluar** esas cuatro con la vara de §8 del diseño —no pide llamadas nuevas—, o el volcado de
 `preparacion_cafe` por las etapas (punto 0). El **modelo y el esfuerzo de cada acto se leen del corpus** (`ajustes`, cuatro filas; el almacén va
 por la **versión 3** y esa tabla no está: la política tiene un solo lugar), hoy `luna` / `low` por
 decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
@@ -228,7 +232,7 @@ decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
    su batería ya está escrita (`mvp/consulta/preguntas_preparacion_cafe.md`, 11-10) y falta correr
    la consulta; evaluarla con la vara del contenido —qué le pasa a A(Q)—, distinguiendo «no está en
    los datos extraídos» de «el documento no lo dice»
-   (`mvp/consulta-diseno.md`, §12). `doc11` está en `mvp/documentos/`, fuera de la base: vuelve con dos
+   (`mvp/diseño-mvp.md` §8). `doc11` está en `mvp/documentos/`, fuera de la base: vuelve con dos
    actos, radicarlo (el sello sale igual) y correrle UT. Las baterías de
    `doc4`/`doc6` están archivadas y **sin evaluar** —el registro de esa ronda, con su medición, en
    `mvp/temp/consulta/medicion-primera-ronda.md`—: si se quiere evaluación, o se escribe la lista de
@@ -261,15 +265,14 @@ decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
     acuerdo es 97-98 %, y dentro de la primera versión de `v1`, 95-100 %—, y con el ejemplo fino el
     acuerdo entre corridas del mismo prompt bajó a **93 %**. Queda la pregunta: agregar por
     co-pertenencia, o quedarse con la tirada que fija el registro.
-13. **Los papeles, al día (09-10 · actualizado 13-10).** **Hecho:** el diseño ya dice qué va en cada
-    mensaje y cómo se reparten los relojes (§4.3: el del radicado en el `system`, el del sistema en el
-    `user`); las dos guías ya describen los huecos y los tramos; y la regla de los dos mensajes, con
-    las medidas de caché que la sostienen, vive en `mvp/mensajes.md` (13-10), que es a donde apuntan
-    `mensajes.py` y el diseño. **Y el 11-10:** el diseño ya dice que el paso 2 va **en tanda** (§5) y
-    que la base **sí** guarda la literal de cada oración con su tramo (§2), y que la causa de un corte
-    va en `motivo`, que es la columna que existe (§11). **Falta:** el tú y el vos de `prompt_ORQ`; y el
-    desenlace en prosa del §10. Lo que §9 describe —el JSON tolerando prosa— **no es un desfase**: es
-    la decisión D20, y el ORQ lo ubica. Lo de la etapa 3 —sin comparación propia— y lo de los
+13. **Los papeles, al día (09-10 · actualizado 13-10).** **Hecho:** `mvp/diseño-mvp.md` §4 dice qué va en cada
+    mensaje, §7.2 cómo se reparten los relojes (el del radicado en el `system`, el del sistema en el
+    `user`), §6 los huecos y los tramos, y §6.2 que el paso 2 va **en tanda**; las medidas de caché
+    que sostienen la regla viven en el §2 de esta memoria. **Y el 11-10:** la base **sí** guarda la
+    literal de cada oración con su tramo, y la causa de un corte va en `motivo`, que es la columna que
+    existe (§7.8). **Falta:** el tú y el vos de `prompt_ORQ`; y el desenlace en prosa (§7.9). Lo que
+    el diseño describe —el JSON tolerando prosa— **no es un desfase**: es la decisión D20, y el ORQ lo
+    ubica. Lo de la etapa 3 —sin comparación propia— y lo de los
     proveedores quedaron resueltos el 13-10: `mvp/proveedores.md` es el mapa de los alias, las
     mediciones se mudaron a `otros documentos/informe-proveedores-2026-10-10.md`, y la etapa 3 está en
     el pendiente 16.
@@ -281,7 +284,7 @@ decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
     alguna columna —o a un campo de la unidad— y hacerlo **antes de que la base crezca**: hoy está
     en cero, así que todavía es gratis.
 15. **La entrada de la consulta (resuelto el 12-10 y el 13-10: se carga y se radica al entregar).**
-    Está escrito donde vive lo decidido: `mvp/consulta-diseno.md` §4.1 y la decisión **D28**. La
+    Está escrito donde vive lo decidido: `mvp/diseño-mvp.md` §7.2 y la decisión **D28**. La
     pregunta entra por el acto —de un archivo o tecleada, con `mvp/código/cargar_pregunta.py`—, el
     **dominio** lo lleva el comando, y el acto la radica **al cerrar, solo con la entrega**. El
     cargador se llamó `radicar_pregunta.py` hasta el 13-10: el nombre prometía lo que ya no hacía.
@@ -298,7 +301,7 @@ decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
     cuatro turnos y el **caché no se reusó** entre turnos (`cached_tokens: 0`).
     En la **base viva** hay otras **cuatro** (12-10, `C000005`…`C000008`): las tres réplicas de la
     batería 1 —`luna low` ×2 y `deepseek-flash low`— y la tecleada. **Falta evaluarlas**: la vara es
-    `mvp/consulta-diseno.md` §12 (que la respuesta se sostenga en lo que el documento establece, y
+    `mvp/diseño-mvp.md` §8 (que la respuesta se sostenga en lo que el documento establece, y
     distinguir «no está en los datos extraídos» de «el documento no lo dice»), el material para
     juzgar es la batería **con sus respuestas de referencia**
     (`mvp/consulta/batería_sol_respuestas.md`, escritas **a ciegas de las extracciones**), y evaluar
@@ -318,12 +321,12 @@ decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
     respondida por datos de dos unidades. Mientras no se re-puntúe, no se cambia el proveedor por
     defecto de DATOS (`otros documentos/informe-proveedores-2026-10-10.md` §1).
 18. **El almacén: el acto del volcado, y que los pasos lean de ahí.** **Hecho** (11-10; corregido el
-    12-10): el diseño (`mvp/almacen-diseno.md`), la base (`mvp/código/almacen.db`, cuatro tablas
+    12-10): el diseño (`mvp/diseño-mvp.md` §2 y §5), la base (`mvp/código/almacen.db`, cuatro tablas
     —`documentos`, `volcados`, `prompts` y `contador`—, limpia) y el módulo (`mvp/código/almacen.py`:
     `escribir` con el espejo del corpus en la misma transacción, `texto_de` con el sello comprobado,
     `registrar_fallo`). **La identidad del documento es su volcado y su fecha; el sello es guardián y
     la fuente es traza** —el `UNIQUE (sello)` se retiró: el mismo texto volcado en otra fecha es otro
-    documento (`almacen-diseno.md`, §7)—. **Hecho (12-10):** el acto
+    documento (`mvp/diseño-mvp.md` §5)—. **Hecho (12-10):** el acto
     **`volcar.py`** —fuente → `prompt_volcado` → el índice → la verificación → el markdown → el
     almacén—, que **es la radicación** (y con él se retiró `radicar.py`), y **`paso1` y `paso2` leen
     el texto del almacén**. La cadena se probó antes en el scratch (`temp/estructura/`: cinco

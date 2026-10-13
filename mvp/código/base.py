@@ -9,7 +9,7 @@ corrida que lo produjo.
 
 - `documentos`: un documento **radicado** por fila —su nombre, su dominio, la fecha y la hora (que
   pone la base), la procedencia de la fuente y su **sello** (sha256 del texto: guardián de que no
-  cambió)—. Es un **espejo** del almacén, que es el dueño del texto (`mvp/almacen-diseno.md`), y acá
+  cambió)—. Es un **espejo** del almacén, que es el dueño del texto (`mvp/diseño-mvp.md` §2), y acá
   viven las claves foráneas. Un documento radicado no se mueve.
 - `preguntas`: la pregunta **radicada** —texto, dominio, fuente y la fecha y la hora del cierre—.
   La escribe el acto de la consulta **cuando el modelo entrega su JSON**: sin entrega no hay

@@ -4,8 +4,9 @@ Un prompt de trabajo trae **dos marcas**: `[SISTEMA]` para lo invariante, y para
 llamada `[TAREA]` **o** `[USUARIO]` (las dos valen). Las marcas **no llegan al modelo**: `partir` las
 consume y devuelve el `system` y el `user` ya armados.
 
-**La regla completa** —qué va en cada uno y por qué, los relojes y sus huecos, y las medidas de
-caché que la sostienen— está en `mvp/mensajes.md`. Acá vive solo lo que la implementa.
+**La regla completa** —qué va en cada uno y por qué, los relojes y sus huecos— está en
+`mvp/diseño-mvp.md` §4; las medidas de caché que la sostienen, en la memoria. Acá vive solo lo que la
+implementa.
 """
 
 MARCA_SISTEMA = "[SISTEMA]"

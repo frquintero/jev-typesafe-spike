@@ -4,7 +4,7 @@
 `mvp/código/almacen.db` guarda **el texto volcado** (el markdown), su **sello**, su **procedencia**
 (el nombre, la ruta y el mtime de la fuente) y su **radicación**; más la cédula de cada volcado, la
 **plantilla** con la que se volcó y su **contador**. El diseño —qué guarda y por qué— está en
-`mvp/almacen-diseno.md`.
+`mvp/diseño-mvp.md` §2 y §5.
 
 Tres cosas que hay que tener presentes:
 
