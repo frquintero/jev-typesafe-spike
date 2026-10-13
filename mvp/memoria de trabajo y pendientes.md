@@ -38,7 +38,10 @@ actualización de los tres sitios y los reportes, en `política.md`.
 - **Jev es posterior:** subtemas, inventario global y Jev siguen fuera de las pruebas del núcleo. La detección o recuperación posterior de omisiones no se ha probado aquí.
 - **Operativo:** DeepSeek declara `low`, `high` y `max`, con `high` por defecto, así que el `low` que
   mandamos es un escalón declarado, no un alias de `high` (corregido el 08-10); en las líneas viejas,
-  que usan streaming, puede dejar el stream colgado (si pasa un minuto sin bytes, relanzar).
+  que usan streaming, puede dejar el stream colgado (si pasa un minuto sin bytes, relanzar). Y en xAI,
+  **que la clave autentica no quiere decir que el equipo pueda llamar**: `GET /v1/api-key` separa las
+  dos cosas (`team_blocked`), y con el equipo bloqueado todo endpoint de modelos contesta 403
+  `permission-denied`.
 
 **Verificadas en el cierre del paso 2 (06-10).**
 
@@ -237,7 +240,12 @@ decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
 4. **Generalización:** medir cualquier candidato prometedor con una reserva nueva e independiente; las observaciones de las rondas no autorizan cambios adicionales por sí solas.
 5. **Vínculos de razón entre afirmaciones** («por esa razón», «porque»): niveles 1–2 del grafo de Zettel; fuera de la ficha de datos.
 6. **Jev:** identidad de lo registrado, correferencias, omisiones; componente posterior.
-7. Grok sin créditos de xAI: recargar si se quiere compararlo.
+7. **Grok: el equipo bloqueado, no la clave (13-10).** Primer intento de llamada por el alias `grok`
+   (`grok-4.7`, api.x.ai): **403 `permission-denied`** en `/v1/chat/completions` y en `/v1/models`
+   —«used all available credits or reached its monthly spending limit»—, con `team_blocked: true` en
+   `GET /v1/api-key`, que contesta 200 y muestra las ACLs completas (`api-key:model:*`): la clave
+   sirve. Se destraba desde la consola de xAI —créditos del equipo o su límite de gasto—. Sin eso no
+   hay prueba de texto ni de herramientas, y **no se compara**.
 8. **Unidad temática con el eje de `v1`** (decisión de Frat, 02-10; registrada en `definiciones-del-marco.md`, parte B). Los prompts de trabajo (`prompt_UT` y `prompt_DATOS`) producen la unidad con el eje en el asunto: el `subtema` **nombra el núcleo** —el caso de la unidad— y las oraciones que lo desarrollan van juntas. Falta **declarar los satélites**, los casos de los que el texto habla por su relación con el núcleo, que hoy se leen de las relaciones y acciones. Discutirlo antes de escribirlo.
 9. **Adoptar el candidato del paso 2:** `mvp/temp/paso2/prompt_ficha_contexto.md` vive hoy en la carpeta de trabajo; si se adopta, le toca su sitio en `mvp/prompts/` con nombre propio, sin mezclarlo con `ficha_v2`.
 10. **Cerrar la forma del dato del paso 2:** si vuelven el `sostiene` (quién lo sostiene) y el `respaldo` (la ruta al fragmento), y si `unidad_valor` se queda como campo propio o la unidad va dentro del valor. Hoy el dato viaja sin fuente ni ruta.

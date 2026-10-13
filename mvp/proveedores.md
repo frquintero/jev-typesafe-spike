@@ -25,7 +25,11 @@ Qué modelos puede llamar el MVP y por dónde. **El registro vivo es el código*
   propio es `medium`, y va por la familia `responses` con la cabecera de sesión de Go— lo pisa.
 - **`glm` en `low` no razona**: la API acepta el nivel y devuelve 0 tokens de pensamiento; si se
   quiere razonamiento de GLM hay que pedir `max` explícito (medido el 10-10-2026; ver el informe, §2).
-- **`grok` está declarado y sin probar**: no hay créditos en xAI.
+- **`grok` está declarado y todavía no se puede llamar**: el 13-10-2026 todo endpoint de modelos
+  contestó **403 `permission-denied`** —«used all available credits or reached its monthly spending
+  limit»— con el **equipo bloqueado** (`team_blocked`), aunque la clave autentica (`GET /v1/api-key`
+  → 200, con las ACLs `api-key:model:*` completas). Se destraba desde la consola de xAI —créditos del
+  equipo o su límite de gasto—, no cambiando la clave.
 - **`gemini` está declarado y sin etapa asignada**: probado con `proveedores.llamar` (texto y
   herramientas). Por esa fachada el pensamiento se cobra pero no se declara aparte.
 - Lo que se probó y **no** quedó en el registro —Sonnet 5.5, MiMo-V2.6-Flash y las comparaciones de
