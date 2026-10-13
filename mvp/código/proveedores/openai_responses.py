@@ -1,7 +1,6 @@
 """El proveedor de la familia **`responses`** (Responses API de OpenAI), por OpenCode Go.
 
-La familia —**GPT 6 Luna**, y por ahí también los `grok` de xAI y `muse-spark` cuando haya
-créditos— devuelve otra forma que `openai_compatible` no parsea: `output[].content[].text` y
+La familia —hoy la usa el alias `luna`— devuelve otra forma que `openai_compatible` no parsea: `output[].content[].text` y
 `usage.input_tokens`, no `choices[0].message`. Acá se traduce a la forma interna de siempre, y el
 resto del MVP no se entera.
 

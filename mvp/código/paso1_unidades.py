@@ -4,16 +4,15 @@
 Uso:
 
     python3 mvp/código/paso1_unidades.py <doc> [--modelo M] [--esfuerzo E] [--rehacer]
-    python3 mvp/código/paso1_unidades.py doc8
+    python3 mvp/código/paso1_unidades.py sol
 
 Qué hace, y nada más:
 
-1. **Verifica el documento**: lee `mvp/documentos/<doc>.md` y comprueba su sello contra la base; si
-   el archivo cambió, se detiene (eso es otro documento).
-2. **Arma los dos mensajes**: la **plantilla** —que vive en la base, con su versión; el `.md` es la
-   puerta y se registra sola la primera vez— va como `system`, y **el texto del documento, entero**
-   (títulos incluidos), como `user`. Así la regla viaja como instrucción y el documento como dato, y
-   el prefijo invariante queda estable entre documentos.
+1. **Verifica el documento**: lee el texto del **almacén** (`almacen.texto_de`), que comprueba el
+   **sello** contra el texto guardado; si no coincide, se detiene (eso es otro documento).
+2. **Arma los dos mensajes**: la **plantilla** —que vive en la base, con su versión— va como
+   `system`, y **el texto del documento, entero** (títulos incluidos), como `user`. Así la regla viaja
+   como instrucción y el documento como dato, y el prefijo invariante queda estable entre documentos.
 3. **Llama al modelo** por `proveedores.llamar`: una sola llamada de texto a JSON.
 4. **Lee la respuesta** con `extract_json` y **ubica cada oración en el texto** para quedarse con su
    tramo, verificando el contrato —literalidad, cobertura del cuerpo, asignación exclusiva y

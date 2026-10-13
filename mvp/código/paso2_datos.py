@@ -3,13 +3,15 @@
 
 Uso:
 
-    python3 mvp/código/paso2_datos.py <doc> [--modelo M] [--rehacer]
-    python3 mvp/código/paso2_datos.py doc8
+    python3 mvp/código/paso2_datos.py <doc> [--modelo M] [--esfuerzo E] [--rehacer]
+    python3 mvp/código/paso2_datos.py sol
 
 Qué hace, y nada más:
 
 1. **Lee la UT vigente de la base** (la escribió el paso 1) con **sus tramos**: la oración literal
-   que el modelo devolvió en cada una, en orden. El paso 2 **no corta ni numera nada**.
+   que el modelo devolvió en cada una, en orden; y comprueba el **sello** del documento en el almacén
+   (`almacen.texto_de`), que es sobre cuyo texto se cuentan los tramos. El paso 2 **no corta ni
+   numera nada**.
 2. **Una sola llamada** —la tanda— con **todas** las unidades de esa UT y **los dos mensajes**: la
    **plantilla** (de la base, con su versión) como `system`, y las unidades como `user`. La
    respuesta se reparte por la **posición en la lista enviada**.
