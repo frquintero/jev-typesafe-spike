@@ -1,0 +1,52 @@
+{
+  "elegido_1": {
+    "type": "noul",
+    "instructions": "`elegidos[0]` es un caso que permite responder `pregunta`",
+    "criteria": {
+      "true": "sus oraciones tratan lo que la pregunta pide",
+      "false": "sus oraciones no tratan lo que la pregunta pide"
+    }
+  },
+  "elegido_2": {
+    "type": "noul",
+    "instructions": "`elegidos[1]` es un caso que permite responder `pregunta`",
+    "criteria": {
+      "true": "sus oraciones tratan lo que la pregunta pide",
+      "false": "sus oraciones no tratan lo que la pregunta pide"
+    }
+  },
+  "elegido_3": {
+    "type": "noul",
+    "instructions": "`elegidos[2]` es un caso que permite responder `pregunta`",
+    "criteria": {
+      "true": "sus oraciones tratan lo que la pregunta pide",
+      "false": "sus oraciones no tratan lo que la pregunta pide"
+    }
+  },
+  "elegido_4": {
+    "type": "noul",
+    "instructions": "`elegidos[3]` es un caso que permite responder `pregunta`",
+    "criteria": {
+      "true": "sus oraciones tratan lo que la pregunta pide",
+      "false": "sus oraciones no tratan lo que la pregunta pide"
+    }
+  },
+  "elegido_5": {
+    "type": "noul",
+    "instructions": "`elegidos[4]` es un caso que permite responder `pregunta`",
+    "criteria": {
+      "true": "sus oraciones tratan lo que la pregunta pide",
+      "false": "sus oraciones no tratan lo que la pregunta pide"
+    }
+  },
+  "eleccion": {
+    "type": "choice",
+    "instructions": "Comparando `elegidos` con todos los de `casos`, ¿cómo es la elección que se hizo para responder `pregunta`?",
+    "criteria": {
+      "correcta": "`elegidos` alcanza y no sobra ninguno",
+      "sobran": "`elegidos` alcanza, pero hay alguno que no hacía falta",
+      "faltan": "a `elegidos` le falta algún caso de `casos`",
+      "no_sirve": "ninguno de `elegidos` responde `pregunta`"
+    }
+  }
+}
