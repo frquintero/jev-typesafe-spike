@@ -68,6 +68,8 @@ def main(argv):
     ap.add_argument("--nombre", help="etiqueta de los archivos (por defecto, el id de la consulta)")
     ap.add_argument("--elegidos-extra", default="",
                     help="ids de unidades que se agregan a los elegidos, separados por coma")
+    ap.add_argument("--solo-extra", action="store_true",
+                    help="los elegidos son solo los de --elegidos-extra (sin los de consulta_casos)")
     args = ap.parse_args(argv[1:])
 
     identificador = args.consulta
@@ -81,9 +83,10 @@ def main(argv):
         raise SystemExit(f"no está la consulta '{identificador}' en la base")
     casos = catalogo(db, consulta["dominio"])
     elegidos = []
-    for fila in db.execute("SELECT unidad_id FROM consulta_casos WHERE consulta_id = ? "
-                           "ORDER BY rowid", (identificador,)):
-        elegidos.append({"id": fila["unidad_id"], "caso": nombre_de(db, fila["unidad_id"])})
+    if not args.solo_extra:
+        for fila in db.execute("SELECT unidad_id FROM consulta_casos WHERE consulta_id = ? "
+                               "ORDER BY rowid", (identificador,)):
+            elegidos.append({"id": fila["unidad_id"], "caso": nombre_de(db, fila["unidad_id"])})
     for extra in extras:
         elegidos.append({"id": extra, "caso": nombre_de(db, extra)})
     db.close()
