@@ -11,6 +11,9 @@ corrida que lo produjo.
   pone la base), la procedencia de la fuente y su **sello** (sha256 del texto: guardián de que no
   cambió)—. Es un **espejo** del almacén, que es el dueño del texto (`mvp/almacen-diseno.md`), y acá
   viven las claves foráneas. Un documento radicado no se mueve.
+- `preguntas`: la pregunta **radicada** —texto, dominio, fuente y la fecha y la hora del cierre—.
+  La escribe el acto de la consulta **cuando el modelo entrega su JSON**: sin entrega no hay
+  pregunta, y la corrida fallida queda con `pregunta_id` nulo.
 - `unidades`: la salida de UT —el nombre de cada unidad y su orden—. Cada unidad cuelga de **su**
   corrida de UT: dos particiones del mismo documento **conviven**, y la vigente se deriva.
 - `unidad_oraciones`: los tramos de cada unidad —la oración **literal** tal como la devolvió el
@@ -30,7 +33,8 @@ corrida que lo produjo.
 - `prompts`: las **plantillas** con su versión. La registra el acto que las usa; editar una
   plantilla es una versión nueva, nunca un `UPDATE`.
 - `contador`: de acá sale el token de esta base.
-- `consultas` + `consulta_casos`: la pregunta y su respuesta, con los casos que el agente leyó.
+- `consultas` + `consulta_casos` + `consulta_llamadas`: la respuesta y su operación —los casos que
+  el agente leyó y las herramientas que pidió—, y **existen solo si el ciclo entregó**.
 
 Los contratos que la base **impone** (además de las claves foráneas): `paso` y `estado` solo toman
 sus valores; UT y DATOS son de un documento y el ORQ de un dominio; una corrida fallida dice su
@@ -58,7 +62,7 @@ CREATE TABLE IF NOT EXISTS documentos (
   ubicacion_upstream TEXT NOT NULL,      -- dónde vive en el repo
   sello              TEXT NOT NULL       -- sha256 del texto radicado: guardián de que no cambió
 );
-CREATE TABLE IF NOT EXISTS preguntas (   -- las preguntas radicadas: la única entrada de la consulta
+CREATE TABLE IF NOT EXISTS preguntas (   -- las preguntas radicadas: las escribe el acto, al entregar
   id               INTEGER PRIMARY KEY,  -- el número de la pregunta (1, 2, 3…)
   dominio          TEXT NOT NULL CHECK (trim(dominio) <> ''),  -- el alcance: la unidad semántica
   texto            TEXT NOT NULL CHECK (trim(texto) <> ''),    -- sin texto no hay pregunta
@@ -70,7 +74,7 @@ CREATE TABLE IF NOT EXISTS corridas (
   paso            TEXT NOT NULL CHECK (paso IN ('UT', 'DATOS', 'ORQ')),
   documento_id    TEXT REFERENCES documentos(id) ON DELETE CASCADE,  -- UT y DATOS
   dominio         TEXT,                  -- ORQ: el alcance de la consulta
-  pregunta_id     INTEGER REFERENCES preguntas(id),  -- ORQ: la pregunta radicada
+  pregunta_id     INTEGER REFERENCES preguntas(id),  -- ORQ: la radicada; **nulo si no entregó**
   pregunta_texto  TEXT,                  -- ORQ: el texto tal como se leyó
   prompt_id       TEXT,                  -- la plantilla que corrió (en `prompts`)
   prompt_version  INTEGER,
@@ -141,12 +145,12 @@ CREATE TABLE IF NOT EXISTS ajustes (     -- el modelo y el esfuerzo de cada acto
   esfuerzo TEXT                          -- el escalón, o null para el del alias
 );
 CREATE TABLE IF NOT EXISTS consultas (
-  id             TEXT PRIMARY KEY,       -- <doc>:q<n>
+  id             TEXT PRIMARY KEY,       -- q<n>: el id de la pregunta radicada
   corrida_id     TEXT NOT NULL REFERENCES corridas(id),
   dominio        TEXT NOT NULL,
   documentos     TEXT NOT NULL,          -- los documentos del dominio que se ofrecieron
   pregunta_texto TEXT NOT NULL,
-  desenlace      TEXT,                   -- respondida · no está en los datos · preguntó al usuario
+  desenlace      TEXT,                   -- respondida · no_esta_en_los_datos (las dos del prompt ORQ)
   respuesta      TEXT,                   -- la respuesta, tal como vino
   fecha          TEXT NOT NULL DEFAULT (datetime('now','localtime'))
 );

@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
-"""El ORQUESTADOR: abre la consulta, corre el bucle y registra lo que pasó.
+"""El ORQUESTADOR: recibe la pregunta, corre el bucle y registra lo que pasó.
 
-    python3 orquestador.py [n]
+    python3 mvp/código/orq/orquestador.py --texto "…" --dominio E [--modelo M] [--esfuerzo E]
+    python3 mvp/código/orq/orquestador.py <archivo> [--numero N] --dominio E
 
-`n` es la **pregunta radicada**: su id en la tabla `preguntas` de la base.
+La pregunta **entra por el acto**: se carga de un archivo o del chat —el cargador es
+`mvp/código/cargar_pregunta.py`— y **se radica al cerrar, solo si el modelo entregó su JSON**.
+Mientras el ciclo corre, la base se abre **en solo lectura**: de esa pregunta no hay nada escrito.
+Si el ciclo no entrega, queda la cédula del acto y **ninguna pregunta radicada**.
 
 El orden, y nada más que el orden —cada paso vive en su archivo—:
 
     1. leer_config          la configuración y las rutas
-    2. leer_pregunta        la pregunta radicada, de la base (texto, dominio y fuente)
+    2. cargar la pregunta   del archivo o del chat (texto y fuente)
     3. leer_r               R: el JSON que aplica el orquestador (el agente no lo ve)
     4. abrir_db             la base del corpus, en solo lectura
     5. resolver_dominio     el dominio elegido → sus documentos (pertenencia, sin juicio)
@@ -16,7 +20,7 @@ El orden, y nada más que el orden —cada paso vive en su archivo—:
     7. armar_herramientas   R ∩ las herramientas que existen
     8. anclas + armar_prompt  el system (radicado y lógica) y el user (casos, pregunta, ahora)
     9. bucle                llama, ejecuta y termina con la entrega (sin juzgarla)
-   10. registrar_consulta   la corrida y la respuesta, en la base (al terminar)
+   10. registrar_consulta   la corrida y —si hubo entrega— la pregunta y la respuesta
 
 La **plantilla** sale de la base —el `.md` es la puerta y se registra sola la primera vez—, y la
 consulta **congela** los casos y su tanda de DATOS al abrir: lo que leyó queda en la traza.
@@ -39,39 +43,56 @@ from armar_prompt import armar_prompt  # noqa: E402
 from base import conectar  # noqa: E402
 from bucle import bucle  # noqa: E402
 from leer_config import leer_config  # noqa: E402
-from leer_pregunta import leer_pregunta  # noqa: E402
 from leer_r import leer_r  # noqa: E402
 from listar_casos import listar_casos  # noqa: E402
 from prompts import usar as usar_prompt  # noqa: E402
 from proveedores import ErrorDeLlamada  # noqa: E402
+from cargar_pregunta import cargar, entero  # noqa: E402
 from registrar_consulta import registrar_consulta  # noqa: E402
 from resolver_dominio import resolver_dominio  # noqa: E402
+
+USO = ("uso: python3 mvp/código/orq/orquestador.py (--texto \"…\" | <archivo> [--numero N]) "
+       "--dominio E [--modelo M] [--esfuerzo E]")
+
+
+def _entrada():
+    """La pregunta (texto y fuente) y el dominio, del archivo o del chat."""
+    archivo, texto, numero, dominio = None, None, None, None
+    modelo, esfuerzo = None, None
+    resto = sys.argv[1:]
+    while resto:
+        opcion = resto.pop(0)
+        if opcion in ("--texto", "--dominio", "--numero", "--modelo", "--esfuerzo") and resto:
+            valor = resto.pop(0)
+            if opcion == "--texto":
+                texto = valor
+            elif opcion == "--dominio":
+                dominio = valor
+            elif opcion == "--numero":
+                numero = entero(valor, "--numero")
+            elif opcion == "--modelo":
+                modelo = valor
+            else:
+                esfuerzo = valor
+        elif archivo is None and not opcion.startswith("--"):
+            archivo = opcion
+        else:
+            raise SystemExit(f"no entiendo '{opcion}'. {USO}")
+    if dominio is None or not dominio.strip():
+        raise SystemExit(f"falta --dominio: la pregunta vive en un dominio (la unidad semántica). {USO}")
+    contenido, fuente = cargar(archivo=archivo, texto=texto, numero=numero)
+    return contenido, fuente, dominio.strip(), modelo, esfuerzo
 
 
 def main():
     config = leer_config()
-    resto = sys.argv[1:]
-    numero, modelo_pedido, esfuerzo_pedido = None, None, None
-    while resto:
-        opcion = resto.pop(0)
-        if opcion in ("--modelo", "--esfuerzo") and resto:
-            valor = resto.pop(0)
-            if opcion == "--modelo":
-                modelo_pedido = valor
-            else:
-                esfuerzo_pedido = valor
-        else:
-            numero = int(opcion)
-    if numero is None:
-        raise SystemExit("uso: python3 orquestador.py <pregunta> [--modelo M] [--esfuerzo E] "
-                         "(la pregunta se radica primero: mvp/código/radicar_pregunta.py)")
+    texto, fuente, dominio, modelo_pedido, esfuerzo_pedido = _entrada()
 
     r = leer_r(config["rutas"]["r"])
     db = abrir_db(config["rutas"]["corpus"])
-    pregunta = leer_pregunta(db, numero)
     modelo, esfuerzo = resolver_ajuste(db, "ORQ", modelo_pedido, esfuerzo_pedido)
     config["modelo"] = {"alias": modelo, "esfuerzo": esfuerzo}
-    documentos = resolver_dominio(db, pregunta["dominio"])
+    documentos = resolver_dominio(db, dominio)
     casos = listar_casos(db, documentos)
     herramientas = armar_herramientas(r)
     marcas = anclas()
@@ -80,53 +101,51 @@ def main():
     prompt = usar_prompt(db_prompt, "ORQ", config["rutas"]["prompt"])
     db_prompt.close()
     rotulo = f"{prompt['id']} v{prompt['version']}"
-    mensajes = armar_prompt(prompt["texto"], rotulo, pregunta["texto"], casos, marcas, documentos)
+    mensajes = armar_prompt(prompt["texto"], rotulo, texto, casos, marcas, documentos)
 
-    print(f"dominio {pregunta['dominio']} · documentos {[d['id'] for d in documentos]} · "
+    print(f"dominio {dominio} · documentos {[d['id'] for d in documentos]} · "
           f"{len(casos)} casos · herramientas {[h['function']['name'] for h in herramientas]}")
-    print(f"plantilla {rotulo} · {modelo} ({esfuerzo}) · pregunta q{pregunta['id']} "
-          f"({pregunta['fuente']}): {pregunta['texto']}\n")
+    print(f"plantilla {rotulo} · {modelo} ({esfuerzo}) · pregunta ({fuente}): {texto}\n")
 
     estado = None
-    corrida = {"anclas": marcas, "documentos": documentos, "pregunta": pregunta["texto"],
-               "pregunta_id": pregunta["id"], "dominio": pregunta["dominio"],
-               "fuente": pregunta["fuente"], "casos": casos, "prompt": prompt,
+    corrida = {"anclas": marcas, "documentos": documentos, "pregunta": texto, "fuente": fuente,
+               "dominio": dominio, "casos": casos, "prompt": prompt,
                "iniciado": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                "herramientas": [h["function"]["name"] for h in herramientas],
                "r": r}
     try:
         estado = bucle(config, mensajes, herramientas, db, casos)
     except ErrorDeLlamada as error:
-        # La llamada no se pudo completar: la corrida se registra fallida, con su motivo.
+        # La llamada no se pudo completar: el acto deja su cédula, y no se radica nada.
         db.close()
-        token = registrar_consulta(config, corrida, error=str(error))
+        token, _ = registrar_consulta(config, corrida, error=str(error))
         print(f"la corrida se cortó: {error}")
-        print(f"    -> la base: el acto {token} y su consulta (fallida)")
+        print(f"    -> la base: el acto {token} (sin entrega: no se radicó ninguna pregunta)")
         raise SystemExit(1)
     db.close()
 
     corrida["estado"] = estado
-    token = registrar_consulta(config, corrida)
+    token, pregunta_id = registrar_consulta(config, corrida)
 
     print(f"acto {token} · turnos {estado['turnos']} · llamadas {estado['llamadas']} · "
           f"corte {estado['corte'] or 'ninguno'} · "
           f"casos leídos {', '.join(estado['casos_leidos']) or 'ninguno'}")
     entrega = estado["entrega"]
-    if isinstance(entrega, dict):
+    if pregunta_id is not None and isinstance(entrega, dict):
         print(f"desenlace: {entrega.get('desenlace')} ({estado['forma_entrega']})")
         print(f"respuesta: {entrega.get('respuesta') or '(sin respuesta)'}")
-    elif estado.get("pregunta_usuario"):
-        pregunta_usuario = estado["pregunta_usuario"]
-        print(f"pregunta al usuario: {pregunta_usuario.get('pregunta')}")
-        for opcion in pregunta_usuario.get("opciones") or []:
-            print(f"  - {opcion}")
+        print(f"    -> la base: el acto {token} y su consulta q{pregunta_id}")
+        return
+    if estado.get("pregunta_usuario"):
+        print(f"sin entrega: el agente preguntó al usuario — "
+              f"{estado['pregunta_usuario'].get('pregunta')}")
     elif estado.get("contenido_final"):
-        print(f"respuesta (sin JSON): {estado['contenido_final']}")
+        print(f"sin entrega (sin JSON): {estado['contenido_final']}")
     elif estado.get("corte"):
         print(f"sin entrega: la corrida se cortó por {estado['corte']}")
     else:
-        print("sin respuesta: el agente no contestó")
-    print(f"    -> la base: el acto {token} y su consulta")
+        print("sin entrega: el agente no contestó")
+    print(f"    -> la base: el acto {token} (sin pregunta radicada)")
 
 
 if __name__ == "__main__":

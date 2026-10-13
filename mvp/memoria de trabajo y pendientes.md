@@ -7,7 +7,7 @@ documento que lo aplica (el diseño, el vocabulario, el prompt, la guía); las *
 base; la **historia**, a git; y el detalle de cada ronda, al `PLAN.md` de su proyecto. Una cosa
 ya decidida **no se anota acá: sale de acá**.
 
-Estado al 12-10-2026. El vocabulario y los informes sueltos, en `otros documentos/`; la casa, la
+Estado al 13-10-2026. El vocabulario y los informes sueltos, en `otros documentos/`; la casa, la
 actualización de los tres sitios y los reportes, en `política.md`.
 
 ## 1. Reglas de trabajo
@@ -183,6 +183,18 @@ DeepSeek `low`) mandadas como el acto real, en dos mensajes.
   lo ve. Y el `tool_calls` trae un `extra_content.google.thought_signature` que hay que devolver tal
   cual.
 
+**Verificadas con la consulta en la base viva (12-10).**
+
+- **Con entrega no basta: puede entregar sin leer nada.** Los cuatro actos de consulta de la base
+  viva (`C000005`…`C000008`) entregaron, y uno —la pregunta tecleada— cerró en **1 turno y 0
+  llamadas**, sin leer ningún caso, y quedó registrado como `respondida`: el JSON llegó, pero la
+  respuesta es del modelo, no del corpus. El registro **no distingue «entregó» de «se sostiene»**:
+  lo que ata la respuesta al documento es `casos_leídos`, y puede estar vacío.
+- **La misma pregunta se radica tantas veces como se corra, y convive.** Tres réplicas de la batería
+  1 quedaron como `q1`, `q3` y `q4`, con el mismo texto y su hora distinta: es la decisión —cada acto
+  radica la suya y el `upsert` se retiró—, pero **nada lee `preguntas` todavía**: hoy es el registro
+  de lo preguntado, y su consumidor es Zettel.
+
 ## 3. Pendientes vigentes
 
 **Orden.** **La base viva tiene dos documentos radicados**, los dos por el acto del volcado (12-10):
@@ -194,9 +206,11 @@ hecho** (12-10): el token por acto, la conservación de los productos, las plant
 guardia del esquema (`mvp/plan.md`). **Las dos UT y los dos DATOS están hechos** (12-10, con `luna`/`low`, el default de la base):
 `sol` → UT `C000001` (6 unidades, 16 oraciones) y DATOS `C000003` (23 datos); `aviacion` → UT
 `C000002` (11 unidades, 17 oraciones) y DATOS `C000004` (36 datos). Los cuatro actos con el contrato
-y la forma limpios, y las plantillas `UT` y `DATOS` v1 registradas solas. La base está en la **versión 4**: la tabla `preguntas` es la entrada de la consulta —y no acepta
-preguntas vacías: lo valida el acto y lo impone la base— y **todavía no
-hay ninguna radicada**. Sigue: radicar la batería del Sol y **correr la consulta**, o el volcado de
+y la forma limpios, y las plantillas `UT` y `DATOS` v1 registradas solas. La base está en la **versión 4**, y la consulta **ya corrió en la base viva** (12-10): cuatro actos ORQ,
+`C000005`…`C000008`, todos `exitoso` y todos con su pregunta radicada al cerrar —tres **réplicas de
+la batería 1** (`q1` y `q3` con `luna low`, `q4` con `deepseek-flash low`) y **una tecleada** que no
+está en la batería (`q2`)—; las preguntas 2 a 5 de la batería **no** corrieron sobre la base viva.
+Sigue: **evaluar** esas cuatro con la vara del §12 —no pide llamadas nuevas—, o el volcado de
 `preparacion_cafe` por las etapas (punto 0). El **modelo y el esfuerzo de cada acto se leen del corpus** (`ajustes`, cuatro filas; el almacén va
 por la **versión 3** y esa tabla no está: la política tiene un solo lugar), hoy `luna` / `low` por
 decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
@@ -251,45 +265,31 @@ decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
     `prompt_version`, así que no se pierde. Falta decidir si las notas de la verificación van a
     alguna columna —o a un campo de la unidad— y hacerlo **antes de que la base crezca**: hoy está
     en cero, así que todavía es gratis.
-15. **La entrada de la consulta (resuelto el 12-10: la pregunta se radica).** El canal es **uno**:
-    la tabla `preguntas` del corpus —texto, **dominio**, fuente y fecha—, y el ORQ la lee de ahí
-    (`mvp/código/radicar_pregunta.py`; el archivo o el chat son solo de dónde se **carga**). Lo de
-    abajo queda como antecedente de la discusión. La
-    pregunta se da **a mano** —en Zettel habrá un módulo para eso—, así que la entrada sería un JSON
-    de dos campos: la `pregunta` y el `dominio`; y el `dominio` puede ser una **etiqueta** que
-    identifica una colección de documentos radicados **o el nombre de un documento radicado**.
-    Revisado contra el repo: **encaja con lo que el diseño ya dice** (§4.1: lo único que aporta el
-    usuario es la pregunta y el dominio elegido —hoy el dominio vive en `config.json`, que es un
-    desvío—) y el gancho está escrito (`preguntas.desde_archivo` en `leer_config.py`, «la otra vía,
-    todavía no», y el corte de `orquestador.py`, «no hay otra entrada todavía»). `R` **no** se
-    mezcla: R son las reglas que aplica el ORQ, no la entrada del usuario. **Lo que hay que decidir
-    antes de escribirlo:** (a) **el id de la consulta**, que hoy sale del nombre de la batería
-    (`registrar_consulta.py`: `preguntas_sol.md` → `sol:q1`) —con un JSON no hay archivo, así que
-    hay que elegir de dónde sale: del dominio, de un campo propio o de un hash de la pregunta—; no
-    es cosmético: es la clave primaria y la del upsert; (b) **el alcance por documento choca con el
-    contrato de la base**: `corridas` impone que el ORQ tenga `dominio` no nulo y `documento_id`
-    nulo, así que un documento solo puede anotarse dentro de `dominio`, o hay que cambiar el CHECK;
-    (c) **`resolver_dominio` solo sabe de etiquetas** (`WHERE dominio = ?`): hace falta la regla «o
-    es un `documentos.id`» y una precedencia para el caso ambiguo; (d) **`corridas.bateria` se queda
-    sin referente** y `pregunta_numero` sin fuente si el JSON trae una sola pregunta. Y dos cosas a
-    fijar: si el JSON lleva **una** pregunta o una **lista**, y que hoy una «colección» es
-    implícita —el `dominio` de los documentos—, sin tabla ni validación.
-16. **La consulta del Sol, corrida y sin evaluar (10-10 y 11-10).** La batería tiene cinco preguntas
-    y **las cinco se corrieron** con `luna low`: la 1 y la 3 el 10-10, la 2 el 11-10 05:31
-    (`b3098df`), y la 4 y la 5 el 11-10 05:55 (`1e639dc`, «batería completa: 5/5 respondida»).
-    **Falta evaluarlas**: la vara es la de
+15. **La entrada de la consulta (resuelto el 12-10 y el 13-10: se carga y se radica al entregar).**
+    Está escrito donde vive lo decidido: `mvp/consulta-diseno.md` §4.1 y la decisión **D28**. La
+    pregunta entra por el acto —de un archivo o tecleada, con `mvp/código/cargar_pregunta.py`—, el
+    **dominio** lo lleva el comando, y el acto la radica **al cerrar, solo con la entrega**. El
+    cargador se llamó `radicar_pregunta.py` hasta el 13-10: el nombre prometía lo que ya no hacía.
+    **Lo que sigue abierto:** la entrada como JSON con `pregunta` y `dominio` —la forma en que Zettel
+    dará la pregunta— y el **alcance por documento** (`resolver_dominio` solo sabe de etiquetas,
+    `WHERE dominio = ?`).
+16. **La consulta, corrida y sin evaluar.** La batería del Sol tiene cinco preguntas. En el scratch
+    de la línea vieja **las cinco se corrieron** con `luna low` —la 1 y la 3 el 10-10, la 2 el 11-10
+    05:31 (`b3098df`), la 4 y la 5 el 11-10 05:55 (`1e639dc`, «batería completa: 5/5 respondida»)— y
+    **no están en la base viva**: el reseteo del 11-10 se las llevó. De ahí, lo que ya se vio
+    entonces: la q1 leyó **un** caso (`sol:U2`) y la q3 **dos** (`sol:U4` y `sol:U1`), **y `sol:U1`
+    sobró** —nada de lo que respondió sale de ahí—; las dos cerraron en **2 turnos**, sin corte, con
+    el JSON como todo el mensaje; y con `luna low` el modelo gastó **0 tokens de pensamiento** en los
+    cuatro turnos y el **caché no se reusó** entre turnos (`cached_tokens: 0`).
+    En la **base viva** hay otras **cuatro** (12-10, `C000005`…`C000008`): las tres réplicas de la
+    batería 1 —`luna low` ×2 y `deepseek-flash low`— y la tecleada. **Falta evaluarlas**: la vara es
     `mvp/consulta-diseno.md` §12 (que la respuesta se sostenga en lo que el documento establece, y
-    distinguir «no está en los datos extraídos» de «el documento no lo dice»), y el material para
-    juzgar es la batería **con sus respuestas de referencia**, en
-    `mvp/consulta/batería_sol_respuestas.md`, escritas **a ciegas de las extracciones**. **Esas
-    corridas no están en la base viva** —el reseteo del 11-10 se las llevó—: viven en el scratch
-    (punto de arriba), así que evaluarlas no pide llamadas nuevas. **Lo que ya
-    se vio al correr, para no perderlo:** la q1 leyó **un** caso (`sol:U2`) y la q3 **dos** (`sol:U4`
-    y `sol:U1`), **y `sol:U1` sobró** —nada de lo que respondió sale de ahí—; las dos cerraron en **2
-    turnos**, sin corte, con el JSON como todo el mensaje; y con `luna low` el modelo gastó **0
-    tokens de pensamiento** en los cuatro turnos y el **caché no se reusó** entre turnos
-    (`cached_tokens: 0`). Sigue abierto, además, el pendiente 15 —la entrada como JSON con `pregunta`
-    y `dominio`—, que es la forma en que Zettel dará la pregunta.
+    distinguir «no está en los datos extraídos» de «el documento no lo dice»), el material para
+    juzgar es la batería **con sus respuestas de referencia**
+    (`mvp/consulta/batería_sol_respuestas.md`, escritas **a ciegas de las extracciones**), y evaluar
+    no pide llamadas nuevas. **Lo primero que hay que mirar:** la tecleada (`q2`) **entregó sin leer
+    un solo caso** y quedó `respondida` (ver §2). Y las preguntas 2 a 5 de la batería **no** se
+    corrieron sobre la base viva: si lo que se quiere es la batería en la base, eso falta.
 17. **Re-puntuar el banco de DATOS con preguntas.** La vara no es el conteo de datos: una unidad es
     adecuada para una pregunta si **leer su caso y sus datos reduce el conjunto de respuestas
     admisibles** (no se puntúa por contar datos ni por si la extracción conservó las palabras: una

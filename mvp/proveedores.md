@@ -22,8 +22,10 @@ el esfuerzo pedido sobre el de defecto del alias, `low`):
 - **Etapa 2 — extracción de datos (DATOS).** Corredor: `mvp/código/paso2_datos.py`. Misma forma de
   invocación (`--modelo`, `--esfuerzo`, `--rehacer`), mismo patrón de defecto en `main()`.
 - **Etapa 3 — respuesta a la consulta/pregunta.** Corredor: `mvp/código/orq/orquestador.py`
-  (bucle en `bucle.py`, llamada en `llamar_modelo.py`). Se invoca con la pregunta radicada
-  (`python3 mvp/código/orq/orquestador.py <pregunta> [--modelo M] [--esfuerzo E]`); el modelo y el
+  (bucle en `bucle.py`, llamada en `llamar_modelo.py`). La pregunta entra por el acto —de un archivo
+  o tecleada, con el cargador `mvp/código/cargar_pregunta.py`— y se radica al cerrar con entrega:
+  (`python3 mvp/código/orq/orquestador.py (--texto "…" | <archivo> [--numero N]) --dominio E
+  [--modelo M] [--esfuerzo E]`); el modelo y el
   esfuerzo salen de la fila `ORQ` de `ajustes`, y `config.json` solo lleva rutas y guardias.
 
 Además de los hosts de cada proveedor, hay una **puerta de agregación**: **OpenCode Go**

@@ -89,8 +89,14 @@ manuales y separados**: `volcar.py` pone el documento **en el almacén** —el m
 procedencia y la fecha y la hora— y su fila en el espejo del corpus; `paso1_unidades.py` (UT)
 escribe su corrida
 y las unidades; `paso2_datos.py` (DATOS) escribe su corrida y los datos; y
-`orq/registrar_consulta.py` escribe la corrida del ORQ y la respuesta. **Nunca se toca la fila del
+`orq/registrar_consulta.py` escribe la corrida del ORQ y —**solo si el ciclo entrega**— la
+pregunta radicada y su respuesta. **Nunca se toca la fila del
 documento**: un documento radicado no se mueve, y el volcado no tiene `--rehacer`.
+
+**Nada se radica hasta que el modelo entrega.** El ciclo corre sobre la base **en solo lectura**; al
+cerrar escribe su corrida y, con ella, la pregunta y la consulta **si hay JSON de respuesta**. Un
+ciclo sin entrega deja **solo la cédula**: la corrida `fallido`, con su `motivo`, el texto en
+`pregunta_texto` y `pregunta_id` nulo.
 
 ```sql
 CREATE TABLE documentos (
@@ -101,7 +107,7 @@ CREATE TABLE documentos (
   sello              TEXT NOT NULL       -- sha256 de lo radicado: guardián de que no cambió
 );
 
-CREATE TABLE preguntas (                 -- las preguntas radicadas: la única entrada de la consulta
+CREATE TABLE preguntas (                 -- las preguntas radicadas: las escribe el acto, al entregar
   id               INTEGER PRIMARY KEY,  -- el número de la pregunta (1, 2, 3…)
   dominio          TEXT NOT NULL CHECK (trim(dominio) <> ''),  -- el alcance: la unidad semántica
   texto            TEXT NOT NULL CHECK (trim(texto) <> ''),    -- sin texto no hay pregunta
@@ -246,7 +252,8 @@ datos, no por el volumen.
 **No es un derivado regenerable.** El registro **es** la fuente: lo que entra, queda, y no se
 reproduce corriendo nada de nuevo (cada corrida se paga). Lo único que vive fuera son los
 **documentos radicados** —su texto, con el sello como guardián—, que es de donde se leen las
-oraciones. Nada es append-only: la corrida efectiva **reescribe su fila**.
+oraciones. **Nada se reescribe**: el acto que entrega escribe su pregunta, su corrida y su respuesta,
+y las anteriores quedan.
 
 **Invariantes que los actos exigen:**
 
@@ -263,14 +270,20 @@ nada, que no aporta ningún dato. La carga puede avisarlo.
 
 ## 4. Entradas
 
-### 4.1. Las preguntas: se radican, y se leen de la base
+### 4.1. La pregunta: se carga, y se radica al entregar
 
-La pregunta entra **siempre por el mismo canal**: la tabla `preguntas` del corpus. Se **radica** —el
-texto, el **dominio** (el alcance, la unidad semántica donde vive: el mismo que llevan los
-documentos), la **fuente** y la fecha y la hora, que pone la base— con
-`mvp/código/radicar_pregunta.py`, y de ahí la lee el ORQ. Lo que cambia es de dónde se **carga** para
-radicarla: de un archivo (`mvp/consulta/preguntas_<doc>.md`, una pregunta por línea) o **tecleada**.
-El archivo es una **fuente**, no el canal. El formato del archivo es solo eso —las preguntas
+La pregunta **entra por el acto**. Se **carga** —de un archivo (`mvp/consulta/preguntas_<doc>.md`,
+una pregunta por línea) o **tecleada**— con el cargador de `mvp/código/cargar_pregunta.py`
+(`cargar`), y el **dominio** lo lleva el acto por línea de comandos. El archivo es una **fuente**, no
+el canal: de un archivo se carga **una** pregunta (si trae varias, se dice cuál con `--numero N`).
+
+**La radicación es el cierre.** Mientras el ciclo corre, la base se abre **en solo lectura**: de esa
+pregunta no hay nada escrito. Al cerrar **con el JSON de `RESPUESTA_JSON`**, el acto escribe —en una
+sola transacción— la fila de `preguntas` (texto, dominio, fuente y la fecha y la hora del cierre), la
+corrida y la respuesta. Si el ciclo **no entrega** —prosa sin JSON, pregunta al usuario, corte por
+guardia o error de la API—, escribe **solo la cédula** de la corrida: `fallido`, con su motivo, el
+texto en `pregunta_texto` y `pregunta_id` nulo. **No hay pregunta radicada**, y con eso no quedan
+preguntas sin respuesta. El formato del archivo es solo eso —las preguntas
 numeradas, limpias—:
 
 ```
@@ -331,7 +344,7 @@ resuelve un deíctico del documento («ayer», «en dos días»), y el del siste
 | # | Paso | Archivo | Qué hace |
 |---|---|---|---|
 | 1 | Leer la configuración | `orq/leer_config.py` | las rutas de entrada y las guardias |
-| 2 | Leer la pregunta | `orq/leer_pregunta.py` | la pregunta **radicada**: su texto, su dominio y su fuente |
+| 2 | Cargar la pregunta | `mvp/código/cargar_pregunta.py` (`cargar`) | el texto y su **fuente**: un archivo, o el chat |
 | 3 | Leer R | `orq/leer_r.py` | el JSON del orquestador |
 | 4 | Abrir la base | `orq/abrir_db.py` | `corpus.db`, **solo lectura** |
 | 5 | Resolver el dominio | `orq/resolver_dominio.py` | la etiqueta `GENERAL` → sus documentos (pertenencia, sin juicio) |
@@ -548,6 +561,9 @@ detiene si no la conoce.
 Si el mensaje no trae ningún JSON, la salida escribe el mensaje tal cual y dice que no hubo
 JSON; si la corrida la cortó una guardia, dice cuál —no que «el agente no contestó».
 
+**Sin JSON no hay pregunta**: el acto no radica nada; la cédula guarda el motivo, con un extracto de
+lo que vino, para diagnosticar.
+
 **El ORQ no juzga la entrega**: la registra tal como vino y la escribe en la salida.
 Si el agente no contesta, la salida dice que no contestó.
 
@@ -562,9 +578,11 @@ lo pida**.
 
 Todo lo que produce la consulta queda **en la base**, y nada en archivos:
 
-- **`consultas`**: una fila por pregunta (`q<n>`, el id de la pregunta radicada) —el dominio, los documentos ofrecidos, la pregunta y su
-  texto, el desenlace (`respondida`, `no está en los datos`, `preguntó al usuario`) y la respuesta,
-  tal como vino—. Se reescribe si la pregunta se vuelve a correr: vale la efectiva.
+- **`consultas`**: una fila por acto **con entrega** (`q<n>`, el id de la pregunta radicada por el
+  acto) —el dominio, los documentos ofrecidos, la pregunta y su
+  texto, el desenlace (`respondida`, `no está en los datos`) y la
+  respuesta, tal como vino—. **No se reescribe**: cada acto entrega la suya, y la pregunta se radica
+  con ella (§4.1).
 - **`consulta_casos`**: los casos que el agente leyó: es lo que permite la **traza**, de la
   respuesta a la unidad y al dato.
 - **`consulta_llamadas`**: la **operación** de la corrida, una fila por llamada de herramienta —el
@@ -660,7 +678,7 @@ el texto sobre el que se cuentan está en el documento radicado, sellado. Desde 
 | **D3** | Bucle con herramienta, o todo inyectado en una llamada | decidida: bucle con herramienta |
 | **D4** | Sin datos derivados en esta versión | decidida |
 | **D5** | R: `solo el documento`, sin mundo del LLM ni anclas como premisa | decidida: R.json con tres claves |
-| **D6** | Nombre y sitio de los archivos | decidida: el código, `R.json` y la base en `mvp/código/` (el orquestador, en `orq/`); los documentos que se radican, en `mvp/documentos/`; las baterías, en `mvp/consulta/preguntas_<doc>.md` —son **fuentes**: se radican en la tabla `preguntas`, y de ahí en más la pregunta vive en la base—; **las plantillas de los prompts, en la base** (el `.md` de `mvp/prompts/` es la puerta y se registra sola al primer uso); y **lo que se produce, en la base**. `mvp/temp/` es archivo: no se corre desde ahí, no se lee, no se escribe (§2–§3) |
+| **D6** | Nombre y sitio de los archivos | decidida: el código, `R.json` y la base en `mvp/código/` (el orquestador, en `orq/`); los documentos que se radican, en `mvp/documentos/`; las baterías, en `mvp/consulta/preguntas_<doc>.md` —son **fuentes**: el acto carga una y la radica al entregar—; **las plantillas de los prompts, en la base** (el `.md` de `mvp/prompts/` es la puerta y se registra sola al primer uso); y **lo que se produce, en la base**. `mvp/temp/` es archivo: no se corre desde ahí, no se lee, no se escribe (§2–§3) |
 | **D7** | Almacén | decidida: SQLite con **doce tablas** —el corpus (`documentos`, `preguntas`, `unidades`, `unidad_oraciones`, `datos`, `prompts`, `contador`, `ajustes`) y el expediente (`corridas`, `consultas`, `consulta_casos`, `consulta_llamadas`)—, con claves foráneas y contratos (`paso`, `estado`, `motivo` si falló, un `n` por corrida) |
 | **D8** | Derivados | fuera de esta versión |
 | **D9** | Idioma de los `tipo` | obsoleta: no hay tipos |
@@ -680,8 +698,9 @@ el texto sobre el que se cuentan está en el documento radicado, sellado. Desde 
 | **D23** | La declaración del esquema (partición, prompt, hash, modelo) en la base | **decidida (08-10):** la fila de `corridas` guarda el prompt y su hash, el modelo, el esfuerzo y los tokens de lo que está en la base |
 | **D24** | El sostén en la respuesta (datos citados, reporte) | diferida: cuando el usuario pida ver la fuente |
 | **D25** | Tope y corte por ciclo | en parte: el tope de herramientas se respeta y la causa del corte se registra; **no hay corte por repetición** |
-| **D26** | Al usar `preguntar_al_usuario`, ¿se reanuda la corrida? | decidida (08-10): no en este MVP; el ciclo termina y la pregunta queda en la salida y en el crudo (§7) |
+| **D26** | Al usar `preguntar_al_usuario`, ¿se reanuda la corrida? | decidida (08-10): no en este MVP; el ciclo termina ahí, la pregunta queda en la salida y **el acto no entrega**: no se radica la pregunta, solo queda la cédula (§7) |
 | **D27** | ¿El paso 2 va de a una unidad o en tanda? | decidida (08-10): **en tanda**, una llamada por documento; la medición, en `mvp/memoria de trabajo y pendientes.md` (§2, `guía_DATOS.md`) |
+| **D28** | ¿Cuándo se radica la pregunta? | **decidida (12-10):** al cerrar el ciclo **con entrega** —el JSON de `RESPUESTA_JSON`—, en la misma transacción que la corrida y la respuesta; sin entrega no hay pregunta radicada, solo la cédula (§4.1) |
 
 ---
 

@@ -77,8 +77,8 @@ lo que esté al lado y parezca obvio.
   derivado), la mesa de dominio, las pruebas del paso 1 y la ronda cerrada del paso 2 quedaron
   **archivadas en `mvp/temp/`**, que es **archivo: no se corre desde ahí, no se lee, no se escribe**.
   Lo vivo está en `mvp/`: los **documentos que se radican** (`mvp/documentos/`), las **baterías** de
-  preguntas (`mvp/consulta/preguntas_<doc>.md`, que son **fuentes**: se radican en la tabla
-  `preguntas`, y de ahí en más la pregunta vive en la base), los **prompts** de trabajo (`mvp/prompts/`:
+  preguntas (`mvp/consulta/preguntas_<doc>.md`, que son **fuentes**: el acto carga una y la radica
+  **al cerrar con entrega**, en la tabla `preguntas`), los **prompts** de trabajo (`mvp/prompts/`:
   `prompt_volcado`, `prompt_UT`, `prompt_DATOS` y `prompt_ORQ`, que son la **puerta**: cada
   plantilla se registra en la base con su versión la primera vez que corre) y el **código**
   (`mvp/código/`):
@@ -86,7 +86,7 @@ lo que esté al lado y parezca obvio.
   al markdown), `paso1_unidades.py` (UT), `paso2_datos.py` (DATOS), `base.py` (la base y su
   esquema), `esquema.py` (la versión del esquema y el token del acto), `acto.py` (abrir y cerrar
   un acto), `prompts.py` (las plantillas en la base), `ajustes.py` (el modelo y el esfuerzo de cada acto),
-  `radicar_pregunta.py` (radica la pregunta: el único canal de entrada),
+  `cargar_pregunta.py` (carga la pregunta: un archivo o el chat; la radica el acto, al entregar),
   `proveedores/` (el transporte), `R.json` y
   el orquestador (`orq/`). **La base
   `mvp/código/corpus.db` es el centro**: lo que producen UT, DATOS y la consulta queda ahí —las
@@ -99,9 +99,10 @@ lo que esté al lado y parezca obvio.
   documento volcado en markdown, con su sello y su procedencia—, y su acto (`volcar.py`, que **es la
   radicación**) ya está hecho: el texto se lee del almacén. Lo único que se lee son entradas: el documento radicado, las plantillas de la base, R y
   la batería. **Cada etapa es un acto manual y separado, y nada se
-  dispara solo**: radicar la pregunta (`radicar_pregunta.py <archivo|--texto> --dominio E`), volcar
+  dispara solo**: volcar
   (`volcar.py <fuente>`), UT (`paso1_unidades.py <doc>`), DATOS
-  (`paso2_datos.py <doc>`) y consultar. Lo construido y lo abierto está en `mvp/consulta-diseno.md`;
+  (`paso2_datos.py <doc>`) y consultar —el ORQ carga la pregunta (`orquestador.py --texto "…" |
+  <archivo> [--numero N] --dominio E`) y la radica al cerrar, con la entrega—. Lo construido y lo abierto está en `mvp/consulta-diseno.md`;
   los procedimientos, en `mvp/guía_UT.md` (paso 1, unidades temáticas) y `mvp/guía_DATOS.md` (paso 2,
   datos por unidad); y **el estado —qué hay radicado y qué sigue— solo en
   `mvp/memoria de trabajo y pendientes.md`**, que es la fuente única: los demás sitios no repiten los

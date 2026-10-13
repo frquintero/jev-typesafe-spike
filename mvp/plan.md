@@ -41,7 +41,7 @@ si acaso», y lo que se agrega tiene que pagarse en la ronda en que se usa.
 | **I · volcado** | `volcar.py` | el markdown original, su sello y su procedencia | **almacén** |
 | **II · extracción** | `paso1_unidades.py` (UT) | unidades y oraciones con sus tramos | **corpus** |
 | **II · extracción** | `paso2_datos.py` (DATOS) | datos | **corpus** |
-| **III · consulta** | `orq/orquestador.py` (ORQ) | la respuesta, los casos leídos y las llamadas | **corpus** |
+| **III · consulta** | `orq/orquestador.py` (ORQ) | la pregunta radicada, la respuesta, los casos leídos y las llamadas | **corpus** |
 
 **El token es del acto, no de la etapa.** La etapa II tiene dos actos y cada uno inyecta su
 propio reloj; con un token por etapa, «¿qué hora se inyectó?» devolvería dos. Cada acto
@@ -66,8 +66,8 @@ expediente puede prometer. Al cerrar R0, `--rehacer` **borraba**:
 - `paso1 --rehacer` **borraba** las unidades y sus oraciones (`borrar_unidades` en `base.py`, ya
   retirada);
 - `paso2 --rehacer` **borraba** los datos;
-- y el ORQ **pisa** la consulta ([`registrar_consulta`](código/orq/registrar_consulta.py)) — así
-  sigue: lo retira R3.
+- y el ORQ **pisaba** la consulta ([`registrar_consulta`](código/orq/registrar_consulta.py)) — ya
+  retirado: la pregunta se radica al cerrar con entrega, y cada acto escribe su fila.
 
 | | **A · conservar los productos** (elegida; en pie desde R1–R2) | B · identificar sin conservar |
 |---|---|---|
@@ -142,14 +142,17 @@ contenido: idempotente, sin trabajo manual, y la base se llena sola con lo que c
 
 Se implementa en su ronda, pero se diseña ahora, porque es donde la traza se juega:
 
-- `consultas` pasa a ser **append-only**, con el token por id: cada ejecución conserva **su**
-  respuesta, **sus** casos y **sus** llamadas. Hoy se upsertea y se borran.
-- Cada caso leído se registra con **la extracción que se leyó**: `(token_DATOS, unidad_id)`. No
+- **Hecho (12-10):** la consulta **no se pisa**. Cada acto que entrega radica **su** pregunta —al
+  cerrar, en la misma transacción que su corrida y su respuesta—, así que dos corridas de la misma
+  pregunta conviven como dos preguntas (`q1`, `q2`…, la hora las distingue) y el `upsert` se retiró.
+  Un ciclo sin entrega no radica nada: deja su cédula con `pregunta_id` nulo.
+- **Falta:** que cada caso leído se registre con **la extracción que se leyó**:
+  `(token_DATOS, unidad_id)`. No
   con el alias solo: tras rehacer DATOS sobre la misma UT, `doc:U1` puede nombrar otros datos, y
   [`obtener_datos_del_caso`](código/orq/obtener_datos_del_caso.py) hoy lee por unidad sin
   distinguir corrida. Con `(token_DATOS, unidad_id)` la respuesta se re-deriva exacta —las filas
   son conservadas e inmutables— y no hace falta guardar cada id de dato.
-- `ofertado`: el token de UT del que salió el catálogo, los ids ofrecidos y las herramientas.
+- **Falta:** `ofertado`: el token de UT del que salió el catálogo, los ids ofrecidos y las herramientas.
 
 ### 3.4 Qué se promete de un intento
 
@@ -171,7 +174,7 @@ guarda el diff **entonces**.
 | **R0** | Cerrar las decisiones (§9). Sin código. | las respuestas escritas y el plan actualizado |
 | **R1 · la fuente** | en el corpus: token, conservación con los ids nuevos, `prompts` con registro perezoso, `contador` y `user_version`; **se recrean las dos bases** | `leer_prompt(db,'UT')` devuelve el texto vivo; una UT simulada deja su corrida con los dos relojes, plantilla y versión, y un token; una segunda UT sobre el mismo documento **no borra** la primera |
 | **R2 · los actos** | `acto.py` (`abrir()` → token e inicio; `cerrar()` → estado, motivo y fin); `paso1` y `paso2` lo usan; **`volcar.py` nace con todo** (plantilla de la base, token, procedencia, `sello_fuente`) | las etapas I y II corren con el modelo simulado, cada acto imprime su token, y DATOS queda encadenado a su corrida y a la de UT |
-| **R3 · la consulta** | `consultas` append-only, casos y llamadas por token, `ofertado`, la extracción leída | rehacer **solo DATOS** y comprobar que la consulta anterior sigue mostrando **exactamente** los datos que leyó |
+| **R3 · la consulta** | registrar **la extracción que se leyó** (`(token_DATOS, unidad_id)`) y el `ofertado`; la radicación al cerrar y el fin del `upsert` **ya están** (12-10) | rehacer **solo DATOS** y comprobar que la consulta anterior sigue mostrando **exactamente** los datos que leyó |
 | **R4 · auditar** | las preguntas de §5; **solo si duele**, `traza.py` (~30 líneas, solo lectura) | §5 |
 
 Los papeles se actualizan en el commit de cada ronda: `consulta-diseno.md` (D6, §4, §10, §11),
@@ -216,8 +219,8 @@ la ensambló?»— **no se promete** (§3.4).
 
 **Se quemó** (todo sin datos dentro): la forma vieja de `corridas`, `conservar_efectiva`,
 `borrar_corridas`, las tres copias de `fallar()`, los ids determinísticos de corrida y el
-`UNIQUE (documento_id, n)`. Lo único que sigue en pie de aquello es el **upsert** de la consulta
-(`registrar_consulta.py`), que lo retira R3.
+`UNIQUE (documento_id, n)` **y el `upsert` de la consulta** (`registrar_consulta.py`, retirado al
+radicar la pregunta en el cierre).
 
 **Se ganó en código, y no es poco:** conservar e insertar **eliminó la parte más difícil de los
 actos**. Antes `--rehacer` borraba sin commit y `fallar()` hacía `rollback()` para que «lo anterior
