@@ -35,7 +35,7 @@ ALIAS = {
         "extra": {"thinking": {"type": "enabled"}},
     },
     # GLM-5.3-Flash (z.ai). Discrepancia observada entre documentación y comportamiento: ver
-    # mvp/proveedores.md §5.
+    # otros documentos/informe-proveedores-2026-10-10.md §2.
     "glm": {
         "proveedor": "openai_compatible",
         "id": "glm-5.3-flash",
@@ -52,7 +52,8 @@ ALIAS = {
         "max_tokens": 64000,
     },
     # GPT 6 Luna, por OpenCode Go. Va por la familia `responses`, que tiene su propio transporte
-    # (`openai_responses`): ver mvp/proveedores.md §6. El defecto del modelo es `medium`.
+    # (`openai_responses`): ver otros documentos/informe-proveedores-2026-10-10.md §3. El defecto
+    # del modelo es `medium`.
     "luna": {
         "proveedor": "openai_responses",
         "id": "gpt-6-luna",

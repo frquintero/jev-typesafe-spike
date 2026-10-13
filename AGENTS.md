@@ -103,6 +103,8 @@ lo que esté al lado y parezca obvio.
   (`volcar.py <fuente>`), UT (`paso1_unidades.py <doc>`), DATOS
   (`paso2_datos.py <doc>`) y consultar —el ORQ carga la pregunta (`orquestador.py --texto "…" |
   <archivo> [--numero N] --dominio E`) y la radica al cerrar, con la entrega—. Lo construido y lo abierto está en `mvp/consulta-diseno.md`;
+  el mapa de los alias de modelo y sus APIs, en `mvp/proveedores.md`; y la regla de cómo se arma
+  cada llamada —el `system` y el `user`, con los relojes—, en `mvp/mensajes.md`;
   los procedimientos, en `mvp/guía_UT.md` (paso 1, unidades temáticas) y `mvp/guía_DATOS.md` (paso 2,
   datos por unidad); y **el estado —qué hay radicado y qué sigue— solo en
   `mvp/memoria de trabajo y pendientes.md`**, que es la fuente única: los demás sitios no repiten los

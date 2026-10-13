@@ -323,19 +323,14 @@ dónde.
 
 ### 4.3. Los relojes
 
-**Dos**, con el mismo formato —`[día-mes-año: hora]`— y armados por `mvp/código/relojes.py`. Cada
-uno va donde no ensucie el prefijo del caché:
+La regla general —los dos relojes, su formato, dónde va cada uno y por qué— está en
+`mvp/mensajes.md` (§4). Acá, solo lo propio de la consulta:
 
-- **el del radicado** (`{{RELOJ_RADICADO}}`): cuándo entró el documento a Zettel
-  (`documentos.fecha_radicacion`). Es **invariante por documento** → va en el **`system`**. En la
-  consulta van los de **todos** los documentos del dominio, una línea por documento.
-- **el del sistema** (`{{RELOJ_SISTEMA}}`): el «ahora» de la corrida, que **cambia** en cada una →
-  va en el **`user`**, después del material. En la consulta se toma una sola vez al abrirla
-  (`orq/anclas.py`) y queda **congelado**: si cambiara entre turnos, rompería el prefijo y la
-  consulta razonaría con dos «ahora» distintos. Queda en la traza.
-
-Van **etiquetados** y **no son datos del documento**, y el prompt lo dice: el del radicado es el que
-resuelve un deíctico del documento («ayer», «en dos días»), y el del sistema, el de la corrida.
+- **el del radicado**: van los de **todos** los documentos del dominio, una línea por documento
+  (`documentos.fecha_radicacion`), en el `system`.
+- **el del sistema**: se toma **una sola vez al abrir** la consulta (`orq/anclas.py`) y queda
+  **congelado** —si cambiara entre turnos, rompería el prefijo y la consulta razonaría con dos
+  «ahora» distintos—, va en el `user`, después del material, y queda en la traza.
 
 ---
 

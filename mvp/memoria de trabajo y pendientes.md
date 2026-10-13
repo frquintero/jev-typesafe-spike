@@ -219,7 +219,7 @@ decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
    con el acto del volcado (punto 18); siguen **UT**
    (`paso1_unidades.py preparacion_cafe`) y **DATOS** (`paso2_datos.py preparacion_cafe`) —corren
    contra la API real y escriben en la base; el modelo y el esfuerzo son la elección abierta, ver
-   `mvp/proveedores.md` (§2) y el pendiente 17—,
+   `otros documentos/informe-proveedores-2026-10-10.md` y el pendiente 17—,
    su batería ya está escrita (`mvp/consulta/preguntas_preparacion_cafe.md`, 11-10) y falta correr
    la consulta; evaluarla con la vara del contenido —qué le pasa a A(Q)—, distinguiendo «no está en
    los datos extraídos» de «el documento no lo dice»
@@ -248,16 +248,18 @@ decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
     acuerdo es 97-98 %, y dentro de la primera versión de `v1`, 95-100 %—, y con el ejemplo fino el
     acuerdo entre corridas del mismo prompt bajó a **93 %**. Queda la pregunta: agregar por
     co-pertenencia, o quedarse con la tirada que fija el registro.
-13. **Los papeles, al día (09-10 · actualizado 11-10).** **Hecho:** el diseño ya dice qué va en cada
+13. **Los papeles, al día (09-10 · actualizado 13-10).** **Hecho:** el diseño ya dice qué va en cada
     mensaje y cómo se reparten los relojes (§4.3: el del radicado en el `system`, el del sistema en el
-    `user`); las dos guías ya describen los huecos y los tramos; y `proveedores.md` lleva la regla de
-    los dos mensajes (§8) con las medidas de caché que la sostienen. **Y el 11-10:** el diseño ya dice
-    que el paso 2 va **en tanda** (§5) y que la base **sí** guarda la literal de cada oración con su
-    tramo (§2), y que la causa de un corte va en `motivo`, que es la columna que existe (§11).
-    **Falta:** el tú y el vos de `prompt_ORQ`, `proveedores.md` §6 (dice que el transporte de la
-    familia `responses` «hoy no existe»: existe desde `06931d6` y ahora manda `tools`) y §4 (la etapa
-    3 no está abierta: corrió `luna low`); y el desenlace en prosa del §10. Lo que §9 describe —el
-    JSON tolerando prosa— **no es un desfase**: es la decisión D20, y el ORQ lo ubica.
+    `user`); las dos guías ya describen los huecos y los tramos; y la regla de los dos mensajes, con
+    las medidas de caché que la sostienen, vive en `mvp/mensajes.md` (13-10), que es a donde apuntan
+    `mensajes.py` y el diseño. **Y el 11-10:** el diseño ya dice que el paso 2 va **en tanda** (§5) y
+    que la base **sí** guarda la literal de cada oración con su tramo (§2), y que la causa de un corte
+    va en `motivo`, que es la columna que existe (§11). **Falta:** el tú y el vos de `prompt_ORQ`; y el
+    desenlace en prosa del §10. Lo que §9 describe —el JSON tolerando prosa— **no es un desfase**: es
+    la decisión D20, y el ORQ lo ubica. Lo de la etapa 3 —sin comparación propia— y lo de los
+    proveedores quedaron resueltos el 13-10: `mvp/proveedores.md` es el mapa de los alias, las
+    mediciones se mudaron a `otros documentos/informe-proveedores-2026-10-10.md`, y la etapa 3 está en
+    el pendiente 16.
 14. **Dónde van las notas de una corrida exitosa —y el texto del prompt—.** La verificación de UT
     (huecos, solapes, rango, enteros) y los avisos de DATOS (dónde va la unidad) se imprimen y no
     tienen campo en la base: el registro no los guarda. **El texto de la plantilla ya está en la
@@ -301,7 +303,7 @@ decisión de Frat, y se pueden pisar por llamada (`--modelo`, `--esfuerzo`).
     pasan (*HARKing*), y por eso **no es quien puntúa**. Antes de puntuar hay que decidir **la
     unidad**: la UT sola (suficiencia local) o el documento entero, donde una pregunta puede quedar
     respondida por datos de dos unidades. Mientras no se re-puntúe, no se cambia el proveedor por
-    defecto de DATOS (`mvp/proveedores.md` §2).
+    defecto de DATOS (`otros documentos/informe-proveedores-2026-10-10.md` §1).
 18. **El almacén: el acto del volcado, y que los pasos lean de ahí.** **Hecho** (11-10; corregido el
     12-10): el diseño (`mvp/almacen-diseno.md`), la base (`mvp/código/almacen.db`, cuatro tablas
     —`documentos`, `volcados`, `prompts` y `contador`—, limpia) y el módulo (`mvp/código/almacen.py`:

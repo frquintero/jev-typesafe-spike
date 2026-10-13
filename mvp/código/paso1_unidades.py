@@ -3,7 +3,7 @@
 
 Uso:
 
-    python3 mvp/código/paso1_unidades.py <doc> [--modelo deepseek] [--prompt UT] [--rehacer]
+    python3 mvp/código/paso1_unidades.py <doc> [--modelo M] [--esfuerzo E] [--prompt UT] [--rehacer]
     python3 mvp/código/paso1_unidades.py doc8
 
 Qué hace, y nada más:
